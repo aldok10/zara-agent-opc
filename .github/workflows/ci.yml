@@ -1,0 +1,89 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18, 20, 22]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Validate configuration
+        run: |
+          chmod +x scripts/validate-config.sh
+          ./scripts/validate-config.sh || echo "Config validation warnings (non-fatal for CI)"
+
+      - name: Run structure tests
+        run: |
+          chmod +x scripts/test.sh
+          ./scripts/test.sh
+
+      - name: Check for secrets
+        run: |
+          # Check for potential API keys
+          ! grep -rE '[A-Za-z0-9_-]{20,}' --include='*.md' --include='*.yaml' --include='*.json' --include='*.sh' . 2>/dev/null | grep -v node_modules | grep -v '.git/' | grep -v '.env.example'
+        continue-on-error: true
+
+      - name: Validate YAML syntax
+        run: |
+          if command -v yamllint &>/dev/null; then
+            yamllint config.yaml
+          else
+            echo "yamllint not found, skipping YAML lint"
+          fi
+        continue-on-error: true
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check shell scripts with shellcheck
+        uses: ludeeus/action-shellcheck@master
+        with:
+          scandir: './scripts'
+        continue-on-error: true
+
+      - name: Check markdown formatting
+        uses: actionshub/markdownlint@main
+        continue-on-error: true
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Gitleaks for secret scanning
+        uses: gitleaks/gitleaks-action@v2
+        continue-on-error: true
+
+      - name: Check for sensitive patterns
+        run: |
+          echo "Checking for hardcoded paths..."
+          ! grep -r '/Users/' --include='*.md' --include='*.yaml' --include='*.json' . 2>/dev/null | grep -v node_modules | grep -v AUDIT.md
+          echo "Checking for personal references..."
+          ! grep -riE '(my company|my project|internal repo|internal api)' --include='*.md' --include='*.yaml' . 2>/dev/null | grep -v node_modules
+
+  notify:
+    needs: [validate, lint, security]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check status
+        run: |
+          echo "Validation: ${{ needs.validate.result }}"
+          echo "Lint: ${{ needs.lint.result }}"
+          echo "Security: ${{ needs.security.result }}"

@@ -1,0 +1,58 @@
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Runtime data
+zara_home/
+sessions/
+memory/journal.jsonl
+memory/skills-index.json
+
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+.vscode/
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
+
+# Testing
+coverage/
+.nyc_output/
+
+# Build
+dist/
+build/
+*.tsbuildinfo
+
+# Windows
+Thumbs.db
+
+# Secrets
+**/secrets/
+**/credentials/
+*.pem
+*.key
+
+# Claude Code personal data
+.claude/history*
+.claude/sessions/
+.claude/cache/
+.claude/projects/
+
+# OpenCode local overrides
+opencode.local.md
+
+# Generated files
+knowledge/search-index.json
+package-lock.json

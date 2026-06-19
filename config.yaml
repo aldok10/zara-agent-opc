@@ -1,0 +1,146 @@
+# =============================================================================
+# Zara Agent - Configuration
+# =============================================================================
+# YAML configuration file for the Zara OpenCode agent.
+# All values can be overridden via environment variables (see .env.example).
+# =============================================================================
+
+# --- Agent Identity ---
+agent:
+  name: ${ZARA_AGENT_NAME:-Zara}
+  role: ${ZARA_AGENT_ROLE:-Lead Engineering Orchestrator}
+  description: ${ZARA_AGENT_DESCRIPTION:-AI-powered engineering leadership agent}
+  version: 1.0.0
+
+# --- Sub-Agents ---
+sub_agents:
+  architect:
+    name: architect-agent
+    description: "Architecture Specialist — system design, patterns, tradeoffs"
+    prompt_file: prompts/sub-agents/architect.md
+  code-reviewer:
+    name: code-reviewer-agent
+    description: "Code Review Specialist — quality, smells, antipatterns, refactoring"
+    prompt_file: prompts/sub-agents/code-reviewer.md
+  testing-lead:
+    name: testing-lead-agent
+    description: "Testing Lead — strategy, coverage, test design, quality assurance"
+    prompt_file: prompts/sub-agents/testing-lead.md
+  practices-lead:
+    name: practices-lead-agent
+    description: "Engineering Practices & Principles Lead — workflow, team processes"
+    prompt_file: prompts/sub-agents/practices-lead.md
+  ddd-specialist:
+    name: ddd-specialist-agent
+    description: "Domain-Driven Design Specialist — domain modeling, bounded contexts"
+    prompt_file: prompts/sub-agents/ddd-specialist.md
+  security-reviewer:
+    name: security-reviewer-agent
+    description: "Security Reviewer — threat modeling, secure design, auth patterns"
+    prompt_file: prompts/sub-agents/security-reviewer.md
+  delivery-lead:
+    name: delivery-lead-agent
+    description: "Delivery Lead — shipping, velocity, technical debt, release strategy"
+    prompt_file: prompts/sub-agents/delivery-lead.md
+
+# --- Knowledge Base ---
+knowledge:
+  enabled: true
+  path: ${DEVIQ_KNOWLEDGE_PATH:-./knowledge}
+  article_count: ${DEVIQ_KNOWLEDGE_COUNT:-254}
+  sections:
+    - antipatterns
+    - architecture
+    - code-smells
+    - design-patterns
+    - domain-driven-design
+    - laws
+    - practices
+    - principles
+    - terms
+    - testing
+    - tools
+    - values
+  index_file: INDEX.md
+  summary_file: SUMMARY.md
+
+# --- Memory System ---
+memory:
+  enabled: ${ZARA_MEMORY_ENABLED:-true}
+  journal:
+    path: journal.jsonl
+    retention_days: ${ZARA_MEMORY_JOURNAL_RETENTION_DAYS:-365}
+  skills_index:
+    path: skills-index.json
+  sessions:
+    path: sessions/
+    auto_journal: ${ZARA_SESSION_AUTO_JOURNAL:-true}
+    log_format: ${ZARA_SESSION_LOG_FORMAT:-markdown}
+
+# --- LLM Configuration ---
+llm:
+  default_model: ${ZARA_DEFAULT_MODEL:-claude-sonnet-4-5}
+  worker_model: ${ZARA_WORKER_MODEL:-deepseek/deepseek-v4-flash}
+  temperature: 0.7
+  max_tokens: 4096
+
+# --- Tools ---
+tools:
+  github:
+    enabled: true
+    description: "GitHub operations (PRs, issues, code review)"
+  filesystem:
+    enabled: true
+    description: "File system operations (read, write, search)"
+  shell:
+    enabled: true
+    description: "Shell command execution"
+  context7:
+    enabled: ${ZARA_ENABLE_CONTEXT7:-true}
+    api_key: ${CONTEXT7_API_KEY:-}
+    description: "Live documentation fetching"
+  hivemind:
+    enabled: ${ZARA_ENABLE_HIVEMIND:-true}
+    description: "Cross-agent unified memory system"
+  swarm:
+    enabled: ${ZARA_ENABLE_SWARM:-true}
+    description: "Multi-agent swarm coordination"
+
+# --- Skills System ---
+skills:
+  enabled: true
+  auto_create: ${ZARA_ENABLE_SKILL_AUTO_CREATE:-true}
+  min_calls_for_skill: 5
+  lifecycle:
+    creation: "After non-trivial task completion"
+    refinement: "When similar tasks reveal better approaches"
+    deprecation: "Mark as deprecated when no longer relevant"
+
+# --- Security ---
+security:
+  allowed_commands:
+    - git
+    - npm
+    - npx
+    - bun
+    - python
+    - pip
+    - docker
+    - kubectl
+    - terraform
+    - aws
+    - gh
+  blocked_commands:
+    - rm -rf
+    - chmod
+    - chown
+    - sudo
+  max_review_attempts: 3
+
+# --- Quality Gates ---
+quality_gates:
+  every_task_to_skill: true
+  cite_sources: true
+  journal_every_session: true
+  sub_agent_delegation: true
+  skill_refinement_check: true

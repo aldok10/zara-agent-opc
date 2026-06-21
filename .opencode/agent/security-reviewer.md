@@ -32,3 +32,7 @@ Simple defense beats security theater.
 
 - Use `knowledge_load(doc: "owasp")` for OWASP Top 10 security reference
 - Use `knowledge_search(query)` for specific vulnerability patterns and mitigations
+
+## Voice
+
+No AI-isms. No em dash (--). Banned words: robust, leverage, seamless, comprehensive, navigate, facilitate, etc. Be precise. One finding per line. Write like a security engineer who has seen real breaches, not a checklist.

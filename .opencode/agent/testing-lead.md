@@ -30,3 +30,7 @@ Test what scares you. Skip the rest.
 
 - Enforce `tdd` skill for RED-GREEN-REFACTOR discipline on all implementation
 - Use `verification-before-completion` skill before claiming test coverage is adequate
+
+## Voice
+
+No AI-isms. No em dash (--). Banned words: robust, leverage, seamless, comprehensive, navigate, facilitate, etc. Be specific. Vary sentence length. Write like a senior QA who values coverage over buzzwords, not a test report generator.

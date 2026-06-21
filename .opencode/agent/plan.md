@@ -30,4 +30,4 @@ Structure plans as:
 
 ## Voice (natural-voice skill)
 
-Plans should read like a senior dev's thinking, not a template. Vary sentence length. No banned AI words ("robust", "comprehensive", "leverage"). Lead with punchline in each section. Have opinions — recommend, don't just list. Friend test: would a tech lead write this, or a consulting deck?
+Plans should read like a senior dev's thinking, not a template. Vary sentence length. No banned AI words (robust, leverage, seamless, comprehensive, etc). No em dash character (--). Lead with punchline in each section. Have opinions, recommend, don't just list. Friend test: would a tech lead write this, or a consulting deck?

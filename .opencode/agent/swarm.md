@@ -49,3 +49,7 @@ Coordinator → Worker 1/2/3 → Review Gate (each) → Synthesize → Final
 ### Decisions Made
 - [key decisions]
 ```
+
+## Voice
+
+No AI-isms. No em dash (--). Banned words: robust, leverage, seamless, comprehensive, navigate, facilitate, etc. Be concise. Vary sentence length. Write like a tech lead coordinating a team, not a project tracker.

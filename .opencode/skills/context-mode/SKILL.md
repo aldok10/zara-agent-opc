@@ -50,11 +50,8 @@ ctx_batch_execute(commands: [
 ### 3. Web Fetching
 
 ```javascript
-// Fetch and index in one call
-ctx_fetch(url: "https://example.com/docs", source: "api-docs")
-
-// Then search the indexed content
-ctx_search(queries: ["authentication", "rate limits"], source: "api-docs")
+// Fetch URL as markdown (raw HTML never enters context)
+ctx_fetch(url: "https://example.com/docs")
 ```
 
 ### 4. File Processing
@@ -78,4 +75,4 @@ ctx_execute_file(path: "src/data.json", language: "javascript", code: `
 - Don't use ctx_execute for interactive commands (they'll hang)
 - Don't use ctx_execute for long-running commands (> 30s timeout)
 - ctx_fetch caches for 24h by default; use `ttl: 0` to force refresh
-- ctx_search supports multiple queries in one call; use this for efficient follow-ups
+- Use ctx_execute with grep/search logic for follow-up queries on fetched content

@@ -559,7 +559,7 @@ export default function createDev({ client, directory } = {}) {
               `**Task type**: ${type} — ${profile.desc}`,
               `**Recommended**: ${modelMap[profile.prefer]}${historyNote}`,
               '',
-              'Note: actual model is set per-agent in opencode.json. Use @swarm for parallel tasks on cheaper models.',
+              'Note: actual model is set per-agent in opencode.json. Use @hive for parallel tasks on cheaper models.',
             ].join('\n'),
           };
         },

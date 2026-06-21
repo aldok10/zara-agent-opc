@@ -30,7 +30,7 @@ Restart OpenCode to activate Zara. You'll then have:
 - `/zara install` — re-run any time
 - `/handoff` — save session state
 - `/resume` — restore from checkpoint
-- 7 sub-agents (architect, code-reviewer, testing-lead, practices-lead, ddd-specialist, security-reviewer, delivery-lead)
-- Context-mode sandbox (ctx_execute, ctx_fetch, ctx_search)
+- 8 sub-agents (Atlas, Lens, Probe, Shield, Pulse, Rhythm, Hive, Sketch)
+- Context-mode sandbox (ctx_execute, ctx_fetch)
 - Auto-resume (sessions persist across restarts)
 - Approval gates for risky operations

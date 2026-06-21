@@ -9,7 +9,7 @@ description: Use when coordinating multi-agent parallel work on complex tasks wi
 
 - Task has 3+ independent workstreams
 - Multiple files need changes that can be parallelized
-- Different specialists needed simultaneously (architect + testing + security)
+- Different specialists needed simultaneously (atlas + probe + shield)
 - Large refactoring, feature implementation, or migration
 
 ## When NOT to Use
@@ -42,7 +42,7 @@ Create `.tasks/progress.md` tracking all subtasks:
 
 | # | Task | Status | Agent | Spec | Quality | Notes |
 |---|------|--------|-------|------|---------|-------|
-| 1 | Auth middleware | DONE | architect | PASS | PASS | |
+| 1 | Auth middleware | DONE | atlas | PASS | PASS | |
 | 2 | User endpoints | IN_PROGRESS | task | - | - | |
 | 3 | DB migrations | PENDING | task | - | - | |
 ```
@@ -101,8 +101,8 @@ Before marking epic complete:
 ## Integration with Zara
 
 Zara activates swarm mode via:
-1. `@swarm` agent mention for complex parallel tasks
+1. `@hive` agent mention for complex parallel tasks
 2. Auto-detection when task has 3+ independent workstreams
 3. Load `dispatching-parallel-agents` skill for coordination patterns
 
-The swarm agent coordinates; Zara synthesizes the final response to user.
+Hive coordinates; Zara synthesizes the final response to user.

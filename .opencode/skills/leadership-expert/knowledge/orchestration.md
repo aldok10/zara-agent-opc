@@ -20,7 +20,7 @@ A lead agent in a multi-agent system is functionally an engineering manager:
 | **Sequential** (A→B→C) | Linear dependencies | Pipeline controller | Code → Test → Deploy |
 | **Parallel** (fan-out/fan-in) | Independent sub-tasks | Result merger | Research 5 topics simultaneously |
 | **Hierarchical** (manager→workers) | Complex decomposition | Delegator + reviewer | Feature with frontend + backend + tests |
-| **Handoff** (routing) | Domain-specific expertise | Router/classifier | "This is a security question" → security-reviewer |
+| **Handoff** (routing) | Domain-specific expertise | Router/classifier | "This is a security question" → Shield |
 | **Loop** (iterate + evaluate) | Refinement needed | Evaluator/terminator | Code review → fix → review → accept |
 
 ### Choosing a Topology

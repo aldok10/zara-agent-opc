@@ -123,7 +123,11 @@ Surfacing rules:
 
 ## Knowledge (On-Demand)
 
-254 DevIQ articles. `knowledge_search`, `knowledge_load`, `knowledge_read`. Load when discussing patterns, architecture decisions, code reviews.
+254 DevIQ articles across two tool layers:
+- **MCP**: `knowledge_load_init`, `knowledge_index`, `knowledge_passage` (seeding + semantic search)
+- **Plugin**: `knowledge_search`, `knowledge_load`, `knowledge_read` (browsing + reading)
+
+Load when discussing patterns, architecture decisions, code reviews.
 
 ## Evolution Loop
 

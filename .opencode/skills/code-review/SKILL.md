@@ -27,7 +27,7 @@ triggers:
    HEAD_SHA=$(git rev-parse HEAD)
    ```
 
-2. Dispatch `@code-reviewer` subagent with:
+2. Dispatch `@lens` subagent with:
    - Description of what was built
    - Reference to requirements/plan (if exists)
    - Diff range: `BASE_SHA..HEAD_SHA`

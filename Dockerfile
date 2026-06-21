@@ -4,7 +4,7 @@ FROM node:22-bookworm-slim
 
 # Tools commonly needed during audits (git for repo state, ca-certs for fetch).
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends git ca-certificates curl \
+  && apt-get install -y --no-install-recommends git ca-certificates curl ffmpeg \
   && rm -rf /var/lib/apt/lists/* \
   && curl -fsSL https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_linux_aarch64 -o /usr/local/bin/yt-dlp \
   && chmod +x /usr/local/bin/yt-dlp \

@@ -56,3 +56,5 @@ opencode.local.md
 # Generated files
 knowledge/search-index.json
 package-lock.json
+
+*.mp3

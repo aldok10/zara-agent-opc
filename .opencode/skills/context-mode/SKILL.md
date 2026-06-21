@@ -1,6 +1,9 @@
-# Skill: context-mode
+---
+name: context-mode
+description: Use when analyzing data without loading raw content into context, batch executing multiple commands, fetching web content as markdown, processing files without reading full content, or checking previous session state after resume
+---
 
-**Tags**: context-mode, context-sandboxing, think-in-code, ctx-execute, ctx-batch, fts5
+# Skill: context-mode
 
 ## Context
 

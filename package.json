@@ -1,7 +1,7 @@
 {
-  "dependencies": {},
-  "allowScripts": {
-    "context-mode@1.0.162": true,
-    "better-sqlite3@12.11.1": true
-  }
+  "name": "zara-agent-opc",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "dependencies": {}
 }

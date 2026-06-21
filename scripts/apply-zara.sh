@@ -101,7 +101,7 @@ if [ "${1:-}" = "--project" ]; then
     echo ""
     echo -e "To activate, add to your project's opencode.json:"
     echo '  {'
-    echo '    "agent": { "name": "zara", "prompt": ".opencode/agents/zara.md" },'
+    echo '    "agent": { "name": "zara", "prompt": ".opencode/agent/zara.md" },'
     echo '    "agents": { ... }'
     echo '  }'
     echo ""
@@ -144,7 +144,14 @@ if [ -f "$SCRIPT_DIR/tools/zara.sh" ]; then
 # Zara CLI wrapper
 export ZARA_HOME="${ZARA_HOME:-$HOME/.zara}"
 export ZARA_KNOWLEDGE_DIR="${ZARA_KNOWLEDGE_DIR:-$ZARA_HOME/knowledge}"
-SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd 2>/dev/null || pwd)"
+# Resolve script location portably (readlink -f is GNU-only; this works on macOS/BSD/Git Bash too)
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+    DIR="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)"
+    SOURCE="$(readlink "$SOURCE")"
+    [ "${SOURCE#/}" = "$SOURCE" ] && SOURCE="$DIR/$SOURCE"
+done
+SCRIPT_DIR="$(cd -P "$(dirname "$SOURCE")/.." >/dev/null 2>&1 && pwd)"
 # Try to find zara.sh in multiple locations
 for loc in "$SCRIPT_DIR/tools/zara.sh" "$SCRIPT_DIR/../tools/zara.sh" "${HOME}/.config/opencode/zara/tools/zara.sh"; do
     if [ -f "$loc" ]; then
@@ -163,7 +170,7 @@ if [ -f "$OPENCODE_JSON" ]; then
     echo -e "  ${YELLOW}○${NC} opencode.json exists. You may need to add Zara manually."
     echo ""
     echo "Add to $OPENCODE_JSON:"
-    echo '  "agent": { "name": "zara", "prompt": "zara/.opencode/agents/zara.md" }'
+    echo '  "agent": { "name": "zara", "prompt": "zara/.opencode/agent/zara.md" }'
     echo ""
     echo "Or replace your opencode.json with:"
     echo "  ln -sf $SCRIPT_DIR/opencode.json $OPENCODE_JSON"

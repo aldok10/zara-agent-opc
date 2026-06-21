@@ -2,10 +2,9 @@
 description: Security specialist — threat modeling, secure design, auth patterns
 mode: subagent
 temperature: 0.1
-tools:
-  write: false
-  edit: false
-  bash: false
+permission:
+  edit: deny
+  bash: deny
 ---
 
 # Security Reviewer
@@ -28,3 +27,8 @@ Simple defense beats security theater.
 - Data exposure risks
 - Dependency vulnerabilities
 - Configuration security
+
+## Skill & Tool Integration
+
+- Use `knowledge_load(doc: "owasp")` for OWASP Top 10 security reference
+- Use `knowledge_search(query)` for specific vulnerability patterns and mitigations

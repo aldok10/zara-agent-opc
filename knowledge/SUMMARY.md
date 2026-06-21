@@ -54,3 +54,8 @@ Quick-reference condensed summaries of all 12 DevIQ sections.
 **Core idea**: Human values that underpin effective engineering teams.
 **Key values**: Communication, Courage, Feedback, Respect, Simplicity
 **Source**: XP values — these are the human foundation that makes practices work
+
+## Leadership (1 article)
+**Core idea**: Leadership frameworks, emotional intelligence, and AI-augmented coaching.
+**Key article**: leadership-frameworks.md — 15 frameworks (Servant Leadership, Radical Candor, GROW, Situational Leadership, Multipliers, Systems Thinking, Psychological Safety, etc.) + AI intersection patterns
+**Central principle**: Lead through service, grow through questions, decide through classification

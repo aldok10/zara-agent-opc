@@ -48,7 +48,7 @@ Trigger: After any non-trivial task (>=5 tool calls)
    - Step-by-step workflow
    - Verification steps
    - Known pitfalls
-3. Register in skills-index.json
+3. Add routing entry in skill-gate SKILL.md
 4. On next similar task: Load skill first
 
 Triggers:
@@ -76,29 +76,47 @@ graph LR
 
 ### Coordinator Checklist
 
-1. **Initialize:** `swarmmail_init()`
-2. **Knowledge Gathering:** `hivemind_find()`, `skills_list()`
-3. **Decompose:** Break into parallel subtasks
-4. **Create Epic:** `hive_create_epic()`
-5. **Spawn Workers:** One per subtask
-6. **Monitor:** Check inbox, track progress
-7. **Review:** Quality gate for each worker
-8. **Synthesize:** Merge results
-9. **Journal:** Store learnings
+1. **Analyze:** Verify 3+ independent workstreams exist
+2. **Define tasks:** Break into subtasks with clear file boundaries
+3. **Spawn Workers:** Delegate via `task` tool with isolated scope per worker
+4. **Monitor:** Track progress via `.tasks/progress.md` ledger
+5. **Review:** Check each worker output against acceptance criteria
+6. **Synthesize:** Merge approved results
+7. **Record:** Save learnings via `reflect` + `memory_episode`
 
 ## Memory Workflow
 
 ```markdown
 Before every task:
-1. hivemind_find() - Check past learnings
-2. skills_list() - Check matching skills
-3. skills_use() - Load if matched
+1. memory_recall() — Check past learnings, decisions, pitfalls
+2. Load skill-gate — Check matching skills
+3. Load matched skill if applicable
 
 After every task:
-1. Store learnings in hivemind
-2. Create/update skills if applicable
-3. Journal the session
-4. Sync memory to git
+1. memory_learn() / memory_episode() — Store learnings
+2. reflect() — Extract patterns
+3. memory_procedure() — Save reusable workflows
+
+Auto-capture (runs silently):
+- chat.message hook: detect preferences, corrections, constraints
+- chat.response hook: detect errors/failures → episodic log
+- Dreamer consolidation: merge duplicates, archive stale, promote recurring
+```
+
+## Git Workflow
+
+```markdown
+Before ANY commit:
+1. git branch --show-current
+2. If protected (main/master/prod/dev/staging/release/*/hotfix/*/v*) → STOP
+3. Create feature branch: git checkout -b type/description
+4. Work on feature branch
+5. Commit with conventional format: type(scope): description
+6. Push: git push -u origin branch-name
+7. Create PR via gh CLI
+
+Protected branches: main, master, production, prod, develop, development,
+dev, staging, release/*, hotfix/*, v[0-9]* (v1.0.0, v2.x.x)
 ```
 
 ## Quality Gate Workflow

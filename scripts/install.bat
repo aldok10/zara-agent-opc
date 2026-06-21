@@ -18,7 +18,7 @@ echo ============================================================
 echo.
 
 REM --- Check prerequisites ---
-echo [1/5] Checking prerequisites...
+echo [1/6] Checking prerequisites...
 
 where bash >nul 2>nul
 if %ERRORLEVEL% NEQ 0 (
@@ -48,7 +48,7 @@ set SCRIPT_DIR=%~dp0..\
 set PROJECT_DIR=%~dp0..\
 
 REM --- Create directories ---
-echo [2/5] Creating directory structure...
+echo [2/6] Creating directory structure...
 if not exist "%ZARA_HOME%" mkdir "%ZARA_HOME%"
 if not exist "%ZARA_HOME%\knowledge" mkdir "%ZARA_HOME%\knowledge"
 if not exist "%ZARA_HOME%\skills" mkdir "%ZARA_HOME%\skills"
@@ -61,7 +61,7 @@ echo   [OK] Directories created
 echo.
 
 REM --- Copy files ---
-echo [3/5] Installing Zara files...
+echo [3/6] Installing Zara files...
 
 REM Copy CLI tool
 if exist "%PROJECT_DIR%tools\zara.sh" (
@@ -90,8 +90,8 @@ echo bash "%%ZARA_HOME%%\zara.sh" %%*
 echo   [OK] CLI wrapper: %ZARA_BIN%\zara.cmd
 
 REM Copy agent definitions
-if exist "%PROJECT_DIR%.opencode\agents\*.md" (
-    copy /Y "%PROJECT_DIR%.opencode\agents\*.md" "%ZARA_HOME%\agents\" >nul 2>nul
+if exist "%PROJECT_DIR%.opencode\agent\*.md" (
+    copy /Y "%PROJECT_DIR%.opencode\agent\*.md" "%ZARA_HOME%\agents\" >nul 2>nul
     echo   [OK] Agent definitions copied
 )
 
@@ -106,7 +106,7 @@ if not exist "%ZARA_HOME%\.env" (
 echo.
 
 REM --- Apply to OpenCode ---
-echo [4/5] Applying to OpenCode...
+echo [4/6] Applying to OpenCode...
 
 set OPENCODE_CONFIG_DIR=%APPDATA%\opencode
 if not exist "!OPENCODE_CONFIG_DIR!" (
@@ -132,8 +132,35 @@ if exist "!OPENCODE_CONFIG_DIR!\zara" (
 
 echo.
 
+REM --- Apply to Claude Code (if available) ---
+echo [5/6] Setting up Claude Code (if available)...
+
+set CLAUDE_CONFIG_DIR=%USERPROFILE%\.claude
+if exist "!CLAUDE_CONFIG_DIR!" (
+    if exist "%PROJECT_DIR%.claude\CLAUDE.md" (
+        if exist "!CLAUDE_CONFIG_DIR!\CLAUDE.md" (
+            findstr /C:"Zara" "!CLAUDE_CONFIG_DIR!\CLAUDE.md" >nul 2>nul
+            if !ERRORLEVEL! EQU 0 (
+                echo   [SKIP] Zara already referenced in Claude Code
+            ) else (
+                echo.>> "!CLAUDE_CONFIG_DIR!\CLAUDE.md"
+                echo --->> "!CLAUDE_CONFIG_DIR!\CLAUDE.md"
+                type "%PROJECT_DIR%.claude\CLAUDE.md" >> "!CLAUDE_CONFIG_DIR!\CLAUDE.md"
+                echo   [OK] Zara added to Claude Code CLAUDE.md
+            )
+        ) else (
+            copy "%PROJECT_DIR%.claude\CLAUDE.md" "!CLAUDE_CONFIG_DIR!\CLAUDE.md" >nul 2>nul
+            echo   [OK] Claude Code CLAUDE.md created
+        )
+    )
+) else (
+    echo   [SKIP] Claude Code not found
+)
+
+echo.
+
 REM --- Summary ---
-echo [5/5] Installation Complete
+echo [6/6] Installation Complete
 echo.
 echo ============================================================
 echo       Zara Agent Installation Complete

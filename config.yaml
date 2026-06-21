@@ -1,8 +1,15 @@
 # =============================================================================
-# Zara Agent - Configuration
+# Zara Agent - Configuration Reference
 # =============================================================================
-# YAML configuration file for the Zara OpenCode agent.
-# All values can be overridden via environment variables (see .env.example).
+# This file is a REFERENCE DOCUMENT for human readability.
+# The authoritative runtime config is `opencode.json`.
+#
+# Use this file to:
+#   - Understand what's configurable
+#   - See available environment variable overrides
+#   - Document sub-agent roles and knowledge structure
+#
+# DO NOT rely on this file for runtime behavior — opencode.json is source of truth.
 # =============================================================================
 
 # --- Agent Identity ---
@@ -10,7 +17,14 @@ agent:
   name: ${ZARA_AGENT_NAME:-Zara}
   role: ${ZARA_AGENT_ROLE:-Lead Engineering Orchestrator}
   description: ${ZARA_AGENT_DESCRIPTION:-AI-powered engineering leadership agent}
-  version: 1.0.0
+  version: 0.1.0
+
+# --- User Identity ---
+# The user's name/honorific. Authoritative value lives in the runtime profile
+# (~/.zara/user-profile.json) and semantic memory; this env var is only the
+# initial fallback when no profile exists yet. Keeps the name out of hardcoded source.
+user:
+  name: ${ZARA_USER_NAME:-there}
 
 # --- Sub-Agents ---
 sub_agents:
@@ -55,6 +69,7 @@ knowledge:
     - design-patterns
     - domain-driven-design
     - laws
+    - natural-voice
     - practices
     - principles
     - terms
@@ -65,17 +80,47 @@ knowledge:
   summary_file: SUMMARY.md
 
 # --- Memory System ---
+# 3-layer cognitive memory (episodic/semantic/procedural).
+# Runtime: SQLite via the Zara MCP server (tools/mcp/) — see domain/memory.mjs.
+# The OpenCode plugin module (.opencode/plugin/zara/memory/) mirrors this for
+# in-session use. Storage root: ~/.zara/
 memory:
   enabled: ${ZARA_MEMORY_ENABLED:-true}
+  layers:
+    episodic: "what happened (events + outcomes)"
+    semantic: "learned facts (key/value with type + confidence)"
+    procedural: "how-to patterns (reusable workflows)"
   journal:
     path: journal.jsonl
     retention_days: ${ZARA_MEMORY_JOURNAL_RETENTION_DAYS:-365}
-  skills_index:
-    path: skills-index.json
   sessions:
     path: sessions/
     auto_journal: ${ZARA_SESSION_AUTO_JOURNAL:-true}
     log_format: ${ZARA_SESSION_LOG_FORMAT:-markdown}
+
+# --- Context Engineering ---
+# Provided by the consolidated zara.mjs plugin (modules under plugin/zara/).
+context:
+  compaction_dir: "~/.zara/compaction/"
+  scratchpad_dir: "~/.zara/scratch/"
+  tool_result_clearing:
+    enabled: true
+    threshold_messages: 20  # start clearing after 20 messages
+    keep_recent: 10         # always keep last 10 intact
+
+# --- Self-Improvement ---
+# Provided by the zara.mjs plugin (plugin/zara/evolve module).
+reflection:
+  enabled: true
+  reflections_dir: "~/.zara/reflections/"
+  patterns_file: "~/.zara/reflections/patterns.json"
+
+# --- Observability ---
+# Provided by the zara.mjs plugin (plugin/zara/observe module).
+metrics:
+  enabled: true
+  dir: "~/.zara/metrics/"
+  retention_days: 30
 
 # --- LLM Configuration ---
 llm:
@@ -104,7 +149,9 @@ tools:
     description: "Cross-agent unified memory system"
   swarm:
     enabled: ${ZARA_ENABLE_SWARM:-true}
-    description: "Multi-agent swarm coordination"
+    type: native
+    description: "Native multi-agent swarm coordination (plugin + agent)"
+    state_dir: "~/.zara/swarm/"
 
 # --- Skills System ---
 skills:

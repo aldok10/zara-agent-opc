@@ -9,15 +9,11 @@ This ensures Zara can proactively continue next time without losing context.
 
 ## What This Does
 
-1. **Saves progress** — to global `~/.zara/state/` or local `./.zara/state/` (auto-fallback)
-2. **Appends to history** — same directory as session file
-3. **Syncs Hivemind** learnings for cross-session memory
-4. **Updates hive cells** with completion status
-5. **Generates continuation prompt** for next session
+1. **Saves progress** — via `Orchestrator_memory_episode` + `Orchestrator_memory_learn`
+2. **Extracts reflection** — via `Orchestrator_reflect`
+3. **Consolidates** — via `Orchestrator_memory_consolidate`
 
 ## Required Information
-
-Collect this before running the handoff:
 
 | Field | Description |
 |-------|-------------|
@@ -25,43 +21,17 @@ Collect this before running the handoff:
 | `completedSteps` | What got done this session? |
 | `currentStep` | What's the next thing to do? |
 | `remainingSteps` | What's still outstanding? |
-| `subAgentsEngaged` | Which sub-agents were involved? |
 | `keyDecisions` | Important decisions made |
 | `filesTouched` | Files modified or created |
 | `learnings` | Things to remember for next time |
 | `blockers` | Anything blocking progress |
+| `openThreads` | Pending follow-ups |
 
 ## Process
 
-```
-## Zara 💫 — Session Handoff
-
-**Session summary**:
-Completed this session:
-- <step 1>
-- <step 2>
-
-Next session should:
-- <step 3>
-- <step 4>
-
-**Key decisions**:
-- <decision with rationale>
-
-**Learnings stored to Hivemind**:
-- <learning 1>
-- <learning 2>
-
-**Files touched**: <list of file paths>
-
-**State saved**: ~/.zara/state/ or ./.zara/state/ (auto-detected)
-**Hive synced**: <cell status>
-
-See you next time!
-```
-
 Execute:
-1. Store learnings via `hivemind_store()`
-2. Save state (auto-selects global or local dir)
-3. Update hive cell status
-4. Sync hivemind
+1. `Orchestrator_memory_episode` — record session event with tags
+2. `Orchestrator_memory_learn` — save facts, decisions, threads, blockers
+3. `Orchestrator_reflect` — extract pattern
+4. `Orchestrator_memory_consolidate` — clean up
+5. Present continuation summary to user

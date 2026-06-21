@@ -13,15 +13,13 @@ This directory contains Zara Agent's OpenCode extensions.
 │   ├── code-reviewer.md # Subagent: code review
 │   ├── testing-lead.md  # Subagent: testing strategy
 │   ├── security-reviewer.md # Subagent: security
-│   └── delivery-lead.md # Subagent: delivery
+│   ├── delivery-lead.md # Subagent: delivery
+│   └── swarm.md         # Subagent: swarm coordination
 ├── plugin/              # Plugin scripts (auto-loaded)
-│   ├── zara-senior-dev.mjs
-│   ├── zara-auto-resume.mjs
-│   ├── zara-ctx.mjs
-│   ├── zara-hitl.mjs
-│   └── zara-install.mjs
-├── agents/              # [LEGACY] old agent location
-├── plugins/             # [LEGACY] old plugin location
+│   ├── zara.mjs         # Composition root (loads all modules)
+│   └── zara/            # Plugin modules (dev, memory, evolve, flow,
+│                        #   observe, empathy, social, relationship, infra)
+├── instructions/        # Canonical system instructions
 ├── commands/            # Custom command docs
 └── skills/              # Custom skills
 ```
@@ -31,9 +29,9 @@ This directory contains Zara Agent's OpenCode extensions.
 1. `opencode.json` (project root) — main config with agent definitions
 2. `AGENTS.md` (project root) — auto-loaded instructions (like CLAUDE.md)
 3. `.opencode/agent/*.md` — agent prompts with YAML frontmatter
-4. `.opencode/plugin/*.mjs` — plugins extending behavior
+4. `.opencode/plugin/zara.mjs` — composition root that loads modules from `.opencode/plugin/zara/`
 
 ## Usage
 
 - Tab to switch between `build` (default) and `plan` agents
-- `@architect`, `@code-reviewer`, `@testing-lead`, `@security-reviewer`, `@delivery-lead` to invoke subagents
+- `@architect`, `@code-reviewer`, `@testing-lead`, `@security-reviewer`, `@delivery-lead`, `@swarm` to invoke subagents

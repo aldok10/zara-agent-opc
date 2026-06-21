@@ -1,6 +1,6 @@
 ---
 name: auto-resume
-description: Use when Zara activates to check for saved session state — detects incomplete work and proactively offers to resume without user prompting
+description: Use when Zara activates to check for saved session state — detects incomplete work and proactively offers to resume without user prompting, using MCP memory recall
 tags:
   - zara
   - auto-resume
@@ -15,49 +15,36 @@ tags:
 
 ## Context
 
-Zara saves session state to track ongoing work across sessions.
-State is stored in this priority order:
+Zara saves session state to MCP memory at session end. On activation, use
+`Orchestrator_memory_recall` to check for open session state instead of reading
+files from disk.
 
-1. **Global**: `~/.zara/state/current-session.json` — shared across all projects
-2. **Local**: `{project_root}/.zara/state/current-session.json` — project-specific fallback
-3. **Temp**: System temp directory — last resort if both are unavailable
-
-The `plugins/zara-auto-resume.mjs` plugin handles auto-detection and fallback.
-This skill tells Zara how to use that saved state.
+**Key constraint**: Do NOT read state files from `~/.zara/state/` — MCP memory
+is the single source of truth.
 
 ## Steps
 
 ### 1. Check for Saved State
 
-```javascript
-// Check where state might be stored
-const path = require('path');
-const os = require('os');
-const fs = require('fs');
+On activation, call:
 
-const possiblePaths = [
-  path.join(os.homedir(), '.zara', 'state', 'current-session.json'),
-  path.join(process.cwd(), '.zara', 'state', 'current-session.json'),
-];
-
-for (const stateFile of possiblePaths) {
-  if (fs.existsSync(stateFile)) {
-    const state = JSON.parse(fs.readFileSync(stateFile, 'utf-8'));
-    if (!state.completed && state.activeTask) {
-      // Proceed to resume
-      break;
-    }
-  }
-}
 ```
+Orchestrator_memory_recall(query: "session handoff active task")
+Orchestrator_memory_recall(query: "open threads")
+```
+
+Look for:
+- Recent `memory_episode` entries with tags: session
+- `memory_learn` entries with type: `fact` and keys prefixed `thread.`
+- The most recent episode indicates saved session state
 
 ### 2. Announce Context
 
 Present a clear summary to the user:
 ```
 I see we were working on [activeTask] last time.
-Completed: [completedSteps]
-Current step: [currentStep]
+Done: [completedSteps]
+Next: [currentStep]
 Key decisions: [summary]
 
 Shall I pick up where I left off?
@@ -67,46 +54,17 @@ Shall I pick up where I left off?
 
 | Response | Action |
 |----------|--------|
-| Yes / Continue | Restore decisions, re-engage sub-agents, continue from currentStep |
-| No / Fresh start | Clear saved state, start new task |
-| Silent (no response) | Wait 10s, then auto-continue proactively |
+| Yes / Continue | Reference saved decisions, continue from current step |
+| No / Fresh start | Start new task, don't recall session memory |
 
-### 4. Save Checkpoints
-
-As work progresses, save intermediate state:
-```javascript
-// Update current step, decisions, files touched
-saveSessionState({
-  ...currentState,
-  progress: {
-    completedSteps: [...],
-    currentStep: '...',
-    remainingSteps: [...]
-  },
-  lastActivity: new Date().toISOString()
-});
-```
-
-### 5. Complete Work
-
-When work is finished:
-```javascript
-saveSessionState({ ...state, completed: true });
-// Or call markComplete(sessionId) from the plugin
-```
 
 ## Verification
 
-- After activation, Zara should announce any saved state within first response
-- State file should update as progress is made
-- `/handoff` should save complete handoff state
-- Plugin should auto-continue stalled sessions
+- After activation, Zara announces any saved session state within first response
+- Uses `Orchestrator_memory_recall`, not file reads
+- `/resume` command triggers the same recall flow
 
-## Files
+## Related
 
-- `plugins/zara-auto-resume.mjs` — Plugin that monitors sessions
-- `~/.zara/state/current-session.json` — Global session state (primary)
-- `./.zara/state/current-session.json` — Local session state (fallback)
-- `~/.zara/state/session-history.jsonl` — Session history
-- `.opencode/commands/resume.md` — Resume command prompt
-- `.opencode/commands/handoff.md` — Handoff command prompt
+- `Orchestrator_memory_recall` — the only recall mechanism needed
+- `session-handoff` — how state gets saved in the first place

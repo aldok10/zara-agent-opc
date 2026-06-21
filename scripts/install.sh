@@ -79,7 +79,7 @@ if [ "${1:-}" = "--uninstall" ]; then
     
     # Remove runtime
     ZARA_HOME="${ZARA_HOME:-$HOME/.zara}"
-    if [ -d "$ZARA_HOME" ]; then
+    if [ -d "$ZARA_HOME" ] && [[ "$ZARA_HOME" == *".zara"* ]]; then
         rm -rf "$ZARA_HOME"
         echo -e "  ${GREEN}✓${NC} Removed $ZARA_HOME"
     fi
@@ -194,7 +194,7 @@ echo -e "${CYAN}[4/6]${NC} Setting up agent definitions..."
 
 # Copy sub-agent prompts to ZARA_HOME
 mkdir -p "$ZARA_HOME/agents"
-for agent_file in "$SCRIPT_DIR/.opencode/agents/"*.md; do
+for agent_file in "$SCRIPT_DIR/.opencode/agent/"*.md; do
     if [ -f "$agent_file" ]; then
         name=$(basename "$agent_file" .md)
         cp "$agent_file" "$ZARA_HOME/agents/$name.md" 2>/dev/null || true

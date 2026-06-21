@@ -2,95 +2,69 @@
 
 ## Overview
 
-Zara uses a layered prompt system that separates concerns and makes the agent behavior configurable and maintainable.
+Zara uses a layered prompt system loaded via OpenCode's `instructions` configuration and agent definitions.
 
 ## Prompt Architecture
 
 ```
-prompts/
-├── system.md         # Agent identity, safety rules, core behavior
-├── tools.md          # Tool usage instructions
-├── workflows.md      # Task orchestration patterns
-├── examples.md       # Usage examples for prompt engineering
-└── sub-agents/       # Specialized sub-agent prompts
-    ├── architect.md
-    ├── code-reviewer.md
-    ├── testing-lead.md
-    ├── practices-lead.md
-    ├── ddd-specialist.md
-    ├── security-reviewer.md
-    └── delivery-lead.md
+.opencode/
+├── instructions/
+│   ├── system.md           # Operational instructions (recall, context, git safety)
+│   └── philosophy.md       # Engineering philosophy (priorities, decision-making)
+└── agent/
+    ├── zara.md             # Primary agent — full Zara identity & behavior
+    ├── plan.md             # Planning mode — analysis without changes
+    ├── architect.md        # System design sub-agent
+    ├── code-reviewer.md    # Code review sub-agent
+    ├── testing-lead.md     # Testing strategy sub-agent
+    ├── security-reviewer.md # Security review sub-agent
+    ├── delivery-lead.md    # Delivery management sub-agent
+    └── swarm.md            # Parallel coordination sub-agent
 ```
 
 ## Prompt Layers
 
-### 1. System Prompt (`system.md`)
+### 1. Identity Prompt (`.opencode/agent/zara.md`)
 
-**Purpose:** Defines the agent's identity, core behavior, safety rules, and immutable characteristics.
-
-**Contents:**
-- Agent name and role
-- Personality and communication style
-- Safety constraints and ethical guidelines
-- Core behavioral principles
-- Quality gates
-
-**Example structure:**
-```markdown
-# System Prompt
-
-## Identity
-You are {agent_name}, a {agent_role}.
-
-## Core Principles
-1. {principle_1}
-2. {principle_2}
-
-## Safety Rules
-- {rule_1}
-- {rule_2}
-```
-
-### 2. Tool Prompt (`tools.md`)
-
-**Purpose:** Defines what tools are available and how to use them correctly.
+**Purpose:** Defines the agent's identity, core behavior, relationship, and methodologies.
 
 **Contents:**
-- Tool inventory and descriptions
-- Usage patterns for each tool
-- When to use each tool
-- Common mistakes to avoid
+- Core Identity & Personality
+- Connection DNA (session start protocol)
+- 8 Engineering Principles
+- Leadership DNA & Emotional Intelligence
+- Adaptive Communication (language matching, banned patterns)
+- Memory & Context Awareness
+- Engineering Lead priorities
+- Privacy & Security Shield
+- Development Methodology (skill chain, iron laws)
+- Execution Style (action-first for D4 users)
+- Session Ritual (greeting, energy matching, adaptive music)
+- Growth Mission
 
-**Key sections:**
-```markdown
-## Available Tools
+### 2. Operational Instructions (`.opencode/instructions/`)
 
-### {Tool Name}
-- **Purpose**: ...
-- **When to use**: ...
-- **When NOT to use**: ...
-- **Pattern**: ...
-```
+**Purpose:** Defines runtime behavior, context management, and safety rules.
 
-### 3. Workflow Prompt (`workflows.md`)
+**Two files:**
+- `system.md` — Connection DNA, context protection, memory protocol, anti-AI writing, git safety
+- `philosophy.md` — Priority stack, architecture review, AI engineering considerations
 
-**Purpose:** Defines how Zara orchestrates tasks, delegates to sub-agents, and manages complex workflows.
+### 3. Sub-Agent Prompts (`.opencode/agent/*.md`)
 
-**Contents:**
-- Task decomposition patterns
-- Sub-agent delegation rules
-- Swarm coordination workflow
-- Quality review process
-- Memory and journaling requirements
-
-### 4. Sub-Agent Prompts
-
-Each sub-agent has a specialized prompt that defines:
+Each sub-agent defines:
 - Domain expertise and focus areas
 - Relevant knowledge sources (DevIQ sections)
-- Trigger patterns for engagement
-- Response format
-- Quality criteria
+- Response format and quality criteria
+- Skill & tool integration patterns
+
+### 4. Skill Files (`.opencode/skills/`)
+
+26 project skills with auto-activation via `skill-gate`. Each SKILL.md defines:
+- Trigger conditions
+- Step-by-step workflow
+- Verification steps
+- MCP tool integration points
 
 ## Prompt Design Principles
 
@@ -98,32 +72,30 @@ Each sub-agent has a specialized prompt that defines:
 Put the most important information first. The first 500 tokens matter most.
 
 ### 2. Be Specific
-Instead of "follow best practices," reference specific principles and articles.
+Instead of "follow best practices," reference specific principles and patterns.
 
-### 3. Use Examples
-Show, don't just tell. Include input/output examples.
-
-### 4. Define Boundaries
+### 3. Define Boundaries
 Clearly state what the agent should and should NOT do.
 
-### 5. Layer Information
-Start broad, get specific. System → Tool → Workflow → Task.
+### 4. Layer Information
+Start broad, get specific. Identity → Instructions → Skills → Task.
 
-### 6. Cite Sources
-Ground recommendations in the knowledge base.
+### 5. Actionable Examples
+Show exact behavior patterns with concrete examples.
 
 ## Customizing Prompts
 
 ### For Your Organization
 
-1. **Identity changes:** Modify `prompts/system.md`
-2. **Tool additions:** Add tools in `prompts/tools.md`
-3. **Workflow changes:** Update `prompts/workflows.md`
-4. **New sub-agents:** Add files in `prompts/sub-agents/`
+1. **Identity changes:** Modify `.opencode/agent/zara.md`
+2. **Behavior changes:** Update `.opencode/instructions/system.md`
+3. **Philosophy changes:** Tweak `prompts/philosophy.md`
+4. **New sub-agents:** Register in `opencode.json` and add file in `.opencode/agent/`
+5. **New skills:** Add directory in `.opencode/skills/` with SKILL.md
 
 ### Best Practices
 
+- Keep each file under 500 lines
 - Test prompt changes in isolation
-- Keep a version history of prompt changes
-- Use semantic versioning for prompt templates
+- Maintain consistency across agent and skill prompts
 - Document why prompts were changed, not just what changed

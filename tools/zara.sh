@@ -37,6 +37,15 @@ ensure_dirs() {
     mkdir -p "$SKILLS_DIR" "$MEMORY_DIR" "$SESSIONS_DIR" "$AGENTS_DIR"
 }
 
+# Validate a path component (section/article name) contains no traversal
+validate_path_component() {
+    local input="$1"
+    if [[ "$input" == *".."* ]] || [[ "$input" == /* ]]; then
+        echo -e "${RED}Invalid path: must not contain '..' or start with '/'${NC}"
+        exit 1
+    fi
+}
+
 print_banner() {
     echo -e "${BLUE}"
     echo '╔══════════════════════════════════════════════════════════════╗'
@@ -186,6 +195,7 @@ list_knowledge_section() {
         exit 1
     fi
     section="$1"
+    validate_path_component "$section"
     section_dir="$KNOWLEDGE_DIR/$section"
 
     if [ ! -d "$section_dir" ] && [ ! -L "$section_dir" ]; then
@@ -200,14 +210,14 @@ list_knowledge_section() {
     echo -e "${CYAN}Section:${NC} $section"
     echo ""
 
-    articles=$(find -L "$section_dir" -name "*.md" ! -name "_index.md" 2>/dev/null | sort)
     count=0
-    for article in $articles; do
+    while IFS= read -r article; do
+        [ -z "$article" ] && continue
         title=$(grep -m1 "^title: " "$article" 2>/dev/null | sed 's/^title: *//' || echo "$(basename "$article" .md)")
         echo "  ${GREEN}○${NC} $(basename "$article" .md)"
         echo "    $title"
         count=$((count + 1))
-    done
+    done < <(find -L "$section_dir" -name "*.md" ! -name "_index.md" 2>/dev/null | sort)
     echo ""
     echo -e "${GREEN}$count articles${NC}"
     echo -e "${YELLOW}Tip:${NC} Use 'read $section/<article>' to open an article"
@@ -222,6 +232,7 @@ read_article() {
         exit 1
     fi
     path="$1"
+    validate_path_component "$path"
     article_path="$KNOWLEDGE_DIR/$path.md"
 
     if [ ! -f "$article_path" ] && [ -f "$KNOWLEDGE_DIR/$path" ]; then
@@ -341,29 +352,30 @@ import_skill() {
         exit 1
     fi
     name=$(basename "$src" .md)
+    validate_path_component "$name"
     cp "$src" "$SKILLS_DIR/$name.md"
     echo -e "${GREEN}✓${NC} Skill imported: $name"
 
     # Update skills index if it exists
     if [ -f "$SKILLS_INDEX" ]; then
-        tmp=$(mktemp)
-        python3 -c "
+        python3 - "$SKILLS_INDEX" "$name" "$(date +%Y-%m-%d)" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" << 'PYEOF'
 import json, sys
-with open('$SKILLS_INDEX') as f:
+
+index_file, skill_name, created_date, updated_ts = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
+with open(index_file) as f:
     idx = json.load(f)
-idx['skills']['$name'] = {
-    'title': '$name',
+idx['skills'][skill_name] = {
+    'title': skill_name,
     'tags': ['imported'],
     'use_count': 0,
-    'created': '$(date +%Y-%m-%d)',
+    'created': created_date,
     'last_used': None,
     'deprecated': False
 }
-idx['last_updated'] = '$(date -u +%Y-%m-%dT%H:%M:%SZ)'
-with open('$SKILLS_INDEX', 'w') as f:
+idx['last_updated'] = updated_ts
+with open(index_file, 'w') as f:
     json.dump(idx, f, indent=2)
-" 2>/dev/null || true
-        rm -f "$tmp"
+PYEOF
     fi
 }
 

@@ -2,9 +2,8 @@
 description: Testing specialist — strategy, coverage, test design
 mode: subagent
 temperature: 0.2
-tools:
-  write: false
-  edit: false
+permission:
+  edit: deny
 ---
 
 # Testing Lead
@@ -26,3 +25,8 @@ Test what scares you. Skip the rest.
 **Strategy**: recommended test types and coverage targets
 **Test Cases**: specific scenarios to cover
 **What to skip**: things not worth testing
+
+## Skill & Tool Integration
+
+- Enforce `tdd` skill for RED-GREEN-REFACTOR discipline on all implementation
+- Use `verification-before-completion` skill before claiming test coverage is adequate

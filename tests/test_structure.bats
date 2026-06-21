@@ -114,8 +114,8 @@ setup() {
     [ -f "$PROJECT_DIR/docs/architecture.md" ]
 }
 
-@test "tools.md exists" {
-    [ -f "$PROJECT_DIR/docs/tools.md" ]
+@test "tools-reference.md exists" {
+    [ -f "$PROJECT_DIR/docs/tools-reference.md" ]
 }
 
 @test "prompts.md exists" {

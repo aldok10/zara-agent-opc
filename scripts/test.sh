@@ -92,9 +92,9 @@ echo ""
 # =============================================================================
 echo -e "${CYAN}[Group 3] Prompt File Tests${NC}"
 
-# Test 3.1: Prompt files exist
-for prompt in system.md tools.md workflows.md examples.md; do
-    if [ ! -f "$SCRIPT_DIR/prompts/$prompt" ]; then
+# Test 3.1: Canonical instruction files exist
+for prompt in "prompts/system.md" "prompts/philosophy.md" ".opencode/instructions/system.md"; do
+    if [ ! -f "$SCRIPT_DIR/$prompt" ]; then
         echo -e "  ${RED}✗${NC} Missing prompt: $prompt"
         failed=$((failed + 1))
     else
@@ -103,13 +103,24 @@ for prompt in system.md tools.md workflows.md examples.md; do
     fi
 done
 
-# Test 3.2: Sub-agent prompts exist
+# Test 3.2: Sub-agent reference prompts exist
 for agent in architect code-reviewer testing-lead practices-lead ddd-specialist security-reviewer delivery-lead; do
     if [ ! -f "$SCRIPT_DIR/prompts/sub-agents/$agent.md" ]; then
         echo -e "  ${RED}✗${NC} Missing sub-agent prompt: $agent"
         failed=$((failed + 1))
     else
         echo -e "  ${GREEN}✓${NC} Sub-agent prompt exists: $agent"
+        passed=$((passed + 1))
+    fi
+done
+
+# Test 3.3: Runtime agent definitions exist (.opencode/agent — used by opencode.json)
+for agent in zara plan architect code-reviewer testing-lead security-reviewer delivery-lead swarm; do
+    if [ ! -f "$SCRIPT_DIR/.opencode/agent/$agent.md" ]; then
+        echo -e "  ${RED}✗${NC} Missing agent definition: $agent"
+        failed=$((failed + 1))
+    else
+        echo -e "  ${GREEN}✓${NC} Agent definition exists: $agent"
         passed=$((passed + 1))
     fi
 done
@@ -122,7 +133,7 @@ echo ""
 echo -e "${CYAN}[Group 4] Documentation Tests${NC}"
 
 # Test 4.1: Documentation files exist
-for doc in installation.md configuration.md architecture.md tools.md prompts.md workflows.md faq.md; do
+for doc in installation.md configuration.md architecture.md tools-reference.md prompts.md workflows.md faq.md memory.md plugins.md skills.md; do
     if [ ! -f "$SCRIPT_DIR/docs/$doc" ]; then
         echo -e "  ${RED}✗${NC} Missing doc: $doc"
         failed=$((failed + 1))
@@ -159,7 +170,7 @@ else
 fi
 
 # Test 5.2: No personal paths (excluding audit/report/test docs)
-if grep -r "$HOME" "$SCRIPT_DIR" --include="*.md" --include="*.yaml" --include="*.json" --include="*.sh" 2>/dev/null \
+if grep -rE "/Users/[a-zA-Z]+|/home/[a-zA-Z]+" "$SCRIPT_DIR" --include="*.md" --include="*.yaml" --include="*.json" --include="*.sh" 2>/dev/null \
     | grep -vE "$EXCLUDE_PATTERNS" > /dev/null; then
     echo -e "  ${RED}✗${NC} Personal paths found!"
     failed=$((failed + 1))

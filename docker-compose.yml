@@ -1,0 +1,49 @@
+# Docker Compose for running and auditing the Zara Agent project.
+#
+# Usage:
+#   docker compose run --rm audit          # one-shot: self-audit + capability map
+#   docker compose run --rm tests          # run the full test suite in a clean Node 22 env
+#   docker compose run --rm opencode        # interactive opencode session against this repo
+#
+# The project is bind-mounted read-write so the container audits the live tree.
+# Runtime memory/state is isolated to a named volume so it never touches your host ~/.zara.
+
+services:
+  # One-shot integrity audit + capability map (default command).
+  audit:
+    build: .
+    image: zara-agent:local
+    volumes:
+      - .:/workspace
+      - zara-home:/root/.zara
+    working_dir: /workspace
+    environment:
+      ZARA_USER_NAME: "${ZARA_USER_NAME:-}"
+
+  # Run the project's test suite in a reproducible Node 22 environment.
+  tests:
+    build: .
+    image: zara-agent:local
+    volumes:
+      - .:/workspace
+      - zara-home:/root/.zara
+    working_dir: /workspace
+    command: ["node", "--test", "tests/*.test.mjs"]
+
+  # Interactive opencode session (requires API keys via .env).
+  opencode:
+    build: .
+    image: zara-agent:local
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/workspace
+      - zara-home:/root/.zara
+    working_dir: /workspace
+    env_file:
+      - path: .env
+        required: false
+    command: ["opencode"]
+
+volumes:
+  zara-home:

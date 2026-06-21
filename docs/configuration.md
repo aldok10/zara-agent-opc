@@ -34,14 +34,8 @@ All configuration options can be set via environment variables:
 | `CONTEXT7_API_KEY` | (none) | API key for Context7 docs |
 | `ZARA_DEFAULT_MODEL` | claude-sonnet-4-5 | Default LLM model |
 | `ZARA_WORKER_MODEL` | deepseek/deepseek-v4-flash | Worker LLM model |
+| `CONTEXT7_API_KEY` | (none) | API key for Context7 docs |
 | `ZARA_ENABLE_MEMORY` | true | Enable memory system |
-| `ZARA_ENABLE_HIVEMIND` | true | Enable hivemind |
-| `ZARA_ENABLE_SWARM` | true | Enable swarm coordination |
-| `ZARA_ENABLE_SENIOR_DEV` | true | Enable senior dev mode |
-| `ZARA_ENABLE_CONTEXT7` | true | Enable Context7 integration |
-| `ZARA_ENABLE_SKILL_AUTO_CREATE` | true | Auto-create skills |
-| `ZARA_ALLOWED_COMMANDS` | git,npm,... | Allowed shell commands |
-| `ZARA_BLOCKED_COMMANDS` | rm -rf,... | Blocked shell commands |
 
 ## Configuration Sections
 
@@ -59,11 +53,11 @@ agent:
 Configure which sub-agents are active and their prompts:
 
 ```yaml
-sub_agents:
-  architect:
-    enabled: true
-    prompt_file: prompts/sub-agents/architect.md
-  # ... other agents
+  sub_agents:
+    architect:
+      enabled: true
+      prompt_file: .opencode/agent/architect.md
+    # ... other agents
 ```
 
 ### Knowledge Base
@@ -113,11 +107,7 @@ security:
 | Feature | Env Variable | Default | Description |
 |---------|-------------|---------|-------------|
 | Memory | `ZARA_ENABLE_MEMORY` | true | Cross-session memory |
-| Hivemind | `ZARA_ENABLE_HIVEMIND` | true | Unified AI agent memory |
-| Swarm | `ZARA_ENABLE_SWARM` | true | Multi-agent coordination |
-| Senior Dev | `ZARA_ENABLE_SENIOR_DEV` | true | Senior dev mode |
-| Context7 | `ZARA_ENABLE_CONTEXT7` | true | Live docs fetching |
-| Skill Auto-Create | `ZARA_ENABLE_SKILL_AUTO_CREATE` | true | Auto skill creation |
+| Context7 | `CONTEXT7_API_KEY` | (none) | Live docs fetching |
 
 ## Examples
 
@@ -133,12 +123,4 @@ export CONTEXT7_API_KEY=sk-xxx
 ```bash
 export ZARA_KNOWLEDGE_DIR=/shared/team/knowledge
 export ZARA_HOME=~/.zara
-```
-
-### Disable Features
-
-```bash
-export ZARA_ENABLE_HIVEMIND=false
-export ZARA_ENABLE_CONTEXT7=false
-export ZARA_ENABLE_SWARM=false
 ```

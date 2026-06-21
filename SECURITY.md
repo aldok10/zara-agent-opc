@@ -4,8 +4,8 @@
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 1.0.x   | :white_check_mark: |
-| < 1.0   | :x:                |
+| 7.0.x   | :white_check_mark: |
+| < 7.0   | :x:                |
 
 ## Reporting a Vulnerability
 
@@ -27,9 +27,10 @@ You should receive a response within 48 hours. If you don't, please follow up.
 
 1. **API Keys**: Never commit API keys to version control. Use `.env` files.
 2. **Environment Isolation**: Use separate environments for development and production.
-3. **Command Restrictions**: Configure `ZARA_ALLOWED_COMMANDS` and `ZARA_BLOCKED_COMMANDS` appropriately.
-4. **Memory Data**: Journal files contain session data. Review before sharing.
-5. **Network Access**: Context7 MCP server requires network access. Configure firewall rules accordingly.
+3. **Permission Model**: Configure `opencode.json` permission rules for bash and tool access.
+4. **Git Safety**: Protected branches (main, master, production, dev, staging, release/*, hotfix/*, v*) are never committed to directly. Feature branches only.
+5. **Memory Data**: SQLite database at `~/.zara/memory.db` contains session data. Review before sharing.
+6. **Network Access**: Context7 MCP server requires network access. Configure firewall rules accordingly.
 
 ### For Contributors
 

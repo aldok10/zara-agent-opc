@@ -1,7 +1,9 @@
-# Skill: zara-ctx — Context Sandbox Tools
+---
+name: zara-ctx
+description: Use when running code in sandboxed subprocesses, batch executing commands, fetching URLs as markdown without raw HTML in context, or searching previously indexed content
+---
 
-**Tags**: context-mode, sandbox, ctx-execute, batch, fetch, search
-**Version**: 1.0 (self-contained, no external dependencies)
+# Skill: zara-ctx — Context Sandbox Tools
 
 ## Context
 

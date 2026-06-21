@@ -2,177 +2,141 @@
 
 ## Overview
 
-Zara is your **senior engineering partner** — warm, direct, and committed to your growth. She coordinates 7 specialized sub-agents to solve complex engineering problems, grounded in the DevIQ knowledge base. Zara follows a hub-and-spoke architecture with herself as the central coordinator, always asking: does this need to exist? Does the stdlib do it? What's the minimum that works?
+Zara is a **persistent AI engineering partner** — warm, direct, committed to growth. Hub-and-spoke architecture: Zara orchestrates 7 sub-agents, 8 plugin domain modules, 25 MCP tools, and 100+ on-demand skills.
 
-```mermaid
-graph TB
-    User[Developer/User] --> Zara[Zara Orchestrator]
-    
-    Zara --> Architect[Architecture Agent]
-    Zara --> CodeReview[Code Review Agent]
-    Zara --> Testing[Testing Lead]
-    Zara --> Practices[Practices & Principles]
-    Zara --> DDD[DDD Specialist]
-    Zara --> Security[Security Reviewer]
-    Zara --> Delivery[Delivery Lead]
-    
-    Zara --> Knowledge[Knowledge Base<br/>DevIQ 240+ Articles]
-    Zara --> Skills[Skills System<br/>Hermes-Inspired]
-    Zara --> Memory[Memory System<br/>Journal + Index]
-    Zara --> Swarm[Swarm Coordinator<br/>Multi-Agent Tasks]
-    
-    Knowledge --> Sections[12 Sections<br/>antipatterns, architecture,<br/>code-smells, design-patterns,<br/>DDD, laws, practices,<br/>principles, terms, testing,<br/>tools, values]
-    
-    subgraph "External Integrations"
-        Context7[Context7 MCP<br/>Live Docs]
-        Hivemind[Hivemind<br/>Cross-Agent Memory]
-    end
-    
-    Zara --> Context7
-    Zara --> Hivemind
+## System Layers
+
 ```
-
-## Agent Lifecycle
-
-```mermaid
-stateDiagram-v2
-    [*] --> ReceivingTask
-    ReceivingTask --> QueryMemory: Check past learnings
-    QueryMemory --> LoadSkills: Check existing skills
-    LoadSkills --> Decompose: Analyze task
-    Decompose --> Delegate: Assign to sub-agent(s)
-    Delegate --> Execute: Sub-agent works
-    Execute --> Review: Check quality
-    Review --> CreateSkill: Extract learnings
-    CreateSkill --> Journal: Store in memory
-    Journal --> [*]
-    
-    Review --> Delegate: Needs revision
-    Delegate --> [*]: Task complete
-```
-
-## Prompt Architecture
-
-Zara uses a layered prompt system:
-
-```mermaid
-graph TD
-    SystemPrompt[System Prompt<br/>Identity + Safety] --> ToolPrompt[Tool Prompt<br/>Tool Usage]
-    ToolPrompt --> WorkflowPrompt[Workflow Prompt<br/>Orchestration]
-    WorkflowPrompt --> UserPrompt[User Prompt<br/>Task Instructions]
-    
-    SystemPrompt --> |Pinned| AgentContext[Agent Context]
-    ToolPrompt --> |Tool Definitions| AgentContext
-    WorkflowPrompt --> |Workflows| AgentContext
-    UserPrompt --> |Task| AgentContext
-```
-
-### Prompt Layers
-
-| Layer | Content | Purpose |
-|-------|---------|---------|
-| **System** | Agent identity, safety rules, core behavior | Immutable foundation |
-| **Tool** | Tool definitions, usage instructions | Capability definition |
-| **Workflow** | Task orchestration, delegation patterns | Process guidance |
-| **User** | User-supplied instructions | Task context |
-
-## Memory System
-
-```mermaid
-graph LR
-    Session[Session] --> Journal[journal.jsonl<br/>Append-only log]
-    Task[Task] --> Skill[skills/<name>.md<br/>Reusable workflow]
-    Skill --> Index[skills-index.json<br/>Registry]
-    
-    subgraph "Persistence"
-        Journal
-        Index
-        Sessions[sessions/<date>-<name>.md]
-    end
-    
-    subgraph "Retrieval"
-        Query[Query Memory] --> Journal
-        Query --> Index
-        Query --> Sessions
-    end
-```
-
-### Memory Components
-
-| Component | Format | Purpose |
-|-----------|--------|---------|
-| Journal | JSONL | Append-only task log |
-| Skills Index | JSON | Skill registry with usage |
-| Sessions | Markdown | Per-session detailed logs |
-| Skills | Markdown | Reusable workflow patterns |
-
-## Tool Execution
-
-```mermaid
-sequenceDiagram
-    participant Z as Zara
-    participant T as Tool System
-    participant E as External
-    participant M as Memory
-    
-    Z->>T: Invoke tool
-    T->>T: Validate security
-    T->>E: Execute (if allowed)
-    E-->>T: Result
-    T-->>Z: Formatted response
-    Z->>M: Journal result
+┌─────────────────────────────────────────────────────┐
+│ User (Developer)                                     │
+├─────────────────────────────────────────────────────┤
+│ OpenCode Runtime                                     │
+│  ├── Agent Prompts (.opencode/agent/)               │
+│  ├── Instructions (.opencode/instructions/)          │
+│  ├── Plugins (.opencode/plugin/) × 21               │
+│  └── Skills (.opencode/skills/ + ~/.agents/skills/) │
+├─────────────────────────────────────────────────────┤
+│ MCP Server (tools/mcp/)                              │
+│  ├── Memory (SQLite FTS5 + trigram)                 │
+│  ├── Reflection & Patterns                          │
+│  ├── Metrics & Session                              │
+│  ├── Knowledge (254 DevIQ articles)                 │
+│  └── Music Player                                   │
+├─────────────────────────────────────────────────────┤
+│ Persistence (~/.zara/)                               │
+│  ├── memory.db (SQLite — authoritative)             │
+│  ├── memory/ (JSON — legacy/backup)                 │
+│  ├── reflections/ (patterns, log)                   │
+│  ├── metrics/ (daily tool usage)                    │
+│  └── state/ (session handoff)                       │
+└─────────────────────────────────────────────────────┘
 ```
 
 ## Sub-Agent System
 
-Each sub-agent has:
+| Agent | Mode | Purpose | Writes? |
+|-------|------|---------|---------|
+| zara (build) | primary | Full engineering partner | yes |
+| plan | primary | Analysis without changes | no |
+| architect | subagent | System design, tradeoffs | no |
+| code-reviewer | subagent | Quality, smells, patterns | no |
+| testing-lead | subagent | Strategy, coverage, design | no |
+| security-reviewer | subagent | Threat modeling, auth | no |
+| delivery-lead | subagent | Shipping, velocity, debt | yes |
+| swarm | subagent | Parallel task coordination | yes |
 
-1. **Specialized Prompt** — Domain-specific system prompt
-2. **Knowledge Sources** — Relevant DevIQ sections
-3. **Trigger Patterns** — When to engage this agent
-4. **Output Format** — Structured response template
+## Memory System
 
-### Communication Flow
-
-```mermaid
-sequenceDiagram
-    participant U as User
-    participant Z as Zara Orchestrator
-    participant S as Sub-Agent
-    participant K as Knowledge Base
-    
-    U->>Z: Request engineering task
-    Z->>Z: Analyze task type
-    Z->>K: Query relevant articles
-    K-->>Z: Article references
-    Z->>S: Delegate to specialist
-    S->>S: Apply domain expertise
-    S-->>Z: Structured response
-    Z->>Z: Synthesize with context
-    Z-->>U: Complete response with citations
+```
+┌────────────────────────────────────────┐
+│ SQLite (memory.db) — Single Source     │
+├────────────────────────────────────────┤
+│ Semantic Layer                         │
+│  - Key/value with type classification  │
+│  - 7 types: policy > architecture >    │
+│    preference > decision > pitfall >   │
+│    workflow > fact                      │
+│  - FTS5 full-text + trigram fallback   │
+│  - Decay scoring (half-life 90 days)   │
+│  - Scoped retrieval (by file path)     │
+├────────────────────────────────────────┤
+│ Episodic Layer                         │
+│  - Events with outcomes + tags         │
+│  - Auto-populated by chat.response hook│
+├────────────────────────────────────────┤
+│ Procedural Layer                       │
+│  - Named workflows with steps          │
+│  - Usage-ranked retrieval              │
+├────────────────────────────────────────┤
+│ Maintenance                            │
+│  - Weekly decay (cron-like)            │
+│  - Dreamer consolidation (dedup,       │
+│    archive stale, promote recurring)   │
+│  - Corruption recovery (auto-reset)    │
+└────────────────────────────────────────┘
 ```
 
-## Swarm Coordination
+### Injection Pipeline (per turn)
 
-For complex tasks with 3+ workstreams:
+1. Plugin `zara-memory` system.transform fires
+2. Reads SQLite directly (falls back to JSON)
+3. Layer A: Baseline (policy/architecture/preference, max 8)
+4. Layer B: Contextual (reinforced ≥2, max 6)
+5. Layer C: Procedures (top 3 by usage)
+6. Token budget: 800 max
 
-```mermaid
-graph TB
-    Coordinator[Zara Coordinator] --> Worker1[Worker 1]
-    Coordinator --> Worker2[Worker 2]
-    Coordinator --> Worker3[Worker 3]
-    Worker1 --> Verifier[Verifier<br/>Quality Gate]
-    Worker2 --> Verifier
-    Worker3 --> Verifier
-    Verifier --> Synthesizer[Final Synthesis]
+## Plugin Architecture
+
+8 domain modules (observe, memory, flow, dev, social, evolve, empathy, relationship) under `.opencode/plugin/zara/`, composed by `zara.mjs`. Several use system.transform (inject tokens per turn). The rest are tools-only (zero cost until invoked).
+
+See [plugins.md](plugins.md) for full breakdown.
+
+## Skill System
+
+100+ skills at `~/.agents/skills/`, 27 project skills at `.opencode/skills/`.
+
+**Loading:** On-demand only via `skill` tool call. Routing via:
+- `skill-gate` SKILL.md — master routing table (37 entries)
+- `AGENTS.md` decision table — quick reference
+
+**Types:**
+- Rigid (tdd, debugging, verification) — follow exactly
+- Flexible (brainstorming, writing-plans) — adapt to scale
+
+## Development Workflow
+
+```
+brainstorming → writing-plans → subagent-driven-dev → finishing-branch
+                                      ↓ (per task)
+                                     tdd
+                                      ↓ (if bug)
+                             systematic-debugging
+                                      ↓ (before done)
+                         verification-before-completion
 ```
 
-## Configuration Flow
+## Token Budget
 
-```mermaid
-graph LR
-    Defaults[Default Values] --> Config[config.yaml]
-    Env[Environment Variables] --> Config
-    Config --> Runtime[Runtime Configuration]
-    Runtime --> Agent[Agent Behavior]
-```
+System prompt composition:
+- Agent prompt (zara.md): ~390 lines (static)
+- Instructions (system.md): ~95 lines (static)
+- Plugin injections: ~300-500 tokens/turn (conditional)
+- Skills: 0 until loaded (on-demand)
+
+Total per-turn overhead: ~1000-1500 tokens typical.
+
+## External Integrations
+
+| Integration | How | Purpose |
+|-------------|-----|---------|
+| Context7 MCP | Remote MCP | Live library documentation |
+| GitHub (gh CLI) | Shell | PRs, issues, Actions |
+| Git | Shell | Version control |
+
+## Configuration
+
+Entry point: `opencode.json`
+- Models: anthropic/claude-sonnet-4-20250514
+- MCP servers: Context7 (remote), Orchestrator (local)
+- Permissions: bash allowed
+- Plugins: 21 (symlinked from ~/.config/opencode/zara/plugin/)

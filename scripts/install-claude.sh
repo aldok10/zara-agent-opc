@@ -69,9 +69,10 @@ if [ "${1:-}" = "--uninstall" ]; then
         # Remove Zara section from CLAUDE.md
         if grep -q "Zara" "$CLAUDE_CONFIG_DIR/CLAUDE.md" 2>/dev/null; then
             # Create a temporary file without the Zara section
+            tmp=$(mktemp)
             awk '/^# Zara -- Lead Engineering Orchestrator/{flag=1; next} /^---/{if(flag) flag=0} !flag' \
-                "$CLAUDE_CONFIG_DIR/CLAUDE.md" > "$CLAUDE_CONFIG_DIR/CLAUDE.md.tmp" 2>/dev/null || true
-            mv "$CLAUDE_CONFIG_DIR/CLAUDE.md.tmp" "$CLAUDE_CONFIG_DIR/CLAUDE.md" 2>/dev/null || true
+                "$CLAUDE_CONFIG_DIR/CLAUDE.md" > "$tmp" 2>/dev/null || true
+            mv "$tmp" "$CLAUDE_CONFIG_DIR/CLAUDE.md" 2>/dev/null || true
             echo -e "  ${GREEN}✓${NC} Zara section removed from CLAUDE.md"
         else
             echo -e "  ${YELLOW}○${NC} Zara not found in CLAUDE.md"
@@ -115,7 +116,7 @@ AGENTS_DIR="$CLAUDE_CONFIG_DIR/agents"
 mkdir -p "$AGENTS_DIR"
 
 # Link to .opencode agent definitions (single source of truth)
-for agent_file in "$SCRIPT_DIR/.opencode/agents/"*.md; do
+for agent_file in "$SCRIPT_DIR/.opencode/agent/"*.md; do
     if [ -f "$agent_file" ]; then
         name=$(basename "$agent_file" .md)
         # Skip zara.md (it's the orchestrator itself)

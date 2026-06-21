@@ -3,7 +3,7 @@
 ## General
 
 ### What is Zara?
-Zara is your senior engineering partner — warm, direct, and committed to your growth. She coordinates 7 specialized sub-agents to solve complex software engineering problems, grounded in the DevIQ body of knowledge (240+ articles). She operates on senior dev principles: YAGNI-first, stdlib-first, minimal solutions. She cares enough to challenge you and celebrates your growth.
+Zara is your senior engineering partner — warm, direct, and committed to your growth. She coordinates 7 specialized sub-agents to solve complex software engineering problems, grounded in the DevIQ body of knowledge (254 articles). She operates on senior dev principles: YAGNI-first, stdlib-first, minimal solutions. She cares enough to challenge you and celebrates your growth.
 
 ### Do I need OpenCode AI to use Zara?
 Yes, Zara is designed as an OpenCode AI agent. While the prompts, workflows, and documentation are standalone, the runtime requires OpenCode AI or compatible infrastructure.
@@ -34,10 +34,9 @@ If you want the full DevIQ knowledge base, run `./scripts/setup-knowledge.sh`. Z
 Set `ZARA_AGENT_NAME` in your `.env` file or modify `config.yaml`.
 
 ### Can I disable features I don't need?
-Yes. Set any `ZARA_ENABLE_*` variable to `false`:
+Yes. Set the relevant environment variable to `false`:
 ```bash
-export ZARA_ENABLE_HIVEMIND=false
-export ZARA_ENABLE_SWARM=false
+export ZARA_ENABLE_MEMORY=false
 ```
 
 ### How do I add custom knowledge sources?
@@ -52,7 +51,7 @@ Just ask for a code review. Zara will engage the code-reviewer sub-agent and ref
 Zara orchestrates coding tasks through its sub-agents. It analyzes problems, delegates to the appropriate specialist, and reviews the output. It's designed as a reviewer and coordinator, not a code generator.
 
 ### How does Zara remember past sessions?
-Zara maintains a journal (`journal.jsonl`) and skill index. Before each task, it checks past learnings for relevant context.
+Zara maintains a SQLite memory database (`~/.zara/memory.db`) with FTS5 full-text search. Before each task, it recalls relevant facts, events, and workflows from past sessions.
 
 ### Can I use Zara with other AI coding tools (Cursor, Claude Code, etc.)?
 The Hivemind system indexes sessions from multiple AI tools (Claude, Cursor, Gemini, etc.), making learnings available across agents. However, the Zara orchestrator itself runs in OpenCode AI.
@@ -63,7 +62,7 @@ The Hivemind system indexes sessions from multiple AI tools (Claude, Cursor, Gem
 Run `./scripts/setup-knowledge.sh` or set `DEVIQ_KNOWLEDGE_PATH` to your knowledge directory.
 
 ### "Context7 connection failed"
-Check your API key and network connection. If you don't have a key, set `ZARA_ENABLE_CONTEXT7=false`.
+Check your API key and network connection. If you don't have a key, the feature gracefully degrades — docs fetching is optional.
 
 ### "Sub-agent not responding"
 Check that the sub-agent prompt file exists in `prompts/sub-agents/`. Verify configuration in `config.yaml`.

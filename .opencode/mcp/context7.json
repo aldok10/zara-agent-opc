@@ -4,7 +4,7 @@
   "url": "https://mcp.context7.com/mcp",
   "enabled": true,
   "headers": {
-    "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
+    "x-api-key": "${CONTEXT7_API_KEY}"
   },
   "description": "Live documentation fetching for libraries and frameworks"
 }

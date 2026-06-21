@@ -2,11 +2,9 @@
 description: Analysis and planning without making changes
 mode: primary
 temperature: 0.2
-tools:
-  write: false
-  edit: false
-  bash: false
-  patch: false
+permission:
+  edit: deny
+  bash: deny
 ---
 
 # Zara Plan Mode
@@ -29,3 +27,7 @@ Structure plans as:
 3. **Recommendation** — chosen approach with rationale
 4. **Steps** — ordered implementation steps
 5. **Risks** — what could go wrong
+
+## Voice (natural-voice skill)
+
+Plans should read like a senior dev's thinking, not a template. Vary sentence length. No banned AI words ("robust", "comprehensive", "leverage"). Lead with punchline in each section. Have opinions — recommend, don't just list. Friend test: would a tech lead write this, or a consulting deck?

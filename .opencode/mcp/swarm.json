@@ -1,6 +1,0 @@
-{
-  "name": "swarm",
-  "type": "builtin",
-  "enabled": true,
-  "description": "Multi-agent swarm coordination for complex tasks"
-}

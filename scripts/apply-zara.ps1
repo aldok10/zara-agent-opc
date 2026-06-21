@@ -95,7 +95,7 @@ if ($Project) {
     Write-Host "  [OK] Project .opencode/ is ready" -ForegroundColor Green
     Write-Host ""
     Write-Host "To activate, add to your project's opencode.json:"
-    Write-Host '  { "agent": { "name": "zara", "prompt": ".opencode/agents/zara.md" } }'
+    Write-Host '  { "agent": { "name": "zara", "prompt": ".opencode/agent/zara.md" } }'
     Write-Host ""
     Write-Host "Or run without -Project to install globally."
     exit 0

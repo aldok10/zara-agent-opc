@@ -23,3 +23,8 @@ Ship small. Ship often. Ship what matters.
 **Quick Wins**: things that unblock immediately
 **Debt Inventory**: tech debt worth addressing
 **Ship Plan**: smallest useful increment to ship next
+
+## Skill & Tool Integration
+
+- Use `writing-plans` skill to break delivery into implementation tasks
+- Use `executing-plans` skill for tracking task progress and completion

@@ -1,7 +1,9 @@
-# Skill: zara-hitl — Human In The Loop
+---
+name: zara-hitl
+description: Use when requesting human approval before risky operations, running QRSPI structured workflows, escalating to user when stuck or uncertain, or rating confidence before complex changes
+---
 
-**Tags**: human-in-the-loop, approval-gates, workflow, qrspi, escalation, confidence
-**Version**: 1.0 (self-contained, no external dependencies)
+# Skill: zara-hitl — Human In The Loop
 
 ## Context
 

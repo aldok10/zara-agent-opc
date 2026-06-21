@@ -45,7 +45,7 @@ Place markdown files in your knowledge directory and update the INDEX. Currently
 ## Usage
 
 ### How do I ask Zara to review code?
-Just ask for a code review. Zara will engage the code-reviewer sub-agent and reference relevant knowledge articles.
+Just ask for a code review. Zara will engage Lens (the code review sub-agent) and reference relevant knowledge articles.
 
 ### Can Zara write code?
 Zara orchestrates coding tasks through its sub-agents. It analyzes problems, delegates to the appropriate specialist, and reviews the output. It's designed as a reviewer and coordinator, not a code generator.

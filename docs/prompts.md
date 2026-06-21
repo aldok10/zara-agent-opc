@@ -13,13 +13,13 @@ Zara uses a layered prompt system loaded via OpenCode's `instructions` configura
 │   └── philosophy.md       # Engineering philosophy (priorities, decision-making)
 └── agent/
     ├── zara.md             # Primary agent — full Zara identity & behavior
-    ├── plan.md             # Planning mode — analysis without changes
-    ├── architect.md        # System design sub-agent
-    ├── code-reviewer.md    # Code review sub-agent
-    ├── testing-lead.md     # Testing strategy sub-agent
-    ├── security-reviewer.md # Security review sub-agent
-    ├── delivery-lead.md    # Delivery management sub-agent
-    └── swarm.md            # Parallel coordination sub-agent
+    ├── sketch.md           # Sketch — planning mode, analysis without changes
+    ├── atlas.md            # Atlas — system design sub-agent
+    ├── lens.md             # Lens — code review sub-agent
+    ├── probe.md            # Probe — testing strategy sub-agent
+    ├── shield.md           # Shield — security review sub-agent
+    ├── pulse.md            # Pulse — delivery management sub-agent
+    └── hive.md             # Hive — parallel coordination sub-agent
 ```
 
 ## Prompt Layers

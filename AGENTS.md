@@ -58,8 +58,8 @@ Load `skill-gate` if unsure which skill matches — it has the full routing tabl
 | GitHub PRs, issues, Actions | Load `github` skill |
 | Docker/containers | Load `docker` skill |
 | CI/CD pipelines | Load `ci-cd` skill |
-| Complex parallel task (3+ streams) | Use `@swarm` |
-| Architecture question | Use `@architect` |
+| Complex parallel task (3+ streams) | Use `@hive` |
+| Architecture question | Use `@atlas` |
 | Leadership/team topic | Load `leadership-expert` skill |
 
 ## Development Workflow

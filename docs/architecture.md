@@ -2,7 +2,7 @@
 
 ## Overview
 
-Zara is a **persistent AI engineering partner** — warm, direct, committed to growth. Hub-and-spoke architecture: Zara orchestrates 7 sub-agents, 8 plugin domain modules, 25 MCP tools, and 100+ on-demand skills.
+Zara is a **persistent AI engineering partner** — warm, direct, committed to growth. Hub-and-spoke architecture: Zara orchestrates 7 sub-agents, 8 plugin modules, 31 MCP tools, and 100+ on-demand skills.
 
 ## System Layers
 
@@ -13,7 +13,7 @@ Zara is a **persistent AI engineering partner** — warm, direct, committed to g
 │ OpenCode Runtime                                     │
 │  ├── Agent Prompts (.opencode/agent/)               │
 │  ├── Instructions (.opencode/instructions/)          │
-│  ├── Plugins (.opencode/plugin/) × 21               │
+│  ├── Plugins (.opencode/plugin/) × 8 modules         │
 │  └── Skills (.opencode/skills/ + ~/.agents/skills/) │
 ├─────────────────────────────────────────────────────┤
 │ MCP Server (tools/mcp/)                              │
@@ -37,13 +37,13 @@ Zara is a **persistent AI engineering partner** — warm, direct, committed to g
 | Agent | Mode | Purpose | Writes? |
 |-------|------|---------|---------|
 | zara (build) | primary | Full engineering partner | yes |
-| plan | primary | Analysis without changes | no |
-| architect | subagent | System design, tradeoffs | no |
-| code-reviewer | subagent | Quality, smells, patterns | no |
-| testing-lead | subagent | Strategy, coverage, design | no |
-| security-reviewer | subagent | Threat modeling, auth | no |
-| delivery-lead | subagent | Shipping, velocity, debt | yes |
-| swarm | subagent | Parallel task coordination | yes |
+| plan (Sketch) | primary | Analysis without changes | no |
+| architect (Atlas) | subagent | System design, tradeoffs | no |
+| code-reviewer (Lens) | subagent | Quality, smells, patterns | no |
+| testing-lead (Probe) | subagent | Strategy, coverage, design | no |
+| security-reviewer (Shield) | subagent | Threat modeling, auth | no |
+| delivery-lead (Pulse) | subagent | Shipping, velocity, debt | yes |
+| swarm (Hive) | subagent | Parallel task coordination | yes |
 
 ## Memory System
 

@@ -56,7 +56,7 @@ Configure which sub-agents are active and their prompts:
   sub_agents:
     architect:
       enabled: true
-      prompt_file: .opencode/agent/architect.md
+      prompt_file: .opencode/agent/atlas.md
     # ... other agents
 ```
 

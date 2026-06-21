@@ -1,23 +1,23 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "default_agent": "zara",
   "autoupdate": true,
   "instructions": [
     ".opencode/instructions/system.md",
     "prompts/philosophy.md"
   ],
-  "plugin": [
-    ".opencode/plugin/zara.mjs"
-  ],
   "agent": {
-    "build": {
+    "zara": {
       "description": "Zara — senior engineering partner, warm and ambitious, speaks your language naturally",
       "mode": "primary",
+
       "prompt": "{file:.opencode/agent/zara.md}",
       "temperature": 0.3
     },
     "plan": {
       "description": "Zara plan agent — analysis and architecture without changes",
       "mode": "primary",
+
       "prompt": "{file:.opencode/agent/plan.md}",
       "temperature": 0.2,
       "tools": {
@@ -30,6 +30,7 @@
     "architect": {
       "description": "Architecture specialist — system design, patterns, tradeoffs",
       "mode": "subagent",
+
       "prompt": "{file:.opencode/agent/architect.md}",
       "temperature": 0.2,
       "tools": {
@@ -41,6 +42,7 @@
     "code-reviewer": {
       "description": "Code review specialist — quality, smells, refactoring suggestions",
       "mode": "subagent",
+
       "prompt": "{file:.opencode/agent/code-reviewer.md}",
       "temperature": 0.1,
       "tools": {
@@ -52,6 +54,7 @@
     "testing-lead": {
       "description": "Testing specialist — strategy, coverage, test design",
       "mode": "subagent",
+
       "prompt": "{file:.opencode/agent/testing-lead.md}",
       "temperature": 0.2,
       "tools": {
@@ -63,6 +66,7 @@
     "security-reviewer": {
       "description": "Security specialist — threat modeling, secure design, auth patterns",
       "mode": "subagent",
+
       "prompt": "{file:.opencode/agent/security-reviewer.md}",
       "temperature": 0.1,
       "tools": {
@@ -74,6 +78,7 @@
     "delivery-lead": {
       "description": "Delivery specialist — shipping, velocity, tech debt management",
       "mode": "subagent",
+
       "prompt": "{file:.opencode/agent/delivery-lead.md}",
       "temperature": 0.3,
       "tools": {
@@ -85,10 +90,57 @@
     "swarm": {
       "description": "Swarm Coordinator — decomposes complex tasks into parallel workers, reviews, synthesizes",
       "mode": "subagent",
+
       "prompt": "{file:.opencode/agent/swarm.md}",
       "temperature": 0.2
     }
   },
+  "command": {
+    "auto": {
+      "template": "{file:.opencode/commands/auto.md}"
+    },
+    "decide": {
+      "template": "{file:.opencode/commands/decide.md}",
+      "agent": "architect"
+    },
+    "focus": {
+      "template": "{file:.opencode/commands/focus.md}"
+    },
+    "goal": {
+      "template": "{file:.opencode/commands/goal.md}"
+    },
+    "handoff": {
+      "template": "{file:.opencode/commands/handoff.md}"
+    },
+    "install": {
+      "template": "{file:.opencode/commands/install.md}"
+    },
+    "loop": {
+      "template": "{file:.opencode/commands/loop.md}"
+    },
+    "music": {
+      "template": "{file:.opencode/commands/music.md}"
+    },
+    "resume": {
+      "template": "{file:.opencode/commands/resume.md}"
+    },
+    "review": {
+      "template": "{file:.opencode/commands/review.md}",
+      "agent": "code-reviewer"
+    },
+    "shutdown": {
+      "template": "{file:.opencode/commands/shutdown.md}"
+    },
+    "standup": {
+      "template": "{file:.opencode/commands/standup.md}"
+    },
+    "zara": {
+      "template": "{file:.opencode/commands/zara.md}"
+    }
+  },
+  "plugin": [
+    ".opencode/plugin/zara.mjs"
+  ],
   "mcp": {
     "context7": {
       "type": "remote",

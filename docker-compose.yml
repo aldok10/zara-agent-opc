@@ -19,6 +19,8 @@ services:
     working_dir: /workspace
     environment:
       ZARA_USER_NAME: "${ZARA_USER_NAME:-}"
+      ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
+      CONTEXT7_API_KEY: "${CONTEXT7_API_KEY:-}"
 
   # Run the project's test suite in a reproducible Node 22 environment.
   tests:
@@ -43,6 +45,10 @@ services:
     env_file:
       - path: .env
         required: false
+    environment:
+      ZARA_USER_NAME: "${ZARA_USER_NAME:-}"
+      ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
+      CONTEXT7_API_KEY: "${CONTEXT7_API_KEY:-}"
     command: ["opencode"]
 
 volumes:

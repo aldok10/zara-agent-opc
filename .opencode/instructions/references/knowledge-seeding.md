@@ -8,13 +8,13 @@ If `memory_recall` returns < 5 results on first session (fresh install), seed AL
 
 ## Quick Method (preferred)
 
-Call `knowledge_load_init()` — one MCP call that scans ALL knowledge folders (project + skills), reads every .md file, groups by section, and stores to semantic memory automatically.
+Call `knowledge_load_init()` . one MCP call that scans ALL knowledge folders (project + skills), reads every .md file, groups by section, and stores to semantic memory automatically.
 
 ## Manual Method (if knowledge_load_init unavailable)
 
 Use sub-agents with `knowledge_read` per article.
 
-### Phase 1: Natural Voice (Critical — Load First, Inline)
+### Phase 1: Natural Voice (Critical . Load First, Inline)
 ```
 knowledge_read(path: "natural-voice/_index.md")
 knowledge_read(path: "natural-voice/self-learning-protocol.md")
@@ -54,7 +54,7 @@ knowledge_load(doc: "owasp")
 ```
 
 ### Phase 4: Project Files
-Read `prompts/philosophy.md` and `AGENTS.md` — store as architecture/workflow memories.
+Read `prompts/philosophy.md` and `AGENTS.md` . store as architecture/workflow memories.
 
 ## Storage Rules
 

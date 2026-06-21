@@ -58,6 +58,8 @@ Load `skill-gate` if unsure which skill matches — it has the full routing tabl
 | GitHub PRs, issues, Actions | Load `github` skill |
 | Docker/containers | Load `docker` skill |
 | CI/CD pipelines | Load `ci-cd` skill |
+| Reverse-engineer / decompile / analyze a *.dll / binary | Load `reverse-engineering` skill |
+| Rebuild a binary's logic in Go/PHP, unpack/deobfuscate | Load `reverse-engineering` skill |
 | Complex parallel task (3+ streams) | Use `@swarm` |
 | Architecture question | Use `@architect` |
 | Leadership/team topic | Load `leadership-expert` skill |

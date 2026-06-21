@@ -1,0 +1,14 @@
+{
+    "name": "zara/redll",
+    "description": "PHP orchestration + reporting tier for DLL/PE reverse-engineering triage",
+    "type": "library",
+    "require": {
+        "php": ">=8.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "ReDll\\": "src/"
+        }
+    },
+    "bin": ["bin/redll"]
+}

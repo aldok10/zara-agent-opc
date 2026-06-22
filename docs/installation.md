@@ -15,10 +15,7 @@ git clone <repo-url> zara-agent-opc
 cd zara-agent-opc
 
 # Run the installer
-./scripts/install.sh              # macOS/Linux
-# or on Windows:
-.\scripts\install.bat             # CMD
-.\scripts\apply-zara.ps1          # PowerShell (recommended)
+./scripts/install.sh
 ```
 
 The installer will:
@@ -27,17 +24,11 @@ The installer will:
 3. Link `.opencode/` to OpenCode global config
 4. Configure Claude Code integration (if available)
 
-## Platform-Specific Notes
+## Platform Notes
 
-### macOS / Linux
-- `install.sh` auto-detects OS and sets up paths
+- macOS/Linux: `install.sh` auto-detects OS and sets up paths
+- Windows: Use Git Bash or WSL to run `install.sh`
 - CLI available via `zara` command (add `~/.local/bin` to PATH)
-
-### Windows
-- **Option A - CMD**: Run `install.bat` - creates directory structure, CLI wrapper, and OpenCode junction
-- **Option B - PowerShell**: Run `apply-zara.ps1` - full PowerShell experience with junction symlinks, global/project/uninstall modes
-- **Option C - Git Bash/WSL**: Run `install.sh` - same experience as Linux
-- All Windows scripts handle `%APPDATA%` vs `%USERPROFILE%` paths and create `zara.cmd` CLI wrapper
 
 ## Project Structure
 

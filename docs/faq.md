@@ -22,7 +22,7 @@ cd zara-agent
 ```
 
 ### Do I need to download the knowledge base?
-If you want the full DevIQ knowledge base, run `./scripts/setup-knowledge.sh`. Zara works without it using general knowledge, but the knowledge base provides grounded engineering references.
+The knowledge base (254+ articles) is included in the repo under `knowledge/`. On first session, Zara seeds it into semantic memory automatically via `knowledge_load_init`. No manual setup needed.
 
 ### What API keys do I need?
 - **Context7 API key** (optional): For live documentation fetching. Get one at https://context7.com
@@ -34,7 +34,7 @@ If you want the full DevIQ knowledge base, run `./scripts/setup-knowledge.sh`. Z
 Set `ZARA_AGENT_NAME` in your `.env` file or modify `opencode.json`.
 
 ### Can I disable features I don't need?
-Yes. Relevant config is in `opencode.json` and `config.yaml`. Disable by removing the config entry or setting it to `false`.
+Yes. All config is in `opencode.json`. Disable agents by removing their entry, disable MCP by setting `"enabled": false`, disable plugins by removing from the `"plugin"` array.
 
 ### How do I add custom knowledge sources?
 Place markdown files in your knowledge directory and update the INDEX. Currently supports DevIQ format articles.
@@ -56,7 +56,7 @@ Zara is designed for OpenCode AI. Cross-tool session sharing (hivemind) is plann
 ## Troubleshooting
 
 ### "Knowledge base not found"
-Run `./scripts/setup-knowledge.sh` or set `DEVIQ_KNOWLEDGE_PATH` to your knowledge directory.
+The knowledge base seeds automatically on first session. If it fails, verify `knowledge/` directory exists and run: `echo '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"knowledge_load_init","arguments":{}}}' | node tools/mcp/index.mjs`
 
 ### "Context7 connection failed"
 Check your API key and network connection. If you don't have a key, the feature gracefully degrades - docs fetching is optional.

@@ -206,14 +206,6 @@ setup() {
     [ -x "$PROJECT_DIR/scripts/test.sh" ]
 }
 
-@test "validate-config.sh exists and is executable" {
-    [ -x "$PROJECT_DIR/scripts/validate-config.sh" ]
-}
-
-@test "setup-knowledge.sh exists and is executable" {
-    [ -x "$PROJECT_DIR/scripts/setup-knowledge.sh" ]
-}
-
 @test "zara.sh CLI tool exists and is executable" {
     [ -x "$PROJECT_DIR/tools/zara.sh" ]
 }

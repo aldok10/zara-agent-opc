@@ -23,8 +23,7 @@ jobs:
 
       - name: Validate configuration
         run: |
-          chmod +x scripts/validate-config.sh
-          ./scripts/validate-config.sh || echo "Config validation warnings (non-fatal for CI)"
+          cat opencode.json | python3 -c "import json,sys;json.load(sys.stdin);print('opencode.json: valid')"
 
       - name: Run structure tests
         run: |
@@ -37,13 +36,9 @@ jobs:
           ! grep -rE '[A-Za-z0-9_-]{20,}' --include='*.md' --include='*.yaml' --include='*.json' --include='*.sh' . 2>/dev/null | grep -v node_modules | grep -v '.git/' | grep -v '.env.example'
         continue-on-error: true
 
-      - name: Validate YAML syntax
+      - name: Check MCP server starts
         run: |
-          if command -v yamllint &>/dev/null; then
-            yamllint config.yaml
-          else
-            echo "yamllint not found, skipping YAML lint"
-          fi
+          echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"ci"}}}' | timeout 5 node tools/mcp/index.mjs | grep -q '"result"' && echo "MCP: OK"
         continue-on-error: true
 
   lint:

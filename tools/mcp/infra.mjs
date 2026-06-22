@@ -44,6 +44,7 @@ export function hasCommand(cmd) {
 export function spawnPipe(cmd1, args1, cmd2, args2, opts = {}) {
   const p1 = spawn(cmd1, args1, { stdio: ['ignore', 'pipe', 'ignore'], ...opts });
   const p2 = spawn(cmd2, args2, { stdio: [p1.stdout, 'ignore', 'ignore'], detached: true, ...opts });
+  p2.on('error', () => { killProcess(p1.pid); });
   p1.stdout.on('close', () => {});
   p2.unref();
   return { pid: p2.pid, kill: () => { killProcess(p1.pid); killProcess(p2.pid); } };

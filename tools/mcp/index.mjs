@@ -71,10 +71,10 @@ const loopTimer = setInterval(() => {
       l.nextFire = new Date(now + l.ms).toISOString();
       l.fireCount = (l.fireCount || 0) + 1;
       l.lastFired = new Date().toISOString();
-      if (/lagu|music|next|prev/i.test(l.prompt)) {
+      if (l.type === 'music' || (!l.type && /^(lagu|music|next|prev)$/i.test(l.prompt.trim()))) {
         try { const r = server.tools.play_music?.handler({ action: 'next' }); if (r?.catch) r.catch(() => {}); } catch {}
       }
-      if (/artikel|article|knowledge|cari/i.test(l.prompt)) {
+      if (l.type === 'knowledge' || (!l.type && /^(artikel|article|knowledge|cari)$/i.test(l.prompt.trim()))) {
         const pendingFile = path.join(HOME, 'loop-pending.json');
         const pending = loadJson(pendingFile, []);
         pending.push({ id: l.id, prompt: l.prompt, firedAt: new Date().toISOString() });

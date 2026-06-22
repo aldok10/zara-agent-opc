@@ -74,7 +74,7 @@ export class McpServer {
         if (!line) continue;
         try {
           const req = JSON.parse(line);
-          this.handle(req).then(res => { if (res) process.stdout.write(JSON.stringify(res) + '\n'); });
+          this.handle(req).then(res => { if (res) process.stdout.write(JSON.stringify(res) + '\n'); }).catch(e => process.stderr.write(`[mcp] unhandled: ${e.message}\n`));
         } catch (e) {
           process.stderr.write(`Parse error: ${e.message}\n`);
         }

@@ -59,8 +59,7 @@ play_from_queue() {
   QUERY=$(node -e "const q=JSON.parse(require('fs').readFileSync('${queueFile}','utf-8'));if(q.length){console.log(q[0].query);q.shift();require('fs').writeFileSync('${queueFile}',JSON.stringify(q,null,2));}else{process.exit(1);}" 2>/dev/null)
   if [ $? -ne 0 ] || [ -z "$QUERY" ]; then return 1; fi
   TITLE=$(yt-dlp --get-title "ytsearch1:$QUERY" 2>/dev/null | head -1)
-  SAFE_TITLE=$(printf '%s' "$TITLE" | sed 's/[\\\\"/]//g')
-  node -e "const fs=require('fs');const s=JSON.parse(fs.readFileSync('${stateFile}','utf-8'));s.file=\\"$SAFE_TITLE\\";fs.writeFileSync('${stateFile}',JSON.stringify(s));" 2>/dev/null
+  node -e 'const fs=require("fs"),t=process.argv[1],s=JSON.parse(fs.readFileSync("${stateFile}","utf-8"));s.file=t;fs.writeFileSync("${stateFile}",JSON.stringify(s));' "$TITLE" 2>/dev/null
   yt-dlp -f "bestaudio" -o - "ytsearch1:$QUERY" 2>/dev/null | ffplay -nodisp -autoexit -loglevel quiet -
 }
 while true; do
@@ -92,7 +91,8 @@ done`;
     execFile('yt-dlp', ['--get-title', ytQuery], { timeout: 15000 }, (err, stdout) => {
       const title = (!err && stdout.trim()) ? stdout.trim() : query;
       const cur = loadJson(stateFile, state);
-      if (cur.pid === child.pid) { cur.file = title; saveJson(stateFile, cur); }
+      if (cur.pid !== child.pid) return; // stale — another track started
+      cur.file = title; saveJson(stateFile, cur);
       this.#addHistory(title, query);
       if (autoplay) {
         const searchQ = mood ? `${mood} songs like ${title}` : `${title} similar vibe`;

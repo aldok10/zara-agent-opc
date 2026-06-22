@@ -1,3 +1,7 @@
+# OS
+.DS_Store
+Thumbs.db
+
 # Environment
 .env
 .env.local
@@ -55,6 +59,12 @@ opencode.local.md
 
 # Workspace memory (project-scoped, per-session)
 .opencode/workspace/
+
+# Task tracking (session-scoped)
+.tasks/
+
+# MCP local config (duplicate of opencode.json)
+.opencode/mcp/
 
 # Generated files
 knowledge/search-index.json

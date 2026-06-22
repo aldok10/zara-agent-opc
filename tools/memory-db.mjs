@@ -339,20 +339,29 @@ class MemoryStore {
 
   // --- Maintenance ---
 
-  applyDecay(halfLifeDays = 90) {
+  applyDecay() {
+    const HALF_LIFE = { policy: Infinity, architecture: Infinity, workflow: 180, procedure: 180, decision: 90, preference: 90, pitfall: 90, fact: 60 };
     const now = Date.now();
-    const rows = this.db.prepare('SELECT key, updated, accessed, access_count, reinforced FROM semantic').all();
+    const rows = this.db.prepare('SELECT key, type, updated, accessed, access_count, reinforced FROM semantic').all();
     const stmt = this.db.prepare('UPDATE semantic SET decay_score = ? WHERE key = ?');
     let decayed = 0;
     for (const row of rows) {
+      const hl = HALF_LIFE[row.type] || 60;
+      if (hl === Infinity) { stmt.run(1.0, row.key); continue; }
       const daysSince = (now - new Date(row.accessed || row.updated).getTime()) / 86400000;
-      const rawDecay = Math.pow(0.5, daysSince / halfLifeDays);
+      const rawDecay = Math.pow(0.5, daysSince / hl);
       const boost = Math.log2((row.access_count || 0) + (row.reinforced || 1) + 1);
       const score = Math.min(1.0, rawDecay * (1 + boost * 0.1));
       stmt.run(score, row.key);
       if (score < 0.1) decayed++;
     }
+    this.#decayEpisodic();
     return { total: rows.length, decayed };
+  }
+
+  #decayEpisodic() {
+    const cutoff = new Date(Date.now() - 30 * 86400000).toISOString();
+    this.db.prepare("DELETE FROM episodic WHERE ts < ? AND access_count = 0").run(cutoff);
   }
 
   consolidate(minDecayScore = 0.05) {
@@ -604,7 +613,7 @@ export const episodicCount = () => store.episodicCount();
 export const proceduralSave = (name, steps, context) => store.saveProcedure(name, steps, context);
 export const proceduralRecall = (query, limit) => store.recallProcedures(query, limit);
 export const proceduralCount = () => store.proceduralCount();
-export const applyDecay = (days) => store.applyDecay(days);
+export const applyDecay = () => store.applyDecay();
 export const consolidate = (min) => store.consolidate(min);
 export const dreamConsolidate = () => store.dreamConsolidate();
 export const stats = () => store.stats();

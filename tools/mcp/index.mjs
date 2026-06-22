@@ -52,7 +52,7 @@ try {
   const shouldDecay = !fs.existsSync(lastDecay) ||
     (Date.now() - fs.statSync(lastDecay).mtimeMs) > 7 * 24 * 60 * 60 * 1000;
   if (shouldDecay) {
-    applyDecay(90);
+    applyDecay();
     consolidate(0.05);
     fs.writeFileSync(lastDecay, new Date().toISOString());
   }

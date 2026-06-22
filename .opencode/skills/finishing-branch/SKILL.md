@@ -86,12 +86,16 @@ Only for Merge and Discard. Order matters:
 | Keep    | No     | No    | Yes            | No              |
 | Discard | No     | No    | No             | Yes (force)     |
 
-## Red Flags
+## Anti-Patterns (NEVER Do These)
 
-- Never proceed with failing tests
-- Never delete without explicit user confirmation
-- Never force-push without explicit request
-- Never run `git worktree remove` from inside the worktree being removed
+- NEVER proceed with failing tests
+- NEVER delete without explicit user confirmation
+- NEVER force-push without explicit request
+- NEVER run `git worktree remove` from inside the worktree being removed
+- NEVER claim "done" without running tests on merged result
+- NEVER skip cleanup procedure for Merge and Discard options
+- NEVER merge to a protected branch directly — use PR
+- NEVER discard work without listing commits that will be lost
 
 ## Related Knowledge (load on demand)
 

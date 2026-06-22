@@ -7,7 +7,7 @@ All skills listed below live in `.opencode/skills/` — project-specific, not gl
 | Skill | Function |
 |-------|----------|
 | `skill-gate` | Master routing table. Loads automatically at session start. Never skip — always check skill-gate before any action. |
-| `natural-voice` | Self-regulation for natural writing style. Anti-AI detection. Runs silently on every response. Has its own knowledge base (11 articles). |
+| `natural-voice` | Self-regulation for natural writing style. Anti-AI detection. Hot-path subset auto-injects every turn via the `voice` plugin module; load the skill for full depth. Has its own knowledge base (11 articles). |
 
 ## Development Workflow
 

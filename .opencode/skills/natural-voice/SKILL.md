@@ -1,14 +1,14 @@
 ---
 name: natural-voice
 version: 1.0.0
-description: Self-regulation skill for natural, human-like writing — loaded automatically to prevent robotic/AI-detectable patterns. Covers vocabulary, sentence structure, discourse, emotional authenticity, cognitive simulation, and Indonesian naturalness.
+description: Self-regulation skill for natural, human-like writing. The hot-path subset auto-injects every turn via the voice plugin module; load this skill for the full depth (numeric targets, replacement table, cognitive simulation, Indonesian code-switching).
 license: MIT
 compatibility: opencode
 ---
 
 # Natural Voice: Anti-AI Detection Self-Regulation
 
-NOT a text-editing skill. A SELF-REGULATION protocol that runs silently before every response, so output sounds like a real person.
+NOT a text-editing skill. A SELF-REGULATION protocol. The high-impact hot-path (burstiness, banned words/phrases, punchline-first, Indonesian particles, friend test) is injected into every response automatically by the `voice` plugin module. Load THIS skill when you need the full depth: numeric burstiness targets, the replacement table, cognitive simulation, code-switching mechanics, and drift recovery.
 
 ## Pre-Response Checklist (Silent, Every Turn)
 

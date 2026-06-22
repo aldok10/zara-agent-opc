@@ -32,14 +32,14 @@ User always wins. If user says "skip brainstorming", skip it.
 | Architecture decision, tradeoffs | `brainstorming` → dispatch `task(architect)` via `/decide` |
 | Security concern, auth, crypto, threats | `zara-privacy-mcp` → dispatch `task(security-reviewer)` |
 | Test strategy needed, coverage gaps | `tdd` → dispatch `task(testing-lead)` |
-| Loop/iteration design, verification gates | `skill-gate` → dispatch `task(loop-engineer)` via `/loop design` |
+| Loop/iteration design, verification gates | dispatch `task(loop-engineer)` via `/loop design` (no skill pre-load needed) |
 | Delivery/shipping blockers, tech debt | `finishing-branch` → dispatch `task(delivery-lead)` via `/standup deep` |
 | Have spec/requirements, ready to plan | `writing-plans` |
-| Plan ready, need to execute (subagent available) | `subagent-driven-dev` |
+| Plan ready, need to execute (subagent available) | `subagent-driven-dev` → or `task(implementation)` for single focused task |
 | Plan ready, no subagents or user prefers inline | `executing-plans` |
 | 3+ independent tasks that can run concurrently | `dispatching-parallel-agents` → use `/swarm` for structured dispatch |
 | Bug, test failure, unexpected behavior | `systematic-debugging` |
-| Implementing code (feature or fix) | `tdd` |
+| Implementing code (feature or fix) | `tdd` → or `task(implementation)` via `/code` |
 | Claiming work is done, fixed, passing | `verification-before-completion` |
 | Code review needed or received | `code-review` → or use `/review` |
 | Work complete, need to integrate | `finishing-branch` |
@@ -61,6 +61,7 @@ User always wins. If user says "skip brainstorming", skip it.
 | New/unfamiliar codebase, "what is this", onboarding | `codebase-onboarding` |
 | Shell scripting, bash automation | `shell-scripting` |
 | Team/leadership/decision topic | `leadership-expert` |
+| Voice feels robotic, need deep humanizing mechanics | `natural-voice` (hot-path auto-injects every turn via voice plugin; load for depth) |
 | Session ending, preserving context | `session-handoff` → or use `/handoff` |
 | Session start, checking for incomplete work | `auto-resume` → or use `/resume` |
 | Need heavy data processing outside context | `zara-ctx` |
@@ -91,15 +92,15 @@ User always wins. If user says "skip brainstorming", skip it.
 The standard development flow:
 
 ```
-brainstorming → writing-plans → subagent-driven-dev (or executing-plans) → finishing-branch
-                                        ↓ (per task)
-                                       tdd
-                                        ↓ (if bug found)
-                               systematic-debugging
-                                        ↓ (if loop fails 3x)
-                               task(loop-engineer) for failure diagnosis
-                                        ↓ (before claiming done)
-                           verification-before-completion
+brainstorming → writing-plans → /code (or subagent-driven-dev) → finishing-branch
+                          ↓ (per task)
+                        tdd
+                          ↓ (if bug found)
+                   systematic-debugging
+                          ↓ (if loop fails 3x)
+                   task(loop-engineer) for failure diagnosis
+                          ↓ (before claiming done)
+               verification-before-completion
 ```
 
 **For complex tasks, add agent dispatch at entry point:**
@@ -109,6 +110,7 @@ Security review       → task(security-reviewer) → zara-privacy-mcp → findi
 Test strategy         → task(testing-lead) → tdd → test plan → ...
 Loop design           → task(loop-engineer) → verification gates → execute → ...
 Parallel work (3+)    → /swarm → task(swarm) → decompose → dispatch → synthesize
+Coding workflow       → /code → explore → plan → task(implementation) → verify → ship
 ```
 
 ## When User Says "Just Do It"

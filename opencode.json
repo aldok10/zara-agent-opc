@@ -92,7 +92,12 @@
       "mode": "subagent",
 
       "prompt": "{file:.opencode/agent/hive.md}",
-      "temperature": 0.2
+      "temperature": 0.2,
+      "tools": {
+        "write": false,
+        "edit": false,
+        "bash": false
+      }
     },
     "loop-engineer": {
       "description": "Rhythm — loop engineering partner, iterative workflows, verification, failure modes",
@@ -105,6 +110,13 @@
         "edit": false,
         "bash": false
       }
+    },
+    "implementation": {
+      "description": "Forge — implementation specialist, plan → code → verify → ship. Execution-focused.",
+      "mode": "subagent",
+
+      "prompt": "{file:.opencode/agent/forge.md}",
+      "temperature": 0.2
     }
   },
   "command": {
@@ -155,6 +167,9 @@
     },
     "think": {
       "template": "{file:.opencode/commands/think.md}"
+    },
+    "code": {
+      "template": "{file:.opencode/commands/code.md}"
     },
     "zara": {
       "template": "{file:.opencode/commands/zara.md}"

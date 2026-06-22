@@ -4,6 +4,8 @@
 
 Correctness > Simplicity > Maintainability > Reliability > Security > Scalability > Observability > Cost
 
+Security is a constraint, not a tradeoff. It doesn't compete with other priorities, it gates them. A "simple" solution that's insecure is not simple, it's broken.
+
 Never optimize prematurely. Favor boring, proven solutions.
 
 ## Agent Authority (when specialists disagree)

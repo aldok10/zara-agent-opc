@@ -18,12 +18,13 @@ Source of truth: `opencode.json`. Discover structure via filesystem.
 - PHP: load `php-expert` skill (PSR + strict_types)
 - Prompts/instructions: markdown, under 500 lines per file
 
-## Available Commands (16)
+## Available Commands (17)
 
 | Command | Function | Agent Dispatch |
 |---------|----------|---------------|
 | `/audit` | System health — self-audit, memory, config cross-ref | — |
 | `/auto` | Autonomous work mode — pre-flight, loop, anti-doom-loop | auto (via task) |
+| `/code` | Structured coding workflow — explore → plan → code → verify → ship | Zara orchestrates, dispatches @forge mid-workflow |
 | `/decide` | Architecture decision — grounded in knowledge + tradeoffs | → @atlas |
 | `/focus` | Focus mode — session tracking, skills, check-in loops | `/focus loop` → @rhythm |
 | `/goal` | Goal management — persist, reflect, memory recovery | — |
@@ -56,6 +57,7 @@ Load `skill-gate` if unsure which skill matches — it has the full routing tabl
 | Hive | swarm | 3+ independent parallel tasks | `task(swarm)` or `/swarm` |
 | Rhythm | loop-engineer | Loop design, verification, failure | `task(loop-engineer)` via `/loop` or `/focus` |
 | Sketch | plan | Read-only planning | `/think` command or switch mode |
+| Forge | implementation | Plan → code → verify → ship | `task(implementation)` |
 
 ## Development Workflow
 

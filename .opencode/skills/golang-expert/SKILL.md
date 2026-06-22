@@ -54,6 +54,22 @@ Core beliefs:
 19. Performance: measure, profile, optimize. Use `pprof`, `sync.Pool`, zero-alloc patterns, escape analysis, concurrent maps
 20. Architecture: small packages, clear boundaries, dependency injection, functional options, avoid circular dependencies
 
+## Anti-Patterns (NEVER Do These)
+
+- NEVER use `fmt.Sprintf` for logging — use `slog` (structured, context-aware)
+- NEVER use `init()` — it causes hidden side effects and test difficulties
+- NEVER use global mutable state — inject via struct fields
+- NEVER use `interface{}` or `any` without clear reason — prefer concrete types
+- NEVER start goroutines without stop signal and WaitGroup
+- NEVER use `time.Sleep` for synchronization — use channels or sync primitives
+- NEVER ignore errors — handle once with context, or explicitly discard with `_ = err`
+- NEVER use `reflect` without benchmarking — it's slow and fragile
+- NEVER embed mutex — it breaks copy safety and causes subtle bugs
+- NEVER use `fmt.Errorf` without `%w` — you lose error wrapping
+- NEVER pre-allocate maps without knowing size — use `make(map[K]V, n)` when size known
+- NEVER use `select{}` in main — use signal handling with context
+- NEVER claim "done" without running `go test -race ./...`
+
 ## Route to Subskill
 
 | When you see | Load |

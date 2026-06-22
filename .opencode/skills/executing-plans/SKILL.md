@@ -40,12 +40,12 @@ For each task in order:
 
 ### Step 3: Review Checkpoints
 
-After every 3-5 tasks (or natural milestone), do a self-review:
-- Are all tests still passing?
+After every 3-5 tasks (or natural milestone), run verification:
+- Are all tests still passing? (`go test ./...`, `npm test`, etc.)
 - Any drift from the plan?
 - Any cross-task integration issues?
 
-Fix before continuing.
+Fix before continuing. For quality review of larger diffs, dispatch `task(code-reviewer)`.
 
 ### Step 4: Complete
 
@@ -64,13 +64,16 @@ After all tasks pass:
 
 Ask for clarification. Don't guess through blockers.
 
-## Red Flags
+## Anti-Patterns (NEVER Do These)
 
-- Skipping test steps ("I'll test after")
-- Proceeding past failing verification
-- Modifying the plan silently (discuss first)
-- Mixing refactoring with feature implementation
-- Never start implementation on main/master without explicit consent
+- NEVER skip test steps ("I'll test after")
+- NEVER proceed past failing verification
+- NEVER modify the plan silently — discuss first
+- NEVER mix refactoring with feature implementation
+- NEVER start implementation on main/master without explicit consent
+- NEVER pause between tasks without a blocker
+- NEVER claim "done" without running verification commands
+- NEVER re-dispatch a task already marked complete
 
 ## Integration
 

@@ -66,6 +66,18 @@ Success criteria: Test passes, no regressions, fix addresses root cause not symp
 
 ---
 
+## Anti-Patterns (NEVER Do These)
+
+- NEVER propose a fix without completing Phase 1-3
+- NEVER stack multiple changes in one fix
+- NEVER guess the root cause without evidence
+- NEVER skip reproducing the bug consistently
+- NEVER continue after 3 failed attempts without escalating
+- NEVER assume you understand the problem without tracing data flow
+- NEVER implement a fix without creating a failing test first
+
+---
+
 ## Red Flags — STOP Immediately
 
 | If you catch yourself thinking... | Then... |

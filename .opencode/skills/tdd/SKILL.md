@@ -59,6 +59,19 @@ Every cycle:
 
 ---
 
+## Anti-Patterns (NEVER Do These)
+
+- NEVER write production code before a failing test
+- NEVER skip watching the test fail
+- NEVER write more than one test before going green
+- NEVER test implementation details instead of behavior
+- NEVER say "just this once I'll skip TDD"
+- NEVER claim "tests pass" without showing output
+- NEVER refactor while in RED phase
+- NEVER proceed with failing tests
+
+---
+
 ## Common Rationalizations
 
 | Rationalization | Reality |

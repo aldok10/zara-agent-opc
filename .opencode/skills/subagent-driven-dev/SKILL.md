@@ -102,17 +102,18 @@ Track in ledger file, not just todos:
 - When task review passes, append: `Task N: complete (commits abc1234..def5678, review clean)`
 - After context compaction, trust ledger + `git log` over memory
 
-## Red Flags — Never Do These
+## Anti-Patterns (NEVER Do These)
 
-- Skip task review (even if "it looks fine")
-- Proceed with unfixed Critical/Important issues
-- Dispatch parallel implementers to the same codebase (merge conflicts)
-- Paste the whole plan into a subagent dispatch (context bloat)
-- Re-dispatch a task already marked complete in the ledger
-- Ask "should I continue?" between tasks (continuous execution)
-- Let self-review replace actual review (reviewer must be separate subagent)
-- Tell reviewer what not to flag (let them find what they find)
-- Move to next task with open Critical/Important issues
+- NEVER skip task review (even if "it looks fine")
+- NEVER proceed with unfixed Critical/Important issues
+- NEVER dispatch parallel implementers to the same codebase (merge conflicts)
+- NEVER paste the whole plan into a subagent dispatch (context bloat)
+- NEVER re-dispatch a task already marked complete in the ledger
+- NEVER ask "should I continue?" between tasks (continuous execution)
+- NEVER let self-review replace actual review (reviewer must be separate subagent)
+- NEVER tell reviewer what not to flag (let them find what they find)
+- NEVER move to next task with open Critical/Important issues
+- NEVER claim "done" without running verification commands
 
 ## Progress Ledger Format
 

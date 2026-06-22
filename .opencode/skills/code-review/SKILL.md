@@ -115,6 +115,16 @@ For every review comment:
 
 Never implement a suggestion you don't understand. Never implement without checking the surrounding code first.
 
+## Anti-Patterns (NEVER Do These)
+
+- NEVER implement a review suggestion without verifying it first
+- NEVER batch multiple fixes without testing each one
+- NEVER claim "done" after review without running verification
+- NEVER accept feedback you don't understand
+- NEVER skip the YAGNI check
+- NEVER push back without evidence
+- NEVER implement without reading the surrounding code
+
 ## Related Knowledge (load on demand)
 
 - `knowledge_passage(query: "code smell catalog")` — detecting quality issues

@@ -9,6 +9,7 @@ import createSocial from './zara/social/index.mjs';
 import createEvolve from './zara/evolve/index.mjs';
 import createEmpathy from './zara/empathy/index.mjs';
 import createRelationship from './zara/relationship/index.mjs';
+import createVoice from './zara/voice/index.mjs';
 
 export const id = 'zara';
 
@@ -24,10 +25,11 @@ export async function server({ client, directory }) {
   const evolve = createEvolve(config);
   const empathy = createEmpathy(config);
   const relationship = createRelationship(config);
+  const voice = createVoice(config);
 
   // Unified hook dispatch — all modules get called in consistent order
   function each(fn) {
-    for (const m of [observe, memory, flow, dev, social, evolve, empathy, relationship]) {
+    for (const m of [observe, memory, flow, dev, social, evolve, empathy, relationship, voice]) {
       fn(m);
     }
   }
@@ -94,6 +96,7 @@ export async function server({ client, directory }) {
       ...evolve.tools,
       ...empathy.tools,
       ...relationship.tools,
+      ...voice.tools,
     },
 
     // Cleanup

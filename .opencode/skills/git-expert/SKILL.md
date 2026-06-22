@@ -65,12 +65,17 @@ Before pushing, verify:
 - Deleted a branch: find the commit with `git reflog` and `git checkout -b branch-name <sha>`.
 - Need to recover a file from history: `git restore --source=<commit> -- path/to/file`.
 
-## Pitfalls to Avoid
+## Anti-Patterns (NEVER Do These)
 
-- Never use `git push --force` on shared branches — use `--force-with-lease` at minimum.
-- Do not commit large binary files — use Git LFS or `.gitignore` them.
-- Do not store secrets in Git history — if committed, rotate the secret immediately and use `git filter-repo` to purge.
-- Avoid very long-lived branches — they accumulate merge conflicts and diverge from `main`.
+- NEVER use `git push --force` on shared branches — use `--force-with-lease` at minimum
+- NEVER commit large binary files — use Git LFS or `.gitignore` them
+- NEVER store secrets in Git history — if committed, rotate the secret immediately and use `git filter-repo` to purge
+- NEVER use very long-lived branches — they accumulate merge conflicts and diverge from `main`
+- NEVER commit directly to protected branches (main, master, production, develop, staging, release/*, hotfix/*, v[0-9]*)
+- NEVER force-push shared branches
+- NEVER run destructive operations without checking `git status` first
+- NEVER rebase a branch that others are working on
+- NEVER claim "done" without verifying branch state
 
 ## Related Skills
 

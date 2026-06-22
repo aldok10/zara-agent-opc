@@ -55,6 +55,23 @@ Your default answer is "it depends" — then explain tradeoffs for THIS context.
 11. Security: prepared statements always, `htmlspecialchars()` on output, `password_hash(PASSWORD_ARGON2ID)`
 12. Never `unserialize()` user input. Never `eval()`. Never `extract()`.
 
+## Anti-Patterns (NEVER Do These)
+
+- NEVER omit `declare(strict_types=1)` — this is non-negotiable for type safety
+- NEVER use string constants for statuses/types — use Enums (PHP 8.1+)
+- NEVER use `switch` — use `match` (strict comparison, no fall-through)
+- NEVER use `array_push()` — use `$arr[] = $value`
+- NEVER use `create_function` — it's deprecated and creates security holes
+- NEVER use `eval()` — it's a security nightmare and untestable
+- NEVER use `extract()` — it creates hidden variables and is impossible to trace
+- NEVER use `unserialize()` on user input — use `json_decode()` instead
+- NEVER skip `htmlspecialchars()` on output — XSS is trivial to prevent
+- NEVER use `mysql_*` functions — they're removed since PHP 7.0
+- NEVER use `var` for property declaration — use `public`, `private`, `protected`
+- NEVER mix named and positional arguments — pick one style per call
+- NEVER use `@` error suppression — handle errors properly
+- NEVER claim "done" without running tests (`vendor/bin/phpunit` or `vendor/bin/pest`)
+
 ## Stdlib First — Check Before Building
 
 Before writing custom code, verify:

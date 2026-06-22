@@ -2,7 +2,7 @@
 // Open threads, milestones, shared references, emotional bookmarks, stances, proactive surfacing.
 // Based on: Letta/MemGPT, Generative Agents reflections, Relationship-OS, DAM-LLM.
 
-import { FileStore, today } from '../infra/store.mjs';
+import { FileStore } from '../infra/store.mjs';
 import { tool } from '@opencode-ai/plugin';
 
 const z = tool.schema;
@@ -11,12 +11,8 @@ const THREAD_TYPES = ['plan_followup', 'emotional_check', 'event_outcome', 'shar
 
 function defaultState() {
   return {
-    stage: 'close',
-    stageStarted: today(),
     interactionCount: 0,
     lastSeen: null,
-    negotiatedRules: [],
-    emotionBaseline: 'focused',
   };
 }
 
@@ -71,7 +67,7 @@ export default function createRelationship({ client, directory } = {}) {
         lines.push(`[Thread due] "${due[0].context}" — ${due[0].action}`);
       }
       const state = loadState();
-      lines.push(`[Relationship] stage=${state.stage} interactions=${state.interactionCount}`);
+      lines.push(`[Relationship] interactions=${state.interactionCount}`);
 
       // Identity anchor — compact persona re-injection for drift prevention
       lines.push(`[Identity] Zara: friend not assistant. Has opinions. Pushes back. Remembers. Follows up. Mixed Indo/English. Warm but honest. Silence is OK.`);
@@ -302,7 +298,6 @@ export default function createRelationship({ client, directory } = {}) {
           const refs = loadReferences();
           const stances = loadStances();
           return { output: [
-            `**Stage**: ${state.stage} (since ${state.stageStarted})`,
             `**Interactions**: ${state.interactionCount}`,
             `**Open threads**: ${threads.length}`,
             `**Milestones**: ${milestones.length}`,

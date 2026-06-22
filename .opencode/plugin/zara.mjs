@@ -80,7 +80,6 @@ export async function server({ client, directory }) {
     // Chat message hook (auto-capture memory)
     'chat.message': async (msg) => {
       memory.onMessage?.(msg);
-      flow.onMessage?.(msg);
       empathy.onMessage?.(msg);
     },
 

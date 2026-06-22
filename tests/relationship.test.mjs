@@ -602,7 +602,6 @@ describe('inject() behavior', () => {
     const msgs = [{ role: 'system', content: 'You are Zara.' }];
     rel.inject(msgs);
     assert.ok(msgs[0].content.includes('[Relationship]'));
-    assert.ok(msgs[0].content.includes('stage='));
     assert.ok(msgs[0].content.includes('interactions='));
   });
 
@@ -728,10 +727,9 @@ describe('onEvent behavior', () => {
 // ─── Relationship Status ─────────────────────────────────────────
 
 describe('zara_relationship_status', () => {
-  it('returns stage and interaction count', async () => {
+  it('returns interaction count', async () => {
     const rel = freshRel();
     const result = await rel.tools.zara_relationship_status.execute({});
-    assert.ok(result.output.includes('Stage'));
     assert.ok(result.output.includes('Interactions'));
   });
 

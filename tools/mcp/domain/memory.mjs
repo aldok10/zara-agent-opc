@@ -15,11 +15,6 @@ class MemoryTools {
         inputSchema: { type: 'object', properties: { query: { type: 'string' }, layer: { type: 'string', enum: ['all', 'episodic', 'semantic', 'procedural'] }, scope: { type: 'string', description: 'File path or context for scoped retrieval' }, type: { type: 'string', enum: ['policy', 'workflow', 'pitfall', 'architecture', 'decision', 'preference', 'fact'], description: 'Filter by memory type' } }, required: ['query'] },
         handler: (args) => this.#handleRecall(args),
       },
-      memory_stats: {
-        description: 'Show Zara memory statistics',
-        inputSchema: { type: 'object', properties: {} },
-        handler: () => this.#handleStats(),
-      },
       memory_learn: {
         description: 'Store a fact in semantic memory (key-value with metadata). Types: policy, workflow, pitfall, architecture, decision, preference, fact',
         inputSchema: { type: 'object', properties: { key: { type: 'string', description: 'Memory key' }, value: { type: 'string', description: 'The fact to remember' }, source: { type: 'string', enum: ['user_explicit', 'observed', 'inferred'] }, type: { type: 'string', enum: ['policy', 'workflow', 'pitfall', 'architecture', 'decision', 'preference', 'fact'], description: 'Memory type for activation priority' }, scope: { type: 'string', description: 'File path or context scope (for scoped activation)' } }, required: ['key', 'value'] },
@@ -72,11 +67,6 @@ class MemoryTools {
       if (m.length) results.push(m.map(r => `${r.name}: ${JSON.parse(r.steps).join(' → ')}`).join('\n'));
     }
     return results.join('\n\n') || `No memories for "${args.query}"`;
-  }
-
-  #handleStats() {
-    const s = dbStats();
-    return `Episodic: ${s.episodic} | Semantic: ${s.semantic} | Procedural: ${s.procedural} | DB: ${s.dbSize}`;
   }
 
   #handleLearn(args) {

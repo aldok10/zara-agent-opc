@@ -78,6 +78,19 @@ class MemoryStore {
     const confidence = source === 'user_explicit' ? 1.0 : 0.8;
     const memType = VALID_TYPES.includes(type) ? type : 'fact';
 
+    // Dedup check: if a semantically similar entry already exists (same type, high trigram sim), reinforce it instead
+    if (!existing && value.length > 10) {
+      const queryVec = this.#trigramEmbed(value);
+      const candidates = db.prepare('SELECT key, value FROM semantic WHERE type = ? LIMIT 100').all(memType);
+      for (const c of candidates) {
+        const sim = this.#cosineSim(queryVec, this.#trigramEmbed(c.value));
+        if (sim > 0.85) {
+          db.prepare('UPDATE semantic SET reinforced = reinforced + 1, updated = ?, decay_score = 1.0 WHERE key = ?').run(now, c.key);
+          return { key: c.key, value: c.value, reinforced: -1, type: memType, deduped: true };
+        }
+      }
+    }
+
     db.prepare(`
       INSERT INTO semantic (key, value, confidence, source, type, scope, created, updated, reinforced, decay_score)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1.0)
@@ -108,8 +121,9 @@ class MemoryStore {
       const decayFactor = r.decay_score || 0.5;
       const reinforceFactor = Math.min(2.0, 1 + Math.log2((r.reinforced || 1) + 1) * 0.2);
       const scopeBoost = (scope && r.scope && r.scope === scope) ? 1.5 : 1.0;
+      const trustFactor = 0.5 + (r.trust_score ?? 0.5);
       const ftsScore = r.rank ? Math.abs(1 / (r.rank || 1)) : (r.trigramSim || 0.5);
-      return { ...r, relevance: ftsScore * typeBoost * decayFactor * reinforceFactor * scopeBoost };
+      return { ...r, relevance: ftsScore * typeBoost * decayFactor * reinforceFactor * scopeBoost * trustFactor };
     });
 
     // Adaptive depth: FTS matched but the best hit is weak → widen with a
@@ -423,6 +437,31 @@ class MemoryStore {
     return results;
   }
 
+  // --- Delete ---
+
+  deleteByPattern(pattern) {
+    const db = this.db;
+    const like = `%${pattern}%`;
+    const semantic = db.prepare('SELECT key FROM semantic WHERE key LIKE ? OR value LIKE ?').all(like, like);
+    const episodic = db.prepare('SELECT id FROM episodic WHERE event LIKE ? OR outcome LIKE ?').all(like, like);
+    const procedural = db.prepare('SELECT id FROM procedural WHERE name LIKE ? OR context LIKE ?').all(like, like);
+    for (const r of semantic) db.prepare('DELETE FROM semantic WHERE key = ?').run(r.key);
+    for (const r of episodic) db.prepare('DELETE FROM episodic WHERE id = ?').run(r.id);
+    for (const r of procedural) db.prepare('DELETE FROM procedural WHERE id = ?').run(r.id);
+    return { semantic: semantic.length, episodic: episodic.length, procedural: procedural.length };
+  }
+
+  // Adjust trust score for memories that were recalled in a session.
+  // Call after reflect() with outcome to calibrate which memories are actually useful.
+  adjustTrust(keys, outcome) {
+    const db = this.db;
+    const delta = outcome === 'success' ? 0.1 : outcome === 'failure' ? -0.15 : 0.0;
+    if (!delta || !keys.length) return { adjusted: 0 };
+    const stmt = db.prepare('UPDATE semantic SET trust_score = MIN(1.0, MAX(0.0, COALESCE(trust_score, 0.5) + ?)) WHERE key = ?');
+    for (const key of keys) stmt.run(delta, key);
+    return { adjusted: keys.length, delta };
+  }
+
   // --- Stats & Export ---
 
   stats() {
@@ -451,19 +490,19 @@ class MemoryStore {
       const fts = query.split(/\s+/).filter(t => t.length > 1).map(t => `"${t.replace(/"/g, '')}"`).join(' OR ');
       if (!fts) throw new Error('empty');
       return this.db.prepare(`
-        SELECT s.key, s.value, s.confidence, s.source, s.type, s.scope, s.updated, s.reinforced, s.decay_score, rank
+        SELECT s.key, s.value, s.confidence, s.source, s.type, s.scope, s.updated, s.reinforced, s.decay_score, s.trust_score, rank
         FROM semantic_fts f JOIN semantic s ON f.rowid = s.rowid WHERE semantic_fts MATCH ? ORDER BY rank LIMIT ?
       `).all(fts, limit);
     } catch {
       const terms = query.toLowerCase().split(/\s+/);
       const where = terms.map(() => "(LOWER(key) LIKE ? ESCAPE '\\' OR LOWER(value) LIKE ? ESCAPE '\\')").join(' OR ');
-      return this.db.prepare(`SELECT key, value, confidence, source, type, scope, updated, reinforced, decay_score FROM semantic WHERE ${where} ORDER BY decay_score DESC LIMIT ?`).all(...terms.flatMap(t => { const e = `%${escapeLike(t)}%`; return [e, e]; }), limit);
+      return this.db.prepare(`SELECT key, value, confidence, source, type, scope, updated, reinforced, decay_score, trust_score FROM semantic WHERE ${where} ORDER BY decay_score DESC LIMIT ?`).all(...terms.flatMap(t => { const e = `%${escapeLike(t)}%`; return [e, e]; }), limit);
     }
   }
 
   #trigramSearch(query, limit) {
     const queryVec = this.#trigramEmbed(query);
-    return this.db.prepare('SELECT key, value, confidence, source, type, scope, updated, reinforced, decay_score FROM semantic').all()
+    return this.db.prepare('SELECT key, value, confidence, source, type, scope, updated, reinforced, decay_score, trust_score FROM semantic').all()
       .map(r => ({ ...r, trigramSim: this.#cosineSim(queryVec, this.#trigramEmbed(`${r.key} ${r.value}`)) }))
       .filter(r => r.trigramSim > 0.15)
       .sort((a, b) => b.trigramSim - a.trigramSim)
@@ -529,6 +568,7 @@ class MemoryStore {
   #migrate() {
     try { this.#db.exec("ALTER TABLE semantic ADD COLUMN type TEXT DEFAULT 'fact'"); } catch {}
     try { this.#db.exec("ALTER TABLE semantic ADD COLUMN scope TEXT DEFAULT ''"); } catch {}
+    try { this.#db.exec("ALTER TABLE semantic ADD COLUMN trust_score REAL DEFAULT 0.5"); } catch {}
     try {
       this.#db.exec(`
         CREATE TABLE IF NOT EXISTS knowledge (
@@ -628,6 +668,8 @@ export const knowledgeChunkUpsert = (key, section, body) => store.knowledgeChunk
 export const knowledgeChunkSearch = (query, section, k) => store.knowledgeChunkSearch(query, section, k);
 export const knowledgeChunkCount = () => store.knowledgeChunkCount();
 export const detectContradictions = (threshold) => store.detectContradictions(threshold);
+export const deleteByPattern = (pattern) => store.deleteByPattern(pattern);
+export const adjustTrust = (keys, outcome) => store.adjustTrust(keys, outcome);
 
 // Exported for testing with an isolated home directory
 export { MemoryStore };

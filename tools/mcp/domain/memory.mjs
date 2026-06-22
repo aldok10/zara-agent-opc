@@ -3,7 +3,7 @@ import {
   semanticLearn, semanticRecall, semanticBaseline, semanticScoped,
   episodicRecord, episodicRecall,
   proceduralSave, proceduralRecall, proceduralCount,
-  stats as dbStats, dreamConsolidate, detectContradictions
+  stats as dbStats, dreamConsolidate, detectContradictions, deleteByPattern
 } from '../../memory-db.mjs';
 
 class MemoryTools {
@@ -43,6 +43,11 @@ class MemoryTools {
         description: 'Detect semantically contradicting memories — same-type facts that are highly similar but say different things (e.g. "prefers X" vs "prefers Y"). Flags for review, does not auto-merge. Use to keep long-lived memory coherent.',
         inputSchema: { type: 'object', properties: { threshold: { type: 'number', description: 'Similarity threshold 0-1 (default 0.85)' } } },
         handler: (args) => this.#handleContradictions(args),
+      },
+      memory_delete: {
+        description: 'Delete memories matching a pattern (searches key, value, event, outcome). Use for targeted cleanup of obsolete/incorrect memories.',
+        inputSchema: { type: 'object', properties: { pattern: { type: 'string', description: 'Pattern to match (substring, case-insensitive in SQLite LIKE)' }, dry_run: { type: 'boolean', description: 'If true, report what would be deleted without actually deleting' } }, required: ['pattern'] },
+        handler: (args) => this.#handleDelete(args),
       },
     };
   }
@@ -104,6 +109,18 @@ class MemoryTools {
     if (!flagged.length) return 'No contradicting memories detected.';
     return `${flagged.length} potential contradiction(s):\n` +
       flagged.map(f => `- [${f.type}] "${f.a}" vs "${f.b}" (${(f.sim * 100).toFixed(0)}% similar)`).join('\n');
+  }
+
+  #handleDelete(args) {
+    if (!args.pattern || args.pattern.length < 3) return 'Pattern must be at least 3 characters.';
+    if (args.dry_run) {
+      const { semanticRecall: sr, episodicRecall: er } = { semanticRecall, episodicRecall };
+      const sem = sr(args.pattern, 20, {});
+      const epi = er(args.pattern, 20);
+      return `Dry run — would affect ~${sem.length} semantic + ~${epi.length} episodic entries matching "${args.pattern}"`;
+    }
+    const result = deleteByPattern(args.pattern);
+    return `Deleted: ${result.semantic} semantic, ${result.episodic} episodic, ${result.procedural} procedural entries matching "${args.pattern}"`;
   }
 }
 

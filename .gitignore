@@ -53,6 +53,9 @@ Thumbs.db
 # OpenCode local overrides
 opencode.local.md
 
+# Workspace memory (project-scoped, per-session)
+.opencode/workspace/
+
 # Generated files
 knowledge/search-index.json
 package-lock.json

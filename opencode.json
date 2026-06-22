@@ -179,6 +179,9 @@
     },
     "update": {
       "template": "{file:.opencode/commands/update.md}"
+    },
+    "debate": {
+      "template": "{file:.opencode/commands/debate.md}"
     }
   },
   "plugin": [

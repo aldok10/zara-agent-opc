@@ -1,5 +1,5 @@
 // Zara — Composition Root
-// Imports all 8 domain modules, dispatches hooks, aggregates tools
+// Imports all 11 domain modules, dispatches hooks, aggregates tools
 
 import createObserve from './zara/observe/index.mjs';
 import createMemory from './zara/memory/index.mjs';
@@ -10,6 +10,8 @@ import createEvolve from './zara/evolve/index.mjs';
 import createEmpathy from './zara/empathy/index.mjs';
 import createRelationship from './zara/relationship/index.mjs';
 import createVoice from './zara/voice/index.mjs';
+import createWorkspace from './zara/workspace/index.mjs';
+import createDebate from './zara/debate/index.mjs';
 
 export const id = 'zara';
 
@@ -26,10 +28,12 @@ export async function server({ client, directory }) {
   const empathy = createEmpathy(config);
   const relationship = createRelationship(config);
   const voice = createVoice(config);
+  const workspace = createWorkspace(config);
+  const debate = createDebate(config);
 
   // Unified hook dispatch — all modules get called in consistent order
   function each(fn) {
-    for (const m of [observe, memory, flow, dev, social, evolve, empathy, relationship, voice]) {
+    for (const m of [observe, memory, flow, dev, social, evolve, empathy, relationship, voice, workspace, debate]) {
       fn(m);
     }
   }
@@ -97,6 +101,8 @@ export async function server({ client, directory }) {
       ...empathy.tools,
       ...relationship.tools,
       ...voice.tools,
+      ...workspace.tools,
+      ...debate.tools,
     },
 
     // Cleanup

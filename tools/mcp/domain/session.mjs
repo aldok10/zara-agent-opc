@@ -40,8 +40,16 @@ class SessionTools {
     const defaultName = (() => { try { return resolveBest().name; } catch { return 'there'; } })();
     const profile = loadJson(file, { name: defaultName, goals: [], activeProjects: [], energy: 'unknown', lastSeen: null, sessionCount: 0 });
     if (args.update) {
-      const { __proto__, constructor, prototype, ...safe } = args.update;
-      Object.assign(profile, safe);
+      const sanitize = (obj) => {
+        if (!obj || typeof obj !== 'object') return obj;
+        const clean = Array.isArray(obj) ? [] : {};
+        for (const [k, v] of Object.entries(obj)) {
+          if (k === '__proto__' || k === 'constructor' || k === 'prototype') continue;
+          clean[k] = typeof v === 'object' && v !== null ? sanitize(v) : v;
+        }
+        return clean;
+      };
+      Object.assign(profile, sanitize(args.update));
       profile.lastUpdated = new Date().toISOString();
       saveJson(file, profile);
       return `Profile updated: ${Object.keys(args.update).join(', ')}`;

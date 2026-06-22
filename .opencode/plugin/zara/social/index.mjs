@@ -1,21 +1,15 @@
 import fs from 'fs';
 import path from 'path';
 import os from 'os';
-import { execFile, execFileSync, spawn } from 'child_process';
 import { tool } from '@opencode-ai/plugin';
 import { FileStore, HOME } from '../infra/store.mjs';
 
 const z = tool.schema;
-const PLATFORM = os.platform();
 
 function killProcess(pid) {
   const n = parseInt(pid, 10);
   if (!Number.isFinite(n) || n <= 0) return;
   try { process.kill(n, 'SIGTERM'); } catch { try { process.kill(n, 'SIGKILL'); } catch {} }
-}
-
-function hasCommand(cmd) {
-  try { execFileSync(PLATFORM === 'win32' ? 'where' : 'which', [cmd], { stdio: 'ignore' }); return true; } catch { return false; }
 }
 
 class LeadershipService {
@@ -123,92 +117,22 @@ class TeamService {
   get dir() { return this.#store.dir; }
 }
 
-class MusicService {
-  #stateFile = path.join(HOME, 'player.json');
-  #tasteFile = path.join(HOME, 'music-taste.json');
-  #historyFile = path.join(HOME, 'player-history.json');
-  #queueFile = path.join(HOME, 'autoplay-queue.json');
-
-  #loadJson(file, fallback) { try { return JSON.parse(fs.readFileSync(file, 'utf-8')); } catch { return fallback; } }
-  #saveJson(file, data) { fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, JSON.stringify(data, null, 2)); }
-
-  getState() { return this.#loadJson(this.#stateFile, { pid: null, paused: false, file: null, playlistIdx: 0, autoplay: false }); }
-  getTaste() { return this.#loadJson(this.#tasteFile, { liked: [], disliked: [], artists: {}, moods: {} }); }
-  getQueue() { return this.#loadJson(this.#queueFile, []); }
-  saveState(s) { this.#saveJson(this.#stateFile, s); }
-  saveTaste(t) { this.#saveJson(this.#tasteFile, t); }
-  saveQueue(q) { this.#saveJson(this.#queueFile, q); }
-
-  killCurrent(state) {
-    if (state.pid) {
-      killProcess(state.pid);
-      try { process.kill(-state.pid, 'SIGTERM'); } catch {}
-    }
-  }
-
-  addHistory(title, query) {
-    const history = this.#loadJson(this.#historyFile, []);
-    history.push({ title, query, ts: new Date().toISOString() });
-    if (history.length > 100) history.splice(0, history.length - 100);
-    this.#saveJson(this.#historyFile, history);
-    const taste = this.getTaste();
-    const parts = title.split(' - ');
-    if (parts.length >= 2) { taste.artists[parts[0].trim()] = (taste.artists[parts[0].trim()] || 0) + 1; this.saveTaste(taste); }
-  }
-
-  getHistory() { return this.#loadJson(this.#historyFile, []); }
-
-  streamYoutube(query, autoplay = false) {
-    if (!hasCommand('yt-dlp') || !hasCommand('ffplay')) return null;
-    const state = this.getState();
-    this.killCurrent(state);
-    const ytQuery = (query.includes('youtube.com') || query.includes('youtu.be')) ? query : `ytsearch1:${query}`;
-
-    // Safe: no shell interpolation — array args only
-    const ytdlp = spawn('yt-dlp', ['-f', 'bestaudio', '-o', '-', ytQuery], { stdio: ['ignore', 'pipe', 'ignore'] });
-    const ffplay = spawn('ffplay', ['-nodisp', '-autoexit', '-loglevel', 'quiet', '-'], { detached: true, stdio: [ytdlp.stdout, 'ignore', 'ignore'] });
-    ffplay.unref();
-    ytdlp.stdout.on('close', () => {});
-
-    this.saveState({ pid: ffplay.pid, paused: false, file: query, playlistIdx: state.playlistIdx, autoplay });
-    this.addHistory(query, query);
-
-    execFile('yt-dlp', ['--get-title', ytQuery], { timeout: 15000 }, (err, stdout) => {
-      if (!err && stdout.trim()) {
-        const cur = this.getState();
-        if (cur.pid === ffplay.pid) { cur.file = stdout.trim(); this.saveState(cur); }
-        this.addHistory(stdout.trim(), query);
-      }
-      if (autoplay) {
-        const taste = this.getTaste();
-        const title = stdout?.trim() || query;
-        const searchQ = `ytsearch3:songs similar to ${title}`;
-        try {
-          const titles = execFileSync('yt-dlp', ['--get-title', searchQ], { encoding: 'utf-8', timeout: 20000 }).trim().split('\n').filter(Boolean);
-          this.saveQueue(titles.filter(x => !taste.disliked.includes(x)).map(x => ({ title: x, query: x })));
-        } catch { this.saveQueue([]); }
-      }
-    });
-    return query;
-  }
-
-  getNowPlaying() {
-    const state = this.getState();
+// ponytail: music player lives in MCP (tools/mcp/domain/music.mjs). This is read-only state for inject().
+function getMusicState() {
+  const stateFile = path.join(HOME, 'player.json');
+  try {
+    const state = JSON.parse(fs.readFileSync(stateFile, 'utf-8'));
     if (!state.pid) return null;
-    try { process.kill(state.pid, 0); return state; } catch { return null; }
-  }
-
-  dispose() {
-    const state = this.getState();
-    if (state.pid) this.killCurrent(state);
-  }
+    process.kill(state.pid, 0); // throws if dead
+    return state;
+  } catch { return null; }
 }
 
 const leadership = new LeadershipService();
 const teamSvc = new TeamService();
-const musicSvc = new MusicService();
 
 // NOTE: Empathy tracking is now handled by the dedicated empathy/index.mjs module.
+// NOTE: Music player is now in MCP (tools/mcp/domain/music.mjs). Plugin only reads state for inject().
 
 const allTools = {
   zara_update_user: tool({
@@ -331,121 +255,6 @@ const allTools = {
     },
   }),
 
-  music: tool({
-    description: 'Music player. Play, stop, pause, skip, like/dislike, radio, queue, history, taste.',
-    args: {
-      action: z.enum(['play', 'stop', 'pause', 'next', 'status', 'queue', 'like', 'dislike', 'radio', 'history', 'taste']).describe('Action'),
-      query: z.string().optional().describe('Song name, artist, mood, or URL'),
-    },
-    async execute(args) {
-      const action = args.action;
-      const state = musicSvc.getState();
-      const taste = musicSvc.getTaste();
-
-      if (action === 'status') {
-        const np = musicSvc.getNowPlaying();
-        if (!np) return { output: 'Nothing playing.' };
-        const queue = musicSvc.getQueue();
-        const icon = np.paused ? '⏸' : '▶️';
-        let out = `${icon} ${np.file}${np.autoplay ? ' (autoplay)' : ''}`;
-        if (queue.length) out += `\nUp next:\n${queue.slice(0, 3).map((q, i) => `  ${i + 1}. ${q.title}`).join('\n')}`;
-        return { output: out };
-      }
-
-      if (action === 'stop') {
-        musicSvc.killCurrent(state);
-        musicSvc.saveState({ ...state, pid: null, paused: false, file: null });
-        return { output: 'Stopped.' };
-      }
-
-      if (action === 'pause') {
-        if (!state.pid) return { output: 'Nothing playing.' };
-        if (PLATFORM === 'win32') return { output: 'Pause not supported on Windows.' };
-        const pid = parseInt(state.pid, 10);
-        if (!Number.isFinite(pid) || pid <= 0) return { output: 'Invalid player state.' };
-        try { process.kill(pid, state.paused ? 'SIGCONT' : 'SIGSTOP'); } catch {}
-        state.paused = !state.paused;
-        musicSvc.saveState(state);
-        return { output: state.paused ? 'Paused.' : 'Resumed.' };
-      }
-
-      if (action === 'next') {
-        const queue = musicSvc.getQueue();
-        if (!queue.length) return { output: 'Queue empty. Use radio mode for continuous play.' };
-        const next = queue.shift();
-        musicSvc.saveQueue(queue);
-        const title = musicSvc.streamYoutube(next.query || next.title, state.autoplay);
-        return { output: title ? `Now: ${title}` : 'Failed to play next track.' };
-      }
-
-      if (action === 'queue') {
-        const queue = musicSvc.getQueue();
-        if (!queue.length) return { output: 'Queue empty.' };
-        return { output: 'Queue:\n' + queue.map((q, i) => `  ${i + 1}. ${q.title}`).join('\n') };
-      }
-
-      if (action === 'like') {
-        const song = args.query || state.file;
-        if (!song) return { output: 'Nothing to like.' };
-        if (!taste.liked.includes(song)) { taste.liked.push(song); taste.disliked = taste.disliked.filter(s => s !== song); musicSvc.saveTaste(taste); }
-        return { output: `Liked: ${song}` };
-      }
-
-      if (action === 'dislike') {
-        const song = args.query || state.file;
-        if (!song) return { output: 'Nothing to dislike.' };
-        if (!taste.disliked.includes(song)) { taste.disliked.push(song); taste.liked = taste.liked.filter(s => s !== song); musicSvc.saveTaste(taste); }
-        const queue = musicSvc.getQueue();
-        if (queue.length && state.file === song) {
-          const next = queue.shift();
-          musicSvc.saveQueue(queue);
-          musicSvc.streamYoutube(next.query || next.title, state.autoplay);
-        }
-        return { output: `Disliked: ${song} — skipping.` };
-      }
-
-      if (action === 'radio') {
-        const mood = args.query || 'chill';
-        taste.moods[mood] = (taste.moods[mood] || 0) + 1;
-        musicSvc.saveTaste(taste);
-        const topArtists = Object.entries(taste.artists).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([a]) => a);
-        const radioQuery = `${mood} songs like ${taste.liked.slice(-1)[0] || topArtists[0] || 'lo-fi beats'}`;
-        const title = musicSvc.streamYoutube(radioQuery, true);
-        return { output: title ? `Radio: ${mood}\n${title} (autoplay on)` : 'Failed to start radio.' };
-      }
-
-      if (action === 'history') {
-        const history = musicSvc.getHistory();
-        if (!history.length) return { output: 'No history yet.' };
-        return { output: history.slice(-15).reverse().map((h, i) => `${i + 1}. ${h.title}`).join('\n') };
-      }
-
-      if (action === 'taste') {
-        const topArtists = Object.entries(taste.artists).sort((a, b) => b[1] - a[1]).slice(0, 5);
-        const lines = ['Taste Profile'];
-        if (taste.liked.length) lines.push(`Liked: ${taste.liked.slice(-5).join(', ')}`);
-        if (topArtists.length) lines.push(`Top: ${topArtists.map(([a, c]) => `${a}(${c}x)`).join(', ')}`);
-        if (Object.keys(taste.moods).length) lines.push(`Moods: ${Object.entries(taste.moods).sort((a, b) => b[1] - a[1]).map(([m, c]) => `${m}(${c}x)`).join(', ')}`);
-        return { output: lines.join('\n') };
-      }
-
-      if (action === 'play') {
-        if (!args.query) return { output: 'Need a song name, artist, or URL.' };
-        if (fs.existsSync(args.query)) {
-          musicSvc.killCurrent(state);
-          const child = spawn(PLATFORM === 'darwin' ? 'afplay' : 'ffplay', PLATFORM === 'darwin' ? [args.query] : ['-nodisp', '-autoexit', '-loglevel', 'quiet', args.query], { detached: true, stdio: 'ignore' });
-          child.unref();
-          musicSvc.saveState({ pid: child.pid, paused: false, file: path.basename(args.query), playlistIdx: state.playlistIdx, autoplay: state.autoplay });
-          return { output: `Playing: ${path.basename(args.query)}` };
-        }
-        const title = musicSvc.streamYoutube(args.query, state.autoplay);
-        return { output: title ? `Playing: ${title}` : 'Playback failed. Check yt-dlp/ffplay.' };
-      }
-
-      return { output: 'Use: play, stop, pause, next, status, queue, like, dislike, radio, history, taste' };
-    },
-  }),
-
   // NOTE: Empathy tools (zara_empathy_*) and growth tools (zara_growth_*) are now in empathy/index.mjs
 };
 
@@ -457,7 +266,7 @@ export default function createSocial({ client, directory } = {}) {
       const lines = [];
       const ctx = leadership.buildContextLine(p);
       if (ctx) lines.push(ctx);
-      const np = musicSvc.getNowPlaying();
+      const np = getMusicState();
       if (np) {
         const icon = np.paused ? '⏸' : '🎵';
         lines.push(`${icon} Now playing: ${np.file}${np.autoplay ? ' (autoplay)' : ''}`);
@@ -476,7 +285,11 @@ export default function createSocial({ client, directory } = {}) {
     tools: allTools,
 
     dispose() {
-      musicSvc.dispose();
+      // Kill music player on shutdown (read state, kill pid)
+      try {
+        const state = JSON.parse(fs.readFileSync(path.join(HOME, 'player.json'), 'utf-8'));
+        if (state.pid) killProcess(state.pid);
+      } catch {}
     },
   };
 }

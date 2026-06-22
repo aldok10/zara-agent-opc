@@ -431,7 +431,7 @@ export default function createMemory({ client, directory } = {}) {
       if (text.length < 20 || text.length > 2000) return;
 
       // Security: skip messages containing potential secrets
-      const SECRET_PATTERNS = /(?:sk-|ghp_|gho_|glpat-|xoxb-|xoxp-|api[_-]?key|password|passwd|secret|token|bearer|authorization)[=:\s]\S{8,}/i;
+      const SECRET_PATTERNS = /(?:sk-[a-zA-Z0-9_-]{20,}|ghp_[a-zA-Z0-9]{36,}|gho_[a-zA-Z0-9]{36,}|glpat-[a-zA-Z0-9_-]{20,}|xox[bp]-[a-zA-Z0-9-]{20,}|AKIA[0-9A-Z]{16}|eyJ[a-zA-Z0-9_-]{20,}\.eyJ[a-zA-Z0-9_-]{20,}\.[a-zA-Z0-9_-]+|-----BEGIN\s(?:RSA\s|EC\s|OPENSSH\s)?PRIVATE\sKEY-----|(?:mongodb(?:\+srv)?|postgres(?:ql)?|mysql|redis):\/\/\S{10,}|(?:api[_-]?key|password|passwd|secret|token|bearer|authorization)[=:\s]\S{8,})/i;
       if (SECRET_PATTERNS.test(text)) return;
 
       const semantic = loadJson(SEMANTIC_FILE, {});

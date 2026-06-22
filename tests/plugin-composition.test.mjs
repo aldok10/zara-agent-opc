@@ -15,7 +15,7 @@ describe('plugin composition root', () => {
   });
 
   it('each domain module default-exports a callable factory', async () => {
-    const modules = ['observe', 'memory', 'flow', 'dev', 'social', 'evolve', 'empathy', 'relationship'];
+    const modules = ['observe', 'memory', 'flow', 'dev', 'social', 'evolve', 'empathy', 'relationship', 'voice', 'workspace', 'debate'];
     for (const m of modules) {
       const mod = await import(`../.opencode/plugin/zara/${m}/index.mjs`);
       assert.equal(typeof mod.default, 'function', `${m} must default-export a factory function`);

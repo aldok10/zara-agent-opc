@@ -18,7 +18,7 @@ Source of truth: `opencode.json`. Discover structure via filesystem.
 - PHP: load `php-expert` skill (PSR + strict_types)
 - Prompts/instructions: markdown, under 500 lines per file
 
-## Available Commands (19)
+## Available Commands (20)
 
 | Command | Function | Agent Dispatch |
 |---------|----------|---------------|
@@ -26,6 +26,7 @@ Source of truth: `opencode.json`. Discover structure via filesystem.
 | `/auto` | Autonomous work mode - pre-flight, loop, anti-doom-loop | auto (via task) |
 | `/code` | Structured coding workflow - explore → plan → code → verify → ship | Zara orchestrates, dispatches @forge mid-workflow |
 | `/decide` | Architecture decision - grounded in knowledge + tradeoffs | → @atlas |
+| `/debate` | Multi-agent debate for complex decisions requiring diverse perspectives | deliberate tool |
 | `/focus` | Focus mode - session tracking, skills, check-in loops | `/focus loop` → @rhythm |
 | `/goal` | Goal management - persist, reflect, memory recovery | - |
 | `/handoff` | Session capture - git state, memory, files, threads | - |

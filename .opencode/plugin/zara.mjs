@@ -77,7 +77,7 @@ export async function server({ client, directory }) {
       observe.afterTool?.(input, output);
     },
 
-    // Chat message hook (auto-capture memory + presence)
+    // Chat message hook (auto-capture memory)
     'chat.message': async (msg) => {
       memory.onMessage?.(msg);
       flow.onMessage?.(msg);

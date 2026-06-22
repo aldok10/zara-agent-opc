@@ -125,8 +125,6 @@ export default function createDev({ client, directory } = {}) {
       return messages;
     },
 
-    dispose() {},
-
     // ── Tools ──────────────────────────────────────────────────────────────
 
     tools: {

@@ -1,10 +1,13 @@
 import fs from 'fs';
 import path from 'path';
 import { HOME, ensure, loadJson, saveJson } from '../infra.mjs';
-import { detectContradictions } from '../../memory-db.mjs';
+import { detectContradictions, adjustTrust } from '../../memory-db.mjs';
 
 const REFLECT_DIR = path.join(HOME, 'reflections');
 const EVOLVE_DIR = path.join(HOME, 'evolve');
+
+// Track keys recalled this session for trust calibration
+const recalledKeys = new Set();
 
 class ReflectionTools {
   get tools() {
@@ -51,6 +54,14 @@ class ReflectionTools {
       const lines = fs.readFileSync(logFile, 'utf-8').trim().split('\n');
       if (lines.length > 500) fs.writeFileSync(logFile, lines.slice(-500).join('\n') + '\n');
     } catch {}
+
+    // Trust calibration: adjust trust scores of memories recalled this session
+    let trustResult = null;
+    if (args.outcome && recalledKeys.size > 0) {
+      trustResult = adjustTrust([...recalledKeys], args.outcome);
+      recalledKeys.clear();
+    }
+
     if (args.pattern) {
       const pFile = path.join(REFLECT_DIR, 'patterns.json');
       const patterns = loadJson(pFile, []);
@@ -207,3 +218,4 @@ class ReflectionTools {
 }
 
 export default new ReflectionTools().tools;
+export { recalledKeys };

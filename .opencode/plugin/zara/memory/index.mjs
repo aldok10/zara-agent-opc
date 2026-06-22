@@ -362,10 +362,6 @@ export default function createMemory({ client, directory } = {}) {
   return {
     // ── Hooks ──────────────────────────────────────────────────────────────
 
-    onEvent(event) {
-      // No specific session handling needed for memory
-    },
-
     inject(messages) {
       const TOKEN_BUDGET = 800;
       let tokensUsed = 0;
@@ -484,6 +480,25 @@ export default function createMemory({ client, directory } = {}) {
         }
       }
 
+      // Pattern: technology/architecture decisions (atomic fact extraction)
+      const factPatterns = [
+        /(?:we use|we're using|kita pakai|project ini pakai|stack-nya)\s+(.{3,60})/i,
+        /(?:switched to|migrated to|pindah ke|ganti ke)\s+(.{3,60})/i,
+        /(?:our (?:api|service|app|backend|frontend|db|database) (?:is|uses|runs on))\s+(.{3,60})/i,
+        /(?:the (?:repo|project|codebase) (?:is|lives|sits) (?:at|in|on))\s+(.{5,80})/i,
+        /(?:deployed (?:to|on|at)|deploy ke)\s+(.{3,60})/i,
+      ];
+      for (const pat of factPatterns) {
+        const m = text.match(pat);
+        if (m) {
+          const key = `fact.${m[1].slice(0, 30).toLowerCase().replace(/[^a-z0-9]+/g, '-')}.${Date.now().toString(36).slice(-4)}`;
+          if (!Object.values(semantic).some(v => v.value && v.value.toLowerCase().includes(m[1].toLowerCase().slice(0, 20)))) {
+            semantic[key] = { value: m[0].trim(), confidence: 0.6, type: 'fact', learnedAt: new Date().toISOString(), reinforced: 1 };
+            captured = true;
+          }
+        }
+      }
+
       if (captured) saveJson(SEMANTIC_FILE, semantic);
     },
 
@@ -509,8 +524,6 @@ export default function createMemory({ client, directory } = {}) {
         }
       }
     },
-
-    dispose() {},
 
     // ── Tools ──────────────────────────────────────────────────────────────
 

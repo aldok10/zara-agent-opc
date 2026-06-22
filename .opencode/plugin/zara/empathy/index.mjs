@@ -139,11 +139,39 @@ class GrowthTracker {
   }
 }
 
+// ─── Flow State Detection ────────────────────────────────────────────────────
+
+class FlowDetector {
+  constructor() {
+    this.timestamps = [];
+    this.windowMs = 5 * 60 * 1000; // 5 min window
+  }
+
+  recordMessage() {
+    const now = Date.now();
+    this.timestamps.push(now);
+    // Keep only last 5 min
+    this.timestamps = this.timestamps.filter(t => now - t < this.windowMs);
+  }
+
+  // User is in flow if: 3+ messages in last 5 min, average gap < 90s
+  isInFlow() {
+    if (this.timestamps.length < 3) return false;
+    const gaps = [];
+    for (let i = 1; i < this.timestamps.length; i++) {
+      gaps.push(this.timestamps[i] - this.timestamps[i - 1]);
+    }
+    const avgGap = gaps.reduce((a, b) => a + b, 0) / gaps.length;
+    return avgGap < 90_000;
+  }
+}
+
 // ─── Module Export ───────────────────────────────────────────────────────────
 
 export default function createEmpathy({ client, directory } = {}) {
   const store = new FileStore('empathy');
   const trendAnalyzer = new TrendAnalyzer();
+  const flowDetector = new FlowDetector();
   let currentSession = null;
   let growthTracker = null;
 
@@ -168,6 +196,7 @@ export default function createEmpathy({ client, directory } = {}) {
       if (msg.role !== 'user' || !msg.content || !currentSession) return;
       const text = typeof msg.content === 'string' ? msg.content : '';
 
+      flowDetector.recordMessage();
       currentSession.messageCount++;
       const n = currentSession.messageCount;
       currentSession.avgMessageLength = ((currentSession.avgMessageLength * (n - 1)) + text.length) / n;
@@ -182,6 +211,9 @@ export default function createEmpathy({ client, directory } = {}) {
 
     inject(messages) {
       if (!currentSession) return messages;
+      // Flow-state protection: suppress proactive nudges when user is in deep flow
+      if (flowDetector.isInFlow()) return messages;
+
       const sessions = store.readLines('sessions.jsonl', 50);
       const trend = trendAnalyzer.detectBurnout(sessions);
       if (trend.alert) {

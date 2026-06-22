@@ -5,6 +5,7 @@ import {
   proceduralSave, proceduralRecall, proceduralCount,
   stats as dbStats, dreamConsolidate, detectContradictions, deleteByPattern
 } from '../../memory-db.mjs';
+import { recalledKeys } from './reflection.mjs';
 
 class MemoryTools {
   get tools() {
@@ -57,7 +58,10 @@ class MemoryTools {
     const results = [];
     if (layer === 'all' || layer === 'semantic') {
       const m = semanticRecall(args.query, 5, { scope: args.scope, type: args.type });
-      if (m.length) results.push(m.map(r => `[${r.type || 'fact'}] ${r.key}: ${r.value}`).join('\n'));
+      if (m.length) {
+        for (const r of m) recalledKeys.add(r.key);
+        results.push(m.map(r => `[${r.type || 'fact'}] ${r.key}: ${r.value}`).join('\n'));
+      }
     }
     if (layer === 'all' || layer === 'episodic') {
       const m = episodicRecall(args.query, 3);

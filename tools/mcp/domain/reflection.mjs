@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { HOME, ensure, loadJson, saveJson } from '../infra.mjs';
-import { adjustTrust } from '../../memory-db.mjs';
+import { adjustTrust, detectContradictions } from '../../memory-db.mjs';
 
 const REFLECT_DIR = path.join(HOME, 'reflections');
 
@@ -16,15 +16,30 @@ class ReflectionTools {
         inputSchema: { type: 'object', properties: { task: { type: 'string', description: 'What was the task' }, worked: { type: 'string' }, failed: { type: 'string' }, pattern: { type: 'string' }, outcome: { type: 'string', enum: ['success', 'partial', 'failure'], description: 'How it went — trains pattern scores over time' } }, required: ['task'] },
         handler: (args) => this.#handleReflect(args),
       },
+      patterns: {
+        description: 'List learned patterns from reflection, ranked by success-weighted score.',
+        inputSchema: { type: 'object', properties: {} },
+        handler: () => this.#handlePatterns(),
+      },
       reflect_suggest: {
-        description: 'Before starting a task, recall the historically best-scoring approach for a similar situation. Returns patterns ranked by success rate × frequency. This is how Zara gets better the more it is used.',
+        description: 'Before starting a task, recall the historically best-scoring approach for a similar situation. Returns patterns ranked by success rate x frequency.',
         inputSchema: { type: 'object', properties: { situation: { type: 'string', description: 'What you are about to do' } }, required: ['situation'] },
         handler: (args) => this.#handleSuggest(args),
       },
-      blindspot: {
-        description: 'Record or check blindspots in user behavior. action=log records a new one, action=check matches context against known blindspots.',
-        inputSchema: { type: 'object', properties: { action: { type: 'string', enum: ['log', 'check'], description: 'log = record blindspot, check = match against known' }, area: { type: 'string', description: 'Area of blindspot (for log)' }, observation: { type: 'string', description: 'What was observed (for log)' }, suggestion: { type: 'string', description: 'Suggestion (for log)' }, context: { type: 'string', description: 'Current context to check against (for check)' } }, required: ['action'] },
-        handler: (args) => args.action === 'log' ? this.#handleBlindspotLog(args) : this.#handleBlindspotCheck(args),
+      zara_evolve_status: {
+        description: 'Snapshot of Zara learning state — top patterns, active rules, micro-tools, contradictions, blindspots.',
+        inputSchema: { type: 'object', properties: {} },
+        handler: () => this.#handleEvolveStatus(),
+      },
+      blindspot_log: {
+        description: 'Record a blindspot detected in user behavior (for gentle future reminders)',
+        inputSchema: { type: 'object', properties: { area: { type: 'string' }, observation: { type: 'string' }, suggestion: { type: 'string' } }, required: ['area', 'observation'] },
+        handler: (args) => this.#handleBlindspotLog(args),
+      },
+      blindspot_check: {
+        description: 'Check if current situation matches any known blindspots',
+        inputSchema: { type: 'object', properties: { context: { type: 'string' } }, required: ['context'] },
+        handler: (args) => this.#handleBlindspotCheck(args),
       },
     };
   }
@@ -99,6 +114,40 @@ class ReflectionTools {
     if (!matched.length) return `No matching pattern for "${args.situation}". Proceed fresh and reflect afterward.`;
     return `## Suggested approaches (learned)\n` +
       matched.map(({ p }) => `- **${p.name}** (${p.occurrences}x, ${Math.round((p.successRate ?? 1) * 100)}% success): ${p.approach}`).join('\n');
+  }
+
+  #handlePatterns() {
+    const patterns = loadJson(path.join(REFLECT_DIR, 'patterns.json'), []);
+    if (!patterns.length) return 'No patterns learned yet.';
+    return [...patterns]
+      .sort((a, b) => this.#score(b) - this.#score(a))
+      .slice(0, 10)
+      .map(p => `- ${p.name}: ${p.approach} — ${p.occurrences}x, ${Math.round((p.successRate ?? 1) * 100)}% success`)
+      .join('\n');
+  }
+
+  #handleEvolveStatus() {
+    const out = ['# Zara Learning Status', ''];
+    const patterns = loadJson(path.join(REFLECT_DIR, 'patterns.json'), []);
+    if (patterns.length) {
+      const top = [...patterns].sort((a, b) => this.#score(b) - this.#score(a)).slice(0, 5);
+      out.push(`## Top Patterns (${patterns.length} learned)`);
+      for (const p of top) out.push(`- ${p.name} — ${p.occurrences}x, ${Math.round((p.successRate ?? 1) * 100)}% success`);
+      out.push('');
+    }
+    const EVOLVE_DIR = path.join(HOME, 'evolve');
+    const rules = loadJson(path.join(EVOLVE_DIR, 'workflow-rules.json'), []);
+    if (rules.length) { out.push(`## Active Rules (${rules.length})`); for (const r of rules.slice(0, 5)) out.push(`- [${r.priority || 'med'}] WHEN ${r.when} → ${r.then} (fired ${r.fired || 0}x)`); out.push(''); }
+    const micro = loadJson(path.join(EVOLVE_DIR, 'micro-tools.json'), []);
+    if (micro.length) { out.push(`## Micro-Tools (${micro.length} crystallized)`); for (const t of [...micro].sort((a, b) => (b.uses || 0) - (a.uses || 0)).slice(0, 5)) out.push(`- ${t.name} (used ${t.uses || 0}x)`); out.push(''); }
+    let contradictions = []; try { contradictions = detectContradictions(); } catch {}
+    if (contradictions.length) { out.push(`## Open Contradictions (${contradictions.length})`); out.push('Run memory_contradictions to review.'); out.push(''); }
+    const blindspots = loadJson(path.join(HOME, 'blindspots.json'), []);
+    if (blindspots.length) { out.push(`## Blindspots tracked (${blindspots.length})`); for (const b of blindspots.slice(-3)) out.push(`- ${b.area}: ${b.observation}`); out.push(''); }
+    if (out.length <= 2) return 'No learning data yet.';
+    const avgSuccess = patterns.length ? Math.round(patterns.reduce((s, p) => s + (p.successRate ?? 1), 0) / patterns.length * 100) : null;
+    out.push('---'); out.push(`Health: ${patterns.length} patterns${avgSuccess !== null ? ` (avg ${avgSuccess}% success)` : ''}, ${rules.length} rules, ${micro.length} micro-tools, ${contradictions.length} contradictions.`);
+    return out.join('\n');
   }
 
   #handleBlindspotLog(args) {

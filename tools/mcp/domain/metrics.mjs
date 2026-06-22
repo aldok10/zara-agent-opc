@@ -10,46 +10,12 @@ const EVOLVE_DIR = path.join(HOME, 'evolve');
 class MetricsTools {
   get tools() {
     return {
-      metrics_today: {
-        description: 'Show today agent metrics',
-        inputSchema: { type: 'object', properties: {} },
-        handler: () => this.#handleMetricsToday(),
-      },
-      micro_tools: {
-        description: 'List crystallized micro-tools',
-        inputSchema: { type: 'object', properties: {} },
-        handler: () => this.#handleMicroTools(),
-      },
-      workflow_rules: {
-        description: 'List active workflow rules',
-        inputSchema: { type: 'object', properties: {} },
-        handler: () => this.#handleWorkflowRules(),
-      },
       dashboard: {
-        description: 'Zara dashboard — overview of memory, metrics, patterns, procedures, micro-tools, rules',
+        description: 'Zara dashboard — overview of memory, metrics, patterns, procedures, micro-tools, rules. Use section param for specific views.',
         inputSchema: { type: 'object', properties: { section: { type: 'string', enum: ['all', 'memory', 'metrics', 'patterns', 'procedures', 'tools', 'rules'] } } },
         handler: (args) => this.#handleDashboard(args),
       },
     };
-  }
-
-  #handleMetricsToday() {
-    const today = new Date().toISOString().split('T')[0];
-    const data = loadJson(path.join(METRICS_DIR, `${today}.json`), { toolCalls: { total: 0, success: 0, error: 0 }, sessions: 0 });
-    const rate = data.toolCalls.total > 0 ? Math.round((data.toolCalls.success / data.toolCalls.total) * 100) : 0;
-    return `${today}: ${data.toolCalls.total} calls, ${rate}% success, ${data.sessions} sessions`;
-  }
-
-  #handleMicroTools() {
-    const mt = loadJson(path.join(EVOLVE_DIR, 'micro-tools.json'), []);
-    if (!mt.length) return 'No micro-tools yet.';
-    return mt.map(t => `${t.name} (${t.uses}x): ${t.trigger}`).join('\n');
-  }
-
-  #handleWorkflowRules() {
-    const rules = loadJson(path.join(EVOLVE_DIR, 'workflow-rules.json'), []);
-    if (!rules.length) return 'No rules defined.';
-    return rules.map(r => `[${r.priority}] WHEN "${r.when}" → ${r.then}`).join('\n');
   }
 
   #handleDashboard(args) {

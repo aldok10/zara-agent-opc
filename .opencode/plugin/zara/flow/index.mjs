@@ -202,95 +202,6 @@ class HandoffService {
   clear() { this.save(null); return 'Session state cleared.'; }
 }
 
-class PresenceService {
-  #client = null;
-  #timer = null;
-  #lastUserMessage = Date.now();
-  #askedIfOnline = false;
-  #activeSessionID = null;
-
-  static DEFAULTS = { enabled: true, idleMinutes: 1, goneMinutes: 1 };
-
-  init(client) { this.#client = client; }
-
-  getConfig() { return { ...PresenceService.DEFAULTS, ...flowStore.readJSON('presence.json', {}) }; }
-  saveConfig(extra) { flowStore.writeJSON('presence.json', { ...flowStore.readJSON('presence.json', {}), ...extra }); }
-
-  onSessionCreated(sessionID) {
-    this.#activeSessionID = sessionID;
-    this.#lastUserMessage = Date.now();
-    this.#askedIfOnline = false;
-  }
-
-  onMessage(sessionID) {
-    this.#lastUserMessage = Date.now();
-    this.#askedIfOnline = false;
-    if (sessionID) this.#activeSessionID = sessionID;
-    if (this.#activeSessionID) this.#schedule();
-  }
-
-  onIdle(sessionID) {
-    this.#activeSessionID = sessionID;
-    this.#schedule();
-  }
-
-  #clearTimer() { if (this.#timer) { clearTimeout(this.#timer); this.#timer = null; } }
-
-  #schedule() {
-    this.#clearTimer();
-    const cfg = this.getConfig();
-    if (!cfg.enabled) return;
-    const idleMs = cfg.idleMinutes * 60 * 1000;
-    const remaining = Math.max(0, idleMs - (Date.now() - this.#lastUserMessage));
-
-    this.#timer = setTimeout(async () => {
-      const cfg2 = this.getConfig();
-      if (!cfg2.enabled) return;
-      if (!this.#askedIfOnline) {
-        this.#askedIfOnline = true;
-        await this.#send('[PRESENCE CHECK] Mas, masih online? Kalau nggak respond dalam beberapa menit, aku bakal compact dan simpan memory ya.');
-        const goneMs = cfg2.goneMinutes * 60 * 1000;
-        this.#timer = setTimeout(async () => {
-          if (this.#askedIfOnline) {
-            this.#askedIfOnline = false;
-            this.saveConfig({ lastAutoCompact: new Date().toISOString() });
-            await this.#send('[AUTO] Mas Aldo nggak respond. Consolidate memory, simpan context penting, lalu compact.');
-          }
-        }, goneMs);
-      }
-    }, remaining);
-  }
-
-  async #send(text) {
-    if (!this.#client || !this.#activeSessionID) return;
-    try {
-      await this.#client.session.promptAsync({
-        path: { id: this.#activeSessionID },
-        body: { parts: [{ type: 'text', text, synthetic: true }] },
-      });
-    } catch {}
-  }
-
-  status() {
-    const cfg = this.getConfig();
-    const silentFor = Math.round((Date.now() - this.#lastUserMessage) / 60000);
-    return `Presence: ${cfg.enabled ? 'ON' : 'OFF'} | Idle: ${cfg.idleMinutes}m | Gone: ${cfg.goneMinutes}m\nSilent: ${silentFor}m | Asked: ${this.#askedIfOnline} | Session: ${this.#activeSessionID || 'none'}`;
-  }
-
-  enable() { this.saveConfig({ enabled: true }); return 'Presence detection enabled.'; }
-  disable() { this.#clearTimer(); this.saveConfig({ enabled: false }); return 'Presence detection disabled.'; }
-  set(idleMinutes, goneMinutes) {
-    const updates = {};
-    if (idleMinutes) updates.idleMinutes = idleMinutes;
-    if (goneMinutes) updates.goneMinutes = goneMinutes;
-    this.saveConfig(updates);
-    if (this.#activeSessionID) this.#schedule();
-    return `Updated: ${JSON.stringify(updates)}`;
-  }
-
-  dispose() { this.#clearTimer(); }
-}
-
 class ResumeService {
   #directory;
   #MAX_AGE = 86_400_000;
@@ -365,25 +276,13 @@ export default function createFlow({ client, directory } = {}) {
   const goals = new GoalService();
   const shutdown = new ShutdownService();
   const handoff = new HandoffService();
-  const presence = new PresenceService();
   const resume = new ResumeService(directory || process.cwd());
-
-  if (client) presence.init(client);
 
   return {
     onEvent(event) {
       if (event.type === 'session.created') {
-        const sid = event.properties?.sessionID || event.properties?.id;
-        presence.onSessionCreated(sid);
         resume.onSessionCreated();
       }
-      if (event.type === 'session.idle') {
-        presence.onIdle(event.properties?.sessionID);
-      }
-    },
-
-    onMessage(msg) {
-      presence.onMessage(msg?.sessionID);
     },
 
     inject(messages) {
@@ -429,9 +328,7 @@ export default function createFlow({ client, directory } = {}) {
       return messages;
     },
 
-    dispose() {
-      presence.dispose();
-    },
+    dispose() {},
 
     tools: {
       loop: tool({
@@ -511,24 +408,6 @@ export default function createFlow({ client, directory } = {}) {
             case 'load': return { output: handoff.loadSession() };
             case 'clear': return { output: handoff.clear() };
             default: return { output: 'Use: save, load, clear' };
-          }
-        },
-      }),
-
-      presence_config: tool({
-        description: 'Configure idle presence detection. Set idle threshold, enable/disable.',
-        args: {
-          action: z.enum(['status', 'enable', 'disable', 'set']),
-          idleMinutes: z.number().optional(),
-          goneMinutes: z.number().optional(),
-        },
-        async execute(args) {
-          switch (args.action) {
-            case 'status': return { output: presence.status() };
-            case 'enable': return { output: presence.enable() };
-            case 'disable': return { output: presence.disable() };
-            case 'set': return { output: presence.set(args.idleMinutes, args.goneMinutes) };
-            default: return { output: 'Use: status, enable, disable, set' };
           }
         },
       }),

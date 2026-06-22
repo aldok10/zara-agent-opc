@@ -4,7 +4,7 @@
 import fs from 'fs';
 import path from 'path';
 import { tool } from '@opencode-ai/plugin';
-import { FileStore, HOME } from '../infra/store.mjs';
+import { FileStore, HOME, ensure, atomicWrite, loadJson } from '../infra/store.mjs';
 
 const z = tool.schema;
 
@@ -29,14 +29,6 @@ const PROMOTE_THRESHOLD = 3;
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-function ensure(dir) { fs.mkdirSync(dir, { recursive: true }); }
-
-function atomicWrite(filePath, data) {
-  const tmp = filePath + '.tmp.' + Date.now().toString(36);
-  fs.writeFileSync(tmp, data, 'utf-8');
-  fs.renameSync(tmp, filePath);
-}
-
 function loadJsonl(file, max) {
   try {
     const lines = fs.readFileSync(file, 'utf-8').trim().split('\n').filter(Boolean);
@@ -57,11 +49,6 @@ function appendJsonl(file, entry) {
       _episodicCount = MAX_EPISODIC;
     }
   }
-}
-
-function loadJson(file, fallback) {
-  try { return JSON.parse(fs.readFileSync(file, 'utf-8')); }
-  catch { return fallback; }
 }
 
 // ─── Cached Loaders ──────────────────────────────────────────────────────────

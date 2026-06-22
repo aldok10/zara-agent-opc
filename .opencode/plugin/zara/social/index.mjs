@@ -123,28 +123,6 @@ class TeamService {
   get dir() { return this.#store.dir; }
 }
 
-class MeshService {
-  #store = new FileStore('mesh');
-  #instance = null;
-
-  getInstance() {
-    if (this.#instance) return this.#instance;
-    this.#store.ensure();
-    let inst = this.#store.readJSON('instance.json', null);
-    if (!inst) {
-      inst = { id: `zara-${Date.now().toString(36)}`, host: os.hostname(), user: os.userInfo().username, createdAt: new Date().toISOString() };
-      this.#store.writeJSON('instance.json', inst);
-    }
-    this.#instance = inst;
-    return inst;
-  }
-
-  broadcast(msg) { this.#store.appendLine('outbox.jsonl', msg); }
-  readInbox(max) { return this.#store.readLines('inbox.jsonl', max); }
-  readOutbox(max) { return this.#store.readLines('outbox.jsonl', max); }
-  get dir() { return this.#store.dir; }
-}
-
 class MusicService {
   #stateFile = path.join(HOME, 'player.json');
   #tasteFile = path.join(HOME, 'music-taste.json');
@@ -228,7 +206,6 @@ class MusicService {
 
 const leadership = new LeadershipService();
 const teamSvc = new TeamService();
-const meshSvc = new MeshService();
 const musicSvc = new MusicService();
 
 // NOTE: Empathy tracking is now handled by the dedicated empathy/index.mjs module.
@@ -351,53 +328,6 @@ const allTools = {
     args: {},
     async execute() {
       return { output: `User: ${teamSvc.currentUser()}\nMemory: ${path.join(HOME, 'memory')}\nTeam: ${teamSvc.dir}\nSet ZARA_USER env var to change identity.` };
-    },
-  }),
-
-  mesh_broadcast: tool({
-    description: 'Broadcast a message/learning to the Zara mesh.',
-    args: {
-      type: z.enum(['micro-tool', 'learning', 'request', 'announcement']).describe('Message type'),
-      content: z.string().describe('Message content'),
-      tags: z.array(z.string()).optional().describe('Tags for filtering'),
-    },
-    async execute(args) {
-      const inst = meshSvc.getInstance();
-      meshSvc.broadcast({ from: inst.id, host: inst.host, type: args.type, content: args.content, tags: args.tags || [], ts: new Date().toISOString() });
-      return { output: `Broadcast: [${args.type}] from ${inst.id} — "${args.content.slice(0, 60)}"` };
-    },
-  }),
-
-  mesh_inbox: tool({
-    description: 'Check for messages from other Zara instances.',
-    args: { type: z.enum(['all', 'micro-tool', 'learning', 'request', 'announcement']).optional().describe('Filter by type') },
-    async execute(args) {
-      let msgs = meshSvc.readInbox(50);
-      const inst = meshSvc.getInstance();
-      msgs = msgs.filter(m => m.from !== inst.id);
-      if (args.type && args.type !== 'all') msgs = msgs.filter(m => m.type === args.type);
-      msgs = msgs.slice(-10);
-      if (!msgs.length) return { output: 'No new messages.' };
-      const out = msgs.map(m => `[${m.type}] ${m.from}@${m.host} (${m.ts.split('T')[0]}): ${m.content.slice(0, 100)}`);
-      return { output: out.join('\n') };
-    },
-  }),
-
-  mesh_identity: tool({
-    description: 'Show this Zara instance identity and mesh status.',
-    args: {},
-    async execute() {
-      const inst = meshSvc.getInstance();
-      const outCount = meshSvc.readOutbox(9999).length;
-      const inCount = meshSvc.readInbox(9999).length;
-      return {
-        output: [
-          `**Instance**: ${inst.id}`, `**Host**: ${inst.host}`, `**User**: ${inst.user}`,
-          `**Outbox**: ${outCount} messages`, `**Inbox**: ${inCount} messages`,
-          `**Mesh dir**: ${meshSvc.dir}`,
-          '', 'Sync via shared folder (iCloud, Dropbox, git) for cross-machine collaboration.',
-        ].join('\n'),
-      };
     },
   }),
 

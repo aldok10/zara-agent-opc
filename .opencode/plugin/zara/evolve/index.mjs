@@ -3,9 +3,8 @@
 
 import fs from 'fs';
 import path from 'path';
-import os from 'os';
 import { tool } from '@opencode-ai/plugin';
-import { FileStore, HOME, estimateTokens } from '../infra/store.mjs';
+import { FileStore, HOME, estimateTokens, ensure, loadJson, saveJson } from '../infra/store.mjs';
 
 const z = tool.schema;
 
@@ -16,7 +15,6 @@ const MICRO_TOOLS_FILE = path.join(EVOLVE_DIR, 'micro-tools.json');
 const PROMPT_SCORES_FILE = path.join(EVOLVE_DIR, 'prompt-scores.json');
 const RULES_FILE = path.join(EVOLVE_DIR, 'workflow-rules.json');
 const AUTO_CRYSTAL_LOG = path.join(EVOLVE_DIR, 'auto-crystallized.json');
-const AB_TESTS_FILE = path.join(EVOLVE_DIR, 'ab-tests.json');
 
 const COMPACT_DIR = path.join(HOME, 'compaction');
 
@@ -30,30 +28,10 @@ const SCRATCH_DIR = path.join(HOME, 'scratch');
 const SWARM_DIR = path.join(HOME, 'swarm');
 const EPICS_FILE = path.join(SWARM_DIR, 'epics.json');
 const TASKS_FILE = path.join(SWARM_DIR, 'tasks.json');
-const MAIL_FILE = path.join(SWARM_DIR, 'mail.json');
-const RESERVATIONS_FILE = path.join(SWARM_DIR, 'reservations.json');
 const OUTCOMES_FILE = path.join(SWARM_DIR, 'outcomes.jsonl');
 const MAX_REVIEW = 3;
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
-
-function ensure(dir) { fs.mkdirSync(dir, { recursive: true }); }
-
-function loadJson(file, fallback) {
-  try { return JSON.parse(fs.readFileSync(file, 'utf-8')); }
-  catch { return typeof fallback === 'function' ? fallback() : (Array.isArray(fallback) ? [...fallback] : { ...fallback }); }
-}
-
-function saveJson(file, data) {
-  ensure(path.dirname(file));
-  try {
-    fs.writeFileSync(file, JSON.stringify(data, null, 2), 'utf-8');
-  } catch {
-    const tmp = file + '.tmp';
-    fs.writeFileSync(tmp, JSON.stringify(data, null, 2), 'utf-8');
-    fs.renameSync(tmp, file);
-  }
-}
 
 function uid(prefix = 'sw') {
   return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`;
@@ -182,8 +160,8 @@ export default function createEvolve({ client, directory } = {}) {
     // ── Hooks ──────────────────────────────────────────────────────────────
 
     inject(messages) {
-      // 1. Evolve: micro-tools + rules + prompt adaptations + A/B tests
-      const hasAny = [MICRO_TOOLS_FILE, RULES_FILE, PROMPT_SCORES_FILE, AB_TESTS_FILE].some(f => {
+      // 1. Evolve: micro-tools + rules + prompt adaptations
+      const hasAny = [MICRO_TOOLS_FILE, RULES_FILE, PROMPT_SCORES_FILE].some(f => {
         try { fs.accessSync(f); return true; } catch { return false; }
       });
 
@@ -191,7 +169,7 @@ export default function createEvolve({ client, directory } = {}) {
         try { ensureCrystallized(); } catch {}
 
         let stale = !_transformCache.text;
-        for (const f of [MICRO_TOOLS_FILE, RULES_FILE, PROMPT_SCORES_FILE, AB_TESTS_FILE]) {
+        for (const f of [MICRO_TOOLS_FILE, RULES_FILE, PROMPT_SCORES_FILE]) {
           try {
             const mt = fs.statSync(f).mtimeMs;
             if (_transformCache.mtimes[f] !== mt) { stale = true; _transformCache.mtimes[f] = mt; }
@@ -238,16 +216,6 @@ export default function createEvolve({ client, directory } = {}) {
             else if (helpRate > 0.7) adaptations.push(`- AMPLIFY: "${instruction}" (${Math.round(helpRate * 100)}% helpful)`);
           }
           if (adaptations.length) parts.push(`## Prompt Adaptations (learned)\n${adaptations.join('\n')}`);
-
-          const abTests = loadJson(AB_TESTS_FILE, []);
-          const activeTests = abTests.filter(t => t.active);
-          if (activeTests.length) {
-            const abLines = activeTests.map(t => {
-              const variant = t.a.trials <= t.b.trials ? 'a' : 'b';
-              return `[${t.name}:${variant.toUpperCase()}] ${t[variant].text}`;
-            });
-            parts.push(`## A/B Active\n${abLines.join('\n')}`);
-          }
 
           _transformCache.text = parts.length ? parts.join('\n\n') : null;
           if (_transformCache.text) {
@@ -566,106 +534,6 @@ export default function createEvolve({ client, directory } = {}) {
         },
       }),
 
-      evolve_ab_create: tool({
-        description: 'Create a prompt A/B test — two instruction variants. System randomly picks one per session and tracks which performs better.',
-        args: {
-          name: z.string().describe('Test name (e.g. "verbose-vs-concise-errors")'),
-          variantA: z.string().describe('Variant A instruction text'),
-          variantB: z.string().describe('Variant B instruction text'),
-        },
-        async execute(args) {
-          const tests = loadJson(AB_TESTS_FILE, []);
-          const existing = tests.findIndex(t => t.name === args.name);
-          const test = {
-            name: args.name,
-            a: { text: args.variantA, wins: 0, trials: 0 },
-            b: { text: args.variantB, wins: 0, trials: 0 },
-            active: true,
-            createdAt: new Date().toISOString(),
-          };
-          if (existing >= 0) tests[existing] = test;
-          else tests.push(test);
-          saveJson(AB_TESTS_FILE, tests);
-          return { output: `A/B test "${args.name}" created. Will alternate between variants.` };
-        },
-      }),
-
-      evolve_ab_result: tool({
-        description: 'Record A/B test outcome — which variant won this round.',
-        args: {
-          name: z.string().describe('Test name'),
-          winner: z.enum(['a', 'b']).describe('Which variant performed better'),
-        },
-        async execute(args) {
-          const tests = loadJson(AB_TESTS_FILE, []);
-          const test = tests.find(t => t.name === args.name);
-          if (!test) return { output: `Test "${args.name}" not found.` };
-
-          test[args.winner].wins++;
-          test.a.trials++;
-          test.b.trials++;
-
-          const total = test.a.trials;
-          if (total >= 10) {
-            const aRate = test.a.wins / total;
-            const bRate = test.b.wins / total;
-            if (Math.abs(aRate - bRate) > 0.3) {
-              test.active = false;
-              test.winner = aRate > bRate ? 'a' : 'b';
-              test.concludedAt = new Date().toISOString();
-            }
-          }
-
-          saveJson(AB_TESTS_FILE, tests);
-          const status = test.active ? `(A: ${test.a.wins}/${test.a.trials}, B: ${test.b.wins}/${test.b.trials})` : `CONCLUDED → ${test.winner.toUpperCase()} wins`;
-          return { output: `Recorded: ${args.winner} wins. ${status}` };
-        },
-      }),
-
-      evolve_ab_status: tool({
-        description: 'Show all A/B test status and results.',
-        args: {},
-        async execute() {
-          const tests = loadJson(AB_TESTS_FILE, []);
-          if (!tests.length) return { output: 'No A/B tests running.' };
-          const lines = tests.map(t => {
-            const status = t.active ? 'ACTIVE' : `DONE → ${t.winner?.toUpperCase()}`;
-            return `- **${t.name}** [${status}]: A=${t.a.wins}/${t.a.trials} vs B=${t.b.wins}/${t.b.trials}`;
-          });
-          return { output: lines.join('\n') };
-        },
-      }),
-
-      evolve_share_tools: tool({
-        description: 'Share your micro-tools with the team knowledge graph.',
-        args: {
-          names: z.array(z.string()).optional().describe('Specific micro-tool names to share (default: all with 2+ uses)'),
-        },
-        async execute(args) {
-          const microTools = loadJson(MICRO_TOOLS_FILE, []);
-          const teamFile = path.join(HOME, 'team', 'shared-knowledge.json');
-          const shared = loadJson(teamFile, {});
-
-          const toShare = args.names
-            ? microTools.filter(t => args.names.includes(t.name))
-            : microTools.filter(t => t.uses >= 2);
-
-          if (!toShare.length) return { output: 'No micro-tools to share (need 2+ uses).' };
-
-          for (const t of toShare) {
-            shared[`micro-tool.${t.name}`] = {
-              value: `${t.trigger} → ${t.steps.join('; ')}`,
-              tags: ['micro-tool', ...t.tools],
-              author: process.env.ZARA_USER || os.userInfo().username || 'unknown',
-              updatedAt: new Date().toISOString(),
-            };
-          }
-
-          saveJson(teamFile, shared);
-          return { output: `Shared ${toShare.length} micro-tools with team graph.` };
-        },
-      }),
-
       // ── Swarm Tools ─────────────────────────────────────────────────────
 
       swarm_create_epic: tool({
@@ -800,105 +668,6 @@ export default function createEvolve({ client, directory } = {}) {
         },
       }),
 
-      swarm_reserve_files: tool({
-        description: 'Reserve file paths for a worker (prevents conflicts)',
-        args: {
-          agent: z.string().describe('Agent/worker name'),
-          files: z.array(z.string()).describe('File paths to reserve'),
-        },
-        async execute(args) {
-          const res = loadJson(RESERVATIONS_FILE, {});
-          const conflicts = [];
-
-          for (const file of args.files) {
-            if (res[file] && res[file] !== args.agent) {
-              conflicts.push({ file, owner: res[file] });
-            } else {
-              res[file] = args.agent;
-            }
-          }
-
-          saveJson(RESERVATIONS_FILE, res);
-          if (conflicts.length) {
-            return { output: `Conflicts: ${conflicts.map(c => `${c.file} (owned by ${c.owner})`).join(', ')}` };
-          }
-          return { output: `Reserved ${args.files.length} files for ${args.agent}` };
-        },
-      }),
-
-      swarm_release_files: tool({
-        description: 'Release file reservations for an agent',
-        args: {
-          agent: z.string().describe('Agent/worker name to release'),
-        },
-        async execute(args) {
-          const res = loadJson(RESERVATIONS_FILE, {});
-          let released = 0;
-          for (const [file, owner] of Object.entries(res)) {
-            if (owner === args.agent) { delete res[file]; released++; }
-          }
-          saveJson(RESERVATIONS_FILE, res);
-          return { output: `Released ${released} files for ${args.agent}` };
-        },
-      }),
-
-      swarm_send_mail: tool({
-        description: 'Send a message between swarm workers',
-        args: {
-          from: z.string().describe('Sender'),
-          to: z.string().describe('Recipient'),
-          subject: z.string().describe('Subject'),
-          body: z.string().describe('Message body'),
-          epicId: z.string().optional().describe('Related epic ID'),
-        },
-        async execute(args) {
-          const mail = loadJson(MAIL_FILE, []);
-          const msg = {
-            id: uid('msg'),
-            from: args.from,
-            to: args.to,
-            subject: args.subject,
-            body: args.body,
-            epicId: args.epicId || null,
-            sentAt: new Date().toISOString(),
-            acked: false,
-          };
-          mail.push(msg);
-          saveJson(MAIL_FILE, mail);
-          return { output: `Mail sent: ${msg.id} (${args.from} → ${args.to}: "${args.subject}")` };
-        },
-      }),
-
-      swarm_inbox: tool({
-        description: 'Check inbox for a swarm agent',
-        args: {
-          agent: z.string().describe('Agent name to check inbox for'),
-          epicId: z.string().optional().describe('Filter by epic ID'),
-        },
-        async execute(args) {
-          const mail = loadJson(MAIL_FILE, []);
-          const msgs = mail.filter(m => m.to === args.agent && !m.acked && (!args.epicId || m.epicId === args.epicId));
-          if (!msgs.length) return { output: `No unread messages for ${args.agent}` };
-          return { output: JSON.stringify(msgs.map(m => ({ id: m.id, from: m.from, subject: m.subject, sentAt: m.sentAt })), null, 2) };
-        },
-      }),
-
-      swarm_ack_message: tool({
-        description: 'Acknowledge a swarm mail message',
-        args: {
-          messageId: z.string().describe('Message ID to acknowledge'),
-        },
-        async execute(args) {
-          const mail = loadJson(MAIL_FILE, []);
-          const msg = mail.find(m => m.id === args.messageId);
-          if (!msg) return { output: `Message not found: ${args.messageId}` };
-          msg.acked = true;
-          msg.ackedAt = new Date().toISOString();
-          saveJson(MAIL_FILE, mail);
-          return { output: `Message ${args.messageId} acknowledged` };
-        },
-      }),
-
       swarm_record_outcome: tool({
         description: 'Record swarm outcome and learnings for future reference',
         args: {
@@ -926,21 +695,7 @@ export default function createEvolve({ client, directory } = {}) {
             saveEpics(epics);
           }
 
-          const tasks = loadTasks().filter(t => t.epicId === args.epicId);
-          const res = loadJson(RESERVATIONS_FILE, {});
-          for (const task of tasks) {
-            if (task.assignedAgent) {
-              for (const [file, owner] of Object.entries(res)) {
-                if (owner === task.assignedAgent) delete res[file];
-              }
-            }
-          }
-          saveJson(RESERVATIONS_FILE, res);
-
-          const mail = loadJson(MAIL_FILE, []).filter(m => m.epicId !== args.epicId);
-          saveJson(MAIL_FILE, mail);
-
-          return { output: `Outcome recorded for ${args.epicId}. Epic closed. Resources released.` };
+          return { output: `Outcome recorded for ${args.epicId}. Epic closed.` };
         },
       }),
 
@@ -969,64 +724,6 @@ export default function createEvolve({ client, directory } = {}) {
             if (!outcomes.length) return { output: `No outcomes found${args.query ? ` for "${args.query}"` : ''}.` };
             return { output: JSON.stringify(outcomes, null, 2) };
           } catch { return { output: 'No past outcomes found.' }; }
-        },
-      }),
-
-      swarm_nest_epic: tool({
-        description: 'Create a child epic under a parent epic (hierarchical swarm). Use for mega-tasks that need multiple coordination layers.',
-        args: {
-          parentEpicId: z.string().describe('Parent epic ID'),
-          title: z.string().describe('Child epic title'),
-          description: z.string().optional().describe('Child epic description'),
-          subtasks: z.array(z.object({
-            title: z.string(),
-            description: z.string().optional(),
-            scope: z.array(z.string()).optional(),
-            agent: z.string().optional(),
-          })).describe('Subtasks for child epic'),
-        },
-        async execute(args) {
-          const epics = loadEpics();
-          const tasks = loadTasks();
-          const parent = epics.find(e => e.id === args.parentEpicId);
-          if (!parent) return { output: `Parent epic not found: ${args.parentEpicId}` };
-
-          const childEpic = {
-            id: uid('epic'),
-            parentId: args.parentEpicId,
-            title: args.title,
-            description: args.description || '',
-            status: 'active',
-            createdAt: new Date().toISOString(),
-            subtaskIds: [],
-          };
-
-          for (const st of args.subtasks) {
-            const task = {
-              id: uid('task'),
-              epicId: childEpic.id,
-              title: st.title,
-              description: st.description || '',
-              scope: st.scope || [],
-              assignedAgent: st.agent || null,
-              status: 'pending',
-              reviewAttempts: 0,
-              createdAt: new Date().toISOString(),
-            };
-            tasks.push(task);
-            childEpic.subtaskIds.push(task.id);
-          }
-
-          epics.push(childEpic);
-          if (!parent.childEpicIds) parent.childEpicIds = [];
-          parent.childEpicIds.push(childEpic.id);
-
-          saveEpics(epics);
-          saveTasks(tasks);
-
-          return {
-            output: `Child epic created: ${childEpic.id} under ${parent.id} — "${childEpic.title}" with ${args.subtasks.length} subtasks`,
-          };
         },
       }),
 

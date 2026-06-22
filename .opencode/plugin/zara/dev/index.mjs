@@ -1,13 +1,12 @@
-// Dev module — Codebase, Sandbox, Principles, HITL, Router, Research, Install
-// Ported from: zara-codebase, zara-ctx, zara-senior-dev, zara-hitl, zara-router, zara-research, zara-install
+// Dev module — Codebase, Sandbox, Principles, HITL
+// Ported from: zara-codebase, zara-ctx, zara-senior-dev, zara-hitl
 
 import fs from 'fs';
 import path from 'path';
-import os from 'os';
 import crypto from 'crypto';
 import { spawnSync } from 'child_process';
 import { tool } from '@opencode-ai/plugin';
-import { FileStore, HOME } from '../infra/store.mjs';
+import { FileStore, HOME, loadJson, saveJson } from '../infra/store.mjs';
 
 const z = tool.schema;
 
@@ -17,9 +16,6 @@ const PROJECTS_DIR = path.join(HOME, 'projects');
 const CTX_CACHE_DIR = path.join(HOME, 'ctx', 'cache');
 const HITL_DIR = path.join(HOME, 'hitl');
 const DECISIONS_FILE = path.join(HITL_DIR, 'decisions.jsonl');
-const ROUTER_DIR = path.join(HOME, 'router');
-const ROUTER_HISTORY = path.join(ROUTER_DIR, 'model-outcomes.jsonl');
-
 // ─── Codebase Helpers ───────────────────────────────────────────────────────
 
 function projectId(dir) {
@@ -28,16 +24,6 @@ function projectId(dir) {
 
 function projectFile(dir) {
   return path.join(PROJECTS_DIR, `${projectId(dir)}.json`);
-}
-
-function loadJson(file, fallback) {
-  try { return JSON.parse(fs.readFileSync(file, 'utf-8')); }
-  catch { return fallback; }
-}
-
-function saveJson(file, data) {
-  fs.mkdirSync(path.dirname(file), { recursive: true });
-  fs.writeFileSync(file, JSON.stringify(data, null, 2), 'utf-8');
 }
 
 function scanProject(dir) {
@@ -76,85 +62,6 @@ function scanProject(dir) {
     scan.lang = [...new Set(scan.lang)];
   } catch {}
   return scan;
-}
-
-// ─── Router Task Classification ─────────────────────────────────────────────
-
-const TASK_PROFILES = {
-  'reasoning': { desc: 'Complex reasoning, architecture, analysis', prefer: 'large', examples: ['design', 'architect', 'analyze', 'compare', 'tradeoff'] },
-  'code-gen': { desc: 'Code generation, implementation', prefer: 'code', examples: ['implement', 'write', 'create', 'build', 'refactor'] },
-  'review': { desc: 'Code review, security audit', prefer: 'large', examples: ['review', 'audit', 'check', 'validate'] },
-  'search': { desc: 'Search, lookup, quick facts', prefer: 'small', examples: ['find', 'search', 'list', 'show', 'what is'] },
-  'transform': { desc: 'Data transformation, formatting', prefer: 'small', examples: ['convert', 'format', 'rename', 'parse'] },
-  'chat': { desc: 'Casual conversation, coaching', prefer: 'medium', examples: ['help', 'explain', 'why', 'how'] },
-};
-
-function classifyTask(description) {
-  const lower = description.toLowerCase();
-  for (const [type, profile] of Object.entries(TASK_PROFILES)) {
-    if (profile.examples.some(ex => lower.includes(ex))) return type;
-  }
-  return 'chat';
-}
-
-// ─── Research Helpers ───────────────────────────────────────────────────────
-
-const ARXIV_API = 'http://export.arxiv.org/api/query';
-const OPENALEX_API = 'https://api.openalex.org/works';
-
-async function searchArxiv(query, maxResults = 5) {
-  const params = new URLSearchParams({
-    search_query: `all:${query}`,
-    start: '0',
-    max_results: String(maxResults),
-    sortBy: 'submittedDate',
-    sortOrder: 'descending',
-  });
-  const res = await fetch(`${ARXIV_API}?${params}`);
-  if (!res.ok) throw new Error(`arXiv ${res.status}`);
-  const xml = await res.text();
-  const entries = [];
-  const entryRegex = /<entry>([\s\S]*?)<\/entry>/g;
-  let match;
-  while ((match = entryRegex.exec(xml)) !== null) {
-    const e = match[1];
-    const title = e.match(/<title>([\s\S]*?)<\/title>/)?.[1]?.replace(/\s+/g, ' ').trim() || '';
-    const summary = e.match(/<summary>([\s\S]*?)<\/summary>/)?.[1]?.replace(/\s+/g, ' ').trim() || '';
-    const published = e.match(/<published>(.*?)<\/published>/)?.[1]?.slice(0, 10) || '';
-    const id = e.match(/<id>(.*?)<\/id>/)?.[1] || '';
-    const pdf = id.replace('/abs/', '/pdf/');
-    const authors = [...e.matchAll(/<name>(.*?)<\/name>/g)].map(m => m[1]).slice(0, 3);
-    entries.push({ title, authors: authors.join(', '), published, pdf, summary: summary.slice(0, 200) });
-  }
-  return entries;
-}
-
-async function searchOpenAlex(query, maxResults = 5, sort = 'cited_by_count:desc') {
-  const params = new URLSearchParams({
-    search: query,
-    per_page: String(maxResults),
-    sort,
-    select: 'title,authorships,publication_date,doi,cited_by_count,open_access',
-  });
-  const res = await fetch(`${OPENALEX_API}?${params}`, {
-    headers: { 'User-Agent': 'mailto:zara-agent@local' },
-  });
-  if (!res.ok) throw new Error(`OpenAlex ${res.status}`);
-  const data = await res.json();
-  return (data.results || []).map(w => ({
-    title: w.title || '',
-    authors: (w.authorships || []).slice(0, 3).map(a => a.author?.display_name).filter(Boolean).join(', '),
-    published: w.publication_date || '',
-    pdf: w.open_access?.oa_url || (w.doi ? `https://doi.org/${w.doi}` : ''),
-    citations: w.cited_by_count || 0,
-  }));
-}
-
-function formatPapers(papers, source) {
-  if (!papers.length) return `No results from ${source}.`;
-  return papers.map((p, i) =>
-    `${i + 1}. **${p.title}**\n   ${p.authors} (${p.published})${p.citations ? ` — ${p.citations} citations` : ''}\n   ${p.pdf}${p.summary ? `\n   ${p.summary}...` : ''}`
-  ).join('\n\n');
 }
 
 // ─── 8 Principles ──────────────────────────────────────────────────────────
@@ -525,245 +432,7 @@ export default function createDev({ client, directory } = {}) {
         },
       }),
 
-      // ── Router Tools ────────────────────────────────────────────────────
 
-      router_recommend: tool({
-        description: 'Recommend which model tier to use for a task. Helps optimize cost vs quality.',
-        args: {
-          task: z.string().describe('Task description'),
-        },
-        async execute(args) {
-          const type = classifyTask(args.task);
-          const profile = TASK_PROFILES[type];
-          const modelMap = {
-            large: 'claude-sonnet-4 / opus (complex reasoning, high quality)',
-            medium: 'claude-sonnet-4 (balanced)',
-            small: 'claude-haiku / deepseek-flash (fast, cheap)',
-            code: 'claude-sonnet-4 (code-optimized temperature 0.2)',
-          };
-
-          let historyNote = '';
-          try {
-            if (fs.existsSync(ROUTER_HISTORY)) {
-              const lines = fs.readFileSync(ROUTER_HISTORY, 'utf-8').trim().split('\n').filter(Boolean);
-              const entries = lines.map(l => JSON.parse(l)).filter(e => e.taskType === type);
-              if (entries.length >= 3) {
-                const successRate = entries.filter(e => e.outcome === 'success').length / entries.length;
-                historyNote = ` (${Math.round(successRate * 100)}% success rate on ${entries.length} past ${type} tasks)`;
-              }
-            }
-          } catch {}
-
-          return {
-            output: [
-              `**Task type**: ${type} — ${profile.desc}`,
-              `**Recommended**: ${modelMap[profile.prefer]}${historyNote}`,
-              '',
-              'Note: actual model is set per-agent in opencode.json. Use @hive for parallel tasks on cheaper models.',
-            ].join('\n'),
-          };
-        },
-      }),
-
-      router_record: tool({
-        description: 'Record model performance for a task type. Improves future recommendations.',
-        args: {
-          task: z.string().describe('What was the task'),
-          model: z.string().describe('Which model was used'),
-          outcome: z.enum(['success', 'partial', 'failure']).describe('How it went'),
-          notes: z.string().optional().describe('Any notes'),
-        },
-        async execute(args) {
-          fs.mkdirSync(ROUTER_DIR, { recursive: true });
-          const entry = {
-            taskType: classifyTask(args.task),
-            task: args.task.slice(0, 100),
-            model: args.model,
-            outcome: args.outcome,
-            notes: args.notes || '',
-            ts: new Date().toISOString(),
-          };
-          fs.appendFileSync(ROUTER_HISTORY, JSON.stringify(entry) + '\n', 'utf-8');
-
-          try {
-            const lines = fs.readFileSync(ROUTER_HISTORY, 'utf-8').trim().split('\n').filter(Boolean);
-            if (lines.length > 200) fs.writeFileSync(ROUTER_HISTORY, lines.slice(-200).join('\n') + '\n', 'utf-8');
-          } catch {}
-
-          return { output: `Recorded: ${args.model} on ${entry.taskType} → ${args.outcome}` };
-        },
-      }),
-
-      router_stats: tool({
-        description: 'Show model performance stats by task type.',
-        args: {},
-        async execute() {
-          try {
-            if (!fs.existsSync(ROUTER_HISTORY)) return { output: 'No routing history yet.' };
-            const lines = fs.readFileSync(ROUTER_HISTORY, 'utf-8').trim().split('\n').filter(Boolean);
-            const entries = lines.map(l => JSON.parse(l));
-            const byType = {};
-            for (const e of entries) {
-              if (!byType[e.taskType]) byType[e.taskType] = { total: 0, success: 0 };
-              byType[e.taskType].total++;
-              if (e.outcome === 'success') byType[e.taskType].success++;
-            }
-            const output = Object.entries(byType).map(([type, stats]) =>
-              `- **${type}**: ${stats.total} tasks, ${Math.round((stats.success / stats.total) * 100)}% success`
-            );
-            return { output: output.join('\n') || 'No data.' };
-          } catch { return { output: 'No routing history.' }; }
-        },
-      }),
-
-      // ── Research Tool ───────────────────────────────────────────────────
-
-      research_papers: tool({
-        description: 'Search academic papers from arXiv (preprints) and OpenAlex (citations). Use when claims need evidence, learning new topics, or verifying best practices.',
-        args: {
-          query: z.string().describe('Search query (topic, technique, or specific paper title)'),
-          source: z.enum(['auto', 'arxiv', 'openalex']).optional().describe('auto=both, arxiv=latest preprints, openalex=top cited'),
-          max_results: z.number().min(1).max(20).optional().describe('Results per source (default 5)'),
-          filter: z.enum(['latest', 'top_cited', 'trending']).optional().describe('latest=newest, top_cited=most citations, trending=recent+cited'),
-        },
-        async execute(args) {
-          const { query, source = 'auto', max_results = 5, filter = 'latest' } = args;
-          const results = [];
-
-          try {
-            if (source === 'auto' || source === 'arxiv') {
-              const arxiv = await searchArxiv(query, max_results);
-              if (arxiv.length) results.push(`## arXiv (latest)\n\n${formatPapers(arxiv, 'arXiv')}`);
-            }
-          } catch (e) { results.push(`arXiv error: ${e.message}`); }
-
-          try {
-            if (source === 'auto' || source === 'openalex') {
-              const sort = filter === 'latest' ? 'publication_date:desc' :
-                           filter === 'trending' ? 'relevance_score:desc' : 'cited_by_count:desc';
-              const oalex = await searchOpenAlex(query, max_results, sort);
-              if (oalex.length) results.push(`## OpenAlex (${filter})\n\n${formatPapers(oalex, 'OpenAlex')}`);
-            }
-          } catch (e) { results.push(`OpenAlex error: ${e.message}`); }
-
-          return { output: results.join('\n\n---\n\n') || 'No results found.' };
-        },
-      }),
-
-      // ── Install Tools ───────────────────────────────────────────────────
-
-      zara_install: tool({
-        description: 'Install Zara globally — symlinks .opencode/ to ~/.config/opencode/zara and creates runtime dirs',
-        args: {},
-        async execute() {
-          const projectRoot = dir;
-          const home = os.homedir();
-          const configDir = path.join(home, '.config', 'opencode');
-          const zaraLink = path.join(configDir, 'zara');
-          const configFile = path.join(configDir, 'config.json');
-          const zaraHome = path.join(home, '.zara');
-          const opencodeDir = path.join(projectRoot, '.opencode');
-          const steps = [];
-
-          fs.mkdirSync(configDir, { recursive: true });
-          steps.push('~/.config/opencode/ ready');
-
-          try { fs.unlinkSync(zaraLink); } catch {}
-          try { fs.rmSync(zaraLink, { recursive: true, force: true }); } catch {}
-          fs.symlinkSync(opencodeDir, zaraLink, 'junction');
-          steps.push(`symlink: ${zaraLink} → ${opencodeDir}`);
-
-          let runtimeBase = zaraHome;
-          try {
-            fs.mkdirSync(zaraHome, { recursive: true });
-            const test = path.join(zaraHome, '.write-test');
-            fs.writeFileSync(test, '');
-            fs.unlinkSync(test);
-          } catch {
-            runtimeBase = path.join(process.cwd(), '.zara');
-          }
-          for (const d of ['state', 'swarm', 'hitl', 'ctx', 'ctx/cache', 'sessions']) {
-            fs.mkdirSync(path.join(runtimeBase, d), { recursive: true });
-          }
-          steps.push(`${runtimeBase === zaraHome ? '~/.zara/' : './.zara/'} runtime dirs created`);
-
-          let config = {};
-          try { if (fs.existsSync(configFile)) config = JSON.parse(fs.readFileSync(configFile, 'utf-8')); } catch {}
-          config.$schema = 'https://opencode.ai/config.json';
-          config.instructions = ['zara/agent/zara.md'];
-          config.plugin = [
-            './zara/plugin/zara.mjs',
-          ];
-          fs.writeFileSync(configFile, JSON.stringify(config, null, 2) + '\n', 'utf-8');
-          steps.push('global config.json updated');
-
-          return { output: `Zara installed globally:\n${steps.map(s => `  ✓ ${s}`).join('\n')}\n\nRestart OpenCode to activate.` };
-        },
-      }),
-
-      zara_uninstall: tool({
-        description: 'Remove Zara from global OpenCode config',
-        args: {},
-        async execute() {
-          const projectRoot = dir;
-          const home = os.homedir();
-          const configDir = path.join(home, '.config', 'opencode');
-          const zaraLink = path.join(configDir, 'zara');
-          const configFile = path.join(configDir, 'config.json');
-          const removed = [];
-
-          try { fs.unlinkSync(zaraLink); removed.push('symlink'); } catch {}
-          try {
-            if (fs.existsSync(configFile)) {
-              const config = JSON.parse(fs.readFileSync(configFile, 'utf-8'));
-              delete config.instructions;
-              if (config.plugin) config.plugin = config.plugin.filter(p => !p.includes('zara'));
-              fs.writeFileSync(configFile, JSON.stringify(config, null, 2) + '\n', 'utf-8');
-              removed.push('config cleaned');
-            }
-          } catch {}
-
-          return { output: `Zara removed: ${removed.join(', ')}. Runtime data preserved at ~/.zara/` };
-        },
-      }),
-
-      zara_status: tool({
-        description: 'Check Zara global installation status',
-        args: {},
-        async execute() {
-          const projectRoot = dir;
-          const home = os.homedir();
-          const configDir = path.join(home, '.config', 'opencode');
-          const zaraLink = path.join(configDir, 'zara');
-          const configFile = path.join(configDir, 'config.json');
-          const zaraHome = path.join(home, '.zara');
-          const opencodeDir = path.join(projectRoot, '.opencode');
-          const checks = [];
-
-          const linkExists = fs.existsSync(zaraLink);
-          checks.push(`symlink: ${linkExists ? '✓' : '✗'} ${zaraLink}`);
-
-          let configOk = false;
-          try {
-            if (fs.existsSync(configFile)) {
-              const c = JSON.parse(fs.readFileSync(configFile, 'utf-8'));
-              configOk = c.plugin?.some(p => p.includes('zara'));
-            }
-          } catch {}
-          checks.push(`config: ${configOk ? '✓' : '✗'} ${configFile}`);
-
-          const runtimeOk = fs.existsSync(zaraHome);
-          checks.push(`runtime: ${runtimeOk ? '✓' : '✗'} ${zaraHome}`);
-
-          const pluginDir = path.join(opencodeDir, 'plugin');
-          let pluginCount = 0;
-          try { pluginCount = fs.readdirSync(pluginDir).filter(f => f.endsWith('.mjs')).length; } catch {}
-          checks.push(`plugins: ${pluginCount} .mjs files`);
-
-          const allOk = linkExists && configOk && runtimeOk;
-          return { output: `Zara ${allOk ? 'INSTALLED' : 'NOT INSTALLED'}:\n${checks.join('\n')}` };
-        },
-      }),
     },
   };
 }

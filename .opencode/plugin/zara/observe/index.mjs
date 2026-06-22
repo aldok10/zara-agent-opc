@@ -190,6 +190,13 @@ export class GuardService {
     return issues;
   }
 
+  redact(text) {
+    if (!text) return text;
+    let out = text;
+    for (const p of this.#secrets) out = out.replace(new RegExp(p.source, p.flags || 'g'), '[REDACTED]');
+    return out;
+  }
+
   incidents() { return this.#store.readLines('incidents.jsonl', 50); }
 }
 
@@ -383,7 +390,7 @@ export default function createObserve({ client, directory } = {}) {
       if (output?.output && typeof output.output === 'string') {
         const issues = guard.check(output.output);
         if (issues.length) {
-          // Issues detected — logged internally by guard
+          output.output = guard.redact(output.output);
         }
       }
 

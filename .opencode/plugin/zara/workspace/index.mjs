@@ -3,6 +3,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import { ensure, atomicWrite } from '../infra/store.mjs';
 
 const MAX_ENTRIES = 200;
 const SECRET_PATTERNS = /(?:sk-[a-zA-Z0-9_-]{20,}|ghp_[a-zA-Z0-9]{36,}|gho_[a-zA-Z0-9]{36,}|glpat-[a-zA-Z0-9_-]{20,}|xox[bp]-[a-zA-Z0-9-]{20,}|AKIA[0-9A-Z]{16}|eyJ[a-zA-Z0-9_-]{20,}\.eyJ[a-zA-Z0-9_-]{20,}\.[a-zA-Z0-9_-]+|-----BEGIN\s(?:RSA\s|EC\s|OPENSSH\s)?PRIVATE\sKEY-----|(?:mongodb(?:\+srv)?|postgres(?:ql)?|mysql|redis):\/\/\S{10,}|(?:api[_-]?key|password|passwd|secret|token|bearer|authorization)[=:\s]\S{8,})/i;
@@ -13,22 +14,6 @@ const TTL_MS = {
   '7d': 7 * 86_400_000,
   permanent: Infinity,
 };
-
-function ensureDir(dir) {
-  try { fs.mkdirSync(dir, { recursive: true }); } catch { /* race-safe */ }
-}
-
-function atomicWrite(filePath, data) {
-  const tmp = filePath + '.tmp.' + Date.now().toString(36) + Math.random().toString(36).slice(2, 4);
-  try {
-    fs.writeFileSync(tmp, data, 'utf-8');
-    fs.renameSync(tmp, filePath);
-  } catch (err) {
-    // Clean up tmp on failure
-    try { fs.unlinkSync(tmp); } catch { /* already gone */ }
-    throw err;
-  }
-}
 
 function loadEntries(file) {
   try {
@@ -41,7 +26,7 @@ function loadEntries(file) {
 }
 
 function saveEntries(file, entries) {
-  ensureDir(path.dirname(file));
+  ensure(path.dirname(file));
   atomicWrite(file, entries.map(e => JSON.stringify(e)).join('\n') + '\n');
 }
 

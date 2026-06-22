@@ -101,3 +101,28 @@ export function estimateTokens(text) {
 export function hash(str) {
   return createHash('sha256').update(str).digest('hex').slice(0, 12);
 }
+
+// ─── Shared Utilities (DRY consolidation) ────────────────────────────────────
+
+export function ensure(dir) { fs.mkdirSync(dir, { recursive: true }); }
+
+export function loadJson(file, fallback = null) {
+  try { return JSON.parse(fs.readFileSync(file, 'utf-8')); }
+  catch { return typeof fallback === 'function' ? fallback() : fallback; }
+}
+
+export function saveJson(file, data) {
+  ensure(path.dirname(file));
+  atomicWrite(file, JSON.stringify(data, null, 2));
+}
+
+export function atomicWrite(filePath, data) {
+  const tmp = filePath + '.tmp.' + Date.now().toString(36);
+  try {
+    fs.writeFileSync(tmp, data, 'utf-8');
+    fs.renameSync(tmp, filePath);
+  } catch (err) {
+    try { fs.unlinkSync(tmp); } catch {}
+    throw err;
+  }
+}

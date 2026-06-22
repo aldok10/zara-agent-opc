@@ -1,8 +1,8 @@
 ---
-description: Install Zara globally — clones repo, symlinks config, merges opencode.json, verifies everything
+description: Install Zara globally - clones repo, symlinks config, merges opencode.json, verifies everything
 ---
 
-# /install — Zara Global Install
+# /install - Zara Global Install
 
 Installs Zara as your global OpenCode engineering partner. Designed for a
 **git-clone + symlink** workflow: clone once, update via `git pull`.
@@ -98,7 +98,7 @@ Run the verification to confirm everything is complete:
 bash scripts/install-opencode.sh --verify
 ```
 
-Expected output — all checks should pass:
+Expected output - all checks should pass:
 
 ```
   ✓ Symlink: ~/.config/opencode/zara → .opencode/
@@ -150,7 +150,7 @@ import os, json
 if os.path.exists('$HOME/.zara/knowledge'):
     print('Knowledge directory exists')
 else:
-    print('Knowledge not seeded — will seed on first Zara activation')
+    print('Knowledge not seeded - will seed on first Zara activation')
 "
 ```
 
@@ -231,7 +231,7 @@ Present a clean summary to the user:
 
 Also mention:
 - `CONTEXT7_API_KEY` environment variable for live documentation lookups
-- The project can be cloned anywhere — symlinks handle the rest
+- The project can be cloned anywhere - symlinks handle the rest
 - To update: `git pull` in the project directory, then re-run install
 
 ---

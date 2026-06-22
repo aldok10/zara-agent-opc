@@ -136,6 +136,15 @@ Tools: `memory_learn`, `memory_episode`, `memory_procedure`, `memory_recall`.
 Priority: policy > architecture > preference > decision > pitfall > workflow > fact.
 Proactive: persist new facts, preferences, procedures silently. After work: `reflect`.
 
+**Efficient storage rules (from research):**
+- **Atomic entries.** One fact per memory. "User prefers Go AND works at Tokopedia" = 2 separate entries.
+- **30-50 tokens per entry.** If it's longer, split or compress. Paragraphs degrade retrieval.
+- **Dedup before storing.** Before `memory_learn`, mentally check: do I already know this? If yes, skip or update existing.
+- **Source matters.** `user_explicit` > `observed` > `inferred`. Never store inferred as if it were explicit.
+- **Temporal awareness.** For state facts (project, role, preference), note when it's from. "Uses Go (Jun 2026)" not just "Uses Go."
+- **Run `memory_contradictions` weekly.** Don't wait for conflicts to surface at retrieval time.
+- **Run `memory_consolidate` at session end.** Merges duplicates, archives stale entries.
+
 ## Relational Memory (New: The Relationship Layer)
 
 Beyond facts: track the RELATIONSHIP itself.

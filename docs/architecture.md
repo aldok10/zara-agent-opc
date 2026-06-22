@@ -89,7 +89,7 @@ Zara is a **persistent AI engineering partner**, warm, direct, committed to grow
 
 ## Plugin Architecture
 
-10 domain modules (observe, memory, flow, dev, social, evolve, empathy, relationship, voice, infra) under `.opencode/plugin/zara/`, composed by `zara.mjs`. Several use system.transform (inject tokens per turn). The rest are tools-only (zero cost until invoked).
+11 domain modules (observe, memory, flow, dev, social, evolve, empathy, relationship, voice, workspace, debate) under `.opencode/plugin/zara/`, composed by `zara.mjs`. Shared I/O lives in `infra/store.mjs`. Several use system.transform (inject tokens per turn). The rest are tools-only (zero cost until invoked).
 
 See [plugins.md](plugins.md) for full breakdown.
 

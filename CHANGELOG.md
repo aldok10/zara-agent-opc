@@ -10,8 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Initial open-source release
-- 7 specialized sub-agents: Architect, Code Reviewer, Testing Lead, Practices Lead, DDD Specialist, Security Reviewer, Delivery Lead
-- DevIQ knowledge base integration (240+ articles, 12 sections)
+- 9 specialized sub-agents: Atlas (Architect), Lens (Code Reviewer), Probe (Testing Lead), Shield (Security Reviewer), Pulse (Delivery Lead), Rhythm (Loop Engineer), Hive (Swarm), Sketch (Plan), Forge (Implementation)
+- DevIQ knowledge base integration (254+ articles, 13 sections)
 - Hermes-inspired skill system with auto-creation and refinement
 - Cross-session memory with journal and skills index
 - Swarm coordination for complex multi-agent tasks

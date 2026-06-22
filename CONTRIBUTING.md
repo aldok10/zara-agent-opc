@@ -16,7 +16,7 @@ Before creating bug reports, please check the issue tracker to avoid duplicates.
 - **Reproduction steps**: Clear, numbered steps
 - **Expected behavior**: What you expected to happen
 - **Actual behavior**: What actually happened
-- **Configuration**: Your config.yaml (with secrets redacted)
+- **Configuration**: Your opencode.json (with secrets redacted)
 - **Logs**: Any relevant error messages or logs
 
 ### Suggesting Enhancements
@@ -35,7 +35,7 @@ Zara's knowledge base is based on DevIQ articles. To contribute:
 
 1. Fork the repository
 2. Add your article in the appropriate `knowledge/<section>/` directory
-3. Update `knowledge/INDEX.md` with the new article
+3. Update the section's `_index.md` with the new article
 4. Submit a pull request
 
 ### Creating Skills
@@ -56,21 +56,17 @@ Skills are reusable workflow patterns. See [Skills Documentation](docs/skills.md
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/zara-agent.git
-cd zara-agent
+git clone <repo-url> zara-agent-opc
+cd zara-agent-opc
 
-# Copy configuration
-cp .env.example .env
-# Edit .env with your settings
+# Verify MCP server
+echo '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}' | node tools/mcp/index.mjs
 
-# Run tests
-./scripts/test.sh
+# Validate config
+cat opencode.json | jq .
 
-# Lint prompts
-./scripts/lint-prompts.sh
-
-# Validate configuration
-./scripts/validate-config.sh
+# Check agent files
+ls .opencode/agent/*.md
 ```
 
 ## Style Guide
@@ -107,6 +103,6 @@ cp .env.example .env
 
 ## Questions?
 
-Open a [Discussion](https://github.com/your-org/zara-agent/discussions) or ask in our community chat.
+Open a Discussion or ask in the community chat.
 
 Thank you for contributing!

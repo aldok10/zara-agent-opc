@@ -78,7 +78,7 @@ Single entry point:
 ]
 ```
 
-Composes 10 domain modules: observe, memory, flow, dev, social, evolve, empathy, relationship, voice, infra.
+Composes 11 domain modules: observe, memory, flow, dev, social, evolve, empathy, relationship, voice, workspace, debate.
 
 ### Commands
 

@@ -45,7 +45,7 @@ Place markdown files in your knowledge directory and update the INDEX. Currently
 Just ask for a code review. Zara will engage Lens (the code review sub-agent) and reference relevant knowledge articles.
 
 ### Can Zara write code?
-Zara orchestrates coding tasks through its sub-agents. It analyzes problems, delegates to the appropriate specialist, and reviews the output. It's designed as a reviewer and coordinator, not a code generator.
+Yes. Zara writes code directly and also delegates to Forge (@forge), the implementation sub-agent, for larger tasks. The workflow is: analyze problem, plan approach, write code (TDD-first), verify. Zara is both a hands-on engineer and an orchestrator.
 
 ### How does Zara remember past sessions?
 Zara maintains a SQLite memory database (`~/.zara/memory.db`) with FTS5 full-text search. Before each task, it recalls relevant facts, events, and workflows from past sessions.

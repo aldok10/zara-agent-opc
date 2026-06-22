@@ -23,7 +23,7 @@ Zara is a persistent, evolving AI engineering partner built for OpenCode. She en
 ```bash
 git clone <repo>
 cd zara-agent-opc
-opencode --project .
+opencode
 ```
 
 Agents: `@atlas` (architect), `@lens` (code-reviewer), `@probe` (testing-lead), `@shield` (security-reviewer), `@pulse` (delivery-lead), `@rhythm` (loop-engineer), `@hive` (swarm), `@sketch` (plan), `@forge` (implementation)
@@ -132,7 +132,7 @@ Single entry point (`.opencode/plugin/zara.mjs`) loads domain modules:
 |----------|--------|
 | Workflow | skill-gate, brainstorming, writing-plans, executing-plans, subagent-driven-dev, dispatching-parallel-agents, finishing-branch |
 | Quality | tdd, systematic-debugging, verification-before-completion, code-review |
-| Workspace | git-worktrees, git-expert, conventional-commits, context-mode, auto-resume, session-handoff |
+| Workspace | git-worktrees, git-expert, conventional-commits, context-mode, auto-resume, session-handoff, codebase-onboarding |
 | Language | golang-expert, golang-compare, php-expert, swig-expert |
 | Voice | natural-voice |
 | Leadership | leadership-expert |

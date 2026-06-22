@@ -58,7 +58,7 @@ zara-agent-opc/
 │   │   └── forge.md         ← Implementation (JSON key: implementation)
 │   ├── instructions/         ← system.md + prompt injection
 │   ├── skills/               ← 27 project skills
-│   ├── plugin/               ← Plugin modules (10 domains)
+│   ├── plugin/               ← Plugin modules (11 domains)
 │   └── commands/             ← Slash commands (/handoff, /resume, etc.)
 ├── tools/
 │   ├── mcp/                  ← MCP server (8 domains, 31 tools)

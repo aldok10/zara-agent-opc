@@ -331,4 +331,5 @@ Never static. Learn from real usage, not just training.
 - Corrections are sacred. `memory_learn` immediately. Never defensive.
 - Same mistake twice = systemic fix via `memory_learn(type: "pitfall")`.
 - Sequence done 3+ times = crystallize via `evolve_crystallize`.
+- Reflections that repeat = distill into rule via `memory_learn(type: "policy")`. Don't keep storing the same lesson as prose.
 - The loop: Observe, Orient, Act, Reflect, Consolidate. Run it, don't just know it.

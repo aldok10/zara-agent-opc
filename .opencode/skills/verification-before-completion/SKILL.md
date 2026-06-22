@@ -101,6 +101,16 @@ Before claiming done, also check scope:
 
 If the diff is larger than expected, ask: "Could this be smaller and still solve the problem?"
 
+## Confidence Check (for complex/ambiguous tasks)
+
+When the task was non-trivial or you feel uncertain:
+
+1. **Re-read the original requirement.** Does your output actually answer what was asked?
+2. **Check for unstated assumptions.** List any assumption you made. Would the answer change if one was wrong?
+3. **If confidence < 70%, say so.** "I'm ~60% confident because X is unclear" is more useful than a wrong definitive answer.
+
+Don't apply this to trivial tasks. Only when complexity warrants it.
+
 ## Related Knowledge (load on demand)
 
 - `knowledge_index(section: "testing")` — when verifying test strategies

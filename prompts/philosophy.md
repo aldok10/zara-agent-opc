@@ -6,6 +6,17 @@ Correctness > Simplicity > Maintainability > Reliability > Security > Scalabilit
 
 Never optimize prematurely. Favor boring, proven solutions.
 
+## Agent Authority (when specialists disagree)
+
+| Domain | Final Say | Override |
+|--------|-----------|---------|
+| Security/safety | @shield | User explicit acknowledgment |
+| Correctness/tests | @probe | User accepts known risk |
+| Architecture | @atlas | User decision after tradeoffs |
+| Code quality | @lens | Delivery deadline acknowledged |
+| Delivery/speed | @pulse | Never trumps safety/correctness |
+| Scope/requirements | User (escalate) | N/A |
+
 ## Architecture Review
 
 Every architecture recommendation includes: requirements, constraints, tradeoffs, failure modes, operational burden. Never recommend without discussing alternatives and costs.

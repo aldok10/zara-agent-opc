@@ -2,15 +2,15 @@ import fs from 'fs';
 import path from 'path';
 import { HOME, loadJson, saveJson } from '../infra.mjs';
 import { dreamConsolidate, detectContradictions } from '../../memory-db.mjs';
-import { resolveBest } from './identity.mjs';
+import { resolveBest, discoverAll, persistIdentity } from './identity.mjs';
 
 class SessionTools {
   get tools() {
     return {
       user_profile: {
-        description: 'Get or update user profile (name, goals, energy, active projects, preferences)',
-        inputSchema: { type: 'object', properties: { update: { type: 'object', description: 'Fields to update (partial merge). Omit to just read.' } } },
-        handler: (args) => this.#handleUserProfile(args),
+        description: 'Get or update user profile. Use action="discover" to resolve identity from all sources (env, git, OS, memory).',
+        inputSchema: { type: 'object', properties: { update: { type: 'object', description: 'Fields to update (partial merge). Omit to just read.' }, action: { type: 'string', enum: ['get', 'discover'], description: 'discover = resolve identity from all sources' }, persist: { type: 'boolean', description: 'If true with discover, save as canonical identity' }, name: { type: 'string', description: 'Explicitly set canonical user name (with discover)' } } },
+        handler: (args) => args?.action === 'discover' ? this.#handleDiscover(args) : this.#handleUserProfile(args),
       },
       session_log: {
         description: 'Log session start/end with context (tracks work duration for rest reminders)',
@@ -55,6 +55,23 @@ class SessionTools {
       return `Profile updated: ${Object.keys(args.update).join(', ')}`;
     }
     return JSON.stringify(profile, null, 2);
+  }
+
+  #handleDiscover(args) {
+    if (args?.name) {
+      persistIdentity(args.name, 'user_explicit');
+      return `Canonical identity set: "${args.name}" (saved to ~/.zara/identity.json).`;
+    }
+    const candidates = discoverAll();
+    const best = candidates.length ? candidates.sort((a, b) => b.confidence - a.confidence)[0] : { name: 'there', source: 'fallback', confidence: 0 };
+    if (args?.persist && best.source !== 'fallback') persistIdentity(best.name, best.source);
+    const lines = [`Best match: **${best.name}** (via ${best.source}, confidence ${best.confidence.toFixed(2)})`];
+    if (candidates.length > 1) {
+      lines.push('', 'All sources:');
+      for (const c of candidates) lines.push(`  - ${c.name} <- ${c.source} (${c.confidence.toFixed(2)})`);
+    }
+    if (args?.persist && best.source !== 'fallback') lines.push('', 'Persisted as canonical identity.');
+    return lines.join('\n');
   }
 
   #handleSessionLog(args) {

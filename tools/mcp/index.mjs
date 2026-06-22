@@ -20,7 +20,6 @@ import sessionTools from './domain/session.mjs';
 import musicTools from './domain/music.mjs';
 import knowledgeTools from './domain/knowledge.mjs';
 import auditTools from './domain/audit.mjs';
-import identityTools from './domain/identity.mjs';
 
 // Initialize
 const MEM_DIR = path.join(HOME, 'memory');
@@ -34,7 +33,7 @@ getDb();
 const server = new McpServer('zara-mcp', '0.1.0');
 
 // Register all tools
-server.registerAll([memoryTools, reflectionTools, metricsTools, sessionTools, musicTools, knowledgeTools, auditTools, identityTools]);
+server.registerAll([memoryTools, reflectionTools, metricsTools, sessionTools, musicTools, knowledgeTools, auditTools]);
 
 // Start listening
 server.listen();

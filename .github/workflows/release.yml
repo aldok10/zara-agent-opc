@@ -1,3 +1,10 @@
+# =============================================================================
+# Release — Create GitHub Release from semver tag
+#
+# Triggered by auto-tag.yml (or manual tag push). Extracts release notes from
+# CHANGELOG.md for the corresponding version and publishes to GitHub.
+# =============================================================================
+
 name: Release
 
 on:
@@ -5,13 +12,13 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+  discussions: write
+
 jobs:
   release:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      discussions: write
-
     steps:
       - uses: actions/checkout@v4
         with:
@@ -21,21 +28,35 @@ jobs:
         run: |
           TAG=${GITHUB_REF#refs/tags/}
           echo "Releasing $TAG"
-          # Validate semver format
           if ! echo "$TAG" | grep -qE '^v[0-9]+\.[0-9]+\.[0-9]+'; then
             echo "Error: Tag $TAG does not follow semver (vMAJOR.MINOR.PATCH)"
             exit 1
           fi
 
-      - name: Generate release notes
-        id: release_notes
+      - name: Extract release notes from CHANGELOG.md
+        id: notes
         run: |
-          PREV_TAG=$(git tag --sort=-v:refname | head -2 | tail -1 || echo "")
-          if [ -n "$PREV_TAG" ]; then
-            NOTES=$(git log "$PREV_TAG..HEAD" --oneline --no-decorate)
-          else
-            NOTES="Initial release"
+          TAG="${GITHUB_REF#refs/tags/}"
+          VERSION="${TAG#v}"
+
+          if [ -f CHANGELOG.md ]; then
+            # Extract section between ## [VERSION] and next ## (or EOF)
+            NOTES=$(awk "/^## \\[${VERSION}\\]/,/^## \\[/" CHANGELOG.md \
+              | head -n -1 \
+              | sed '1d')  # drop the ## [VERSION] header, keep content
           fi
+
+          if [ -z "$NOTES" ]; then
+            # Fallback: collect commits since previous tag
+            PREV_TAG=$(git tag --sort=-v:refname | head -2 | tail -1 || echo "")
+            if [ -n "$PREV_TAG" ]; then
+              NOTES=$(git log "$PREV_TAG..HEAD" --oneline --no-decorate \
+                | sed 's/^/- /')
+            else
+              NOTES="Initial release of Zara Agent."
+            fi
+          fi
+
           echo "notes<<EOF" >> $GITHUB_OUTPUT
           echo "$NOTES" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
@@ -46,8 +67,7 @@ jobs:
           body: |
             ## Zara Agent ${{ github.ref_name }}
 
-            ### Changes
-            ${{ steps.release_notes.outputs.notes }}
+            ${{ steps.notes.outputs.notes }}
 
             ### Installation
             ```bash
@@ -55,18 +75,13 @@ jobs:
             cd zara-agent
             ./scripts/install.sh
             ```
-
-            ### Documentation
-            - [Installation Guide](https://github.com/${{ github.repository }}/blob/main/docs/installation.md)
-            - [Configuration Guide](https://github.com/${{ github.repository }}/blob/main/docs/configuration.md)
-            - [Architecture Guide](https://github.com/${{ github.repository }}/blob/main/docs/architecture.md)
           draft: false
           prerelease: false
           generate_release_notes: true
 
       - name: Post-release validation
         run: |
-          echo "Release ${{ github.ref_name }} validation:"
-          echo "  ✓ Tag: ${{ github.ref_name }}"
+          TAG="${GITHUB_REF#refs/tags/}"
+          echo "Release $TAG validation:"
+          echo "  ✓ Tag: $TAG"
           echo "  ✓ Release created"
-          echo "  ✓ Documentation published"

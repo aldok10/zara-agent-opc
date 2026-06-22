@@ -441,14 +441,26 @@ class MemoryStore {
 
   deleteByPattern(pattern) {
     const db = this.db;
-    const like = `%${pattern}%`;
+    const like = `%${escapeLike(pattern)}%`;
     const semantic = db.prepare('SELECT key FROM semantic WHERE key LIKE ? OR value LIKE ?').all(like, like);
     const episodic = db.prepare('SELECT id FROM episodic WHERE event LIKE ? OR outcome LIKE ?').all(like, like);
     const procedural = db.prepare('SELECT id FROM procedural WHERE name LIKE ? OR context LIKE ?').all(like, like);
+    const total = semantic.length + episodic.length + procedural.length;
+    if (total > 50) return { error: 'Pattern too broad', semantic: semantic.length, episodic: episodic.length, procedural: procedural.length, total };
     for (const r of semantic) db.prepare('DELETE FROM semantic WHERE key = ?').run(r.key);
     for (const r of episodic) db.prepare('DELETE FROM episodic WHERE id = ?').run(r.id);
     for (const r of procedural) db.prepare('DELETE FROM procedural WHERE id = ?').run(r.id);
     return { semantic: semantic.length, episodic: episodic.length, procedural: procedural.length };
+  }
+
+  countByPattern(pattern) {
+    const db = this.db;
+    const like = `%${escapeLike(pattern)}%`;
+    return {
+      semantic: db.prepare('SELECT COUNT(*) as n FROM semantic WHERE key LIKE ? OR value LIKE ?').get(like, like).n,
+      episodic: db.prepare('SELECT COUNT(*) as n FROM episodic WHERE event LIKE ? OR outcome LIKE ?').get(like, like).n,
+      procedural: db.prepare('SELECT COUNT(*) as n FROM procedural WHERE name LIKE ? OR context LIKE ?').get(like, like).n,
+    };
   }
 
   // Adjust trust score for memories that were recalled in a session.
@@ -457,7 +469,7 @@ class MemoryStore {
     const db = this.db;
     const delta = outcome === 'success' ? 0.1 : outcome === 'failure' ? -0.15 : 0.0;
     if (!delta || !keys.length) return { adjusted: 0 };
-    const stmt = db.prepare('UPDATE semantic SET trust_score = MIN(1.0, MAX(0.0, COALESCE(trust_score, 0.5) + ?)) WHERE key = ?');
+    const stmt = db.prepare('UPDATE semantic SET trust_score = MIN(1.0, MAX(0.2, COALESCE(trust_score, 0.5) + ?)) WHERE key = ?');
     for (const key of keys) stmt.run(delta, key);
     return { adjusted: keys.length, delta };
   }
@@ -669,6 +681,7 @@ export const knowledgeChunkSearch = (query, section, k) => store.knowledgeChunkS
 export const knowledgeChunkCount = () => store.knowledgeChunkCount();
 export const detectContradictions = (threshold) => store.detectContradictions(threshold);
 export const deleteByPattern = (pattern) => store.deleteByPattern(pattern);
+export const countByPattern = (pattern) => store.countByPattern(pattern);
 export const adjustTrust = (keys, outcome) => store.adjustTrust(keys, outcome);
 
 // Exported for testing with an isolated home directory

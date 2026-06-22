@@ -3,7 +3,7 @@ import {
   semanticLearn, semanticRecall, semanticBaseline, semanticScoped,
   episodicRecord, episodicRecall,
   proceduralSave, proceduralRecall, proceduralCount,
-  stats as dbStats, dreamConsolidate, detectContradictions, deleteByPattern
+  stats as dbStats, dreamConsolidate, detectContradictions, deleteByPattern, countByPattern
 } from '../../memory-db.mjs';
 import { recalledKeys } from './reflection.mjs';
 
@@ -54,7 +54,7 @@ class MemoryTools {
     if (layer === 'all' || layer === 'semantic') {
       const m = semanticRecall(args.query, 5, { scope: args.scope, type: args.type });
       if (m.length) {
-        for (const r of m) recalledKeys.add(r.key);
+        for (const r of m) { if (recalledKeys.size < 20) recalledKeys.add(r.key); }
         results.push(m.map(r => `[${r.type || 'fact'}] ${r.key}: ${r.value}`).join('\n'));
       }
     }
@@ -108,12 +108,12 @@ class MemoryTools {
   #handleDelete(args) {
     if (!args.pattern || args.pattern.length < 3) return 'Pattern must be at least 3 characters.';
     if (args.dry_run) {
-      const { semanticRecall: sr, episodicRecall: er } = { semanticRecall, episodicRecall };
-      const sem = sr(args.pattern, 20, {});
-      const epi = er(args.pattern, 20);
-      return `Dry run — would affect ~${sem.length} semantic + ~${epi.length} episodic entries matching "${args.pattern}"`;
+      const counts = countByPattern(args.pattern);
+      const total = counts.semantic + counts.episodic + counts.procedural;
+      return `Dry run: would delete ${counts.semantic} semantic, ${counts.episodic} episodic, ${counts.procedural} procedural entries (${total} total) matching "${args.pattern}"`;
     }
     const result = deleteByPattern(args.pattern);
+    if (result.error) return `Refused: ${result.error}. Would affect ${result.total} entries (${result.semantic} semantic, ${result.episodic} episodic, ${result.procedural} procedural). Use a more specific pattern.`;
     return `Deleted: ${result.semantic} semantic, ${result.episodic} episodic, ${result.procedural} procedural entries matching "${args.pattern}"`;
   }
 }

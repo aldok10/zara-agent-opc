@@ -67,6 +67,8 @@ DO NOT rely on training data for testing strategy. ALWAYS load relevant knowledg
 **Strategy**: recommended test types and coverage targets
 **Test Cases**: specific scenarios to cover
 **What to skip**: things not worth testing
+**Confidence**: high/medium/low in strategy completeness
+**Open Questions**: areas that need more context to assess
 
 ## Error Recovery
 

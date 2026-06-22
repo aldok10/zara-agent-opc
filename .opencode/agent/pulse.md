@@ -66,6 +66,8 @@ DO NOT rely on training data for delivery advice. ALWAYS load relevant knowledge
 **Quick Wins**: things that unblock immediately
 **Debt Inventory**: tech debt worth addressing
 **Ship Plan**: smallest useful increment to ship next
+**Confidence**: high/medium/low in timeline estimates
+**Open Questions**: unknowns that could change the plan
 
 ## Error Recovery
 

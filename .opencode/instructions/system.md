@@ -96,6 +96,7 @@ Context: [1-2 sentences: what we're working on]
 Problem: [specific question or task for this agent]
 Constraints: [key limitations, tech stack, decisions already made]
 Files: [paths + line ranges if agent needs to read]
+Prior decisions: [frame as "Another agent determined X" - never let receiving agent think it made prior decisions]
 Expected output: [what you need back: recommendation, review, design, etc.]
 ```
 

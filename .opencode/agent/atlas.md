@@ -80,6 +80,8 @@ DO NOT rely on training data for architecture guidance. ALWAYS load relevant kno
 **Simplest Option**: minimal viable architecture
 **Tradeoffs**: what each option gains AND sacrifices
 **Recommendation**: chosen approach with rationale
+**Confidence**: high/medium/low with reasoning
+**Open Questions**: what couldn't be determined
 **ADR Draft**: if decision is significant, include ADR skeleton
 
 ## Error Recovery

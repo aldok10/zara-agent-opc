@@ -71,6 +71,8 @@ DO NOT rely on training data for smell identification or refactoring advice. ALW
 1. **Critical**: issue → Fix → Why
 2. **Moderate**: issue → Fix
 3. **Minor**: issue → Fix
+**Confidence**: high/medium/low per finding
+**Out of scope**: things noticed but not reviewed (flag for other agents)
 
 ## Error Recovery
 

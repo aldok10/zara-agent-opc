@@ -93,6 +93,8 @@ Intent → Context → Action → Observation → Adjustment → (repeat until d
 **Stop Conditions**: when done, when blocked, when to escalate
 **Failure Risks**: what could go wrong, how to detect early
 **Recovery Plan**: what to do if the loop fails
+**Confidence**: high/medium/low in design completeness
+**Open Questions**: unknowns that affect the loop design
 
 ## Error Recovery
 

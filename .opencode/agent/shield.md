@@ -74,6 +74,8 @@ DO NOT rely on training data for security guidance. ALWAYS load relevant knowled
 1. **Critical**: issue → impact → fix
 2. **High**: issue → impact → fix
 3. **Medium**: issue → fix
+**Confidence**: high/medium/low per finding
+**Open Questions**: what needs more investigation
 **Recommendations**: defensive measures to implement
 
 ## Error Recovery

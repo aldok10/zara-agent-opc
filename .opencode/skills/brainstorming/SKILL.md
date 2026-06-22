@@ -75,7 +75,18 @@ Scale depth to complexity:
 
 Validate each section before moving to the next.
 
-### 5. Write Spec
+### 5. Pre-mortem (Complex only)
+
+For complex features, ask: "It's 2 weeks from now and this failed. Why?"
+
+List 2-3 realistic failure modes:
+- What could go wrong technically?
+- What assumption might be wrong?
+- What dependency might not work as expected?
+
+For each: state how the design prevents it, or flag it as a known risk.
+
+### 6. Write Spec
 
 Save to `docs/specs/YYYY-MM-DD-<topic>-design.md` (e.g. `docs/specs/2024-03-15-auth-redesign-design.md`) with:
 - Problem statement
@@ -84,7 +95,7 @@ Save to `docs/specs/YYYY-MM-DD-<topic>-design.md` (e.g. `docs/specs/2024-03-15-a
 - Open questions (if any remain)
 - Acceptance criteria
 
-### 6. Self-Review
+### 7. Self-Review
 
 Before handing to user, check:
 
@@ -94,13 +105,13 @@ Before handing to user, check:
 - [ ] Acceptance criteria are testable
 - [ ] YAGNI applied — nothing speculative
 
-### 7. User Review
+### 8. User Review
 
 Present spec. Ask: "Anything feel off, missing, or over-built?"
 
 Iterate until approved.
 
-### 8. Transition
+### 9. Transition
 
 Once approved, invoke `writing-plans` skill to break design into implementation steps.
 

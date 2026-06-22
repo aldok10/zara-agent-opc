@@ -90,6 +90,17 @@ Run the command. Read the output. THEN claim the result.
 
 Non-negotiable.
 
+## Minimal Diff Discipline
+
+Before claiming done, also check scope:
+
+1. **Walk the diff line by line.** Every changed line must be justifiable: "this line exists because the task explicitly requires it."
+2. **No "while I'm here" changes.** If you spotted something worth fixing outside task scope, note it as a follow-up. Don't sneak it in.
+3. **Three similar lines beats a premature abstraction.** Don't extract a helper until the fourth occurrence.
+4. **Bug fix = only the fix.** Refactoring, cleanup, and improvements get their own commit.
+
+If the diff is larger than expected, ask: "Could this be smaller and still solve the problem?"
+
 ## Related Knowledge (load on demand)
 
 - `knowledge_index(section: "testing")` — when verifying test strategies

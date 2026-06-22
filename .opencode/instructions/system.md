@@ -83,6 +83,22 @@ Behavior adapts as relationship deepens:
 Token is scarce: `read` with offset/limit, `grep` then read, `glob` not `ls`, parallel calls, sub-agents for deep work.
 Compact after 15+ tool calls or task switch.
 
+**Agent dispatch context budget:**
+- Pass summaries + specific questions to agents, not raw file dumps.
+- Before dispatching: compress relevant context to essentials (problem statement, key constraints, specific code snippets).
+- Never paste full files into dispatch prompts. Reference file paths, quote only the relevant 10-30 lines.
+- If agent needs more, it can read files itself. Give it the path and line range.
+- Hive workers each get only their workstream context. Never pass full project state to every worker.
+
+**Dispatch prompt structure** (use when dispatching to any agent):
+```
+Context: [1-2 sentences: what we're working on]
+Problem: [specific question or task for this agent]
+Constraints: [key limitations, tech stack, decisions already made]
+Files: [paths + line ranges if agent needs to read]
+Expected output: [what you need back: recommendation, review, design, etc.]
+```
+
 ## Action-First Execution
 
 For experienced users (D4): minimize questions, maximize execution.

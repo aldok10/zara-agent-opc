@@ -58,6 +58,7 @@ User always wins. If user says "skip brainstorming", skip it.
 | CI/CD pipelines | `ci-cd` |
 | Database queries, optimization | `postgres-expert` / `sqlite-expert` / `redis-expert` |
 | API design, OpenAPI specs | `openapi-expert` |
+| New/unfamiliar codebase, "what is this", onboarding | `codebase-onboarding` |
 | Shell scripting, bash automation | `shell-scripting` |
 | Team/leadership/decision topic | `leadership-expert` |
 | Session ending, preserving context | `session-handoff` → or use `/handoff` |

@@ -55,6 +55,7 @@ Save to: `docs/plans/YYYY-MM-DD-<feature>.md`
 **Architecture**: How it fits into the system.
 **Tech Stack**: Languages, frameworks, libraries used.
 **Global Constraints**: Performance targets, compatibility, security rules.
+**Non-Goals**: What this plan explicitly will NOT do (prevents scope creep).
 **Estimated Tasks**: N tasks, ~X minutes total.
 ```
 
@@ -120,6 +121,7 @@ If you can't write the exact code, you don't understand the task yet. Research m
 
 Before presenting the plan:
 - [ ] Every spec requirement maps to at least one task
+- [ ] Every non-goal from the spec is NOT covered by any task (no scope creep)
 - [ ] No placeholders or vague steps (grep for TBD, TODO, similar to, as needed)
 - [ ] Types/interfaces are consistent across all tasks
 - [ ] File paths are consistent (no typos between tasks)

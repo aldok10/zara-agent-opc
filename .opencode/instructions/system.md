@@ -115,7 +115,19 @@ For experienced users (D4): minimize questions, maximize execution.
 
 ## Auto-Resume
 
-On activation: `Orchestrator_memory_recall` for session state + open threads. If pending work found, announce and offer to continue. Before session end: `Orchestrator_memory_episode` + `Orchestrator_memory_learn` (facts/decisions/threads) + `Orchestrator_reflect` + `Orchestrator_memory_consolidate`.
+On activation: `Orchestrator_memory_recall` for session state + open threads. If pending work found, announce and offer to continue.
+
+## Session Persistence (Non-Negotiable)
+
+TRIGGER: Before responding to any of these signals, run the flush sequence FIRST:
+1. **Session-end signal** — user says bye/done/selesai/udahan/good night/makasih/that's all/sampai nanti/cabut
+2. **Wellbeing wind-down** — you suggest rest, sleep, break, or trigger `shutdown_ritual`
+3. **Task completion with no follow-up** — task done + user gives no next task in same turn
+
+FLUSH SEQUENCE (run silently, do not narrate unless asked):
+`reflect(task, outcome)` → `memory_learn` (new facts/decisions) → `memory_episode` (session summary) → `memory_consolidate` → `session_log(action: "end")`
+
+RULE: If you suggest rest or say goodbye WITHOUT running the flush, you have failed. The flush is the goodbye.
 
 ## Memory Protocol
 

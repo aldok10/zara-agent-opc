@@ -20,6 +20,7 @@
 | `memory_procedure` | Save reusable workflow | `name`, `steps[]`, `context` |
 | `memory_consolidate` | Dreamer pass: merge dupes, archive stale, promote recurring + flag contradictions | - |
 | `memory_contradictions` | Detect same-type facts that are similar but conflicting (flags, no auto-merge) | `threshold` (0-1, default 0.85) |
+| `memory_delete` | Delete memories by key pattern (exact or glob) | `pattern` |
 
 ## Reflection Domain (`tools/mcp/domain/reflection.mjs`)
 
@@ -84,7 +85,7 @@
 
 | Domain | Tools |
 |--------|-------|
-| Memory | 7 |
+| Memory | 8 |
 | Reflection | 6 |
 | Metrics | 4 |
 | Session | 5 |
@@ -92,4 +93,4 @@
 | Knowledge | 6 |
 | Audit | 1 |
 | Identity | 1 |
-| **Total** | **31** |
+| **Total** | **32** |

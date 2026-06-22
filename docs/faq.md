@@ -65,7 +65,7 @@ Check your API key and network connection. If you don't have a key, the feature 
 Check that the sub-agent prompt file exists in `.opencode/agent/`. Verify configuration in `opencode.json`.
 
 ### "Memory not persisting"
-Ensure `ZARA_MEMORY_DIR` is writable in `config.yaml` or your `.env` file.
+Ensure `~/.zara/` directory is writable. Memory uses SQLite at `~/.zara/memory.db`. Check with: `ls -la ~/.zara/memory.db`
 
 ## Contributing
 

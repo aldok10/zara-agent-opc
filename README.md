@@ -61,7 +61,7 @@ zara-agent-opc/
 ├── opencode.json              # Project config (agents, MCP, plugins)
 ├── AGENTS.md                  # AI agent instructions + decision table
 ├── tools/
-│   ├── mcp/                   # MCP server (31 tools, DDD-lite)
+│   ├── mcp/                   # MCP server (32 tools, DDD-lite)
 │   │   ├── index.mjs         # Entry point
 │   │   ├── server.mjs        # McpServer class
 │   │   ├── infra.mjs         # Platform utilities
@@ -147,13 +147,13 @@ Single entry point (`.opencode/plugin/zara.mjs`) loads domain modules:
 - Auto-capture: silently persists preferences and constraints
 - Decay: unused memories fade over 90 days, frequently accessed ones persist
 
-## MCP Server (31 Tools)
+## MCP Server (32 Tools)
 
 ```bash
 node tools/mcp/index.mjs  # stdio transport
 ```
 
-Domains: memory (7), reflection (6), metrics (4), session (5), music (1), knowledge (6), audit (1), identity (1)
+Domains: memory (8), reflection (6), metrics (4), session (5), music (1), knowledge (6), audit (1), identity (1)
 
 ## Continuous Learning
 

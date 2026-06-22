@@ -52,7 +52,7 @@ zara-agent-opc/
 │   ├── plugin/               ← Plugin modules (11 domains)
 │   └── commands/             ← Slash commands (/handoff, /resume, etc.)
 ├── tools/
-│   ├── mcp/                  ← MCP server (8 domains, 31 tools)
+│   ├── mcp/                  ← MCP server (8 domains, 32 tools)
 │   │   ├── index.mjs        ← Entry point
 │   │   ├── server.mjs       ← JSON-RPC 2.0 server
 │   │   ├── infra.mjs        ← Platform utilities
@@ -97,7 +97,7 @@ All agent config lives in `opencode.json`. JSON keys are stable runtime identifi
 
 ## MCP Server
 
-The MCP server (8 domains, 31 tools) runs locally via stdio:
+The MCP server (8 domains, 32 tools) runs locally via stdio:
 
 ```json
 {

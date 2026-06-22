@@ -2,7 +2,7 @@
 
 ## Overview
 
-Zara is a **persistent AI engineering partner**, warm, direct, committed to growth. Hub-and-spoke architecture: Zara orchestrates 9 sub-agents, 10 plugin modules, 31 MCP tools, and 100+ on-demand skills.
+Zara is a **persistent AI engineering partner**, warm, direct, committed to growth. Hub-and-spoke architecture: Zara orchestrates 9 sub-agents, 11 plugin modules, 32 MCP tools, and 100+ on-demand skills.
 
 ## System Layers
 

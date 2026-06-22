@@ -14,39 +14,32 @@
 | Tool | Description | Key Parameters |
 |------|-------------|----------------|
 | `memory_recall` | Search memory with scope/type filters + token budget | `query`, `layer` (all/episodic/semantic/procedural) |
-| `memory_stats` | Show counts per layer | - |
 | `memory_learn` | Store fact with type classification | `key`, `value`, `source` (user_explicit/observed/inferred) |
 | `memory_episode` | Record event with outcome and tags | `event`, `outcome`, `tags[]` |
 | `memory_procedure` | Save reusable workflow | `name`, `steps[]`, `context` |
 | `memory_consolidate` | Dreamer pass: merge dupes, archive stale, promote recurring + flag contradictions | - |
 | `memory_contradictions` | Detect same-type facts that are similar but conflicting (flags, no auto-merge) | `threshold` (0-1, default 0.85) |
-| `memory_delete` | Delete memories by key pattern (exact or glob) | `pattern` |
+| `memory_delete` | Delete memories by pattern (substring match). Destructive. | `pattern`, `dry_run` |
 
 ## Reflection Domain (`tools/mcp/domain/reflection.mjs`)
 
 | Tool | Description | Key Parameters |
 |------|-------------|----------------|
 | `reflect` | Record task reflection; `outcome` feeds success-weighted learning | `task`, `worked`, `failed`, `pattern`, `outcome` (success/partial/failure) |
-| `patterns` | List learned patterns ranked by success rate × frequency | - |
 | `reflect_suggest` | Recall best-scoring past approach for a situation | `situation` |
-| `zara_evolve_status` | Snapshot of learning state (patterns, rules, adaptations, contradictions, blindspots) | - |
-| `blindspot_log` | Record detected user blindspot | `area`, `observation`, `suggestion` |
-| `blindspot_check` | Check context against known blindspots | `context` |
+| `blindspot` | Record or check blindspots. action=log records, action=check matches context. | `action` (log/check), `area`, `observation`, `context` |
 
 ## Metrics Domain (`tools/mcp/domain/metrics.mjs`)
 
 | Tool | Description | Key Parameters |
 |------|-------------|----------------|
-| `metrics_today` | Daily tool call stats | - |
-| `micro_tools` | List crystallized micro-tools | - |
-| `workflow_rules` | List active rules | - |
-| `dashboard` | Full overview | `section` (all/memory/metrics/patterns/procedures/tools/rules) |
+| `dashboard` | Full overview of memory, metrics, patterns, procedures, micro-tools, rules | `section` (all/memory/metrics/patterns/procedures/tools/rules) |
 
 ## Session Domain (`tools/mcp/domain/session.mjs`)
 
 | Tool | Description | Key Parameters |
 |------|-------------|----------------|
-| `user_profile` | Get/update user profile | `update` (partial merge object) |
+| `user_profile` | Get/update profile, or discover identity from all sources | `update`, `action` (get/discover), `persist`, `name` |
 | `session_log` | Track work duration, rest reminders | `action` (start/end/check), `context` |
 | `goal` | Set/check/done exit conditions | `action` (set/check/done/status/clear), `condition`, `max_turns` |
 | `loop` | Recurring reminders at intervals | `action` (start/stop/list/clear/check), `prompt`, `interval` |
@@ -62,35 +55,42 @@
 
 | Tool | Description | Key Parameters |
 |------|-------------|----------------|
-| `knowledge_load_init` | Scan knowledge/ markdown, store summaries + chunk/embed bodies for passage retrieval | `path`, `force`, `dry_run` |
+| `knowledge_load_init` | Scan knowledge/ markdown, store summaries + chunk bodies for passage retrieval | `path`, `force`, `dry_run` |
 | `knowledge_index` | Fast section/keyword lookup over titles + summaries | `section`, `query`, `list_sections` |
-| `knowledge_passage` | Semantic passage search over full article bodies (cosine over trigram embeddings) | `query`, `section`, `k` |
+| `knowledge_passage` | Semantic passage search over full article bodies | `query`, `section`, `k` |
 | `team_knowledge` | Search shared team knowledge | `query` |
-| `chm2md` | Convert CHM to AI skill (subskills + knowledge/) | `input`, `skill_name`, `output`, `mode` |
-| `chm2md_improve` | Get improvement tasks for generated skills | `skill_path`, `subskill`, `action` |
 
 ## Audit Domain (`tools/mcp/domain/audit.mjs`)
 
 | Tool | Description | Key Parameters |
 |------|-------------|----------------|
-| `zara_self_audit` | Validate config integrity: agents↔prompt files, plugin modules, MCP domains, orphaned refs | - |
-
-## Identity Domain (`tools/mcp/domain/identity.mjs`)
-
-| Tool | Description | Key Parameters |
-|------|-------------|----------------|
-| `user_identity` | Discover the user's name from env/profile/memory/git/OS (priority chain); optionally persist as canonical | `persist`, `name` |
+| `zara_self_audit` | Validate config integrity: agents vs prompt files, plugin modules, MCP domains | `map` |
 
 ## Tool Count Summary
 
 | Domain | Tools |
 |--------|-------|
-| Memory | 8 |
-| Reflection | 6 |
-| Metrics | 4 |
+| Memory | 7 |
+| Reflection | 3 |
+| Metrics | 1 |
 | Session | 5 |
 | Music | 1 |
-| Knowledge | 6 |
+| Knowledge | 4 |
 | Audit | 1 |
-| Identity | 1 |
-| **Total** | **32** |
+| **Total** | **22** |
+
+## Removed Tools (consolidated into existing)
+
+| Removed | Absorbed By |
+|---------|-------------|
+| `memory_stats` | `dashboard(section: "memory")` |
+| `metrics_today` | `dashboard(section: "metrics")` |
+| `micro_tools` | `dashboard(section: "tools")` |
+| `workflow_rules` | `dashboard(section: "rules")` |
+| `patterns` | `dashboard(section: "patterns")` |
+| `zara_evolve_status` | `dashboard(section: "all")` |
+| `blindspot_log` | `blindspot(action: "log")` |
+| `blindspot_check` | `blindspot(action: "check")` |
+| `user_identity` | `user_profile(action: "discover")` |
+| `chm2md` | CLI-only: `node tools/chm2md.mjs` |
+| `chm2md_improve` | CLI-only: `node tools/chm2md.mjs --improve` |

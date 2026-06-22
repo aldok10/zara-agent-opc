@@ -3,6 +3,7 @@
 
 import { FileStore } from '../infra/store.mjs';
 import { tool } from '@opencode-ai/plugin';
+import { FlowDetector } from './flow-detector.mjs';
 
 const z = tool.schema;
 
@@ -136,33 +137,6 @@ class GrowthTracker {
       : '';
 
     return `**Skills Tracked** (${entries.length})\n${lines.join('\n')}${milestoneBlock}`;
-  }
-}
-
-// ─── Flow State Detection ────────────────────────────────────────────────────
-
-class FlowDetector {
-  constructor() {
-    this.timestamps = [];
-    this.windowMs = 5 * 60 * 1000; // 5 min window
-  }
-
-  recordMessage() {
-    const now = Date.now();
-    this.timestamps.push(now);
-    // Keep only last 5 min
-    this.timestamps = this.timestamps.filter(t => now - t < this.windowMs);
-  }
-
-  // User is in flow if: 3+ messages in last 5 min, average gap < 90s
-  isInFlow() {
-    if (this.timestamps.length < 3) return false;
-    const gaps = [];
-    for (let i = 1; i < this.timestamps.length; i++) {
-      gaps.push(this.timestamps[i] - this.timestamps[i - 1]);
-    }
-    const avgGap = gaps.reduce((a, b) => a + b, 0) / gaps.length;
-    return avgGap < 90_000;
   }
 }
 

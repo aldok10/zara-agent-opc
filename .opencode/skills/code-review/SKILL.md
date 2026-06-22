@@ -117,10 +117,10 @@ Never implement a suggestion you don't understand. Never implement without check
 
 ## Related Knowledge (load on demand)
 
-- `knowledge_search("code smell")` — detecting quality issues
-- `knowledge_load(section: "code-smells")` — full smell catalog for systematic review
-- `knowledge_load(section: "principles")` — SOLID, DRY, YAGNI for design feedback
-- `knowledge_load(section: "design-patterns")` — when suggesting refactoring alternatives
+- `knowledge_passage(query: "code smell catalog")` — detecting quality issues
+- `knowledge_index(section: "code-smells")` — full smell catalog for systematic review
+- `knowledge_passage(query: "SOLID DRY YAGNI principles")` — for design feedback
+- `knowledge_index(section: "design-patterns")` — when suggesting refactoring alternatives
 
 ## Related Skills
 

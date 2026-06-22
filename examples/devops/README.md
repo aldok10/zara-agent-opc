@@ -41,7 +41,7 @@ Help us optimize the Dockerfiles and build process.
 ```
 
 ### Expected Workflow
-1. Zara engages `practices-lead`
+1. Zara engages `delivery-lead` sub-agent
 2. Analysis:
    - Multi-stage builds
    - Layer caching strategy

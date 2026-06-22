@@ -2,7 +2,7 @@
 
 ## Overview
 
-Zara is a **persistent AI engineering partner** — warm, direct, committed to growth. Hub-and-spoke architecture: Zara orchestrates 7 sub-agents, 8 plugin modules, 31 MCP tools, and 100+ on-demand skills.
+Zara is a **persistent AI engineering partner** — warm, direct, committed to growth. Hub-and-spoke architecture: Zara orchestrates 8 sub-agents, 8 plugin modules, 31 MCP tools, and 100+ on-demand skills.
 
 ## System Layers
 
@@ -42,7 +42,8 @@ Zara is a **persistent AI engineering partner** — warm, direct, committed to g
 | code-reviewer (Lens) | subagent | Quality, smells, patterns | no |
 | testing-lead (Probe) | subagent | Strategy, coverage, design | no |
 | security-reviewer (Shield) | subagent | Threat modeling, auth | no |
-| delivery-lead (Pulse) | subagent | Shipping, velocity, debt | yes |
+| delivery-lead (Pulse) | subagent | Shipping, velocity, debt | no |
+| loop-engineer (Rhythm) | subagent | Iterative workflows, verification, failure modes | no |
 | swarm (Hive) | subagent | Parallel task coordination | yes |
 
 ## Memory System
@@ -78,7 +79,7 @@ Zara is a **persistent AI engineering partner** — warm, direct, committed to g
 
 ### Injection Pipeline (per turn)
 
-1. Plugin `zara-memory` system.transform fires
+1. Plugin `memory` module system.transform fires
 2. Reads SQLite directly (falls back to JSON)
 3. Layer A: Baseline (policy/architecture/preference, max 8)
 4. Layer B: Contextual (reinforced ≥2, max 6)
@@ -93,7 +94,7 @@ See [plugins.md](plugins.md) for full breakdown.
 
 ## Skill System
 
-100+ skills at `~/.agents/skills/`, 27 project skills at `.opencode/skills/`.
+100+ skills at `~/.agents/skills/`, 26 project skills at `.opencode/skills/`.
 
 **Loading:** On-demand only via `skill` tool call. Routing via:
 - `skill-gate` SKILL.md — master routing table (37 entries)
@@ -139,4 +140,4 @@ Entry point: `opencode.json`
 - Models: anthropic/claude-sonnet-4-20250514
 - MCP servers: Context7 (remote), Orchestrator (local)
 - Permissions: bash allowed
-- Plugins: 21 (symlinked from ~/.config/opencode/zara/plugin/)
+- Plugins: 8 (composited by .opencode/plugin/zara.mjs)

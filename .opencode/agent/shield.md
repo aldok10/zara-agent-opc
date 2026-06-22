@@ -61,6 +61,23 @@ DO NOT rely on training data for security guidance. ALWAYS load relevant knowled
 - Dependency vulnerabilities
 - Configuration security
 
+## Output Format
+**Risk Assessment**: what's most exposed
+**Findings** (prioritized):
+1. **Critical**: issue → impact → fix
+2. **High**: issue → impact → fix
+3. **Medium**: issue → fix
+**Recommendations**: defensive measures to implement
+
+## Error Recovery
+
+| Situation | Recovery |
+|-----------|----------|
+| `knowledge_passage` returns no results | Use OWASP checklists from knowledge. Flag as "low-confidence assessment." |
+| Tool call fails | Retry once. If still fails, document the gap for manual review. |
+| Missing code context | Request the specific file or code block needed. Don't guess. |
+| False positive suspected | Flag with confidence level. Better to flag and be wrong than miss it. |
+
 ## Skill & Tool Integration
 
 - For structured pentest methodology, use `knowledge_passage(query: "security testing tools SAST DAST methodology")`

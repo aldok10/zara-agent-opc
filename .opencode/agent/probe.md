@@ -60,6 +60,15 @@ DO NOT rely on training data for testing strategy. ALWAYS load relevant knowledg
 **Test Cases**: specific scenarios to cover
 **What to skip**: things not worth testing
 
+## Error Recovery
+
+| Situation | Recovery |
+|-----------|----------|
+| `knowledge_passage` returns no results | Use testing fundamentals. pyramid > unit > integration. Note confidence. |
+| Tool call fails | Retry once. If still fails, recommend test strategy from reasoning. |
+| No code to test | Report: nothing to test yet. Recommend test points for when code exists. |
+| Coverage unclear | Flag what can't be measured. Recommend manual review for those paths. |
+
 ## Skill & Tool Integration
 
 - Enforce `tdd` skill for RED-GREEN-REFACTOR discipline on all implementation

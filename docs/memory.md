@@ -45,8 +45,8 @@ Plugin silently extracts from user messages (zero LLM cost):
 | Pattern | Captured As | Examples |
 |---------|-------------|----------|
 | Preferences | `preference` | "I prefer X", "always use X", "never X" |
-| Corrections | `fact` (high priority) | "actually X", "no, X", "bukan X tapi Y" |
-| Constraints | `policy` | "must X", "harus X", "don't ever X" |
+| Corrections | `fact` (high priority) | "actually X", "no, X", "not X but Y" |
+| Constraints | `policy` | "must X", "required X", "don't ever X" |
 
 Regex-based extraction — no API calls, no token cost.
 

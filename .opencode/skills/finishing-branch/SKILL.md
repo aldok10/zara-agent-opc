@@ -95,8 +95,8 @@ Only for Merge and Discard. Order matters:
 
 ## Related Knowledge (load on demand)
 
-- `knowledge_search("continuous integration")` — CI/merge best practices
-- `knowledge_search("shipping is a feature")` — when to ship vs polish
+- `knowledge_passage(query: "continuous integration merge deployment")` — CI/merge best practices
+- `knowledge_passage(query: "shipping is a feature incremental delivery")` — when to ship vs polish
 
 ## Related Skills
 

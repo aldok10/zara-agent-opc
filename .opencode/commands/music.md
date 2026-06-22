@@ -24,7 +24,6 @@ Examples:
 2. First word is action (play/stop/next/pause/radio/like/dislike/taste/history/status/queue)
 3. Rest is the query
 
-Use the native `music` tool (from zara-music plugin) to execute.
-The tool is TUI-integrated — now-playing shows in context automatically.
+Use the `Orchestrator_play_music` tool to execute.
 
 Arguments: $ARGUMENTS

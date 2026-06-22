@@ -108,6 +108,9 @@
     }
   },
   "command": {
+    "audit": {
+      "template": "{file:.opencode/commands/audit.md}"
+    },
     "auto": {
       "template": "{file:.opencode/commands/auto.md}"
     },
@@ -145,6 +148,13 @@
     },
     "standup": {
       "template": "{file:.opencode/commands/standup.md}"
+    },
+    "swarm": {
+      "template": "{file:.opencode/commands/swarm.md}",
+      "agent": "swarm"
+    },
+    "think": {
+      "template": "{file:.opencode/commands/think.md}"
     },
     "zara": {
       "template": "{file:.opencode/commands/zara.md}"

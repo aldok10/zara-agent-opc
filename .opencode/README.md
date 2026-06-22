@@ -14,6 +14,7 @@ This directory contains Zara Agent's OpenCode extensions.
 │   ├── probe.md         # Subagent: Probe (testing strategy)
 │   ├── shield.md        # Subagent: Shield (security)
 │   ├── pulse.md         # Subagent: Pulse (delivery)
+│   ├── rhythm.md        # Subagent: Rhythm (loop engineering)
 │   └── hive.md          # Subagent: Hive (parallel coordination)
 ├── plugin/              # Plugin scripts (auto-loaded)
 │   ├── zara.mjs         # Composition root (loads all modules)
@@ -34,4 +35,4 @@ This directory contains Zara Agent's OpenCode extensions.
 ## Usage
 
 - Tab to switch between `build` (default) and `plan` agents
-- `@architect` (Atlas), `@code-reviewer` (Lens), `@testing-lead` (Probe), `@security-reviewer` (Shield), `@delivery-lead` (Pulse), `@swarm` (Hive) to invoke subagents
+- `@architect` (Atlas), `@code-reviewer` (Lens), `@testing-lead` (Probe), `@security-reviewer` (Shield), `@delivery-lead` (Pulse), `@loop-engineer` (Rhythm), `@swarm` (Hive) to invoke subagents

@@ -63,6 +63,15 @@ DO NOT rely on training data for smell identification or refactoring advice. ALW
 2. **Moderate**: issue → Fix
 3. **Minor**: issue → Fix
 
+## Error Recovery
+
+| Situation | Recovery |
+|-----------|----------|
+| `knowledge_passage` returns no results | Broaden query or use code-reading instinct. Note confidence: "surface-level review." |
+| Tool call fails | Retry once. If still fails, continue with what's available and note limitation. |
+| No diff to review | Report no changes found. Nothing to do. |
+| Security concern detected | Flag separately with severity. Zara auto-dispatches @shield for deep analysis. |
+
 ## Skill & Tool Integration
 
 - Follow `code-review` skill workflow for structured review process

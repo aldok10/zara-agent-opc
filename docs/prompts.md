@@ -19,6 +19,7 @@ Zara uses a layered prompt system loaded via OpenCode's `instructions` configura
     ├── probe.md            # Probe — testing strategy sub-agent
     ├── shield.md           # Shield — security review sub-agent
     ├── pulse.md            # Pulse — delivery management sub-agent
+    ├── rhythm.md           # Rhythm — loop engineering sub-agent
     └── hive.md             # Hive — parallel coordination sub-agent
 ```
 

@@ -1,27 +1,54 @@
 ---
-description: Set a goal/exit condition — keep working until it's met (e.g. /goal all tests pass)
+description: Goal management — set, track, and complete goals with memory persistence and reflect
 ---
 
-Parse my arguments to set or manage a goal.
+# Goal — Managed Progress Tracking
 
-**Format**: `/goal [condition]` or `/goal status` or `/goal done` or `/goal clear`
+Manages a goal/exit condition with memory persistence and reflect on completion.
 
-Examples:
-- `/goal all auth tests pass and lint is clean` → set exit condition
-- `/goal status` → check current goal progress
-- `/goal done` → mark goal as achieved
-- `/goal clear` → remove current goal
+## Parsing
 
-**Parse rules:**
-1. If arg is `status|done|clear` → that's the action
-2. Otherwise → action="set", condition=entire argument text
+```
+/goal [condition]      → set goal (e.g. /goal all auth tests pass)
+/goal status            → check current goal progress
+/goal check             → check + suggest next step
+/goal done              → mark achieved, reflect, persist
+/goal clear             → remove current goal without reflect
+```
 
-Use the `goal` tool to execute:
-- `status` → action="status"
-- `done` → action="done"
-- `clear` → action="clear"
-- anything else → action="set", condition="$ARGUMENTS"
+## Set Goal
 
-After setting a goal, remind yourself to call `goal` with action="check" after each meaningful step.
+1. `goal(action: "set", condition: "$ARGUMENTS")` — set the exit condition
+2. `memory_learn(type: "fact", key: "current_goal", value: "$ARGUMENTS")` — persist for crash recovery
+3. `reflect_suggest(situation: "$ARGUMENTS")` — what approach worked for similar goals
+4. `knowledge_passage(query: "$ARGUMENTS approach")` — find relevant patterns
+5. `memory_learn(type: "workflow", key: "goal_started_$ARGUMENTS", value: timestamp)` — track timing
+
+## Status
+
+1. `goal(action: "status")` — current goal state
+2. `session_log(action: "check")` — how long working on this
+3. Show: goal condition, progress, elapsed time
+
+## Check
+
+1. `goal(action: "check")` — check progress
+2. If progress stalled: suggest specific next step based on context
+3. If blocked: `blindspot_check(context: "$ARGUMENTS")` + suggest unblocking approach
+
+## Done
+
+1. `goal(action: "done")` — mark completed
+2. `memory_learn(type: "fact", key: "current_goal", value: "")` — clear persisted goal
+3. `reflect(task: "$ARGUMENTS", outcome: "success")` — extract pattern
+4. `memory_episode(event: "Goal completed: $ARGUMENTS", outcome: "success")` — episode record
+5. `session_log(action: "check")` — suggest break if needed
+6. Acknowledge specifically what was achieved
+
+## Clear
+
+1. `goal(action: "clear")` — remove goal
+2. `memory_learn(type: "fact", key: "current_goal", value: "")` — clear persistence
+3. Clean up: no reflect, no episode — goal was abandoned, not completed
 
 Arguments: $ARGUMENTS

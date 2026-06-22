@@ -12,6 +12,8 @@ Zara coordinates specialized sub-agents, each with deep expertise and a senior d
 | **Shield** (Security Reviewer) | `.opencode/agent/shield.md` | Simple defense beats complex security theater. |
 | **Pulse** (Delivery Lead) | `.opencode/agent/pulse.md` | Ship small. Ship often. Ship what matters. |
 | **Hive** (Swarm) | `.opencode/agent/hive.md` | Parallel task coordination. |
+| **Rhythm** (Loop Engineer) | `.opencode/agent/rhythm.md` | Iterative workflows, verification, failure modes. |
+| **Sketch** (Plan) | `.opencode/agent/sketch.md` | Analysis and design without making changes. |
 
 ## Usage
 

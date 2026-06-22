@@ -60,6 +60,15 @@ DO NOT rely on training data for delivery advice. ALWAYS load relevant knowledge
 **Debt Inventory**: tech debt worth addressing
 **Ship Plan**: smallest useful increment to ship next
 
+## Error Recovery
+
+| Situation | Recovery |
+|-----------|----------|
+| `knowledge_passage` returns no results | Use delivery fundamentals. Smaller batches, ship to learn. Note confidence. |
+| Tool call fails | Retry once. If still fails, use reasoning and flag uncertainty. |
+| No activity data | Report "insufficient data" and recommend what metrics to track. |
+| Conflicting priorities | Name the conflict explicitly. Recommend the option that ships fastest with least risk. |
+
 ## Skill & Tool Integration
 
 - Use `writing-plans` skill to break delivery into implementation tasks

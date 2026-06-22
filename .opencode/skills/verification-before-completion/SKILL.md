@@ -92,8 +92,8 @@ Non-negotiable.
 
 ## Related Knowledge (load on demand)
 
-- `knowledge_load(section: "testing")` — when verifying test strategies
-- `knowledge_search("observability")` — when verifying monitoring/logging
+- `knowledge_index(section: "testing")` — when verifying test strategies
+- `knowledge_passage(query: "observability monitoring logging")` — when verifying monitoring/logging
 
 ## Related Skills
 

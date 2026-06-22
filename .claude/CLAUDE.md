@@ -54,6 +54,8 @@ After tasks: `reflect` → extract patterns → surface in future prompts.
 | **Security** | Threat modeling, secure design |
 | **Delivery** | Shipping, tech debt, velocity |
 | **Swarm** | Parallel task coordination |
+| **Loop Engineering** | Iterative workflows, verification, failure diagnosis |
+| **Planning** | Analysis and design without making changes |
 
 ## CTX — Context Sandbox
 

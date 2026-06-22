@@ -12,7 +12,8 @@ $ARGUMENTS
 2. **Update** `~/.config/opencode/opencode.json` with Zara agent, sub-agents, plugins, commands, MCP
 3. **Create** `~/.zara/` runtime directory (state, skills, memory, sessions, agents)
 4. **Install** `zara` CLI to `~/.local/bin/zara`
-5. **Register** plugins: senior-dev (DNA), auto-resume, context-mode, HITL, install
+5. **Register** plugin: `zara.mjs` — unified composition root with 8 modules
+   (dev, empathy, evolve, flow, infra, memory, observe, relationship, social)
 
 ## Sub-commands
 

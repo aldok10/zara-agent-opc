@@ -8,7 +8,7 @@ Zara is a persistent, evolving AI engineering partner built for OpenCode. She en
 
 - Skill-enforced development methodology (brainstorming → planning → execution → verification)
 - 27 project skills with auto-activation via `skill-gate`
-- Multi-agent coordination: 5 specialist sub-agents + plan agent + swarm for parallel work
+- Multi-agent coordination: 8 specialist sub-agents (Atlas, Lens, Shield, Probe, Pulse, Rhythm, Hive, Sketch)
 - File-based progress tracking: design specs, plans, task ledgers
 - Persistent memory: 3-layer cognitive (episodic/semantic/procedural) with auto-capture
 - Knowledge-grounded: 254 DevIQ articles, 100+ global skills
@@ -24,7 +24,7 @@ cd zara-agent-opc
 opencode --project .
 ```
 
-Sub-agents: `@architect`, `@code-reviewer`, `@testing-lead`, `@security-reviewer`, `@delivery-lead`, `@swarm`
+Sub-agents: `@atlas` (architect), `@lens` (code-reviewer), `@probe` (testing-lead), `@shield` (security-reviewer), `@pulse` (delivery-lead), `@rhythm` (loop-engineer), `@hive` (swarm), `@sketch` (plan)
 
 ## Development Methodology
 
@@ -68,7 +68,7 @@ zara-agent-opc/
 │   ├── memory-db.mjs         # SQLite memory (FTS5, decay, types, scoped recall)
 │   └── dashboard.mjs         # CLI dashboard viewer
 ├── .opencode/
-│   ├── agent/                 # 8 agent definitions (zara + 7 specialists)
+│   ├── agent/                 # 9 agent definitions (zara + 8 specialists)
 │   ├── instructions/          # system.md + philosophy.md (operational + engineering priorities)
 │   ├── plugin/                # zara.mjs + 8 domain modules (hooks into OpenCode lifecycle)
 │   └── skills/                # 27 project skills

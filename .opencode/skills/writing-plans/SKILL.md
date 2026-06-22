@@ -157,9 +157,9 @@ Then load:
 
 ## Related Knowledge (load on demand)
 
-- `knowledge_load(section: "architecture")` — when planning architectural changes
-- `knowledge_load(section: "practices")` — for workflow/process decisions
-- `knowledge_search("vertical slice")` — when decomposing features into tasks
+- `knowledge_index(section: "architecture")` — when planning architectural changes
+- `knowledge_index(section: "practices")` — for workflow/process decisions
+- `knowledge_passage(query: "vertical slice incremental development")` — when decomposing features into tasks
 
 ## Related Skills
 

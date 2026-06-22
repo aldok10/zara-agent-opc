@@ -1,6 +1,6 @@
 ---
 name: zara-ctx
-description: Use when running code in sandboxed subprocesses, batch executing commands, fetching URLs as markdown without raw HTML in context, or searching previously indexed content
+description: Use when running code in sandboxed subprocesses, batch executing commands, or fetching URLs as markdown without raw HTML in context
 ---
 
 # Skill: zara-ctx — Context Sandbox Tools
@@ -12,7 +12,6 @@ Use this skill when you need to:
 - Process files without reading their full content
 - Run multiple commands in one batch call
 - Fetch web content without raw HTML in context
-- Search previously indexed content
 
 ## Available Tools
 
@@ -52,11 +51,8 @@ ctx_batch_execute([
 ])
 ```
 
-### ctx_fetch(url, source?)
-Fetch URL, return markdown. Raw HTML never enters context.
-
-### ctx_search(queries, source?)
-Search indexed content. Multiple queries in one call.
+### ctx_fetch(url)
+Fetch a URL and return content as markdown. Raw HTML never enters context.
 
 ## The Core Rule
 

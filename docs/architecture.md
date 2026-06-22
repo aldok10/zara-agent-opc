@@ -2,7 +2,7 @@
 
 ## Overview
 
-Zara is a **persistent AI engineering partner** — warm, direct, committed to growth. Hub-and-spoke architecture: Zara orchestrates 7 sub-agents, 8 plugin domain modules, 25 MCP tools, and 100+ on-demand skills.
+Zara is a **persistent AI engineering partner** — warm, direct, committed to growth. Hub-and-spoke architecture: Zara orchestrates 8 sub-agents, 8 plugin modules, 31 MCP tools, and 100+ on-demand skills.
 
 ## System Layers
 
@@ -13,7 +13,7 @@ Zara is a **persistent AI engineering partner** — warm, direct, committed to g
 │ OpenCode Runtime                                     │
 │  ├── Agent Prompts (.opencode/agent/)               │
 │  ├── Instructions (.opencode/instructions/)          │
-│  ├── Plugins (.opencode/plugin/) × 21               │
+│  ├── Plugins (.opencode/plugin/) × 8 modules         │
 │  └── Skills (.opencode/skills/ + ~/.agents/skills/) │
 ├─────────────────────────────────────────────────────┤
 │ MCP Server (tools/mcp/)                              │
@@ -37,13 +37,14 @@ Zara is a **persistent AI engineering partner** — warm, direct, committed to g
 | Agent | Mode | Purpose | Writes? |
 |-------|------|---------|---------|
 | zara (build) | primary | Full engineering partner | yes |
-| plan | primary | Analysis without changes | no |
-| architect | subagent | System design, tradeoffs | no |
-| code-reviewer | subagent | Quality, smells, patterns | no |
-| testing-lead | subagent | Strategy, coverage, design | no |
-| security-reviewer | subagent | Threat modeling, auth | no |
-| delivery-lead | subagent | Shipping, velocity, debt | yes |
-| swarm | subagent | Parallel task coordination | yes |
+| plan (Sketch) | primary | Analysis without changes | no |
+| architect (Atlas) | subagent | System design, tradeoffs | no |
+| code-reviewer (Lens) | subagent | Quality, smells, patterns | no |
+| testing-lead (Probe) | subagent | Strategy, coverage, design | no |
+| security-reviewer (Shield) | subagent | Threat modeling, auth | no |
+| delivery-lead (Pulse) | subagent | Shipping, velocity, debt | no |
+| loop-engineer (Rhythm) | subagent | Iterative workflows, verification, failure modes | no |
+| swarm (Hive) | subagent | Parallel task coordination | yes |
 
 ## Memory System
 
@@ -78,7 +79,7 @@ Zara is a **persistent AI engineering partner** — warm, direct, committed to g
 
 ### Injection Pipeline (per turn)
 
-1. Plugin `zara-memory` system.transform fires
+1. Plugin `memory` module system.transform fires
 2. Reads SQLite directly (falls back to JSON)
 3. Layer A: Baseline (policy/architecture/preference, max 8)
 4. Layer B: Contextual (reinforced ≥2, max 6)
@@ -93,7 +94,7 @@ See [plugins.md](plugins.md) for full breakdown.
 
 ## Skill System
 
-100+ skills at `~/.agents/skills/`, 27 project skills at `.opencode/skills/`.
+100+ skills at `~/.agents/skills/`, 26 project skills at `.opencode/skills/`.
 
 **Loading:** On-demand only via `skill` tool call. Routing via:
 - `skill-gate` SKILL.md — master routing table (37 entries)
@@ -139,4 +140,4 @@ Entry point: `opencode.json`
 - Models: anthropic/claude-sonnet-4-20250514
 - MCP servers: Context7 (remote), Orchestrator (local)
 - Permissions: bash allowed
-- Plugins: 21 (symlinked from ~/.config/opencode/zara/plugin/)
+- Plugins: 8 (composited by .opencode/plugin/zara.mjs)

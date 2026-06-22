@@ -121,9 +121,9 @@ If in doubt: write the test.
 
 ## Related Knowledge (load on demand)
 
-- `knowledge_search("test driven development")` — TDD practices article
-- `knowledge_load(section: "testing")` — all testing articles
-- `knowledge_load(section: "practices")` — when choosing testing approach
+- `knowledge_passage(query: "test driven development")` — TDD practices article
+- `knowledge_index(section: "testing")` — browse all testing articles
+- `knowledge_passage(query: "testing practices continuous integration")` — when choosing testing approach
 
 ## Related Skills
 

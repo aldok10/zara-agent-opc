@@ -54,4 +54,4 @@ Agent → MCP → DB/HTTP/AI call → auto-mask → Agent
 - `references/security.md` — two-tier model (5 server-enforced Go layers + agent rules), validation gates, injection/exfiltration/SSRF/multi-turn attack playbooks, detection patterns, secure defaults
 - `references/configuration.md` — env var setup, operational behavior
 - `references/install.md` — install the MCP server from source and register it with any AI tool
-- `knowledge_load(doc: "owasp")` — OWASP AISVS compliance
+- `knowledge_passage(query: "OWASP AISVS security compliance")` — OWASP AISVS compliance

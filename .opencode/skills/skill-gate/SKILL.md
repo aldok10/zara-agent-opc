@@ -26,17 +26,22 @@ User always wins. If user says "skip brainstorming", skip it.
 
 ## Skill Matching Table
 
-| Signal | Skill to Load |
-|--------|--------------|
+| Signal | Skill to Load → Agent Dispatch |
+|--------|---------------------------------|
 | Building a feature, creative work, "let's build X" | `brainstorming` → then `writing-plans` |
+| Architecture decision, tradeoffs | `brainstorming` → dispatch `task(architect)` via `/decide` |
+| Security concern, auth, crypto, threats | `zara-privacy-mcp` → dispatch `task(security-reviewer)` |
+| Test strategy needed, coverage gaps | `tdd` → dispatch `task(testing-lead)` |
+| Loop/iteration design, verification gates | `skill-gate` → dispatch `task(loop-engineer)` via `/loop design` |
+| Delivery/shipping blockers, tech debt | `finishing-branch` → dispatch `task(delivery-lead)` via `/standup deep` |
 | Have spec/requirements, ready to plan | `writing-plans` |
 | Plan ready, need to execute (subagent available) | `subagent-driven-dev` |
 | Plan ready, no subagents or user prefers inline | `executing-plans` |
-| 3+ independent tasks that can run concurrently | `dispatching-parallel-agents` |
+| 3+ independent tasks that can run concurrently | `dispatching-parallel-agents` → use `/swarm` for structured dispatch |
 | Bug, test failure, unexpected behavior | `systematic-debugging` |
 | Implementing code (feature or fix) | `tdd` |
 | Claiming work is done, fixed, passing | `verification-before-completion` |
-| Code review needed or received | `code-review` |
+| Code review needed or received | `code-review` → or use `/review` |
 | Work complete, need to integrate | `finishing-branch` |
 | Need isolated workspace | `git-worktrees` |
 | Git operations, branching, rebase, recovery | `git-expert` |
@@ -53,12 +58,10 @@ User always wins. If user says "skip brainstorming", skip it.
 | CI/CD pipelines | `ci-cd` |
 | Database queries, optimization | `postgres-expert` / `sqlite-expert` / `redis-expert` |
 | API design, OpenAPI specs | `openapi-expert` |
-| Security concerns, auth, threats | `security-audit` |
 | Shell scripting, bash automation | `shell-scripting` |
 | Team/leadership/decision topic | `leadership-expert` |
-| Complex task with 3+ parallel streams | `swarm` |
-| Session ending, preserving context | `session-handoff` |
-| Session start, checking for incomplete work | `auto-resume` |
+| Session ending, preserving context | `session-handoff` → or use `/handoff` |
+| Session start, checking for incomplete work | `auto-resume` → or use `/resume` |
 | Need heavy data processing outside context | `zara-ctx` |
 | Context budget low, need sandbox execution | `context-mode` |
 | Risky action, need confirmation workflow | `zara-hitl` |
@@ -88,12 +91,23 @@ The standard development flow:
 
 ```
 brainstorming → writing-plans → subagent-driven-dev (or executing-plans) → finishing-branch
-                                       ↓ (per task)
-                                      tdd
-                                       ↓ (if bug found)
-                              systematic-debugging
-                                       ↓ (before claiming done)
-                          verification-before-completion
+                                        ↓ (per task)
+                                       tdd
+                                        ↓ (if bug found)
+                               systematic-debugging
+                                        ↓ (if loop fails 3x)
+                               task(loop-engineer) for failure diagnosis
+                                        ↓ (before claiming done)
+                           verification-before-completion
+```
+
+**For complex tasks, add agent dispatch at entry point:**
+```
+Architecture decision → task(architect) → brainstorming → writing-plans → ...
+Security review       → task(security-reviewer) → zara-privacy-mcp → findings → ...
+Test strategy         → task(testing-lead) → tdd → test plan → ...
+Loop design           → task(loop-engineer) → verification gates → execute → ...
+Parallel work (3+)    → /swarm → task(swarm) → decompose → dispatch → synthesize
 ```
 
 ## When User Says "Just Do It"
@@ -113,7 +127,7 @@ Use these tools at the right moments during development:
 | Discover user preference or project fact | `memory_learn` | Persist for future sessions |
 | Architecture/policy decision made | `memory_learn` (source: user_explicit) | High-priority memory |
 | Design approved, plan completed, bug fixed | `memory_episode` | Record significant event + outcome |
-| Discussing patterns, principles, architecture | `knowledge_search` / `knowledge_load` | Pull DevIQ reference material |
+| Discussing patterns, principles, architecture | `knowledge_passage` / `knowledge_index` | Pull DevIQ reference material |
 | Workflow works well, want to reuse | `memory_procedure` | Save named procedure with steps |
 | After non-trivial work | `reflect` | Extract patterns for future use |
 

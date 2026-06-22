@@ -117,21 +117,39 @@ Once approved, invoke `writing-plans` skill to break design into implementation 
 
 Warm but disciplined. Guide the exploration without rushing it. Push back on scope creep gently. Celebrate clarity when it emerges.
 
-## Related Knowledge (load on demand)
+## Agent Routing
 
-- `knowledge_load(section: "architecture")` — when evaluating architectural approaches
-- `knowledge_load(section: "design-patterns")` — when proposing implementation patterns
-- `knowledge_search("YAGNI")` or `knowledge_search("simple design")` — when simplifying scope
-- `knowledge_load(section: "ddd")` — for domain modeling discussions
+During brainstorming, route to the right specialist when depth is needed:
+
+| When brainstorming about... | Dispatch to | Via |
+|-----------------------------|-------------|-----|
+| Architecture, system design, tradeoffs | @atlas | `knowledge_passage(query: "architecture styles clean architecture tradeoffs")` |
+| Code organization, patterns, refactoring | @lens | `knowledge_passage(query: "design patterns SOLID refactoring")` |
+| Security, auth, threat modeling | @shield | `knowledge_passage(query: "OWASP threat modeling secure design")` |
+| Test strategy, coverage, TDD | @probe | `knowledge_passage(query: "testing strategy TDD pyramid")` |
+| Delivery approach, scope, priorities | @pulse | `knowledge_passage(query: "incremental delivery YAGNI scope")` |
+| Iteration mechanics, verification | @rhythm | `knowledge_passage(query: "loop design patterns verification")` |
+| Parallelization, 3+ independent streams | @hive | — |
+
+## Related Knowledge (load on demand via MCP)
+
+- `knowledge_passage(query: "architecture patterns clean architecture modular")` — when evaluating architectural approaches
+- `knowledge_passage(query: "design patterns strategy factory repository")` — when proposing implementation patterns
+- `knowledge_passage(query: "YAGNI simple design principles")` — when simplifying scope
+- `knowledge_passage(query: "DDD bounded context aggregate value object")` — for domain modeling discussions
+- `knowledge_passage(query: "anti-patterns golden hammer feature creep")` — when avoiding over-engineering
+- `knowledge_index(section: "principles")` — browse engineering principles for decision criteria
 
 ## Integration
 
 - **Output to**: `writing-plans` skill (step 8 transition breaks design into implementation tasks)
+- **Agent handoff**: during design phase, dispatch to @atlas / @lens / @shield / @probe / @pulse / @rhythm for specialist depth (see Agent Routing table)
 - **MCP usage**: save key design decisions via `memory_episode(event, outcome)` and `memory_learn(key, value, type: "decision")` after user approval
-- **Knowledge**: load relevant architecture/patterns via `knowledge_search(query)` during exploration phase (step 1)
+- **Knowledge**: load relevant articles via `knowledge_passage(query)` during exploration phase (step 1)
 
 ## Related Skills
 
 | When | Load |
 |------|------|
 | Design approved, ready to plan | `writing-plans` |
+| Need architecture depth | `brainstorming` then dispatch to @atlas |

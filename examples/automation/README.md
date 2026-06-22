@@ -67,7 +67,7 @@ automated updates.
 ```
 
 ### Expected Workflow
-1. Zara engages `practices-lead`
+1. Zara engages `delivery-lead` sub-agent
 2. Strategy:
    - Dependency versioning convention
    - Automated dependency updates (Renovate/Dependabot)
@@ -93,7 +93,7 @@ Include linting, formatting, type checking, and security scanning.
 ```
 
 ### Expected Workflow
-1. Zara engages `practices-lead`
+1. Zara engages `code-reviewer` sub-agent
 2. Recommendations:
    - ESLint with strict config
    - Prettier for formatting

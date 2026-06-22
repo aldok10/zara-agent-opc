@@ -107,6 +107,29 @@ After all agents return:
 
 If conflicts exist: resolve manually or dispatch a single integration agent.
 
+## Topology Patterns
+
+Choose the right coordination structure for your task:
+
+### Fan-Out (default)
+```
+Coordinator → Worker 1, Worker 2, Worker 3 → Review → Synthesize
+```
+Use when: workstreams are truly independent with no ordering.
+
+### Pipeline (sequential dependencies)
+```
+Worker 1 (design) → Worker 2 (implement) → Worker 3 (test)
+```
+Use when: each step depends on the previous output.
+
+### Nested (complex/hierarchical)
+```
+Coordinator → Sub-Coordinator 1 → Workers...
+            → Sub-Coordinator 2 → Workers...
+```
+Use when: mega-task with multiple coordination layers. See plugin `swarm_nest_epic`.
+
 ## Key Benefits
 
 - **Speed** — N problems in time of 1
@@ -114,9 +137,19 @@ If conflicts exist: resolve manually or dispatch a single integration agent.
 - **Independence** — no agent-to-agent interference
 - **Context preservation** — coordinator keeps main context clean
 
+## Quality Checklist
+
+Before marking parallel work as complete:
+- [ ] All subtasks done or explicitly blocked
+- [ ] No file conflicts between workers
+- [ ] Combined output is coherent
+- [ ] Tests pass (if applicable)
+- [ ] Learnings recorded via `reflect` + `memory_learn`
+
 ## Related Skills
 
 | When | Load |
 |------|------|
 | Need isolated workspaces per agent | `git-worktrees` |
 | Coordinating task execution | `subagent-driven-dev` |
+| Swarm plugin coordination | Use `swarm_*` tools (epic, status, outcomes) |

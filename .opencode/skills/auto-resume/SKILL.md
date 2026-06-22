@@ -35,7 +35,8 @@ Orchestrator_memory_recall(query: "open threads")
 
 Look for:
 - Recent `memory_episode` entries with tags: session
-- `memory_learn` entries with type: `fact` and keys prefixed `thread.`
+- `memory_learn` entries with type: `fact` and keys prefixed `thread_` (from `/handoff` command)
+- `memory_recall(query: "thread")` — finds all thread-related keys
 - The most recent episode indicates saved session state
 
 ### 2. Announce Context

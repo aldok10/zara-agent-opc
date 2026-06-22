@@ -63,14 +63,14 @@ setup() {
     grep -q "^quality_gates:" "$PROJECT_DIR/config.yaml"
 }
 
-@test "config.yaml references all 7 sub-agents" {
-    grep -q "architect:" "$PROJECT_DIR/config.yaml"
-    grep -q "code-reviewer:" "$PROJECT_DIR/config.yaml"
-    grep -q "testing-lead:" "$PROJECT_DIR/config.yaml"
-    grep -q "practices-lead:" "$PROJECT_DIR/config.yaml"
-    grep -q "ddd-specialist:" "$PROJECT_DIR/config.yaml"
-    grep -q "security-reviewer:" "$PROJECT_DIR/config.yaml"
-    grep -q "delivery-lead:" "$PROJECT_DIR/config.yaml"
+@test "opencode.json defines all 9 agents" {
+    for key in zara plan architect code-reviewer testing-lead security-reviewer delivery-lead swarm loop-engineer; do
+        grep -q "\"$key\":" "$PROJECT_DIR/opencode.json"
+    done
+}
+
+@test "opencode.json has Zara as default agent" {
+    grep -q '"default_agent": "zara"' "$PROJECT_DIR/opencode.json"
 }
 
 # =============================================================================

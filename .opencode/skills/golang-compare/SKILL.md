@@ -69,6 +69,6 @@ See `examples/http-handler-compare.md` for a complete HTTP handler comparison de
 
 ## Related Knowledge (load on demand)
 
-- `knowledge_load(section: "code-smells")` — identify smells in Version A
-- `knowledge_load(section: "principles")` — SOLID violations to flag
-- `knowledge_search("refactoring")` — techniques for Version B improvements
+- `knowledge_index(section: "code-smells")` — identify smells in Version A
+- `knowledge_index(section: "principles")` — SOLID violations to flag
+- `knowledge_passage(query: "refactoring techniques patterns")` — techniques for Version B improvements

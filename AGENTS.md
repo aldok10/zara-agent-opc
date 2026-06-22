@@ -18,13 +18,26 @@ Source of truth: `opencode.json`. Discover structure via filesystem.
 - PHP: load `php-expert` skill (PSR + strict_types)
 - Prompts/instructions: markdown, under 500 lines per file
 
-## Execution Style
+## Available Commands (16)
 
-| Risk | Action |
-|------|--------|
-| Safe (read, write, lint, test) | Execute immediately, no narration |
-| Medium (install, config change) | Execute, mention briefly |
-| Dangerous (delete data, force push, production) | STOP and ask |
+| Command | Function | Agent Dispatch |
+|---------|----------|---------------|
+| `/audit` | System health — self-audit, memory, config cross-ref | — |
+| `/auto` | Autonomous work mode — pre-flight, loop, anti-doom-loop | auto (via task) |
+| `/decide` | Architecture decision — grounded in knowledge + tradeoffs | → @atlas |
+| `/focus` | Focus mode — session tracking, skills, check-in loops | `/focus loop` → @rhythm |
+| `/goal` | Goal management — persist, reflect, memory recovery | — |
+| `/handoff` | Session capture — git state, memory, files, threads | — |
+| `/install` | Global install to ~/.config/opencode | — |
+| `/loop` | Multi-mode cycles — timer, patterns, verify, design, study | `/loop design` → @rhythm |
+| `/music` | Music player — play, stop, radio, taste | — |
+| `/resume` | Full context restoration — memory, git, metrics | — |
+| `/review` | Code review — staged/last commit, auto @shield for security | → @lens |
+| `/shutdown` | Wind-down — auto-handoff, music, bedtime | — |
+| `/standup` | Activity snapshot — git + metrics + patterns | `/standup deep` → @pulse |
+| `/swarm` | Parallel decomposition — independent workstreams | → @hive |
+| `/think` | Structured planning — brainstorming + writing-plans | — |
+| `/zara` | General engineering — orchestration, swarm, session mgmt | `/zara swarm` → @hive |
 
 ## Skill Gate (Non-Negotiable)
 
@@ -35,32 +48,45 @@ Load `skill-gate` if unsure which skill matches — it has the full routing tabl
 
 | Situation | Do this |
 |-----------|---------|
-| Session start / after compaction | Load `skill-gate` (routing table), then `auto-resume` |
-| Task start (non-trivial) | `reflect_suggest` + `evolve_check_rules` + `blindspot_check` — recall what was learned |
-| Session end / preserving context | Load `session-handoff` |
+| Session start / after compaction | Load `skill-gate`, then check `/resume` for saved state |
+| Task start (non-trivial) | `reflect_suggest` + `blindspot_check` — recall what was learned |
+| Session end / preserving context | Use `/handoff` |
 | Go project detected | Load `golang-expert` skill |
 | PHP project detected | Load `php-expert` skill |
 | TypeScript/Node.js project | Load `typescript-expert` skill |
 | Python project | Load `python-expert` skill |
 | Bug or test failure | Load `systematic-debugging` skill |
-| Feature work starting | Load `brainstorming` → then `writing-plans` |
-| Plan ready, subagents available | Load `subagent-driven-dev` skill |
-| Plan ready, inline execution | Load `executing-plans` skill |
-| 3+ independent parallel tasks | Load `dispatching-parallel-agents` skill |
-| Implementation ready (per task) | Load `tdd` skill |
-| Work complete / claiming done | Load `verification-before-completion` skill |
-| Task done / pattern emerged | `reflect` WITH outcome (success/partial/failure) — feeds success-weighted learning |
-| Code review needed or received | Load `code-review` skill |
+| Feature starting | Load `brainstorming` → then `writing-plans` |
+| Architecture decision | Load `brainstorming` → dispatch `task(architect)` |
+| Security concern | Load `zara-privacy-mcp` → dispatch `task(security-reviewer)` |
+| Test strategy needed | Load `tdd` → dispatch `task(testing-lead)` |
+| Loop/iteration design | Dispatch `task(loop-engineer)` |
+| Parallel work (3+ streams) | Use `/swarm` → dispatch `task(swarm)` |
+| Delivery / shipping | Use `/standup deep` → dispatch `task(delivery-lead)` |
+| Implementation ready | Load `tdd` skill |
+| Work complete | Load `verification-before-completion` skill |
+| Task done / pattern emerged | `reflect` WITH outcome (success/partial/failure) |
+| Code review needed | Load `code-review` skill or use `/review` |
 | Branch ready to integrate | Load `finishing-branch` skill |
-| Need isolated workspace | Load `git-worktrees` skill |
 | Git operations, rebase, conflicts | Load `git-expert` skill |
 | Writing commit messages | Load `conventional-commits` skill |
 | GitHub PRs, issues, Actions | Load `github` skill |
 | Docker/containers | Load `docker` skill |
 | CI/CD pipelines | Load `ci-cd` skill |
-| Complex parallel task (3+ streams) | Use `@swarm` |
-| Architecture question | Use `@architect` |
 | Leadership/team topic | Load `leadership-expert` skill |
+
+## Agent Dispatch Map
+
+| Agent | Key | Trigger | How |
+|-------|-----|---------|-----|
+| Atlas | architect | Architecture decision, tradeoff analysis | `task(architect)` or `/decide` |
+| Lens | code-reviewer | Code review, >50 lines change | `task(code-reviewer)` or `/review` |
+| Shield | security-reviewer | Auth/crypto/security concern | `task(security-reviewer)` (auto in `/review`) |
+| Probe | testing-lead | Test strategy, coverage gaps | `task(testing-lead)` (auto in `/auto`) |
+| Pulse | delivery-lead | Shipping blockers, debt | `task(delivery-lead)` via `/standup deep` |
+| Hive | swarm | 3+ independent parallel tasks | `task(swarm)` or `/swarm` |
+| Rhythm | loop-engineer | Loop design, verification, failure | `task(loop-engineer)` via `/loop` or `/focus` |
+| Sketch | plan | Read-only planning | `/think` command or switch mode |
 
 ## Development Workflow
 
@@ -83,17 +109,11 @@ Zara is not static — she improves from real usage. Run the loop, don't just re
 Observe → Orient → Act → Reflect → Consolidate
 ```
 
-- **Observe** (task start) — `reflect_suggest(situation)` for the best historically-
-  scoring approach, `evolve_check_rules(situation)` for learned when-X-do-Y rules,
-  `memory_recall` for prior context. Don't re-solve what you already learned.
-- **Orient** — `blindspot_check(context)` to avoid known traps; `knowledge_passage`
-  for relevant reference material.
-- **Act** — do the work.
-- **Reflect** (task done) — `reflect` WITH an `outcome` (success/partial/failure).
-  Outcome trains success-weighted pattern scores. Crystallize a repeated 3+ sequence
-  via `evolve_crystallize`. Score noisy instructions with `evolve_score_prompt`.
-- **Consolidate** (session end) — runs automatically (memory merge + contradiction
-  scan). `zara_evolve_status` any time to see if success rates are actually rising.
+- **Observe** (task start) — `reflect_suggest(situation)` for best historically-scoring approach, `memory_recall` for prior context.
+- **Orient** — `blindspot_check(context)` to avoid known traps; `knowledge_passage` for relevant reference material. If complex, dispatch to specialist.
+- **Act** — do the work. Follow the command patterns (pre-flight → execute → post).
+- **Reflect** (task done) — `reflect` WITH an `outcome` (success/partial/failure). Outcome trains success-weighted pattern scores.
+- **Consolidate** (session end) — run `/handoff` or let auto-resume handle it. `zara_evolve_status` any time to see if success rates are actually rising.
 
 Corrections are sacred: when the user corrects you, persist it permanently
 (`memory_learn`), never be defensive, and if it maps to a skill, update that skill.

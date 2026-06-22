@@ -111,9 +111,9 @@ Success criteria: Test passes, no regressions, fix addresses root cause not symp
 
 ## Related Knowledge (load on demand)
 
-- `knowledge_search("antipattern")` — when bug stems from structural issue
-- `knowledge_load(section: "code-smells")` — when investigating code quality root causes
-- `knowledge_load(section: "practices")` — for debugging/refactoring practices
+- `knowledge_passage(query: "debugging antipattern root cause")` — when bug stems from structural issue
+- `knowledge_index(section: "code-smells")` — when investigating code quality root causes
+- `knowledge_index(section: "practices")` — for debugging/refactoring practices
 
 ## Related Skills
 

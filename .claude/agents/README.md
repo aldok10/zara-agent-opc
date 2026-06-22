@@ -6,25 +6,26 @@ Zara coordinates specialized sub-agents, each with deep expertise and a senior d
 
 | Sub-Agent | File | Expertise |
 |-----------|------|-----------|
-| **Architect** | `.opencode/agents/architect.md` | Start simple. Prove complexity is needed. |
-| **Code Reviewer** | `.opencode/agents/code-reviewer.md` | If it can be simpler, make it simpler. |
-| **Testing Lead** | `.opencode/agents/testing-lead.md` | Test what scares you. Skip the rest. |
-| **Practices Lead** | `.opencode/agents/practices-lead.md` | Fix what hurts. One change at a time. |
-| **DDD Specialist** | `.opencode/agents/ddd-specialist.md` | Model the domain, not the database. |
-| **Security Reviewer** | `.opencode/agents/security-reviewer.md` | Simple defense beats complex security theater. |
-| **Delivery Lead** | `.opencode/agents/delivery-lead.md` | Ship small. Ship often. Ship what matters. |
+| **Atlas** (Architect) | `.opencode/agent/atlas.md` | Start simple. Prove complexity is needed. |
+| **Lens** (Code Reviewer) | `.opencode/agent/lens.md` | If it can be simpler, make it simpler. |
+| **Probe** (Testing Lead) | `.opencode/agent/probe.md` | Test what scares you. Skip the rest. |
+| **Shield** (Security Reviewer) | `.opencode/agent/shield.md` | Simple defense beats complex security theater. |
+| **Pulse** (Delivery Lead) | `.opencode/agent/pulse.md` | Ship small. Ship often. Ship what matters. |
+| **Hive** (Swarm) | `.opencode/agent/hive.md` | Parallel task coordination. |
+| **Rhythm** (Loop Engineer) | `.opencode/agent/rhythm.md` | Iterative workflows, verification, failure modes. |
+| **Sketch** (Plan) | `.opencode/agent/sketch.md` | Analysis and design without making changes. |
 
 ## Usage
 
 To invoke a sub-agent in Claude Code:
 
 ```
-Read `.opencode/agents/architect.md` and apply that expertise to: <question>
+Read `.opencode/agent/atlas.md` and apply that expertise to: <question>
 ```
 
 Or embed the expertise:
 
 ```
-Act as Zara's Code Reviewer (see .opencode/agents/code-reviewer.md):
+Act as Zara's Lens (see .opencode/agent/lens.md):
 <your code review question>
 ```

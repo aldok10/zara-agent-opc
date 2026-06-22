@@ -21,17 +21,13 @@ $ARGUMENTS
 - `/zara install` — Install Zara globally
 - `/zara status` — Check installation and health
 
-## Swarm Mode
+## Swarm Mode (Dispatch to @hive)
 
 When the task warrants parallel execution (3+ independent workstreams):
-
-1. Analyze — Identify independent workstreams and file boundaries
-2. Create Epic — `swarm_create_epic` with subtasks
-3. Reserve Files — `swarm_reserve_files` per worker
-4. Spawn Workers — Delegate via @agent or `task` tool
-5. Review — `swarm_review_feedback` (max 3 rounds)
-6. Synthesize — Merge approved results
-7. Record — `swarm_record_outcome` with learnings
+1. `task(subagent_type: "swarm", prompt: "Decompose and coordinate parallel work for: [task]. Identify independent workstreams, assign file boundaries, and synthesize results.")`
+2. Apply @hive's decomposition plan
+3. Execute each workstream
+4. Review and synthesize
 
 ## Decision Framework
 

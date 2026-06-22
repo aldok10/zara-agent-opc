@@ -93,7 +93,7 @@ echo ""
 echo -e "${CYAN}[Group 3] Prompt File Tests${NC}"
 
 # Test 3.1: Canonical instruction files exist
-for prompt in "prompts/system.md" "prompts/philosophy.md" ".opencode/instructions/system.md"; do
+for prompt in "prompts/philosophy.md" ".opencode/instructions/system.md"; do
     if [ ! -f "$SCRIPT_DIR/$prompt" ]; then
         echo -e "  ${RED}✗${NC} Missing prompt: $prompt"
         failed=$((failed + 1))
@@ -103,25 +103,25 @@ for prompt in "prompts/system.md" "prompts/philosophy.md" ".opencode/instruction
     fi
 done
 
-# Test 3.2: Sub-agent reference prompts exist
-for agent in architect code-reviewer testing-lead practices-lead ddd-specialist security-reviewer delivery-lead; do
-    if [ ! -f "$SCRIPT_DIR/prompts/sub-agents/$agent.md" ]; then
-        echo -e "  ${RED}✗${NC} Missing sub-agent prompt: $agent"
-        failed=$((failed + 1))
-    else
-        echo -e "  ${GREEN}✓${NC} Sub-agent prompt exists: $agent"
-        passed=$((passed + 1))
-    fi
-done
-
-# Test 3.3: Runtime agent definitions exist (.opencode/agent — used by opencode.json)
-for agent in zara plan architect code-reviewer testing-lead security-reviewer delivery-lead swarm; do
+# Test 3.2: All 9 agent definitions exist in .opencode/agent/
+for agent in zara sketch atlas lens probe shield pulse rhythm hive; do
     if [ ! -f "$SCRIPT_DIR/.opencode/agent/$agent.md" ]; then
         echo -e "  ${RED}✗${NC} Missing agent definition: $agent"
         failed=$((failed + 1))
     else
         echo -e "  ${GREEN}✓${NC} Agent definition exists: $agent"
         passed=$((passed + 1))
+    fi
+done
+
+# Test 3.3: All agents also referenced in opencode.json
+for agent_key in zara plan architect code-reviewer testing-lead security-reviewer delivery-lead swarm loop-engineer; do
+    if grep -q "\"$agent_key\":" "$SCRIPT_DIR/opencode.json" 2>/dev/null; then
+        echo -e "  ${GREEN}✓${NC} Agent in opencode.json: $agent_key"
+        passed=$((passed + 1))
+    else
+        echo -e "  ${RED}✗${NC} Missing agent in opencode.json: $agent_key"
+        failed=$((failed + 1))
     fi
 done
 

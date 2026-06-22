@@ -51,5 +51,26 @@ services:
       CONTEXT7_API_KEY: "${CONTEXT7_API_KEY:-}"
     command: ["opencode"]
 
+  opencode-web:
+    build: .
+    image: zara-agent:local
+    stdin_open: true
+    tty: true
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/workspace
+      - zara-home:/root/.zara
+    working_dir: /workspace
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      ZARA_USER_NAME: "${ZARA_USER_NAME:-}"
+      ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
+      CONTEXT7_API_KEY: "${CONTEXT7_API_KEY:-}"
+      OPENCODE_SERVER_PASSWORD: "${OPENCODE_SERVER_PASSWORD:-}"
+    command: ["opencode", "web", "--mdns", "--hostname", "0.0.0.0", "--port", "8080"]
+
 volumes:
   zara-home:

@@ -18,7 +18,7 @@ Source of truth: `opencode.json`. Discover structure via filesystem.
 - PHP: load `php-expert` skill (PSR + strict_types)
 - Prompts/instructions: markdown, under 500 lines per file
 
-## Available Commands (17)
+## Available Commands (19)
 
 | Command | Function | Agent Dispatch |
 |---------|----------|---------------|
@@ -39,6 +39,8 @@ Source of truth: `opencode.json`. Discover structure via filesystem.
 | `/swarm` | Parallel decomposition - independent workstreams | → @hive |
 | `/think` | Structured planning - brainstorming + writing-plans | - |
 | `/zara` | General engineering - orchestration, swarm, session mgmt | `/zara swarm` → @hive |
+| `/version` | Version info + update check against remote | - |
+| `/update` | Self-update from remote (pull + re-install) | - |
 
 ## Skill Gate (Non-Negotiable)
 

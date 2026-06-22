@@ -173,6 +173,12 @@
     },
     "zara": {
       "template": "{file:.opencode/commands/zara.md}"
+    },
+    "version": {
+      "template": "{file:.opencode/commands/version.md}"
+    },
+    "update": {
+      "template": "{file:.opencode/commands/update.md}"
     }
   },
   "plugin": [

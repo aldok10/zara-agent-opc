@@ -3,10 +3,9 @@
 
 import fs from 'fs';
 import path from 'path';
-import { ensure, atomicWrite } from '../infra/store.mjs';
+import { ensure, atomicWrite, SECRET_PATTERN } from '../infra/store.mjs';
 
 const MAX_ENTRIES = 200;
-const SECRET_PATTERNS = /(?:sk-[a-zA-Z0-9_-]{20,}|ghp_[a-zA-Z0-9]{36,}|gho_[a-zA-Z0-9]{36,}|glpat-[a-zA-Z0-9_-]{20,}|xox[bp]-[a-zA-Z0-9-]{20,}|AKIA[0-9A-Z]{16}|eyJ[a-zA-Z0-9_-]{20,}\.eyJ[a-zA-Z0-9_-]{20,}\.[a-zA-Z0-9_-]+|-----BEGIN\s(?:RSA\s|EC\s|OPENSSH\s)?PRIVATE\sKEY-----|(?:mongodb(?:\+srv)?|postgres(?:ql)?|mysql|redis):\/\/\S{10,}|(?:api[_-]?key|password|passwd|secret|token|bearer|authorization)[=:\s]\S{8,})/i;
 
 const TTL_MS = {
   session: 12 * 3600_000,
@@ -134,7 +133,7 @@ export default function createWorkspace({ directory } = {}) {
         async execute(args) {
           if (!args || !args.key || !args.value) return 'Error [workspace_write]: key and value are required.';
 
-          if (SECRET_PATTERNS.test(args.value) || SECRET_PATTERNS.test(args.key)) {
+          if (SECRET_PATTERN.test(args.value) || SECRET_PATTERN.test(args.key)) {
             return 'Error [workspace_write]: value contains potential secret/credential. Blocked.';
           }
 

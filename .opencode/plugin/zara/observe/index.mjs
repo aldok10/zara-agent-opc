@@ -1,7 +1,7 @@
 // Observe module — Tracing, Evaluation, Guardrails, Cache
 // Combines: zara-metrics, zara-observability, zara-evaluation, zara-guardrails, zara-cost-optimizer
 
-import { FileStore, today, spanId, estimateTokens, hash } from '../infra/store.mjs';
+import { FileStore, today, spanId, estimateTokens, hash, SECRET_PATTERN } from '../infra/store.mjs';
 import { tool } from '@opencode-ai/plugin';
 
 const z = tool.schema;
@@ -172,29 +172,18 @@ export class EvalService {
 
 export class GuardService {
   #store = new FileStore('guardrails');
-  #secrets = [
-    /-----BEGIN\s+(RSA\s+)?PRIVATE\s+KEY-----/,
-    /\b(sk-|gh[opu]_|glpat-|xox[baprs]-|rk-live-|rk-prod-)[A-Za-z0-9_-]{15,}\b/,
-    /\b(postgres|postgresql|mysql|mongodb|redis):\/\/[^\s"']+/i,
-    /(?<![A-Za-z0-9+/=\w])(?=[A-Za-z]*\d)(?=\d*[A-Za-z])[A-Za-z0-9+/]{40,}={0,2}(?![A-Za-z0-9+/=])/,
-    /\b\d{16}\b/, // credit card
-    /\b\d{3}-\d{2}-\d{4}\b/, // SSN
-  ];
 
   check(text) {
     if (!text) return [];
     const issues = [];
-    for (const p of this.#secrets) if (p.test(text)) issues.push(`secret: ${p.source}`);
+    if (SECRET_PATTERN.test(text)) issues.push('secret detected');
     if (issues.length) this.#store.appendLine('incidents.jsonl', { type: 'detected', issues, ts: new Date().toISOString() });
-    this.#store.prune('incidents.jsonl', 50);
     return issues;
   }
 
   redact(text) {
     if (!text) return text;
-    let out = text;
-    for (const p of this.#secrets) out = out.replace(new RegExp(p.source, p.flags || 'g'), '[REDACTED]');
-    return out;
+    return text.replace(new RegExp(SECRET_PATTERN.source, 'gi'), '[REDACTED]');
   }
 
   incidents() { return this.#store.readLines('incidents.jsonl', 50); }

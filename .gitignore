@@ -24,7 +24,6 @@ node_modules/
 *.swo
 *~
 .vscode/
-.DS_Store
 
 # Logs
 *.log
@@ -38,9 +37,6 @@ coverage/
 dist/
 build/
 *.tsbuildinfo
-
-# Windows
-Thumbs.db
 
 # Secrets
 **/secrets/

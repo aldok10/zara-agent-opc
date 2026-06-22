@@ -411,32 +411,6 @@ export default function createFlow({ client, directory } = {}) {
           }
         },
       }),
-
-      zara_save_progress: tool({
-        description: 'Save current task progress for cross-session resume.',
-        args: {
-          task: z.string(),
-          currentStep: z.string().optional(),
-          completedSteps: z.array(z.string()).optional(),
-          remainingSteps: z.array(z.string()).optional(),
-          keyDecisions: z.array(z.string()).optional(),
-          filesTouched: z.array(z.string()).optional(),
-          learnings: z.array(z.string()).optional(),
-        },
-        async execute(args) { return { output: resume.saveProgress(args) }; },
-      }),
-
-      zara_mark_complete: tool({
-        description: 'Mark current task as completed (clears resume state)',
-        args: {},
-        async execute() { return { output: resume.markComplete() }; },
-      }),
-
-      zara_resume_status: tool({
-        description: 'Check if there is incomplete work from a previous session',
-        args: {},
-        async execute() { return { output: resume.resumeStatus() }; },
-      }),
     },
   };
 }

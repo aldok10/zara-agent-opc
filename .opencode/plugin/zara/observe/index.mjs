@@ -271,9 +271,7 @@ export class ContextCompressor {
     return result.map((msg, i) => {
       if (!msg || i >= tail) return msg;
       // Strip reasoning blocks from older assistant messages
-      if (msg.role === 'assistant' && typeof msg.content === 'string' && THINKING_RE.test(msg.content)) {
-        // Reset lastIndex since we use /g flag
-        THINKING_RE.lastIndex = 0;
+      if (msg.role === 'assistant' && typeof msg.content === 'string' && msg.content.includes('<thinking>')) {
         return { ...msg, content: this.stripReasoning(msg.content) };
       }
       if (msg.role === 'tool' && typeof msg.content === 'string') {

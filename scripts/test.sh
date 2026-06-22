@@ -45,16 +45,9 @@ echo -e "${CYAN}[Group 1] Configuration Tests${NC}"
 test -f "$SCRIPT_DIR/.env.example" && test -s "$SCRIPT_DIR/.env.example"
 run_test ".env.example exists and non-empty" $?
 
-# Test 1.2: config.yaml exists and valid
-test -f "$SCRIPT_DIR/config.yaml" && grep -q "^agent:" "$SCRIPT_DIR/config.yaml"
-run_test "config.yaml exists with agent config" $?
-
-# Test 1.3: config.yaml has required fields
-grep -q "sub_agents:" "$SCRIPT_DIR/config.yaml" && \
-grep -q "knowledge:" "$SCRIPT_DIR/config.yaml" && \
-grep -q "memory:" "$SCRIPT_DIR/config.yaml" && \
-grep -q "security:" "$SCRIPT_DIR/config.yaml"
-run_test "config.yaml has all required sections" $?
+# Test 1.2: opencode.json valid JSON
+python3 -c "import json;json.load(open('$SCRIPT_DIR/opencode.json'))" 2>/dev/null
+run_test "opencode.json is valid JSON" $?
 
 echo ""
 

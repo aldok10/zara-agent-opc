@@ -45,7 +45,7 @@ What problem does this solve? What functionality does it add?
 - [ ] I have added tests that prove my fix is effective or that my feature works
 - [ ] New and existing tests pass locally
 - [ ] No hardcoded secrets, paths, or credentials
-- [ ] Configuration changes are documented in config.yaml and .env.example
+- [ ] Configuration changes are documented in opencode.json and .env.example
 
 ## Related Issues
 

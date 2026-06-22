@@ -12,7 +12,7 @@ assignees: ''
 - **Zara version**: [e.g., 1.0.0]
 - **OpenCode version**: [e.g., 1.5.0]
 - **LLM model**: [e.g., claude-sonnet-4-5]
-- **Configuration**: [relevant config.yaml sections]
+- **Configuration**: [relevant opencode.json sections]
 
 ## Description
 

@@ -8,12 +8,14 @@ Zara is a persistent, evolving AI engineering partner built for OpenCode. She en
 
 - Skill-enforced development methodology (brainstorming → planning → execution → verification)
 - 27 project skills with auto-activation via `skill-gate`
-- Multi-agent coordination: 9 specialist sub-agents (Atlas, Lens, Shield, Probe, Pulse, Rhythm, Hive, Sketch, Forge)
+- Multi-agent coordination: 10 agents (Zara + 9 specialists)
+- Multi-agent debate for complex decisions (`/debate`)
+- Workspace memory: shared memory across agents
+- Context compression with protected tail segments
 - File-based progress tracking: design specs, plans, task ledgers
 - Persistent memory: 3-layer cognitive (episodic/semantic/procedural) with auto-capture
 - Knowledge-grounded: 254 DevIQ articles, 100+ global skills
-- Self-improving: outcome-weighted reflection, pattern extraction, crystallized micro-tools, blindspot detection, growth tracking via `zara_evolve_status`
-- Self-aware: discovers the user's name from env/profile/memory/git/OS, audits its own config integrity via `zara_self_audit`
+- Self-improving: outcome-weighted reflection, pattern extraction, crystallized micro-tools, blindspot detection
 - Privacy-aware: MCP gateway with automatic data masking
 
 ## Quick Start
@@ -24,7 +26,7 @@ cd zara-agent-opc
 opencode --project .
 ```
 
-Sub-agents: `@atlas` (architect), `@lens` (code-reviewer), `@probe` (testing-lead), `@shield` (security-reviewer), `@pulse` (delivery-lead), `@rhythm` (loop-engineer), `@hive` (swarm), `@sketch` (plan), `@forge` (implementation)
+Agents: `@atlas` (architect), `@lens` (code-reviewer), `@probe` (testing-lead), `@shield` (security-reviewer), `@pulse` (delivery-lead), `@rhythm` (loop-engineer), `@hive` (swarm), `@sketch` (plan), `@forge` (implementation)
 
 ## Development Methodology
 
@@ -69,8 +71,8 @@ zara-agent-opc/
 │   └── dashboard.mjs         # CLI dashboard viewer
 ├── .opencode/
 │   ├── agent/                 # 10 agent definitions (zara + 9 specialists)
-│   ├── instructions/          # system.md + philosophy.md (operational + engineering priorities)
-│   ├── plugin/                # zara.mjs + 10 domain modules (hooks into OpenCode lifecycle)
+│   ├── instructions/          # system.md + philosophy.md
+│   ├── plugin/                # zara.mjs + 11 domain modules + infra
 │   └── skills/                # 27 project skills
 ├── docs/
 │   ├── specs/                 # Design documents (brainstorming output)
@@ -80,6 +82,49 @@ zara-agent-opc/
 ├── knowledge/                 # 254 DevIQ articles
 └── prompts/                   # Engineering philosophy
 ```
+
+## Commands (20)
+
+| Command | Function |
+|---------|----------|
+| `/audit` | System health check |
+| `/auto` | Autonomous work mode |
+| `/code` | Structured coding workflow |
+| `/debate` | Multi-agent debate for complex decisions |
+| `/decide` | Architecture decision via @atlas |
+| `/focus` | Focus mode with session tracking |
+| `/goal` | Goal management |
+| `/handoff` | Session capture |
+| `/install` | Global install to ~/.config/opencode |
+| `/loop` | Multi-mode cycles (timer, verify, design) |
+| `/music` | Music player |
+| `/resume` | Full context restoration |
+| `/review` | Code review via @lens |
+| `/shutdown` | Wind-down ritual |
+| `/standup` | Activity snapshot |
+| `/swarm` | Parallel decomposition via @hive |
+| `/think` | Structured planning |
+| `/update` | Self-update from remote |
+| `/version` | Version info |
+| `/zara` | General engineering |
+
+## Plugin Modules (11)
+
+Single entry point (`.opencode/plugin/zara.mjs`) loads domain modules:
+
+| Module | What it does |
+|--------|-------------|
+| `observe` | Tracing, evaluation, guardrails, semantic cache |
+| `memory` | 3-layer memory, auto-capture, reflection, knowledge search |
+| `flow` | Session handoff, goals, loops, bedtime ritual, auto-resume |
+| `dev` | Engineering principles, sandbox exec, HITL confidence |
+| `social` | Leadership coaching, team knowledge, music player |
+| `evolve` | Micro-tools, swarm coordination, workflow rules |
+| `empathy` | Emotional tracking, sentiment, burnout detection |
+| `relationship` | Open threads, milestones, shared references, identity anchor |
+| `voice` | Anti-AI writing enforcement, drift checks |
+| `workspace` | Shared agent memory, cross-agent context |
+| `debate` | Multi-agent deliberation with position sanitization |
 
 ## Skills (27)
 
@@ -112,18 +157,19 @@ Domains: memory (7), reflection (6), metrics (4), session (5), music (1), knowle
 
 ## Continuous Learning
 
-Zara improves from real usage - statistical, not ML, by design (zero infra for a single-user agent). One loop:
+Zara improves from real usage. Statistical, not ML, by design (zero infra for a single-user agent).
 
 ```
 Observe → Orient → Act → Reflect → Consolidate
 ```
 
-- **Observe/Orient** - `reflect_suggest` recalls the best-scoring past approach; `evolve_check_rules` + `blindspot_check` avoid known traps.
-- **Reflect** - `reflect` with an outcome (success/partial/failure) trains success-weighted pattern scores; repeated sequences crystallize into micro-tools.
-- **Consolidate** - session end auto-merges duplicate memories and scans for contradictions (same subject, divergent claims) - flagged for review, never auto-resolved.
-- **Watch growth** - `zara_evolve_status` shows whether success rates are actually rising.
+- `reflect_suggest` recalls best-scoring past approaches
+- `reflect` with outcome trains success-weighted pattern scores
+- Repeated sequences crystallize into micro-tools
+- Session-end consolidation merges duplicates, flags contradictions
+- `zara_evolve_status` shows whether success rates are rising
 
-Corrections are persisted permanently; the same mistake twice triggers a systemic fix, not another patch. See `knowledge/continuous-learning.md`.
+Corrections persist permanently. Same mistake twice triggers a systemic fix.
 
 ## Documentation
 

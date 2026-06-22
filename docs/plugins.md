@@ -2,7 +2,7 @@
 
 ## Overview
 
-Zara ships as a single OpenCode plugin (`.opencode/plugin/zara.mjs`), a composition root that loads 10 domain modules from `.opencode/plugin/zara/`. Each module hooks into the conversation lifecycle via OpenCode's experimental hooks API. Shared file I/O lives in `infra/store.mjs`.
+Zara ships as a single OpenCode plugin (`.opencode/plugin/zara.mjs`), a composition root that loads 11 domain modules from `.opencode/plugin/zara/`. Each module hooks into the conversation lifecycle via OpenCode's experimental hooks API. Shared file I/O lives in `infra/store.mjs`.
 
 This replaced the old layout of 21 individual plugins. Same behavior, fewer files, one entry point.
 
@@ -10,15 +10,17 @@ This replaced the old layout of 21 individual plugins. Same behavior, fewer file
 
 | Module | Hooks | What it does | Absorbed |
 |--------|-------|-------------|----------|
-| `observe` | tool.execute.before/after, chat.response | Tracing, evaluation scoring, guardrails (injection/PII/tool-input), semantic cache, benchmarks | metrics, observability, evaluation, guardrails, cost-optimizer |
+| `observe` | tool.execute.before/after, chat.response | Tracing, evaluation scoring, guardrails (injection/PII/tool-input), semantic cache | metrics, observability, evaluation, guardrails, cost-optimizer |
 | `memory` | system.transform, chat.message, chat.response | SQLite 3-layer memory (episodic/semantic/procedural), auto-capture, reflection, knowledge search | memory, reflection, knowledge |
-| `flow` | system.transform (conditional), event, chat.message | Session handoff, goals, loops, bedtime ritual, presence, auto-resume | flow, compaction, scratchpad, auto-resume |
-| `dev` | tools only | 8 engineering principles, sandbox exec, HITL confidence, model router, research, install | senior-dev, codebase, hitl, router, research, install |
-| `social` | system.transform | Leadership coaching, team knowledge, mesh messaging, music player | leadership, team, mesh, music |
-| `evolve` | system.transform (conditional) | Micro-tools, swarm coordination, A/B tests, workflow rules | evolve, swarm, compaction, scratchpad |
+| `flow` | system.transform (conditional), event, chat.message | Session handoff, goals, loops, bedtime ritual, auto-resume | flow, compaction, scratchpad, auto-resume |
+| `dev` | tools only | Engineering principles, sandbox exec, HITL confidence | senior-dev, codebase, hitl |
+| `social` | system.transform | Leadership coaching, team knowledge, music player | leadership, team, music |
+| `evolve` | system.transform (conditional) | Micro-tools, swarm coordination, workflow rules | evolve, swarm, compaction, scratchpad |
 | `empathy` | onEvent, onMessage, inject | Longitudinal emotional tracking, sentiment, burnout detection, growth tracking | (new) |
 | `relationship` | onEvent, inject | Open threads, milestones, shared references, emotional bookmarks, persistent stances, identity anchor, temporal awareness | (new) |
 | `voice` | system.transform | Anti-AI writing enforcement, banned word/phrase injection, rotating drift checks | (new) |
+| `workspace` | system.transform, tools | Shared agent memory, cross-agent context propagation | (new) |
+| `debate` | tools | Multi-agent deliberation, position sanitization, context compression | (new) |
 | `infra` | (shared) | File I/O utilities, path resolution, store.mjs - used by all modules | (shared library) |
 
 ## Hook Types

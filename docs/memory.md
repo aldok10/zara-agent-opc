@@ -21,16 +21,16 @@ Stored in SQLite with FTS5 full-text search. Zero external dependencies.
 
 Every conversation injects relevant memories before the LLM sees the prompt:
 
-**Layer A — Baseline** (always injected)
+**Layer A - Baseline** (always injected)
 - All `policy`, `architecture`, and `preference` memories with priority >= high
 - Sorted by priority descending
 
-**Layer B — Contextual** (scored and ranked)
+**Layer B - Contextual** (scored and ranked)
 - Score = `type_weight × decay_factor × reinforcement_count`
 - Decay: exponential with 90-day half-life
 - Only memories above threshold score inject
 
-**Layer C — Procedures** (top 3 workflows)
+**Layer C - Procedures** (top 3 workflows)
 - Matched by current task context
 - Proven workflows (success_count > 0) ranked first
 
@@ -48,7 +48,7 @@ Plugin silently extracts from user messages (zero LLM cost):
 | Corrections | `fact` (high priority) | "actually X", "no, X", "not X but Y" |
 | Constraints | `policy` | "must X", "required X", "don't ever X" |
 
-Regex-based extraction — no API calls, no token cost.
+Regex-based extraction - no API calls, no token cost.
 
 ## Tools
 

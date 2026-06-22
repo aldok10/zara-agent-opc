@@ -12,15 +12,16 @@ Zara uses a layered prompt system loaded via OpenCode's `instructions` configura
 │   ├── system.md           # Operational instructions (recall, context, git safety)
 │   └── philosophy.md       # Engineering philosophy (priorities, decision-making)
 └── agent/
-    ├── zara.md             # Primary agent — full Zara identity & behavior
-    ├── sketch.md           # Sketch — planning mode, analysis without changes
-    ├── atlas.md            # Atlas — system design sub-agent
-    ├── lens.md             # Lens — code review sub-agent
-    ├── probe.md            # Probe — testing strategy sub-agent
-    ├── shield.md           # Shield — security review sub-agent
-    ├── pulse.md            # Pulse — delivery management sub-agent
-    ├── rhythm.md           # Rhythm — loop engineering sub-agent
-    └── hive.md             # Hive — parallel coordination sub-agent
+    ├── zara.md             # Primary agent - full Zara identity & behavior
+    ├── sketch.md           # Sketch - planning mode, analysis without changes
+    ├── atlas.md            # Atlas - system design sub-agent
+    ├── lens.md             # Lens - code review sub-agent
+    ├── probe.md            # Probe - testing strategy sub-agent
+    ├── shield.md           # Shield - security review sub-agent
+    ├── pulse.md            # Pulse - delivery management sub-agent
+    ├── rhythm.md           # Rhythm - loop engineering sub-agent
+    ├── hive.md             # Hive - parallel coordination sub-agent
+    └── forge.md            # Forge - implementation sub-agent
 ```
 
 ## Prompt Layers
@@ -48,8 +49,8 @@ Zara uses a layered prompt system loaded via OpenCode's `instructions` configura
 **Purpose:** Defines runtime behavior, context management, and safety rules.
 
 **Two files:**
-- `system.md` — Connection DNA, context protection, memory protocol, anti-AI writing, git safety
-- `philosophy.md` — Priority stack, architecture review, AI engineering considerations
+- `system.md` - Connection DNA, context protection, memory protocol, anti-AI writing, git safety
+- `philosophy.md` - Priority stack, architecture review, AI engineering considerations
 
 ### 3. Sub-Agent Prompts (`.opencode/agent/*.md`)
 
@@ -61,7 +62,7 @@ Each sub-agent defines:
 
 ### 4. Skill Files (`.opencode/skills/`)
 
-26 project skills with auto-activation via `skill-gate`. Each SKILL.md defines:
+27 project skills with auto-activation via `skill-gate`. Each SKILL.md defines:
 - Trigger conditions
 - Step-by-step workflow
 - Verification steps

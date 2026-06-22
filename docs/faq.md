@@ -3,7 +3,7 @@
 ## General
 
 ### What is Zara?
-Zara is your senior engineering partner — warm, direct, and committed to your growth. She coordinates 8 specialized sub-agents to solve complex software engineering problems, grounded in the DevIQ body of knowledge (254 articles). She operates on senior dev principles: YAGNI-first, stdlib-first, minimal solutions. She cares enough to challenge you and celebrates your growth.
+Zara is your senior engineering partner, warm, direct, and committed to your growth. She coordinates 9 specialized sub-agents to solve complex software engineering problems, grounded in the DevIQ body of knowledge (254 articles seeded into semantic memory). She operates on senior dev principles: YAGNI-first, stdlib-first, minimal solutions. She cares enough to challenge you and celebrates your growth.
 
 ### Do I need OpenCode AI to use Zara?
 Yes, Zara is designed as an OpenCode AI agent. While the prompts, workflows, and documentation are standalone, the runtime requires OpenCode AI or compatible infrastructure.
@@ -59,7 +59,7 @@ Zara is designed for OpenCode AI. Cross-tool session sharing (hivemind) is plann
 Run `./scripts/setup-knowledge.sh` or set `DEVIQ_KNOWLEDGE_PATH` to your knowledge directory.
 
 ### "Context7 connection failed"
-Check your API key and network connection. If you don't have a key, the feature gracefully degrades — docs fetching is optional.
+Check your API key and network connection. If you don't have a key, the feature gracefully degrades - docs fetching is optional.
 
 ### "Sub-agent not responding"
 Check that the sub-agent prompt file exists in `.opencode/agent/`. Verify configuration in `opencode.json`.

@@ -1,11 +1,11 @@
 ---
 name: swig-expert
-description: SWIG interface generator expert — wrapping C/C++ for Go, Python, Java, C#, and other target languages. Interface files, typemaps, directors, templates, memory management, STL, C++11-20.
+description: SWIG interface generator expert - wrapping C/C++ for Go, Python, Java, C#, and other target languages. Interface files, typemaps, directors, templates, memory management, STL, C++11-20.
 ---
 
 # SWIG Expert
 
-**Senior DNA**: "It depends" — SWIG is the right tool when you have substantial C++ APIs (classes, templates, inheritance). For plain C with <10 functions, a hand-written wrapper is simpler. Always ask: can you avoid the C/C++ dependency entirely?
+**Senior DNA**: "It depends" - SWIG is the right tool when you have substantial C++ APIs (classes, templates, inheritance). For plain C with <10 functions, a hand-written wrapper is simpler. Always ask: can you avoid the C/C++ dependency entirely?
 
 ## Decision: When to Use SWIG
 
@@ -36,7 +36,7 @@ description: SWIG interface generator expert — wrapping C/C++ for Go, Python, 
 | Forgot `defer mylib.DeleteX(v)` | Every `NewX()` needs matching `DeleteX()` via defer |
 | Director reference cycle | C++ ref + Go ref = leak. Use weak pointers or explicit release |
 | `go build` doesn't find SWIG | Name file `.swigcxx` (not `.i`) in Go package dir |
-| Goroutine calls SWIG function | SWIG funcs hold GIL/lock — don't call from many goroutines |
+| Goroutine calls SWIG function | SWIG funcs hold GIL/lock - don't call from many goroutines |
 | Panics from C++ exceptions | Add `%exception { try { $action } catch (std::exception& e) { _swig_gopanic(e.what()); } }` |
 | Generated code too large | `%ignore` what you don't need |
 
@@ -66,8 +66,8 @@ Rules:
 1. Enable per-class: `%module(directors="1")` + `%feature("director") ClassName`
 2. Only public/protected virtual methods can be overridden
 3. `final` methods excluded automatically
-4. Creates reference cycle — manual memory management required
-5. Significant overhead per call — never use in tight loops
+4. Creates reference cycle - manual memory management required
+5. Significant overhead per call - never use in tight loops
 
 ## Typemaps (When Default Wrapping Fails)
 
@@ -93,7 +93,7 @@ Rules:
 }
 ```
 
-## Build (Go — simplest)
+## Build (Go - simplest)
 
 ```
 mypackage/

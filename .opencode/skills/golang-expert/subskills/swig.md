@@ -4,7 +4,7 @@
 >
 > Connected to: `subskills/cgo.md` (SWIG builds on top of CGO)
 
-**Senior DNA**: "It depends" — SWIG is powerful but adds build complexity. Use it ONLY for C++ libraries with classes/templates/inheritance. For plain C, use CGO directly. For small C++ APIs (<10 funcs), write a thin C wrapper manually. Always prefer pure Go libraries when they exist.
+**Senior DNA**: "It depends" - SWIG is powerful but adds build complexity. Use it ONLY for C++ libraries with classes/templates/inheritance. For plain C, use CGO directly. For small C++ APIs (<10 funcs), write a thin C wrapper manually. Always prefer pure Go libraries when they exist.
 
 ---
 
@@ -48,7 +48,7 @@ Can you avoid C/C++ entirely?
 ## Interface File (.swigcxx)
 
 ```c
-// mylib.swigcxx — placed in your Go package directory
+// mylib.swigcxx - placed in your Go package directory
 %module mylib
 
 %{
@@ -101,13 +101,13 @@ C++ objects are NOT garbage collected. **You MUST free them manually.**
 ```go
 func useVector() {
     v := mylib.NewVector(3.0, 4.0)
-    defer mylib.DeleteVector(v)  // MANDATORY — like C free()
+    defer mylib.DeleteVector(v)  // MANDATORY - like C free()
 
     fmt.Println(v.Length()) // 5.0
 }
 ```
 
-### Long-lived objects — use runtime.SetFinalizer
+### Long-lived objects - use runtime.SetFinalizer
 
 ```go
 type GoVector struct{ v mylib.Vector }
@@ -141,7 +141,7 @@ C++ templates must be explicitly instantiated:
 %include "std_vector.i"
 %include "std_string.i"
 
-// Instantiate specific types — SWIG can't auto-expand templates
+// Instantiate specific types - SWIG can't auto-expand templates
 %template(IntVector) std::vector<int>;
 %template(StringVector) std::vector<std::string>;
 ```
@@ -159,7 +159,7 @@ fmt.Println(v.Size()) // 2
 
 ## Directors: Go Implements C++ Virtual Methods
 
-Directors let Go types override C++ virtual methods — effectively "inheriting" from C++.
+Directors let Go types override C++ virtual methods - effectively "inheriting" from C++.
 
 ### Enable directors
 
@@ -192,7 +192,7 @@ func (d *dogMethods) Speak() string {
 func NewDog() animals.Animal {
     om := &dogMethods{}
     a := animals.NewDirectorAnimal(om)
-    om.a = a  // backlink (creates cycle — finalizer won't work!)
+    om.a = a  // backlink (creates cycle - finalizer won't work!)
     return a
 }
 
@@ -379,7 +379,7 @@ func (v SwigcptrVector) String() string {
 
 ## References
 
-- [SWIG 4.4 Documentation](https://www.swig.org/Doc4.4/SWIGDocumentation.html) — complete reference
-- [SWIG and Go (Ch. 25)](https://www.swig.org/Doc4.4/Go.html) — Go-specific chapter
-- [SWIG Examples](https://github.com/swig/swig/tree/master/Examples/go) — working Go examples
-- [SWIG and C++11/14/17/20](https://www.swig.org/Doc4.4/CPlusPlus11.html) — modern C++ support
+- [SWIG 4.4 Documentation](https://www.swig.org/Doc4.4/SWIGDocumentation.html) - complete reference
+- [SWIG and Go (Ch. 25)](https://www.swig.org/Doc4.4/Go.html) - Go-specific chapter
+- [SWIG Examples](https://github.com/swig/swig/tree/master/Examples/go) - working Go examples
+- [SWIG and C++11/14/17/20](https://www.swig.org/Doc4.4/CPlusPlus11.html) - modern C++ support

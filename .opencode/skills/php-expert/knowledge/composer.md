@@ -6,9 +6,9 @@
 - CI: always `composer install` (from lock), never `composer update`
 
 ## Version Constraints
-- `^1.2.3` — allows minor+patch (recommended default)
-- `~1.2.3` — allows patch only (conservative)
-- Exact `1.2.3` — avoid (blocks security patches)
+- `^1.2.3` - allows minor+patch (recommended default)
+- `~1.2.3` - allows patch only (conservative)
+- Exact `1.2.3` - avoid (blocks security patches)
 
 ## Production Deploy
 ```bash

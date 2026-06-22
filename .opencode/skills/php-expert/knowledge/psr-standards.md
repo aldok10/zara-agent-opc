@@ -14,7 +14,7 @@
 | 15 | HTTP Handlers | Accepted | `RequestHandlerInterface`, `MiddlewareInterface` |
 | 16 | Simple Cache | Accepted | `CacheInterface` with get/set/delete/clear |
 | 17 | HTTP Factories | Accepted | Factory interfaces for PSR-7 objects |
-| 18 | HTTP Client | Accepted | `ClientInterface::sendRequest()` — no throw on 4xx/5xx |
+| 18 | HTTP Client | Accepted | `ClientInterface::sendRequest()` - no throw on 4xx/5xx |
 | 20 | Clock | Accepted | `ClockInterface::now(): DateTimeImmutable` |
 
 ## PER Coding Style (replaces PSR-12)
@@ -23,4 +23,4 @@
 - Property hooks: opening brace on same line
 - Asymmetric visibility: `public private(set) string $name`
 - `new Foo()->method()` preferred (no wrapping parens)
-- Named args: `foo(name: $value)` — no space before colon
+- Named args: `foo(name: $value)` - no space before colon

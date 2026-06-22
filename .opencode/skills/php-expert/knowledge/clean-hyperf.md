@@ -2,7 +2,7 @@
 
 ## Senior DNA Applied to Hyperf
 
-- **Gall's Law**: Hyperf is powerful but complex. Don't use AOP/annotations for everything — start with simple DI.
+- **Gall's Law**: Hyperf is powerful but complex. Don't use AOP/annotations for everything - start with simple DI.
 - **Golden Hammer**: Hyperf's coroutines are great for I/O fan-out. They're NOT needed for sequential CRUD.
 - **"It Depends"**: Not every endpoint needs coroutine parallelism. Simple DB→JSON doesn't benefit.
 - **Memory = Your Problem**: Hyperf runs on Swoole. Static state persists. Treat it like Go: explicit lifecycle.
@@ -14,7 +14,7 @@
 ## Coroutine-Safe Code
 
 ```php
-// BAD — static array grows forever across requests
+// BAD - static array grows forever across requests
 class BadService
 {
     private static array $cache = []; // MEMORY LEAK
@@ -25,7 +25,7 @@ class BadService
     }
 }
 
-// GOOD — use Hyperf's DI with request scope or bounded cache
+// GOOD - use Hyperf's DI with request scope or bounded cache
 #[Inject]
 private CacheInterface $cache; // PSR-16, bounded, shared properly
 ```
@@ -48,7 +48,7 @@ $parallel->add(fn() => $this->notificationClient->unread($userId));
 ### Connection Pooling (automatic in Hyperf)
 
 ```php
-// config/autoload/databases.php — pool managed by framework
+// config/autoload/databases.php - pool managed by framework
 return [
     'default' => [
         'driver' => 'mysql',
@@ -61,7 +61,7 @@ return [
         ],
     ],
 ];
-// No manual pool management needed — Hyperf handles borrow/return
+// No manual pool management needed - Hyperf handles borrow/return
 ```
 
 ## Controllers
@@ -103,7 +103,7 @@ final class AdminController { ... }
 ## AOP (Aspect-Oriented Programming)
 
 ```php
-// Use sparingly — for cross-cutting concerns only
+// Use sparingly - for cross-cutting concerns only
 #[Aspect]
 final class CacheAspect extends AbstractAspect
 {
@@ -116,7 +116,7 @@ final class CacheAspect extends AbstractAspect
     }
 }
 
-// Usage — clean annotation on business method
+// Usage - clean annotation on business method
 #[Cacheable(prefix: 'user', ttl: 3600)]
 public function findById(int $id): ?User { ... }
 ```

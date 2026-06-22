@@ -6,20 +6,20 @@ Zara is configured through `opencode.json` in the project root. This is the sing
 
 ### Agent Definitions
 
-9 agents are defined under the `agent` key. Each has a JSON key (runtime identifier), display description, prompt file path, temperature, and tool permissions.
+10 agents are defined under the `agent` key. Each has a JSON key (runtime identifier), display description, prompt file path, temperature, and tool permissions.
 
 ```json
 {
   "default_agent": "zara",
   "agent": {
     "zara": {
-      "description": "Zara — senior engineering partner",
+      "description": "Zara - senior engineering partner",
       "mode": "primary",
       "prompt": "{file:.opencode/agent/zara.md}",
       "temperature": 0.3
     },
     "plan": {
-      "description": "Sketch — planning mode",
+      "description": "Sketch - planning mode",
       "mode": "primary",
       "prompt": "{file:.opencode/agent/sketch.md}",
       "temperature": 0.2
@@ -43,6 +43,7 @@ JSON keys (architect, code-reviewer, etc.) are stable runtime identifiers. Displ
 | delivery-lead | Pulse | subagent |
 | swarm | Hive | subagent |
 | loop-engineer | Rhythm | subagent |
+| implementation | Forge | subagent |
 
 ### Instructions
 
@@ -55,8 +56,8 @@ Two instruction files loaded in order:
 ]
 ```
 
-- `system.md` — Runtime behavior, memory protocol, git safety, anti-AI writing
-- `philosophy.md` — Engineering priorities, architecture review, AI engineering considerations
+- `system.md` - Runtime behavior, memory protocol, git safety, anti-AI writing
+- `philosophy.md` - Engineering priorities, architecture review, AI engineering considerations
 
 ### MCP Servers
 
@@ -77,7 +78,7 @@ Single entry point:
 ]
 ```
 
-Composes 8 domain modules: observe, memory, flow, dev, social, evolve, empathy, relationship.
+Composes 10 domain modules: observe, memory, flow, dev, social, evolve, empathy, relationship, voice, infra.
 
 ### Commands
 
@@ -85,22 +86,23 @@ Available slash commands via the `command` key:
 
 | Command | Agent | Purpose |
 |---------|-------|---------|
-| `/audit` | — | System health check |
-| `/auto` | — | Autonomous mode |
+| `/audit` | - | System health check |
+| `/auto` | - | Autonomous mode |
+| `/code` | implementation | Structured coding workflow |
 | `/decide` | architect | Architecture decision support |
-| `/focus` | — | Focus mode |
-| `/goal` | — | Session goal management |
-| `/handoff` | — | Save session context |
-| `/install` | — | Global install |
-| `/loop` | — | Loop/timer management |
-| `/music` | — | Music player |
-| `/resume` | — | Restore previous session |
+| `/focus` | - | Focus mode |
+| `/goal` | - | Session goal management |
+| `/handoff` | - | Save session context |
+| `/install` | - | Global install |
+| `/loop` | - | Loop/timer management |
+| `/music` | - | Music player |
+| `/resume` | - | Restore previous session |
 | `/review` | code-reviewer | Code review workflow |
-| `/shutdown` | — | Wind-down ritual |
-| `/standup` | — | Activity snapshot |
+| `/shutdown` | - | Wind-down ritual |
+| `/standup` | - | Activity snapshot |
 | `/swarm` | swarm | Parallel decomposition |
-| `/think` | — | Structured planning |
-| `/zara` | — | General engineering |
+| `/think` | - | Structured planning |
+| `/zara` | - | General engineering |
 
 ### Permissions
 
@@ -122,8 +124,8 @@ Zara stores runtime data at `~/.zara/`:
 
 | Path | Purpose |
 |------|---------|
-| `~/.zara/memory.db` | SQLite — authoritative memory store |
-| `~/.zara/memory/` | JSON — legacy/backup |
+| `~/.zara/memory.db` | SQLite - authoritative memory store |
+| `~/.zara/memory/` | JSON - legacy/backup |
 | `~/.zara/reflections/` | Pattern log |
 | `~/.zara/metrics/` | Daily tool usage |
 | `~/.zara/state/` | Session handoff state |

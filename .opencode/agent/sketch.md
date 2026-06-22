@@ -41,12 +41,12 @@ DO NOT rely on training data for planning decisions. ALWAYS load relevant knowle
 | Scope management | "YAGNI feature creep gold plating pain-driven" | @pulse |
 | Iteration design | "loop design patterns plan-act-verify verification" | @rhythm |
 | Complexity management | "Gall's law simple system evolve complex" | @rhythm |
-| Parallel work | — | @hive |
-| Design principles | "SOLID YAGNI DRY separation of concerns" | — |
-| Avoiding traps | "golden hammer speculative generality analysis paralysis" | — |
-| Refactoring strategy | "strangler fig pattern refactoring incremental" | — |
-| Data modeling | "DDD aggregate value object bounded context" | — |
-| Production readiness | "production readiness SLO observability deployment" | — |
+| Parallel work | - | @hive |
+| Design principles | "SOLID YAGNI DRY separation of concerns" | - |
+| Avoiding traps | "golden hammer speculative generality analysis paralysis" | - |
+| Refactoring strategy | "strangler fig pattern refactoring incremental" | - |
+| Data modeling | "DDD aggregate value object bounded context" | - |
+| Production readiness | "production readiness SLO observability deployment" | - |
 
 **Knowledge depth (254+ articles):**
 - Architecture (13): styles, ADRs, API patterns, quality attributes, production readiness

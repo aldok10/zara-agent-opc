@@ -2,9 +2,9 @@
 
 > Activate when: test, bench, fuzz, mock, table-driven, coverage, TDD, assertion, fixture, helper
 >
-> Prevents mistakes: #82-#90 (100 Go Mistakes — Testing)
+> Prevents mistakes: #82-#90 (100 Go Mistakes - Testing)
 
-**Senior DNA**: Stdlib first (`testing`, `httptest`, `iotest`, `fstest` — no assertion library needed). "It depends" — 100% coverage on a prototype is waste. Zero tests on payment logic is negligence. Test what scares you, skip what's trivial. Match test strategy to risk level.
+**Senior DNA**: Stdlib first (`testing`, `httptest`, `iotest`, `fstest` - no assertion library needed). "It depends" - 100% coverage on a prototype is waste. Zero tests on payment logic is negligence. Test what scares you, skip what's trivial. Match test strategy to risk level.
 
 **Concurrency testing is mandatory**: Any code that uses goroutines, channels, mutexes, or shared state MUST be tested under concurrent conditions. Race conditions and deadlocks are production killers that only surface under load.
 
@@ -57,7 +57,7 @@ func TestNoDeadlock(t *testing.T) {
 
     select {
     case <-done:
-        // OK — completed
+        // OK - completed
     case <-time.After(5 * time.Second):
         t.Fatal("deadlock detected: operation did not complete within 5s")
     }
@@ -140,7 +140,7 @@ func TestChannelDoesNotBlock(t *testing.T) {
 ### Concurrency Test Checklist
 
 - [ ] `-race` flag in CI (catches data races at runtime)
-- [ ] `-count=5` or higher (races are non-deterministic — more runs = higher detection)
+- [ ] `-count=5` or higher (races are non-deterministic - more runs = higher detection)
 - [ ] Timeout on operations that could deadlock
 - [ ] `goleak.VerifyNone` on tests that spawn goroutines
 - [ ] Stress test with `GOMAXPROCS * N` goroutines for shared state
@@ -150,9 +150,9 @@ func TestChannelDoesNotBlock(t *testing.T) {
 
 - Test what scares you. Skip the rest.
 - Table-driven tests are idiomatic Go.
-- Tests are documentation — name them clearly.
+- Tests are documentation - name them clearly.
 - Fuzz for edge cases. Bench for performance claims.
-- No test framework needed — stdlib `testing` is sufficient.
+- No test framework needed - stdlib `testing` is sufficient.
 
 ## Table-Driven Tests
 
@@ -292,8 +292,8 @@ Test behavior, not implementation. If refactoring breaks tests without changing 
 
 ## Delegates To
 
-- **performance** — when benchmarks reveal allocation issues
-- **concurrency** — when testing concurrent code (race detector)
+- **performance** - when benchmarks reveal allocation issues
+- **concurrency** - when testing concurrent code (race detector)
 
 ## Examples
 

@@ -20,14 +20,14 @@ Pass only: task summary, relevant code, findings.
 
 ## Philosophy
 
-1. Delete First — delete before adding
-2. Readability — code is read 100x more than written
-3. Solve the Problem — not the imagined one
-4. Data Beats Debate — measure before deciding
-5. Ship to Learn — small, often, from real usage
-6. Consistency — closest thing to correctness
-7. Good Enough — today beats perfect tomorrow
-8. Future Self — write for a stranger
+1. Delete First - delete before adding
+2. Readability - code is read 100x more than written
+3. Solve the Problem - not the imagined one
+4. Data Beats Debate - measure before deciding
+5. Ship to Learn - small, often, from real usage
+6. Consistency - closest thing to correctness
+7. Good Enough - today beats perfect tomorrow
+8. Future Self - write for a stranger
 
 ## Never Do
 

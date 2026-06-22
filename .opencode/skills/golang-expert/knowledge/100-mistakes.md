@@ -1,4 +1,4 @@
-# 100 Go Mistakes — AI Guard Rails
+# 100 Go Mistakes - AI Guard Rails
 
 Source: [100go.co](https://100go.co) by Teiva Harsanyi (Manning, 2022)
 
@@ -36,7 +36,7 @@ When writing Go code, NEVER make these mistakes. This is your pre-flight checkli
 | 21 | Inefficient slice init | Pre-allocate: `make([]T, 0, n)` when size known |
 | 22 | nil vs empty slice | `nil` and `[]T{}` behave same for most ops but marshal differently |
 | 23 | Checking slice empty | Use `len(s) == 0`, NOT `s == nil` |
-| 24 | Slice copy wrong | `copy(dst, src)` — dst must be pre-sized, not zero-length |
+| 24 | Slice copy wrong | `copy(dst, src)` - dst must be pre-sized, not zero-length |
 | 25 | Append side effects | `append` may mutate shared backing array. Use 3-index slice `s[:n:n]` |
 | 26 | Slice memory leaks | Sub-slice holds entire backing array. `copy()` to release |
 | 27 | Inefficient map init | Pre-size: `make(map[K]V, n)` to avoid rehashing |
@@ -110,7 +110,7 @@ When writing Go code, NEVER make these mistakes. This is your pre-flight checkli
 | 65 | Not using `chan struct{}` | Use `chan struct{}` for signaling (zero-size, clear intent) |
 | 66 | Not using nil channels | nil channel blocks forever. Useful for dynamic select disable |
 | 67 | Wrong channel size | Unbuffered = sync. Buffered(1) = handoff. Buffered(N) = pool |
-| 68 | String formatting races | `fmt.Sprintf("%v", x)` calls `String()` — can race if x is concurrent |
+| 68 | String formatting races | `fmt.Sprintf("%v", x)` calls `String()` - can race if x is concurrent |
 | 69 | Append data race | Concurrent `append` = data race on backing array. Always sync |
 | 70 | Mutex with slices/maps | Protect the DATA, not just the reference. Slice header copy ≠ safe |
 | 71 | WaitGroup misuse | Always `Add` before `go`. Never pass WaitGroup by value |

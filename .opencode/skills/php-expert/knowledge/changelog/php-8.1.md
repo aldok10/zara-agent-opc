@@ -2,12 +2,12 @@
 
 ## Major Features
 
-- **Enums**: `enum Suit: string { case Hearts = 'H'; }` — backed/pure, methods, interfaces, traits
-- **Fibers**: `Fiber` class — cooperative multitasking, foundation for async (AMPHP, ReactPHP)
-- **Readonly Properties**: `public readonly string $name` — set once, then immutable
-- **Intersection Types**: `function foo(Countable&Iterator $x)` — must satisfy ALL types
+- **Enums**: `enum Suit: string { case Hearts = 'H'; }` - backed/pure, methods, interfaces, traits
+- **Fibers**: `Fiber` class - cooperative multitasking, foundation for async (AMPHP, ReactPHP)
+- **Readonly Properties**: `public readonly string $name` - set once, then immutable
+- **Intersection Types**: `function foo(Countable&Iterator $x)` - must satisfy ALL types
 - **`never` Return Type**: function never returns (throws or exits)
-- **First-class Callables**: `$fn = strlen(...)` — create Closure from any callable
+- **First-class Callables**: `$fn = strlen(...)` - create Closure from any callable
 - **`array_is_list()`**: check sequential 0-based integer keys
 - **Enum methods**: can implement interfaces, use traits, have `match` on `$this`
 - **`fsync()` / `fdatasync()`**: filesystem sync

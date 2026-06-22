@@ -1,4 +1,4 @@
-# Uber Go Style Guide — Detailed Explanation
+# Uber Go Style Guide - Detailed Explanation
 
 Source: [github.com/uber-go/guide](https://github.com/uber-go/guide/blob/master/style.md)
 
@@ -13,10 +13,10 @@ Every rule below includes: what it means concretely, why it exists, and a BAD/GO
 **Why**: An interface is already a two-word struct internally (type pointer + data pointer). Taking a pointer to it adds an unnecessary indirection and confuses readers about whether nil means "no value" or "pointer to nil interface."
 
 ```go
-// BAD — pointer to interface is almost never needed
+// BAD - pointer to interface is almost never needed
 func process(r *io.Reader) { ... }
 
-// GOOD — pass interface by value
+// GOOD - pass interface by value
 func process(r io.Reader) { ... }
 ```
 
@@ -50,10 +50,10 @@ Use `(*Type)(nil)` for pointer receivers. Use `Type{}` for value receivers.
 **Why**: `sync.Mutex` and `sync.RWMutex` are usable immediately after declaration. Calling `new(sync.Mutex)` or assigning `&sync.Mutex{}` adds an unnecessary heap allocation and implies it needs initialization (it doesn't).
 
 ```go
-// BAD — unnecessary allocation
+// BAD - unnecessary allocation
 mu := new(sync.Mutex)
 
-// GOOD — zero value works
+// GOOD - zero value works
 var mu sync.Mutex
 mu.Lock()
 defer mu.Unlock()
@@ -68,14 +68,14 @@ defer mu.Unlock()
 **Why**: Embedding `sync.Mutex` promotes `Lock()` and `Unlock()` to the struct's public API. Callers can then lock YOUR struct from outside, bypassing your intended synchronization design. It also leaks implementation detail into your public API.
 
 ```go
-// BAD — Lock/Unlock become exported methods of SMap
+// BAD - Lock/Unlock become exported methods of SMap
 type SMap struct {
     sync.Mutex
     data map[string]string
 }
-// Caller can do: smap.Lock() — this should be internal!
+// Caller can do: smap.Lock() - this should be internal!
 
-// GOOD — mutex is hidden implementation detail
+// GOOD - mutex is hidden implementation detail
 type SMap struct {
     mu   sync.Mutex        // unexported, callers can't see it
     data map[string]string
@@ -96,24 +96,24 @@ func (m *SMap) Get(k string) string {
 **Why**: Slices and maps are reference types. If you store the caller's slice directly, the caller can modify your internal state from outside. If you return your internal map, the caller can mutate it and break your invariants.
 
 ```go
-// BAD — stores the caller's slice directly
+// BAD - stores the caller's slice directly
 func (d *Driver) SetTrips(trips []Trip) {
     d.trips = trips // caller still owns this memory!
 }
 // After calling SetTrips, caller does trips[0] = ... → YOUR data changes
 
-// GOOD — defensive copy on receive
+// GOOD - defensive copy on receive
 func (d *Driver) SetTrips(trips []Trip) {
     d.trips = make([]Trip, len(trips))
     copy(d.trips, trips)
 }
 
-// BAD — exposes internal map directly
+// BAD - exposes internal map directly
 func (s *Stats) Counters() map[string]int {
     return s.counters // caller can mutate your internals!
 }
 
-// GOOD — defensive copy on return
+// GOOD - defensive copy on return
 func (s *Stats) Counters() map[string]int {
     s.mu.Lock()
     defer s.mu.Unlock()
@@ -131,10 +131,10 @@ func (s *Stats) Counters() map[string]int {
 
 **What this means**: When you acquire a resource (lock, file, connection), immediately defer its release on the next line.
 
-**Why**: Without defer, every return path must remember to release the resource. With 5 return paths, you need 5 `Unlock()` calls. Miss one = deadlock or leak. Defer costs ~1 nanosecond — irrelevant in any real function.
+**Why**: Without defer, every return path must remember to release the resource. With 5 return paths, you need 5 `Unlock()` calls. Miss one = deadlock or leak. Defer costs ~1 nanosecond - irrelevant in any real function.
 
 ```go
-// BAD — must remember unlock at every return point
+// BAD - must remember unlock at every return point
 func (p *Pool) Get() *Item {
     p.mu.Lock()
     if len(p.items) == 0 {
@@ -147,7 +147,7 @@ func (p *Pool) Get() *Item {
     return item
 }
 
-// GOOD — defer handles all return paths
+// GOOD - defer handles all return paths
 func (p *Pool) Get() *Item {
     p.mu.Lock()
     defer p.mu.Unlock()
@@ -161,7 +161,7 @@ func (p *Pool) Get() *Item {
 }
 ```
 
-**Exception**: Don't defer inside a loop — that's a different mistake (#35). Extract to a sub-function.
+**Exception**: Don't defer inside a loop - that's a different mistake (#35). Extract to a sub-function.
 
 ---
 
@@ -172,10 +172,10 @@ func (p *Pool) Get() *Item {
 **Why**: Arbitrary buffer sizes (like `make(chan int, 64)`) mask backpressure problems. They create the illusion of async but will still block when full. If you need buffering, you should have a specific reason with math backing the chosen size.
 
 ```go
-// BAD — magic number, masks backpressure
-ch := make(chan Task, 64) // "ought to be enough" — no it won't
+// BAD - magic number, masks backpressure
+ch := make(chan Task, 64) // "ought to be enough" - no it won't
 
-// GOOD — intentional choices
+// GOOD - intentional choices
 ch := make(chan Task)    // synchronous: sender blocks until receiver ready
 ch := make(chan Task, 1) // handoff: exactly one pending item allowed
 ```
@@ -191,21 +191,21 @@ If you genuinely need larger buffers (rate limiting, batch collection), document
 **Why**: Zero is Go's default value for uninitialized variables. If your first enum value is 0, you cannot distinguish "explicitly set to first value" from "forgot to set it." Starting at 1 means zero = unset/invalid.
 
 ```go
-// BAD — zero value (Add=0) is indistinguishable from "not set"
+// BAD - zero value (Add=0) is indistinguishable from "not set"
 type Operation int
 const (
     Add Operation = iota      // 0
     Subtract                   // 1
 )
-var op Operation // op == 0 == Add — is that intentional or unset?
+var op Operation // op == 0 == Add - is that intentional or unset?
 
-// GOOD — zero means "invalid/unset"
+// GOOD - zero means "invalid/unset"
 type Operation int
 const (
     Add Operation = iota + 1  // 1
     Subtract                   // 2
 )
-var op Operation // op == 0 — clearly unset, not a valid operation
+var op Operation // op == 0 - clearly unset, not a valid operation
 ```
 
 **Exception**: When zero IS a meaningful default (e.g., `LogToStdout = 0` as the default log destination).
@@ -216,16 +216,16 @@ var op Operation // op == 0 — clearly unset, not a valid operation
 
 **What this means**: Function parameters for time periods must be `time.Duration`. Parameters for points in time must be `time.Time`. Never use bare `int` or `int64` for time.
 
-**Why**: `poll(10)` — is that seconds? Milliseconds? Nanoseconds? `poll(10 * time.Second)` is unambiguous. The type system prevents unit confusion bugs.
+**Why**: `poll(10)` - is that seconds? Milliseconds? Nanoseconds? `poll(10 * time.Second)` is unambiguous. The type system prevents unit confusion bugs.
 
 ```go
-// BAD — ambiguous units
+// BAD - ambiguous units
 func poll(delay int) {
     time.Sleep(time.Duration(delay) * time.Millisecond) // caller must know it's ms
 }
 poll(10) // 10 what?
 
-// GOOD — self-documenting, impossible to misuse
+// GOOD - self-documenting, impossible to misuse
 func poll(delay time.Duration) {
     time.Sleep(delay)
 }
@@ -243,13 +243,13 @@ For JSON/config where `time.Duration` can't be used directly, include the unit i
 **Why**: The single-return form PANICS if the assertion fails. In production, this crashes your entire process. The comma-ok form gives you a boolean to check gracefully.
 
 ```go
-// BAD — panics if i is not a string
+// BAD - panics if i is not a string
 t := i.(string) // runtime panic: interface conversion
 
-// GOOD — graceful handling
+// GOOD - graceful handling
 t, ok := i.(string)
 if !ok {
-    // handle gracefully — log, return error, use default
+    // handle gracefully - log, return error, use default
 }
 ```
 
@@ -262,7 +262,7 @@ if !ok {
 **Why**: Panic kills the entire process. In a server handling thousands of requests, one bad request would crash everything. Return errors and let callers decide how to handle them.
 
 ```go
-// BAD — one bad input kills the server
+// BAD - one bad input kills the server
 func parseConfig(path string) Config {
     data, err := os.ReadFile(path)
     if err != nil {
@@ -271,7 +271,7 @@ func parseConfig(path string) Config {
     ...
 }
 
-// GOOD — caller decides what to do
+// GOOD - caller decides what to do
 func parseConfig(path string) (Config, error) {
     data, err := os.ReadFile(path)
     if err != nil {
@@ -285,14 +285,14 @@ func parseConfig(path string) (Config, error) {
 
 ---
 
-## 12. Avoid Mutable Globals — Inject Dependencies
+## 12. Avoid Mutable Globals - Inject Dependencies
 
 **What this means**: Don't use package-level variables that get reassigned. Instead, pass dependencies through struct fields or function parameters.
 
 **Why**: Mutable globals make testing impossible without hacks, create hidden coupling, and cause race conditions in concurrent code. Dependency injection makes code testable, explicit, and safe.
 
 ```go
-// BAD — mutable global, untestable without modifying global state
+// BAD - mutable global, untestable without modifying global state
 var _db *sql.DB
 
 func getUser(id string) (*User, error) {
@@ -301,7 +301,7 @@ func getUser(id string) (*User, error) {
 
 // Test requires: _db = testDB (global mutation, not parallelizable)
 
-// GOOD — dependency injected via struct
+// GOOD - dependency injected via struct
 type UserService struct {
     db *sql.DB
 }
@@ -310,7 +310,7 @@ func (s *UserService) GetUser(id string) (*User, error) {
     return queryUser(s.db, id) // explicit dependency
 }
 
-// Test: svc := &UserService{db: testDB} — clean, parallel-safe
+// Test: svc := &UserService{db: testDB} - clean, parallel-safe
 ```
 
 ---
@@ -325,12 +325,12 @@ func (s *UserService) GetUser(id string) (*User, error) {
 - You can't evolve independently
 
 ```go
-// BAD — all of AbstractList's methods become part of ConcreteList's API
+// BAD - all of AbstractList's methods become part of ConcreteList's API
 type ConcreteList struct {
     *AbstractList // callers can call ANY method of AbstractList
 }
 
-// GOOD — control exactly what you expose
+// GOOD - control exactly what you expose
 type ConcreteList struct {
     list *AbstractList // private field
 }
@@ -347,14 +347,14 @@ func (l *ConcreteList) Add(e Entity) { l.list.Add(e) }
 **Why**: `init()` runs automatically with no control over ordering between packages. It can't return errors. It makes testing hard (state initialized before test runs). It hides dependencies.
 
 ```go
-// BAD — hidden initialization, can't test, can't error
+// BAD - hidden initialization, can't test, can't error
 var _config Config
 func init() {
     raw, _ := os.ReadFile("config.yaml") // error silently ignored!
     yaml.Unmarshal(raw, &_config)
 }
 
-// GOOD — explicit, testable, handles errors
+// GOOD - explicit, testable, handles errors
 func loadConfig(path string) (Config, error) {
     raw, err := os.ReadFile(path)
     if err != nil {
@@ -376,10 +376,10 @@ func loadConfig(path string) (Config, error) {
 
 **What this means**: Only `main()` may call `os.Exit()` or `log.Fatal()`. All other functions must return errors.
 
-**Why**: `os.Exit` skips all deferred calls (resource cleanup). `log.Fatal` does the same. If a function deep in the call stack exits, no cleanup happens — files aren't flushed, connections aren't closed, locks aren't released.
+**Why**: `os.Exit` skips all deferred calls (resource cleanup). `log.Fatal` does the same. If a function deep in the call stack exits, no cleanup happens - files aren't flushed, connections aren't closed, locks aren't released.
 
 ```go
-// BAD — exits deep in call stack, skips all defers
+// BAD - exits deep in call stack, skips all defers
 func readFile(path string) string {
     f, err := os.Open(path)
     if err != nil {
@@ -388,7 +388,7 @@ func readFile(path string) string {
     ...
 }
 
-// GOOD — errors bubble up, main() decides
+// GOOD - errors bubble up, main() decides
 func readFile(path string) (string, error) {
     f, err := os.Open(path)
     if err != nil {
@@ -401,7 +401,7 @@ func readFile(path string) (string, error) {
 func main() {
     if err := run(); err != nil {
         fmt.Fprintln(os.Stderr, err)
-        os.Exit(1) // only here — all defers have run
+        os.Exit(1) // only here - all defers have run
     }
 }
 ```
@@ -412,16 +412,16 @@ func main() {
 
 **What this means**: Every struct field that gets serialized to JSON/YAML/etc must have an explicit tag specifying the serialized name.
 
-**Why**: Without tags, renaming a Go field (e.g., `Name` → `Symbol`) changes the serialized output — silently breaking every client consuming your API. Tags make the serialization contract explicit and independent of Go field names.
+**Why**: Without tags, renaming a Go field (e.g., `Name` → `Symbol`) changes the serialized output - silently breaking every client consuming your API. Tags make the serialization contract explicit and independent of Go field names.
 
 ```go
-// BAD — renaming Go fields breaks serialization contract
+// BAD - renaming Go fields breaks serialization contract
 type Stock struct {
     Price int
     Name  string  // if you rename to Symbol, JSON output changes silently
 }
 
-// GOOD — serialized names are explicit, Go names can change freely
+// GOOD - serialized names are explicit, Go names can change freely
 type Stock struct {
     Price int    `json:"price"`
     Name  string `json:"name"`  // safe to rename Go field to Symbol
@@ -439,7 +439,7 @@ type Stock struct {
 **Why**: A goroutine without lifecycle control is a resource leak. It holds memory (stack), may hold locks, keeps connections open. In a long-running server, leaked goroutines accumulate until OOM.
 
 ```go
-// BAD — no way to stop, no way to wait
+// BAD - no way to stop, no way to wait
 go func() {
     for {
         flush()
@@ -448,7 +448,7 @@ go func() {
 }()
 // This runs forever. How do you shut down gracefully?
 
-// GOOD — stoppable and waitable
+// GOOD - stoppable and waitable
 type Flusher struct {
     stop chan struct{}
     done chan struct{}
@@ -482,16 +482,16 @@ func (f *Flusher) Stop() {
 
 ## 18. Error Wrapping: Use Operation Context, Not "failed to"
 
-**What this means**: When wrapping errors, state what operation was attempted. Don't prefix with "failed to" — that's obvious from the error existing.
+**What this means**: When wrapping errors, state what operation was attempted. Don't prefix with "failed to" - that's obvious from the error existing.
 
 **Why**: As errors propagate up the stack, each layer adds "failed to X: failed to Y: failed to Z: actual error." This is noisy and redundant. Short context reads better.
 
 ```go
-// BAD — "failed to" accumulates into noise
+// BAD - "failed to" accumulates into noise
 return fmt.Errorf("failed to create new store: %w", err)
 // Stack: "failed to x: failed to y: failed to create new store: connection refused"
 
-// GOOD — just state the operation
+// GOOD - just state the operation
 return fmt.Errorf("new store: %w", err)
 // Stack: "x: y: new store: connection refused"
 ```
@@ -547,14 +547,14 @@ import (
 - Use `var` for entirely-zero structs
 
 ```go
-// BAD — positional, breaks if fields reorder
+// BAD - positional, breaks if fields reorder
 s := User{"Alice", 30, ""}
 
-// GOOD — explicit field names, zero values omitted
+// GOOD - explicit field names, zero values omitted
 s := User{
     Name: "Alice",
     Age:  30,
-    // Email omitted — zero value ""
+    // Email omitted - zero value ""
 }
 
 // For zero-value struct:
@@ -584,13 +584,13 @@ var (
 **What this means**: Declare variables as close to their use as possible. Prefer `:=` inside `if` when the variable is only needed in that scope.
 
 ```go
-// BAD — err visible in wider scope than needed
+// BAD - err visible in wider scope than needed
 err := validate(input)
 if err != nil {
     return err
 }
 
-// GOOD — err scoped to the if block
+// GOOD - err scoped to the if block
 if err := validate(input); err != nil {
     return err
 }
@@ -602,16 +602,16 @@ if err := validate(input); err != nil {
 
 **What this means**: For converting numbers to/from strings, use `strconv` package, not `fmt.Sprintf`.
 
-**Why**: `fmt.Sprintf` uses reflection internally. `strconv.Itoa` is a direct conversion — 5-10x faster, zero allocations for simple cases.
+**Why**: `fmt.Sprintf` uses reflection internally. `strconv.Itoa` is a direct conversion - 5-10x faster, zero allocations for simple cases.
 
 ```go
-// BAD — reflection overhead
+// BAD - reflection overhead
 s := fmt.Sprintf("%d", n)
 
-// GOOD — direct conversion
+// GOOD - direct conversion
 s := strconv.Itoa(n)
 
-// Even better for hot paths — append to existing buffer
+// Even better for hot paths - append to existing buffer
 buf = strconv.AppendInt(buf, int64(n), 10)
 ```
 
@@ -632,13 +632,13 @@ buf = strconv.AppendInt(buf, int64(n), 10)
 **What this means**: Constants, variables, and type declarations should be grouped by logical relationship using parenthesized blocks.
 
 ```go
-// BAD — scattered declarations
+// BAD - scattered declarations
 const maxRetries = 3
 const defaultTimeout = 30 * time.Second
 var ErrTimeout = errors.New("timeout")
 var ErrNotFound = errors.New("not found")
 
-// GOOD — grouped by purpose
+// GOOD - grouped by purpose
 const (
     maxRetries     = 3
     defaultTimeout = 30 * time.Second
@@ -666,7 +666,7 @@ import (
 )
 ```
 
-Don't alias for convenience. `import mongodriver "go.mongodb.org/mongo-driver"` is wrong — use the default package name.
+Don't alias for convenience. `import mongodriver "go.mongodb.org/mongo-driver"` is wrong - use the default package name.
 
 ---
 
@@ -674,7 +674,7 @@ Don't alias for convenience. `import mongodriver "go.mongodb.org/mongo-driver"` 
 
 **What this means**: Follow Go conventions for function names. Names should describe what the function DOES, not how.
 
-- Getters: `Name()` not `GetName()` (Go convention — no `Get` prefix)
+- Getters: `Name()` not `GetName()` (Go convention - no `Get` prefix)
 - Setters: `SetName(n)` (setter IS prefixed with Set)
 - Predicates: `IsValid()`, `HasChildren()`, `CanRetry()`
 - Constructors: `New()` or `NewTypeName()`
@@ -716,13 +716,13 @@ func (s *Server) logError(err error) { ... }
 **What this means**: When a function call has multiple boolean or integer arguments, use named constants, comment annotations, or wrapper types to clarify what each argument means.
 
 ```go
-// BAD — what do these booleans mean?
+// BAD - what do these booleans mean?
 printInfo("foo", true, true)
 
-// GOOD — use comments for built-in functions
+// GOOD - use comments for built-in functions
 printInfo("foo", true /* isLocal */, true /* done */)
 
-// BETTER — use named types/constants
+// BETTER - use named types/constants
 printInfo("foo", LocalPrinter, DoneStatus)
 ```
 
@@ -733,10 +733,10 @@ printInfo("foo", LocalPrinter, DoneStatus)
 **What this means**: Use backtick strings (`` ` ``) when the string contains backslashes, quotes, or multi-line content.
 
 ```go
-// BAD — escaping makes regex unreadable
+// BAD - escaping makes regex unreadable
 re := regexp.MustCompile("\\d+\\.\\d+\\.\\d+")
 
-// GOOD — raw string, no escaping needed
+// GOOD - raw string, no escaping needed
 re := regexp.MustCompile(`\d+\.\d+\.\d+`)
 ```
 
@@ -745,9 +745,9 @@ re := regexp.MustCompile(`\d+\.\d+\.\d+`)
 ## 32. Map Initialization
 
 **What this means**: Choose map initialization style based on intent:
-- `make(map[K]V)` — for maps you'll fill programmatically
-- `map[K]V{...}` — for maps with known initial content
-- `make(map[K]V, n)` — when you know the expected size
+- `make(map[K]V)` - for maps you'll fill programmatically
+- `map[K]V{...}` - for maps with known initial content
+- `make(map[K]V, n)` - when you know the expected size
 
 ```go
 // Map populated programmatically
@@ -770,11 +770,11 @@ m := make(map[string]int, len(input))
 **What this means**: When you need a pointer to a struct, use `&T{}` inline. Don't create a value then take its address separately.
 
 ```go
-// BAD — unnecessary intermediate variable
+// BAD - unnecessary intermediate variable
 val := T{Name: "foo"}
 ptr := &val
 
-// GOOD — direct pointer construction
+// GOOD - direct pointer construction
 ptr := &T{Name: "foo"}
 
 // Also ok for zero-value pointer:
@@ -792,10 +792,10 @@ ptr := &T{}
 **Why**: Makes format strings grep-able, reusable, and prevents accidental modification.
 
 ```go
-// BAD — format string hidden in call
+// BAD - format string hidden in call
 log.Printf("user %s logged in at %s", user, time.Now())
 
-// GOOD for reused format strings — declared as const
+// GOOD for reused format strings - declared as const
 const logFmt = "user %s logged in at %s"
 log.Printf(logFmt, user, time.Now())
 ```
@@ -807,7 +807,7 @@ log.Printf(logFmt, user, time.Now())
 **What this means**: If you write custom Printf-style functions, suffix them with `f` so the compiler can check format strings.
 
 ```go
-// Named with f suffix — enables compiler format checking
+// Named with f suffix - enables compiler format checking
 func Warnf(format string, args ...any) { ... }
 func Errorf(format string, args ...any) { ... }
 
@@ -881,10 +881,10 @@ func Connect(addr string, opts ...Option) (*Conn, error) {
 ## 38. Linting
 
 **What this means**: Use `golangci-lint` with at minimum these linters enabled:
-- `go vet` — correctness
-- `errcheck` — unchecked errors
-- `goimports` — import formatting
-- `golint` / `revive` — style
+- `go vet` - correctness
+- `errcheck` - unchecked errors
+- `goimports` - import formatting
+- `golint` / `revive` - style
 
 Configure in `.golangci.yml` at project root. Run in CI as a required check.
 
@@ -894,15 +894,15 @@ Configure in `.golangci.yml` at project root. Run in CI as a required check.
 
 **What this means**: Never start goroutines from `init()` functions.
 
-**Why**: `init()` runs before `main()`. Goroutines started there have no lifecycle management — no way to stop, no way to detect if they panic, no way to wait for them. They leak by design.
+**Why**: `init()` runs before `main()`. Goroutines started there have no lifecycle management - no way to stop, no way to detect if they panic, no way to wait for them. They leak by design.
 
 ```go
-// BAD — goroutine started in init, can never be stopped
+// BAD - goroutine started in init, can never be stopped
 func init() {
     go backgroundSync() // runs forever, no shutdown path
 }
 
-// GOOD — start from main with lifecycle control
+// GOOD - start from main with lifecycle control
 func main() {
     ctx, cancel := context.WithCancel(context.Background())
     defer cancel()

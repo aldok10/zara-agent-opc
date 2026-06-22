@@ -13,7 +13,7 @@
 ## Controllers
 
 ```php
-// Thin controller — orchestrates, doesn't contain logic
+// Thin controller - orchestrates, doesn't contain logic
 #[Route('/orders', methods: ['POST'])]
 public function create(
     CreateOrderCommand $command,   // auto-deserialized by Symfony
@@ -31,7 +31,7 @@ public function create(
 ## Services
 
 ```php
-// Autowired by default — just typehint
+// Autowired by default - just typehint
 final class OrderService
 {
     public function __construct(
@@ -49,7 +49,7 @@ final class OrderService
 ## Messenger (CQRS)
 
 ```php
-// Command — intention to change state
+// Command - intention to change state
 final readonly class PlaceOrder
 {
     public function __construct(
@@ -58,7 +58,7 @@ final readonly class PlaceOrder
     ) {}
 }
 
-// Handler — executes the intention
+// Handler - executes the intention
 #[AsMessageHandler]
 final class PlaceOrderHandler
 {
@@ -71,7 +71,7 @@ final class PlaceOrderHandler
     }
 }
 
-// Query — read model (separate bus)
+// Query - read model (separate bus)
 final readonly class GetOrder { public function __construct(public string $id) {} }
 
 #[AsMessageHandler(bus: 'query.bus')]
@@ -85,7 +85,7 @@ final class GetOrderHandler { ... }
 ## Events
 
 ```php
-// Domain event — record what happened
+// Domain event - record what happened
 final readonly class OrderPlaced
 {
     public function __construct(
@@ -94,7 +94,7 @@ final readonly class OrderPlaced
     ) {}
 }
 
-// Listener (not subscriber — Symfony deprecated subscribers)
+// Listener (not subscriber - Symfony deprecated subscribers)
 #[AsEventListener]
 final class SendOrderConfirmation
 {
@@ -120,7 +120,7 @@ final readonly class CreateUserDTO
 
 - Validation via attributes on DTO properties
 - Validate at boundary (controller/command entry point)
-- Domain objects enforce invariants internally (no assertions — throw exceptions)
+- Domain objects enforce invariants internally (no assertions - throw exceptions)
 
 ## Testing
 

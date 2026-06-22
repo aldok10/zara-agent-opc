@@ -17,7 +17,7 @@ Continuous execution: Do NOT pause between tasks. Execute all tasks sequentially
 - Read the implementation plan
 - Create a progress ledger file (`.tasks/progress.md`) tracking: task ID, status, assignee model, verdict
 - Create todo items for each task
-- The ledger survives context compaction — always re-read it before dispatching
+- The ledger survives context compaction - always re-read it before dispatching
 
 ### 2. Per-Task Execution Loop
 
@@ -25,7 +25,7 @@ For each task in order:
 
 **A. Prepare task brief**
 - Write a task brief file (`.tasks/task-{id}.md`) containing: objective, exact files to touch, constraints, acceptance criteria
-- Never paste the full plan into a subagent prompt — only the relevant task brief
+- Never paste the full plan into a subagent prompt - only the relevant task brief
 
 **B. Dispatch implementer subagent**
 - Fresh context (no session history)
@@ -64,7 +64,7 @@ After all tasks complete:
 | NEEDS_CONTEXT | Provide missing context in task brief, re-dispatch |
 | BLOCKED | Assess: need more context? bigger model? break into pieces? plan itself wrong? |
 
-For BLOCKED: try (in order) — provide context → use more capable model → decompose task → revise plan. If all fail, stop and report.
+For BLOCKED: try (in order) - provide context → use more capable model → decompose task → revise plan. If all fail, stop and report.
 
 ## File Handoffs
 
@@ -86,7 +86,7 @@ This keeps subagent context clean and survives compaction.
 
 ## Constructing Reviewer Prompts
 
-- Do NOT add open-ended directives — keep scope tight
+- Do NOT add open-ended directives - keep scope tight
 - Do NOT ask reviewer to re-run tests the implementer already ran
 - Do NOT pre-judge findings (never "ignore X" or "don't flag Y")
 - Include global constraints from the plan verbatim
@@ -98,7 +98,7 @@ This keeps subagent context clean and survives compaction.
 
 Track in ledger file, not just todos:
 - Ledger at `.tasks/progress.md` is the source of truth
-- Tasks marked complete are DONE — never re-dispatch
+- Tasks marked complete are DONE - never re-dispatch
 - When task review passes, append: `Task N: complete (commits abc1234..def5678, review clean)`
 - After context compaction, trust ledger + `git log` over memory
 
@@ -132,17 +132,17 @@ Update after every task completion or status change.
 ## Integration
 
 **Required workflow skills:**
-- `git-worktrees` — isolated workspace
-- `writing-plans` — creates the plan this skill executes
-- `code-review` — final whole-branch review
-- `finishing-branch` — complete after all tasks
+- `git-worktrees` - isolated workspace
+- `writing-plans` - creates the plan this skill executes
+- `code-review` - final whole-branch review
+- `finishing-branch` - complete after all tasks
 
 **Subagents should use:**
-- `tdd` — test-driven implementation
-- `verification-before-completion` — before reporting DONE
+- `tdd` - test-driven implementation
+- `verification-before-completion` - before reporting DONE
 
 **Alternative:**
-- `executing-plans` — for inline execution without subagents
+- `executing-plans` - for inline execution without subagents
 
 ## Related Skills
 

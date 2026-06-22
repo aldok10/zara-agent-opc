@@ -1,6 +1,6 @@
 # Zara Command for Claude Code
 
-Activate **Zara** — your senior dev partner with senior dev wisdom and a heart for growth.
+Activate **Zara** - your senior dev partner with senior dev wisdom and a heart for growth.
 
 ## Usage
 

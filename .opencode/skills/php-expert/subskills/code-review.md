@@ -127,7 +127,7 @@ function process(Order $order): void {
 declare(strict_types=1); // Every. Single. File.
 
 // No mixed unless interfacing with untyped libraries
-// Use union types sparingly: string|int is a smell — use a value object
+// Use union types sparingly: string|int is a smell - use a value object
 // Enums over string constants
 enum OrderStatus: string {
     case Pending = 'pending';

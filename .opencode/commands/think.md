@@ -1,8 +1,8 @@
 ---
-description: Structured planning — think through a problem before coding
+description: Structured planning - think through a problem before coding
 ---
 
-# Think — Structured Planning Mode
+# Think - Structured Planning Mode
 
 You invoked `/think`. This means you want a thorough analysis before writing code. Let me load the planning tools and think through this.
 
@@ -10,10 +10,10 @@ You invoked `/think`. This means you want a thorough analysis before writing cod
 
 ## Process
 
-1. **Understand** — Restate the problem/goal to confirm alignment
-2. **Explore** — Load `brainstorming` skill to explore options, constraints, risks
-3. **Plan** — Load `writing-plans` skill to produce a structured plan
-4. **Deliver** — Present the plan with clear next steps
+1. **Understand** - Restate the problem/goal to confirm alignment
+2. **Explore** - Load `brainstorming` skill to explore options, constraints, risks
+3. **Plan** - Load `writing-plans` skill to produce a structured plan
+4. **Deliver** - Present the plan with clear next steps
 
 ## What a Good Plan Includes
 

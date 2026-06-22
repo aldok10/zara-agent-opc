@@ -5,7 +5,7 @@ description: Use when making database (SQL/MongoDB/Redis), HTTP API, or AI provi
 
 # Zara Privacy MCP
 
-Privacy-first MCP gateway, 21 tools. Every outbound call is auto-scanned and masked — secrets, PII, credentials never leak.
+Privacy-first MCP gateway, 21 tools. Every outbound call is auto-scanned and masked - secrets, PII, credentials never leak.
 
 ```
 Agent → MCP → DB/HTTP/AI call → auto-mask → Agent
@@ -36,7 +36,7 @@ Agent → MCP → DB/HTTP/AI call → auto-mask → Agent
 4. COUNT first if unsure of size
 5. Specific columns on large tables (no `SELECT *` unless single row)
 
-**Destructive blocker — refuse, then ask for explicit confirmation:**
+**Destructive blocker - refuse, then ask for explicit confirmation:**
 - SQL: `DROP`, `TRUNCATE`, `DELETE`/`UPDATE` without WHERE, `ALTER ... DROP`, `GRANT`/`REVOKE`, DDL on production
 - Redis: `FLUSHDB`, `FLUSHALL`, `DEL *`, `KEYS *` on prod, `CONFIG SET`, `SHUTDOWN`
 - HTTP: `DELETE` on critical paths without confirmation
@@ -51,7 +51,7 @@ Agent → MCP → DB/HTTP/AI call → auto-mask → Agent
 
 ## Deeper Detail
 
-- `references/security.md` — two-tier model (5 server-enforced Go layers + agent rules), validation gates, injection/exfiltration/SSRF/multi-turn attack playbooks, detection patterns, secure defaults
-- `references/configuration.md` — env var setup, operational behavior
-- `references/install.md` — install the MCP server from source and register it with any AI tool
-- `knowledge_passage(query: "OWASP AISVS security compliance")` — OWASP AISVS compliance
+- `references/security.md` - two-tier model (5 server-enforced Go layers + agent rules), validation gates, injection/exfiltration/SSRF/multi-turn attack playbooks, detection patterns, secure defaults
+- `references/configuration.md` - env var setup, operational behavior
+- `references/install.md` - install the MCP server from source and register it with any AI tool
+- `knowledge_passage(query: "OWASP AISVS security compliance")` - OWASP AISVS compliance

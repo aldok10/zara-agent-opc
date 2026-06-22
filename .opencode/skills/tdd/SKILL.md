@@ -23,15 +23,15 @@ This is not a suggestion. This is the operating constraint.
 
 ## RED-GREEN-REFACTOR
 
-### RED — Write ONE Failing Test
+### RED - Write ONE Failing Test
 
 1. Write the smallest test that describes the next behavior
 2. Run it. Watch it **fail**
-3. Confirm it fails because the feature is missing — not because of typos, imports, or syntax
+3. Confirm it fails because the feature is missing - not because of typos, imports, or syntax
 
 If the test passes immediately: you wrote the wrong test. Delete it.
 
-### GREEN — Write the SIMPLEST Code to Pass
+### GREEN - Write the SIMPLEST Code to Pass
 
 1. Write the absolute minimum code to make the test green
 2. No extra features. No "while I'm here." No clever abstractions
@@ -39,11 +39,11 @@ If the test passes immediately: you wrote the wrong test. Delete it.
 
 If you're writing more than ~5 lines: you probably skipped a test.
 
-### REFACTOR — Clean Up (Green Only)
+### REFACTOR - Clean Up (Green Only)
 
 1. Only after tests are green
 2. Remove duplication, improve names, extract helpers
-3. Run tests after every change — stay green
+3. Run tests after every change - stay green
 4. If tests break: undo, try smaller step
 
 ---
@@ -86,7 +86,7 @@ Every cycle:
 
 ---
 
-## Red Flags — STOP and Start Over
+## Red Flags - STOP and Start Over
 
 If any of these happen, delete the production code and restart the cycle:
 
@@ -103,7 +103,7 @@ If any of these happen, delete the production code and restart the cycle:
 
 - [ ] Every public function/method has at least one test
 - [ ] Watched each test fail before making it pass
-- [ ] Each green step was minimal — no speculative code
+- [ ] Each green step was minimal - no speculative code
 - [ ] All tests pass
 - [ ] Edge cases covered (null, empty, boundary, error paths)
 - [ ] Tests describe behavior, not implementation
@@ -112,7 +112,7 @@ If any of these happen, delete the production code and restart the cycle:
 
 ## Exceptions (Ask User First)
 
-These may skip TDD — but confirm explicitly:
+These may skip TDD - but confirm explicitly:
 
 - Throwaway prototypes (will be deleted)
 - Generated/scaffolded code (tested at integration level)
@@ -134,9 +134,9 @@ If in doubt: write the test.
 
 ## Related Knowledge (load on demand)
 
-- `knowledge_passage(query: "test driven development")` — TDD practices article
-- `knowledge_index(section: "testing")` — browse all testing articles
-- `knowledge_passage(query: "testing practices continuous integration")` — when choosing testing approach
+- `knowledge_passage(query: "test driven development")` - TDD practices article
+- `knowledge_index(section: "testing")` - browse all testing articles
+- `knowledge_passage(query: "testing practices continuous integration")` - when choosing testing approach
 
 ## Related Skills
 

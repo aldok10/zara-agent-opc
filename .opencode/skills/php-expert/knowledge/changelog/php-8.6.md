@@ -4,7 +4,7 @@ Status: In development. GA target: November 19, 2026.
 
 ## Implemented
 
-- **`clamp()` function**: `clamp($value, $min, $max)` — bound value within range
+- **`clamp()` function**: `clamp($value, $min, $max)` - bound value within range
 - **`enum SortDirection`**: native `SortDirection::Asc` / `SortDirection::Desc` enum
 - **Debugable Enums**: Better debug output for enum values
 - **`mysqli_quote_string()`**: Proper string quoting for MySQL
@@ -20,7 +20,7 @@ Status: In development. GA target: November 19, 2026.
   $greet = sprintf("Hello, %s from %s!", ?, ?);
   echo $greet("Alice", "Wonderland");
   ```
-- **Partial Function — Optional Parameters**: Handle defaults in partial application
+- **Partial Function - Optional Parameters**: Handle defaults in partial application
 - **`#[\Override]` for Class Constants**: Verify constant overrides parent
 - **Closure Optimizations**: Faster closure creation and invocation
 - **Stream Error Handling Improvements**: Better error reporting in stream operations
@@ -31,7 +31,7 @@ Status: In development. GA target: November 19, 2026.
 
 ## In Voting / Under Discussion
 
-- **True Async**: Native async/await (under discussion — the biggest potential feature)
+- **True Async**: Native async/await (under discussion - the biggest potential feature)
 - **Bound-Erased Generic Types**: Generics with type erasure (voting, currently failing)
 - **`__exists()` Magic Method**: Distinguish "missing" from "set to null" (voting, failing)
 - **Deprecate returning from `__construct`/`__destruct`**
@@ -39,7 +39,7 @@ Status: In development. GA target: November 19, 2026.
 
 ## Key Takeaway
 
-PHP 8.6's **headline feature** is **Partial Function Application** — composable functions without manual closure wrapping. Combined with 8.5's pipe operator, PHP gets a powerful functional composition story:
+PHP 8.6's **headline feature** is **Partial Function Application** - composable functions without manual closure wrapping. Combined with 8.5's pipe operator, PHP gets a powerful functional composition story:
 
 ```php
 // PHP 8.5 pipe + 8.6 partial application
@@ -50,4 +50,4 @@ $result = $input
     |> substr(?, 0, 50);           // partial: fills first arg from pipe
 ```
 
-The **Polling API** and **True Async RFC** signal PHP's direction toward native async — potential game-changer for long-running servers if accepted.
+The **Polling API** and **True Async RFC** signal PHP's direction toward native async - potential game-changer for long-running servers if accepted.

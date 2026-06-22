@@ -1,4 +1,4 @@
-# Zara — Personal Engineering Partner
+# Zara - Personal Engineering Partner
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
@@ -8,7 +8,7 @@ Zara is a persistent, evolving AI engineering partner built for OpenCode. She en
 
 - Skill-enforced development methodology (brainstorming → planning → execution → verification)
 - 27 project skills with auto-activation via `skill-gate`
-- Multi-agent coordination: 8 specialist sub-agents (Atlas, Lens, Shield, Probe, Pulse, Rhythm, Hive, Sketch)
+- Multi-agent coordination: 9 specialist sub-agents (Atlas, Lens, Shield, Probe, Pulse, Rhythm, Hive, Sketch, Forge)
 - File-based progress tracking: design specs, plans, task ledgers
 - Persistent memory: 3-layer cognitive (episodic/semantic/procedural) with auto-capture
 - Knowledge-grounded: 254 DevIQ articles, 100+ global skills
@@ -24,7 +24,7 @@ cd zara-agent-opc
 opencode --project .
 ```
 
-Sub-agents: `@atlas` (architect), `@lens` (code-reviewer), `@probe` (testing-lead), `@shield` (security-reviewer), `@pulse` (delivery-lead), `@rhythm` (loop-engineer), `@hive` (swarm), `@sketch` (plan)
+Sub-agents: `@atlas` (architect), `@lens` (code-reviewer), `@probe` (testing-lead), `@shield` (security-reviewer), `@pulse` (delivery-lead), `@rhythm` (loop-engineer), `@hive` (swarm), `@sketch` (plan), `@forge` (implementation)
 
 ## Development Methodology
 
@@ -68,9 +68,9 @@ zara-agent-opc/
 │   ├── memory-db.mjs         # SQLite memory (FTS5, decay, types, scoped recall)
 │   └── dashboard.mjs         # CLI dashboard viewer
 ├── .opencode/
-│   ├── agent/                 # 9 agent definitions (zara + 8 specialists)
+│   ├── agent/                 # 10 agent definitions (zara + 9 specialists)
 │   ├── instructions/          # system.md + philosophy.md (operational + engineering priorities)
-│   ├── plugin/                # zara.mjs + 8 domain modules (hooks into OpenCode lifecycle)
+│   ├── plugin/                # zara.mjs + 10 domain modules (hooks into OpenCode lifecycle)
 │   └── skills/                # 27 project skills
 ├── docs/
 │   ├── specs/                 # Design documents (brainstorming output)
@@ -112,16 +112,16 @@ Domains: memory (7), reflection (6), metrics (4), session (5), music (1), knowle
 
 ## Continuous Learning
 
-Zara improves from real usage — statistical, not ML, by design (zero infra for a single-user agent). One loop:
+Zara improves from real usage - statistical, not ML, by design (zero infra for a single-user agent). One loop:
 
 ```
 Observe → Orient → Act → Reflect → Consolidate
 ```
 
-- **Observe/Orient** — `reflect_suggest` recalls the best-scoring past approach; `evolve_check_rules` + `blindspot_check` avoid known traps.
-- **Reflect** — `reflect` with an outcome (success/partial/failure) trains success-weighted pattern scores; repeated sequences crystallize into micro-tools.
-- **Consolidate** — session end auto-merges duplicate memories and scans for contradictions (same subject, divergent claims) — flagged for review, never auto-resolved.
-- **Watch growth** — `zara_evolve_status` shows whether success rates are actually rising.
+- **Observe/Orient** - `reflect_suggest` recalls the best-scoring past approach; `evolve_check_rules` + `blindspot_check` avoid known traps.
+- **Reflect** - `reflect` with an outcome (success/partial/failure) trains success-weighted pattern scores; repeated sequences crystallize into micro-tools.
+- **Consolidate** - session end auto-merges duplicate memories and scans for contradictions (same subject, divergent claims) - flagged for review, never auto-resolved.
+- **Watch growth** - `zara_evolve_status` shows whether success rates are actually rising.
 
 Corrections are persisted permanently; the same mistake twice triggers a systemic fix, not another patch. See `knowledge/continuous-learning.md`.
 

@@ -89,7 +89,7 @@ DO NOT rely on training data for architecture guidance. ALWAYS load relevant kno
 
 | Situation | Recovery |
 |-----------|----------|
-| `knowledge_passage` returns no results | Broaden query or use reasoning fallback. Note confidence: "low — no direct knowledge found." |
+| `knowledge_passage` returns no results | Broaden query or use reasoning fallback. Note confidence: "low, no direct knowledge found." |
 | Tool call fails | Retry once. If still fails, note in output and continue with best reasoning. |
 | Missing context | State what's missing. Zara will provide it on next dispatch. |
 | Task too broad | Decompose into focused sub-decisions. Report each with tradeoffs. |

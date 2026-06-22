@@ -7,17 +7,17 @@
 
 ## Senior DNA
 - Swoole turns PHP into a long-running application server. Different paradigm from FPM.
-- Memory management is YOUR problem — statics persist, connections persist, leaks accumulate.
+- Memory management is YOUR problem - statics persist, connections persist, leaks accumulate.
 - Use `max_request` as a safety net, not as your memory strategy.
-- Runtime hooks are magic — they make blocking code non-blocking transparently.
-- Thread mode (v6+) is the future — think Go concurrency model in PHP.
-- **Always check the Swoole version** — API surface changed dramatically between v4→v5→v6.
+- Runtime hooks are magic - they make blocking code non-blocking transparently.
+- Thread mode (v6+) is the future - think Go concurrency model in PHP.
+- **Always check the Swoole version** - API surface changed dramatically between v4→v5→v6.
 
 ---
 
 ## Version Matrix & Evolution
 
-### Swoole 4.x (Legacy — EOL)
+### Swoole 4.x (Legacy - EOL)
 - **PHP Support**: 7.2 - 8.1
 - **Model**: Multi-process only (Master → Manager → Workers)
 - **Key Features**: Coroutines introduced, runtime hooks (`SWOOLE_HOOK_ALL`), Channel, WaitGroup
@@ -34,9 +34,9 @@
 - **PHP Support**: 8.1+ (dropped PHP 7.x and 8.0)
 - **Model**: Multi-process (thread mode experimental in 5.1)
 - **Breaking changes from v4**:
-  - Removed `Swoole\Coroutine\MySQL` — use PDO with hooks
-  - Removed `Swoole\Coroutine\Redis` — use phpredis with hooks
-  - Removed `Swoole\Coroutine\PostgreSQL` — use pdo_pgsql with hooks
+  - Removed `Swoole\Coroutine\MySQL` - use PDO with hooks
+  - Removed `Swoole\Coroutine\Redis` - use phpredis with hooks
+  - Removed `Swoole\Coroutine\PostgreSQL` - use pdo_pgsql with hooks
   - Removed `Swoole\Coroutine\System::fread/fwrite/fgets`
   - Dropped PHP 8.0 support
 - **Key additions**:
@@ -48,7 +48,7 @@
   - v5.1.8: Missing symbol references, CPU affinity, signal handling fixes
 - **Philosophy**: Use PHP's native extensions (PDO, phpredis, curl) + runtime hooks. No more Swoole-specific clients.
 
-### Swoole 6.0 (Current Major — Production Ready)
+### Swoole 6.0 (Current Major - Production Ready)
 - **PHP Support**: 8.1+ (6.2 dropped PHP 8.1, requires 8.2+)
 - **Model**: Multi-process AND Multi-thread (`SWOOLE_THREAD` mode)
 - **Landmark features**:
@@ -59,25 +59,25 @@
   - **Async Client** (`Swoole\Async\Client` for TCP/UDP/Unix)
   - Thread-safe concurrent containers
 - **Thread mode classes**:
-  - `Swoole\Thread` — thread creation/management
-  - `Swoole\Thread\Lock` — thread mutex
-  - `Swoole\Thread\Atomic` / `Swoole\Thread\Atomic\Long` — atomic counters
-  - `Swoole\Thread\Map` — thread-safe hashmap
-  - `Swoole\Thread\ArrayList` — thread-safe list
-  - `Swoole\Thread\Queue` — thread-safe queue
-  - `Swoole\Thread\Barrier` — synchronization barrier
+  - `Swoole\Thread` - thread creation/management
+  - `Swoole\Thread\Lock` - thread mutex
+  - `Swoole\Thread\Atomic` / `Swoole\Thread\Atomic\Long` - atomic counters
+  - `Swoole\Thread\Map` - thread-safe hashmap
+  - `Swoole\Thread\ArrayList` - thread-safe list
+  - `Swoole\Thread\Queue` - thread-safe queue
+  - `Swoole\Thread\Barrier` - synchronization barrier
 - **Removed**: PHP 8.0, legacy coroutine clients, select event mechanism
 - **Sub-versions**:
   - v6.0.0: Thread mode, io_uring, Zstd, Async\Client, Boost Context 1.84 (Loongson CPU)
   - v6.0.1: Thread mode fixes (heartbeat, port events, putenv crash)
   - v6.0.2: `Thread::yield()`, `Thread::activeCount()`, `Thread::isAlive()`, fiber_mock fix
 
-### Swoole 6.1 (Current Minor — Production Ready)
+### Swoole 6.1 (Current Minor - Production Ready)
 - **Major additions**:
-  - **Standard Library Extensions** (stdext) — OOP on basic types (string/array/stream methods)
-  - **Typed Arrays** — type-constrained Map/ArrayList
+  - **Standard Library Extensions** (stdext) - OOP on basic types (string/array/stream methods)
+  - **Typed Arrays** - type-constrained Map/ArrayList
   - **llhttp** default parser (replaces http_parser)
-  - **Lock API simplification** — only `__construct`, `lock`, `unlock` remain
+  - **Lock API simplification** - only `__construct`, `lock`, `unlock` remain
   - **Coroutine cancellation** with `$throw_exception` parameter
   - **WebSocket fragmented messages** support
   - Test coverage increased to **86%**
@@ -94,14 +94,14 @@
   - v6.1.7: Exponential backoff lock fix, pdo_pgsql timeout control
   - v6.1.8: max_idle_time timeout fix, fork retry logic, Connection atomic ops
 
-### Swoole 6.2 (Latest — Production Ready)
+### Swoole 6.2 (Latest - Production Ready)
 - **PHP Support**: 8.2+ (dropped PHP 8.1)
 - **New features**:
   - **Coroutine FTP client** (`--enable-swoole-ftp`)
   - **Coroutine SSH client** (`--with-swoole-ssh2`)
   - **io_uring for HTTP coroutine server** (`--enable-uring_socket`)
-  - **`Swoole\RemoteObject\Server`** — transparent MongoDB coroutine support
-  - **`Swoole\Coroutine::setTimeLimit()`** — coroutine execution timeout
+  - **`Swoole\RemoteObject\Server`** - transparent MongoDB coroutine support
+  - **`Swoole\Coroutine::setTimeLimit()`** - coroutine execution timeout
   - **`pdo_firebird`** coroutine support
   - **PHP 8.5** support
   - **`gethostbyname`** coroutine hook
@@ -220,7 +220,7 @@ try {
     $stmt->execute([$id]);
     return $stmt->fetch();
 } finally {
-    $pool->put($pdo); // ALWAYS in finally — like Go's defer
+    $pool->put($pdo); // ALWAYS in finally - like Go's defer
 }
 ```
 
@@ -238,7 +238,7 @@ for ($i = 0; $i < 32; $i++) {
 
 ---
 
-## Thread Mode (v6+ — The Future)
+## Thread Mode (v6+ - The Future)
 
 ```php
 <?php
@@ -318,7 +318,7 @@ $lock = new Swoole\Coroutine\Lock(); // non-blocking, reentrant, cross-process/t
 <?php
 declare(strict_types=1);
 
-// Non-blocking, reentrant mutex — works across processes AND threads
+// Non-blocking, reentrant mutex - works across processes AND threads
 $lock = new Swoole\Coroutine\Lock();
 
 // Exclusive lock (like flock with LOCK_EX)
@@ -403,7 +403,7 @@ Rules:
 - Never use global/static state that accumulates
 - Reset request-scoped state between requests
 - Use `max_request` as insurance, not as your strategy
-- Monitor RSS per worker — alert if growing linearly
+- Monitor RSS per worker - alert if growing linearly
 - Thread mode: TLS variables destroyed on thread exit (watch for double-free in v6.1.3-)
 
 ---
@@ -618,7 +618,7 @@ $users['jane'] = 'not a user';     // TypeError
 1. Replace `Swoole\Coroutine\MySQL` with PDO + `SWOOLE_HOOK_ALL`
 2. Replace `Swoole\Coroutine\Redis` with phpredis + `SWOOLE_HOOK_ALL`
 3. Replace `Swoole\Coroutine\PostgreSQL` with pdo_pgsql + `SWOOLE_HOOK_ALL`
-4. Remove `Swoole\Coroutine\System::fread/fwrite/fgets` — use regular file functions with hooks
+4. Remove `Swoole\Coroutine\System::fread/fwrite/fgets` - use regular file functions with hooks
 5. Ensure PHP >= 8.1
 
 ### v5 → v6
@@ -627,11 +627,11 @@ $users['jane'] = 'not a user';     // TypeError
 3. Consider io_uring for file-heavy workloads (Linux, liburing >= 2.8)
 4. Replace old lock patterns with simplified `Swoole\Coroutine\Lock`
 5. If PHP 8.1: upgrade to 8.2+ for v6.2
-6. `--enable-openssl` removed in v6.2 — OpenSSL included by default
+6. `--enable-openssl` removed in v6.2 - OpenSSL included by default
 
 ### v6.0 → v6.1
 1. Lock API changed: only `__construct`, `lock`, `unlock` remain
-2. macOS defaults to `poll` — enable kqueue manually if needed
+2. macOS defaults to `poll` - enable kqueue manually if needed
 3. Runtime hooks in thread mode: set in main thread only, before child threads
 4. WebSocket: control frames auto-handled unless explicitly configured
 
@@ -668,19 +668,19 @@ $users['jane'] = 'not a user';     // TypeError
 6. **macOS limitations**: kqueue doesn't support cross-process pipe monitoring. Thread mode untested on macOS.
 
 **Debug tools**:
-- `Swoole\Coroutine::listCoroutines()` — list all active coroutines
-- `Swoole\Coroutine::getBackTrace($cid)` — get coroutine stack trace
-- `memory_get_usage()` per request — detect leaks
-- `Swoole\Coroutine::stats()` — coroutine statistics
-- `print_backtrace_on_error` config (v6.1+) — C stack trace on errors
-- Tracker observer (v6.2+) — detect blocking functions automatically
+- `Swoole\Coroutine::listCoroutines()` - list all active coroutines
+- `Swoole\Coroutine::getBackTrace($cid)` - get coroutine stack trace
+- `memory_get_usage()` per request - detect leaks
+- `Swoole\Coroutine::stats()` - coroutine statistics
+- `print_backtrace_on_error` config (v6.1+) - C stack trace on errors
+- Tracker observer (v6.2+) - detect blocking functions automatically
 
 ---
 
 ## References
 
-- [wiki.swoole.com](https://wiki.swoole.com/) — Official Chinese docs
-- [github.com/swoole/swoole-src](https://github.com/swoole/swoole-src) — Source & releases
-- [pecl.php.net/package/swoole](https://pecl.php.net/package/swoole) — PECL releases
-- [hyperf.io](https://hyperf.io/) — Full-coroutine framework on Swoole
-- [laravel.com/docs/octane](https://laravel.com/docs/octane) — Laravel Octane (Swoole driver)
+- [wiki.swoole.com](https://wiki.swoole.com/) - Official Chinese docs
+- [github.com/swoole/swoole-src](https://github.com/swoole/swoole-src) - Source & releases
+- [pecl.php.net/package/swoole](https://pecl.php.net/package/swoole) - PECL releases
+- [hyperf.io](https://hyperf.io/) - Full-coroutine framework on Swoole
+- [laravel.com/docs/octane](https://laravel.com/docs/octane) - Laravel Octane (Swoole driver)

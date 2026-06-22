@@ -10,7 +10,7 @@ triggers:
   - "multiple branches"
 ---
 
-# Git Worktrees — Isolated Feature Workspaces
+# Git Worktrees - Isolated Feature Workspaces
 
 ## When to Use
 
@@ -20,7 +20,7 @@ triggers:
 - Hotfix on production while mid-feature
 - Running long builds/tests without blocking dev
 
-## Step 0 — Detect Existing Isolation
+## Step 0 - Detect Existing Isolation
 
 ```bash
 git_dir=$(git rev-parse --git-dir 2>/dev/null)
@@ -29,12 +29,12 @@ git_common=$(git rev-parse --git-common-dir 2>/dev/null)
 
 | Condition | Action |
 |-----------|--------|
-| `$git_dir` != `$git_common` | Already in a worktree — skip creation |
-| `$git_dir` == `$git_common` | Normal repo — proceed to Step 1 |
+| `$git_dir` != `$git_common` | Already in a worktree - skip creation |
+| `$git_dir` == `$git_common` | Normal repo - proceed to Step 1 |
 
 Never nest worktrees. If already in one, inform user and stop.
 
-## Step 1 — Create Workspace
+## Step 1 - Create Workspace
 
 Use `.worktrees/` at project root as the worktree directory.
 
@@ -54,7 +54,7 @@ git worktree add .worktrees/<branch> -b <branch> origin/main
 
 Branch naming follows conventional-commits: `feat/x`, `fix/x`, `chore/x`, `refactor/x`.
 
-## Step 2 — Dependency Setup
+## Step 2 - Dependency Setup
 
 Auto-detect and install in new worktree:
 
@@ -77,17 +77,17 @@ For large projects, symlink shared caches to avoid duplicate downloads:
 ```bash
 # Node (pnpm already shares via store)
 # Go (GOMODCACHE is global by default)
-# Rust — share target dir:
+# Rust - share target dir:
 ln -s ../../target .worktrees/<branch>/target
 ```
 
-## Step 3 — Verify Clean Baseline
+## Step 3 - Verify Clean Baseline
 
 Run test suite in new worktree:
 
 | Result | Action |
 |--------|--------|
-| Tests pass | Ready — worktree is functional |
+| Tests pass | Ready - worktree is functional |
 | Tests fail | Report failures, ask before proceeding |
 
 ## Parallel Agent Pattern
@@ -107,7 +107,7 @@ git worktree add .worktrees/fix-perf -b fix/perf
 Rules for parallel agents:
 - Each agent gets exclusive file scope (don't overlap edited files)
 - Shared repo objects = instant branch creation (no clone cost)
-- Merge sequentially after all complete — not simultaneously
+- Merge sequentially after all complete - not simultaneously
 - If agents need to communicate, use mail/file-based coordination
 
 ## Lifecycle Management
@@ -157,8 +157,8 @@ done
 | Pitfall | Prevention |
 |---------|------------|
 | Orphan dev servers in worktrees | Kill processes before removing worktree |
-| Same branch checked out twice | Git prevents this — use different branch names |
-| Shared lockfiles (package-lock, go.sum) | Each worktree has its own copy — merge conflicts possible |
+| Same branch checked out twice | Git prevents this - use different branch names |
+| Shared lockfiles (package-lock, go.sum) | Each worktree has its own copy - merge conflicts possible |
 | `.env` files missing in new worktree | Copy from main: `cp .env .worktrees/<branch>/.env` |
 | Large `node_modules` per worktree | Use pnpm (shared store) or symlink |
 | Forgotten worktrees eating disk | Regular `git worktree list` + prune |

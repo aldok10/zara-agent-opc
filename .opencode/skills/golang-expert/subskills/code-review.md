@@ -2,9 +2,9 @@
 
 > Activate when: review, smell, refactor, naming, readability, simplify, debt, cleanup, improve, quality
 >
-> Prevents mistakes: #1-#54 (100 Go Mistakes — all code-level issues)
+> Prevents mistakes: #1-#54 (100 Go Mistakes - all code-level issues)
 
-**Senior DNA**: "It depends" — not all code needs to be perfect. Hot paths need optimization; cold paths need readability. A 3-month prototype has different quality bar than a 5-year library. Review for: will this break at 3am? Can a new hire understand it? Is this solving a real problem? Prefer deleting code over adding abstractions.
+**Senior DNA**: "It depends" - not all code needs to be perfect. Hot paths need optimization; cold paths need readability. A 3-month prototype has different quality bar than a 5-year library. Review for: will this break at 3am? Can a new hire understand it? Is this solving a real problem? Prefer deleting code over adding abstractions.
 
 ## Philosophy
 
@@ -108,7 +108,7 @@ func process(u *User) error {
     if u.Age <= 18 {
         return ErrUnderage
     }
-    // actual logic — no nesting
+    // actual logic - no nesting
     return nil
 }
 ```
@@ -141,13 +141,13 @@ When NOT to refactor:
 
 ## Delegates To
 
-- **performance** — when review finds allocation issues
-- **concurrency** — when review finds race conditions
-- **security** — when review finds vulnerabilities
-- **architecture** — when review finds structural issues
+- **performance** - when review finds allocation issues
+- **concurrency** - when review finds race conditions
+- **security** - when review finds vulnerabilities
+- **architecture** - when review finds structural issues
 
 ## References
 
-- [golang50shades.com](https://golang50shades.com/) — 50+ traps and gotchas
-- [github.com/uber-go/guide](https://github.com/uber-go/guide) — Uber style guide
-- [google.github.io/styleguide/go](https://google.github.io/styleguide/go) — Google decisions
+- [golang50shades.com](https://golang50shades.com/) - 50+ traps and gotchas
+- [github.com/uber-go/guide](https://github.com/uber-go/guide) - Uber style guide
+- [google.github.io/styleguide/go](https://google.github.io/styleguide/go) - Google decisions

@@ -11,10 +11,10 @@ Write implementation plans assuming the engineer has zero codebase context. Docu
 ## Principles
 
 - Bite-sized tasks (2-5 minutes each)
-- DRY — never repeat logic across tasks
-- YAGNI — only what the spec requires
-- TDD — test first, implement second
-- Frequent commits — one per task
+- DRY - never repeat logic across tasks
+- YAGNI - only what the spec requires
+- TDD - test first, implement second
+- Frequent commits - one per task
 
 ## Process
 
@@ -33,13 +33,13 @@ Before defining tasks, list ALL files:
 ## Files
 
 ### Create
-- path/to/new-file.ts — purpose
+- path/to/new-file.ts - purpose
 
 ### Modify
-- path/to/existing.ts — what changes
+- path/to/existing.ts - what changes
 
 ### Test
-- path/to/file.test.ts — covers what
+- path/to/file.test.ts - covers what
 ```
 
 ### 3. Write Plan Document
@@ -159,9 +159,9 @@ Then load:
 
 ## Related Knowledge (load on demand)
 
-- `knowledge_index(section: "architecture")` — when planning architectural changes
-- `knowledge_index(section: "practices")` — for workflow/process decisions
-- `knowledge_passage(query: "vertical slice incremental development")` — when decomposing features into tasks
+- `knowledge_index(section: "architecture")` - when planning architectural changes
+- `knowledge_index(section: "practices")` - for workflow/process decisions
+- `knowledge_passage(query: "vertical slice incremental development")` - when decomposing features into tasks
 
 ## Related Skills
 

@@ -1,4 +1,4 @@
-# Senior Engineering DNA — Detailed Reference
+# Senior Engineering DNA - Detailed Reference
 
 Source: 254 DevIQ articles (antipatterns, architecture, code-smells, design-patterns, DDD, laws, practices, principles, testing, values)
 
@@ -19,7 +19,7 @@ This is the complete engineering philosophy shared by `golang-expert` and `php-e
 | **Brooks' Law** | Adding people to late project = later | Ship smaller scope. Cut features. Don't add headcount as a deadline fix. |
 | **Murphy's Law** | Anything that can go wrong, will | Design for failure. Timeouts on everything. Retry with backoff. Circuit breakers. Graceful degradation. |
 | **Postel's Law** | Liberal in accept, conservative in send | Accept flexible input (trim whitespace, handle case). Output strict, well-typed data. |
-| **Tesler's Law** | Complexity is conserved — can't eliminate, only move | Someone bears the complexity — user, developer, or system. Decide intentionally who carries it. |
+| **Tesler's Law** | Complexity is conserved - can't eliminate, only move | Someone bears the complexity - user, developer, or system. Decide intentionally who carries it. |
 | **Wirth's Law** | Software bloats faster than hardware improves | Fight complexity actively. Audit dependencies. Delete what's unused. Profile regularly. |
 | **Law of Diminishing Returns** | Past a point, more effort yields less value | Know when optimization is "good enough." 100ms→10ms = great. 10ms→9ms = probably not worth the complexity. |
 | **Linus's Law** | Many eyes make bugs shallow | Code review everything. The more reviewers, the more bugs caught. |
@@ -60,7 +60,7 @@ This is the complete engineering philosophy shared by `golang-expert` and `php-e
 | **Data Clumps** | Same 3 fields appear together repeatedly | Extract to struct/class: `Address`, `DateRange`, `GeoPoint`. |
 | **Dead Code** | Unreachable code, commented-out blocks | DELETE. Git remembers. Dead code confuses and misleads. |
 | **Switch on Type** | `switch $type` or `if instanceof` | Replace with polymorphism (Strategy/interface implementations). |
-| **Message Chains** | `a.B().C().D()` — Law of Demeter violation | Provide direct method on `a`. Reduce coupling depth. |
+| **Message Chains** | `a.B().C().D()` - Law of Demeter violation | Provide direct method on `a`. Reduce coupling depth. |
 | **Inappropriate Intimacy** | Two classes know each other's private details | Introduce interfaces. Communicate through public contracts only. |
 | **Comments** | Comments explaining WHAT (not WHY) | Make code self-explanatory. Names, structure, types tell the story. Comments = WHY only. |
 | **Speculative Generality** | Abstract class with one subclass | Delete the abstraction. YAGNI. Add it when second use appears. |
@@ -163,5 +163,5 @@ This is the complete engineering philosophy shared by `golang-expert` and `php-e
 5. What happens when this fails at 3am?                → Murphy's Law, Fail Fast, Observability
 6. Can I ship this today and iterate?                  → Shipping is a Feature
 7. Am I measuring or guessing?                         → Premature Optimization check
-8. Am I building for 3 users or 3 million?             → "It depends" — match solution to scale
+8. Am I building for 3 users or 3 million?             → "It depends" - match solution to scale
 ```

@@ -2,9 +2,9 @@
 
 > Activate when: log, trace, metric, pprof, slog, OpenTelemetry, alert, monitor, debug, goroutine leak
 >
-> Prevents mistakes: #75-#81, #98 (100 Go Mistakes — Standard Library & Diagnostics)
+> Prevents mistakes: #75-#81, #98 (100 Go Mistakes - Standard Library & Diagnostics)
 
-**Senior DNA**: Stdlib first (`log/slog`, `net/http/pprof`, `runtime/trace`, `runtime/metrics` — enough for most services). "It depends" — a background worker needs different observability than a user-facing API. Don't instrument everything; instrument what helps you debug production incidents. Structured logging always; printf debugging never.
+**Senior DNA**: Stdlib first (`log/slog`, `net/http/pprof`, `runtime/trace`, `runtime/metrics` - enough for most services). "It depends" - a background worker needs different observability than a user-facing API. Don't instrument everything; instrument what helps you debug production incidents. Structured logging always; printf debugging never.
 
 ## Philosophy
 
@@ -13,7 +13,7 @@
 - Logs for humans. Metrics for dashboards. Traces for debugging.
 - Structured logging always. Printf debugging never (in production).
 
-## Structured Logging (slog — Go 1.21+)
+## Structured Logging (slog - Go 1.21+)
 
 ```go
 logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
@@ -170,8 +170,8 @@ go test -race ./...
 
 ## Delegates To
 
-- **performance** — when profiling reveals optimization opportunities
-- **security** — when audit logging is needed
+- **performance** - when profiling reveals optimization opportunities
+- **security** - when audit logging is needed
 
 ## Examples
 

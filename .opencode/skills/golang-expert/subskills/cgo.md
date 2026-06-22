@@ -4,13 +4,13 @@
 >
 > Prevents mistakes: Go Proverb "Cgo is not Go", memory safety boundary issues
 
-**Senior DNA**: Stdlib first — **always** check if a pure Go library exists before reaching for CGO. "It depends" — if the C library is battle-tested (SQLite, OpenSSL FIPS) and no pure Go equivalent exists, CGO is justified. But if it's a small utility, rewrite in Go. The build/deploy complexity cost of CGO is real. Cross-compilation, static linking, debugging — all get harder.
+**Senior DNA**: Stdlib first - **always** check if a pure Go library exists before reaching for CGO. "It depends" - if the C library is battle-tested (SQLite, OpenSSL FIPS) and no pure Go equivalent exists, CGO is justified. But if it's a small utility, rewrite in Go. The build/deploy complexity cost of CGO is real. Cross-compilation, static linking, debugging - all get harder.
 
 ## Philosophy
 
 **Cgo is not Go.** It breaks Go's promise of lightweight concurrency, simple builds, easy cross-compilation, and fast iteration. Use it ONLY when no pure Go alternative exists.
 
-> "A little copying is better than a little dependency." — Go Proverb
+> "A little copying is better than a little dependency." - Go Proverb
 > This applies doubly to C dependencies.
 
 ## Decision: Should You Use CGO?
@@ -31,7 +31,7 @@
 | Stack per goroutine | ~2-8KB (grows) | ~1MB (real OS thread) | 125-500x |
 | Cross-compilation | `GOOS=linux go build` | Needs C cross-compiler toolchain | Complex |
 | Static binary | Default | Needs `-extldflags "-static"` + musl | Manual |
-| Debugging | pprof, delve, trace | Partial — C portion invisible to Go tools | Degraded |
+| Debugging | pprof, delve, trace | Partial - C portion invisible to Go tools | Degraded |
 | GC interaction | Seamless | Can't scan C heap, manual free required | Manual |
 
 ## Rules When Using CGO
@@ -41,12 +41,12 @@
 Batch work on the C side. One call doing 1000 operations beats 1000 calls doing one operation.
 
 ```go
-// BAD — 1000 cgo crossings
+// BAD - 1000 cgo crossings
 for _, item := range items {
     C.process_item(toCItem(item)) // 170ns overhead × 1000
 }
 
-// GOOD — one crossing, C iterates internally
+// GOOD - one crossing, C iterates internally
 buf := marshalItems(items)
 C.process_batch((*C.char)(unsafe.Pointer(&buf[0])), C.int(len(buf)))
 ```
@@ -56,11 +56,11 @@ C.process_batch((*C.char)(unsafe.Pointer(&buf[0])), C.int(len(buf)))
 The GC can move Go objects. If C holds a pointer to Go memory, it becomes a dangling pointer after GC moves the object. Pass data by copying into C-allocated memory.
 
 ```go
-// BAD — Go pointer stored in C struct (GC can move it!)
-cs := C.CString(goString) // This is FINE — C.CString copies to C heap
+// BAD - Go pointer stored in C struct (GC can move it!)
+cs := C.CString(goString) // This is FINE - C.CString copies to C heap
 // But: C.some_struct.data = (*C.char)(unsafe.Pointer(&goSlice[0])) // DANGEROUS
 
-// GOOD — copy data to C-owned memory
+// GOOD - copy data to C-owned memory
 cs := C.CString(goString) // copies to C heap
 defer C.free(unsafe.Pointer(cs))
 C.use_string(cs)
@@ -83,7 +83,7 @@ defer C.free(unsafe.Pointer(result)) // MANDATORY if C allocated it
 A blocking cgo call consumes a real OS thread. 1000 concurrent cgo calls = 1000 threads = potential `ulimit` crash.
 
 ```go
-// GOOD — semaphore limits concurrent cgo calls
+// GOOD - semaphore limits concurrent cgo calls
 var cgoSem = make(chan struct{}, runtime.NumCPU())
 
 func callC(data []byte) {
@@ -135,7 +135,7 @@ CGO_ENABLED=1 go build ./...
 When performance matters, avoid `C.GoBytes`/`C.CString` copies:
 
 ```go
-// Zero-copy read from C memory (UNSAFE — must ensure C memory outlives slice)
+// Zero-copy read from C memory (UNSAFE - must ensure C memory outlives slice)
 func unsafeGoBytes(ptr *C.char, length C.int) []byte {
     if length == 0 {
         return nil
@@ -187,10 +187,10 @@ CGO_ENABLED=1 CC=musl-gcc go build -ldflags '-linkmode external -extldflags "-st
 
 ## Delegates To
 
-- **performance** — when cgo call overhead needs optimization
-- **security** — when C memory safety is a concern
-- **architecture** — when deciding cgo vs pure Go vs IPC
-- **swig** — when the C++ library uses classes/templates/inheritance (see `subskills/swig.md` or load standalone `swig-expert` skill for full multi-language reference)
+- **performance** - when cgo call overhead needs optimization
+- **security** - when C memory safety is a concern
+- **architecture** - when deciding cgo vs pure Go vs IPC
+- **swig** - when the C++ library uses classes/templates/inheritance (see `subskills/swig.md` or load standalone `swig-expert` skill for full multi-language reference)
 
 ## References
 
@@ -198,8 +198,8 @@ CGO_ENABLED=1 CC=musl-gcc go build -ldflags '-linkmode external -extldflags "-st
 - [Dave Cheney: cgo is not Go](https://dave.cheney.net/2016/01/18/cgo-is-not-go)
 - [Go Blog: C? Go? Cgo!](https://go.dev/blog/cgo)
 - [Go Wiki: cgo](https://go.dev/wiki/cgo)
-- [purego](https://github.com/ebitengine/purego) — call C without cgo
-- [SWIG and Go](https://www.swig.org/Doc4.0/Go.html) — C++ wrapping for Go
+- [purego](https://github.com/ebitengine/purego) - call C without cgo
+- [SWIG and Go](https://www.swig.org/Doc4.0/Go.html) - C++ wrapping for Go
 
 ---
 
@@ -222,8 +222,8 @@ SWIG (Simplified Wrapper and Interface Generator) solves a problem CGO alone can
 ```
 your.swigcxx (interface file)
        ↓ swig -go
-MODULE.go           — Go package (interfaces, types)
-MODULE_wrap.cxx     — C++ bridge code
+MODULE.go           - Go package (interfaces, types)
+MODULE_wrap.cxx     - C++ bridge code
        ↓ go build (auto-detects .swigcxx)
 Final binary
 ```
@@ -244,7 +244,7 @@ Final binary
 %include "mylib.h"
 ```
 
-Place `example.swigcxx` + `mylib.h` + `mylib.cxx` in your Go package directory. Run `go build` — it handles everything.
+Place `example.swigcxx` + `mylib.h` + `mylib.cxx` in your Go package directory. Run `go build` - it handles everything.
 
 ### C++ Classes in Go (SWIG auto-generates)
 
@@ -279,7 +279,7 @@ func DeleteVector(v Vector) { ... }
 **C++ objects are NOT garbage collected.** You MUST free them manually.
 
 ```go
-// CORRECT — always free C++ objects
+// CORRECT - always free C++ objects
 func useVector() {
     v := example.NewVector(3.0, 4.0)
     defer example.DeleteVector(v)  // MANDATORY
@@ -308,7 +308,7 @@ func NewGoVector(x, y float64) *GoVector {
 
 ### Directors: Go Subclassing C++ Classes
 
-Directors let Go types implement C++ virtual methods — Go "inherits" from C++.
+Directors let Go types implement C++ virtual methods - Go "inherits" from C++.
 
 ```c
 // Enable in .swigcxx

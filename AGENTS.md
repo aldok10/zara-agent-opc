@@ -1,11 +1,11 @@
-# Zara Agent — Project Instructions
+# Zara Agent - Project Instructions
 
 Source of truth: `opencode.json`. Discover structure via filesystem.
 
 ## Commands
 
 ```bash
-# No build step — this is a config/prompt project
+# No build step - this is a config/prompt project
 # MCP server: node tools/mcp/index.mjs
 # Validate JSON: cat opencode.json | jq .
 ```
@@ -22,28 +22,28 @@ Source of truth: `opencode.json`. Discover structure via filesystem.
 
 | Command | Function | Agent Dispatch |
 |---------|----------|---------------|
-| `/audit` | System health — self-audit, memory, config cross-ref | — |
-| `/auto` | Autonomous work mode — pre-flight, loop, anti-doom-loop | auto (via task) |
-| `/code` | Structured coding workflow — explore → plan → code → verify → ship | Zara orchestrates, dispatches @forge mid-workflow |
-| `/decide` | Architecture decision — grounded in knowledge + tradeoffs | → @atlas |
-| `/focus` | Focus mode — session tracking, skills, check-in loops | `/focus loop` → @rhythm |
-| `/goal` | Goal management — persist, reflect, memory recovery | — |
-| `/handoff` | Session capture — git state, memory, files, threads | — |
-| `/install` | Global install to ~/.config/opencode | — |
-| `/loop` | Multi-mode cycles — timer, patterns, verify, design, study | `/loop design` → @rhythm |
-| `/music` | Music player — play, stop, radio, taste | — |
-| `/resume` | Full context restoration — memory, git, metrics | — |
-| `/review` | Code review — staged/last commit, auto @shield for security | → @lens |
-| `/shutdown` | Wind-down — auto-handoff, music, bedtime | — |
-| `/standup` | Activity snapshot — git + metrics + patterns | `/standup deep` → @pulse |
-| `/swarm` | Parallel decomposition — independent workstreams | → @hive |
-| `/think` | Structured planning — brainstorming + writing-plans | — |
-| `/zara` | General engineering — orchestration, swarm, session mgmt | `/zara swarm` → @hive |
+| `/audit` | System health - self-audit, memory, config cross-ref | - |
+| `/auto` | Autonomous work mode - pre-flight, loop, anti-doom-loop | auto (via task) |
+| `/code` | Structured coding workflow - explore → plan → code → verify → ship | Zara orchestrates, dispatches @forge mid-workflow |
+| `/decide` | Architecture decision - grounded in knowledge + tradeoffs | → @atlas |
+| `/focus` | Focus mode - session tracking, skills, check-in loops | `/focus loop` → @rhythm |
+| `/goal` | Goal management - persist, reflect, memory recovery | - |
+| `/handoff` | Session capture - git state, memory, files, threads | - |
+| `/install` | Global install to ~/.config/opencode | - |
+| `/loop` | Multi-mode cycles - timer, patterns, verify, design, study | `/loop design` → @rhythm |
+| `/music` | Music player - play, stop, radio, taste | - |
+| `/resume` | Full context restoration - memory, git, metrics | - |
+| `/review` | Code review - staged/last commit, auto @shield for security | → @lens |
+| `/shutdown` | Wind-down - auto-handoff, music, bedtime | - |
+| `/standup` | Activity snapshot - git + metrics + patterns | `/standup deep` → @pulse |
+| `/swarm` | Parallel decomposition - independent workstreams | → @hive |
+| `/think` | Structured planning - brainstorming + writing-plans | - |
+| `/zara` | General engineering - orchestration, swarm, session mgmt | `/zara swarm` → @hive |
 
 ## Skill Gate (Non-Negotiable)
 
 Before ANY task, check for relevant skills. If one applies, LOAD IT. No exceptions.
-Load `skill-gate` if unsure which skill matches — it has the full routing table.
+Load `skill-gate` if unsure which skill matches - it has the full routing table.
 
 ## Agent Dispatch Map
 

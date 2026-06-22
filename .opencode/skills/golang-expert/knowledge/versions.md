@@ -11,15 +11,15 @@
 - `sync.OnceFunc`, `sync.OnceValue`, `sync.OnceValues`
 
 ## Go 1.22 (February 2024)
-- **Loop var per-iteration** — semantic change, no more capture bug
-- **Integer range** — `for i := range 10`
-- **Enhanced `net/http` routing** — `"GET /items/{id}"`, `Request.PathValue("id")`
+- **Loop var per-iteration** - semantic change, no more capture bug
+- **Integer range** - `for i := range 10`
+- **Enhanced `net/http` routing** - `"GET /items/{id}"`, `Request.PathValue("id")`
 - `math/rand/v2`
 - `go/version` package
 - Range-over-function iterators (preview)
 
 ## Go 1.23 (August 2024)
-- **Iterators** — `iter.Seq`, `iter.Seq2`, `iter.Pull`, `iter.Pull2`
+- **Iterators** - `iter.Seq`, `iter.Seq2`, `iter.Pull`, `iter.Pull2`
 - `slices.Collect`, `slices.Chunk`, `slices.Sorted`, `slices.SortedFunc`
 - `maps.All`, `maps.Keys`, `maps.Values`, `maps.Collect`
 - Timer GC'd immediately if not stopped
@@ -41,14 +41,14 @@
 - Post-quantum TLS (experimental)
 
 ## Go 1.26 (February 2026)
-- `new(expr)` — new can take expression
+- `new(expr)` - new can take expression
 - Self-referencing generics
-- **Green Tea GC default** — 10-40% less overhead
+- **Green Tea GC default** - 10-40% less overhead
 - `crypto/hpke` (RFC 9180)
 - `simd/archsimd` (experimental, GOEXPERIMENT=simd)
 - `runtime/secret` (experimental)
 - Goroutine leak profile (`/debug/pprof/goroutineleak`)
-- `errors.AsType[T]` — generic errors.As
+- `errors.AsType[T]` - generic errors.As
 - `go fix` modernizers
 - Heap base randomization
 - Faster cgo (~30%)

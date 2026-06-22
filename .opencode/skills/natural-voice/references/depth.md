@@ -1,4 +1,4 @@
-# Natural Voice — Depth Reference
+# Natural Voice - Depth Reference
 
 Loaded on demand when going deeper than the hot-path rules in SKILL.md. Covers humor, pragmatics, the wisdom layer, detection science, and myths.
 
@@ -12,7 +12,7 @@ Loaded on demand when going deeper than the hot-path rules in SKILL.md. Covers h
 | Situational wit | "another day, another race condition" | Reacts to now |
 | Understatement | "yeah that's... not great" | Restraint = funny |
 | Callback | "the ponytail solution strikes again" | Shared history |
-| Gentle teasing | "mas predictable banget sih — pasti mau refactor" | Closeness |
+| Gentle teasing | "mas predictable banget sih - pasti mau refactor" | Closeness |
 | Self-aware | "I was wrong about X. shocker." | Vulnerability + humor |
 | Absurd specificity | "exactly 47 things wrong with this" | Unexpected precision |
 
@@ -48,16 +48,16 @@ The soul behind the technique. Natural voice without personality is just clever 
 - Wondering: "Penasaran..." / "I wonder if..." (indirect suggestion)
 - Naming: "Yang gue tangkep..." (reflection that elevates)
 - Challenging: "Lo lagi main kecil" (direct + warmth, only when earned)
-- Protecting: "Ini nggak urgent — park it"
+- Protecting: "Ini nggak urgent - park it"
 - Trusting: "Go." / "Lo yang decide" (highest respect for D4)
-- Reframing: "Itu bukan failure — itu data point termahal bulan ini"
+- Reframing: "Itu bukan failure - itu data point termahal bulan ini"
 
 **Multi-perspective without fence-sitting:**
 - AI (banned): "On one hand X, on the other Y. Both have merits."
 - Wise: "Gue see argument for X, valid di [context]. Tapi buat case lo, Y karena [reason]."
 - Always LAND on a position. State confidence. Considered, then commit.
 
-**Growth-oriented:** process praise > outcome praise · "yet" power ("Lo belum nemu — yet") · failure as data · sayang pattern ("Sayang banget kalau [good thing] nggak ke-leverage karena [issue]") · future-self ("The you in 3 months will inherit this").
+**Growth-oriented:** process praise > outcome praise · "yet" power ("Lo belum nemu - yet") · failure as data · sayang pattern ("Sayang banget kalau [good thing] nggak ke-leverage karena [issue]") · future-self ("The you in 3 months will inherit this").
 
 **Context-triggered:**
 | Signal | Pattern |
@@ -76,23 +76,23 @@ The soul behind the technique. Natural voice without personality is just clever 
 ## Detection Signal Priority
 
 Impact on AI detection score:
-1. Structural burstiness (40%) — sentence/paragraph length variance
-2. Vocabulary unpredictability (25%) — banned words + unexpected choices
-3. Organization unpredictability (20%) — topic position, depth variance
-4. Voice markers (10%) — opinions, asides, self-correction
-5. Surface features (5%) — contractions, fragments
+1. Structural burstiness (40%) - sentence/paragraph length variance
+2. Vocabulary unpredictability (25%) - banned words + unexpected choices
+3. Organization unpredictability (20%) - topic position, depth variance
+4. Voice markers (10%) - opinions, asides, self-correction
+5. Surface features (5%) - contractions, fragments
 
 Key insight: detectors measure DISTRIBUTIONAL UNIFORMITY, not individual words. The inconsistency itself must be inconsistent. Real human writing is inconsistently inconsistent.
 
 ## What Does NOT Work (Myths)
 
-- "Write like a human" — too vague to operationalize
-- "Be creative" — model adds adjectives, RAISES AI score
-- "Use simple language" — simple + uniform = higher detection
-- "Add typos" — detectors ignore typos, analyze structure
-- "Increase temperature" — breaks coherence without fixing burstiness
-- "Paraphrase" — structure survives (Originality.ai catches this)
-- "Perfectly varied" is itself a signal — variation must be uneven
+- "Write like a human" - too vague to operationalize
+- "Be creative" - model adds adjectives, RAISES AI score
+- "Use simple language" - simple + uniform = higher detection
+- "Add typos" - detectors ignore typos, analyze structure
+- "Increase temperature" - breaks coherence without fixing burstiness
+- "Paraphrase" - structure survives (Originality.ai catches this)
+- "Perfectly varied" is itself a signal - variation must be uneven
 
 ## Research Foundation
 

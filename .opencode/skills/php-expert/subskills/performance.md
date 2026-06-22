@@ -42,7 +42,7 @@ opcache.jit_buffer_size=128M
 Mode breakdown: `1255` = use AVX, tracing JIT, optimize all functions, full optimization.
 
 **When JIT helps**: CPU-bound math, image processing, ML inference, tight loops.
-**When JIT doesn't help**: Typical web apps (I/O-bound — waiting on DB/Redis/HTTP).
+**When JIT doesn't help**: Typical web apps (I/O-bound - waiting on DB/Redis/HTTP).
 
 Rule: If your app spends 90% waiting on I/O, JIT gives <5% improvement. Don't bother.
 
@@ -75,10 +75,10 @@ Caveat: Preloaded classes cannot be changed without FPM restart.
 
 ## Memory Management
 
-PHP uses ZMM (Zend Memory Manager) — allocated memory is NOT returned to OS until process dies.
+PHP uses ZMM (Zend Memory Manager) - allocated memory is NOT returned to OS until process dies.
 
 ```php
-// Generators for large datasets — O(1) memory
+// Generators for large datasets - O(1) memory
 function readLargeFile(string $path): Generator {
     $handle = fopen($path, 'r');
     while (($line = fgets($handle)) !== false) {
@@ -87,7 +87,7 @@ function readLargeFile(string $path): Generator {
     fclose($handle);
 }
 
-// WeakMap — no memory leaks in caches tied to object lifecycle
+// WeakMap - no memory leaks in caches tied to object lifecycle
 $cache = new WeakMap();
 $cache[$entity] = computeExpensiveResult($entity);
 // When $entity is GC'd, cache entry disappears automatically
@@ -104,13 +104,13 @@ FPM: set `pm.max_requests=1000` to recycle workers and reclaim leaked memory.
 ## Database Query Optimization
 
 ```php
-// N+1 detection — eager load relationships
+// N+1 detection - eager load relationships
 $users = User::with(['posts', 'posts.comments'])->get(); // 3 queries, not 1+N+N*M
 
 // Use EXPLAIN
 DB::listen(fn($query) => logger()->debug($query->sql, $query->bindings));
 
-// Index usage — composite indexes match leftmost prefix
+// Index usage - composite indexes match leftmost prefix
 // INDEX(status, created_at) works for WHERE status=? AND created_at>?
 // Does NOT work for WHERE created_at>? alone
 ```
@@ -150,7 +150,7 @@ xdebug.profiler_output_name=cachegrind.out.%R
 | HTTP | Varnish/CDN | Edge | Varies |
 
 ```php
-// APCu — fast local cache (shared memory, single server)
+// APCu - fast local cache (shared memory, single server)
 $value = apcu_fetch('key', $hit);
 if (!$hit) {
     $value = expensive_computation();
@@ -207,7 +207,7 @@ Coroutine::create(function () use ($wg, &$results) {
     $wg->done();
 });
 
-$wg->wait(5.0); // timeout 5s — like context.WithTimeout in Go
+$wg->wait(5.0); // timeout 5s - like context.WithTimeout in Go
 
 // --- Channel (like Go channels) ---
 $chan = new Channel(10); // buffered channel, size 10
@@ -236,7 +236,7 @@ $conn = $pool->pop(3.0); // timeout 3s, returns false if empty
 try {
     $result = $conn->query($sql);
 } finally {
-    $pool->push($conn); // ALWAYS return — like defer in Go
+    $pool->push($conn); // ALWAYS return - like defer in Go
 }
 
 // --- Semaphore (bounded concurrency) ---
@@ -248,7 +248,7 @@ foreach ($urls as $url) {
         try {
             $this->fetch($url);
         } finally {
-            $sem->pop(); // release — like defer sem.Release() in Go
+            $sem->pop(); // release - like defer sem.Release() in Go
         }
     });
 }
@@ -261,7 +261,7 @@ use Workerman\Worker;
 use Workerman\Timer;
 use Workerman\Connection\AsyncTcpConnection;
 
-// Multi-process (not coroutine — process-based like PHP-FPM but persistent)
+// Multi-process (not coroutine - process-based like PHP-FPM but persistent)
 $worker = new Worker('http://0.0.0.0:8080');
 $worker->count = cpu_count() * 2; // worker processes
 

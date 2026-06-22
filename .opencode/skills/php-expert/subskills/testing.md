@@ -15,7 +15,7 @@
 
 ## Concurrency Testing (Swoole/Coroutine Projects)
 
-When your project uses Swoole, OpenSwoole, Hyperf, or any coroutine-based server, you MUST test for concurrency issues. PHP coroutines share memory within a worker process — race conditions are real.
+When your project uses Swoole, OpenSwoole, Hyperf, or any coroutine-based server, you MUST test for concurrency issues. PHP coroutines share memory within a worker process - race conditions are real.
 
 ### Test for Data Races (shared state)
 
@@ -131,7 +131,7 @@ test('static state does not leak between requests', function () {
 - [ ] Test Channel operations with timeout (detect deadlocks)
 - [ ] Test connection pool exhaustion and recovery under load
 - [ ] Test that request-scoped data doesn't leak between coroutines
-- [ ] Test graceful shutdown — drain active coroutines, verify no orphans
+- [ ] Test graceful shutdown - drain active coroutines, verify no orphans
 - [ ] Run tests with `SWOOLE_HOOK_ALL` enabled (matches production behavior)
 - [ ] Use `Co\run()` wrapper in test to enable coroutine context
 
@@ -269,13 +269,13 @@ Mail::assertSent(OrderConfirmation::class);
 ## Static Analysis
 
 ```bash
-# PHPStan — levels 0 (loose) to 9 (strictest)
+# PHPStan - levels 0 (loose) to 9 (strictest)
 vendor/bin/phpstan analyse src --level=9
 
-# Psalm — taint analysis (security)
+# Psalm - taint analysis (security)
 vendor/bin/psalm --taint-analysis
 
-# Rector — automated refactoring
+# Rector - automated refactoring
 vendor/bin/rector process src
 ```
 

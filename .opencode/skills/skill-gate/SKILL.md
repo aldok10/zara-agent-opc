@@ -1,6 +1,6 @@
 ---
 name: skill-gate
-description: Auto-activation enforcement — ensures relevant skills are invoked BEFORE any response. Load this at session start or after compaction.
+description: Auto-activation enforcement - ensures relevant skills are invoked BEFORE any response. Load this at session start or after compaction.
 trigger: session start, context compaction, new task
 ---
 
@@ -18,9 +18,9 @@ IF A SKILL APPLIES TO YOUR TASK, YOU MUST USE IT. This is not optional.
 
 ## Instruction Priority
 
-1. **User's explicit instructions** (AGENTS.md, CLAUDE.md, direct requests) — highest
-2. **Skills** — override default behavior where they conflict
-3. **Default system prompt** — lowest
+1. **User's explicit instructions** (AGENTS.md, CLAUDE.md, direct requests) - highest
+2. **Skills** - override default behavior where they conflict
+3. **Default system prompt** - lowest
 
 User always wins. If user says "skip brainstorming", skip it.
 
@@ -70,7 +70,7 @@ User always wins. If user says "skip brainstorming", skip it.
 | MCP security, secrets in tool calls | `zara-privacy-mcp` |
 | Library/framework docs needed | `find-docs` |
 
-## Red Flags — You're Rationalizing
+## Red Flags - You're Rationalizing
 
 | Thought | Reality |
 |---------|---------|

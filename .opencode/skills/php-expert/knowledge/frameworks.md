@@ -12,7 +12,7 @@
 | Minimal API/microservice | Slim | PSR-7/15, ~50KB, bring your own |
 | Static files + PHP | FrankenPHP | Single binary, auto-TLS, Mercure |
 
-## Code Quality Tools — CI Pipeline Order
+## Code Quality Tools - CI Pipeline Order
 
 ```bash
 vendor/bin/pint --test              # 1. Style (fast, catches formatting)

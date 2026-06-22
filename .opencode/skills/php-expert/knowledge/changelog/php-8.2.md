@@ -2,8 +2,8 @@
 
 ## Major Features
 
-- **Readonly Classes**: `readonly class DTO {}` — all properties implicitly readonly
-- **DNF Types**: `(A&B)|null` — Disjunctive Normal Form type declarations
+- **Readonly Classes**: `readonly class DTO {}` - all properties implicitly readonly
+- **DNF Types**: `(A&B)|null` - Disjunctive Normal Form type declarations
 - **Standalone `true`/`false`/`null` types**: `function alwaysFalse(): false`
 - **Constants in Traits**: traits can define constants
 - **`#[\SensitiveParameter]`**: redact values in stack traces

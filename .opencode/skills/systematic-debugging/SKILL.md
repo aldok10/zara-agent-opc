@@ -1,6 +1,6 @@
 ---
 name: systematic-debugging
-description: Use when encountering any bug, test failure, or unexpected behavior — before proposing fixes
+description: Use when encountering any bug, test failure, or unexpected behavior - before proposing fixes
 triggers:
   - bug
   - test failure
@@ -21,45 +21,45 @@ Do not propose, attempt, or implement any fix until you have traced the problem 
 
 ---
 
-## Phase 1 — Root Cause Investigation
+## Phase 1 - Root Cause Investigation
 
-1. **Read error messages carefully** — every word, every line number, every stack frame. Do not skip.
-2. **Reproduce consistently** — if you can't trigger it reliably, you don't understand it yet.
-3. **Check recent changes** — `git diff`, `git log --oneline -10`. What changed?
-4. **Gather evidence at component boundaries** — log inputs/outputs at each layer.
-5. **Trace data flow backward** — start from the symptom, walk back through each transformation.
+1. **Read error messages carefully** - every word, every line number, every stack frame. Do not skip.
+2. **Reproduce consistently** - if you can't trigger it reliably, you don't understand it yet.
+3. **Check recent changes** - `git diff`, `git log --oneline -10`. What changed?
+4. **Gather evidence at component boundaries** - log inputs/outputs at each layer.
+5. **Trace data flow backward** - start from the symptom, walk back through each transformation.
 
 Success criteria: You can explain WHERE the bad state originates and WHY.
 
 ---
 
-## Phase 2 — Pattern Analysis
+## Phase 2 - Pattern Analysis
 
-1. **Find working examples** in the same codebase — similar features that work correctly.
-2. **Compare against references** — read completely, don't skim. Character-by-character if needed.
-3. **Identify differences** — what's different between working and broken?
-4. **Understand dependencies** — what does this code assume about its environment?
+1. **Find working examples** in the same codebase - similar features that work correctly.
+2. **Compare against references** - read completely, don't skim. Character-by-character if needed.
+3. **Identify differences** - what's different between working and broken?
+4. **Understand dependencies** - what does this code assume about its environment?
 
 Success criteria: You can articulate the difference between working and broken behavior.
 
 ---
 
-## Phase 3 — Hypothesis & Testing
+## Phase 3 - Hypothesis & Testing
 
-1. **Form a single hypothesis**: "I think X happens because Y" — grounded in evidence from Phase 1-2.
-2. **Test with the SMALLEST possible change** — one variable at a time.
-3. **Observe result** — did it confirm or refute the hypothesis?
+1. **Form a single hypothesis**: "I think X happens because Y" - grounded in evidence from Phase 1-2.
+2. **Test with the SMALLEST possible change** - one variable at a time.
+3. **Observe result** - did it confirm or refute the hypothesis?
 4. **Didn't work?** Discard that hypothesis entirely. Form a NEW one. Do not stack fixes.
 
 Success criteria: A single hypothesis explains all observed symptoms.
 
 ---
 
-## Phase 4 — Implementation
+## Phase 4 - Implementation
 
-1. **Create a failing test case first** — proves the bug exists and will catch regressions.
-2. **Implement a single fix** addressing the root cause — not the symptom.
-3. **Verify the fix** — run the test, run related tests, check for side effects.
+1. **Create a failing test case first** - proves the bug exists and will catch regressions.
+2. **Implement a single fix** addressing the root cause - not the symptom.
+3. **Verify the fix** - run the test, run related tests, check for side effects.
 4. **If 3+ fixes have failed** → STOP. Question the architecture. Discuss with the user before attempting more.
 
 Success criteria: Test passes, no regressions, fix addresses root cause not symptom.
@@ -78,7 +78,7 @@ Success criteria: Test passes, no regressions, fix addresses root cause not symp
 
 ---
 
-## Red Flags — STOP Immediately
+## Red Flags - STOP Immediately
 
 | If you catch yourself thinking... | Then... |
 |---|---|
@@ -117,15 +117,15 @@ Success criteria: Test passes, no regressions, fix addresses root cause not symp
 ## Workflow Integration
 
 - Before ANY fix attempt, confirm: "I have completed Phase 1-3."
-- After each failed attempt, return to Phase 1 — do not iterate on a broken hypothesis.
+- After each failed attempt, return to Phase 1 - do not iterate on a broken hypothesis.
 - After 3 failed attempts, escalate to the user with your findings so far.
 - Document root cause in commit message or code comment for future reference.
 
 ## Related Knowledge (load on demand)
 
-- `knowledge_passage(query: "debugging antipattern root cause")` — when bug stems from structural issue
-- `knowledge_index(section: "code-smells")` — when investigating code quality root causes
-- `knowledge_index(section: "practices")` — for debugging/refactoring practices
+- `knowledge_passage(query: "debugging antipattern root cause")` - when bug stems from structural issue
+- `knowledge_index(section: "code-smells")` - when investigating code quality root causes
+- `knowledge_index(section: "practices")` - for debugging/refactoring practices
 
 ## Related Skills
 

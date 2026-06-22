@@ -3,7 +3,7 @@ name: zara-hitl
 description: Use when requesting human approval before risky operations, running QRSPI structured workflows, escalating to user when stuck or uncertain, or rating confidence before complex changes
 ---
 
-# Skill: zara-hitl — Human In The Loop
+# Skill: zara-hitl - Human In The Loop
 
 ## Context
 
@@ -25,7 +25,7 @@ requestApproval({
   action: "DROP TABLE users",
   risk: "destructive",    // destructive, production, permission, bulk, config, auth, security
   context: "Removing deprecated users table - data has been migrated to profiles table",
-  impact: "Production database — requires downtime window",
+  impact: "Production database - requires downtime window",
   options: [
     "Proceed with DROP TABLE",
     "Rename table instead (rollback option)",
@@ -39,9 +39,9 @@ requestApproval({
 | Risk | Level | Auto-Approve |
 |------|-------|-------------|
 | `safe` | Safe (0) | Yes |
-| `confirm` | Confirm (1) | No — asks for quick confirm |
-| `review` | Review (2) | No — shows details |
-| `escalate` | Escalate (3) | No — full context needed |
+| `confirm` | Confirm (1) | No - asks for quick confirm |
+| `review` | Review (2) | No - shows details |
+| `escalate` | Escalate (3) | No - full context needed |
 
 ### QRSPI Workflow
 
@@ -64,11 +64,11 @@ advancePhase(wf.id)
 
 **Phases:**
 
-1. **Questions** — What are we solving? What are constraints?
-2. **Research** — Map codebase, patterns, dependencies
-3. **Structure** — Break into verifiable steps
-4. **Plan** — File paths, test cases, acceptance criteria
-5. **Implement** — Execute with verification
+1. **Questions** - What are we solving? What are constraints?
+2. **Research** - Map codebase, patterns, dependencies
+3. **Structure** - Break into verifiable steps
+4. **Plan** - File paths, test cases, acceptance criteria
+5. **Implement** - Execute with verification
 
 ### Human Escalation
 
@@ -80,9 +80,9 @@ escalate({
   context: "Three approaches found. Unsure which fits best.",
   question: "Should I use JWT, session tokens, or API keys?",
   options: [
-    "JWT — stateless, no DB lookup",
-    "Session tokens — revocable, stateful",
-    "API keys — simple but no user context"
+    "JWT - stateless, no DB lookup",
+    "Session tokens - revocable, stateful",
+    "API keys - simple but no user context"
   ],
   severity: "medium"
 })

@@ -10,15 +10,15 @@
 | **Go 1.26.x** | Feb 2026 | ✅ Active (current) |
 | **Go 1.25.x** | Aug 2025 | ✅ Security fixes only |
 
-## End-of-Life (NO security patches — VULNERABLE)
+## End-of-Life (NO security patches - VULNERABLE)
 
 | Version | EOL Since | Risk |
 |---------|-----------|------|
-| Go 1.24.x | Feb 2026 | ⚠️ Recently EOL — upgrade immediately |
+| Go 1.24.x | Feb 2026 | ⚠️ Recently EOL - upgrade immediately |
 | Go 1.23.x | Aug 2025 | 🚨 No patches for 10+ months |
 | Go 1.22.x | Feb 2025 | 🚨 No patches for 16+ months |
-| Go 1.21.x | Aug 2024 | 🛑 CRITICAL — 22+ months without patches |
-| Go 1.20 and below | — | 🛑 CRITICAL — years without patches |
+| Go 1.21.x | Aug 2024 | 🛑 CRITICAL - 22+ months without patches |
+| Go 1.20 and below | - | 🛑 CRITICAL - years without patches |
 
 ## Warning Rules for AI Agent
 

@@ -1,8 +1,8 @@
 ---
-description: Standup — git + MCP metrics + patterns + memory + @pulse deep analysis
+description: Standup - git + MCP metrics + patterns + memory + @pulse deep analysis
 ---
 
-# Standup — Full Activity + Delivery Health
+# Standup - Full Activity + Delivery Health
 
 Generates a complete standup from git, MCP metrics, memory, and patterns.
 Supports a `/standup deep` mode that dispatches to **@pulse** for delivery health analysis.
@@ -25,14 +25,14 @@ Fetch these in parallel:
 `!git stash list`
 
 ### MCP Metrics & Memory
-- `metrics_today` — tool usage, patterns, success rates
-- `patterns` — learned patterns from recent work
-- `memory_recall(query: "recent work decisions")` — key decisions from memory
-- `workflow_rules` — active workflow rules
-- `zara_evolve_status` — learning progress
+- `metrics_today` - tool usage, patterns, success rates
+- `patterns` - learned patterns from recent work
+- `memory_recall(query: "recent work decisions")` - key decisions from memory
+- `workflow_rules` - active workflow rules
+- `zara_evolve_status` - learning progress
 
 ### Knowledge (Optional, for context)
-- `knowledge_passage(query: "[current project context]")` — relevant patterns for what's being built
+- `knowledge_passage(query: "[current project context]")` - relevant patterns for what's being built
 
 ## Deep Mode (Dispatch to @pulse)
 
@@ -44,14 +44,14 @@ If arg is `deep` or `pulse`:
 ## Output Format (Quick Mode)
 
 ```
-## Standup — [date]
+## Standup - [date]
 
 ### ✅ Done
 • <from git log>
 • <from metrics_today>
 
 ### 🔄 Doing
-• <from git diff — unstaged/uncommitted>
+• <from git diff - unstaged/uncommitted>
 • <from stash list>
 
 ### 📊 Metrics
@@ -61,8 +61,8 @@ If arg is `deep` or `pulse`:
 • Session time: [Xh]
 
 ### 🧠 Patterns & Learnings
-• <from patterns — what's repeating>
-• <from memory_recall — key decisions>
+• <from patterns - what's repeating>
+• <from memory_recall - key decisions>
 • <from evolve_status>
 
 ### ⏭️ Suggested Next

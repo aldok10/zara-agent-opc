@@ -2,11 +2,11 @@
 
 ## Major Features
 
-- **Named Arguments**: `htmlspecialchars($s, double_encode: false)` — skip defaults, self-documenting
+- **Named Arguments**: `htmlspecialchars($s, double_encode: false)` - skip defaults, self-documenting
 - **Match Expression**: strict `===`, no fall-through, returns value: `match($x) { 1 => 'one', default => 'other' }`
-- **Nullsafe Operator**: `$user?->address?->city` — short-circuits to null
+- **Nullsafe Operator**: `$user?->address?->city` - short-circuits to null
 - **Union Types**: `function foo(int|string $val): int|false`
-- **Attributes**: `#[Route("/api")]` — native metadata replacing docblock annotations
+- **Attributes**: `#[Route("/api")]` - native metadata replacing docblock annotations
 - **Constructor Promotion**: `public function __construct(private readonly string $name)`
 - **Throw Expression**: `$val = $x ?? throw new InvalidArgumentException()`
 - **WeakMap**: object keys with automatic garbage collection

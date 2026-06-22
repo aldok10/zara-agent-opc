@@ -1,5 +1,5 @@
 ---
-description: Swarm coordination — decompose complex tasks into parallel workstreams via @hive
+description: Swarm coordination - decompose complex tasks into parallel workstreams via @hive
 agent: swarm
 subtask: true
 ---
@@ -10,7 +10,7 @@ I need to decompose a complex task into parallel workstreams and coordinate exec
 
 ## Analysis
 
-1. Understand the task — what's the goal, what are the constraints
+1. Understand the task - what's the goal, what are the constraints
 2. Identify independent workstreams (must be non-overlapping in files and concerns)
 3. Assign file boundaries per stream
 4. Design the synthesis plan (how results merge back)

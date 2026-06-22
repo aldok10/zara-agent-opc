@@ -67,8 +67,8 @@ ctx_execute_file(path: "src/data.json", language: "javascript", code: `
 
 ## Verification
 
-- `ctx stats` — check context savings
-- `ctx doctor` — verify tools are registered
+- `ctx stats` - check context savings
+- `ctx doctor` - verify tools are registered
 
 ## Known Pitfalls
 

@@ -1,6 +1,6 @@
 ---
 name: verification-before-completion
-description: Use when about to claim work is complete or fixed — requires running verification commands before making success claims
+description: Use when about to claim work is complete or fixed - requires running verification commands before making success claims
 triggers:
   - about to say "done", "fixed", "working", "complete"
   - before committing changes
@@ -19,11 +19,11 @@ Never say "done" based on what you think will happen. Say "done" based on what y
 
 Every completion claim must pass through this gate:
 
-1. **IDENTIFY** — What command proves the claim?
-2. **RUN** — Execute the full command fresh (not cached, not from memory)
-3. **READ** — Full output + exit code
-4. **VERIFY** — Output confirms claim (not "looks right" — actually confirms)
-5. **CLAIM** — Only now state the result
+1. **IDENTIFY** - What command proves the claim?
+2. **RUN** - Execute the full command fresh (not cached, not from memory)
+3. **READ** - Full output + exit code
+4. **VERIFY** - Output confirms claim (not "looks right" - actually confirms)
+5. **CLAIM** - Only now state the result
 
 If any step fails, you are not done. Go back to implementation.
 
@@ -38,7 +38,7 @@ If any step fails, you are not done. Go back to implementation.
 | "Type errors resolved" | Typecheck exit 0 | "removed the offending line" |
 | "Lint clean" | Lint command exit 0, no warnings | "fixed the flagged issue" |
 
-## Red Flags — Stop and Verify
+## Red Flags - Stop and Verify
 
 You are about to violate the iron law if you catch yourself:
 
@@ -82,7 +82,7 @@ re-read the plan → make checklist → verify each item has evidence → THEN c
 
 ## Integration
 
-This skill activates automatically at the boundary between implementation and communication. The moment you're about to tell the user something works — pause — and run the gate function.
+This skill activates automatically at the boundary between implementation and communication. The moment you're about to tell the user something works - pause - and run the gate function.
 
 ## Bottom Line
 
@@ -113,8 +113,8 @@ Don't apply this to trivial tasks. Only when complexity warrants it.
 
 ## Related Knowledge (load on demand)
 
-- `knowledge_index(section: "testing")` — when verifying test strategies
-- `knowledge_passage(query: "observability monitoring logging")` — when verifying monitoring/logging
+- `knowledge_index(section: "testing")` - when verifying test strategies
+- `knowledge_passage(query: "observability monitoring logging")` - when verifying monitoring/logging
 
 ## Related Skills
 

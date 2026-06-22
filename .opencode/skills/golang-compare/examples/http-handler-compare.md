@@ -1,4 +1,4 @@
-# Example: HTTP Handler — With vs Without golang-expert
+# Example: HTTP Handler - With vs Without golang-expert
 
 ## Without Skill (typical naive AI output)
 
@@ -49,7 +49,7 @@ func handleGetUser(w http.ResponseWriter, r *http.Request) {
     if err != nil {
         fmt.Println(err) // log AND...
         http.Error(w, err.Error(), 500)
-        return // ...return — handling twice
+        return // ...return - handling twice
     }
 
     json.NewEncoder(w).Encode(user) // no content-type header
@@ -180,12 +180,12 @@ func run() error {
 
 ### Improvements applied:
 - [x] Returns concrete type, not interface (Uber #7, Mistake #7)
-- [x] No mutable globals — DI via struct (Uber #12)
+- [x] No mutable globals - DI via struct (Uber #12)
 - [x] json field tags on all fields (Uber #16)
 - [x] return after every http.Error (Mistake #80)
 - [x] HTTP server with timeouts (Mistake #81)
 - [x] Error wrapped with context using %w (Uber #18)
-- [x] Error handled once — no log+return (Mistake #52)
+- [x] Error handled once - no log+return (Mistake #52)
 - [x] Interface compliance check var _ (Uber #2)
 - [x] Exit only in main, business logic in run() (Uber #15)
 - [x] Graceful shutdown with signal handling

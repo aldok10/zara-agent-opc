@@ -1,6 +1,6 @@
 ---
 name: session-handoff
-description: Use when Zara needs to end a session with proper context preservation — saves progress, decisions, learnings for seamless cross-session continuation via MCP memory tools
+description: Use when Zara needs to end a session with proper context preservation - saves progress, decisions, learnings for seamless cross-session continuation via MCP memory tools
 tags:
   - zara
   - handoff
@@ -45,24 +45,24 @@ Gather everything for the next session:
 
 Use these tools in order:
 
-**Episodic** — `Orchestrator_memory_episode`
+**Episodic** - `Orchestrator_memory_episode`
 - Record the session as a single event with tags
 - Include: what happened, outcome, tags for retrieval
 
-**Semantic (facts)** — `Orchestrator_memory_learn`
-- Type: `fact` — for open threads, next steps, blockers
-- Type: `decision` — for key decisions with rationale
-- Type: `pitfall` — for mistakes to avoid next time
-- Type: `preference` — for user preferences discovered
-- Type: `workflow` — for reusable procedures found
-- Type: `architecture` — for structural decisions
-- Type: `policy` — for rules to follow
+**Semantic (facts)** - `Orchestrator_memory_learn`
+- Type: `fact` - for open threads, next steps, blockers
+- Type: `decision` - for key decisions with rationale
+- Type: `pitfall` - for mistakes to avoid next time
+- Type: `preference` - for user preferences discovered
+- Type: `workflow` - for reusable procedures found
+- Type: `architecture` - for structural decisions
+- Type: `policy` - for rules to follow
 
-**Reflection** — `Orchestrator_reflect`
+**Reflection** - `Orchestrator_reflect`
 - Extract pattern: what worked, what failed
 - One reflection per non-trivial task
 
-**Consolidation** — `Orchestrator_memory_consolidate`
+**Consolidation** - `Orchestrator_memory_consolidate`
 - Call at session end to merge duplicates and archive stale entries
 
 ### 3. Save Open Threads as Facts
@@ -93,13 +93,13 @@ Format as text response to user (don't write to file):
 
 ## Related
 
-- `Orchestrator_memory_recall` — resume context next session
-- `Orchestrator_memory_consolidate` — periodic maintenance
-- `Orchestrator_reflect` — pattern extraction
+- `Orchestrator_memory_recall` - resume context next session
+- `Orchestrator_memory_consolidate` - periodic maintenance
+- `Orchestrator_reflect` - pattern extraction
 
 ## Anti-Patterns
 
-- ❌ Writing `current-session.json` to disk — use MCP memory only
-- ❌ `hivemind_store` / `hive_sync` — these tools don't exist
-- ❌ Assuming file-based state survives compaction — it doesn't
-- ✅ Trust MCP memory — it's designed for cross-session continuity
+- ❌ Writing `current-session.json` to disk - use MCP memory only
+- ❌ `hivemind_store` / `hive_sync` - these tools don't exist
+- ❌ Assuming file-based state survives compaction - it doesn't
+- ✅ Trust MCP memory - it's designed for cross-session continuity

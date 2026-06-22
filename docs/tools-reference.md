@@ -14,11 +14,11 @@
 | Tool | Description | Key Parameters |
 |------|-------------|----------------|
 | `memory_recall` | Search memory with scope/type filters + token budget | `query`, `layer` (all/episodic/semantic/procedural) |
-| `memory_stats` | Show counts per layer | — |
+| `memory_stats` | Show counts per layer | - |
 | `memory_learn` | Store fact with type classification | `key`, `value`, `source` (user_explicit/observed/inferred) |
 | `memory_episode` | Record event with outcome and tags | `event`, `outcome`, `tags[]` |
 | `memory_procedure` | Save reusable workflow | `name`, `steps[]`, `context` |
-| `memory_consolidate` | Dreamer pass: merge dupes, archive stale, promote recurring + flag contradictions | — |
+| `memory_consolidate` | Dreamer pass: merge dupes, archive stale, promote recurring + flag contradictions | - |
 | `memory_contradictions` | Detect same-type facts that are similar but conflicting (flags, no auto-merge) | `threshold` (0-1, default 0.85) |
 
 ## Reflection Domain (`tools/mcp/domain/reflection.mjs`)
@@ -26,9 +26,9 @@
 | Tool | Description | Key Parameters |
 |------|-------------|----------------|
 | `reflect` | Record task reflection; `outcome` feeds success-weighted learning | `task`, `worked`, `failed`, `pattern`, `outcome` (success/partial/failure) |
-| `patterns` | List learned patterns ranked by success rate × frequency | — |
+| `patterns` | List learned patterns ranked by success rate × frequency | - |
 | `reflect_suggest` | Recall best-scoring past approach for a situation | `situation` |
-| `zara_evolve_status` | Snapshot of learning state (patterns, rules, adaptations, contradictions, blindspots) | — |
+| `zara_evolve_status` | Snapshot of learning state (patterns, rules, adaptations, contradictions, blindspots) | - |
 | `blindspot_log` | Record detected user blindspot | `area`, `observation`, `suggestion` |
 | `blindspot_check` | Check context against known blindspots | `context` |
 
@@ -36,9 +36,9 @@
 
 | Tool | Description | Key Parameters |
 |------|-------------|----------------|
-| `metrics_today` | Daily tool call stats | — |
-| `micro_tools` | List crystallized micro-tools | — |
-| `workflow_rules` | List active rules | — |
+| `metrics_today` | Daily tool call stats | - |
+| `micro_tools` | List crystallized micro-tools | - |
+| `workflow_rules` | List active rules | - |
 | `dashboard` | Full overview | `section` (all/memory/metrics/patterns/procedures/tools/rules) |
 
 ## Session Domain (`tools/mcp/domain/session.mjs`)
@@ -72,7 +72,7 @@
 
 | Tool | Description | Key Parameters |
 |------|-------------|----------------|
-| `zara_self_audit` | Validate config integrity: agents↔prompt files, plugin modules, MCP domains, orphaned refs | — |
+| `zara_self_audit` | Validate config integrity: agents↔prompt files, plugin modules, MCP domains, orphaned refs | - |
 
 ## Identity Domain (`tools/mcp/domain/identity.mjs`)
 

@@ -88,14 +88,14 @@ graph LR
 
 ```markdown
 Before every task:
-1. memory_recall() — Check past learnings, decisions, pitfalls
-2. Load skill-gate — Check matching skills
+1. memory_recall() - Check past learnings, decisions, pitfalls
+2. Load skill-gate - Check matching skills
 3. Load matched skill if applicable
 
 After every task:
-1. memory_learn() / memory_episode() — Store learnings
-2. reflect() — Extract patterns
-3. memory_procedure() — Save reusable workflows
+1. memory_learn() / memory_episode() - Store learnings
+2. reflect() - Extract patterns
+3. memory_procedure() - Save reusable workflows
 
 Auto-capture (runs silently):
 - chat.message hook: detect preferences, corrections, constraints

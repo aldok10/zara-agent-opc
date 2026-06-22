@@ -1,5 +1,5 @@
 ---
-description: Code — Structured coding workflow. Explore → Plan → Code → Verify → Ship. Dispatches to @forge for implementation.
+description: Code - Structured coding workflow. Explore → Plan → Code → Verify → Ship. Dispatches to @forge for implementation.
 ---
 
 # /code
@@ -10,12 +10,12 @@ $ARGUMENTS
 
 Orchestrates a complete coding workflow. For any implementation task (feature, bugfix, refactor), this command:
 
-1. **Loads skill-gate** — checks which coding skills apply
-2. **Explores codebase** — reads relevant files before touching anything
-3. **Plans approach** — states what will change and why
-4. **Dispatches @forge** — for implementation with TDD discipline
-5. **Verifies** — runs tests, lint, type checks
-6. **Reports** — structured output with evidence
+1. **Loads skill-gate** - checks which coding skills apply
+2. **Explores codebase** - reads relevant files before touching anything
+3. **Plans approach** - states what will change and why
+4. **Dispatches @forge** - for implementation with TDD discipline
+5. **Verifies** - runs tests, lint, type checks
+6. **Reports** - structured output with evidence
 
 ## Workflow
 
@@ -47,8 +47,8 @@ State your plan BEFORE implementing:
 
 ```
 ## Plan
-1. [file]: [what changes] — [why]
-2. [file]: [what changes] — [why]
+1. [file]: [what changes] - [why]
+2. [file]: [what changes] - [why]
 
 ## What could break
 - [risk 1]
@@ -109,10 +109,10 @@ Return structured output:
 
 ## Sub-Commands
 
-- `/code fix <bug>` — Bug fix workflow (systematic-debugging → TDD → verify)
-- `/code feature <spec>` — Feature implementation (plan → TDD → verify)
-- `/code refactor <target>` — Refactoring (review → minimal changes → verify)
-- `/code review` — Code review (dispatch @lens)
+- `/code fix <bug>` - Bug fix workflow (systematic-debugging → TDD → verify)
+- `/code feature <spec>` - Feature implementation (plan → TDD → verify)
+- `/code refactor <target>` - Refactoring (review → minimal changes → verify)
+- `/code review` - Code review (dispatch @lens)
 
 ## Error Recovery
 
@@ -131,4 +131,4 @@ Return structured output:
 
 ## Voice
 
-No AI-isms. No em dash (the — character, not double-hyphen). Banned words: robust, leverage, seamless, comprehensive, navigate, facilitate, etc. Be direct. Show your work.
+No AI-isms. No em dash (the - character, not double-hyphen). Banned words: robust, leverage, seamless, comprehensive, navigate, facilitate, etc. Be direct. Show your work.

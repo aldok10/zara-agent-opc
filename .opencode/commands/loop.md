@@ -1,8 +1,8 @@
 ---
-description: Recurring loops — timer reminders, engineering patterns, verification gates, study/research cycles
+description: Recurring loops - timer reminders, engineering patterns, verification gates, study/research cycles
 ---
 
-# Loop — Multi-Mode Recurring Cycles
+# Loop - Multi-Mode Recurring Cycles
 
 Parse arguments to determine the loop type. Supports 5 modes.
 
@@ -25,20 +25,20 @@ Apply a structured loop pattern to a task. Each pattern loads relevant skills an
 
 | Pattern | Alias | Loads Skill | Best For |
 |---------|-------|-------------|----------|
-| `tdd` | — | `tdd` | Features with clear test cases |
-| `compiler` | `compile` | — | Refactoring, fixing type errors |
+| `tdd` | - | `tdd` | Features with clear test cases |
+| `compiler` | `compile` | - | Refactoring, fixing type errors |
 | `pav` | `plan-act-verify` | `writing-plans` | Complex multi-step features |
 | `hypothesis` | `hyp` | `systematic-debugging` | Bugs, root cause analysis |
-| `incremental` | `incr` | — | Migrations, large refactors |
+| `incremental` | `incr` | - | Migrations, large refactors |
 
 When using a pattern:
-1. **Load skill** — load the matching skill from the table above
-2. **Ground** — `knowledge_passage(query: "[pattern] [task]")` for proven approaches + `reflect_suggest(situation: "[task]")` for past wins
-3. **Plan** — Break task into loop iterations (each iteration = one small verify-able step)
-4. **Set timer** — `loop start "[pattern]: [task - iteration N]" interval="[auto]"` for periodic check-ins
-5. **Gate** — Before each iteration completes, run the pattern's verification (red→green for tdd, compile for compiler, acceptance criteria for pav, evidence for hypothesis, one-path for incremental)
-6. **Adapt** — After each iteration, `goal check` + `memory_learn(key: "loop_progress_[task]", value: iteration state)`. If pattern doesn't fit, switch.
-7. **Close** — When done: `reflect` with outcome + `memory_learn(type: "decision")` for key learnings
+1. **Load skill** - load the matching skill from the table above
+2. **Ground** - `knowledge_passage(query: "[pattern] [task]")` for proven approaches + `reflect_suggest(situation: "[task]")` for past wins
+3. **Plan** - Break task into loop iterations (each iteration = one small verify-able step)
+4. **Set timer** - `loop start "[pattern]: [task - iteration N]" interval="[auto]"` for periodic check-ins
+5. **Gate** - Before each iteration completes, run the pattern's verification (red→green for tdd, compile for compiler, acceptance criteria for pav, evidence for hypothesis, one-path for incremental)
+6. **Adapt** - After each iteration, `goal check` + `memory_learn(key: "loop_progress_[task]", value: iteration state)`. If pattern doesn't fit, switch.
+7. **Close** - When done: `reflect` with outcome + `memory_learn(type: "decision")` for key learnings
 
 ## Mode 3: Verification Gate
 Keep checking until a condition is met, then auto-stop.
@@ -67,7 +67,7 @@ Design a custom verification strategy for a complex task.
 /loop design database migration strategy
 ```
 
-This routes to **@rhythm** — load `loop-engineer` agent via `task`.
+This routes to **@rhythm** - load `loop-engineer` agent via `task`.
 - @rhythm will analyze the task and design: loop pattern, verification gates, failure modes, context budget
 - After design completes: `memory_learn(type: "architecture")` the strategy
 - Optionally set a timer loop to execute the designed pattern
@@ -83,9 +83,9 @@ Periodic knowledge acquisition on a topic.
 ```
 
 Each cycle:
-1. `websearch(query: "[topic] 2026")` — latest info
-2. `knowledge_passage(query: "[topic]")` — existing knowledge
-3. `memory_learn(type: "fact")` — persist findings
+1. `websearch(query: "[topic] 2026")` - latest info
+2. `knowledge_passage(query: "[topic]")` - existing knowledge
+3. `memory_learn(type: "fact")` - persist findings
 4. Summarize: what's new, why it matters for your stack
 
 ## Mode 6: Management
@@ -112,11 +112,11 @@ First arg determines mode:
 
 | Mode | Primary Tool | MCP Integration | Plugin Hook |
 |------|-------------|-----------------|-------------|
-| Timer | `loop` tool | — | flow (scheduler) |
+| Timer | `loop` tool | - | flow (scheduler) |
 | Pattern | `skill` + `loop` + `reflect_suggest` | `knowledge_passage` + `goal` + `reflect` | flow + memory + evolve |
 | Verify | `loop` + agent dispatch | `goal(action: "check")` | flow + observe |
 | Design | `task` → @rhythm | `knowledge_passage` + `memory_learn` | flow |
 | Study | `websearch` + `knowledge_passage` | `memory_learn(type: "fact")` | memory |
-| Manage | `loop` tool | — | flow |
+| Manage | `loop` tool | - | flow |
 
 Arguments: $ARGUMENTS

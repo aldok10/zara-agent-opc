@@ -3,13 +3,13 @@ name: golang-compare
 description: Compare Go code quality with and without golang-expert skill applied. Use when asked to demonstrate skill value, review existing code against standards, or benchmark code quality improvement.
 ---
 
-# Go Code Comparison — With vs Without Skill
+# Go Code Comparison - With vs Without Skill
 
 Produce TWO versions of any Go code task to demonstrate golang-expert skill value.
 
 ## Version A: Without Skill (Naive AI Output)
 
-Write code as a generic AI would — functional but missing:
+Write code as a generic AI would - functional but missing:
 - No pre-allocation
 - No timeout on HTTP clients
 - Missing return after http.Error
@@ -69,6 +69,6 @@ See `examples/http-handler-compare.md` for a complete HTTP handler comparison de
 
 ## Related Knowledge (load on demand)
 
-- `knowledge_index(section: "code-smells")` — identify smells in Version A
-- `knowledge_index(section: "principles")` — SOLID violations to flag
-- `knowledge_passage(query: "refactoring techniques patterns")` — techniques for Version B improvements
+- `knowledge_index(section: "code-smells")` - identify smells in Version A
+- `knowledge_index(section: "principles")` - SOLID violations to flag
+- `knowledge_passage(query: "refactoring techniques patterns")` - techniques for Version B improvements

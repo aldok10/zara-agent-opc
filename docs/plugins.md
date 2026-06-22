@@ -2,7 +2,7 @@
 
 ## Overview
 
-Zara ships as a single OpenCode plugin (`.opencode/plugin/zara.mjs`) — a composition root that loads 8 domain modules from `.opencode/plugin/zara/`. Each module hooks into the conversation lifecycle via OpenCode's experimental hooks API. Shared file I/O lives in `infra/store.mjs`.
+Zara ships as a single OpenCode plugin (`.opencode/plugin/zara.mjs`), a composition root that loads 10 domain modules from `.opencode/plugin/zara/`. Each module hooks into the conversation lifecycle via OpenCode's experimental hooks API. Shared file I/O lives in `infra/store.mjs`.
 
 This replaced the old layout of 21 individual plugins. Same behavior, fewer files, one entry point.
 
@@ -18,6 +18,7 @@ This replaced the old layout of 21 individual plugins. Same behavior, fewer file
 | `evolve` | system.transform (conditional) | Micro-tools, swarm coordination, A/B tests, workflow rules | evolve, swarm, compaction, scratchpad |
 | `empathy` | onEvent, onMessage, inject | Longitudinal emotional tracking, sentiment, burnout detection, growth tracking | (new) |
 | `relationship` | onEvent, inject | Open threads, milestones, shared references, emotional bookmarks, persistent stances, identity anchor, temporal awareness | (new) |
+| `voice` | system.transform | Anti-AI writing enforcement, banned word/phrase injection, rotating drift checks | (new) |
 
 ## Hook Types
 
@@ -39,8 +40,9 @@ Active inject() injections per turn (worst case):
 - `evolve`: ~100-300 tokens (only if micro-tools/rules exist)
 - `empathy`: ~15 tokens (only on burnout alert)
 - `relationship`: ~60-120 tokens (identity anchor + stage + due threads + temporal signals)
+- `voice`: ~50-80 tokens (hot-path crib + rotating drift check)
 
-**Typical total: ~350-550 tokens/turn** (most conditionals won't fire).
+**Typical total: ~400-600 tokens/turn** (most conditionals won't fire).
 
 ## Adding a Module
 

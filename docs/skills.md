@@ -1,12 +1,12 @@
 # Skills Reference
 
-All skills listed below live in `.opencode/skills/` — project-specific, not global.
+All skills listed below live in `.opencode/skills/` - project-specific, not global.
 
 ## Meta (Always Active)
 
 | Skill | Function |
 |-------|----------|
-| `skill-gate` | Master routing table. Loads automatically at session start. Never skip — always check skill-gate before any action. |
+| `skill-gate` | Master routing table. Loads automatically at session start. Never skip - always check skill-gate before any action. |
 | `natural-voice` | Self-regulation for natural writing style. Anti-AI detection. Hot-path subset auto-injects every turn via the `voice` plugin module; load the skill for full depth. Has its own knowledge base (11 articles). |
 
 ## Development Workflow
@@ -45,7 +45,7 @@ brainstorming → writing-plans → subagent-driven-dev (or executing-plans) →
 
 | Skill | Purpose |
 |-------|---------|
-| `zara-privacy-mcp` | Privacy scanner — masks PII/secrets in db/http/ai output. Auto-triggers on security review. |
+| `zara-privacy-mcp` | Privacy scanner - masks PII/secrets in db/http/ai output. Auto-triggers on security review. |
 | `zara-hitl` | Human-in-the-loop. Confirmation workflow for risky operations before execution. |
 | `zara-ctx` | Sandbox execution. Heavy data processing outside context window. |
 | `context-mode` | Context budget management. Batch command execution, URL fetching as markdown. |
@@ -55,7 +55,7 @@ brainstorming → writing-plans → subagent-driven-dev (or executing-plans) →
 | Skill | Focus |
 |-------|-------|
 | `golang-expert` | Senior Go engineer DNA. Stdlib-first, Uber style guide, 100 Go Mistakes. |
-| `golang-compare` | Benchmark mode — Go code quality comparison with/without golang-expert. |
+| `golang-compare` | Benchmark mode - Go code quality comparison with/without golang-expert. |
 | `php-expert` | PHP 8.4, PSR standards, Swoole/FrankenPHP/RoadRunner, DDD. |
 | `swig-expert` | C/C++ wrapping for Go/Python/Java/C# via SWIG. |
 
@@ -67,7 +67,7 @@ brainstorming → writing-plans → subagent-driven-dev (or executing-plans) →
 
 ## How Skills Work
 
-- **Loading**: Call `skill("<name>")` at the start of a task. Skill-gate is the router — if unsure, load skill-gate first.
+- **Loading**: Call `skill("<name>")` at the start of a task. Skill-gate is the router - if unsure, load skill-gate first.
 - **Priority**: User instruction > Skill > Default behavior. User always wins.
 - **Chain**: Multiple skills can be loaded sequentially. Example: brainstorming → writing-plans → tdd.
 - **Knowledge**: Some skills have their own knowledge base (natural-voice: 11 articles, leadership-expert, etc.).

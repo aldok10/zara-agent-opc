@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: Use when requesting a code review, receiving review feedback, or handling review comments — workflow for giving and responding to reviews with technical rigor.
+description: Use when requesting a code review, receiving review feedback, or handling review comments - workflow for giving and responding to reviews with technical rigor.
 triggers:
   - code review
   - review my code
@@ -127,10 +127,10 @@ Never implement a suggestion you don't understand. Never implement without check
 
 ## Related Knowledge (load on demand)
 
-- `knowledge_passage(query: "code smell catalog")` — detecting quality issues
-- `knowledge_index(section: "code-smells")` — full smell catalog for systematic review
-- `knowledge_passage(query: "SOLID DRY YAGNI principles")` — for design feedback
-- `knowledge_index(section: "design-patterns")` — when suggesting refactoring alternatives
+- `knowledge_passage(query: "code smell catalog")` - detecting quality issues
+- `knowledge_index(section: "code-smells")` - full smell catalog for systematic review
+- `knowledge_passage(query: "SOLID DRY YAGNI principles")` - for design feedback
+- `knowledge_index(section: "design-patterns")` - when suggesting refactoring alternatives
 
 ## Related Skills
 

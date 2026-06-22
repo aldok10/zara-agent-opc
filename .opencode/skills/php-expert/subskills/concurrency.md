@@ -40,9 +40,9 @@ $fiber->resume('hello');          // "Got: hello"
 ```
 
 **Limitations**:
-- No built-in scheduler — you must write or use one (AMPHP/Revolt)
+- No built-in scheduler - you must write or use one (AMPHP/Revolt)
 - Cannot suspend across internal function calls (array_map callback, etc.)
-- Single-threaded — no parallelism
+- Single-threaded - no parallelism
 - Meant for library authors, not application code
 
 **Use case**: Libraries that need to pause execution (HTTP client waits for response) without blocking the event loop.
@@ -157,7 +157,7 @@ $responses = await(React\Promise\all($promises));
 
 ## ext-parallel
 
-True threading extension. Mostly abandoned — prefer amphp/parallel.
+True threading extension. Mostly abandoned - prefer amphp/parallel.
 
 ```php
 // Only if you really need shared-nothing threads

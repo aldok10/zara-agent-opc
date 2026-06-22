@@ -2,7 +2,7 @@
 
 ## Overview
 
-Zara is a **persistent AI engineering partner** — warm, direct, committed to growth. Hub-and-spoke architecture: Zara orchestrates 8 sub-agents, 8 plugin modules, 31 MCP tools, and 100+ on-demand skills.
+Zara is a **persistent AI engineering partner**, warm, direct, committed to growth. Hub-and-spoke architecture: Zara orchestrates 9 sub-agents, 10 plugin modules, 31 MCP tools, and 100+ on-demand skills.
 
 ## System Layers
 
@@ -13,7 +13,7 @@ Zara is a **persistent AI engineering partner** — warm, direct, committed to g
 │ OpenCode Runtime                                     │
 │  ├── Agent Prompts (.opencode/agent/)               │
 │  ├── Instructions (.opencode/instructions/)          │
-│  ├── Plugins (.opencode/plugin/) × 8 modules         │
+│  ├── Plugins (.opencode/plugin/) × 10 modules        │
 │  └── Skills (.opencode/skills/ + ~/.agents/skills/) │
 ├─────────────────────────────────────────────────────┤
 │ MCP Server (tools/mcp/)                              │
@@ -24,8 +24,8 @@ Zara is a **persistent AI engineering partner** — warm, direct, committed to g
 │  └── Music Player                                   │
 ├─────────────────────────────────────────────────────┤
 │ Persistence (~/.zara/)                               │
-│  ├── memory.db (SQLite — authoritative)             │
-│  ├── memory/ (JSON — legacy/backup)                 │
+│  ├── memory.db (SQLite - authoritative)             │
+│  ├── memory/ (JSON - legacy/backup)                 │
 │  ├── reflections/ (patterns, log)                   │
 │  ├── metrics/ (daily tool usage)                    │
 │  └── state/ (session handoff)                       │
@@ -45,12 +45,13 @@ Zara is a **persistent AI engineering partner** — warm, direct, committed to g
 | delivery-lead (Pulse) | subagent | Shipping, velocity, debt | no |
 | loop-engineer (Rhythm) | subagent | Iterative workflows, verification, failure modes | no |
 | swarm (Hive) | subagent | Parallel task coordination | yes |
+| implementation (Forge) | subagent | Plan to code to verify to ship | yes |
 
 ## Memory System
 
 ```
 ┌────────────────────────────────────────┐
-│ SQLite (memory.db) — Single Source     │
+│ SQLite (memory.db) - Single Source     │
 ├────────────────────────────────────────┤
 │ Semantic Layer                         │
 │  - Key/value with type classification  │
@@ -88,21 +89,21 @@ Zara is a **persistent AI engineering partner** — warm, direct, committed to g
 
 ## Plugin Architecture
 
-8 domain modules (observe, memory, flow, dev, social, evolve, empathy, relationship) under `.opencode/plugin/zara/`, composed by `zara.mjs`. Several use system.transform (inject tokens per turn). The rest are tools-only (zero cost until invoked).
+10 domain modules (observe, memory, flow, dev, social, evolve, empathy, relationship, voice, infra) under `.opencode/plugin/zara/`, composed by `zara.mjs`. Several use system.transform (inject tokens per turn). The rest are tools-only (zero cost until invoked).
 
 See [plugins.md](plugins.md) for full breakdown.
 
 ## Skill System
 
-100+ skills at `~/.agents/skills/`, 26 project skills at `.opencode/skills/`.
+100+ skills at `~/.agents/skills/`, 27 project skills at `.opencode/skills/`.
 
 **Loading:** On-demand only via `skill` tool call. Routing via:
-- `skill-gate` SKILL.md — master routing table (37 entries)
-- `AGENTS.md` decision table — quick reference
+- `skill-gate` SKILL.md - master routing table (37 entries)
+- `AGENTS.md` decision table - quick reference
 
 **Types:**
-- Rigid (tdd, debugging, verification) — follow exactly
-- Flexible (brainstorming, writing-plans) — adapt to scale
+- Rigid (tdd, debugging, verification) - follow exactly
+- Flexible (brainstorming, writing-plans) - adapt to scale
 
 ## Development Workflow
 
@@ -140,4 +141,4 @@ Entry point: `opencode.json`
 - Models: anthropic/claude-sonnet-4-20250514
 - MCP servers: Context7 (remote), Orchestrator (local)
 - Permissions: bash allowed
-- Plugins: 8 (composited by .opencode/plugin/zara.mjs)
+- Plugins: 10 (composited by .opencode/plugin/zara.mjs)

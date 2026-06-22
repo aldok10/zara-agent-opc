@@ -16,7 +16,7 @@ Before PHP 8.4, we needed getters/setters/DTOs/builders because the language lac
 
 ---
 
-## Property Hooks (PHP 8.4+) — Replaces Getters/Setters
+## Property Hooks (PHP 8.4+) - Replaces Getters/Setters
 
 ```php
 // BEFORE (boilerplate)
@@ -29,7 +29,7 @@ class User {
     }
 }
 
-// AFTER (property hook — same behavior, zero boilerplate)
+// AFTER (property hook - same behavior, zero boilerplate)
 class User {
     public string $email {
         set => strtolower($value);
@@ -46,7 +46,7 @@ class User {
 
 ---
 
-## Asymmetric Visibility (PHP 8.4+) — Replaces Private + Getter
+## Asymmetric Visibility (PHP 8.4+) - Replaces Private + Getter
 
 ```php
 // BEFORE
@@ -55,7 +55,7 @@ class Order {
     public function getStatus(): OrderStatus { return $this->status; }
 }
 
-// AFTER — readable publicly, writable only internally
+// AFTER - readable publicly, writable only internally
 class Order {
     public private(set) OrderStatus $status = OrderStatus::Pending;
 
@@ -77,7 +77,7 @@ class Order {
 ## Modern Value Objects (readonly + named args)
 
 ```php
-// PHP 8.2+ — immutable, typed, self-validating
+// PHP 8.2+ - immutable, typed, self-validating
 final readonly class Money
 {
     public function __construct(
@@ -173,7 +173,7 @@ enum OrderStatus: string
 
 ---
 
-## Pipe Operator (PHP 8.5+) — Data Transformation
+## Pipe Operator (PHP 8.5+) - Data Transformation
 
 ```php
 // BEFORE (nested or temp variables)
@@ -212,7 +212,7 @@ final readonly class DatabaseConfig
     ) {}
 }
 
-// Usage with named args — self-documenting
+// Usage with named args - self-documenting
 $config = new DatabaseConfig(
     host: env('DB_HOST'),
     password: env('DB_PASSWORD'),

@@ -3,7 +3,7 @@ name: zara-ctx
 description: Use when running code in sandboxed subprocesses, batch executing commands, or fetching URLs as markdown without raw HTML in context
 ---
 
-# Skill: zara-ctx — Context Sandbox Tools
+# Skill: zara-ctx - Context Sandbox Tools
 
 ## Context
 

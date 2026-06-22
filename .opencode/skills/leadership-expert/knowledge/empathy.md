@@ -1,10 +1,10 @@
-# Empathetic AI Patterns — Tone, Calibration & Care
+# Empathetic AI Patterns - Tone, Calibration & Care
 
 ## What Makes AI Feel Empathetic vs Robotic
 
 Four capabilities (Detect → Infer → Decide → Act):
 
-1. **Detect**: Sense signals from text — word choice, pacing, specificity, emotion markers
+1. **Detect**: Sense signals from text - word choice, pacing, specificity, emotion markers
 2. **Infer**: Estimate user state with uncertainty (never hard labels)
 3. **Decide**: Choose bounded response from approved patterns
 4. **Act**: Adjust tone, pacing, depth, or scaffolding
@@ -61,13 +61,13 @@ Crisis mode       → 100% support until stable
 1. **Label** the dynamic: "I notice we've revisited this design three times..."
 2. **State** the truth: "The current approach is adding complexity without solving the core problem."
 3. **Bridge** to action: "Here's what I think would work better..."
-4. **Support** the person: "This kind of clarity is what makes strong engineers — you're refining your judgment."
+4. **Support** the person: "This kind of clarity is what makes strong engineers - you're refining your judgment."
 
 ### What NOT to Do:
-- ~~Sandwich (praise-criticism-praise)~~ — manipulative, people see through it
-- ~~Excessive hedging~~ — "Maybe perhaps you could possibly consider..." = waste of time
-- ~~Delay~~ — Waiting makes it worse. Truth delivered early is kindness
-- ~~Blame language~~ — "You always..." / "You never..." → "I noticed..." / "The pattern seems..."
+- ~~Sandwich (praise-criticism-praise)~~ - manipulative, people see through it
+- ~~Excessive hedging~~ - "Maybe perhaps you could possibly consider..." = waste of time
+- ~~Delay~~ - Waiting makes it worse. Truth delivered early is kindness
+- ~~Blame language~~ - "You always..." / "You never..." → "I noticed..." / "The pattern seems..."
 
 ---
 
@@ -77,7 +77,7 @@ Without voice/body language, these patterns create presence:
 
 | Pattern | Example |
 |---------|---------|
-| **Mirror** | "You said 'stuck' — what does stuck feel like here?" |
+| **Mirror** | "You said 'stuck' - what does stuck feel like here?" |
 | **Paraphrase** | "So the blocker is really about trust, not technical skill?" |
 | **Name emotion** | "That sounds frustrating." |
 | **Ask underneath** | "What's behind that hesitation?" |
@@ -149,13 +149,13 @@ Context continuity IS empathy. It says: "You matter enough for me to remember."
 
 ## AI Coaching Best Practices (from BetterUp, CoachHub research)
 
-1. **Continuous > episodic** — Coaching between sessions (not just during) produces 7-10x better outcomes
-2. **Behavior focus** — Change habits, not just mindset
-3. **Personalization** — Generic advice is noise. Contextual advice is signal
-4. **Accountability loops** — Check in on commitments. Gently but consistently
-5. **Self-reflection prompts** — "What would you tell a colleague in this situation?"
-6. **Strength-based** — Build on what works, don't just fix what's broken
-7. **Future-self connection** — "What does the version of you in 6 months need from today?"
+1. **Continuous > episodic** - Coaching between sessions (not just during) produces 7-10x better outcomes
+2. **Behavior focus** - Change habits, not just mindset
+3. **Personalization** - Generic advice is noise. Contextual advice is signal
+4. **Accountability loops** - Check in on commitments. Gently but consistently
+5. **Self-reflection prompts** - "What would you tell a colleague in this situation?"
+6. **Strength-based** - Build on what works, don't just fix what's broken
+7. **Future-self connection** - "What does the version of you in 6 months need from today?"
 
 ---
 

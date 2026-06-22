@@ -2,7 +2,7 @@
 description: End session with full state capture for seamless continuation
 ---
 
-# Handoff — Full Session Capture
+# Handoff - Full Session Capture
 
 Ends the session with complete state: MCP memory, git state, file changes, open threads.
 
@@ -11,11 +11,11 @@ Ends the session with complete state: MCP memory, git state, file changes, open 
 Run these in order:
 
 ### 1. Capture Git State
-- `git branch --show-current` — what branch
-- `git status --short` — uncommitted changes
-- `git log --oneline -5` — recent work
-- `git stash list` — any stashed work
-- `glob .opencode/commands/*.md` — commands changed (if applicable)
+- `git branch --show-current` - what branch
+- `git status --short` - uncommitted changes
+- `git log --oneline -5` - recent work
+- `git stash list` - any stashed work
+- `glob .opencode/commands/*.md` - commands changed (if applicable)
 - Build a picture of files touched this session
 
 ### 2. Capture Session State
@@ -43,7 +43,7 @@ Run these in order:
 
 ### 4. Reflect & Consolidate
 1. `reflect(task: "[activeTask]", outcome: "partial", pattern: key learnings)`
-2. `memory_consolidate` — clean up duplicates
+2. `memory_consolidate` - clean up duplicates
 
 ### 5. Close Session
 1. `session_log(action: "end", context: "[activeTask]")`

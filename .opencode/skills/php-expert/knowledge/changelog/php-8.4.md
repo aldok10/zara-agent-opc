@@ -9,17 +9,17 @@
       public string $fullName { get => "$this->first $this->last"; }
   }
   ```
-- **Asymmetric Visibility**: `public private(set) string $name` — read publicly, write privately
+- **Asymmetric Visibility**: `public private(set) string $name` - read publicly, write privately
 - **`#[\Deprecated]` Attribute**: user-defined deprecation with `message` and `since`
-- **`new` without parentheses**: `new Foo()->method()` — no wrapping needed
+- **`new` without parentheses**: `new Foo()->method()` - no wrapping needed
 - **`array_find()`**: first element matching callback
 - **`array_find_key()`**: key of first matching element
 - **`array_any()`**: true if ANY element matches
 - **`array_all()`**: true if ALL elements match
-- **HTML5 DOM**: `Dom\HTMLDocument`, `Dom\XMLDocument` — spec-compliant with `querySelector()`
+- **HTML5 DOM**: `Dom\HTMLDocument`, `Dom\XMLDocument` - spec-compliant with `querySelector()`
 - **BCMath Objects**: `BcMath\Number` with operator overloading
-- **PDO Subclasses**: `Pdo\MySql`, `Pdo\Sqlite` — driver-specific methods
-- **Lazy Objects**: `ReflectionClass::newLazyProxy()`, `newLazyGhost()` — deferred init
+- **PDO Subclasses**: `Pdo\MySql`, `Pdo\Sqlite` - driver-specific methods
+- **Lazy Objects**: `ReflectionClass::newLazyProxy()`, `newLazyGhost()` - deferred init
 - **New JIT (IR Framework)**: rewritten, better optimization
 - **`mb_trim()` / `mb_ltrim()` / `mb_rtrim()`**: multibyte trim
 - **`mb_ucfirst()` / `mb_lcfirst()`**: multibyte case

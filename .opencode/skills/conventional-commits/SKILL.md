@@ -55,12 +55,12 @@ BREAKING CHANGE: response shape changed from array to {data, meta}
 
 ## Anti-Patterns (NEVER Do These)
 
-- NEVER use `fix: fix` — meaningless, describe WHAT was fixed
-- NEVER use `update stuff` — not conventional format
-- NEVER use `feat: add feature and fix bug and refactor` — one concern per commit
-- NEVER use scope overload: `feat(auth/db/api)` — pick the primary area
+- NEVER use `fix: fix` - meaningless, describe WHAT was fixed
+- NEVER use `update stuff` - not conventional format
+- NEVER use `feat: add feature and fix bug and refactor` - one concern per commit
+- NEVER use scope overload: `feat(auth/db/api)` - pick the primary area
 - NEVER commit without checking `git status` first
-- NEVER use past tense in description — use imperative mood
+- NEVER use past tense in description - use imperative mood
 - NEVER end description with a period
 - NEVER exceed 72 chars in description line
 - NEVER claim "done" without running tests before commit
@@ -90,4 +90,4 @@ Detect scope from changed files:
 
 ## Voice Integration
 
-Commit messages follow conventional format strictly — but the **body** is where natural voice applies. When writing commit bodies: lead with the punchline (why this matters), vary sentence length, no banned AI words ("robust", "comprehensive", "facilitate"). Write like you'd explain to a teammate, not a press release. Friend test: would a dev say this in a PR description? Indonesian particles fine in internal/personal repos.
+Commit messages follow conventional format strictly - but the **body** is where natural voice applies. When writing commit bodies: lead with the punchline (why this matters), vary sentence length, no banned AI words ("robust", "comprehensive", "facilitate"). Write like you'd explain to a teammate, not a press release. Friend test: would a dev say this in a PR description? Indonesian particles fine in internal/personal repos.

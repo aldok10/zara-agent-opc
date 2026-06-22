@@ -2,9 +2,9 @@
 
 > Activate when: goroutine, channel, mutex, lock, race, sync, atomic, worker pool, fan-out, pipeline, context, deadlock, backpressure
 >
-> Prevents mistakes: #55-#74 (100 Go Mistakes — Concurrency)
+> Prevents mistakes: #55-#74 (100 Go Mistakes - Concurrency)
 
-**Senior DNA**: Stdlib first (`sync`, `context`, `errgroup`). "It depends" — not everything needs goroutines. A simple mutex beats a channel if you're just protecting state. Don't add concurrency until sequential is proven insufficient. Match the pattern to the workload type (CPU-bound vs I/O-bound).
+**Senior DNA**: Stdlib first (`sync`, `context`, `errgroup`). "It depends" - not everything needs goroutines. A simple mutex beats a channel if you're just protecting state. Don't add concurrency until sequential is proven insufficient. Match the pattern to the workload type (CPU-bound vs I/O-bound).
 
 ## Core Principles
 
@@ -171,11 +171,11 @@ go func() {
     }
 }()
 
-// BAD — blocks forever if nobody reads
+// BAD - blocks forever if nobody reads
 go func() { ch <- result }()
 ```
 
-## sync.Map — When to Use
+## sync.Map - When to Use
 
 ONLY when:
 1. Keys written once, read many (append-only), OR
@@ -199,8 +199,8 @@ go run -race .
 
 ## Delegates To
 
-- **performance** — when allocations in concurrent paths are the issue
-- **observability** — when goroutine leaks need detection
+- **performance** - when allocations in concurrent paths are the issue
+- **observability** - when goroutine leaks need detection
 
 ## Examples
 

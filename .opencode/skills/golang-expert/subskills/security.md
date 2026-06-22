@@ -2,9 +2,9 @@
 
 > Activate when: auth, crypto, TLS, injection, secret, CORS, input validation, token, JWT, CSRF, XSS, sanitize, permission
 >
-> Prevents mistakes: #46, #78, #81 (100 Go Mistakes — input handling, SQL, HTTP defaults)
+> Prevents mistakes: #46, #78, #81 (100 Go Mistakes - input handling, SQL, HTTP defaults)
 
-**Senior DNA**: Stdlib first (`crypto/rand`, `crypto/tls`, `crypto/sha256`, `net/http` timeouts — no security framework needed). "It depends" — an internal tool behind VPN has different threat model than public API. Match security investment to actual attack surface. Simple defense > complex security theater.
+**Senior DNA**: Stdlib first (`crypto/rand`, `crypto/tls`, `crypto/sha256`, `net/http` timeouts - no security framework needed). "It depends" - an internal tool behind VPN has different threat model than public API. Match security investment to actual attack surface. Simple defense > complex security theater.
 
 ## Philosophy
 
@@ -33,10 +33,10 @@ func ParseEmail(s string) (Email, error) { ... }
 ## SQL Injection Prevention
 
 ```go
-// ALWAYS parameterized — never string concat
+// ALWAYS parameterized - never string concat
 row := db.QueryRowContext(ctx, "SELECT * FROM users WHERE id = ?", id)
 
-// BAD — injectable
+// BAD - injectable
 query := "SELECT * FROM users WHERE name = '" + name + "'"
 ```
 
@@ -111,7 +111,7 @@ func rateLimitMiddleware(next http.Handler) http.Handler {
 }
 ```
 
-## os.Root (Go 1.24+ — path traversal prevention)
+## os.Root (Go 1.24+ - path traversal prevention)
 
 ```go
 root, err := os.OpenRoot("/var/data")
@@ -140,8 +140,8 @@ import "crypto/fips140"
 
 ## Delegates To
 
-- **architecture** — when auth patterns need design changes
-- **observability** — when security events need logging
+- **architecture** - when auth patterns need design changes
+- **observability** - when security events need logging
 
 ## Examples
 

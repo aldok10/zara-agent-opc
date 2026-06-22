@@ -12,8 +12,8 @@ $ARGUMENTS
 2. **Update** `~/.config/opencode/opencode.json` with Zara agent, sub-agents, plugins, commands, MCP
 3. **Create** `~/.zara/` runtime directory (state, skills, memory, sessions, agents)
 4. **Install** `zara` CLI to `~/.local/bin/zara`
-5. **Register** plugin: `zara.mjs` — unified composition root with 8 modules
-   (dev, empathy, evolve, flow, infra, memory, observe, relationship, social)
+5. **Register** plugin: `zara.mjs` - unified composition root with 10 modules
+   (dev, empathy, evolve, flow, infra, memory, observe, relationship, social, voice)
 
 ## Sub-commands
 
@@ -27,11 +27,11 @@ $ARGUMENTS
 
 Restart OpenCode to activate Zara. You'll then have:
 
-- `/zara <question>` — talk to Zara
-- `/zara install` — re-run any time
-- `/handoff` — save session state
-- `/resume` — restore from checkpoint
-- 8 sub-agents (Atlas, Lens, Probe, Shield, Pulse, Rhythm, Hive, Sketch)
+- `/zara <question>` - talk to Zara
+- `/zara install` - re-run any time
+- `/handoff` - save session state
+- `/resume` - restore from checkpoint
+- 9 sub-agents (Atlas, Lens, Probe, Shield, Pulse, Rhythm, Hive, Sketch, Forge)
 - Context-mode sandbox (ctx_execute, ctx_fetch)
 - Auto-resume (sessions persist across restarts)
 - Approval gates for risky operations

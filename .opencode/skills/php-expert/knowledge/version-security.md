@@ -1,7 +1,7 @@
 # PHP Version Security Status (as of June 2026)
 
 > **CRITICAL**: PHP versions receive 2 years active support + 2 years security-only.
-> After EOL, NO patches are issued — even for critical vulnerabilities.
+> After EOL, NO patches are issued - even for critical vulnerabilities.
 
 ## Supported (receive security patches)
 
@@ -12,14 +12,14 @@
 | **PHP 8.3.x** | Nov 2023 | Nov 2025 | Dec 2027 | ⚠️ Security-only |
 | **PHP 8.2.x** | Dec 2022 | Dec 2024 | Dec 2026 | ⚠️ Security-only (EOL end of 2026!) |
 
-## End-of-Life (NO security patches — VULNERABLE)
+## End-of-Life (NO security patches - VULNERABLE)
 
 | Version | EOL Since | Risk |
 |---------|-----------|------|
-| PHP 8.1 | Dec 2025 | 🚨 Recently EOL — unpatched 6+ months |
-| PHP 8.0 | Nov 2023 | 🛑 CRITICAL — 2.5+ years without patches |
-| PHP 7.4 | Nov 2022 | 🛑 CRITICAL — 3.5+ years, dozens of unpatched CVEs |
-| PHP 7.3 and below | — | 🛑 CRITICAL — ancient, actively exploited vulnerabilities |
+| PHP 8.1 | Dec 2025 | 🚨 Recently EOL - unpatched 6+ months |
+| PHP 8.0 | Nov 2023 | 🛑 CRITICAL - 2.5+ years without patches |
+| PHP 7.4 | Nov 2022 | 🛑 CRITICAL - 3.5+ years, dozens of unpatched CVEs |
+| PHP 7.3 and below | - | 🛑 CRITICAL - ancient, actively exploited vulnerabilities |
 
 ## Warning Rules for AI Agent
 
@@ -45,9 +45,9 @@ When you detect the project's PHP version:
 | Framework | EOL Version | Current |
 |-----------|-------------|---------|
 | Laravel 10 | Feb 2026 (security EOL) | ⚠️ Upgrade to Laravel 11+ |
-| Laravel 9 | Feb 2024 | 🛑 EOL — upgrade |
+| Laravel 9 | Feb 2024 | 🛑 EOL - upgrade |
 | Symfony 6.4 LTS | Nov 2027 | ✅ Safe |
-| Symfony 5.4 LTS | Nov 2025 | 🚨 EOL — upgrade |
+| Symfony 5.4 LTS | Nov 2025 | 🚨 EOL - upgrade |
 
 ## How to Check
 

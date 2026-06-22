@@ -196,7 +196,7 @@ class PlaceOrderHandler
     }
 }
 
-// Query (read) — separate model, optimized for reading
+// Query (read) - separate model, optimized for reading
 readonly class OrderSummary
 {
     public function __construct(
@@ -219,7 +219,7 @@ interface OrderQueryService
 
 | Factor | Repository (Doctrine) | Active Record (Eloquent) |
 |--------|----------------------|--------------------------|
-| Domain purity | High — POPO entities | Low — extends Model |
+| Domain purity | High - POPO entities | Low - extends Model |
 | Testing | Easy to mock | Needs DB or heavy mocking |
 | Complex domains | Excellent | Struggles |
 | Rapid prototyping | Slower | Fast |

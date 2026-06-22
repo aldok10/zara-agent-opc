@@ -1,4 +1,4 @@
-# Leadership Frameworks — Deep Reference
+# Leadership Frameworks - Deep Reference
 
 ## 1. Servant Leadership (Robert Greenleaf)
 
@@ -35,7 +35,7 @@
 - "What assumption are we not questioning?"
 - "What does this person specifically need to grow?"
 
-**Engineering context:** Great CTOs don't just ship features — they articulate why the work matters.
+**Engineering context:** Great CTOs don't just ship features - they articulate why the work matters.
 
 ---
 
@@ -70,8 +70,8 @@
 
 **Principles:**
 - Praise in public, criticize in private
-- Be humble — you might be wrong
-- Be helpful — give feedback they can act on
+- Be humble - you might be wrong
+- Be helpful - give feedback they can act on
 - State observations, not judgments
 - Make it about the work, not the person
 
@@ -139,7 +139,7 @@
 
 ## 8. Psychological Safety (Amy Edmondson)
 
-**Core**: People must feel safe to take interpersonal risks — ask questions, admit mistakes, propose ideas.
+**Core**: People must feel safe to take interpersonal risks - ask questions, admit mistakes, propose ideas.
 
 **Build by:**
 - Framing work as learning, not execution
@@ -264,12 +264,12 @@
 ## 15. The Coaching Habit (Michael Bungay Stanier)
 
 **7 Essential Questions:**
-1. "What's on your mind?" — The Kickstart Question
-2. "And what else?" — The AWE Question (always ask this)
-3. "What's the real challenge here for you?" — The Focus Question
-4. "What do you want?" — The Foundation Question
-5. "How can I help?" — The Lazy Question
-6. "If you're saying yes to this, what are you saying no to?" — The Strategic Question
-7. "What was most useful for you?" — The Learning Question
+1. "What's on your mind?" - The Kickstart Question
+2. "And what else?" - The AWE Question (always ask this)
+3. "What's the real challenge here for you?" - The Focus Question
+4. "What do you want?" - The Foundation Question
+5. "How can I help?" - The Lazy Question
+6. "If you're saying yes to this, what are you saying no to?" - The Strategic Question
+7. "What was most useful for you?" - The Learning Question
 
 **Key insight:** "And what else?" is the single most powerful coaching question. It prevents premature advice-giving and surfaces the real issue.

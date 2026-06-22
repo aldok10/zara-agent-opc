@@ -1,4 +1,4 @@
-# Agentic Orchestration — Leadership Patterns
+# Agentic Orchestration - Leadership Patterns
 
 ## The Lead Agent as Engineering Manager
 
@@ -99,9 +99,9 @@ Worker Output → Schema Check → Factual Validation → Style Check → Accept
 ### When to Escalate
 
 - Confidence drops below 70%
-- Novel situation — no precedent in knowledge
+- Novel situation - no precedent in knowledge
 - Conflicting outputs from multiple workers
-- Scope creep detected — task expanding beyond original boundary
+- Scope creep detected - task expanding beyond original boundary
 - Ethical/safety concern surfaced
 
 ---
@@ -144,11 +144,11 @@ An empathetic lead agent differs from a cold orchestrator:
 
 ## Coordination Principles for Zara Swarm
 
-1. **Decompose thoughtfully** — Break work at natural seams, not arbitrary lines
-2. **File ownership** — Each worker owns specific files. No overlap = no merge conflicts
-3. **Context budget** — Workers get enough to decide, not a context dump
-4. **Review everything** — Every worker output passes quality gate before synthesis
-5. **Bounded iteration** — Max 3 revision rounds per worker
-6. **Explicit termination** — Define "done" before starting. No "keep going until perfect"
-7. **State preservation** — Coordinator maintains running state for session handoff
-8. **Human alignment** — Check with user before major scope changes
+1. **Decompose thoughtfully** - Break work at natural seams, not arbitrary lines
+2. **File ownership** - Each worker owns specific files. No overlap = no merge conflicts
+3. **Context budget** - Workers get enough to decide, not a context dump
+4. **Review everything** - Every worker output passes quality gate before synthesis
+5. **Bounded iteration** - Max 3 revision rounds per worker
+6. **Explicit termination** - Define "done" before starting. No "keep going until perfect"
+7. **State preservation** - Coordinator maintains running state for session handoff
+8. **Human alignment** - Check with user before major scope changes

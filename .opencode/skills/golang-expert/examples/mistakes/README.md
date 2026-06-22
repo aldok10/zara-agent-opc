@@ -1,4 +1,4 @@
-# Understanding Go Mistakes — Study Guide for AI
+# Understanding Go Mistakes - Study Guide for AI
 
 > **INSTRUCTION**: Read this file to UNDERSTAND the reasoning, not just memorize rules.
 > These mistakes are patterns that look correct but produce bugs, leaks, or poor performance.
@@ -133,7 +133,7 @@ All share the same root cause: **not understanding how the runtime works**.
 - #91-#100: CPU caches, GC, stack, alignment (hardware)
 
 **The principle**: The fastest code is the code that doesn't allocate.
-Pre-size, reuse, pool. But ONLY when measured — premature optimization is also a mistake.
+Pre-size, reuse, pool. But ONLY when measured - premature optimization is also a mistake.
 
 ## How to Self-Check
 

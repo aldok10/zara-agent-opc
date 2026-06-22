@@ -30,38 +30,38 @@ Use ALWAYS the modern pattern. Never use the outdated pattern when the project's
 ## Go 1.22+
 - `for i := range n` instead of `for i := 0; i < n; i++`
 - Loop vars safe for goroutine capture (per-iteration copy)
-- `cmp.Or(a, b, "default")` — first non-zero value
+- `cmp.Or(a, b, "default")` - first non-zero value
 - HTTP routing: `mux.HandleFunc("GET /api/{id}", h)` + `r.PathValue("id")`
 - `reflect.TypeFor[T]()` instead of `reflect.TypeOf((*T)(nil)).Elem()`
 
 ## Go 1.23+
 - `maps.Keys(m)` / `maps.Values(m)` return iterators
-- `slices.Collect(iter)` — build slice from iterator
-- `slices.Sorted(iter)` — collect + sort in one step
+- `slices.Collect(iter)` - build slice from iterator
+- `slices.Sorted(iter)` - collect + sort in one step
 - `time.Tick` is safe (GC recovers unreferenced tickers since 1.23)
 - `iter.Seq` / `iter.Seq2` range-over-function iterators
 
 ## Go 1.24+
-- **`t.Context()`** instead of `context.WithCancel(context.Background())` in tests — ALWAYS
+- **`t.Context()`** instead of `context.WithCancel(context.Background())` in tests - ALWAYS
 - **`omitzero`** instead of `omitempty` for time.Duration, time.Time, structs, slices, maps in JSON tags
-- **`b.Loop()`** instead of `for i := 0; i < b.N; i++` in benchmarks — ALWAYS
+- **`b.Loop()`** instead of `for i := 0; i < b.N; i++` in benchmarks - ALWAYS
 - **`strings.SplitSeq`** / `strings.FieldsSeq` instead of `strings.Split` when iterating in for-range
 - Generic type aliases: `type MySlice[T any] = []T`
 - `weak` package (weak pointers)
 - `os.Root` (path traversal prevention)
 
 ## Go 1.25+
-- **`wg.Go(fn)`** instead of `wg.Add(1)` + `go func() { defer wg.Done(); ... }()` — ALWAYS
+- **`wg.Go(fn)`** instead of `wg.Add(1)` + `go func() { defer wg.Done(); ... }()` - ALWAYS
 - Green Tea GC experiment
 - Improved HTTP/2 defaults
 
 ## Go 1.26+
-- **`new(val)`** — returns pointer to any value: `new(30)` → `*int`, `new(true)` → `*bool`
+- **`new(val)`** - returns pointer to any value: `new(30)` → `*int`, `new(true)` → `*bool`
   ```go
   // ALWAYS: cfg := Config{Timeout: new(30), Debug: new(true)}
   // NEVER:  t := 30; cfg := Config{Timeout: &t}
   ```
-- **`errors.AsType[T](err)`** instead of `errors.As(err, &target)` — ALWAYS
+- **`errors.AsType[T](err)`** instead of `errors.As(err, &target)` - ALWAYS
   ```go
   // ALWAYS: if pe, ok := errors.AsType[*os.PathError](err); ok { ... }
   // NEVER:  var pe *os.PathError; if errors.As(err, &pe) { ... }

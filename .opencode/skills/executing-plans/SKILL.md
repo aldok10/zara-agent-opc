@@ -1,6 +1,6 @@
 ---
 name: executing-plans
-description: Use when you have a written implementation plan to execute without subagents — batch execution with review checkpoints
+description: Use when you have a written implementation plan to execute without subagents - batch execution with review checkpoints
 trigger: plan execution inline, batch implementation, no subagent execution
 ---
 
@@ -8,14 +8,14 @@ trigger: plan execution inline, batch implementation, no subagent execution
 
 Execute a plan directly in the current session, task by task.
 
-Use this when subagents are unavailable or user prefers inline execution. If subagents ARE available, prefer `subagent-driven-dev` — it produces higher quality through isolated contexts and review gates.
+Use this when subagents are unavailable or user prefers inline execution. If subagents ARE available, prefer `subagent-driven-dev` - it produces higher quality through isolated contexts and review gates.
 
 ## Process
 
 ### Step 1: Load and Review Plan
 
 1. Read the plan file
-2. Review critically — identify gaps, ambiguities, or concerns
+2. Review critically - identify gaps, ambiguities, or concerns
 3. If concerns: raise them BEFORE starting
 4. If clean: create todo items and proceed
 
@@ -58,7 +58,7 @@ After all tasks pass:
 
 **STOP immediately when:**
 - Verification fails repeatedly (>2 attempts)
-- Plan step is ambiguous — can't determine what to build
+- Plan step is ambiguous - can't determine what to build
 - Missing dependency blocks progress
 - Architecture question arises that plan doesn't address
 
@@ -68,7 +68,7 @@ Ask for clarification. Don't guess through blockers.
 
 - NEVER skip test steps ("I'll test after")
 - NEVER proceed past failing verification
-- NEVER modify the plan silently — discuss first
+- NEVER modify the plan silently - discuss first
 - NEVER mix refactoring with feature implementation
 - NEVER start implementation on main/master without explicit consent
 - NEVER pause between tasks without a blocker
@@ -78,12 +78,12 @@ Ask for clarification. Don't guess through blockers.
 ## Integration
 
 **Required skills:**
-- `tdd` — enforced during each task
-- `verification-before-completion` — before claiming any task done
-- `finishing-branch` — after all tasks complete
+- `tdd` - enforced during each task
+- `verification-before-completion` - before claiming any task done
+- `finishing-branch` - after all tasks complete
 
 **Input from:**
-- `writing-plans` — creates the plan this skill executes
+- `writing-plans` - creates the plan this skill executes
 - `brainstorming` → `writing-plans` → **this skill**
 
 ## Related Skills

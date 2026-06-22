@@ -1,6 +1,6 @@
 ---
 name: finishing-branch
-description: Use when implementation is complete and all tests pass — guides integration decision
+description: Use when implementation is complete and all tests pass - guides integration decision
 triggers:
   - "finish branch"
   - "done with branch"
@@ -13,25 +13,25 @@ triggers:
 
 Guide the user through integrating completed work from a feature branch.
 
-## Step 1 — Verify Tests
+## Step 1 - Verify Tests
 
 Run the project's test suite. Determine the command from package.json, Makefile, or project conventions.
 
 - If tests **fail**: STOP. Report failures. Fix before proceeding.
 - If tests **pass**: Continue to Step 2.
 
-## Step 2 — Present Options
+## Step 2 - Present Options
 
 Present exactly these 4 options:
 
-1. **Merge** — Merge back to base branch locally
-2. **PR** — Push and create a pull request
-3. **Keep** — Leave branch as-is (user handles later)
-4. **Discard** — Delete this work entirely
+1. **Merge** - Merge back to base branch locally
+2. **PR** - Push and create a pull request
+3. **Keep** - Leave branch as-is (user handles later)
+4. **Discard** - Delete this work entirely
 
 Ask the user to choose.
 
-## Step 3 — Execute Choice
+## Step 3 - Execute Choice
 
 ### Option 1: Merge
 
@@ -51,7 +51,7 @@ git push -u origin <feature-branch>
 gh pr create --fill
 ```
 
-Do NOT cleanup worktree — user may need it for PR iteration.
+Do NOT cleanup worktree - user may need it for PR iteration.
 Report the PR URL.
 
 ### Option 3: Keep
@@ -94,13 +94,13 @@ Only for Merge and Discard. Order matters:
 - NEVER run `git worktree remove` from inside the worktree being removed
 - NEVER claim "done" without running tests on merged result
 - NEVER skip cleanup procedure for Merge and Discard options
-- NEVER merge to a protected branch directly — use PR
+- NEVER merge to a protected branch directly - use PR
 - NEVER discard work without listing commits that will be lost
 
 ## Related Knowledge (load on demand)
 
-- `knowledge_passage(query: "continuous integration merge deployment")` — CI/merge best practices
-- `knowledge_passage(query: "shipping is a feature incremental delivery")` — when to ship vs polish
+- `knowledge_passage(query: "continuous integration merge deployment")` - CI/merge best practices
+- `knowledge_passage(query: "shipping is a feature incremental delivery")` - when to ship vs polish
 
 ## Related Skills
 

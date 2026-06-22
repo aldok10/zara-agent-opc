@@ -22,7 +22,7 @@ $stmt->execute(['email' => $email, 'status' => $status]);
 // NEVER string interpolation
 $pdo->query("SELECT * FROM users WHERE email = '$email'"); // VULNERABLE
 
-// Dynamic column/table names — whitelist only
+// Dynamic column/table names - whitelist only
 $allowed = ['name', 'email', 'created_at'];
 $column = in_array($sort, $allowed, true) ? $sort : 'created_at';
 $stmt = $pdo->prepare("SELECT * FROM users ORDER BY {$column} LIMIT ?");
@@ -33,12 +33,12 @@ $stmt = $pdo->prepare("SELECT * FROM users ORDER BY {$column} LIMIT ?");
 ## XSS Prevention
 
 ```php
-// Output encoding — context-dependent
+// Output encoding - context-dependent
 echo htmlspecialchars($userInput, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 
-// In Blade/Twig — auto-escaped by default
+// In Blade/Twig - auto-escaped by default
 {{ $variable }}  // Escaped
-{!! $variable !!}  // Raw — ONLY for trusted HTML
+{!! $variable !!}  // Raw - ONLY for trusted HTML
 
 // Content Security Policy header
 header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-{$nonce}'");
@@ -70,14 +70,14 @@ session_set_cookie_params([
 ## Authentication
 
 ```php
-// Password hashing — Argon2id preferred
+// Password hashing - Argon2id preferred
 $hash = password_hash($password, PASSWORD_ARGON2ID, [
     'memory_cost' => 65536,  // 64MB
     'time_cost' => 4,
     'threads' => 3,
 ]);
 
-// Verification — timing-safe internally
+// Verification - timing-safe internally
 if (!password_verify($inputPassword, $storedHash)) {
     throw new InvalidCredentials();
 }
@@ -99,13 +99,13 @@ if (!hash_equals($expectedToken, $providedToken)) {
 ## Cryptography
 
 ```php
-// Symmetric encryption — sodium secretbox (XSalsa20-Poly1305)
+// Symmetric encryption - sodium secretbox (XSalsa20-Poly1305)
 $key = sodium_crypto_secretbox_keygen();
 $nonce = random_bytes(SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);
 $ciphertext = sodium_crypto_secretbox($plaintext, $nonce, $key);
 $decrypted = sodium_crypto_secretbox_open($ciphertext, $nonce, $key);
 
-// Asymmetric — sodium box (X25519 + XSalsa20-Poly1305)
+// Asymmetric - sodium box (X25519 + XSalsa20-Poly1305)
 $aliceKeypair = sodium_crypto_box_keypair();
 $bobKeypair = sodium_crypto_box_keypair();
 
@@ -132,7 +132,7 @@ if (!in_array($mime, $allowed, true)) {
     throw new InvalidFileType();
 }
 
-// Random filename — never use user-provided name
+// Random filename - never use user-provided name
 $filename = bin2hex(random_bytes(16)) . '.' . $extension;
 
 // Store outside webroot

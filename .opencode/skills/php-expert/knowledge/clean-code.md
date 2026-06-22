@@ -1,4 +1,4 @@
-# Clean Code PHP — Complete Guard Rails
+# Clean Code PHP - Complete Guard Rails
 
 Source: [aldok10/clean-code-php](https://github.com/aldok10/clean-code-php)
 
@@ -34,10 +34,10 @@ foreach ($locations as $location) { dispatch($location); }
 
 ### Same vocabulary for same concept
 ```php
-// BAD — inconsistent naming
+// BAD - inconsistent naming
 getUserInfo(); getUserData(); getUserRecord();
 
-// GOOD — one name, one concept
+// GOOD - one name, one concept
 getUser();
 ```
 
@@ -52,16 +52,16 @@ if ($user->access & User::ACCESS_UPDATE) { ... }
 
 ### No unneeded context
 ```php
-// BAD — stuttering
+// BAD - stuttering
 class Car { public $carMake; public $carModel; }
 
 // GOOD
 class Car { public $make; public $model; }
 ```
 
-### Guard clauses — return early, avoid nesting
+### Guard clauses - return early, avoid nesting
 ```php
-// BAD — deeply nested
+// BAD - deeply nested
 function isShopOpen($day): bool {
     if ($day) {
         if (is_string($day)) {
@@ -73,7 +73,7 @@ function isShopOpen($day): bool {
     return false;
 }
 
-// GOOD — flat, early return
+// GOOD - flat, early return
 function isShopOpen(string $day): bool {
     if (empty($day)) return false;
     return in_array(strtolower($day), ['friday', 'saturday', 'sunday'], true);
@@ -86,12 +86,12 @@ function isShopOpen(string $day): bool {
 
 ### 2 or fewer arguments (use value objects/DTOs for more)
 ```php
-// BAD — 8 args
+// BAD - 8 args
 class Questionnaire {
     public function __construct(string $first, string $last, string $region, string $city, string $phone, string $email, ...) {}
 }
 
-// GOOD — grouped into value objects
+// GOOD - grouped into value objects
 class Questionnaire {
     public function __construct(
         private readonly Name $name,
@@ -110,22 +110,22 @@ $message->handle(); // handle what?
 $message->send();
 ```
 
-### No boolean flags — split into separate functions
+### No boolean flags - split into separate functions
 ```php
-// BAD — flag controls behavior
+// BAD - flag controls behavior
 function createFile(string $name, bool $temp = false): void { ... }
 
-// GOOD — explicit functions
+// GOOD - explicit functions
 function createFile(string $name): void { ... }
 function createTempFile(string $name): void { ... }
 ```
 
-### No side effects — pure where possible
+### No side effects - pure where possible
 ```php
-// BAD — mutates global
+// BAD - mutates global
 function splitName(): void { global $name; $name = explode(' ', $name); }
 
-// GOOD — returns new value
+// GOOD - returns new value
 function splitName(string $name): array { return explode(' ', $name); }
 ```
 
@@ -149,7 +149,7 @@ if (isDOMNodePresent($node)) { ... }
 
 ### Use polymorphism over type checking
 ```php
-// BAD — switch on type
+// BAD - switch on type
 function getCruisingAltitude(): int {
     switch ($this->type) {
         case '777': return $this->getMaxAltitude() - $this->getPassengerCount();
@@ -157,7 +157,7 @@ function getCruisingAltitude(): int {
     }
 }
 
-// GOOD — each class knows its behavior
+// GOOD - each class knows its behavior
 interface Airplane { public function getCruisingAltitude(): int; }
 class Boeing777 implements Airplane {
     public function getCruisingAltitude(): int {
@@ -166,7 +166,7 @@ class Boeing777 implements Airplane {
 }
 ```
 
-### Use type declarations — not manual type checking
+### Use type declarations - not manual type checking
 ```php
 // BAD
 function combine($val1, $val2): int {
@@ -174,7 +174,7 @@ function combine($val1, $val2): int {
     return $val1 + $val2;
 }
 
-// GOOD — PHP enforces types
+// GOOD - PHP enforces types
 function combine(int $val1, int $val2): int {
     return $val1 + $val2;
 }
@@ -201,10 +201,10 @@ class Employee {
 
 ### Composition over inheritance
 ```php
-// BAD — "has-a" modeled as "is-a"
+// BAD - "has-a" modeled as "is-a"
 class EmployeeTaxData extends Employee { ... }
 
-// GOOD — composition
+// GOOD - composition
 class Employee {
     private EmployeeTaxData $taxData;
     public function setTaxData(EmployeeTaxData $data): void { $this->taxData = $data; }
@@ -213,7 +213,7 @@ class Employee {
 
 ### Prefer `final` classes with interface
 ```php
-// GOOD — prevents uncontrolled inheritance, encourages composition
+// GOOD - prevents uncontrolled inheritance, encourages composition
 interface Vehicle { public function getColor(): string; }
 
 final class Car implements Vehicle {
@@ -222,12 +222,12 @@ final class Car implements Vehicle {
 }
 ```
 
-### No Singletons — use DI
+### No Singletons - use DI
 ```php
-// BAD — hidden dependency, untestable
+// BAD - hidden dependency, untestable
 $db = DBConnection::getInstance();
 
-// GOOD — injected, testable, explicit
+// GOOD - injected, testable, explicit
 class UserRepository {
     public function __construct(private readonly PDO $db) {}
 }
@@ -240,9 +240,9 @@ Fluent breaks encapsulation, decorators, and mocking. Use for builders only (que
 
 ## SOLID
 
-### SRP — One reason to change
+### SRP - One reason to change
 ```php
-// BAD — auth + settings in one class
+// BAD - auth + settings in one class
 class UserSettings {
     public function changeSettings(array $s): void {
         if ($this->verifyCredentials()) { /* change */ }
@@ -250,7 +250,7 @@ class UserSettings {
     private function verifyCredentials(): bool { ... }
 }
 
-// GOOD — separated
+// GOOD - separated
 class UserAuth { public function verify(): bool { ... } }
 class UserSettings {
     public function __construct(private readonly UserAuth $auth) {}
@@ -260,9 +260,9 @@ class UserSettings {
 }
 ```
 
-### OCP — Extend via interfaces, don't modify
+### OCP - Extend via interfaces, don't modify
 ```php
-// GOOD — new adapters don't touch HttpRequester
+// GOOD - new adapters don't touch HttpRequester
 interface Adapter { public function request(string $url): Response; }
 class HttpRequester {
     public function __construct(private readonly Adapter $adapter) {}
@@ -270,27 +270,27 @@ class HttpRequester {
 }
 ```
 
-### LSP — Subtypes must be substitutable
+### LSP - Subtypes must be substitutable
 Don't let Square extend Rectangle. Use interfaces for shared contracts.
 
-### ISP — Small interfaces
+### ISP - Small interfaces
 ```php
-// BAD — fat interface
+// BAD - fat interface
 interface Employee { public function work(): void; public function eat(): void; }
 
-// GOOD — split by capability
+// GOOD - split by capability
 interface Workable { public function work(): void; }
 interface Feedable { public function eat(): void; }
 ```
 
-### DIP — Depend on abstractions
+### DIP - Depend on abstractions
 ```php
-// BAD — depends on concrete
+// BAD - depends on concrete
 class PasswordReminder {
     public function __construct(private MySQLConnection $db) {}
 }
 
-// GOOD — depends on interface
+// GOOD - depends on interface
 class PasswordReminder {
     public function __construct(private DatabaseConnection $db) {}
 }
@@ -298,9 +298,9 @@ class PasswordReminder {
 
 ---
 
-## DRY — But with judgment
+## DRY - But with judgment
 
-Don't repeat yourself — extract when you've seen it **3+ times**. But: a wrong abstraction is worse than duplication. If two pieces of code look similar but evolve differently, keep them separate.
+Don't repeat yourself - extract when you've seen it **3+ times**. But: a wrong abstraction is worse than duplication. If two pieces of code look similar but evolve differently, keep them separate.
 
 ---
 

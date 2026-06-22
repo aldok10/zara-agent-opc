@@ -7,14 +7,14 @@ Patterns from production Laravel apps. Every solution is proven in real projects
 ## Senior DNA Applied to Laravel
 
 - **Gall's Law**: Start with standard Laravel. Don't impose DDD/hexagonal until pain proves you need it.
-- **Golden Hammer**: Eloquent is great for CRUD. It's NOT great for complex domain logic — know when to separate.
+- **Golden Hammer**: Eloquent is great for CRUD. It's NOT great for complex domain logic - know when to separate.
 - **Pain-Driven**: Don't create Actions/DTOs/Services for simple CRUD. Do create them when controllers exceed 15 lines.
 - **YAGNI**: No repository pattern wrapping Eloquent unless you genuinely plan to swap databases (you won't).
 - **Tell Don't Ask**: `$order->ship()` not `if ($order->status === 'paid') { $order->status = 'shipped'; }`
 - **Fail Fast**: Form Requests validate before controller runs. Never validate inside business logic.
 - **Shipping is a Feature**: A working Eloquent model with tests > a perfect hexagonal architecture with no tests.
 
-## Part 1 — Think Clean
+## Part 1 - Think Clean
 
 ### Philosophy of Simplicity
 - Simple code > clever code
@@ -38,11 +38,11 @@ Patterns from production Laravel apps. Every solution is proven in real projects
 - Interface binding for swappable implementations
 - Contextual binding when same interface needs different implementations
 
-## Part 2 — Write Clean
+## Part 2 - Write Clean
 
 ### Controllers (Thin)
 - Max 5 CRUD methods: `index`, `show`, `store`, `update`, `destroy`
-- No business logic — delegate to Actions or Services
+- No business logic - delegate to Actions or Services
 - Return early on validation failure (Form Requests)
 - Single responsibility: one resource per controller
 
@@ -123,7 +123,7 @@ app(Pipeline::class)
 - Consistent error format: `{message, errors}`
 - API versioning via URL prefix or header
 
-## Part 3 — Model Clean
+## Part 3 - Model Clean
 
 ### Eloquent Best Practices
 - No business logic in models (models = data + relationships + scopes)
@@ -163,7 +163,7 @@ enum OrderStatus: string
 - Eager load relationships (prevent N+1)
 - Use `chunk()` or `lazy()` for large datasets
 
-## Part 4 — Ship Clean
+## Part 4 - Ship Clean
 
 ### Testing Strategy
 - Feature tests for happy paths + edge cases
@@ -194,11 +194,11 @@ enum OrderStatus: string
 | Pattern | Use when | Example |
 |---------|----------|---------|
 | **Thin Controller** | Simple CRUD, <10 lines of logic | `UserController::store` that just validates + saves |
-| **Action** | Reusable business operation (controller + command + job) | `CreateOrderAction` — called from API, CLI, and queue |
-| **Service** | Orchestrates multiple actions or coordinates dependencies | `CheckoutService` — validates stock, creates order, charges payment |
+| **Action** | Reusable business operation (controller + command + job) | `CreateOrderAction` - called from API, CLI, and queue |
+| **Service** | Orchestrates multiple actions or coordinates dependencies | `CheckoutService` - validates stock, creates order, charges payment |
 | **Job** | Async, retryable, time-insensitive work | `SendWelcomeEmailJob` |
 
-### Repository Pattern — Decision
+### Repository Pattern - Decision
 
 | Scenario | Use Repository? | Why |
 |----------|----------------|-----|
@@ -208,7 +208,7 @@ enum OrderStatus: string
 | Domain logic separated from persistence | ✅ Yes | DDD bounded context needs this |
 | Testing without database | ✅ Interface | Mock the interface, not Eloquent |
 
-**Rule**: Don't create a repository that just proxies Eloquent. That's the Golden Hammer antipattern. If your repository methods are `find($id)`, `save($model)`, `delete($model)` — you've just recreated Eloquent with extra steps.
+**Rule**: Don't create a repository that just proxies Eloquent. That's the Golden Hammer antipattern. If your repository methods are `find($id)`, `save($model)`, `delete($model)` - you've just recreated Eloquent with extra steps.
 
 ### When Actions Shine
 

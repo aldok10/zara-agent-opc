@@ -1,5 +1,5 @@
 ---
-description: Code review — staged or last commit, grounded in knowledge, auto-bug-security routing
+description: Code review - staged or last commit, grounded in knowledge, auto-bug-security routing
 agent: code-reviewer
 subtask: true
 ---
@@ -8,15 +8,15 @@ Review the recent changes for code quality, bugs, security, and maintainability.
 
 ## Pre-flight
 
-1. `skill("code-review")` — load review workflow
-2. `knowledge_passage(query: "code review checklist common bugs")` — ground in proven patterns
+1. `skill("code-review")` - load review workflow
+2. `knowledge_passage(query: "code review checklist common bugs")` - ground in proven patterns
 
 ## Sources
 
 Check these for changes (in priority order):
-1. `git diff --staged --stat` — staged changes
-2. `git diff HEAD~1 --stat` — last commit if nothing staged
-3. `git log --oneline -5` — recent context
+1. `git diff --staged --stat` - staged changes
+2. `git diff HEAD~1 --stat` - last commit if nothing staged
+3. `git log --oneline -5` - recent context
 
 `!git diff --staged --stat`
 `!git log --oneline -3`

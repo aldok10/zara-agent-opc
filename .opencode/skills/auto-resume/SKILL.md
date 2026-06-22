@@ -1,6 +1,6 @@
 ---
 name: auto-resume
-description: Use when Zara activates to check for saved session state — detects incomplete work and proactively offers to resume without user prompting, using MCP memory recall
+description: Use when Zara activates to check for saved session state - detects incomplete work and proactively offers to resume without user prompting, using MCP memory recall
 tags:
   - zara
   - auto-resume
@@ -19,7 +19,7 @@ Zara saves session state to MCP memory at session end. On activation, use
 `Orchestrator_memory_recall` to check for open session state instead of reading
 files from disk.
 
-**Key constraint**: Do NOT read state files from `~/.zara/state/` — MCP memory
+**Key constraint**: Do NOT read state files from `~/.zara/state/` - MCP memory
 is the single source of truth.
 
 ## Steps
@@ -36,7 +36,7 @@ Orchestrator_memory_recall(query: "open threads")
 Look for:
 - Recent `memory_episode` entries with tags: session
 - `memory_learn` entries with type: `fact` and keys prefixed `thread_` (from `/handoff` command)
-- `memory_recall(query: "thread")` — finds all thread-related keys
+- `memory_recall(query: "thread")` - finds all thread-related keys
 - The most recent episode indicates saved session state
 
 ### 2. Announce Context
@@ -67,5 +67,5 @@ Shall I pick up where I left off?
 
 ## Related
 
-- `Orchestrator_memory_recall` — the only recall mechanism needed
-- `session-handoff` — how state gets saved in the first place
+- `Orchestrator_memory_recall` - the only recall mechanism needed
+- `session-handoff` - how state gets saved in the first place

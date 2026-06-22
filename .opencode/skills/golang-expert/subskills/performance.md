@@ -2,9 +2,9 @@
 
 > Activate when: latency, memory, allocation, GC, pprof, benchmark, hot path, escape analysis, pool, cache line, struct alignment, PGO, zero-alloc
 >
-> Prevents mistakes: #21, #27, #28, #39, #76, #91-#100 (100 Go Mistakes — Data Types & Optimizations)
+> Prevents mistakes: #21, #27, #28, #39, #76, #91-#100 (100 Go Mistakes - Data Types & Optimizations)
 
-**Senior DNA**: Stdlib first. Measure before optimize (pprof, not opinion). "It depends" — a CLI doesn't need sync.Pool. A batch job doesn't need zero-alloc JSON. Match optimization to actual workload. Delete complexity that doesn't pay for itself.
+**Senior DNA**: Stdlib first. Measure before optimize (pprof, not opinion). "It depends" - a CLI doesn't need sync.Pool. A batch job doesn't need zero-alloc JSON. Match optimization to actual workload. Delete complexity that doesn't pay for itself.
 
 ## Decision Framework
 
@@ -70,8 +70,8 @@ What causes escape to heap:
 
 Patterns that stay on stack:
 ```go
-func NewThing() Thing { return Thing{X: 1} }       // value — stack
-var buf [512]byte                                    // fixed array — stack
+func NewThing() Thing { return Thing{X: 1} }       // value - stack
+var buf [512]byte                                    // fixed array - stack
 func Encode(dst []byte, src []byte) int { ... }     // caller provides buffer
 ```
 
@@ -150,7 +150,7 @@ func b2s(b []byte) string { return unsafe.String(unsafe.SliceData(b), len(b)) }
 # Higher GOGC = fewer GCs, more memory
 GOGC=200 ./myapp
 
-# GOMEMLIMIT (Go 1.19+) — THE modern answer
+# GOMEMLIMIT (Go 1.19+) - THE modern answer
 GOMEMLIMIT=3750MiB ./myapp  # 80% of 4GiB container
 
 # Maximum throughput (Uber: saved 70K cores)
@@ -231,13 +231,13 @@ fieldalignment -fix ./...
 
 ## Delegates To
 
-- **observability** — when profiling setup is needed
-- **concurrency** — when contention is the bottleneck
-- **architecture** — when redesign is needed for performance
+- **observability** - when profiling setup is needed
+- **concurrency** - when contention is the bottleneck
+- **architecture** - when redesign is needed for performance
 
 ## Examples
 
-- `examples/performance/01-escape-analysis/` — stack vs heap with benchmarks
-- `examples/performance/02-sync-pool/` — correct pool patterns
-- `examples/performance/03-zero-alloc/` — buffer reuse, append patterns
-- `examples/performance/04-concurrent-map/` — sharded vs sync.Map vs mutex
+- `examples/performance/01-escape-analysis/` - stack vs heap with benchmarks
+- `examples/performance/02-sync-pool/` - correct pool patterns
+- `examples/performance/03-zero-alloc/` - buffer reuse, append patterns
+- `examples/performance/04-concurrent-map/` - sharded vs sync.Map vs mutex

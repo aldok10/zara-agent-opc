@@ -1,4 +1,4 @@
-# Go Expert — Zara Privacy MCP Project Context
+# Go Expert - Zara Privacy MCP Project Context
 
 This file extends the golang-expert skill with project-specific rules for `zara-privacy-mcp`.
 
@@ -53,9 +53,9 @@ func BenchmarkX(b *testing.B) {
 
 ## Project-Specific Rules
 
-1. **Tool handlers** (`application/tools/`) return `(*mcp.CallToolResult, error)` — use `jsonResult()` for success, `mcp.NewToolResultError()` for user errors
+1. **Tool handlers** (`application/tools/`) return `(*mcp.CallToolResult, error)` - use `jsonResult()` for success, `mcp.NewToolResultError()` for user errors
 2. **Security validators** (`application/tools/security.go`) use package-level `var` for blocklists (allocated once)
-3. **Masking** — always use `internal/masking.Masker`, never duplicate scan+replace
-4. **Config** — all from env vars via `config.Load()`, validated on startup
-5. **Lifecycle** — runfx/fx manages startup/shutdown; cleanup in `fx.Hook{OnStop}`
-6. **Transport** — mcp-go handles protocol; we only write tool handlers + middleware
+3. **Masking** - always use `internal/masking.Masker`, never duplicate scan+replace
+4. **Config** - all from env vars via `config.Load()`, validated on startup
+5. **Lifecycle** - runfx/fx manages startup/shutdown; cleanup in `fx.Hook{OnStop}`
+6. **Transport** - mcp-go handles protocol; we only write tool handlers + middleware

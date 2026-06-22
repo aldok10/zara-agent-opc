@@ -8,7 +8,7 @@
 - Application servers keep PHP workers alive between requests. Massive performance gain, new failure modes.
 - Memory leaks, static state pollution, and stale connections are your enemies.
 - FrankenPHP for simplicity + modern features. RoadRunner for ecosystem + plugins.
-- Always implement container reset between requests — frameworks handle this for you.
+- Always implement container reset between requests - frameworks handle this for you.
 
 ---
 
@@ -18,7 +18,7 @@ Written in Go, embeds PHP directly. Built on Caddy.
 
 **Key Features**:
 - Worker mode (persistent PHP workers, no boot per request)
-- Early Hints (HTTP 103 — preload CSS/JS before response ready)
+- Early Hints (HTTP 103 - preload CSS/JS before response ready)
 - Mercure (native real-time push via SSE)
 - Single binary deployment
 - Automatic HTTPS via Caddy
@@ -86,7 +86,7 @@ http:
     num_workers: 8
     max_jobs: 1000
     supervisor:
-      max_worker_memory: 128  # MB — restart if exceeded
+      max_worker_memory: 128  # MB - restart if exceeded
 
 jobs:
   pool:
@@ -159,7 +159,7 @@ class RequestContext {
 
 ### Connection Pools
 ```php
-// Connections persist across requests — this is a FEATURE
+// Connections persist across requests - this is a FEATURE
 // But handle disconnections:
 try {
     $result = $pdo->query($sql);

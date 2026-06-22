@@ -30,7 +30,7 @@
   ```php
   $first = array_first($items); // replaces $items[array_key_first($items)]
   ```
-- **URI Extension**: `Uri\Rfc3986\Uri` — proper URI parsing (replaces parse_url)
+- **URI Extension**: `Uri\Rfc3986\Uri` - proper URI parsing (replaces parse_url)
   ```php
   $uri = new Uri\Rfc3986\Uri('https://example.com/path?q=1');
   $uri->getHost(); // "example.com"

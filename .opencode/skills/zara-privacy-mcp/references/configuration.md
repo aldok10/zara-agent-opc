@@ -34,9 +34,9 @@ ZARA_DB_PATH=~/.zara/privacymcp/mappings.db
 
 ## Operational Behavior
 
-- **All masking is automatic** — agent does not explicitly mask
-- **Credentials never appear in prompts** — auth injected from env by MCP
-- **Privacy tools always ready** — only need `ZARA_ENCRYPTION_KEY`
-- **DB/API/AI tools need env vars** — "unknown database" error → check config
+- **All masking is automatic** - agent does not explicitly mask
+- **Credentials never appear in prompts** - auth injected from env by MCP
+- **Privacy tools always ready** - only need `ZARA_ENCRYPTION_KEY`
+- **DB/API/AI tools need env vars** - "unknown database" error → check config
 - **Hot reload**: `kill -HUP` to reload config without restart
 - **Transport**: `--stdio` for MCP client, HTTP for standalone/testing

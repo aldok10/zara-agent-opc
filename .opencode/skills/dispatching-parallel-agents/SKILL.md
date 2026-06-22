@@ -31,20 +31,20 @@ Group by what's broken:
 - Domain B: Payment processing
 - Domain C: Email notifications
 
-Each domain is independent — fixing auth doesn't affect email.
+Each domain is independent - fixing auth doesn't affect email.
 
 ### 2. Craft Focused Prompts
 
 Each agent gets:
-- **Specific scope** — one test file or subsystem
-- **Clear goal** — "make these tests pass" or "investigate and report"
-- **Constraints** — "don't change files outside X/"
-- **Context** — error messages, relevant file paths
-- **Expected output** — "summary of root cause and fix"
+- **Specific scope** - one test file or subsystem
+- **Clear goal** - "make these tests pass" or "investigate and report"
+- **Constraints** - "don't change files outside X/"
+- **Context** - error messages, relevant file paths
+- **Expected output** - "summary of root cause and fix"
 
 ### 3. Dispatch in Parallel
 
-Issue ALL subagent dispatches in the same response — they run concurrently:
+Issue ALL subagent dispatches in the same response - they run concurrently:
 
 ```
 Subagent A: "Fix auth-flow.test.ts failures. [context]"
@@ -69,9 +69,9 @@ Good prompts are focused, self-contained, and specific about output:
 ```markdown
 Fix the 3 failing tests in src/auth/auth-flow.test.ts:
 
-1. "should reject expired tokens" — expects 401, gets 200
-2. "should refresh token before expiry" — timeout after 5s
-3. "should invalidate on password change" — old token still works
+1. "should reject expired tokens" - expects 401, gets 200
+2. "should refresh token before expiry" - timeout after 5s
+3. "should invalidate on password change" - old token still works
 
 Context: Auth middleware is in src/middleware/auth.ts.
 Token logic in src/services/token.ts.
@@ -100,10 +100,10 @@ Return: Root cause summary + what you changed.
 
 After all agents return:
 
-1. **Review summaries** — understand what each changed
-2. **Check conflicts** — same file edited by multiple agents?
-3. **Run full suite** — all fixes work together?
-4. **Spot-check** — agents can make systematic errors
+1. **Review summaries** - understand what each changed
+2. **Check conflicts** - same file edited by multiple agents?
+3. **Run full suite** - all fixes work together?
+4. **Spot-check** - agents can make systematic errors
 
 If conflicts exist: resolve manually or dispatch a single integration agent.
 
@@ -132,10 +132,10 @@ Use when: mega-task with multiple coordination layers. See plugin `swarm_nest_ep
 
 ## Key Benefits
 
-- **Speed** — N problems in time of 1
-- **Focus** — narrow scope = fewer mistakes
-- **Independence** — no agent-to-agent interference
-- **Context preservation** — coordinator keeps main context clean
+- **Speed** - N problems in time of 1
+- **Focus** - narrow scope = fewer mistakes
+- **Independence** - no agent-to-agent interference
+- **Context preservation** - coordinator keeps main context clean
 
 ## Quality Checklist
 

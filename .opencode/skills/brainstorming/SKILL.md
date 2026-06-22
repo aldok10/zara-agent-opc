@@ -19,7 +19,7 @@ description: Use before any creative/feature work. Explores intent, requirements
 
 ### Anti-pattern: "too simple to need design"
 
-Every feature goes through this process. Simple features get a short design. Complex features get a thorough one. The process scales — it doesn't get skipped.
+Every feature goes through this process. Simple features get a short design. Complex features get a thorough one. The process scales - it doesn't get skipped.
 
 ## Process
 
@@ -37,7 +37,7 @@ Ask questions **one at a time**. Prefer multiple choice:
 > A) Speed of delivery
 > B) Flexibility for future changes
 > C) Minimal surface area
-> D) Something else — tell me
+> D) Something else - tell me
 
 Don't dump 5 questions at once. Each answer informs the next question.
 
@@ -103,7 +103,7 @@ Before handing to user, check:
 - [ ] No internal contradictions
 - [ ] No ambiguous requirements
 - [ ] Acceptance criteria are testable
-- [ ] YAGNI applied — nothing speculative
+- [ ] YAGNI applied - nothing speculative
 
 ### 8. User Review
 
@@ -117,12 +117,12 @@ Once approved, invoke `writing-plans` skill to break design into implementation 
 
 ## Principles
 
-- **YAGNI ruthlessly** — if you can't justify it from current requirements, cut it
-- **One question at a time** — respect attention, build understanding incrementally
-- **Multiple choice preferred** — reduce cognitive load, speed up decisions
-- **Explore alternatives always** — the first idea is rarely the best
-- **Incremental validation** — don't reveal a 50-line spec and ask "looks good?"
-- **Design for isolation** — smaller units, clear boundaries, well-defined interfaces, testable independently
+- **YAGNI ruthlessly** - if you can't justify it from current requirements, cut it
+- **One question at a time** - respect attention, build understanding incrementally
+- **Multiple choice preferred** - reduce cognitive load, speed up decisions
+- **Explore alternatives always** - the first idea is rarely the best
+- **Incremental validation** - don't reveal a 50-line spec and ask "looks good?"
+- **Design for isolation** - smaller units, clear boundaries, well-defined interfaces, testable independently
 
 ## Tone
 
@@ -140,16 +140,16 @@ During brainstorming, route to the right specialist when depth is needed:
 | Test strategy, coverage, TDD | @probe | `knowledge_passage(query: "testing strategy TDD pyramid")` |
 | Delivery approach, scope, priorities | @pulse | `knowledge_passage(query: "incremental delivery YAGNI scope")` |
 | Iteration mechanics, verification | @rhythm | `knowledge_passage(query: "loop design patterns verification")` |
-| Parallelization, 3+ independent streams | @hive | — |
+| Parallelization, 3+ independent streams | @hive | - |
 
 ## Related Knowledge (load on demand via MCP)
 
-- `knowledge_passage(query: "architecture patterns clean architecture modular")` — when evaluating architectural approaches
-- `knowledge_passage(query: "design patterns strategy factory repository")` — when proposing implementation patterns
-- `knowledge_passage(query: "YAGNI simple design principles")` — when simplifying scope
-- `knowledge_passage(query: "DDD bounded context aggregate value object")` — for domain modeling discussions
-- `knowledge_passage(query: "anti-patterns golden hammer feature creep")` — when avoiding over-engineering
-- `knowledge_index(section: "principles")` — browse engineering principles for decision criteria
+- `knowledge_passage(query: "architecture patterns clean architecture modular")` - when evaluating architectural approaches
+- `knowledge_passage(query: "design patterns strategy factory repository")` - when proposing implementation patterns
+- `knowledge_passage(query: "YAGNI simple design principles")` - when simplifying scope
+- `knowledge_passage(query: "DDD bounded context aggregate value object")` - for domain modeling discussions
+- `knowledge_passage(query: "anti-patterns golden hammer feature creep")` - when avoiding over-engineering
+- `knowledge_index(section: "principles")` - browse engineering principles for decision criteria
 
 ## Integration
 

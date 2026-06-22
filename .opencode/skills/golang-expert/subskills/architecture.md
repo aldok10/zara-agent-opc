@@ -2,9 +2,9 @@
 
 > Activate when: project structure, interface design, pattern, DI, clean arch, module, package, SOLID, dependency, abstraction, composition
 >
-> Prevents mistakes: #1-#16 (100 Go Mistakes — Code & Project Organization)
+> Prevents mistakes: #1-#16 (100 Go Mistakes - Code & Project Organization)
 
-**Senior DNA**: Stdlib first (`net/http` routing, `encoding/json`, `log/slog` — no framework needed). "It depends" — a 500-line CLI doesn't need hexagonal architecture. A 3-person team doesn't need microservices. Start as flat as possible, add structure when pain is real. Every abstraction must earn its existence through repeated use.
+**Senior DNA**: Stdlib first (`net/http` routing, `encoding/json`, `log/slog` - no framework needed). "It depends" - a 500-line CLI doesn't need hexagonal architecture. A 3-person team doesn't need microservices. Start as flat as possible, add structure when pain is real. Every abstraction must earn its existence through repeated use.
 
 ## Philosophy
 
@@ -21,7 +21,7 @@ myproject/
 ├── cmd/                  # Entry points (thin main.go)
 │   ├── api/
 │   └── worker/
-├── internal/             # Private — not importable externally
+├── internal/             # Private - not importable externally
 │   ├── domain/           # Core business types & logic
 │   ├── handler/          # HTTP/gRPC transport layer
 │   ├── repository/       # Data access
@@ -33,10 +33,10 @@ myproject/
 ```
 
 **Rules**:
-- `internal/` prevents external imports — safe to refactor
-- `cmd/` only `main.go` — thin entry, wire dependencies
+- `internal/` prevents external imports - safe to refactor
+- `cmd/` only `main.go` - thin entry, wire dependencies
 - Tests next to code: `handler_test.go` beside `handler.go`
-- Avoid `golang-standards/project-layout` — it's NOT official
+- Avoid `golang-standards/project-layout` - it's NOT official
 - Don't over-structure before you need it
 
 ## Interface Design
@@ -71,7 +71,7 @@ func NewUserService(repo UserRepository, log *slog.Logger) *UserService {
     return &UserService{repo: repo, log: log}
 }
 
-// In cmd/api/main.go — wire everything
+// In cmd/api/main.go - wire everything
 func main() {
     db := database.Connect(cfg.DSN)
     repo := repository.NewUserRepo(db)
@@ -265,9 +265,9 @@ func run() error {
 
 ## Delegates To
 
-- **testing** — when architecture needs test strategy
-- **performance** — when architecture decisions affect performance
-- **security** — when dependency boundaries affect attack surface
+- **testing** - when architecture needs test strategy
+- **performance** - when architecture decisions affect performance
+- **security** - when dependency boundaries affect attack surface
 
 ## Examples
 

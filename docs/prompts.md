@@ -9,8 +9,7 @@ Zara uses a layered prompt system loaded via OpenCode's `instructions` configura
 ```
 .opencode/
 ├── instructions/
-│   ├── system.md           # Operational instructions (recall, context, git safety)
-│   └── philosophy.md       # Engineering philosophy (priorities, decision-making)
+│   └── system.md           # Operational instructions (recall, context, git safety)
 └── agent/
     ├── zara.md             # Primary agent - full Zara identity & behavior
     ├── sketch.md           # Sketch - planning mode, analysis without changes
@@ -22,6 +21,9 @@ Zara uses a layered prompt system loaded via OpenCode's `instructions` configura
     ├── rhythm.md           # Rhythm - loop engineering sub-agent
     ├── hive.md             # Hive - parallel coordination sub-agent
     └── forge.md            # Forge - implementation sub-agent
+
+prompts/
+└── philosophy.md           # Engineering philosophy (priorities, decision-making)
 ```
 
 ## Prompt Layers
@@ -48,9 +50,9 @@ Zara uses a layered prompt system loaded via OpenCode's `instructions` configura
 
 **Purpose:** Defines runtime behavior, context management, and safety rules.
 
-**Two files:**
-- `system.md` - Connection DNA, context protection, memory protocol, anti-AI writing, git safety
-- `philosophy.md` - Priority stack, architecture review, AI engineering considerations
+**Two files (loaded via `instructions` config):**
+- `.opencode/instructions/system.md` - Connection DNA, context protection, memory protocol, anti-AI writing, git safety
+- `prompts/philosophy.md` - Priority stack, architecture review, AI engineering considerations
 
 ### 3. Sub-Agent Prompts (`.opencode/agent/*.md`)
 

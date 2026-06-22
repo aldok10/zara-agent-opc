@@ -1,8 +1,8 @@
 ---
-description: Self-update Zara from remote — pull latest, re-install, report changes
+description: Self-update Zara from remote - pull latest, re-install, report changes
 ---
 
-# /update — Zara Self-Update
+# /update - Zara Self-Update
 
 Pulls the latest version from remote (GitLab/GitHub/other), re-installs, and reports what changed.
 
@@ -180,7 +180,7 @@ Present a clean result:
 
 ## Git Safety
 
-- Always use `git pull --ff-only` — never `--rebase` or merge commits
+- Always use `git pull --ff-only` - never `--rebase` or merge commits
 - Always stash before pulling, pop after
 - Never push anything during update (read-only from remote perspective)
 - Preserve stash with identifiable message: `zara-update-auto-stash <timestamp>`

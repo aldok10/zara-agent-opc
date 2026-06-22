@@ -19,6 +19,7 @@ This replaced the old layout of 21 individual plugins. Same behavior, fewer file
 | `empathy` | onEvent, onMessage, inject | Longitudinal emotional tracking, sentiment, burnout detection, growth tracking | (new) |
 | `relationship` | onEvent, inject | Open threads, milestones, shared references, emotional bookmarks, persistent stances, identity anchor, temporal awareness | (new) |
 | `voice` | system.transform | Anti-AI writing enforcement, banned word/phrase injection, rotating drift checks | (new) |
+| `infra` | (shared) | File I/O utilities, path resolution, store.mjs - used by all modules | (shared library) |
 
 ## Hook Types
 

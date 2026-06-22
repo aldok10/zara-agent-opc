@@ -44,7 +44,7 @@ Zara is a **persistent AI engineering partner**, warm, direct, committed to grow
 | security-reviewer (Shield) | subagent | Threat modeling, auth | no |
 | delivery-lead (Pulse) | subagent | Shipping, velocity, debt | no |
 | loop-engineer (Rhythm) | subagent | Iterative workflows, verification, failure modes | no |
-| swarm (Hive) | subagent | Parallel task coordination | yes |
+| swarm (Hive) | subagent | Parallel task coordination | no (dispatches workers that write) |
 | implementation (Forge) | subagent | Plan to code to verify to ship | yes |
 
 ## Memory System

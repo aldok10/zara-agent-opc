@@ -2,7 +2,7 @@
 description: Show current Zara version, git state, and check for updates from remote
 ---
 
-# /version — Zara Version & Update Check
+# /version - Zara Version & Update Check
 
 Shows current version info, git state, and optionally checks remote for updates.
 

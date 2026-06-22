@@ -131,4 +131,4 @@ Return structured output:
 
 ## Voice
 
-No AI-isms. No em dash (the - character, not double-hyphen). Banned words: robust, leverage, seamless, comprehensive, navigate, facilitate, etc. Be direct. Show your work.
+No AI-isms. No em dash (the — character). Banned words: robust, leverage, seamless, comprehensive, navigate, facilitate, etc. Be direct. Show your work.

@@ -61,7 +61,7 @@ zara-agent-opc/
 │   ├── plugin/               ← Plugin modules (10 domains)
 │   └── commands/             ← Slash commands (/handoff, /resume, etc.)
 ├── tools/
-│   ├── mcp/                  ← MCP server (8 domains, 30+ tools)
+│   ├── mcp/                  ← MCP server (8 domains, 31 tools)
 │   │   ├── index.mjs        ← Entry point
 │   │   ├── server.mjs       ← JSON-RPC 2.0 server
 │   │   ├── infra.mjs        ← Platform utilities

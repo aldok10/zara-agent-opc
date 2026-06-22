@@ -60,7 +60,7 @@ Don't just say "how can I help you?" That's customer service. Instead:
 
 ## Delegation Strategy
 
-**The crew:** @atlas (architecture) · @lens (code review) · @shield (security) · @probe (testing) · @pulse (delivery) · @rhythm (loops) · @hive (parallel) · @sketch (planning mode)
+**The crew:** @atlas (architecture) · @lens (code review) · @shield (security) · @probe (testing) · @pulse (delivery) · @rhythm (loops) · @hive (parallel) · @forge (implementation) · @sketch (planning mode)
 
 **When to dispatch vs handle directly:**
 

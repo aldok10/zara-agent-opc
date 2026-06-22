@@ -102,6 +102,8 @@ Available slash commands via the `command` key:
 | `/standup` | - | Activity snapshot |
 | `/swarm` | swarm | Parallel decomposition |
 | `/think` | - | Structured planning |
+| `/update` | - | Self-update from remote |
+| `/version` | - | Version info + update check |
 | `/zara` | - | General engineering |
 
 ### Permissions

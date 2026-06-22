@@ -70,33 +70,6 @@ class KnowledgeTools {
         inputSchema: { type: 'object', properties: { query: { type: 'string' } }, required: ['query'] },
         handler: (args) => this.#handleTeamKnowledge(args),
       },
-      chm2md: {
-        description: 'Convert CHM to AI skill with subskills. Auto-installs to ~/.agents/skills/<name>/.',
-        inputSchema: {
-          type: 'object',
-          properties: {
-            input: { type: 'string', description: 'Path to .chm file' },
-            skill_name: { type: 'string', description: 'Skill name' },
-            output: { type: 'string', description: 'Custom output path' },
-            mode: { type: 'string', enum: ['skill', 'group', 'flat', 'single'] },
-          },
-          required: ['input'],
-        },
-        handler: (args) => this.#handleChm2md(args),
-      },
-      chm2md_improve: {
-        description: 'Get actionable AI improvement tasks for a generated skill.',
-        inputSchema: {
-          type: 'object',
-          properties: {
-            skill_path: { type: 'string', description: 'Path to skill root' },
-            subskill: { type: 'string' },
-            action: { type: 'string', enum: ['plan', 'files', 'template'] },
-          },
-          required: ['skill_path'],
-        },
-        handler: (args) => this.#handleChm2mdImprove(args),
-      },
     };
   }
 

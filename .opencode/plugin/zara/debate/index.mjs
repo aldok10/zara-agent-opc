@@ -1,6 +1,9 @@
 // Debate — Multi-agent deliberation for high-stakes decisions
 // Dispatches 2-3 agents in parallel, scores consensus, iterates if needed
 
+import { tool } from '@opencode-ai/plugin';
+
+const z = tool.schema;
 const CONSENSUS_THRESHOLD = 0.6;
 const MAX_ROUNDS = 3;
 const AGENT_TIMEOUT = 30_000;
@@ -117,26 +120,22 @@ async function promptAgent(client, sessionID, agent, promptText, signal) {
 export default function createDebate({ client } = {}) {
   return {
     tools: {
-      deliberate: {
-        description: 'Initiate a multi-agent debate. Dispatches 2-3 specialist agents in parallel to analyze a question from different perspectives, scores consensus, and iterates if needed. Use for high-stakes architecture/design decisions. Returns positions, consensus score, agreement/disagreement areas, and token usage.',
-        parameters: {
-          type: 'object',
-          required: ['question'],
-          properties: {
-            question: { type: 'string', description: 'The decision or question to deliberate on' },
-            agents: { type: 'array', items: { type: 'string' }, description: `Agent names to participate (default: ${DEFAULT_AGENTS.join(', ')})` },
-            context: { type: 'string', description: 'Additional context for all agents' },
-            maxRounds: { type: 'number', description: 'Max debate rounds 1-3 (default 2)' },
-          },
+      deliberate: tool({
+        description: 'Initiate a multi-agent debate. Dispatches 2-3 specialists in parallel, scores consensus, iterates if needed. Use for high-stakes decisions.',
+        args: {
+          question: z.string().describe('The decision or question to deliberate on'),
+          agents: z.array(z.string()).optional().describe(`Agent names (default: ${DEFAULT_AGENTS.join(', ')})`),
+          context: z.string().optional().describe('Additional context for all agents'),
+          maxRounds: z.number().optional().describe('Max debate rounds 1-3 (default 2)'),
         },
         async execute(args, ctx) {
-          if (!args?.question) return 'Error [deliberate]: question is required.';
-          if (!client) return 'Error [deliberate]: debate module has no client. Cannot dispatch agents.';
+          if (!args?.question) return { output: 'Error [deliberate]: question is required.' };
+          if (!client) return { output: 'Error [deliberate]: no client. Cannot dispatch agents.' };
 
           const agents = Array.isArray(args.agents) && args.agents.length ? args.agents : DEFAULT_AGENTS;
           const maxRounds = Math.min(Math.max(args.maxRounds || 2, 1), MAX_ROUNDS);
           const sessionID = ctx?.sessionID;
-          if (!sessionID) return 'Error [deliberate]: no session context for debate dispatch.';
+          if (!sessionID) return { output: 'Error [deliberate]: no session context.' };
 
           const rounds = [];
           let prevScore = null;
@@ -149,7 +148,6 @@ export default function createDebate({ client } = {}) {
 
             const prompt = `You are participating in a structured debate about a decision.\n\nQuestion: ${args.question}${args.context ? `\n\nContext: ${args.context}` : ''}${prevContext}\n\nGive your expert position clearly. Be specific and concrete. State your recommendation and reasoning in 100-200 words. End with a confidence level (0-1).`;
 
-            // AbortController-based timeout
             const controller = new AbortController();
             const timer = setTimeout(() => controller.abort(), AGENT_TIMEOUT);
 
@@ -158,7 +156,6 @@ export default function createDebate({ client } = {}) {
                 agents.map(agent => promptAgent(client, sessionID, agent, prompt, controller.signal))
               );
 
-              // Accumulate tokens
               for (const r of responses) totalTokens += r.tokens || 0;
 
               const valid = responses.filter(r =>
@@ -166,7 +163,7 @@ export default function createDebate({ client } = {}) {
               );
 
               if (valid.length < 2) {
-                return `Error [deliberate]: only ${valid.length} agent(s) responded successfully.\n\nResponses:\n${responses.map(r => `[${r.agent}]: ${r.position}`).join('\n\n')}\n\nTokens used: ~${totalTokens}`;
+                return { output: `Error [deliberate]: only ${valid.length} agent(s) responded.\n\n${responses.map(r => `[${r.agent}]: ${r.position}`).join('\n\n')}\n\nTokens: ~${totalTokens}` };
               }
 
               const consensus = scoreConsensus(valid);
@@ -181,9 +178,8 @@ export default function createDebate({ client } = {}) {
             }
           }
 
-          // Format output
           const lastRound = rounds[rounds.length - 1];
-          if (!lastRound) return 'Error [deliberate]: no rounds completed.';
+          if (!lastRound) return { output: 'Error [deliberate]: no rounds completed.' };
 
           const { score, agreementAreas, disagreementAreas } = lastRound.consensus;
 
@@ -208,9 +204,9 @@ export default function createDebate({ client } = {}) {
             output += `### Verdict\nFundamental disagreement. Requires human judgment.\n`;
           }
 
-          return output;
+          return { output };
         },
-      },
+      }),
     },
   };
 }

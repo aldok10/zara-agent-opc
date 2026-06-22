@@ -3,6 +3,9 @@
 
 import fs from 'fs';
 import path from 'path';
+import { tool } from '@opencode-ai/plugin';
+
+const z = tool.schema;
 import { ensure, atomicWrite, SECRET_PATTERN } from '../infra/store.mjs';
 
 const MAX_ENTRIES = 200;
@@ -114,27 +117,23 @@ export default function createWorkspace({ directory } = {}) {
     },
 
     tools: {
-      workspace_write: {
-        description: 'Store a tagged entry in workspace memory (project-scoped, shared between agents). Use for decisions, context, discoveries that other agents should see. Filters secrets automatically.',
-        parameters: {
-          type: 'object',
-          required: ['agent', 'type', 'key', 'value'],
-          properties: {
-            agent: { type: 'string', description: 'Which agent is writing (e.g. atlas, lens, shield)' },
-            type: { type: 'string', enum: ['decision', 'context', 'discovery', 'constraint', 'reference'], description: 'Entry type' },
-            key: { type: 'string', description: 'Short key (e.g. "auth-strategy", "db-choice")' },
-            value: { type: 'string', description: 'The content to store' },
-            confidence: { type: 'number', description: 'Confidence 0-1 (default 0.8)' },
-            refs: { type: 'array', items: { type: 'string' }, description: 'Related file paths' },
-            ttl: { type: 'string', enum: ['session', '1d', '7d', 'permanent'], description: 'Time to live (default 7d)' },
-            supersedes: { type: 'string', description: 'ID of entry this replaces' },
-          },
+      workspace_write: tool({
+        description: 'Store a tagged entry in workspace memory (project-scoped, shared between agents). Filters secrets automatically.',
+        args: {
+          agent: z.string().describe('Which agent is writing (e.g. atlas, lens, shield)'),
+          type: z.enum(['decision', 'context', 'discovery', 'constraint', 'reference']).describe('Entry type'),
+          key: z.string().describe('Short key (e.g. "auth-strategy", "db-choice")'),
+          value: z.string().describe('The content to store'),
+          confidence: z.number().optional().describe('Confidence 0-1 (default 0.8)'),
+          refs: z.array(z.string()).optional().describe('Related file paths'),
+          ttl: z.enum(['session', '1d', '7d', 'permanent']).optional().describe('Time to live (default 7d)'),
+          supersedes: z.string().optional().describe('ID of entry this replaces'),
         },
         async execute(args) {
-          if (!args || !args.key || !args.value) return 'Error [workspace_write]: key and value are required.';
+          if (!args || !args.key || !args.value) return { output: 'Error [workspace_write]: key and value are required.' };
 
           if (SECRET_PATTERN.test(args.value) || SECRET_PATTERN.test(args.key)) {
-            return 'Error [workspace_write]: value contains potential secret/credential. Blocked.';
+            return { output: 'Error [workspace_write]: value contains potential secret/credential. Blocked.' };
           }
 
           try {
@@ -163,24 +162,21 @@ export default function createWorkspace({ directory } = {}) {
 
             saveEntries(wsFile, final);
             invalidateCache();
-            return `Stored [${entry.id}]: ${args.key} (${args.type}, ttl=${entry.ttl})`;
+            return { output: `Stored [${entry.id}]: ${args.key} (${args.type}, ttl=${entry.ttl})` };
           } catch (err) {
-            return `Error [workspace_write]: ${err.message}`;
+            return { output: `Error [workspace_write]: ${err.message}` };
           }
         },
-      },
+      }),
 
-      workspace_read: {
-        description: 'Query workspace memory. Filter by key, agent, type, or free text search. Returns most recent entries matching criteria.',
-        parameters: {
-          type: 'object',
-          properties: {
-            key: { type: 'string', description: 'Filter by exact key' },
-            agent: { type: 'string', description: 'Filter by agent name' },
-            type: { type: 'string', enum: ['decision', 'context', 'discovery', 'constraint', 'reference'], description: 'Filter by type' },
-            query: { type: 'string', description: 'Free text search across keys and values' },
-            limit: { type: 'number', description: 'Max results (default 20)' },
-          },
+      workspace_read: tool({
+        description: 'Query workspace memory. Filter by key, agent, type, or free text search.',
+        args: {
+          key: z.string().optional().describe('Filter by exact key'),
+          agent: z.string().optional().describe('Filter by agent name'),
+          type: z.enum(['decision', 'context', 'discovery', 'constraint', 'reference']).optional().describe('Filter by type'),
+          query: z.string().optional().describe('Free text search across keys and values'),
+          limit: z.number().optional().describe('Max results (default 20)'),
         },
         async execute(args) {
           try {
@@ -201,26 +197,23 @@ export default function createWorkspace({ directory } = {}) {
             const limit = Math.max(1, Math.min(a.limit || 20, 100));
             const results = entries.slice(-limit);
 
-            if (!results.length) return 'No workspace entries found.';
+            if (!results.length) return { output: 'No workspace entries found.' };
 
             const lines = results.map(e =>
               `[${e.id}] (${e.agent}/${e.type}) ${e.key}: ${(e.value || '').slice(0, 200)}${e.refs?.length ? ` refs:${e.refs.join(',')}` : ''} [${e.ttl}, conf:${e.confidence}]`
             );
-            return `${results.length} entries:\n${lines.join('\n')}`;
+            return { output: `${results.length} entries:\n${lines.join('\n')}` };
           } catch (err) {
-            return `Error [workspace_read]: ${err.message}`;
+            return { output: `Error [workspace_read]: ${err.message}` };
           }
         },
-      },
+      }),
 
-      workspace_clear: {
+      workspace_clear: tool({
         description: 'Clear workspace entries. Remove expired, a specific entry by ID, or all entries.',
-        parameters: {
-          type: 'object',
-          properties: {
-            all: { type: 'boolean', description: 'Clear ALL entries' },
-            id: { type: 'string', description: 'Clear a specific entry by ID' },
-          },
+        args: {
+          all: z.boolean().optional().describe('Clear ALL entries'),
+          id: z.string().optional().describe('Clear a specific entry by ID'),
         },
         async execute(args) {
           try {
@@ -228,7 +221,7 @@ export default function createWorkspace({ directory } = {}) {
             if (a.all) {
               saveEntries(wsFile, []);
               invalidateCache();
-              return 'Workspace cleared.';
+              return { output: 'Workspace cleared.' };
             }
 
             const entries = loadEntries(wsFile);
@@ -236,21 +229,19 @@ export default function createWorkspace({ directory } = {}) {
               const kept = entries.filter(e => e.id !== a.id);
               saveEntries(wsFile, kept);
               invalidateCache();
-              return kept.length < entries.length ? `Removed entry ${a.id}.` : `Entry ${a.id} not found.`;
+              return { output: kept.length < entries.length ? `Removed entry ${a.id}.` : `Entry ${a.id} not found.` };
             }
 
             const kept = entries.filter(e => !isExpired(e));
             const removed = entries.length - kept.length;
             saveEntries(wsFile, kept);
             invalidateCache();
-            return `Cleared ${removed} expired entries. ${kept.length} remaining.`;
+            return { output: `Cleared ${removed} expired entries. ${kept.length} remaining.` };
           } catch (err) {
-            return `Error [workspace_clear]: ${err.message}`;
+            return { output: `Error [workspace_clear]: ${err.message}` };
           }
         },
-      },
-
-
+      }),
     },
   };
 }

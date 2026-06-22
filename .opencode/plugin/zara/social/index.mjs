@@ -82,7 +82,7 @@ class LeadershipService {
   countInteraction() {
     const p = this.loadProfile();
     p.interactions.total += 1;
-    this.#cache = p;
+    this.saveProfile(p);
   }
 
   classifyDecision(args) {

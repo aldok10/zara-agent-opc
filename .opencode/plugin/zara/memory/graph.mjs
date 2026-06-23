@@ -34,7 +34,12 @@ function appendJsonl(file, entry) {
 
 function readJsonl(file) {
   try {
-    return fs.readFileSync(file, 'utf-8').trim().split('\n').filter(Boolean).map(l => JSON.parse(l));
+    const raw = fs.readFileSync(file, 'utf-8').trim();
+    if (!raw) return [];
+    // Handle JSON array format (written by writeJson)
+    if (raw.startsWith('[')) return JSON.parse(raw);
+    // Handle JSONL format (one JSON object per line)
+    return raw.split('\n').filter(Boolean).map(l => JSON.parse(l));
   } catch { return []; }
 }
 
@@ -133,9 +138,8 @@ export function appendEntity(type, name, source) {
     existing[idx].last_seen = new Date().toISOString();
     existing[idx].frequency = (existing[idx].frequency || 0) + 1;
     if (source) existing[idx].last_source = source;
-    writeJson(ENTITIES_FILE, existing);  // rewrite with updated entity
   } else {
-    appendJsonl(ENTITIES_FILE, {
+    existing.push({
       id: `ent_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 6)}`,
       type,
       name,
@@ -145,6 +149,7 @@ export function appendEntity(type, name, source) {
       source: source || 'extraction',
     });
   }
+  writeJson(ENTITIES_FILE, existing);
 }
 
 export function appendRelationship(sourceName, targetName, relationType, context) {
@@ -162,9 +167,8 @@ export function appendRelationship(sourceName, targetName, relationType, context
     existing[idx].observation_count = (existing[idx].observation_count || 1) + 1;
     existing[idx].weight = Math.min(1.0, (existing[idx].weight || 0.5) + 0.1);
     if (context) existing[idx].context_snippet = context;
-    writeJson(RELATIONSHIPS_FILE, existing);
   } else {
-    appendJsonl(RELATIONSHIPS_FILE, {
+    existing.push({
       id: `rel_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 6)}`,
       source: sourceName,
       target: targetName,
@@ -176,6 +180,7 @@ export function appendRelationship(sourceName, targetName, relationType, context
       context_snippet: context || '',
     });
   }
+  writeJson(RELATIONSHIPS_FILE, existing);
 }
 
 export function materializeGraphIndex() {

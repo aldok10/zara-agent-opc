@@ -13,7 +13,7 @@ class ReflectionTools {
     return {
       reflect: {
         description: 'Record a reflection (what worked, what failed, pattern extracted). Pass outcome to feed the success-weighted learning loop.',
-        inputSchema: { type: 'object', properties: { task: { type: 'string', description: 'What was the task' }, worked: { type: 'string' }, failed: { type: 'string' }, pattern: { type: 'string' }, outcome: { type: 'string', enum: ['success', 'partial', 'failure'], description: 'How it went — trains pattern scores over time' } }, required: ['task'] },
+        inputSchema: { type: 'object', properties: { task: { type: 'string', description: 'What was the task' }, worked: { type: 'string' }, failed: { type: 'string' }, pattern: { type: 'string' }, outcome: { type: 'string', enum: ['success', 'partial', 'failure'], description: 'How it went — trains pattern scores over time' }, agent: { type: 'string', description: 'Which agent is reflecting (provenance)' } }, required: ['task'] },
         handler: (args) => this.#handleReflect(args),
       },
       patterns: {
@@ -47,7 +47,7 @@ class ReflectionTools {
   #handleReflect(args) {
     ensure(REFLECT_DIR);
     const logFile = path.join(REFLECT_DIR, 'log.jsonl');
-    fs.appendFileSync(logFile, JSON.stringify({ ...args, ts: new Date().toISOString() }) + '\n');
+    fs.appendFileSync(logFile, JSON.stringify({ ...args, agent: args.agent || '', ts: new Date().toISOString() }) + '\n');
     // Rotate: keep last 500 entries
     try {
       const lines = fs.readFileSync(logFile, 'utf-8').trim().split('\n');
@@ -66,9 +66,10 @@ class ReflectionTools {
     }
 
     if (args.pattern) {
+      const patternName = args.pattern.replace(/^(For |When |If |Before |After |During )/i, '').slice(0, 80).trim();
       const pFile = path.join(REFLECT_DIR, 'patterns.json');
       const patterns = loadJson(pFile, []);
-      const existing = patterns.find(p => p.name === args.pattern);
+      const existing = patterns.find(p => p.name === patternName);
       // Outcome → reward signal. CONSTITUTION P4: unspecified = partial (0.5), not success.
       const reward = args.outcome === 'success' ? 1 : args.outcome === 'failure' ? 0 : 0.5;
       if (existing) {
@@ -78,15 +79,17 @@ class ReflectionTools {
         existing.successRate = existing.rewardSum / existing.occurrences;
         existing.lastSeen = new Date().toISOString().split('T')[0];
         if (args.worked) existing.approach = args.worked;
+        if (args.agent) existing.agent = args.agent;
       } else {
         patterns.push({
-          name: args.pattern,
+          name: patternName,
           approach: args.worked || args.task,
           occurrences: 1,
           rewardSum: reward,
           successRate: reward,
           created: new Date().toISOString().split('T')[0],
           lastSeen: new Date().toISOString().split('T')[0],
+          ...(args.agent ? { agent: args.agent } : {}),
         });
       }
       saveJson(pFile, patterns);
@@ -110,7 +113,10 @@ class ReflectionTools {
       .map(p => {
         const text = `${p.name} ${p.approach || ''}`.toLowerCase();
         const hits = terms.filter(t => text.includes(t)).length;
-        return hits ? { p, relevance: hits / terms.length, score: this.#score(p) } : null;
+        const pTerms = p.name.toLowerCase().split(/\s+/).filter(w => w.length >= 3);
+        const reverseHits = pTerms.filter(t => args.situation.toLowerCase().includes(t)).length;
+        const totalRelevance = (hits / Math.max(terms.length, 1)) + (reverseHits / Math.max(pTerms.length, 1));
+        return totalRelevance > 0.1 ? { p, relevance: totalRelevance, score: this.#score(p) } : null;
       })
       .filter(Boolean)
       .sort((a, b) => (b.relevance * b.score) - (a.relevance * a.score))

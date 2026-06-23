@@ -267,6 +267,69 @@ describe('memory provenance', () => {
   });
 });
 
+// --- recallAsync (semantic re-ranker) ---
+
+describe('recallAsync', () => {
+  const homes = [];
+  function track(h) { homes.push(h); return h; }
+  after(() => {
+    for (const h of homes) fs.rmSync(h, { recursive: true, force: true });
+  });
+
+  it('returns results re-ranked by semantic similarity', async () => {
+    // Mock embedder that gives higher similarity to "deployment" concepts
+    class RankEmbedder {
+      embed(text) {
+        const vec = new Float32Array(128).fill(0);
+        // "deploy" keyword presence drives the vector
+        const hasDeploy = text.toLowerCase().includes('deploy');
+        vec[0] = hasDeploy ? 0.9 : 0.1;
+        vec[1] = hasDeploy ? 0.1 : 0.9;
+        const mag = Math.sqrt(vec.reduce((s, v) => s + v * v, 0)) || 1;
+        return vec.map(v => v / mag);
+      }
+      cosineSim(a, b) { return a.reduce((s, v, i) => s + v * b[i], 0); }
+    }
+    const home = track(path.join(os.tmpdir(), `zara-async-rank-${process.hrtime.bigint()}`));
+    const store = new MemoryStore(home, new RankEmbedder());
+    store.learn('k8s.pods', 'kubernetes pod scaling strategy', 'observed', 'fact', '');
+    store.learn('k8s.deploy', 'kubernetes deployment rollout process', 'observed', 'fact', '');
+    store.learn('k8s.svc', 'kubernetes service mesh configuration', 'observed', 'fact', '');
+    const results = await store.recallAsync('kubernetes deployment', 5);
+    assert.ok(results.length > 0, 'should return results');
+    // The deploy-related one should rank first due to mock embedder
+    assert.equal(results[0].key, 'k8s.deploy', 'deploy fact should rank first via semantic re-rank');
+    store.close();
+  });
+
+  it('falls back to sync recall on embedder failure', async () => {
+    // Embedder that works for learn/recall (sync) but we override for recallAsync
+    class LimitedEmbedder {
+      #callCount = 0;
+      #failAfter;
+      constructor(failAfter) { this.#failAfter = failAfter; }
+      embed(text) {
+        this.#callCount++;
+        if (this.#callCount > this.#failAfter) throw new Error('embedder unavailable');
+        const vec = new Float32Array(128).fill(1 / Math.sqrt(128));
+        return vec;
+      }
+      cosineSim(a, b) { return a.reduce((s, v, i) => s + v * b[i], 0); }
+    }
+    const home = track(path.join(os.tmpdir(), `zara-async-fail-${process.hrtime.bigint()}`));
+    // Allow enough calls for learn + recall, then fail on recallAsync's re-rank
+    const store = new MemoryStore(home, new LimitedEmbedder(50));
+    store.learn('fallback.fact', 'short', 'observed', 'fact', '');
+    // Now replace embedder behavior by creating a new store that will fail
+    const store2 = new MemoryStore(home, new LimitedEmbedder(0));
+    const results = await store2.recallAsync('fallback', 5);
+    assert.ok(results.length > 0, 'should still return results on embedder failure');
+    assert.ok(results.some(r => r.key === 'fallback.fact'));
+    store.close();
+    store2.close();
+  });
+});
+
 // --- Embedder Dependency Injection ---
 
 describe('embedder DIP seam', () => {

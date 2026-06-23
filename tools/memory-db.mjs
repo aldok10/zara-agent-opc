@@ -172,6 +172,29 @@ class MemoryStore {
     return results;
   }
 
+  async recallAsync(query, limit = 5, options = {}) {
+    const candidates = this.recall(query, limit * 3, options);
+    if (!candidates.length) return candidates;
+    try {
+      let embedder = this.#embedder;
+      // Prefer SemanticEmbedder if available and instance embedder is trigram-only
+      if (!embedder.embed[Symbol.toStringTag] && embedder.constructor.name === 'TrigramEmbedder') {
+        const mod = await import('./embedder.mjs');
+        embedder = mod.SemanticEmbedder.instance();
+      }
+      const queryVec = await embedder.embed(query);
+      const reranked = [];
+      for (const c of candidates) {
+        const cVec = await embedder.embed(c.value.slice(0, 200));
+        const semScore = embedder.cosineSim(queryVec, cVec);
+        reranked.push({ ...c, relevance: semScore * (TYPE_BOOST[c.type] || 1.0) * (c.decay_score || 0.5) * (c.grounded ? 1.25 : 1.0) });
+      }
+      return reranked.sort((a, b) => b.relevance - a.relevance).slice(0, limit);
+    } catch {
+      return candidates.slice(0, limit);
+    }
+  }
+
   baseline(tokenBudget = 500) {
     const results = this.db.prepare(`
       SELECT key, value, type, scope FROM semantic
@@ -717,6 +740,7 @@ export const detectContradictions = (threshold) => store.detectContradictions(th
 export const deleteByPattern = (pattern) => store.deleteByPattern(pattern);
 export const countByPattern = (pattern) => store.countByPattern(pattern);
 export const adjustTrust = (keys, outcome) => store.adjustTrust(keys, outcome);
+export const semanticRecallAsync = (query, limit, options) => store.recallAsync(query, limit, options);
 
 // Exported for testing with an isolated home directory
 export { MemoryStore };

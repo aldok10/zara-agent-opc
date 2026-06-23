@@ -1,6 +1,6 @@
 import path from 'path';
 import {
-  semanticLearn, semanticRecall, semanticBaseline, semanticScoped,
+  semanticLearn, semanticRecall, semanticRecallAsync, semanticBaseline, semanticScoped,
   episodicRecord, episodicRecall,
   proceduralSave, proceduralRecall, proceduralCount,
   stats as dbStats, dreamConsolidate, detectContradictions, deleteByPattern, countByPattern
@@ -17,7 +17,7 @@ class MemoryTools {
       },
       memory_learn: {
         description: 'Store a fact in semantic memory (key-value with metadata). Types: policy, workflow, pitfall, architecture, decision, preference, fact',
-        inputSchema: { type: 'object', properties: { key: { type: 'string', description: 'Memory key' }, value: { type: 'string', description: 'The fact to remember' }, source: { type: 'string', enum: ['user_explicit', 'observed', 'inferred'] }, type: { type: 'string', enum: ['policy', 'workflow', 'pitfall', 'architecture', 'decision', 'preference', 'fact'], description: 'Memory type for activation priority' }, scope: { type: 'string', description: 'File path or context scope (for scoped activation)' } }, required: ['key', 'value'] },
+        inputSchema: { type: 'object', properties: { key: { type: 'string', description: 'Memory key' }, value: { type: 'string', description: 'The fact to remember' }, source: { type: 'string', enum: ['user_explicit', 'observed', 'inferred'] }, type: { type: 'string', enum: ['policy', 'workflow', 'pitfall', 'architecture', 'decision', 'preference', 'fact'], description: 'Memory type for activation priority' }, scope: { type: 'string', description: 'File path or context scope (for scoped activation)' }, agent: { type: 'string', description: 'Which agent is storing this (provenance)' } }, required: ['key', 'value'] },
         handler: (args) => this.#handleLearn(args),
       },
       memory_episode: {
@@ -48,11 +48,13 @@ class MemoryTools {
     };
   }
 
-  #handleRecall(args) {
+  async #handleRecall(args) {
     const layer = args.layer || 'all';
     const results = [];
     if (layer === 'all' || layer === 'semantic') {
-      const m = semanticRecall(args.query, 5, { scope: args.scope, type: args.type });
+      let m;
+      try { m = await semanticRecallAsync(args.query, 5, { scope: args.scope, type: args.type }); }
+      catch { m = semanticRecall(args.query, 5, { scope: args.scope, type: args.type }); }
       if (m.length) {
         for (const r of m) { if (recalledKeys.size < 20) recalledKeys.add(r.key); }
         results.push(m.map(r => `[${r.type || 'fact'}] ${r.key}: ${r.value}`).join('\n'));
@@ -76,7 +78,7 @@ class MemoryTools {
     if (['policy', 'architecture', 'decision', 'pitfall'].includes(memType) && source !== 'user_explicit') {
       return `⚠️ Refused: type '${memType}' requires source 'user_explicit'. Use source: 'user_explicit' for policy/architecture/decision/pitfall memories.`;
     }
-    const result = semanticLearn(args.key, args.value, source, memType, args.scope || '');
+    const result = semanticLearn(args.key, args.value, source, memType, args.scope || '', { agent: args.agent || '' });
     return `Stored: ${result.key} = ${result.value} [${result.type}]`;
   }
 

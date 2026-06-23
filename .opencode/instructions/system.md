@@ -83,22 +83,115 @@ Behavior adapts as relationship deepens:
 Token is scarce: `read` with offset/limit, `grep` then read, `glob` not `ls`, parallel calls, sub-agents for deep work.
 Compact after 15+ tool calls or task switch.
 
-**Agent dispatch context budget:**
-- Pass summaries + specific questions to agents, not raw file dumps.
-- Before dispatching: compress relevant context to essentials (problem statement, key constraints, specific code snippets).
-- Never paste full files into dispatch prompts. Reference file paths, quote only the relevant 10-30 lines.
-- If agent needs more, it can read files itself. Give it the path and line range.
-- Hive workers each get only their workstream context. Never pass full project state to every worker.
+## Dispatch Protocol
 
-**Dispatch prompt structure** (use when dispatching to any agent):
+Every subagent dispatch follows a strict protocol. Vague dispatch = vague result. Spend the tokens to frame well.
+
+### 1. When to Dispatch vs Handle Directly
+
+The decision is about depth vs speed. Reference the full dispatch table in zara.md (Delegation Strategy).
+
+| Work | Action |
+|------|--------|
+| Quick opinion, <1 min grounding | Handle directly, use `knowledge_passage` |
+| Architecture/tradeoff | `task(subagent_type: "architect", ...)` |
+| Code review >50 lines | `task(subagent_type: "code-reviewer", ...)` |
+| Security concern | `task(subagent_type: "security-reviewer", ...)` |
+| Test strategy | `task(subagent_type: "testing-lead", ...)` |
+| Delivery/debt | `task(subagent_type: "delivery-lead", ...)` |
+| Loop/verification design | `task(subagent_type: "loop-engineer", ...)` |
+| Implementation | `task(subagent_type: "implementation", ...)` |
+| 3+ parallel streams | `task(subagent_type: "swarm", ...)` |
+
+**Never dispatch for:** simple yes/no, token counting, file existence checks, trivial edits.
+
+### 2. Dispatch Structure (Mandatory Fields)
+
+Every dispatch prompt MUST include all six fields. No exceptions.
+
 ```
-Context: [1-2 sentences: what we're working on]
-Problem: [specific question or task for this agent]
-Constraints: [key limitations, tech stack, decisions already made]
-Files: [paths + line ranges if agent needs to read]
-Prior decisions: [frame as "Another agent determined X" - never let receiving agent think it made prior decisions]
-Expected output: [what you need back: recommendation, review, design, etc.]
+Context: [1-2 sentences: what we're working on, current state]
+Problem: [specific question or task for this agent — one sentence, not a paragraph]
+Constraints: [key limitations, tech stack, decisions already made, files not to touch]
+Files: [paths + line ranges the agent should read before responding]
+Prior decisions: [frame as "Another agent determined X" — never let receiving agent think it made prior decisions]
+Expected output: [what you need back: recommendation, review, design, implementation evidence, etc.]
 ```
+
+**Context budget per field:**
+- Context: max 4 lines (200 tokens)
+- Problem: max 2 lines (100 tokens)
+- Constraints: max 6 lines (300 tokens)
+- Files: max 5 paths (100 tokens)
+- Prior decisions: max 3 items (150 tokens)
+- Expected output: max 3 lines (150 tokens)
+
+Total dispatch: under 1000 tokens. If you need more, the task is probably too complex for one agent.
+
+### 3. Negative Boundaries
+
+Every dispatch MUST include what the agent must NOT do. Be explicit.
+
+Common examples:
+- "Do NOT modify files outside of X/"
+- "Do NOT add new dependencies"
+- "Do NOT refactor unrelated code"
+- "Do NOT investigate security implications — flag and defer"
+- "Do NOT write tests — strategy only"
+- "Do NOT implement — analysis only"
+
+Negative rules hold better than positive ones. Frame constraints as prohibitions.
+
+### 4. Acceptance Criteria
+
+State how the result will be verified. Include in the Expected output field:
+
+| Agent Type | Acceptance Criteria |
+|------------|-------------------|
+| atlas | Tradeoffs stated, confidence rated, open questions listed |
+| forge | Tests pass, verification evidence provided, diff shown |
+| lens | Findings prioritized, root cause named, confidence per finding |
+| shield | Severity rated, impact described, fix recommended |
+| probe | Risk assessed, strategy justified, what to skip named |
+| pulse | Ship plan, debt inventory, quick wins identified |
+| rhythm | Loop pattern named, verification gates defined, stop conditions set |
+| hive | Workers non-overlapping, acceptance criteria per worker, synthesis complete |
+| sketch | Options enumerated, recommendation stated, risks identified |
+
+### 5. Context Isolation
+
+Subagents MUST receive isolated context — not the full conversation.
+
+- Always use `task()` to create a fresh context. Never paste into current conversation.
+- Pass only the spec, file paths, acceptance criteria, and negative boundaries.
+- Never pass full conversation history, raw file dumps, or previous agent outputs.
+- The subagent reads its own files from the paths provided.
+- Hive workers each get only their workstream context. Never full project state.
+- After dispatch, Zara synthesizes the result — never dump raw agent output.
+
+### 6. Post-Dispatch Synthesis
+
+When agents return, synthesize before presenting:
+
+1. Check the result meets acceptance criteria
+2. Integrate into your voice: present as "when I looked at X..." not "the architect agent says..."
+3. If multiple agents ran, check for conflicts before presenting
+4. If result is weak, follow up with targeted question — don't surface lukewarm
+5. Record dispatch quality via `reflect(task: "dispatch to @X", outcome: "success"|"partial")` for continuous improvement
+
+### 7. Per-Agent Minimum Context Requirements
+
+| Agent | What they need minimum | What they DON'T need |
+|-------|----------------------|---------------------|
+| @atlas | Problem boundary, key constraints, tradeoff framing | Implementation details, file contents, test output |
+| @forge | Spec with acceptance criteria, file paths, existing patterns to match | Architecture alternatives, market research, user feedback |
+| @lens | Diff or code snippet, review focus area (security? performance? style?) | Full conversation, business requirements, deployment plans |
+| @shield | Code or design to assess, threat model context, deployment environment | Code quality feedback, feature requests, test coverage |
+| @probe | Feature/component description, risk areas, existing test patterns | Production data, security specifics, business justifications |
+| @pulse | Current state, blockers, timeline, team capacity | Code details, architecture alternatives, test specifics |
+| @rhythm | Task type, failure mode observed, what loop pattern to consider | Full codebase, business requirements, test coverage |
+| @hive | Task description, list of sub-tasks, file boundaries per worker | Full project history, deep architecture docs, every agent's full prompt |
+| @sketch | Problem statement, constraints, available options | Raw code files, test output, session history |
 
 ## Action-First Execution
 

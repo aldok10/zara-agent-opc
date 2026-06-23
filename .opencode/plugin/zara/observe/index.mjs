@@ -3,6 +3,7 @@
 
 import { FileStore, today, spanId, estimateTokens, hash, SECRET_PATTERN } from '../infra/store.mjs';
 import { tool } from '@opencode-ai/plugin';
+import { matchInjection, PROMPT_INJECTION_PATTERNS } from './patterns.mjs';
 
 const z = tool.schema;
 
@@ -354,6 +355,16 @@ export default function createObserve({ client, directory } = {}) {
       const toolArgs = input?.args || {};
       trace.startSpan(toolName, toolArgs);
 
+      // Guard: check tool inputs for injection
+      const inputText = Object.values(toolArgs).filter(v => typeof v === 'string').join(' ');
+      if (inputText) {
+        const issues = guard.check(inputText);
+        if (issues.some(i => i.risk === 'high')) {
+          trace.endSpan(toolName, false, `blocked: ${issues.map(i => i.label).join(',')}`);
+          return { isError: true, output: `⚠️ Blocked: prompt injection detected in tool input.` };
+        }
+      }
+
       // Cache check (read-only, safe tools only)
       if (cache.isCacheable(toolName)) {
         const cached = cache.get(toolName, toolArgs);
@@ -376,8 +387,11 @@ export default function createObserve({ client, directory } = {}) {
 
       if (output?.output && typeof output.output === 'string') {
         const issues = guard.check(output.output);
-        if (issues.length) {
-          output.output = guard.redact(output.output);
+        if (issues.length > 0) {
+          // Redact secrets (always) even if only injection detected
+          if (guard.hasSecret(output.output)) {
+            output.output = guard.redact(output.output);
+          }
         }
       }
 
@@ -433,6 +447,34 @@ export default function createObserve({ client, directory } = {}) {
           const report = trace.costByDay(args.days || 7);
           if (!report.length) return { output: 'No cost data.' };
           return { output: report.map(([date, d]) => `${date}: $${d.cost.toFixed(4)} (${d.input}+${d.output} tokens)`).join('\n') };
+        },
+      }),
+
+      zara_cost_by_agent: tool({
+        description: 'Cost breakdown by agent (last N days) — tool call counts and proportional cost attribution',
+        args: { days: z.number().optional().describe('Days (default 7)') },
+        async execute(args) {
+          const report = trace.costByAgent(args.days || 7);
+          if (!Object.keys(report).length) return { output: 'No agent cost data available. Start using agents first.' };
+          const lines = Object.entries(report).sort((a, b) => b[1].estimatedCost - a[1].estimatedCost)
+            .map(([agent, d]) => `${agent}: $${d.estimatedCost} (${d.toolCalls} calls, ${d.successCount}✓ ${d.failCount}✗, ${d.avgLatency}ms avg)`);
+          return { output: `## Cost by Agent (${args.days || 7}d)\n${lines.join('\n')}` };
+        },
+      }),
+
+      zara_latency_by_agent: tool({
+        description: 'Latency breakdown by agent (last N days) — average, max, and per-tool latency',
+        args: { days: z.number().optional().describe('Days (default 7)') },
+        async execute(args) {
+          const report = trace.latencyByAgent(args.days || 7);
+          if (!Object.keys(report).length) return { output: 'No agent latency data available. Start using agents first.' };
+          const lines = Object.entries(report).sort((a, b) => b[1].avgLatency - a[1].avgLatency)
+            .map(([agent, d]) => {
+              const toolLines = Object.entries(d.byTool).sort((a, b) => b[1].avgLatency - a[1].avgLatency)
+                .map(([t, td]) => `  - ${t}: ${td.avgLatency}ms (${td.calls}x)`).join('\n');
+              return `${agent}: ${d.avgLatency}ms avg / ${d.maxLatency}ms max (${d.calls} calls)\n${toolLines}`;
+            });
+          return { output: `## Latency by Agent (${args.days || 7}d)\n${lines.join('\n')}` };
         },
       }),
 
@@ -494,7 +536,10 @@ export default function createObserve({ client, directory } = {}) {
         async execute(args) {
           const issues = guard.check(args.text);
           if (!issues.length) return { output: 'No issues detected.' };
-          return { output: `⚠️ Issues found:\n${issues.join('\n')}` };
+          const lines = issues.map(i =>
+            `- [${i.risk}] ${i.label}: ${i.matched?.slice(0, 80)}`
+          );
+          return { output: `⚠️ **${issues.length} issue(s) detected**\n${lines.join('\n')}` };
         },
       }),
 
@@ -504,7 +549,9 @@ export default function createObserve({ client, directory } = {}) {
         async execute() {
           const incidents = guard.incidents();
           if (!incidents.length) return { output: 'No incidents recorded.' };
-          return { output: incidents.map(i => `[${i.type}] ${i.issues?.join(', ') || ''} (${i.ts?.split('T')[0] || ''})`).join('\n') };
+          return { output: incidents.map(i =>
+            `[${i.risk || 'unknown'}] ${i.type}: ${i.issues?.map?.(x => `${x.label} (${x.risk})`).join(', ') || i.type} (${i.ts?.split('T')[0] || ''})`
+          ).join('\n') };
         },
       }),
 

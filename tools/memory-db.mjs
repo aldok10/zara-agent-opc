@@ -70,7 +70,11 @@ class MemoryStore {
 
   // --- Semantic Layer ---
 
-  learn(key, value, source = 'observed', type = 'fact', scope = '') {
+  learn(key, value, source = 'observed', type = 'fact', scope = '', opts = {}) {
+    // SECURITY (Constitution P6): `grounded` grants a recall-ranking boost and MUST be
+    // set by internal trusted code only — NEVER threaded from agent-supplied tool args.
+    // Do not expose `grounded` in the memory_learn MCP schema. See ZARA_CONSTITUTION.md.
+    const { agent = '', grounded = false } = opts;
     const db = this.db;
     const now = new Date().toISOString().split('T')[0];
     const existing = db.prepare('SELECT reinforced FROM semantic WHERE key = ?').get(key);
@@ -92,13 +96,13 @@ class MemoryStore {
     }
 
     db.prepare(`
-      INSERT INTO semantic (key, value, confidence, source, type, scope, created, updated, reinforced, decay_score)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1.0)
+      INSERT INTO semantic (key, value, confidence, source, type, scope, created, updated, reinforced, decay_score, agent, grounded)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1.0, ?, ?)
       ON CONFLICT(key) DO UPDATE SET
         value = excluded.value, confidence = excluded.confidence, source = excluded.source,
         type = excluded.type, scope = excluded.scope, updated = excluded.updated,
-        reinforced = ?, decay_score = 1.0
-    `).run(key, value, confidence, source, memType, scope, now, now, reinforced, reinforced);
+        reinforced = ?, decay_score = 1.0, agent = excluded.agent, grounded = excluded.grounded
+    `).run(key, value, confidence, source, memType, scope, now, now, reinforced, agent, grounded ? 1 : 0, reinforced);
 
     return { key, value, reinforced, type: memType };
   }
@@ -122,8 +126,9 @@ class MemoryStore {
       const reinforceFactor = Math.min(2.0, 1 + Math.log2((r.reinforced || 1) + 1) * 0.2);
       const scopeBoost = (scope && r.scope && r.scope === scope) ? 1.5 : 1.0;
       const trustFactor = 0.5 + (r.trust_score ?? 0.5);
+      const groundedFactor = r.grounded ? 1.25 : 1.0;
       const ftsScore = r.rank ? Math.abs(1 / (r.rank || 1)) : (r.trigramSim || 0.5);
-      return { ...r, relevance: ftsScore * typeBoost * decayFactor * reinforceFactor * scopeBoost * trustFactor };
+      return { ...r, relevance: ftsScore * typeBoost * decayFactor * reinforceFactor * scopeBoost * trustFactor * groundedFactor };
     });
 
     // Adaptive depth: FTS matched but the best hit is weak → widen with a
@@ -136,7 +141,8 @@ class MemoryStore {
         const decayFactor = r.decay_score || 0.5;
         const reinforceFactor = Math.min(2.0, 1 + Math.log2((r.reinforced || 1) + 1) * 0.2);
         const scopeBoost = (scope && r.scope && r.scope === scope) ? 1.5 : 1.0;
-        return { ...r, relevance: (r.trigramSim || 0.5) * typeBoost * decayFactor * reinforceFactor * scopeBoost };
+        const groundedFactor = r.grounded ? 1.25 : 1.0;
+        return { ...r, relevance: (r.trigramSim || 0.5) * typeBoost * decayFactor * reinforceFactor * scopeBoost * groundedFactor };
       });
       const seen = new Set(results.map(r => r.key));
       for (const e of extra) if (!seen.has(e.key)) { results.push(e); seen.add(e.key); }
@@ -502,19 +508,19 @@ class MemoryStore {
       const fts = query.split(/\s+/).filter(t => t.length > 1).map(t => `"${t.replace(/"/g, '')}"`).join(' OR ');
       if (!fts) throw new Error('empty');
       return this.db.prepare(`
-        SELECT s.key, s.value, s.confidence, s.source, s.type, s.scope, s.updated, s.reinforced, s.decay_score, s.trust_score, rank
+        SELECT s.key, s.value, s.confidence, s.source, s.type, s.scope, s.updated, s.reinforced, s.decay_score, s.trust_score, s.grounded, rank
         FROM semantic_fts f JOIN semantic s ON f.rowid = s.rowid WHERE semantic_fts MATCH ? ORDER BY rank LIMIT ?
       `).all(fts, limit);
     } catch {
       const terms = query.toLowerCase().split(/\s+/);
       const where = terms.map(() => "(LOWER(key) LIKE ? ESCAPE '\\' OR LOWER(value) LIKE ? ESCAPE '\\')").join(' OR ');
-      return this.db.prepare(`SELECT key, value, confidence, source, type, scope, updated, reinforced, decay_score, trust_score FROM semantic WHERE ${where} ORDER BY decay_score DESC LIMIT ?`).all(...terms.flatMap(t => { const e = `%${escapeLike(t)}%`; return [e, e]; }), limit);
+      return this.db.prepare(`SELECT key, value, confidence, source, type, scope, updated, reinforced, decay_score, trust_score, grounded FROM semantic WHERE ${where} ORDER BY decay_score DESC LIMIT ?`).all(...terms.flatMap(t => { const e = `%${escapeLike(t)}%`; return [e, e]; }), limit);
     }
   }
 
   #trigramSearch(query, limit) {
     const queryVec = this.#trigramEmbed(query);
-    return this.db.prepare('SELECT key, value, confidence, source, type, scope, updated, reinforced, decay_score, trust_score FROM semantic').all()
+    return this.db.prepare('SELECT key, value, confidence, source, type, scope, updated, reinforced, decay_score, trust_score, grounded FROM semantic').all()
       .map(r => ({ ...r, trigramSim: this.#cosineSim(queryVec, this.#trigramEmbed(`${r.key} ${r.value}`)) }))
       .filter(r => r.trigramSim > 0.15)
       .sort((a, b) => b.trigramSim - a.trigramSim)
@@ -541,7 +547,8 @@ class MemoryStore {
         key TEXT PRIMARY KEY, value TEXT NOT NULL, confidence REAL DEFAULT 0.8,
         source TEXT DEFAULT 'observed', type TEXT DEFAULT 'fact', scope TEXT DEFAULT '',
         created TEXT NOT NULL, updated TEXT NOT NULL, accessed TEXT,
-        access_count INTEGER DEFAULT 0, reinforced INTEGER DEFAULT 1, decay_score REAL DEFAULT 1.0
+        access_count INTEGER DEFAULT 0, reinforced INTEGER DEFAULT 1, decay_score REAL DEFAULT 1.0,
+        agent TEXT DEFAULT '', grounded INTEGER DEFAULT 0
       );
       CREATE TABLE IF NOT EXISTS episodic (
         id INTEGER PRIMARY KEY AUTOINCREMENT, event TEXT NOT NULL, outcome TEXT DEFAULT '',
@@ -581,6 +588,8 @@ class MemoryStore {
     try { this.#db.exec("ALTER TABLE semantic ADD COLUMN type TEXT DEFAULT 'fact'"); } catch {}
     try { this.#db.exec("ALTER TABLE semantic ADD COLUMN scope TEXT DEFAULT ''"); } catch {}
     try { this.#db.exec("ALTER TABLE semantic ADD COLUMN trust_score REAL DEFAULT 0.5"); } catch {}
+    try { this.#db.exec("ALTER TABLE semantic ADD COLUMN agent TEXT DEFAULT ''"); } catch {}
+    try { this.#db.exec("ALTER TABLE semantic ADD COLUMN grounded INTEGER DEFAULT 0"); } catch {}
     try {
       this.#db.exec(`
         CREATE TABLE IF NOT EXISTS knowledge (
@@ -653,7 +662,7 @@ const store = new MemoryStore();
 // --- Backward-Compatible Exports (same API as before) ---
 
 export const getDb = () => store.db;
-export const semanticLearn = (key, value, source, type, scope) => store.learn(key, value, source, type, scope);
+export const semanticLearn = (key, value, source, type, scope, opts) => store.learn(key, value, source, type, scope, opts);
 export const semanticRecall = (query, limit, options) => store.recall(query, limit, options);
 export const semanticBaseline = (budget) => store.baseline(budget);
 export const semanticScoped = (filePath, limit) => store.scoped(filePath, limit);

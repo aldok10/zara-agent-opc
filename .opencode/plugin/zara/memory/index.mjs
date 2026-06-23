@@ -3,6 +3,9 @@
 import fs from 'fs';
 import path from 'path';
 import { HOME, ensure, atomicWrite, loadJson, SECRET_PATTERN } from '../infra/store.mjs';
+import { processMessage, queryGraph, graphStats } from './graph.mjs';
+import { tool } from '@opencode-ai/plugin';
+const z = tool.schema;
 
 // ─── Constants ──────────────────────────────────────────────────────────────
 
@@ -132,6 +135,38 @@ export default function createMemory({ client, directory } = {}) {
           messages.push({ role: 'system', content: parts.join('\n\n') });
         }
       }
+
+      // Layer D: Knowledge graph context for entity mentions in user message
+      if (tokensUsed < TOKEN_BUDGET - 200) {
+        const userMsg = messages.filter(m => m.role === 'user').pop();
+        if (userMsg?.content) {
+          const text = typeof userMsg.content === 'string' ? userMsg.content : '';
+          // Check for known entities in the last user message
+          const words = text.match(/[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*/g) || [];
+          const searchTerms = words.slice(0, 5).map(w => w.trim());
+          for (const term of searchTerms) {
+            if (term.length < 3) continue;
+            const result = queryGraph(term, { maxDepth: 1, minWeight: 0.3 });
+            if (result.entity && result.neighbors.length > 0) {
+              const ctxLine = `[graph] ${term}: ${result.neighbors.map(n => `${n.target} (${n.type})`).join(', ')}`;
+              const tokens = Math.ceil(ctxLine.length / 4);
+              if (tokensUsed + tokens <= TOKEN_BUDGET) {
+                // Append to the last system message or create a graph block
+                const sysMsg = messages.find(m => m.role === 'system');
+                if (sysMsg) {
+                  if (!sysMsg.content.includes('## Knowledge Context')) {
+                    sysMsg.content += '\n\n## Knowledge Context';
+                  }
+                  sysMsg.content += '\n' + ctxLine;
+                  tokensUsed += tokens;
+                }
+              }
+              break; // one entity per inject cycle to stay within budget
+            }
+          }
+        }
+      }
+
       return messages;
     },
 
@@ -213,6 +248,9 @@ export default function createMemory({ client, directory } = {}) {
       }
 
       if (captured) saveJson(SEMANTIC_FILE, semantic);
+
+      // Knowledge graph: entity extraction + relationship inference
+      processMessage(text);
     },
 
     onResponse(res) {
@@ -240,6 +278,39 @@ export default function createMemory({ client, directory } = {}) {
 
     dispose() {},
 
-    tools: {},
+    tools: {
+      zara_graph_query: tool({
+        description: 'Query knowledge graph for entities and relationships connected to a topic',
+        args: {
+          query: z.string().describe('Entity name or topic to search for'),
+          depth: z.number().min(1).max(5).optional().describe('Traversal depth (default 1)'),
+          minWeight: z.number().min(0).max(1).optional().describe('Minimum relationship weight (default 0.3)'),
+        },
+        async execute(args) {
+          const result = queryGraph(args.query, { maxDepth: args.depth || 1, minWeight: args.minWeight || 0.3 });
+          if (!result.entity) return { output: `No entities found for "${args.query}".` };
+          const lines = [`## Knowledge Graph: ${args.query}`];
+          lines.push(`Type: ${result.entity.type} | Mentioned ${result.entity.frequency}x | Last seen: ${(result.entity.last_seen || '').split('T')[0] || 'unknown'}`);
+          if (result.neighbors.length) {
+            lines.push(`\n**Connected (${result.neighbors.length}):**`);
+            for (const n of result.neighbors) {
+              lines.push(`- ${n.target} (${n.type}, weight ${n.weight.toFixed(2)})`);
+            }
+          } else {
+            lines.push('\nNo connected entities found.');
+          }
+          return { output: lines.join('\n') };
+        },
+      }),
+
+      zara_graph_stats: tool({
+        description: 'Knowledge graph statistics — entity/relationship counts and health',
+        args: {},
+        async execute() {
+          const stats = graphStats();
+          return { output: `**Knowledge Graph**\nEntities: ${stats.entities}\nRelationships: ${stats.relationships}\nIndex loaded: ${stats.indexLoaded}\nMessages processed: ${stats.messageCounter}` };
+        },
+      }),
+    },
   };
 }

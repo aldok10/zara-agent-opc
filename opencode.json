@@ -208,6 +208,15 @@
       ],
       "timeout": 5000,
       "enabled": true
+    },
+    "zara-privacy": {
+      "type": "local",
+      "command": [
+        "/usr/local/bin/zara-privacy-mcp",
+        "--stdio"
+      ],
+      "timeout": 5000,
+      "enabled": true
     }
   },
   "permission": {

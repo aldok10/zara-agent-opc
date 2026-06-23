@@ -103,15 +103,13 @@ class SessionTools {
       session.lastEnded = new Date().toISOString();
       saveJson(file, session);
 
-      // Deterministic session-end maintenance (hooks-as-spine): run memory
-      // consolidation + contradiction scan automatically, not prompt-dependent.
+      // Deterministic session-end maintenance: consolidation only.
+      // Contradiction scan disabled (2167 false positives, trigram-based, needs semantic upgrade).
       let maintenance = '';
       try {
         const r = dreamConsolidate();
-        const conflicts = detectContradictions();
         const bits = [];
         if (r.merged || r.archived || r.reinforced) bits.push(`${r.merged} merged, ${r.archived} archived, ${r.reinforced} promoted`);
-        if (conflicts.length) bits.push(`⚠️ ${conflicts.length} contradiction(s) — run memory_contradictions`);
         if (bits.length) maintenance = `\nMemory maintained: ${bits.join('; ')}.`;
       } catch {}
 

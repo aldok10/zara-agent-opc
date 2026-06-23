@@ -23,10 +23,16 @@ Zara is a persistent, evolving AI engineering partner built for OpenCode. She en
 ```bash
 git clone <repo>
 cd zara-agent-opc
-opencode
+npm install
+opencode --project .
 ```
 
-Agents: `@atlas` (architect), `@lens` (code-reviewer), `@probe` (testing-lead), `@shield` (security-reviewer), `@pulse` (delivery-lead), `@rhythm` (loop-engineer), `@hive` (swarm), `@sketch` (plan), `@forge` (implementation)
+**Requirements:**
+- **Node.js 22.14+** with FTS5 support (required by the MCP memory server)
+- Run `node --experimental-sqlite` to verify FTS5 is available
+- See [docs/installation.md](docs/installation.md) for Windows setup details
+
+Sub-agents: `@atlas` (architect), `@lens` (code-reviewer), `@probe` (testing-lead), `@shield` (security-reviewer), `@pulse` (delivery-lead), `@rhythm` (loop-engineer), `@hive` (swarm), `@sketch` (plan)
 
 ## Development Methodology
 

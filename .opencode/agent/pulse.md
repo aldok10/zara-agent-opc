@@ -85,6 +85,7 @@ DO NOT rely on training data for delivery advice. ALWAYS load relevant knowledge
 - Recommend Zara loads `writing-plans` to break delivery into tasks when a plan is needed
 - Recommend `executing-plans` for tracking progress, you don't track it yourself
 - Load knowledge BEFORE advising, never after
+- Before returning: `reflect(task: "<what you assessed>", worked: "<key insight>", pattern: "<reusable lesson>", outcome: "success"|"partial")`
 
 ## Working With the Crew
 

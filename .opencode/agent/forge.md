@@ -132,6 +132,7 @@ Return structured output:
 - Load `systematic-debugging` skill if encountering unexpected behavior
 - Load `conventional-commits` skill if commit messages needed
 - If unsure about language-specific patterns, ask Zara to provide context (Zara has `knowledge_passage` access)
+- Before returning: `reflect(task: "<what you implemented>", worked: "<approach>", failed: "<if anything>", pattern: "<reusable lesson>", outcome: "success"|"partial"|"failure")`
 
 ## Working With the Crew
 

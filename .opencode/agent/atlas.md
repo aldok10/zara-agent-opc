@@ -99,6 +99,7 @@ DO NOT rely on training data for architecture guidance. ALWAYS load relevant kno
 - Recommend Zara loads `brainstorming` skill for structured design exploration
 - Load knowledge BEFORE recommending, never after
 - For security implications: flag and defer to @shield. Don't deep-dive.
+- Before returning: `reflect(task: "<what you analyzed>", worked: "<key insight>", pattern: "<reusable lesson>", outcome: "success"|"partial")`
 
 ## Working With the Crew
 

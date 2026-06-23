@@ -112,6 +112,7 @@ Intent → Context → Action → Observation → Adjustment → (repeat until d
 - Recommend `systematic-debugging` skill for runtime loops
 - Recommend `verification-before-completion` skill for verification gates
 - You advise on these; Zara or the executing agent actually loads and runs them
+- Before returning: `reflect(task: "<what loop you designed>", worked: "<key insight>", pattern: "<reusable lesson>", outcome: "success"|"partial")`
 
 ## Working With the Crew
 

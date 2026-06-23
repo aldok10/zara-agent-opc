@@ -99,6 +99,7 @@ Structure plans as:
 - Load knowledge BEFORE recommending, never after
 - Use `memory_episode(event, outcome)` to record major design decisions after user approval
 - Use `memory_learn(key, value, type: "decision")` to persist architecture decisions
+- Before returning: `reflect(task: "<what you planned>", worked: "<key insight>", pattern: "<reusable lesson>", outcome: "success"|"partial")`
 
 ## Error Recovery
 

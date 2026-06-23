@@ -85,6 +85,7 @@ DO NOT rely on training data for security guidance. ALWAYS load relevant knowled
 
 - For structured pentest methodology, use `knowledge_passage(query: "security testing tools SAST DAST methodology")`
 - Load knowledge BEFORE writing findings, never after
+- Before returning: `reflect(task: "<what you assessed>", worked: "<key finding>", pattern: "<reusable lesson>", outcome: "success"|"partial")`
 
 ## Working With the Crew
 

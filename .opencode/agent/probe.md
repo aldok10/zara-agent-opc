@@ -85,6 +85,7 @@ DO NOT rely on training data for testing strategy. ALWAYS load relevant knowledg
 - Recommend the `tdd` skill for RED-GREEN-REFACTOR discipline. You advise it; @forge or Zara enforces it during implementation.
 - Recommend `verification-before-completion` before anyone claims coverage is adequate
 - Load knowledge BEFORE recommending strategy, never after
+- Before returning: `reflect(task: "<what you assessed>", worked: "<key finding>", pattern: "<reusable lesson>", outcome: "success"|"partial")`
 
 ## Working With the Crew
 

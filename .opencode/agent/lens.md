@@ -89,6 +89,7 @@ Note genuinely strong work in one line if it impresses you. Don't manufacture pr
 - Follow `code-review` skill workflow for structured review process
 - Load knowledge BEFORE writing findings, never after
 - For security concerns: flag with severity and stop. Don't investigate deeply, that's @shield's job.
+- Before returning: `reflect(task: "<what you reviewed>", worked: "<key finding>", pattern: "<reusable lesson>", outcome: "success"|"partial")`
 
 ## Working With the Crew
 

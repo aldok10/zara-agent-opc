@@ -82,7 +82,7 @@ class MemoryStore {
     const now = new Date().toISOString().split('T')[0];
     const existing = db.prepare('SELECT reinforced FROM semantic WHERE key = ?').get(key);
     const reinforced = (existing?.reinforced || 0) + 1;
-    const confidence = source === 'user_explicit' ? 1.0 : 0.8;
+    const confidence = source === 'user_explicit' ? 1.0 : source === 'external_unverified' ? 0.5 : 0.8;
     const memType = VALID_TYPES.includes(type) ? type : 'fact';
 
     // Dedup check: if a semantically similar entry already exists (same type, high trigram sim), reinforce it instead
@@ -550,6 +550,10 @@ class MemoryStore {
     const procedural = db.prepare('SELECT id FROM procedural WHERE name LIKE ? OR context LIKE ?').all(like, like);
     const total = semantic.length + episodic.length + procedural.length;
     if (total > 50) return { error: 'Pattern too broad', semantic: semantic.length, episodic: episodic.length, procedural: procedural.length, total };
+    // Audit log (append-only, Constitution P7)
+    const auditFile = path.join(this.#home, 'memory-deletes.jsonl');
+    const entry = JSON.stringify({ pattern, ts: new Date().toISOString(), semantic: semantic.map(r => r.key), episodic: episodic.length, procedural: procedural.length });
+    fs.appendFileSync(auditFile, entry + '\n');
     for (const r of semantic) db.prepare('DELETE FROM semantic WHERE key = ?').run(r.key);
     for (const r of episodic) db.prepare('DELETE FROM episodic WHERE id = ?').run(r.id);
     for (const r of procedural) db.prepare('DELETE FROM procedural WHERE id = ?').run(r.id);

@@ -17,7 +17,7 @@ class MemoryTools {
       },
       memory_learn: {
         description: 'Store a fact in semantic memory (key-value with metadata). Types: policy, workflow, pitfall, architecture, decision, preference, fact',
-        inputSchema: { type: 'object', properties: { key: { type: 'string', description: 'Memory key' }, value: { type: 'string', description: 'The fact to remember' }, source: { type: 'string', enum: ['user_explicit', 'observed', 'inferred'] }, type: { type: 'string', enum: ['policy', 'workflow', 'pitfall', 'architecture', 'decision', 'preference', 'fact'], description: 'Memory type for activation priority' }, scope: { type: 'string', description: 'File path or context scope (for scoped activation)' }, agent: { type: 'string', description: 'Which agent is storing this (provenance)' } }, required: ['key', 'value'] },
+        inputSchema: { type: 'object', properties: { key: { type: 'string', description: 'Memory key' }, value: { type: 'string', description: 'The fact to remember' }, source: { type: 'string', enum: ['user_explicit', 'observed', 'inferred', 'external_unverified'] }, type: { type: 'string', enum: ['policy', 'workflow', 'pitfall', 'architecture', 'decision', 'preference', 'fact'], description: 'Memory type for activation priority' }, scope: { type: 'string', description: 'File path or context scope (for scoped activation)' }, agent: { type: 'string', description: 'Which agent is storing this (provenance)' } }, required: ['key', 'value'] },
         handler: (args) => this.#handleLearn(args),
       },
       memory_episode: {
@@ -77,6 +77,12 @@ class MemoryTools {
     // CONSTITUTION P1: truth-asserting types require owner's explicit statement
     if (['policy', 'architecture', 'decision', 'pitfall'].includes(memType) && source !== 'user_explicit') {
       return `⚠️ Refused: type '${memType}' requires source 'user_explicit'. Use source: 'user_explicit' for policy/architecture/decision/pitfall memories.`;
+    }
+    // CONSTITUTION P2: external content never stored as trusted type
+    if (source === 'external_unverified') {
+      if (['policy', 'architecture', 'decision', 'preference', 'pitfall'].includes(memType)) {
+        return `⚠️ Refused: external_unverified content cannot be stored as ${memType}. Use type 'fact' for external content.`;
+      }
     }
     const result = semanticLearn(args.key, args.value, source, memType, args.scope || '', { agent: args.agent || '' });
     return `Stored: ${result.key} = ${result.value} [${result.type}]`;

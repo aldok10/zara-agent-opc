@@ -30,6 +30,7 @@ export class TraceService {
   #spanStack = [];
   #traceTree = [];        // in-memory trace tree for current session
   #spanCounter = 0;
+  #currentAgent = null;   // optional agent context for tool call attribution
 
   get session() { return this.#session; }
 
@@ -52,10 +53,18 @@ export class TraceService {
     this.#session = null;
   }
 
-  startSpan(tool, args) {
+  setCurrentAgent(name) {
+    this.#currentAgent = name || null;
+  }
+
+  clearCurrentAgent() {
+    this.#currentAgent = null;
+  }
+
+  startSpan(tool, args, agent) {
     const parentId = this.#spanStack.length > 0 ? this.#spanStack[this.#spanStack.length - 1].spanId : null;
     const spanId = `${++this.#spanCounter}`;
-    this.#spanStack.push({ spanId, parentId, tool, start: Date.now(), args: args || {} });
+    this.#spanStack.push({ spanId, parentId, tool, start: Date.now(), args: args || {}, agent: agent || this.#currentAgent || null });
   }
 
   endSpan(tool, success, context) {
@@ -68,10 +77,11 @@ export class TraceService {
     this.#store.appendLine(`${today()}.jsonl`, {
       type: 'tool', tool: span.tool, spanId: span.spanId, parentId: span.parentId,
       duration, success, ts: new Date().toISOString(), args: span.args, context,
+      agent: span.agent || null,
     });
 
     // Keep in-memory tree for trace queries
-    this.#traceTree.push({ spanId: span.spanId, parentId: span.parentId, tool: span.tool, duration, success, args: span.args, context, ts: new Date().toISOString() });
+    this.#traceTree.push({ spanId: span.spanId, parentId: span.parentId, tool: span.tool, duration, success, args: span.args, context, agent: span.agent || null, ts: new Date().toISOString() });
 
     return duration;
   }
@@ -133,6 +143,83 @@ export class TraceService {
       byDate[e.date].cost += e.cost; byDate[e.date].input += e.inputTokens; byDate[e.date].output += e.outputTokens;
     }
     return Object.entries(byDate).sort((a, b) => b[0].localeCompare(a[0])).slice(0, days);
+  }
+
+  costByAgent(days = 7) {
+    const agentData = {};
+    let totalToolCalls = 0;
+    // Collect tool spans with agent field
+    for (let i = 0; i < days; i++) {
+      const d = new Date(); d.setDate(d.getDate() - i);
+      for (const s of this.#store.readLines(`${d.toISOString().split('T')[0]}.jsonl`)) {
+        if (s.type === 'tool') {
+          const agent = s.agent || 'unattributed';
+          if (!agentData[agent]) agentData[agent] = { toolCalls: 0, totalDuration: 0, successCount: 0, failCount: 0 };
+          agentData[agent].toolCalls++;
+          agentData[agent].totalDuration += s.duration || 0;
+          if (s.success) agentData[agent].successCount++;
+          else agentData[agent].failCount++;
+          totalToolCalls++;
+        }
+      }
+    }
+    // Get total session cost for proportional attribution
+    let totalCost = 0;
+    for (let i = 0; i < days; i++) {
+      const d = new Date(); d.setDate(d.getDate() - i);
+      for (const s of this.#store.readLines(`${d.toISOString().split('T')[0]}.jsonl`)) {
+        if (s.type === 'session') totalCost += s.cost || 0;
+      }
+    }
+    // Attribute cost proportionally by tool call count
+    const result = {};
+    for (const [agent, data] of Object.entries(agentData)) {
+      const proportion = totalToolCalls > 0 ? data.toolCalls / totalToolCalls : 0;
+      result[agent] = {
+        toolCalls: data.toolCalls,
+        avgLatency: data.toolCalls > 0 ? Math.round(data.totalDuration / data.toolCalls) : 0,
+        totalDuration: data.totalDuration,
+        successCount: data.successCount,
+        failCount: data.failCount,
+        estimatedCost: +(totalCost * proportion).toFixed(4),
+      };
+    }
+    return result;
+  }
+
+  latencyByAgent(days = 7) {
+    const agentData = {};
+    for (let i = 0; i < days; i++) {
+      const d = new Date(); d.setDate(d.getDate() - i);
+      for (const s of this.#store.readLines(`${d.toISOString().split('T')[0]}.jsonl`)) {
+        if (s.type === 'tool') {
+          const agent = s.agent || 'unattributed';
+          if (!agentData[agent]) agentData[agent] = { calls: 0, total: 0, max: 0, byTool: {} };
+          agentData[agent].calls++;
+          agentData[agent].total += s.duration || 0;
+          if ((s.duration || 0) > agentData[agent].max) agentData[agent].max = s.duration || 0;
+          const tool = s.tool || 'unknown';
+          if (!agentData[agent].byTool[tool]) agentData[agent].byTool[tool] = { calls: 0, total: 0 };
+          agentData[agent].byTool[tool].calls++;
+          agentData[agent].byTool[tool].total += s.duration || 0;
+        }
+      }
+    }
+    const result = {};
+    for (const [agent, data] of Object.entries(agentData)) {
+      const toolBreakdown = {};
+      for (const [tool, td] of Object.entries(data.byTool)) {
+        toolBreakdown[tool] = { calls: td.calls, avgLatency: Math.round(td.total / td.calls) };
+      }
+      result[agent] = {
+        calls: data.calls,
+        avgLatency: Math.round(data.total / data.calls),
+        maxLatency: data.max,
+        totalDuration: data.total,
+        byTool: toolBreakdown,
+      };
+    }
+    return result;
   }
 }
 
@@ -410,6 +497,13 @@ export default function createObserve({ client, directory } = {}) {
       // Track input tokens from system message
       const sysMsg = messages.find(m => m.role === 'system');
       if (sysMsg?.content) trace.onInput(sysMsg.content);
+
+      // Read agent context from last user message metadata if available
+      const lastMsg = messages.filter(m => m.role === 'user' || m.role === 'assistant').pop();
+      if (lastMsg?.metadata?.agent) {
+        trace.setCurrentAgent(lastMsg.metadata.agent);
+      }
+
       return messages;
     },
 

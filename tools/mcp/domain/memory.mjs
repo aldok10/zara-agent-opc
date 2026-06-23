@@ -72,8 +72,9 @@ class MemoryTools {
   #handleLearn(args) {
     const memType = args.type || 'fact';
     const source = args.source || 'observed';
-    if ((memType === 'policy' || memType === 'architecture') && source !== 'user_explicit') {
-      return `⚠️ Refused: type '${memType}' requires source 'user_explicit'. Use source: 'user_explicit' for policy/architecture memories.`;
+    // CONSTITUTION P1: truth-asserting types require owner's explicit statement
+    if (['policy', 'architecture', 'decision', 'pitfall'].includes(memType) && source !== 'user_explicit') {
+      return `⚠️ Refused: type '${memType}' requires source 'user_explicit'. Use source: 'user_explicit' for policy/architecture/decision/pitfall memories.`;
     }
     const result = semanticLearn(args.key, args.value, source, memType, args.scope || '');
     return `Stored: ${result.key} = ${result.value} [${result.type}]`;

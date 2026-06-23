@@ -55,9 +55,13 @@ class ReflectionTools {
     } catch {}
 
     // Trust calibration: adjust trust scores of memories recalled this session
+    // CONSTITUTION P3: only raise trust on explicit success WITH evidence (worked field).
+    // Without evidence, trust may stay flat or fall, never rise.
     let trustResult = null;
     if (args.outcome && recalledKeys.size > 0) {
-      trustResult = adjustTrust([...recalledKeys], args.outcome);
+      const canRaise = args.outcome === 'success' && args.worked;
+      const effectiveOutcome = canRaise ? 'success' : (args.outcome === 'failure' ? 'failure' : 'partial');
+      trustResult = adjustTrust([...recalledKeys], effectiveOutcome);
       recalledKeys.clear();
     }
 
@@ -65,8 +69,8 @@ class ReflectionTools {
       const pFile = path.join(REFLECT_DIR, 'patterns.json');
       const patterns = loadJson(pFile, []);
       const existing = patterns.find(p => p.name === args.pattern);
-      // Outcome → reward signal. success=1, partial=0.5, failure=0. Unspecified treated as success (legacy).
-      const reward = args.outcome === 'failure' ? 0 : args.outcome === 'partial' ? 0.5 : 1;
+      // Outcome → reward signal. CONSTITUTION P4: unspecified = partial (0.5), not success.
+      const reward = args.outcome === 'success' ? 1 : args.outcome === 'failure' ? 0 : 0.5;
       if (existing) {
         existing.occurrences++;
         // Running sum of rewards → success rate is the average reward per occurrence.

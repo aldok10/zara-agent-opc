@@ -17,6 +17,7 @@ import { createHash } from 'node:crypto';
 import fs from 'fs';
 import path from 'path';
 import os from 'os';
+import { TrigramEmbedder } from './embedder.mjs';
 
 // --- Value Objects ---
 
@@ -31,10 +32,12 @@ class MemoryStore {
   #db = null;
   #home;
   #dbPath;
+  #embedder;
 
-  constructor(home = path.join(os.homedir(), '.zara')) {
+  constructor(home = path.join(os.homedir(), '.zara'), embedder = new TrigramEmbedder()) {
     this.#home = home;
     this.#dbPath = path.join(home, 'memory.db');
+    this.#embedder = embedder;
   }
 
   // --- Lifecycle ---
@@ -84,10 +87,10 @@ class MemoryStore {
 
     // Dedup check: if a semantically similar entry already exists (same type, high trigram sim), reinforce it instead
     if (!existing && value.length > 10) {
-      const queryVec = this.#trigramEmbed(value);
+      const queryVec = this.#embedder.embed(value);
       const candidates = db.prepare('SELECT key, value FROM semantic WHERE type = ? LIMIT 100').all(memType);
       for (const c of candidates) {
-        const sim = this.#cosineSim(queryVec, this.#trigramEmbed(c.value));
+        const sim = this.#embedder.cosineSim(queryVec, this.#embedder.embed(c.value));
         if (sim > 0.85) {
           db.prepare('UPDATE semantic SET reinforced = reinforced + 1, updated = ?, decay_score = 1.0 WHERE key = ?').run(now, c.key);
           return { key: c.key, value: c.value, reinforced: -1, type: memType, deduped: true };
@@ -298,7 +301,7 @@ class MemoryStore {
     if (!chunks.length) return { key, chunks: 0 };
     const stmt = db.prepare('INSERT INTO knowledge_chunks (key, section, chunk_index, text, embedding) VALUES (?, ?, ?, ?, ?)');
     chunks.forEach((text, i) => {
-      const vec = this.#trigramEmbed(text);
+      const vec = this.#embedder.embed(text);
       const buf = Buffer.from(new Float32Array(vec).buffer);
       stmt.run(key, section, i, text, buf);
     });
@@ -308,14 +311,14 @@ class MemoryStore {
   // Cosine-search article passages. Optional section pre-filter (Minds-style metadata filter before ranking).
   knowledgeChunkSearch(query, section = '', k = 5) {
     const db = this.db;
-    const queryVec = this.#trigramEmbed(query);
+    const queryVec = this.#embedder.embed(query);
     const rows = section
       ? db.prepare('SELECT key, section, chunk_index, text, embedding FROM knowledge_chunks WHERE section = ?').all(section)
       : db.prepare('SELECT key, section, chunk_index, text, embedding FROM knowledge_chunks').all();
     return rows
       .map(r => {
         const vec = new Float32Array(r.embedding.buffer, r.embedding.byteOffset, r.embedding.byteLength / 4);
-        return { key: r.key, section: r.section, chunk_index: r.chunk_index, text: r.text, score: this.#cosineSim(queryVec, vec) };
+        return { key: r.key, section: r.section, chunk_index: r.chunk_index, text: r.text, score: this.#embedder.cosineSim(queryVec, vec) };
       })
       .filter(r => r.score > 0.1)
       .sort((a, b) => b.score - a.score)
@@ -323,6 +326,40 @@ class MemoryStore {
   }
 
   knowledgeChunkCount() { return this.db.prepare('SELECT COUNT(*) as n FROM knowledge_chunks').get().n; }
+
+  // Async chunk upsert using any embedder (for SemanticEmbedder which is async)
+  async knowledgeChunkUpsertAsync(key, section, body, embedder) {
+    const db = this.db;
+    const chunks = this.chunkText(body);
+    db.prepare('DELETE FROM knowledge_chunks WHERE key = ?').run(key);
+    if (!chunks.length) return { key, chunks: 0 };
+    const stmt = db.prepare('INSERT INTO knowledge_chunks (key, section, chunk_index, text, embedding) VALUES (?, ?, ?, ?, ?)');
+    for (let i = 0; i < chunks.length; i++) {
+      const vec = await embedder.embed(chunks[i]);
+      const buf = Buffer.from(new Float32Array(vec).buffer);
+      stmt.run(key, section, i, chunks[i], buf);
+    }
+    return { key, chunks: chunks.length };
+  }
+
+  // Async chunk search using any embedder
+  async knowledgeChunkSearchAsync(query, embedder, section = '', k = 5) {
+    const db = this.db;
+    const queryVec = await embedder.embed(query);
+    const queryDim = queryVec.length;
+    const rows = section
+      ? db.prepare('SELECT key, section, chunk_index, text, embedding FROM knowledge_chunks WHERE section = ?').all(section)
+      : db.prepare('SELECT key, section, chunk_index, text, embedding FROM knowledge_chunks').all();
+    const results = [];
+    for (const r of rows) {
+      const storedDim = r.embedding.byteLength / 4;
+      if (storedDim !== queryDim) continue; // skip dimension-mismatched chunks (need re-index)
+      const vec = new Float32Array(r.embedding.buffer, r.embedding.byteOffset, storedDim);
+      const score = embedder.cosineSim(queryVec, vec);
+      if (score > 0.1) results.push({ key: r.key, section: r.section, chunk_index: r.chunk_index, text: r.text, score });
+    }
+    return results.sort((a, b) => b.score - a.score).slice(0, k);
+  }
 
   // --- Contradiction Detection (semantic, not just exact-string) ---
 
@@ -339,7 +376,7 @@ class MemoryStore {
     const byType = new Map();
     for (const r of rows) {
       if (!byType.has(r.type)) byType.set(r.type, []);
-      byType.get(r.type).push({ ...r, vec: this.#trigramEmbed(r.value), norm: r.value.toLowerCase().replace(/\s+/g, ' ').trim() });
+      byType.get(r.type).push({ ...r, vec: this.#embedder.embed(r.value), norm: r.value.toLowerCase().replace(/\s+/g, ' ').trim() });
     }
 
     const flagged = [];
@@ -349,7 +386,7 @@ class MemoryStore {
           const a = group[i], b = group[j];
           if (a.norm === b.norm) continue; // identical → handled by dreamConsolidate merge
           if (a.norm.includes(b.norm) || b.norm.includes(a.norm)) continue; // subset → not a conflict
-          const sim = this.#cosineSim(a.vec, b.vec);
+          const sim = this.#embedder.cosineSim(a.vec, b.vec);
           if (sim >= threshold) flagged.push({ a: a.key, b: b.key, type: a.type, sim });
         }
       }
@@ -519,27 +556,13 @@ class MemoryStore {
   }
 
   #trigramSearch(query, limit) {
-    const queryVec = this.#trigramEmbed(query);
+    const queryVec = this.#embedder.embed(query);
     return this.db.prepare('SELECT key, value, confidence, source, type, scope, updated, reinforced, decay_score, trust_score, grounded FROM semantic').all()
-      .map(r => ({ ...r, trigramSim: this.#cosineSim(queryVec, this.#trigramEmbed(`${r.key} ${r.value}`)) }))
+      .map(r => ({ ...r, trigramSim: this.#embedder.cosineSim(queryVec, this.#embedder.embed(`${r.key} ${r.value}`)) }))
       .filter(r => r.trigramSim > 0.15)
       .sort((a, b) => b.trigramSim - a.trigramSim)
       .slice(0, limit);
   }
-
-  #trigramEmbed(text) {
-    const vec = new Float32Array(128).fill(0);
-    const lower = text.toLowerCase().replace(/[^a-z0-9\s]/g, '');
-    for (let i = 0; i < lower.length - 2; i++) {
-      const hash = createHash('md5').update(lower.slice(i, i + 3)).digest();
-      vec[hash[0] % 128] += 1;
-      vec[(hash[1] + 64) % 128] += 0.5;
-    }
-    const mag = Math.sqrt(vec.reduce((s, v) => s + v * v, 0)) || 1;
-    return vec.map(v => v / mag);
-  }
-
-  #cosineSim(a, b) { return a.reduce((s, v, i) => s + v * b[i], 0); }
 
   #initSchema() {
     this.#db.exec(`
@@ -687,6 +710,8 @@ export const knowledgeSections = () => store.knowledgeSections();
 export const knowledgeCount = () => store.knowledgeCount();
 export const knowledgeChunkUpsert = (key, section, body) => store.knowledgeChunkUpsert(key, section, body);
 export const knowledgeChunkSearch = (query, section, k) => store.knowledgeChunkSearch(query, section, k);
+export const knowledgeChunkUpsertAsync = (key, section, body, embedder) => store.knowledgeChunkUpsertAsync(key, section, body, embedder);
+export const knowledgeChunkSearchAsync = (query, embedder, section, k) => store.knowledgeChunkSearchAsync(query, embedder, section, k);
 export const knowledgeChunkCount = () => store.knowledgeChunkCount();
 export const detectContradictions = (threshold) => store.detectContradictions(threshold);
 export const deleteByPattern = (pattern) => store.deleteByPattern(pattern);

@@ -3,5 +3,7 @@
   "version": "0.1.0",
   "type": "module",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "@huggingface/transformers": "^4.2.0"
+  }
 }

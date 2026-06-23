@@ -266,3 +266,27 @@ describe('memory provenance', () => {
     store.close();
   });
 });
+
+// --- Embedder Dependency Injection ---
+
+describe('embedder DIP seam', () => {
+  const homes = [];
+  function track(h) { homes.push(h); return h; }
+  after(() => {
+    for (const h of homes) fs.rmSync(h, { recursive: true, force: true });
+  });
+
+  it('accepts a custom embedder and uses it for recall', () => {
+    class MockEmbedder {
+      embed(text) { return new Float32Array(128).fill(1 / Math.sqrt(128)); }
+      cosineSim(a, b) { return a.reduce((s, v, i) => s + v * b[i], 0); }
+    }
+    const home = track(path.join(os.tmpdir(), `zara-embed-${process.hrtime.bigint()}`));
+    const store = new MemoryStore(home, new MockEmbedder());
+    store.learn('embed.test', 'custom embedder value', 'observed', 'fact', '');
+    const results = store.recall('anything', 5);
+    assert.ok(results.length > 0, 'recall should return results with mock embedder');
+    assert.ok(results.some(r => r.key === 'embed.test'), 'stored key should be found');
+    store.close();
+  });
+});

@@ -6,8 +6,9 @@ import { convertChm } from '../../chm2md.mjs';
 import {
   semanticLearn, semanticRecall,
   knowledgeUpsert, knowledgeBySection, knowledgeSearch, knowledgeSections, knowledgeCount,
-  knowledgeChunkUpsert, knowledgeChunkSearch, knowledgeChunkCount
+  knowledgeChunkUpsert, knowledgeChunkSearch, knowledgeChunkSearchAsync, knowledgeChunkUpsertAsync, knowledgeChunkCount
 } from '../../memory-db.mjs';
+import { SemanticEmbedder } from '../../embedder.mjs';
 
 const SECTION_TYPE_MAP = {
   principles: 'policy',
@@ -73,7 +74,7 @@ class KnowledgeTools {
     };
   }
 
-  #handleKnowledgeLoadInit(args) {
+  async #handleKnowledgeLoadInit(args) {
     // Check if already seeded (skip unless forced)
     if (!args.force && !args.dry_run) {
       const count = knowledgeCount();
@@ -128,9 +129,14 @@ class KnowledgeTools {
         // Also store in semantic memory (for FTS recall)
         semanticLearn(key, summary, 'user_explicit', memType, `knowledge/${rel}`);
 
-        // Chunk + embed the full body for passage retrieval (Minds-style RAG)
+        // Chunk + embed the full body for passage retrieval
         if (body) {
-          try { knowledgeChunkUpsert(key, section, body); } catch {}
+          try {
+            const embedder = SemanticEmbedder.instance();
+            await knowledgeChunkUpsertAsync(key, section, body, embedder);
+          } catch {
+            try { knowledgeChunkUpsert(key, section, body); } catch {}
+          }
         }
         stored++;
       } catch (e) {
@@ -142,11 +148,18 @@ class KnowledgeTools {
     return `Knowledge seeded: ${stored} stored, ${skipped} skipped, ${errors.length} errors.\nPassages indexed: ${knowledgeChunkCount()}.\nSections: ${sections}${errors.length ? '\nErrors:\n' + errors.slice(0, 5).join('\n') : ''}`;
   }
 
-  #handleKnowledgePassage(args) {
+  async #handleKnowledgePassage(args) {
     if (knowledgeChunkCount() === 0) {
       return 'No passages indexed. Run knowledge_load_init (or force=true to re-seed) to build the passage index.';
     }
-    const hits = knowledgeChunkSearch(args.query, args.section || '', args.k || 5);
+    // Use SemanticEmbedder for quality search; fall back to trigram if model unavailable
+    let hits;
+    try {
+      const embedder = SemanticEmbedder.instance();
+      hits = await knowledgeChunkSearchAsync(args.query, embedder, args.section || '', args.k || 5);
+    } catch {
+      hits = knowledgeChunkSearch(args.query, args.section || '', args.k || 5);
+    }
     if (!hits.length) return `No passages found for "${args.query}"${args.section ? ` in section "${args.section}"` : ''}.`;
     return hits.map(h =>
       `[${(h.score).toFixed(2)}] ${h.key} #${h.chunk_index} (${h.section})\n  ${h.text.slice(0, 400)}`

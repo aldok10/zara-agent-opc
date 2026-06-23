@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { HOME, ensure, loadJson, saveJson } from '../infra.mjs';
-import { adjustTrust, detectContradictions } from '../../memory-db.mjs';
+import { adjustTrust } from '../../memory-db.mjs';
 
 const REFLECT_DIR = path.join(HOME, 'reflections');
 
@@ -28,8 +28,8 @@ class ReflectionTools {
       },
       zara_evolve_status: {
         description: 'Snapshot of Zara learning state — top patterns, active rules, micro-tools, contradictions, blindspots.',
-        inputSchema: { type: 'object', properties: {} },
-        handler: () => this.#handleEvolveStatus(),
+        inputSchema: { type: 'object', properties: { days: { type: 'number', description: 'Filter to last N days (default: all time)' } } },
+        handler: (args) => this.#handleEvolveStatus(args),
       },
       blindspot_log: {
         description: 'Record a blindspot detected in user behavior (for gentle future reminders)',
@@ -136,12 +136,14 @@ class ReflectionTools {
       .join('\n');
   }
 
-  #handleEvolveStatus() {
+  #handleEvolveStatus(args = {}) {
     const out = ['# Zara Learning Status', ''];
+    const cutoff = args.days ? new Date(Date.now() - args.days * 86400000).toISOString().split('T')[0] : null;
     const patterns = loadJson(path.join(REFLECT_DIR, 'patterns.json'), []);
-    if (patterns.length) {
-      const top = [...patterns].sort((a, b) => this.#score(b) - this.#score(a)).slice(0, 5);
-      out.push(`## Top Patterns (${patterns.length} learned)`);
+    const filtered = cutoff ? patterns.filter(p => p.lastSeen >= cutoff) : patterns;
+    if (filtered.length) {
+      const top = [...filtered].sort((a, b) => this.#score(b) - this.#score(a)).slice(0, 5);
+      out.push(`## ${cutoff ? `Recent Patterns (last ${args.days}d)` : 'Top Patterns'} (${filtered.length}${cutoff ? ` of ${patterns.length}` : ''} learned)`);
       for (const p of top) out.push(`- ${p.name} — ${p.occurrences}x, ${Math.round((p.successRate ?? 1) * 100)}% success`);
       out.push('');
     }
@@ -150,13 +152,12 @@ class ReflectionTools {
     if (rules.length) { out.push(`## Active Rules (${rules.length})`); for (const r of rules.slice(0, 5)) out.push(`- [${r.priority || 'med'}] WHEN ${r.when} → ${r.then} (fired ${r.fired || 0}x)`); out.push(''); }
     const micro = loadJson(path.join(EVOLVE_DIR, 'micro-tools.json'), []);
     if (micro.length) { out.push(`## Micro-Tools (${micro.length} crystallized)`); for (const t of [...micro].sort((a, b) => (b.uses || 0) - (a.uses || 0)).slice(0, 5)) out.push(`- ${t.name} (used ${t.uses || 0}x)`); out.push(''); }
-    let contradictions = []; try { contradictions = detectContradictions(); } catch {}
-    if (contradictions.length) { out.push(`## Open Contradictions (${contradictions.length})`); out.push('Run memory_contradictions to review.'); out.push(''); }
+    out.push('## Contradictions'); out.push('Run memory_contradictions manually (semantic detection).'); out.push('');
     const blindspots = loadJson(path.join(HOME, 'blindspots.json'), []);
     if (blindspots.length) { out.push(`## Blindspots tracked (${blindspots.length})`); for (const b of blindspots.slice(-3)) out.push(`- ${b.area}: ${b.observation}`); out.push(''); }
     if (out.length <= 2) return 'No learning data yet.';
     const avgSuccess = patterns.length ? Math.round(patterns.reduce((s, p) => s + (p.successRate ?? 1), 0) / patterns.length * 100) : null;
-    out.push('---'); out.push(`Health: ${patterns.length} patterns${avgSuccess !== null ? ` (avg ${avgSuccess}% success)` : ''}, ${rules.length} rules, ${micro.length} micro-tools, ${contradictions.length} contradictions.`);
+    out.push('---'); out.push(`Health: ${patterns.length} patterns${avgSuccess !== null ? ` (avg ${avgSuccess}% success)` : ''}, ${rules.length} rules, ${micro.length} micro-tools.`);
     return out.join('\n');
   }
 

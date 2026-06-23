@@ -203,6 +203,7 @@
       "type": "local",
       "command": [
         "node",
+        "--experimental-sqlite",
         "tools/mcp/index.mjs"
       ],
       "timeout": 5000,

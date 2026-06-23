@@ -658,17 +658,23 @@ class MemoryStore {
       );
       CREATE INDEX IF NOT EXISTS idx_chunks_key ON knowledge_chunks(key);
       CREATE INDEX IF NOT EXISTS idx_chunks_section ON knowledge_chunks(section);
-      CREATE VIRTUAL TABLE IF NOT EXISTS semantic_fts USING fts5(key, value, content=semantic, content_rowid=rowid);
-      CREATE VIRTUAL TABLE IF NOT EXISTS episodic_fts USING fts5(event, outcome, tags, content=episodic, content_rowid=id);
-      CREATE VIRTUAL TABLE IF NOT EXISTS procedural_fts USING fts5(name, context, steps, content=procedural, content_rowid=id);
-      CREATE TRIGGER IF NOT EXISTS semantic_ai AFTER INSERT ON semantic BEGIN INSERT INTO semantic_fts(rowid, key, value) VALUES (new.rowid, new.key, new.value); END;
-      CREATE TRIGGER IF NOT EXISTS semantic_ad AFTER DELETE ON semantic BEGIN INSERT INTO semantic_fts(semantic_fts, rowid, key, value) VALUES('delete', old.rowid, old.key, old.value); END;
-      CREATE TRIGGER IF NOT EXISTS semantic_au AFTER UPDATE ON semantic BEGIN INSERT INTO semantic_fts(semantic_fts, rowid, key, value) VALUES('delete', old.rowid, old.key, old.value); INSERT INTO semantic_fts(rowid, key, value) VALUES (new.rowid, new.key, new.value); END;
-      CREATE TRIGGER IF NOT EXISTS episodic_ai AFTER INSERT ON episodic BEGIN INSERT INTO episodic_fts(rowid, event, outcome, tags) VALUES (new.id, new.event, new.outcome, new.tags); END;
-      CREATE TRIGGER IF NOT EXISTS episodic_ad AFTER DELETE ON episodic BEGIN INSERT INTO episodic_fts(episodic_fts, rowid, event, outcome, tags) VALUES('delete', old.id, old.event, old.outcome, old.tags); END;
-      CREATE TRIGGER IF NOT EXISTS procedural_ai AFTER INSERT ON procedural BEGIN INSERT INTO procedural_fts(rowid, name, context, steps) VALUES (new.id, new.name, new.context, new.steps); END;
-      CREATE TRIGGER IF NOT EXISTS procedural_au AFTER UPDATE ON procedural BEGIN INSERT INTO procedural_fts(procedural_fts, rowid, name, context, steps) VALUES('delete', old.id, old.name, old.context, old.steps); INSERT INTO procedural_fts(rowid, name, context, steps) VALUES (new.id, new.name, new.context, new.steps); END;
     `);
+      try {
+        this.#db.exec("CREATE VIRTUAL TABLE IF NOT EXISTS semantic_fts USING fts5(key, value, content=semantic, content_rowid=rowid)");
+        this.#db.exec("CREATE VIRTUAL TABLE IF NOT EXISTS episodic_fts USING fts5(event, outcome, tags, content=episodic, content_rowid=id)");
+        this.#db.exec("CREATE VIRTUAL TABLE IF NOT EXISTS procedural_fts USING fts5(name, context, steps, content=procedural, content_rowid=id)");
+        this.#db.exec("CREATE TRIGGER IF NOT EXISTS semantic_ai AFTER INSERT ON semantic BEGIN INSERT INTO semantic_fts(rowid, key, value) VALUES (new.rowid, new.key, new.value); END");
+        this.#db.exec("CREATE TRIGGER IF NOT EXISTS semantic_ad AFTER DELETE ON semantic BEGIN INSERT INTO semantic_fts(semantic_fts, rowid, key, value) VALUES('delete', old.rowid, old.key, old.value); END");
+        this.#db.exec("CREATE TRIGGER IF NOT EXISTS semantic_au AFTER UPDATE ON semantic BEGIN INSERT INTO semantic_fts(semantic_fts, rowid, key, value) VALUES('delete', old.rowid, old.key, old.value); INSERT INTO semantic_fts(rowid, key, value) VALUES (new.rowid, new.key, new.value); END");
+        this.#db.exec("CREATE TRIGGER IF NOT EXISTS episodic_ai AFTER INSERT ON episodic BEGIN INSERT INTO episodic_fts(rowid, event, outcome, tags) VALUES (new.id, new.event, new.outcome, new.tags); END");
+        this.#db.exec("CREATE TRIGGER IF NOT EXISTS episodic_ad AFTER DELETE ON episodic BEGIN INSERT INTO episodic_fts(episodic_fts, rowid, event, outcome, tags) VALUES('delete', old.id, old.event, old.outcome, old.tags); END");
+        this.#db.exec("CREATE TRIGGER IF NOT EXISTS procedural_ai AFTER INSERT ON procedural BEGIN INSERT INTO procedural_fts(rowid, name, context, steps) VALUES (new.id, new.name, new.context, new.steps); END");
+        this.#db.exec("CREATE TRIGGER IF NOT EXISTS procedural_au AFTER UPDATE ON procedural BEGIN INSERT INTO procedural_fts(procedural_fts, rowid, name, context, steps) VALUES('delete', old.id, old.name, old.context, old.steps); INSERT INTO procedural_fts(rowid, name, context, steps) VALUES (new.id, new.name, new.context, new.steps); END");
+        this.#db.exec("CREATE INDEX IF NOT EXISTS idx_semantic_key ON semantic(key)");
+        this.#db.exec("CREATE INDEX IF NOT EXISTS idx_episodic_event ON episodic(event)");
+      } catch (e) {
+        process.stderr.write("[zara-memory] FTS5 unavailable, using LIKE fallback: " + e.message + "\n");
+      }
   }
 
   #migrate() {

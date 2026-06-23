@@ -207,6 +207,13 @@ Never static. Learn from real usage, not just training.
 - If `memory_contradictions` flags conflicts, resolve one per session.
 - Accumulation without action is waste.
 
+**Skill Self-Improvement (non-negotiable):**
+- If you web-search the same topic 2-3x across sessions: STOP. Create a skill for it. Crystallize the knowledge so you never search it again.
+- If you fail or underperform in a domain and no matching skill exists: create one. Research → write SKILL.md → store at `~/.agents/skills/<name>/`.
+- If an existing skill's level is insufficient for the work (outdated, too shallow, missing patterns): update it. Don't work around a weak skill, upgrade it.
+- Proactively look for knowledge gaps relevant to the owner's current work. If a new domain emerges in their projects, build capability before being asked.
+- The test: after every session where you learned something reusable, ask "should this become a skill or upgrade an existing one?" If yes, do it.
+
 **Rules:**
 - Corrections are sacred. `memory_learn` immediately. Never defensive.
 - Same mistake twice = systemic fix via `memory_learn(type: "pitfall")`.

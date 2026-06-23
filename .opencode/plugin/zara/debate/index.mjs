@@ -1,7 +1,10 @@
 // Debate — Multi-agent deliberation for high-stakes decisions
 // Dispatches 2-3 agents in parallel, scores consensus, iterates if needed
 
+import fs from 'fs';
+import path from 'path';
 import { tool } from '@opencode-ai/plugin';
+import { ensure } from '../infra/store.mjs';
 
 const z = tool.schema;
 const CONSENSUS_THRESHOLD = 0.6;
@@ -117,7 +120,7 @@ async function promptAgent(client, sessionID, agent, promptText, signal) {
 
 // ─── Module ─────────────────────────────────────────────────────────────────
 
-export default function createDebate({ client } = {}) {
+export default function createDebate({ client, directory } = {}) {
   return {
     tools: {
       deliberate: tool({
@@ -203,6 +206,19 @@ export default function createDebate({ client } = {}) {
           } else {
             output += `### Verdict\nFundamental disagreement. Requires human judgment.\n`;
           }
+
+          // Auto-write debate result to workspace
+          try {
+            const wsDir = path.join(directory || process.cwd(), '.opencode', 'workspace');
+            ensure(wsDir);
+            const entry = JSON.stringify({
+              id: `debate-${Date.now().toString(36)}`,
+              type: 'debate', key: args.question.slice(0, 80),
+              value: output.slice(0, 2000), agent: 'zara',
+              confidence: score, ttl: '7d', ts: new Date().toISOString(),
+            });
+            fs.appendFileSync(path.join(wsDir, 'workspace.jsonl'), entry + '\n');
+          } catch {}
 
           return { output };
         },

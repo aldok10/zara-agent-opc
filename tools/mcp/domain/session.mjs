@@ -77,6 +77,16 @@ class SessionTools {
   #handleSessionLog(args) {
     const file = path.join(HOME, 'session.json');
     const session = loadJson(file, { active: false, startedAt: null, context: '', totalToday: 0 });
+
+    // TTL fallback: auto-end stale sessions (>12h without explicit end)
+    const MAX_SESSION_MS = 12 * 3600000;
+    if (session.active && session.startedAt && (Date.now() - new Date(session.startedAt).getTime()) > MAX_SESSION_MS) {
+      session.active = false;
+      session.startedAt = null;
+      session.lastEnded = new Date().toISOString();
+      saveJson(file, session);
+    }
+
     if (args.action === 'start') {
       session.active = true;
       session.startedAt = new Date().toISOString();

@@ -3,7 +3,7 @@ import {
   semanticLearn, semanticRecall, semanticRecallAsync, semanticBaseline, semanticScoped,
   episodicRecord, episodicRecall,
   proceduralSave, proceduralRecall, proceduralCount,
-  stats as dbStats, dreamConsolidate, detectContradictions, deleteByPattern, countByPattern
+  stats as dbStats, dreamConsolidate, detectContradictions, detectContradictionsAsync, deleteByPattern, countByPattern
 } from '../../memory-db.mjs';
 import { recalledKeys } from './reflection.mjs';
 
@@ -92,17 +92,20 @@ class MemoryTools {
     return `Saved procedure: ${result.name} (${result.steps} steps)`;
   }
 
-  #handleConsolidate() {
+  async #handleConsolidate() {
     const r = dreamConsolidate();
-    const conflicts = detectContradictions();
+    let conflicts = [];
+    try { conflicts = await detectContradictionsAsync(); } catch {}
     const conflictNote = conflicts.length
       ? `\n⚠️ ${conflicts.length} potential contradiction(s) detected — run memory_contradictions to review.`
       : '';
     return `Consolidation complete: ${r.merged} merged, ${r.archived} archived, ${r.reinforced} promoted${conflictNote}`;
   }
 
-  #handleContradictions(args) {
-    const flagged = detectContradictions(args.threshold || 0.85);
+  async #handleContradictions(args) {
+    let flagged;
+    try { flagged = await detectContradictionsAsync(args.threshold || 0.92); }
+    catch { flagged = detectContradictions(args.threshold || 0.85); }
     if (!flagged.length) return 'No contradicting memories detected.';
     return `${flagged.length} potential contradiction(s):\n` +
       flagged.map(f => `- [${f.type}] "${f.a}" vs "${f.b}" (${(f.sim * 100).toFixed(0)}% similar)`).join('\n');

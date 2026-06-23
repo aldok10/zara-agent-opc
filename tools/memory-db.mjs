@@ -417,6 +417,43 @@ class MemoryStore {
     return flagged;
   }
 
+  // Async version using SemanticEmbedder for real semantic comparison (far fewer false positives)
+  async detectContradictionsAsync(threshold = 0.92) {
+    const db = this.db;
+    const rows = db.prepare(`
+      SELECT key, value, type FROM semantic
+      WHERE key NOT LIKE 'knowledge.%' AND key NOT LIKE 'kb_%' AND key NOT LIKE 'auto.%'
+    `).all();
+
+    let embedder;
+    try {
+      const { SemanticEmbedder } = await import('./embedder.mjs');
+      embedder = SemanticEmbedder.instance();
+    } catch { return this.detectContradictions(threshold); }
+
+    const byType = new Map();
+    for (const r of rows) {
+      if (!byType.has(r.type)) byType.set(r.type, []);
+      const vec = await embedder.embed(r.value.slice(0, 200));
+      const norm = r.value.toLowerCase().replace(/\s+/g, ' ').trim();
+      byType.get(r.type).push({ ...r, vec, norm });
+    }
+
+    const flagged = [];
+    for (const group of byType.values()) {
+      for (let i = 0; i < group.length; i++) {
+        for (let j = i + 1; j < group.length; j++) {
+          const a = group[i], b = group[j];
+          if (a.norm === b.norm) continue;
+          if (a.norm.includes(b.norm) || b.norm.includes(a.norm)) continue;
+          const sim = embedder.cosineSim(a.vec, b.vec);
+          if (sim >= threshold) flagged.push({ a: a.key, b: b.key, type: a.type, sim });
+        }
+      }
+    }
+    return flagged;
+  }
+
   // --- Maintenance ---
 
   applyDecay() {
@@ -737,6 +774,7 @@ export const knowledgeChunkUpsertAsync = (key, section, body, embedder) => store
 export const knowledgeChunkSearchAsync = (query, embedder, section, k) => store.knowledgeChunkSearchAsync(query, embedder, section, k);
 export const knowledgeChunkCount = () => store.knowledgeChunkCount();
 export const detectContradictions = (threshold) => store.detectContradictions(threshold);
+export const detectContradictionsAsync = (threshold) => store.detectContradictionsAsync(threshold);
 export const deleteByPattern = (pattern) => store.deleteByPattern(pattern);
 export const countByPattern = (pattern) => store.countByPattern(pattern);
 export const adjustTrust = (keys, outcome) => store.adjustTrust(keys, outcome);

@@ -1,5 +1,7 @@
 # Clean Code in Laravel
 
+> Docs: https://laravel.com/docs | API: https://laravel.com/api | Source: https://github.com/laravel/framework | Ecosystem: https://laravel.com/docs/master/ecosystem
+
 Source: [github.com/aldok10/clean-code-in-laravel](https://github.com/aldok10/clean-code-in-laravel)
 
 Patterns from production Laravel apps. Every solution is proven in real projects.

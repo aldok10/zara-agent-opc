@@ -1,5 +1,22 @@
 # Clean Code in Hyperf
 
+## Documentation Reference
+
+| Resource | URL |
+|----------|-----|
+| Official Wiki | https://hyperf.wiki |
+| English Docs (3.1) | https://hyperf.wiki/3.1/#/en/ |
+| Indonesian Docs | https://hyperf.wiki/3.1/#/id/ |
+| GitHub Source | https://github.com/hyperf/hyperf |
+| Docs Source (raw MD) | https://github.com/hyperf/hyperf/tree/master/docs |
+| Skeleton Project | https://github.com/hyperf/hyperf-skeleton |
+
+Fetch raw markdown: `https://raw.githubusercontent.com/hyperf/hyperf/master/docs/en/<topic>.md`
+
+Key paths: `di.md`, `coroutine.md`, `router.md`, `middleware/middleware.md`, `annotation.md`, `aop.md`, `config.md`, `event.md`, `db/quick-start.md`, `db/model.md`, `json-rpc.md`, `grpc.md`, `async-queue.md`, `pool.md`, `testing.md`, `lifecycle.md`
+
+---
+
 ## Senior DNA Applied to Hyperf
 
 - **Gall's Law**: Hyperf is powerful but complex. Don't use AOP/annotations for everything - start with simple DI.

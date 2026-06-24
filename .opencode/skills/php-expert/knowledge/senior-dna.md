@@ -1,5 +1,7 @@
 # Senior Engineering DNA - Detailed Reference
 
+> DevIQ: https://deviq.com | Refactoring.Guru: https://refactoring.guru | Martin Fowler: https://martinfowler.com
+
 Source: 254 DevIQ articles (antipatterns, architecture, code-smells, design-patterns, DDD, laws, practices, principles, testing, values)
 
 This is the complete engineering philosophy shared by `golang-expert` and `php-expert`. Every rule is actionable. Every decision you make must pass through these filters.

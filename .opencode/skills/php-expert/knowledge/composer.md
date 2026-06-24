@@ -1,5 +1,7 @@
 # Composer Best Practices
 
+> Docs: https://getcomposer.org/doc/ | CLI: https://getcomposer.org/doc/03-cli.md | Schema: https://getcomposer.org/doc/04-schema.md | Packagist: https://packagist.org
+
 ## Lock File
 - **Applications**: always commit `composer.lock`
 - **Libraries**: do NOT commit lock (consumers resolve independently)

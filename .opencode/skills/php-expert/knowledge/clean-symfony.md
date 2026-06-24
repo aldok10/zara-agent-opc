@@ -1,5 +1,7 @@
 # Clean Code in Symfony
 
+> Docs: https://symfony.com/doc/current/index.html | Best Practices: https://symfony.com/doc/current/best_practices.html | Components: https://symfony.com/components | Source: https://github.com/symfony/symfony
+
 ## Senior DNA Applied to Symfony
 
 - **Gall's Law**: Use Symfony's built-in structure. Don't layer DDD/CQRS until your domain proves complex enough.

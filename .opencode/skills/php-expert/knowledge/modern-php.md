@@ -1,5 +1,7 @@
 # Modern PHP Patterns (8.4+)
 
+> Docs: https://www.php.net/manual/en/ | Migration 8.4: https://www.php.net/migration84 | RFC: https://wiki.php.net/rfc | Releases: https://www.php.net/releases/
+
 > PHP 8.4/8.5 language features replace boilerplate patterns. Use the LANGUAGE, not the pattern, when the language supports it directly.
 
 ## The Pattern-First Trap

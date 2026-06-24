@@ -1,5 +1,7 @@
 # PHP Version Security Status (as of June 2026)
 
+> Docs: https://www.php.net/supported-versions.php | EOL: https://www.php.net/eol.php | Changelog: https://www.php.net/ChangeLog-8.php | CVE: https://www.cvedetails.com/vendor/74/PHP.html
+
 > **CRITICAL**: PHP versions receive 2 years active support + 2 years security-only.
 > After EOL, NO patches are issued - even for critical vulnerabilities.
 

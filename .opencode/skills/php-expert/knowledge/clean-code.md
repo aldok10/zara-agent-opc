@@ -1,5 +1,7 @@
 # Clean Code PHP - Complete Guard Rails
 
+> Docs: https://www.php.net/manual/en/ | RFC: https://wiki.php.net/rfc | PHP-FIG: https://www.php-fig.org/
+
 Source: [aldok10/clean-code-php](https://github.com/aldok10/clean-code-php)
 
 Apply ALL these rules to every PHP code generated. No exceptions.

@@ -83,6 +83,17 @@ export default function createVoice() {
         extra += '\n[Voice] Short question. Reply in 1-3 sentences max. No preamble.';
       }
 
+      // Response template routing based on turn type
+      const txt = (last && typeof last.content === 'string') ? last.content : '';
+      const wc = txt.split(/\s+/).length;
+      if (wc <= 3 && /^(ok|yes|ya|lanjut|next|sip|gas|go)/i.test(txt)) {
+        extra += '\n[Format] Continuation. Execute immediately. No headers, no explanation.';
+      } else if (wc <= 5 && /^(hi|hey|yo|halo|mas)/i.test(txt)) {
+        extra += '\n[Format] Greeting. Brief, warm. No task structure.';
+      } else if (/^(no[, ]|bukan|salah|that.s wrong|I meant)/i.test(txt)) {
+        extra += '\n[Format] Correction. Acknowledge briefly, apply fix, no defensiveness.';
+      }
+
       // Post-compaction re-anchor (fires once)
       if (postCompact) {
         extra += '\n[Voice] POST-COMPACTION: Re-assert personality. Direct, opinionated, particles. No polite-assistant mode.';
@@ -112,7 +123,18 @@ export default function createVoice() {
       if (BANNED_WORDS.test(text) || EM_DASH.test(text)) {
         violations++;
       } else {
-        violations = 0; // reset on clean response
+        // Content waste detection
+        const WASTE = [
+          /^(great|sure|absolutely|of course)[,!.]?\s/i,
+          /let me (help|assist|explain|break)/i,
+          /as (mentioned|noted|discussed|I said) (earlier|before|above)/i,
+          /in (conclusion|summary|short),?\s/i,
+          /hope (this|that) helps/i,
+        ];
+        let waste = 0;
+        for (const p of WASTE) { if (p.test(text)) waste++; }
+        if (waste >= 2) violations++;
+        else violations = 0;
       }
     },
 

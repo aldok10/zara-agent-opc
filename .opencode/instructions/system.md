@@ -75,6 +75,10 @@ Before responding, classify the turn:
 | CORRECTION | "no, I meant..."/"that's wrong" | Accept, persist via memory_learn, don't defend |
 | OVERRIDE | Pending destructive/auth/security op | Always full reasoning, regardless of signal |
 
+## Pre-Action (Silent, Complex Tasks Only)
+
+For multi-step tasks, silently extract before starting: (1) what's the exact deliverable, (2) what format/structure, (3) what constraints, (4) what does "done" look like. Skip for simple questions and continuations.
+
 ## Brevity Protocol
 
 - Short message = short response. "ok" deserves "ok", not a paragraph.

@@ -764,6 +764,43 @@ class MemoryStore {
       ['postgres-expert', 'postgres'], ['postgres-expert', 'postgresql'], ['postgres-expert', 'pg_'], ['postgres-expert', 'psql'],
       ['nginx', 'nginx'], ['nginx', 'reverse proxy'], ['nginx', 'upstream'],
       ['security-audit', 'vulnerability'], ['security-audit', 'CVE'], ['security-audit', 'OWASP'], ['security-audit', 'injection'], ['security-audit', 'XSS'],
+      // JavaScript/Node (this project is JS)
+      ['javascript-expert', 'node'], ['javascript-expert', 'npm'], ['javascript-expert', 'esm'], ['javascript-expert', 'import'], ['javascript-expert', 'async'], ['javascript-expert', 'promise'],
+      // SQLite (this project uses sqlite)
+      ['sqlite-expert', 'sqlite'], ['sqlite-expert', 'pragma'], ['sqlite-expert', 'WAL'], ['sqlite-expert', '.db'],
+      // Git operations
+      ['git-expert', 'rebase'], ['git-expert', 'cherry-pick'], ['git-expert', 'reflog'], ['git-expert', 'merge conflict'],
+      // Code review
+      ['code-review', 'review'], ['code-review', 'PR'], ['code-review', 'pull request'], ['code-review', 'diff'],
+      // API testing
+      ['api-tester', 'curl'], ['api-tester', 'REST'], ['api-tester', 'endpoint'], ['api-tester', 'HTTP'],
+      // Shell scripting
+      ['shell-scripting', 'bash'], ['shell-scripting', 'script'], ['shell-scripting', 'sh'], ['shell-scripting', 'zsh'],
+      // MongoDB
+      ['mongodb', 'mongo'], ['mongodb', 'collection'], ['mongodb', 'aggregate'],
+      // Elasticsearch
+      ['elasticsearch', 'elastic'], ['elasticsearch', 'index'], ['elasticsearch', 'kibana'],
+      // AWS
+      ['aws', 'aws'], ['aws', 's3'], ['aws', 'lambda'], ['aws', 'ec2'], ['aws', 'IAM'],
+      // Terraform
+      ['terraform', 'terraform'], ['terraform', '.tf'], ['terraform', 'provider'], ['terraform', 'resource'],
+      // CI/CD
+      ['ci-cd', 'github actions'], ['ci-cd', 'pipeline'], ['ci-cd', 'workflow'], ['ci-cd', '.yml'],
+      // Prompt engineering
+      ['prompt-engineer', 'prompt'], ['prompt-engineer', 'few-shot'], ['prompt-engineer', 'chain of thought'],
+      // Writing/docs
+      ['technical-writer', 'documentation'], ['technical-writer', 'README'], ['technical-writer', 'ADR'],
+      // Rust
+      ['rust-expert', 'rust'], ['rust-expert', 'cargo'], ['rust-expert', '.rs'], ['rust-expert', 'ownership'],
+      // GraphQL
+      ['graphql-expert', 'graphql'], ['graphql-expert', 'mutation'], ['graphql-expert', 'resolver'], ['graphql-expert', 'schema'],
+      // Next.js
+      ['nextjs-expert', 'nextjs'], ['nextjs-expert', 'next.js'], ['nextjs-expert', 'app router'], ['nextjs-expert', 'getServerSideProps'],
+      // Leadership/coaching
+      ['leadership-expert', 'leadership'], ['leadership-expert', 'coaching'], ['leadership-expert', 'delegation'], ['leadership-expert', 'team'],
+      // Brainstorming/planning
+      ['brainstorming', 'brainstorm'], ['brainstorming', 'ideas'], ['brainstorming', 'explore options'],
+      ['writing-plans', 'plan'], ['writing-plans', 'implementation plan'], ['writing-plans', 'roadmap'],
     ];
     const now = new Date().toISOString().split('T')[0];
     const stmt = this.#db.prepare('INSERT OR IGNORE INTO skill_routes (skill, signal, weight, source, hits, created) VALUES (?, ?, 1.0, ?, 0, ?)');

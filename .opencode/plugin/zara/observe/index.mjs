@@ -599,6 +599,10 @@ export default function createObserve({ client, directory } = {}) {
       if (pendingNudge) { parts.push(pendingNudge); pendingNudge = null; }
       const skillNudge = skillSuggester.suggest();
       if (skillNudge && budget.canNudge('skill')) { parts.push(skillNudge); budget.spend('skill'); }
+      else if (skillSuggester.gapDetected && budget.canNudge('skill-gap')) {
+        parts.push('[Skill-Gap] No existing skill matches this domain. Consider: (1) web research to build knowledge, (2) create a new skill if this domain is recurring.');
+        budget.spend('skill-gap');
+      }
 
       if (parts.length) {
         const last = messages[messages.length - 1];

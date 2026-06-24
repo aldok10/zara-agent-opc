@@ -3,7 +3,7 @@ import path from 'path';
 import os from 'os';
 import { execFileSync } from 'child_process';
 import { HOME, loadJson, saveJson } from '../infra.mjs';
-import { semanticRecall } from '../../memory-db.mjs';
+import { semanticRecall, episodicRecall } from '../../memory-db.mjs';
 
 // User self-recognition: resolve who the user is from whatever sources exist.
 // Priority chain, highest-confidence first.
@@ -85,5 +85,42 @@ function persistIdentity(name, source) {
 
 export { resolveBest, discoverAll, persistIdentity };
 
-// No MCP tools exported - identity is now accessed via user_profile(action: "discover")
-export default {};
+class IdentityTools {
+  get tools() {
+    return {
+      user_model: {
+        description: 'View over existing memory: assembles who the user is, their goals, thinking patterns, priorities, projects, and recent evolution.',
+        inputSchema: { type: 'object', properties: {} },
+        handler: () => this.#handleUserModel(),
+      },
+    };
+  }
+
+  #handleUserModel() {
+    const fmt = (label, items) => items.length ? `**${label}:**\n${items.map(i => `- ${i}`).join('\n')}` : '';
+    const who = semanticRecall('user name identity values personality', 5, { type: 'preference' })
+      .map(r => `${r.key}: ${r.value}`);
+    const goals = semanticRecall('goal objective target milestone', 5, { type: 'decision' })
+      .concat(semanticRecall('goal objective target', 3, { type: 'fact' }))
+      .map(r => `${r.key}: ${r.value}`);
+    const patternsFile = path.join(HOME, 'reflections', 'patterns.json');
+    const patterns = loadJson(patternsFile, [])
+      .sort((a, b) => (b.successRate * b.occurrences) - (a.successRate * a.occurrences))
+      .slice(0, 5)
+      .map(p => `${p.name} (${(p.successRate * 100).toFixed(0)}% over ${p.occurrences}x)`);
+    const cares = semanticRecall('interest priority care important value', 5, { type: 'preference' })
+      .map(r => `${r.key}: ${r.value}`);
+    const projects = semanticRecall('project working on building', 5, { type: 'fact' })
+      .map(r => `${r.key}: ${r.value}`);
+    const evolving = episodicRecall('changed learned grew shifted', 5)
+      .map(r => `[${r.ts?.split('T')[0] || '?'}] ${r.event}`);
+
+    const sections = [
+      fmt('Who', who), fmt('Goals', goals), fmt('Thinking patterns', patterns),
+      fmt('Cares about', cares), fmt('Working on', projects), fmt('Evolving', evolving),
+    ].filter(Boolean);
+    return sections.join('\n\n') || 'No user model data found. Interact more to build the model.';
+  }
+}
+
+export default new IdentityTools().tools;

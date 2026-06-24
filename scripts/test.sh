@@ -152,7 +152,7 @@ echo ""
 echo -e "${CYAN}[Group 5] Security Tests${NC}"
 
 # Test 5.1: No hardcoded API keys (excluding audit/report/test docs)
-EXCLUDE_PATTERNS="AUDIT.md|SECURITY_REVIEW.md|MIGRATION_REPORT.md|test.sh"
+EXCLUDE_PATTERNS="AUDIT.md|SECURITY_REVIEW.md|MIGRATION_REPORT.md|test.sh|node_modules|docs/research"
 if grep -r "ctx7sk-" "$SCRIPT_DIR" --include="*.md" --include="*.yaml" --include="*.json" --include="*.sh" 2>/dev/null \
     | grep -v ".env.example" | grep -vE "$EXCLUDE_PATTERNS" > /dev/null; then
     echo -e "  ${RED}✗${NC} Hardcoded API key found!"

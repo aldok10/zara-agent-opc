@@ -67,3 +67,4 @@ knowledge/search-index.json
 package-lock.json
 
 *.mp3
+*.dll

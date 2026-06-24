@@ -1,0 +1,55 @@
+<?php
+
+declare(strict_types=1);
+
+namespace ReDll;
+
+require_once __DIR__ . '/../src/PeParser.php';
+require_once __DIR__ . '/../src/ToolRunner.php';
+require_once __DIR__ . '/../src/Report.php';
+
+/**
+ * redll — DLL/PE reverse-engineering triage (orchestration + reporting tier).
+ *
+ * Usage:
+ *   php bin/redll analyze <file> [--json|--md]
+ */
+
+$argv = $_SERVER['argv'];
+array_shift($argv); // script name
+
+$cmd = $argv[0] ?? '';
+if ($cmd !== 'analyze') {
+    fwrite(STDERR, "usage: redll analyze <file> [--json|--md]\n");
+    exit(2);
+}
+
+$file = null;
+$mode = 'text';
+foreach (array_slice($argv, 1) as $arg) {
+    if ($arg === '--json') {
+        $mode = 'json';
+    } elseif ($arg === '--md') {
+        $mode = 'md';
+    } elseif (!str_starts_with($arg, '-')) {
+        $file = $arg;
+    }
+}
+
+if ($file === null) {
+    fwrite(STDERR, "redll: missing <file>\n");
+    exit(2);
+}
+
+try {
+    $report = Report::build($file);
+} catch (\Throwable $e) {
+    fwrite(STDERR, 'redll: ' . $e->getMessage() . "\n");
+    exit(1);
+}
+
+echo match ($mode) {
+    'json' => json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n",
+    'md' => Report::renderMarkdown($report),
+    default => Report::renderText($report),
+};

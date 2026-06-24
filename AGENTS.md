@@ -64,6 +64,39 @@ Load `skill-gate` if unsure which skill matches - it has the full routing table.
 | Sketch | plan | Read-only planning | `/think` command or switch mode |
 | Forge | implementation | Plan → code → verify → ship | `task(implementation)` |
 
+## Skill Gate (Routing Table)
+
+| Situation | Do this |
+|-----------|---------|
+| Session start / after compaction | Load `skill-gate` (routing table), then `auto-resume` |
+| Task start (non-trivial) | `reflect_suggest` + `evolve_check_rules` + `blindspot_check` — recall what was learned |
+| Session end / preserving context | Load `session-handoff` |
+| Go project detected | Load `golang-expert` skill |
+| PHP project detected | Load `php-expert` skill |
+| TypeScript/Node.js project | Load `typescript-expert` skill |
+| Python project | Load `python-expert` skill |
+| Bug or test failure | Load `systematic-debugging` skill |
+| Feature work starting | Load `brainstorming` → then `writing-plans` |
+| Plan ready, subagents available | Load `subagent-driven-dev` skill |
+| Plan ready, inline execution | Load `executing-plans` skill |
+| 3+ independent parallel tasks | Load `dispatching-parallel-agents` skill |
+| Implementation ready (per task) | Load `tdd` skill |
+| Work complete / claiming done | Load `verification-before-completion` skill |
+| Task done / pattern emerged | `reflect` WITH outcome (success/partial/failure) — feeds success-weighted learning |
+| Code review needed or received | Load `code-review` skill |
+| Branch ready to integrate | Load `finishing-branch` skill |
+| Need isolated workspace | Load `git-worktrees` skill |
+| Git operations, rebase, conflicts | Load `git-expert` skill |
+| Writing commit messages | Load `conventional-commits` skill |
+| GitHub PRs, issues, Actions | Load `github` skill |
+| Docker/containers | Load `docker` skill |
+| CI/CD pipelines | Load `ci-cd` skill |
+| Reverse-engineer / decompile / analyze a *.dll / binary | Load `reverse-engineering` skill |
+| Rebuild a binary's logic in Go/PHP, unpack/deobfuscate | Load `reverse-engineering` skill |
+| Complex parallel task (3+ streams) | Use `@swarm` |
+| Architecture question | Use `@architect` |
+| Leadership/team topic | Load `leadership-expert` skill |
+
 ## Development Workflow
 
 The standard chain produces file artifacts at each step:

@@ -693,6 +693,12 @@ class MemoryStore {
       );
       CREATE INDEX IF NOT EXISTS idx_chunks_key ON knowledge_chunks(key);
       CREATE INDEX IF NOT EXISTS idx_chunks_section ON knowledge_chunks(section);
+      CREATE TABLE IF NOT EXISTS skill_routes (
+        id INTEGER PRIMARY KEY, skill TEXT NOT NULL, signal TEXT NOT NULL,
+        weight REAL DEFAULT 1.0, source TEXT DEFAULT 'default',
+        hits INTEGER DEFAULT 0, created TEXT NOT NULL,
+        UNIQUE(skill, signal)
+      );
     `);
       try {
         this.#db.exec("CREATE VIRTUAL TABLE IF NOT EXISTS semantic_fts USING fts5(key, value, content=semantic, content_rowid=rowid)");
@@ -740,6 +746,28 @@ class MemoryStore {
       `);
     } catch {}
     this.#migrateFromJson();
+    this.#seedSkillRoutes();
+  }
+
+  #seedSkillRoutes() {
+    const routes = [
+      ['golang-expert', 'go'], ['golang-expert', '.go'], ['golang-expert', 'goroutine'], ['golang-expert', 'func'], ['golang-expert', 'defer'], ['golang-expert', 'channel'],
+      ['php-expert', 'php'], ['php-expert', 'laravel'], ['php-expert', 'composer'], ['php-expert', 'artisan'],
+      ['typescript-expert', '.ts'], ['typescript-expert', 'typescript'], ['typescript-expert', 'interface'], ['typescript-expert', 'type'],
+      ['systematic-debugging', 'error'], ['systematic-debugging', 'fail'], ['systematic-debugging', 'bug'], ['systematic-debugging', 'broken'], ['systematic-debugging', 'crash'], ['systematic-debugging', 'unexpected'],
+      ['tdd', 'test'], ['tdd', 'spec'], ['tdd', 'coverage'], ['tdd', 'assert'], ['tdd', 'expect'],
+      ['docker', 'docker'], ['docker', 'container'], ['docker', 'dockerfile'], ['docker', 'compose'],
+      ['kubernetes', 'kubectl'], ['kubernetes', 'pod'], ['kubernetes', 'deployment'], ['kubernetes', 'k8s'],
+      ['react-expert', 'react'], ['react-expert', 'jsx'], ['react-expert', 'useState'], ['react-expert', 'useEffect'], ['react-expert', 'component'],
+      ['python-expert', 'python'], ['python-expert', '.py'], ['python-expert', 'pip'], ['python-expert', 'django'], ['python-expert', 'flask'],
+      ['redis-expert', 'redis'], ['redis-expert', 'cache'], ['redis-expert', 'HGET'], ['redis-expert', 'LPUSH'],
+      ['postgres-expert', 'postgres'], ['postgres-expert', 'postgresql'], ['postgres-expert', 'pg_'], ['postgres-expert', 'psql'],
+      ['nginx', 'nginx'], ['nginx', 'reverse proxy'], ['nginx', 'upstream'],
+      ['security-audit', 'vulnerability'], ['security-audit', 'CVE'], ['security-audit', 'OWASP'], ['security-audit', 'injection'], ['security-audit', 'XSS'],
+    ];
+    const now = new Date().toISOString().split('T')[0];
+    const stmt = this.#db.prepare('INSERT OR IGNORE INTO skill_routes (skill, signal, weight, source, hits, created) VALUES (?, ?, 1.0, ?, 0, ?)');
+    for (const [skill, signal] of routes) stmt.run(skill, signal, 'default', now);
   }
 
   #migrateFromJson() {
@@ -827,3 +855,6 @@ export const semanticRecallAsync = (query, limit, options) => store.recallAsync(
 
 // Exported for testing with an isolated home directory
 export { MemoryStore };
+
+// --- Skill Routes ---
+export const skillRoutesAll = () => store.db.prepare('SELECT skill, signal, weight FROM skill_routes ORDER BY weight DESC').all();

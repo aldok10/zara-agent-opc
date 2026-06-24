@@ -17,7 +17,9 @@ Extract recurring failure patterns from reflects and propose persistent rules.
 1. **Gather failures:**
    ```
    memory_recall(query: "failure partial", layer: "episodic")
-   patterns()
+   patterns()  — check existing pattern scores
+   ```
+   Max 3 proposed rules per run. If more clusters qualify, pick top 3 by instance count.
    ```
 
 2. **Cluster by root cause:**

@@ -133,6 +133,9 @@
       "template": "{file:.opencode/commands/decide.md}",
       "agent": "architect"
     },
+    "distill": {
+      "template": "{file:.opencode/commands/distill.md}"
+    },
     "focus": {
       "template": "{file:.opencode/commands/focus.md}"
     },

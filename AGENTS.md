@@ -18,7 +18,7 @@ Source of truth: `opencode.json`. Discover structure via filesystem.
 - PHP: load `php-expert` skill (PSR + strict_types)
 - Prompts/instructions: markdown, under 500 lines per file
 
-## Available Commands (20)
+## Available Commands (21)
 
 | Command | Function | Agent Dispatch |
 |---------|----------|---------------|
@@ -26,6 +26,7 @@ Source of truth: `opencode.json`. Discover structure via filesystem.
 | `/auto` | Autonomous work mode - pre-flight, loop, anti-doom-loop | auto (via task) |
 | `/code` | Structured coding workflow - explore → plan → code → verify → ship | Zara orchestrates, dispatches @forge mid-workflow |
 | `/decide` | Architecture decision - grounded in knowledge + tradeoffs | → @atlas |
+| `/distill` | Failure pattern extraction - reflects → policies/pitfalls | - |
 | `/debate` | Multi-agent debate for complex decisions requiring diverse perspectives | deliberate tool |
 | `/focus` | Focus mode - session tracking, skills, check-in loops | `/focus loop` → @rhythm |
 | `/goal` | Goal management - persist, reflect, memory recovery | - |
@@ -74,3 +75,17 @@ finishing-branch     → merge/PR/keep/discard decision
 ```
 
 After context compaction: re-read `.tasks/progress.md` + `git log` to determine state.
+
+## Per-Agent Context Requirements
+
+| Agent | Minimum context | Do NOT send |
+|-------|----------------|-------------|
+| @atlas | Problem boundary, constraints, tradeoff framing | Implementation details, file contents, test output |
+| @forge | Spec + acceptance criteria, file paths, patterns to match | Architecture alternatives, market research |
+| @lens | Diff/snippet, review focus (security? perf? style?) | Full conversation, business requirements |
+| @shield | Code/design to assess, threat model, deploy environment | Code quality, feature requests, test coverage |
+| @probe | Feature description, risk areas, existing test patterns | Production data, security specifics |
+| @pulse | Current state, blockers, timeline, capacity | Code details, architecture alternatives |
+| @rhythm | Task type, failure mode, loop pattern to consider | Full codebase, business requirements |
+| @hive | Task description, sub-tasks, file boundaries per worker | Full project history, every agent's prompt |
+| @sketch | Problem statement, constraints, available options | Raw code, test output, session history |

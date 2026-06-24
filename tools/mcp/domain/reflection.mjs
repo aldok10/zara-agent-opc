@@ -58,7 +58,7 @@ class ReflectionTools {
     try {
       const lines = fs.readFileSync(logFile, 'utf-8').trim().split('\n');
       if (lines.length > 500) fs.writeFileSync(logFile, lines.slice(-500).join('\n') + '\n');
-    } catch {}
+    } catch (e) { process.stderr.write(`[mcp:reflection] log rotation failed: ${e.message}\n`); }
 
     // Trust calibration: adjust trust scores of memories recalled this session
     // CONSTITUTION P3: only raise trust on explicit success WITH evidence (worked field).

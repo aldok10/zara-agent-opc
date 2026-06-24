@@ -30,9 +30,12 @@ For each step:
 
 1. **Execute** - Do the work. Keep `todowrite` updated.
 2. **Checkpoint** - After each meaningful action, `memory_learn(key: "auto_checkpoint_<step>", value: "...")`
-3. **Verify** - Before marking a step done, verify it actually works (tests/lint/compile)
-4. **Update** - Brief status update per step: "Step X done, starting step Y"
-5. **Re-check goal** - `goal(action: "check")` after each step
+3. **Verify** - Before marking a step done, verify it actually works (tests/lint/compile).
+   - If verification fails: fix → verify → repeat. DO NOT proceed to the next step.
+   - After 3 failed fix attempts on the same verification: escalate to user with what failed and why.
+4. **Decision log** - When making a non-trivial choice (library, pattern, architecture), append to `.tasks/progress.md`: what was decided, why, alternatives rejected.
+5. **Update** - Brief status update per step: "Step X done, starting step Y"
+6. **Re-check goal** - `goal(action: "check")` after each step
 
 ## Anti-Doom-Loop
 

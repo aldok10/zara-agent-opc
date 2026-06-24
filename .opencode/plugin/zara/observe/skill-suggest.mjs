@@ -1,16 +1,14 @@
-// Skill suggestion based on keyword signals in recent user messages
+// Skill suggestion based on skill_routes table (adaptive, weight-sorted)
 
-const SKILL_SIGNALS = [
-  { skill: 'systematic-debugging', signals: ['error', 'fail', 'bug', 'broken', 'crash'], min: 2 },
-  { skill: 'golang-expert', signals: ['go ', '.go', 'goroutine', 'func '], min: 1 },
-  { skill: 'php-expert', signals: ['php', 'laravel', 'composer'], min: 1 },
-  { skill: 'typescript-expert', signals: ['.ts', 'typescript', 'interface ', 'type '], min: 1 },
-  { skill: 'tdd', signals: ['test', 'spec', 'coverage', 'assert', 'expect'], min: 2 },
-  { skill: 'docker', signals: ['docker', 'container', 'dockerfile', 'compose'], min: 1 },
-];
+import { skillRoutesAll } from '../../../../tools/memory-db.mjs';
+
+// Future learning path (not yet implemented):
+// - On successful session reflect: UPDATE skill_routes SET hits = hits + 1, weight = weight + 0.1 WHERE skill = ?
+// - On failed session reflect: UPDATE skill_routes SET weight = MAX(0.1, weight - 0.05) WHERE skill = ?
+// This makes routing adaptive over time without hardcoded thresholds.
 
 export class SkillSuggester {
-  #buffer = [];    // last 5 user messages (lowercase)
+  #buffer = [];
   #suggested = new Set();
 
   addMessage(text) {
@@ -22,13 +20,28 @@ export class SkillSuggester {
   suggest() {
     if (this.#buffer.length < 3) return null;
     const combined = this.#buffer.join(' ');
-    for (const { skill, signals, min } of SKILL_SIGNALS) {
+
+    let routes;
+    try { routes = skillRoutesAll(); } catch { return null; }
+
+    // Group by skill, find first skill with a signal match (already sorted by weight DESC)
+    const matched = new Map();
+    for (const { skill, signal, weight } of routes) {
       if (this.#suggested.has(skill)) continue;
-      const hits = signals.filter(s => combined.includes(s)).length;
-      if (hits >= min) {
-        this.#suggested.add(skill);
-        return `[Suggest] Your workflow matches \`${skill}\`. Consider loading it.`;
+      if (combined.includes(signal.toLowerCase())) {
+        matched.set(skill, (matched.get(skill) || 0) + weight);
       }
+    }
+
+    // Pick highest aggregate weight
+    let best = null, bestScore = 0;
+    for (const [skill, score] of matched) {
+      if (score > bestScore) { best = skill; bestScore = score; }
+    }
+
+    if (best) {
+      this.#suggested.add(best);
+      return `[Suggest] Your workflow matches \`${best}\`. Consider loading it.`;
     }
     return null;
   }

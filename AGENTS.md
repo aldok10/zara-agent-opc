@@ -18,7 +18,7 @@ Source of truth: `opencode.json`. Discover structure via filesystem.
 - PHP: load `php-expert` skill (PSR + strict_types)
 - Prompts/instructions: markdown, under 500 lines per file
 
-## Available Commands (21)
+## Available Commands (22)
 
 | Command | Function | Agent Dispatch |
 |---------|----------|---------------|
@@ -32,6 +32,7 @@ Source of truth: `opencode.json`. Discover structure via filesystem.
 | `/goal` | Goal management - persist, reflect, memory recovery | - |
 | `/handoff` | Session capture - git state, memory, files, threads | - |
 | `/install` | Global install to ~/.config/opencode | - |
+| `/learn` | Extract project-specific knowledge from codebase | - |
 | `/loop` | Multi-mode cycles - timer, patterns, verify, design, study | `/loop design` → @rhythm |
 | `/music` | Music player - play, stop, radio, taste | - |
 | `/resume` | Full context restoration - memory, git, metrics | - |

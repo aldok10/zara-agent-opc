@@ -92,15 +92,15 @@ describe('memory-db upgrades', () => {
   });
 
   describe('contradiction detection', () => {
-    it('flags two same-type memories that are similar but not identical', () => {
-      store.learn('user.database.primary', 'the user prefers PostgreSQL for the main datastore', 'user_explicit', 'preference');
-      store.learn('user.datastore.main', 'the user prefers MySQL for the main datastore', 'user_explicit', 'preference');
-      const flagged = store.detectContradictions(0.5);
+    it('flags two same-type memories that are similar but not identical', async () => {
+      store.learn('code.style.tabs', 'the codebase follows a strict tabs-only indentation policy', 'user_explicit', 'preference');
+      store.learn('code.style.spaces', 'all code must use four-space indentation without exception', 'user_explicit', 'preference');
+      const flagged = await store.detectContradictionsAsync(0.5);
       const pair = flagged.find(f =>
-        (f.a === 'user.database.primary' && f.b === 'user.datastore.main') ||
-        (f.a === 'user.datastore.main' && f.b === 'user.database.primary')
+        (f.a === 'code.style.tabs' && f.b === 'code.style.spaces') ||
+        (f.a === 'code.style.spaces' && f.b === 'code.style.tabs')
       );
-      assert.ok(pair, 'should flag the postgres/mysql preference conflict');
+      assert.ok(pair, 'should flag the tabs/spaces indentation conflict');
       assert.equal(pair.type, 'preference');
     });
 

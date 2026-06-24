@@ -91,7 +91,7 @@ class MemoryStore {
       const candidates = db.prepare('SELECT key, value FROM semantic WHERE type = ? LIMIT 100').all(memType);
       for (const c of candidates) {
         const sim = this.#embedder.cosineSim(queryVec, this.#embedder.embed(c.value));
-        if (sim > 0.85) {
+        if (sim > 0.95) {
           db.prepare('UPDATE semantic SET reinforced = reinforced + 1, updated = ?, decay_score = 1.0 WHERE key = ?').run(now, c.key);
           return { key: c.key, value: c.value, reinforced: -1, type: memType, deduped: true };
         }

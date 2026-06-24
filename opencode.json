@@ -192,6 +192,9 @@
     },
     "debate": {
       "template": "{file:.opencode/commands/debate.md}"
+    },
+    "learn": {
+      "template": "{file:.opencode/commands/learn.md}"
     }
   },
   "plugin": [

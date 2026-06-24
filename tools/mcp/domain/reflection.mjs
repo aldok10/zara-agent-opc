@@ -46,6 +46,12 @@ class ReflectionTools {
 
   #handleReflect(args) {
     ensure(REFLECT_DIR);
+    // F2: success requires evidence. Downgrade to partial if worked field is empty.
+    let downgraded = false;
+    if (args.outcome === 'success' && !args.worked?.trim()) {
+      args.outcome = 'partial';
+      downgraded = true;
+    }
     const logFile = path.join(REFLECT_DIR, 'log.jsonl');
     fs.appendFileSync(logFile, JSON.stringify({ ...args, agent: args.agent || '', ts: new Date().toISOString() }) + '\n');
     // Rotate: keep last 500 entries
@@ -94,7 +100,8 @@ class ReflectionTools {
       }
       saveJson(pFile, patterns);
     }
-    return `Reflected on: ${args.task}${args.pattern ? ` → pattern: ${args.pattern}${args.outcome ? ` [${args.outcome}]` : ''}` : ''}`;
+    const note = downgraded ? ' (downgraded from success: no evidence in worked field)' : '';
+    return `Reflected on: ${args.task}${args.pattern ? ` → pattern: ${args.pattern}${args.outcome ? ` [${args.outcome}]` : ''}` : ''}${note}`;
   }
 
   // Wilson-ish ranking: successRate weighted by log frequency so a proven pattern

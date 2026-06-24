@@ -114,7 +114,7 @@ async function promptAgent(client, sessionID, agent, promptText, signal) {
     const msg = err?.name === 'AbortError' ? 'timeout' : (err?.message || 'unknown');
     return { agent, position: `[error: ${msg}]`, confidence: 0, tokens: 0 };
   } finally {
-    if (childId) client.session.delete({ path: { id: childId } }).catch(() => {});
+    if (childId) client.session.delete({ path: { id: childId } }).catch(e => process.stderr.write(`[debate] session cleanup failed: ${e.message}\n`));
   }
 }
 

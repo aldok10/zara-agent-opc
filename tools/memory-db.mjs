@@ -24,6 +24,13 @@ import { TrigramEmbedder } from './embedder.mjs';
 const VALID_TYPES = ['policy', 'workflow', 'pitfall', 'architecture', 'decision', 'preference', 'fact'];
 const TYPE_BOOST = { policy: 1.5, pitfall: 1.4, architecture: 1.3, decision: 1.2, workflow: 1.1, preference: 1.0, fact: 0.9 };
 
+function getSourceCeiling(source) {
+  if (source === 'user_explicit') return 1.0;
+  if (source === 'observed') return 0.85;
+  if (source === 'inferred') return 0.7;
+  return 0.5;
+}
+
 function escapeLike(s) { return s.replace(/[%_]/g, c => `\\${c}`); }
 
 // --- MemoryStore Class ---
@@ -33,6 +40,7 @@ class MemoryStore {
   #home;
   #dbPath;
   #embedder;
+  #trustBudget = 0;
 
   constructor(home = path.join(os.homedir(), '.zara'), embedder = new TrigramEmbedder()) {
     this.#home = home;
@@ -91,7 +99,7 @@ class MemoryStore {
       const candidates = db.prepare('SELECT key, value FROM semantic WHERE type = ? LIMIT 100').all(memType);
       for (const c of candidates) {
         const sim = this.#embedder.cosineSim(queryVec, this.#embedder.embed(c.value));
-        if (sim > 0.85) {
+        if (sim > 0.95) {
           db.prepare('UPDATE semantic SET reinforced = reinforced + 1, updated = ?, decay_score = 1.0 WHERE key = ?').run(now, c.key);
           return { key: c.key, value: c.value, reinforced: -1, type: memType, deduped: true };
         }
@@ -106,6 +114,14 @@ class MemoryStore {
         type = excluded.type, scope = excluded.scope, updated = excluded.updated,
         reinforced = ?, decay_score = 1.0, agent = excluded.agent, grounded = excluded.grounded
     `).run(key, value, confidence, source, memType, scope, now, now, reinforced, agent, grounded ? 1 : 0, reinforced);
+
+    // User-reconfirms: if updating existing key with user_explicit source, boost trust
+    if (existing && source === 'user_explicit') {
+      const ceiling = getSourceCeiling('user_explicit');
+      const cur = db.prepare('SELECT trust_score FROM semantic WHERE key = ?').get(key);
+      const boosted = Math.max(0.2, Math.min(ceiling, (cur?.trust_score ?? 0.5) + 0.15));
+      db.prepare('UPDATE semantic SET trust_score = ? WHERE key = ?').run(boosted, key);
+    }
 
     return { key, value, reinforced, type: memType };
   }
@@ -392,7 +408,7 @@ class MemoryStore {
     const db = this.db;
     // Exclude seeded knowledge entries — only user/agent facts matter here.
     const rows = db.prepare(`
-      SELECT key, value, type FROM semantic
+      SELECT key, value, type, trust_score FROM semantic
       WHERE key NOT LIKE 'knowledge.%' AND key NOT LIKE 'kb_%'
     `).all();
 
@@ -410,7 +426,7 @@ class MemoryStore {
           if (a.norm === b.norm) continue; // identical → handled by dreamConsolidate merge
           if (a.norm.includes(b.norm) || b.norm.includes(a.norm)) continue; // subset → not a conflict
           const sim = this.#embedder.cosineSim(a.vec, b.vec);
-          if (sim >= threshold) flagged.push({ a: a.key, b: b.key, type: a.type, sim });
+          if (sim >= threshold) flagged.push({ a: a.key, b: b.key, type: a.type, sim, trust_a: a.trust_score ?? 0.5, trust_b: b.trust_score ?? 0.5 });
         }
       }
     }
@@ -421,7 +437,7 @@ class MemoryStore {
   async detectContradictionsAsync(threshold = 0.92) {
     const db = this.db;
     const rows = db.prepare(`
-      SELECT key, value, type FROM semantic
+      SELECT key, value, type, trust_score FROM semantic
       WHERE key NOT LIKE 'knowledge.%' AND key NOT LIKE 'kb_%' AND key NOT LIKE 'auto.%'
     `).all();
 
@@ -447,7 +463,7 @@ class MemoryStore {
           if (a.norm === b.norm) continue;
           if (a.norm.includes(b.norm) || b.norm.includes(a.norm)) continue;
           const sim = embedder.cosineSim(a.vec, b.vec);
-          if (sim >= threshold) flagged.push({ a: a.key, b: b.key, type: a.type, sim });
+          if (sim >= threshold) flagged.push({ a: a.key, b: b.key, type: a.type, sim, trust_a: a.trust_score ?? 0.5, trust_b: b.trust_score ?? 0.5 });
         }
       }
     }
@@ -458,9 +474,11 @@ class MemoryStore {
 
   applyDecay() {
     const HALF_LIFE = { policy: Infinity, architecture: Infinity, workflow: 180, procedure: 180, decision: 90, preference: 90, pitfall: 90, fact: 60 };
+    const TRUST_DECAY_RATE = { fact: 0.03, decision: 0.02, workflow: 0.02, preference: 0.01, pitfall: 0.01 };
     const now = Date.now();
-    const rows = this.db.prepare('SELECT key, type, updated, accessed, access_count, reinforced FROM semantic').all();
+    const rows = this.db.prepare('SELECT key, type, updated, accessed, access_count, reinforced, trust_score FROM semantic').all();
     const stmt = this.db.prepare('UPDATE semantic SET decay_score = ? WHERE key = ?');
+    const trustStmt = this.db.prepare('UPDATE semantic SET trust_score = ? WHERE key = ?');
     let decayed = 0;
     for (const row of rows) {
       const hl = HALF_LIFE[row.type] || 60;
@@ -471,6 +489,12 @@ class MemoryStore {
       const score = Math.min(1.0, rawDecay * (1 + boost * 0.1));
       stmt.run(score, row.key);
       if (score < 0.1) decayed++;
+      // Trust decay: subtract per-type rate for 30+ days untouched
+      const trustRate = TRUST_DECAY_RATE[row.type] || 0;
+      if (trustRate > 0 && daysSince >= 30) {
+        const newTrust = Math.max(0.2, (row.trust_score ?? 0.5) - trustRate);
+        trustStmt.run(newTrust, row.key);
+      }
     }
     this.#decayEpisodic();
     return { total: rows.length, decayed };
@@ -576,9 +600,20 @@ class MemoryStore {
     const db = this.db;
     const delta = outcome === 'success' ? 0.1 : outcome === 'failure' ? -0.15 : 0.0;
     if (!delta || !keys.length) return { adjusted: 0 };
-    const stmt = db.prepare('UPDATE semantic SET trust_score = MIN(1.0, MAX(0.2, COALESCE(trust_score, 0.5) + ?)) WHERE key = ?');
-    for (const key of keys) stmt.run(delta, key);
-    return { adjusted: keys.length, delta };
+    if (delta > 0 && this.#trustBudget >= 5) return { adjusted: 0, budgetExceeded: true };
+    const getRow = db.prepare('SELECT source, trust_score FROM semantic WHERE key = ?');
+    const stmt = db.prepare('UPDATE semantic SET trust_score = ? WHERE key = ?');
+    let adjusted = 0;
+    for (const key of keys) {
+      const row = getRow.get(key);
+      if (!row) continue;
+      const ceiling = getSourceCeiling(row.source);
+      const newScore = Math.max(0.2, Math.min(ceiling, (row.trust_score ?? 0.5) + delta));
+      stmt.run(newScore, key);
+      adjusted++;
+    }
+    if (delta > 0 && adjusted) this.#trustBudget++;
+    return { adjusted, delta };
   }
 
   // --- Stats & Export ---

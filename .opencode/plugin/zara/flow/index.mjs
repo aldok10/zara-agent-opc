@@ -1,5 +1,6 @@
 import { FileStore } from '../infra/store.mjs';
 import { tool } from '@opencode-ai/plugin';
+import { execSync } from 'node:child_process';
 
 const z = tool.schema;
 
@@ -277,16 +278,30 @@ export default function createFlow({ client, directory } = {}) {
   const shutdown = new ShutdownService();
   const handoff = new HandoffService();
   const resume = new ResumeService(directory || process.cwd());
+  let gitContext = null;
 
   return {
     onEvent(event) {
       if (event.type === 'session.created') {
         resume.onSessionCreated();
+        // Git preload
+        try {
+          const cwd = directory || process.cwd();
+          const branch = execSync('git branch --show-current', { cwd, encoding: 'utf8' }).trim();
+          const log = execSync('git log --oneline -3', { cwd, encoding: 'utf8' }).trim();
+          if (branch) gitContext = `[Session] Branch: ${branch} | Recent: ${log.replace(/\n/g, '; ')}`;
+        } catch { /* not a git repo, skip */ }
       }
     },
 
     inject(messages) {
       const parts = [];
+
+      // Git context (one-shot, first injection only)
+      if (gitContext) {
+        parts.push(gitContext);
+        gitContext = null;
+      }
 
       const h = handoff.load();
       if (h && h.task) {

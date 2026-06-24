@@ -45,7 +45,7 @@ describe('reflection learning loop', () => {
   });
 
   it('reflect_suggest is graceful when nothing matches', () => {
-    const out = reflectionTools.reflect_suggest.handler({ situation: 'zzz_nonexistent_situation_xyz' });
+    const out = reflectionTools.reflect_suggest.handler({ situation: 'qxwvfk_jzmprl_bntghy' });
     assert.match(out, /No matching pattern|No learned patterns/);
   });
 

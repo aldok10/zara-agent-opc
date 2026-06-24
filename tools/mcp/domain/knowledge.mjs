@@ -135,7 +135,7 @@ class KnowledgeTools {
             const embedder = SemanticEmbedder.instance();
             await knowledgeChunkUpsertAsync(key, section, body, embedder);
           } catch {
-            try { knowledgeChunkUpsert(key, section, body); } catch {}
+            try { knowledgeChunkUpsert(key, section, body); } catch (e2) { errors.push(`${file}[fallback]: ${e2.message}`); }
           }
         }
         stored++;

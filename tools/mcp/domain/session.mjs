@@ -111,7 +111,7 @@ class SessionTools {
         const bits = [];
         if (r.merged || r.archived || r.reinforced) bits.push(`${r.merged} merged, ${r.archived} archived, ${r.reinforced} promoted`);
         if (bits.length) maintenance = `\nMemory maintained: ${bits.join('; ')}.`;
-      } catch {}
+      } catch (e) { process.stderr.write(`[mcp:session] end-of-session consolidation failed: ${e.message}\n`); }
 
       return `Session ended. Duration: ${mins}min. Total today: ${session.totalToday}min.${maintenance}`;
     }

@@ -101,7 +101,7 @@ class MemoryTools {
   async #handleConsolidate() {
     const r = dreamConsolidate();
     let conflicts = [];
-    try { conflicts = await detectContradictionsAsync(); } catch {}
+    try { conflicts = await detectContradictionsAsync(); } catch (e) { process.stderr.write(`[mcp:memory] detectContradictions failed: ${e.message}\n`); }
     const conflictNote = conflicts.length
       ? `\n⚠️ ${conflicts.length} potential contradiction(s) detected — run memory_contradictions to review.`
       : '';
@@ -114,7 +114,7 @@ class MemoryTools {
     catch { flagged = detectContradictions(args.threshold || 0.85); }
     if (!flagged.length) return 'No contradicting memories detected.';
     return `${flagged.length} potential contradiction(s):\n` +
-      flagged.map(f => `- [${f.type}] "${f.a}" vs "${f.b}" (${(f.sim * 100).toFixed(0)}% similar)`).join('\n');
+      flagged.map(f => `- [${f.type}] "${f.a}" (trust:${(f.trust_a ?? 0.5).toFixed(2)}) vs "${f.b}" (trust:${(f.trust_b ?? 0.5).toFixed(2)}) (${(f.sim * 100).toFixed(0)}% similar)`).join('\n');
   }
 
   #handleDelete(args) {

@@ -8,6 +8,10 @@ const REFLECT_DIR = path.join(HOME, 'reflections');
 // Track keys recalled this session for trust calibration
 const recalledKeys = new Set();
 
+// Session budget: max 5 trust adjustments per clock-hour
+let _trustBudgetHour = -1;
+let _trustBudgetCount = 0;
+
 class ReflectionTools {
   get tools() {
     return {
@@ -46,22 +50,34 @@ class ReflectionTools {
 
   #handleReflect(args) {
     ensure(REFLECT_DIR);
+    // F2: success requires evidence. Downgrade to partial if worked field is empty.
+    let downgraded = false;
+    if (args.outcome === 'success' && !args.worked?.trim()) {
+      args.outcome = 'partial';
+      downgraded = true;
+    }
     const logFile = path.join(REFLECT_DIR, 'log.jsonl');
     fs.appendFileSync(logFile, JSON.stringify({ ...args, agent: args.agent || '', ts: new Date().toISOString() }) + '\n');
     // Rotate: keep last 500 entries
     try {
       const lines = fs.readFileSync(logFile, 'utf-8').trim().split('\n');
       if (lines.length > 500) fs.writeFileSync(logFile, lines.slice(-500).join('\n') + '\n');
-    } catch {}
+    } catch (e) { process.stderr.write(`[mcp:reflection] log rotation failed: ${e.message}\n`); }
 
     // Trust calibration: adjust trust scores of memories recalled this session
     // CONSTITUTION P3: only raise trust on explicit success WITH evidence (worked field).
     // Without evidence, trust may stay flat or fall, never rise.
     let trustResult = null;
     if (args.outcome && recalledKeys.size > 0) {
-      const canRaise = args.outcome === 'success' && args.worked;
-      const effectiveOutcome = canRaise ? 'success' : (args.outcome === 'failure' ? 'failure' : 'partial');
-      trustResult = adjustTrust([...recalledKeys], effectiveOutcome);
+      // Hourly budget: max 5 trust adjustments per clock-hour
+      const hour = new Date().getHours();
+      if (_trustBudgetHour !== hour) { _trustBudgetHour = hour; _trustBudgetCount = 0; }
+      if (_trustBudgetCount < 5) {
+        _trustBudgetCount++;
+        const canRaise = args.outcome === 'success' && args.worked;
+        const effectiveOutcome = canRaise ? 'success' : (args.outcome === 'failure' ? 'failure' : 'partial');
+        trustResult = adjustTrust([...recalledKeys], effectiveOutcome);
+      }
       recalledKeys.clear();
     }
 
@@ -94,7 +110,8 @@ class ReflectionTools {
       }
       saveJson(pFile, patterns);
     }
-    return `Reflected on: ${args.task}${args.pattern ? ` → pattern: ${args.pattern}${args.outcome ? ` [${args.outcome}]` : ''}` : ''}`;
+    const note = downgraded ? ' (downgraded from success: no evidence in worked field)' : '';
+    return `Reflected on: ${args.task}${args.pattern ? ` → pattern: ${args.pattern}${args.outcome ? ` [${args.outcome}]` : ''}` : ''}${note}`;
   }
 
   // Wilson-ish ranking: successRate weighted by log frequency so a proven pattern

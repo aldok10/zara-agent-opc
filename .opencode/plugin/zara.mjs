@@ -83,10 +83,11 @@ export async function server({ client, directory }) {
       empathy.onMessage?.(msg);
     },
 
-    // Chat response hook (trace + guard repetition)
+    // Chat response hook (trace + guard repetition + voice drift)
     'chat.response': async (res) => {
       observe.onResponse?.(res);
       memory.onResponse?.(res);
+      voice.onResponse?.(res);
     },
 
     // All tools aggregated — last module wins on name conflict

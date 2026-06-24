@@ -4,6 +4,8 @@
 import { FileStore, today, spanId, estimateTokens, hash, SECRET_PATTERN } from '../infra/store.mjs';
 import { tool } from '@opencode-ai/plugin';
 import { matchInjection, PROMPT_INJECTION_PATTERNS } from './patterns.mjs';
+import { SkillSuggester } from './skill-suggest.mjs';
+import { FlowDetector } from '../empathy/flow-detector.mjs';
 
 const z = tool.schema;
 
@@ -450,6 +452,44 @@ export class CacheService {
   #save() { this.#store.writeJSON('cache.json', this.#cache); this.#store.writeJSON('stats.json', this.#stats); }
 }
 
+// ─── Proactive Intelligence ──────────────────────────────────────────────────
+
+class NudgeBudget {
+  #count = 0;
+  #lastTurn = -Infinity;
+  #turn = 0;
+  #fired = new Set();
+  #flow;
+  constructor(flowDetector) { this.#flow = flowDetector; }
+  tick() { this.#turn++; }
+  canNudge(key) {
+    if (this.#count >= 3) return false;
+    if (this.#turn - this.#lastTurn < 5) return false;
+    if (this.#fired.has(key)) return false;
+    if (this.#flow.isInFlow()) return false;
+    return true;
+  }
+  spend(key) { this.#count++; this.#lastTurn = this.#turn; this.#fired.add(key); }
+}
+
+class RepetitionDetector {
+  #ring = []; // last 10: { tool, argsHash, success }
+
+  record(tool, argsHash, success) {
+    this.#ring.push({ tool, argsHash, success });
+    if (this.#ring.length > 10) this.#ring.shift();
+  }
+
+  detect() {
+    if (this.#ring.length < 3) return null;
+    const last3 = this.#ring.slice(-3);
+    if (last3.every(e => !e.success && e.tool === last3[0].tool)) {
+      return 'repetition:' + last3[0].tool;
+    }
+    return null;
+  }
+}
+
 // ─── Module Export ───────────────────────────────────────────────────────────
 
 export default function createObserve({ client, directory } = {}) {
@@ -458,6 +498,11 @@ export default function createObserve({ client, directory } = {}) {
   const guard = new GuardService();
   const cache = new CacheService();
   const compressor = new ContextCompressor();
+  const flowDetector = new FlowDetector();
+  const budget = new NudgeBudget(flowDetector);
+  const repetition = new RepetitionDetector();
+  const skillSuggester = new SkillSuggester();
+  let pendingNudge = null;
 
   return {
     onEvent(event) {
@@ -513,6 +558,14 @@ export default function createObserve({ client, directory } = {}) {
       if (cache.isCacheable(toolName) && success) {
         cache.set(toolName, input?.args || input, output?.output);
       }
+
+      // Repetition detection
+      repetition.record(toolName, hash(JSON.stringify(input?.args || '')), success);
+      const repKey = repetition.detect();
+      if (repKey && budget.canNudge(repKey)) {
+        pendingNudge = '[Observe] Same tool failed 3x consecutively. Step back and diagnose root cause.';
+        budget.spend(repKey);
+      }
     },
 
     onResponse(res) {
@@ -522,14 +575,35 @@ export default function createObserve({ client, directory } = {}) {
     },
 
     inject(messages) {
+      budget.tick();
+      flowDetector.recordMessage();
+
       // Track input tokens from system message
       const sysMsg = messages.find(m => m.role === 'system');
       if (sysMsg?.content) trace.onInput(sysMsg.content);
+
+      // Feed user messages to skill suggester
+      const lastUser = [...messages].reverse().find(m => m.role === 'user');
+      if (lastUser?.content && typeof lastUser.content === 'string') {
+        skillSuggester.addMessage(lastUser.content);
+      }
 
       // Read agent context from last user message metadata if available
       const lastMsg = messages.filter(m => m.role === 'user' || m.role === 'assistant').pop();
       if (lastMsg?.metadata?.agent) {
         trace.setCurrentAgent(lastMsg.metadata.agent);
+      }
+
+      // Surface proactive nudges
+      const parts = [];
+      if (pendingNudge) { parts.push(pendingNudge); pendingNudge = null; }
+      const skillNudge = skillSuggester.suggest();
+      if (skillNudge && budget.canNudge('skill')) { parts.push(skillNudge); budget.spend('skill'); }
+
+      if (parts.length) {
+        const last = messages[messages.length - 1];
+        if (last?.role === 'system') last.content += '\n\n' + parts.join('\n');
+        else messages.push({ role: 'system', content: parts.join('\n') });
       }
 
       return messages;

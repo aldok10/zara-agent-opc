@@ -46,15 +46,17 @@ const DRIFT_CHECKS = [
   'Drift check: matched their energy and length, or over-explaining?',
 ];
 
+const BANNED_WORDS = /\b(delve|realm|meticulous|pivotal|robust|seamless|leverage|navigate|comprehensive|facilitate|landscape|foster|ensuring|furthermore|additionally)\b/i;
+const EM_DASH = /\u2014/;
+
 export default function createVoice() {
   let cribCache = null;
   let turn = 0;
+  let violations = 0;
+  let postCompact = false;
 
   function loadCrib() {
     if (cribCache !== null) return cribCache;
-    // We don't inject the whole skill (too heavy every turn). The hot-path crib
-    // IS the enforcement. We only touch the file to confirm the skill exists so
-    // the "load the skill for depth" pointer is honest.
     let skillExists = false;
     for (const p of SKILL_CANDIDATES) {
       try {
@@ -72,10 +74,46 @@ export default function createVoice() {
       const crib = loadCrib();
       const nudge = DRIFT_CHECKS[turn % DRIFT_CHECKS.length];
       turn++;
-      const block = `${crib}\n[Voice] ${nudge}`;
+      let extra = '';
+
+      // Brevity nudge for short user messages
+      const userMsgs = messages.filter(m => m.role === 'user');
+      const last = userMsgs[userMsgs.length - 1];
+      if (last && typeof last.content === 'string' && last.content.length < 80) {
+        extra += '\n[Voice] Short question. Reply in 1-3 sentences max. No preamble.';
+      }
+
+      // Post-compaction re-anchor (fires once)
+      if (postCompact) {
+        extra += '\n[Voice] POST-COMPACTION: Re-assert personality. Direct, opinionated, particles. No polite-assistant mode.';
+        postCompact = false;
+      }
+
+      // 3-strike escalation
+      if (violations >= 3) {
+        extra += '\n\u26a0\ufe0f [Voice] Banned patterns detected in 3+ responses. STOP. Re-read voice rules. This is not optional.';
+      }
+
+      const block = `${crib}\n[Voice] ${nudge}${extra}`;
       const sys = messages.find(m => m.role === 'system');
       if (sys) sys.content += '\n\n' + block;
       return messages;
+    },
+
+    onCompact() {
+      const ctx = `[Voice state] turn=${turn}, violations=${violations}`;
+      postCompact = true;
+      turn = 0;
+      return { context: ctx };
+    },
+
+    onResponse(res) {
+      const text = typeof res === 'string' ? res : res?.content || '';
+      if (BANNED_WORDS.test(text) || EM_DASH.test(text)) {
+        violations++;
+      } else {
+        violations = 0; // reset on clean response
+      }
     },
 
     dispose() {},

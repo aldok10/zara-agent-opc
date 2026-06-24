@@ -8,6 +8,10 @@ const REFLECT_DIR = path.join(HOME, 'reflections');
 // Track keys recalled this session for trust calibration
 const recalledKeys = new Set();
 
+// Session budget: max 5 trust adjustments per clock-hour
+let _trustBudgetHour = -1;
+let _trustBudgetCount = 0;
+
 class ReflectionTools {
   get tools() {
     return {
@@ -65,9 +69,15 @@ class ReflectionTools {
     // Without evidence, trust may stay flat or fall, never rise.
     let trustResult = null;
     if (args.outcome && recalledKeys.size > 0) {
-      const canRaise = args.outcome === 'success' && args.worked;
-      const effectiveOutcome = canRaise ? 'success' : (args.outcome === 'failure' ? 'failure' : 'partial');
-      trustResult = adjustTrust([...recalledKeys], effectiveOutcome);
+      // Hourly budget: max 5 trust adjustments per clock-hour
+      const hour = new Date().getHours();
+      if (_trustBudgetHour !== hour) { _trustBudgetHour = hour; _trustBudgetCount = 0; }
+      if (_trustBudgetCount < 5) {
+        _trustBudgetCount++;
+        const canRaise = args.outcome === 'success' && args.worked;
+        const effectiveOutcome = canRaise ? 'success' : (args.outcome === 'failure' ? 'failure' : 'partial');
+        trustResult = adjustTrust([...recalledKeys], effectiveOutcome);
+      }
       recalledKeys.clear();
     }
 

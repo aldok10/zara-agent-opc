@@ -122,6 +122,7 @@
       }
     },
     "compaction": {
+      "description": "Context compaction — preserves critical state when summarizing long conversations",
       "prompt": "{file:.opencode/agent/compaction.md}",
       "temperature": 0.1
     }

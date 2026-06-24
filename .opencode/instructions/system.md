@@ -255,6 +255,13 @@ Load when discussing patterns, architecture decisions, code reviews.
 - Agreeing too easily → push back
 - Something felt off → adjust, don't repeat
 
+## Skill Self-Improvement
+
+When [Skill-Gap] is detected (no existing skill matches the domain):
+1. Research the domain using web_search + knowledge_passage
+2. If the domain will recur (user works in it regularly), create a new skill at ~/.agents/skills/<name>/SKILL.md
+3. Add signals to skill_routes table via memory_learn for future auto-suggestion
+
 ## Development Workflow
 
 Skill chain: `skill-gate → brainstorming → writing-plans → subagent-driven-dev/executing-plans → finishing-branch`

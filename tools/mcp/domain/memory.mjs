@@ -75,7 +75,7 @@ class MemoryTools {
     const memType = args.type || 'fact';
     const source = args.source || 'observed';
     // CONSTITUTION Privacy: block obvious secrets from being stored
-    const SECRETS_RE = /(?:(?:ghp|gho|ghu|ghs|ghr)_[A-Za-z0-9_]{36,}|(?:sk|pk)[-_](?:live|test)[-_][A-Za-z0-9]{20,}|(?:AKIA|ASIA)[A-Z0-9]{16}|xox[bpras]-[A-Za-z0-9-]{10,}|eyJ[A-Za-z0-9_-]{20,}\.eyJ[A-Za-z0-9_-]{20,})/;
+    const SECRETS_RE = /(?:(?:ghp|gho|ghu|ghs|ghr)_[A-Za-z0-9_]{36,}|(?:sk|pk)[-_](?:live|test)[-_][A-Za-z0-9]{20,}|(?:AKIA|ASIA)[A-Z0-9]{16}|xox[bpras]-[A-Za-z0-9-]{10,}|eyJ[A-Za-z0-9_-]{20,}\.eyJ[A-Za-z0-9_-]{20,}|AIza[A-Za-z0-9_-]{35}|sk-ant-[A-Za-z0-9_-]{20,}|sk-proj-[A-Za-z0-9_-]{20,}|sk-[A-Za-z0-9_-]{40,}|-----BEGIN.*PRIVATE KEY-----|(?:postgres|mysql|mongodb\+srv|redis):\/\/[^\s]+:[^\s]+@|(?:password|secret|token|api_key)\s*[=:]\s*['"][^\s'"]{8,})/;
     if (SECRETS_RE.test(args.key + ' ' + args.value)) {
       return `⚠️ Refused: value appears to contain a secret/token. Never store credentials in memory.`;
     }

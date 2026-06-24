@@ -55,7 +55,7 @@ export const PROMPT_INJECTION_PATTERNS = [
 ];
 
 // Known jailbreak prefixes for fast string matching (faster than regex for common cases)
-export const JAILBREAK_PREFIXES = [
+const JAILBREAK_PREFIXES = [
   'ignore all previous',
   'ignore previous',
   'ignore all instructions',

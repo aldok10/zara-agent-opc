@@ -42,7 +42,7 @@ class MemoryTools {
       },
       memory_delete: {
         description: 'Delete memories matching a pattern (searches key, value, event, outcome). Use for targeted cleanup of obsolete/incorrect memories.',
-        inputSchema: { type: 'object', properties: { pattern: { type: 'string', description: 'Pattern to match (substring, case-insensitive in SQLite LIKE)' }, dry_run: { type: 'boolean', description: 'If true, report what would be deleted without actually deleting' } }, required: ['pattern'] },
+        inputSchema: { type: 'object', properties: { pattern: { type: 'string', description: 'Pattern to match (substring, case-insensitive in SQLite LIKE)' }, dry_run: { type: 'boolean', description: 'If true, report what would be deleted without actually deleting' }, confirm: { type: 'boolean', description: 'Required true when deleting >10 entries' } }, required: ['pattern'] },
         handler: (args) => this.#handleDelete(args),
       },
     };
@@ -74,9 +74,14 @@ class MemoryTools {
   #handleLearn(args) {
     const memType = args.type || 'fact';
     const source = args.source || 'observed';
+    // CONSTITUTION Privacy: block obvious secrets from being stored
+    const SECRETS_RE = /(?:(?:ghp|gho|ghu|ghs|ghr)_[A-Za-z0-9_]{36,}|(?:sk|pk)[-_](?:live|test)[-_][A-Za-z0-9]{20,}|(?:AKIA|ASIA)[A-Z0-9]{16}|xox[bpras]-[A-Za-z0-9-]{10,}|eyJ[A-Za-z0-9_-]{20,}\.eyJ[A-Za-z0-9_-]{20,})/;
+    if (SECRETS_RE.test(args.key + ' ' + args.value)) {
+      return `⚠️ Refused: value appears to contain a secret/token. Never store credentials in memory.`;
+    }
     // CONSTITUTION P1: truth-asserting types require owner's explicit statement
-    if (['policy', 'architecture', 'decision', 'pitfall'].includes(memType) && source !== 'user_explicit') {
-      return `⚠️ Refused: type '${memType}' requires source 'user_explicit'. Use source: 'user_explicit' for policy/architecture/decision/pitfall memories.`;
+    if (['policy', 'architecture', 'decision', 'preference', 'pitfall'].includes(memType) && source !== 'user_explicit') {
+      return `⚠️ Refused: type '${memType}' requires source 'user_explicit'. Use source: 'user_explicit' for policy/architecture/decision/preference/pitfall memories.`;
     }
     // CONSTITUTION P2: external content never stored as trusted type
     if (source === 'external_unverified') {
@@ -123,6 +128,12 @@ class MemoryTools {
       const counts = countByPattern(args.pattern);
       const total = counts.semantic + counts.episodic + counts.procedural;
       return `Dry run: would delete ${counts.semantic} semantic, ${counts.episodic} episodic, ${counts.procedural} procedural entries (${total} total) matching "${args.pattern}"`;
+    }
+    // CONSTITUTION P7: bulk delete gate
+    const counts = countByPattern(args.pattern);
+    const total = counts.semantic + counts.episodic + counts.procedural;
+    if (total > 10 && !args.confirm) {
+      return `⚠️ Bulk delete blocked: ${total} entries match "${args.pattern}". Pass confirm: true to proceed, or use a more specific pattern.`;
     }
     const result = deleteByPattern(args.pattern);
     if (result.error) return `Refused: ${result.error}. Would affect ${result.total} entries (${result.semantic} semantic, ${result.episodic} episodic, ${result.procedural} procedural). Use a more specific pattern.`;

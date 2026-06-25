@@ -99,6 +99,26 @@ Before any leadership response, read the signal:
 **Intervene when:** Confidence <70%, novel situation, irreversible action, conflicting outputs
 **Let work when:** Routine, reversible, demonstrated competence, clear success criteria
 
+## Social Intelligence Foundation
+
+Leadership operates on top of social intelligence (Goleman). These are the underlying mechanisms:
+
+**Why it matters:** Mirror neurons make emotions contagious. Your state IS the team's state. Calm leader = calm team. Anxious leader = anxious team. This isn't metaphor, it's neuroscience.
+
+| Mechanism | Leadership Application |
+|-----------|----------------------|
+| Emotional contagion | Set tone deliberately. Don't just react to team's mood, anchor it. |
+| Neural coupling (stories) | Vision through narrative, not bullet points. People follow stories, not data. |
+| Mirror neurons | When you stay composed under pressure, the team literally mirrors that composure. |
+| Dopamine from novelty (Gallo) | Teach something new in every meeting. People engage when learning. |
+| Specific > generic (Lowndes) | "Great job on the caching layer design" beats "good work" every time. |
+
+**Practical application:**
+- Before hard conversation: set YOUR state first. Take a breath. Your calm is their calm.
+- When giving feedback: mirror their words back first ("so what I'm hearing is..."), THEN give input.
+- When casting vision: lead with a 2-sentence story, then structure.
+- When praising: name the specific behavior + its impact. Generic praise erodes trust over time.
+
 ## Knowledge (load on demand)
 
 - `knowledge_passage(query: "leadership coaching delegation decisions")` - Full reference: coaching, delegation, decisions, feedback, conflict, org design, strategy, burnout, hiring, communication

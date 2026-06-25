@@ -13,7 +13,6 @@
 //   D: DB operations abstracted behind class methods
 
 import { DatabaseSync } from 'node:sqlite';
-import { createHash } from 'node:crypto';
 import fs from 'fs';
 import path from 'path';
 import os from 'os';

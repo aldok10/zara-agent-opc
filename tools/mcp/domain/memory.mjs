@@ -1,8 +1,7 @@
-import path from 'path';
 import {
-  semanticLearn, semanticRecall, semanticRecallAsync, semanticBaseline, semanticScoped,
+  semanticLearn, semanticRecall, semanticRecallAsync,
   episodicRecord, episodicRecall,
-  proceduralSave, proceduralRecall, proceduralCount,
+  proceduralSave, proceduralRecall,
   stats as dbStats, dreamConsolidate, detectContradictions, detectContradictionsAsync, deleteByPattern, countByPattern
 } from '../../memory-db.mjs';
 import { recalledKeys } from './reflection.mjs';

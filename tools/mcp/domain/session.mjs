@@ -1,7 +1,6 @@
-import fs from 'fs';
 import path from 'path';
 import { HOME, loadJson, saveJson } from '../infra.mjs';
-import { dreamConsolidate, detectContradictions, detectContradictionsAsync } from '../../memory-db.mjs';
+import { dreamConsolidate, detectContradictionsAsync } from '../../memory-db.mjs';
 import { resolveBest, discoverAll, persistIdentity } from './identity.mjs';
 
 class SessionTools {

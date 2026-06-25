@@ -3,7 +3,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { HOME, ensure, loadJson, saveJson } from '../infra.mjs';
+import { HOME, loadJson, saveJson } from '../infra.mjs';
 
 const EVOLVE_DIR = path.join(HOME, 'evolve');
 const REFLECT_DIR = path.join(HOME, 'reflections');

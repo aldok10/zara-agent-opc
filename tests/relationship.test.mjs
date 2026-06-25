@@ -4,7 +4,7 @@ import os from 'os';
 import path from 'path';
 import fs from 'fs';
 
-const TEST_DIR = path.join(os.tmpdir(), `zara-rel-test-${Date.now()}`);
+const TEST_DIR = fs.mkdtempSync(path.join(os.tmpdir(), 'zara-rel-test-'));
 const REL_DIR = path.join(TEST_DIR, '.zara', 'relationship');
 
 // Create mock @opencode-ai/plugin package in project node_modules

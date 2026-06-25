@@ -32,31 +32,13 @@ function formatMd(text) {
   return t.trim() + '\n';
 }
 
-// Try prettier, fallback to manual formatting
-let hasPrettier = null;
-function prettifyMd(filePath) {
-  if (hasPrettier === null) {
-    try { execFileSync('npx', ['prettier', '--version'], { stdio: 'pipe', timeout: 5000 }); hasPrettier = true; } catch { hasPrettier = false; }
-  }
-  if (hasPrettier) {
-    try {
-      execFileSync('npx', ['prettier', '--write', '--prose-wrap', 'preserve', '--parser', 'markdown', filePath], { stdio: 'pipe', timeout: 10000 });
-      return true;
-    } catch { /* fallback to manual */ }
-  }
-  // Manual fallback
-  const content = readFileSync(filePath, 'utf-8');
-  writeFileSync(filePath, formatMd(content));
-  return false;
-}
-
 // ─── HTML to Markdown ───
 
 function htm2md(html) {
   let t = html;
-  // Remove scripts, styles, head section
-  t = t.replace(/<head[\s\S]*?<\/head>/gi, '');
-  t = t.replace(/<script[\s\S]*?<\/script>/gi, '');
+  // Remove scripts, styles, head section (local CHM content, not user input)
+  t = t.replace(/<head\b[^>]*>[\s\S]*?<\/head>/gi, '');
+  while (/<script\b/i.test(t)) t = t.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '');
   t = t.replace(/<style[\s\S]*?<\/style>/gi, '');
 
   // ─── Extract code blocks into safe storage ───
@@ -68,7 +50,8 @@ function htm2md(html) {
       .replace(/<span[^>]*>/gi, '').replace(/<\/span>/gi, '')
       .replace(/<[^>]+>/g, '')
       .replace(/&nbsp;/g, ' ').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
-      .replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'")
+      .replace(/&quot;/g, '"').replace(/&#39;/g, "'")
+      .replace(/&amp;/g, '&')
       .replace(/  +/g, ' ');
     codeBlocks.push(clean.trim());
     return `\n%%CODEBLOCK_${codeBlocks.length - 1}%%\n`;
@@ -157,8 +140,9 @@ function htm2md(html) {
 
   // Links — strip .htm links, keep text only
   t = t.replace(/<a[^>]*href="([^"]*)"[^>]*>([\s\S]*?)<\/a>/gi, (_, href, text) => {
-    const cleanText = text.replace(/<[^>]+>/g, '').trim();
-    return cleanText || '';
+    let cleanText = text;
+    while (/<[^>]+>/.test(cleanText)) cleanText = cleanText.replace(/<[^>]+>/g, '');
+    return cleanText.trim() || '';
   });
 
   // Images — remove
@@ -171,14 +155,15 @@ function htm2md(html) {
   t = t.replace(/<div[^>]*>/gi, '\n');
   t = t.replace(/<\/div>/gi, '\n');
 
-  // Strip remaining tags
-  t = t.replace(/<[^>]+>/g, '');
+  // Strip remaining tags (loop to handle any residual nested fragments)
+  while (/<[^>]+>/.test(t)) t = t.replace(/<[^>]+>/g, '');
 
-  // Decode entities
-  t = t.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+  // Decode entities (decode &amp; last to avoid double-decoding &amp;lt; → &lt; → <)
+  t = t.replace(/&lt;/g, '<').replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&nbsp;/g, ' ')
     .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(parseInt(n)))
-    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCharCode(parseInt(h, 16)));
+    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCharCode(parseInt(h, 16)))
+    .replace(/&amp;/g, '&');
 
   // ─── Post-processing ───
 
@@ -205,7 +190,7 @@ function htm2md(html) {
   // Remove empty remnants
   t = t.replace(/\|\s*\|\s*\|\s*\|/g, '');
   t = t.replace(/^\|[\s|]*\|$/gm, '');
-  t = t.replace(/^\s*[\u25b6\u25c0\u2190\u2192\u2194←→▶◀►◄]\s*$/gm, '');
+  t = t.replace(/^\s*[\u25b6\u25ba\u25c0\u25c4\u2190\u2192\u2194]\s*$/gm, '');
   t = t.replace(/^\s*(Previous|Next|Prev|Back|Forward)\s*$/gmi, '');
 
   // Double space → single, compact lists, collapse excess whitespace

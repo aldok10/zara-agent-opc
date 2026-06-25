@@ -4,6 +4,8 @@ import fs from 'fs';
 import path from 'path';
 import { HOME, ensure, atomicWrite, loadJson, SECRET_PATTERN } from '../infra/store.mjs';
 import { processMessage, queryGraph, graphStats } from './graph.mjs';
+import { boostMemory, memoryHealth } from './decay.mjs';
+import { dream } from './dreamer.mjs';
 import { tool } from '@opencode-ai/plugin';
 const z = tool.schema;
 
@@ -78,7 +80,11 @@ function saveJson(file, data) {
 
 export default function createMemory({ client, directory } = {}) {
   return {
-    onEvent(event) {},
+    onEvent(event) {
+      if (event?.type === 'session.ended') {
+        try { dream(); } catch {}
+      }
+    },
 
     inject(messages) {
       const TOKEN_BUDGET = 800;
@@ -105,6 +111,8 @@ export default function createMemory({ client, directory } = {}) {
         const block = `## Core Memory\n${lines.join('\n')}`;
         tokensUsed += Math.ceil(block.length / 4);
         if (tokensUsed <= TOKEN_BUDGET) parts.push(block);
+        // Boost injected memories (they were "accessed")
+        for (const [k] of baseline) boostMemory(k);
       }
 
       // Layer B: Context-relevant — reinforced facts

@@ -22,6 +22,7 @@ import knowledgeTools from './domain/knowledge.mjs';
 import auditTools from './domain/audit.mjs';
 import projectTools from './domain/project.mjs';
 import identityTools from './domain/identity.mjs';
+import improveTools from './domain/improve.mjs';
 
 // Initialize
 const MEM_DIR = path.join(HOME, 'memory');
@@ -35,7 +36,7 @@ getDb();
 const server = new McpServer('zara-mcp', '0.1.0');
 
 // Register all tools
-server.registerAll([memoryTools, reflectionTools, metricsTools, sessionTools, musicTools, knowledgeTools, auditTools, projectTools, identityTools]);
+server.registerAll([memoryTools, reflectionTools, metricsTools, sessionTools, musicTools, knowledgeTools, auditTools, projectTools, identityTools, improveTools]);
 
 // Start listening
 server.listen();
@@ -80,6 +81,22 @@ const loopTimer = setInterval(() => {
         const pending = loadJson(pendingFile, []);
         pending.push({ id: l.id, prompt: l.prompt, firedAt: new Date().toISOString() });
         fs.writeFileSync(pendingFile, JSON.stringify(pending, null, 2));
+      }
+      // Self-improvement loop: write to pending-improvements.json for session pickup
+      if (l.type === 'self-improve' || (!l.type && /self.?improv|improve.?self|self.?audit/i.test(l.prompt))) {
+        try {
+          const pendingFile = path.join(HOME, 'pending-improvements.json');
+          const pending = loadJson(pendingFile, []);
+          pending.push({
+            id: l.id,
+            type: 'self-improve',
+            status: 'pending',
+            source: 'loop',
+            firedAt: new Date().toISOString(),
+            cycle: l.fireCount || 0,
+          });
+          fs.writeFileSync(pendingFile, JSON.stringify(pending, null, 2));
+        } catch (e) { process.stderr.write(`[zara-mcp] self-improve loop error: ${e.message}\n`); }
       }
     }
     fs.writeFileSync(loopFile, JSON.stringify(loops, null, 2));

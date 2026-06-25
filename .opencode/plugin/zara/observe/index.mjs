@@ -4,7 +4,9 @@
 import { FileStore, today, spanId, estimateTokens, hash, SECRET_PATTERN } from '../infra/store.mjs';
 import { tool } from '@opencode-ai/plugin';
 import { matchInjection, PROMPT_INJECTION_PATTERNS } from './patterns.mjs';
+import { checkEnvAccess } from './env-guard.mjs';
 import { SkillSuggester } from './skill-suggest.mjs';
+import { scorePatch, trustLevel } from './trust-score.mjs';
 import { FlowDetector } from '../empathy/flow-detector.mjs';
 
 const z = tool.schema;
@@ -385,15 +387,29 @@ export class ContextCompressor {
     if (!Array.isArray(messages)) return messages || [];
     let result = this.deduplicateMessages(messages);
     result = this.purgeErrorInputs(result);
+    result = this.pruneOldToolResults(result);
     const tail = result.length - 3;
     return result.map((msg, i) => {
       if (!msg || i >= tail) return msg;
-      // Strip reasoning blocks from older assistant messages
       if (msg.role === 'assistant' && typeof msg.content === 'string' && msg.content.includes('<thinking>')) {
         return { ...msg, content: this.stripReasoning(msg.content) };
       }
       if (msg.role === 'tool' && typeof msg.content === 'string') {
         return { ...msg, content: this.truncateOutput(msg.content) };
+      }
+      return msg;
+    });
+  }
+
+  pruneOldToolResults(messages) {
+    if (!Array.isArray(messages) || messages.length < 8) return messages;
+    const tail = messages.length - 6;
+    return messages.map((msg, i) => {
+      if (!msg || i >= tail) return msg;
+      if (msg.role === 'tool' && typeof msg.content === 'string' && msg.content.length > 500) {
+        const firstLine = msg.content.split('\n')[0].slice(0, 100);
+        const tokens = estimateTokens(msg.content);
+        return { ...msg, content: `[pruned ${tokens} tokens] ${firstLine}...` };
       }
       return msg;
     });
@@ -525,6 +541,13 @@ export default function createObserve({ client, directory } = {}) {
       const toolArgs = input?.args || {};
       trace.startSpan(toolName, toolArgs);
 
+      // Guard: block .env file access
+      const envBlock = checkEnvAccess(toolName, toolArgs);
+      if (envBlock) {
+        trace.endSpan(toolName, false, 'blocked: env-guard');
+        return envBlock;
+      }
+
       // Guard: check tool inputs for injection
       const inputText = Object.values(toolArgs).filter(v => typeof v === 'string').join(' ');
       if (inputText) {
@@ -580,6 +603,15 @@ export default function createObserve({ client, directory } = {}) {
       // Verification gate: track edits vs verification commands
       if ((toolName === 'edit' || toolName === 'write') && success) {
         editsSinceVerify++;
+        // Trust scoring for edits
+        const filePath = input?.args?.filePath || input?.args?.path || '';
+        const content = input?.args?.content || input?.args?.newString || '';
+        const linesChanged = (content.match(/\n/g) || []).length + 1;
+        const trust = scorePatch({ filePath, linesChanged, toolName });
+        const level = trustLevel(trust);
+        if (level === 'dangerous') {
+          pendingNudge = `[Trust] Risky edit detected (${filePath}, score ${trust.toFixed(2)}). Verify before continuing.`;
+        }
         verifyNudgeSent = false;
         if (!skillLoaded) codeEditsWithoutSkill++;
       } else if (toolName === 'bash' && success) {

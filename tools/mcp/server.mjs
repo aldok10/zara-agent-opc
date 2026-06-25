@@ -2,6 +2,32 @@
  * MCP Server — JSON-RPC 2.0 over stdio.
  * Implements the Model Context Protocol for tool registration and invocation.
  */
+import fs from 'fs';
+import path from 'path';
+import os from 'os';
+
+const LOG_DIR = path.join(os.homedir(), '.zara', 'mcp-traces');
+const LOG_FILE = path.join(LOG_DIR, `${new Date().toISOString().split('T')[0]}.jsonl`);
+
+function ensureDir() { fs.mkdirSync(LOG_DIR, { recursive: true }); }
+
+function logCall(toolName, args, success, duration, resultPreview) {
+  try {
+    ensureDir();
+    const entry = JSON.stringify({
+      ts: new Date().toISOString(),
+      tool: toolName,
+      args: Object.keys(args || {}),
+      success,
+      duration,
+      result: resultPreview,
+    }) + '\n';
+    fs.appendFileSync(LOG_FILE, entry, 'utf-8');
+  } catch (e) {
+    // Silent — logging should never break the server
+  }
+}
+
 export class McpServer {
   /** @param {string} name @param {string} version */
   constructor(name, version) {
@@ -45,11 +71,20 @@ export class McpServer {
         return { jsonrpc: '2.0', id, result: { tools: this.toolsList } };
       case 'tools/call': {
         const tool = this.tools[params.name];
-        if (!tool) return { jsonrpc: '2.0', id, error: { code: -32601, message: `Unknown tool: ${params.name}` } };
+        if (!tool) {
+          logCall(params.name, params.arguments, false, 0, 'unknown_tool');
+          return { jsonrpc: '2.0', id, error: { code: -32601, message: `Unknown tool: ${params.name}` } };
+        }
+        const start = Date.now();
         try {
           const result = await tool.handler(params.arguments || {});
+          const duration = Date.now() - start;
+          const preview = typeof result === 'string' ? result.slice(0, 60) : JSON.stringify(result).slice(0, 60);
+          logCall(params.name, params.arguments, true, duration, preview);
           return { jsonrpc: '2.0', id, result: { content: [{ type: 'text', text: result }] } };
         } catch (e) {
+          const duration = Date.now() - start;
+          logCall(params.name, params.arguments, false, duration, `error: ${e.message}`);
           return { jsonrpc: '2.0', id, result: { content: [{ type: 'text', text: `Error: ${e.message}` }], isError: true } };
         }
       }

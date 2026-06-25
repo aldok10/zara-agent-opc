@@ -1,10 +1,48 @@
 {
   "name": "zara-agent-opc",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "type": "module",
-  "private": true,
+  "description": "Empathetic AI engineering partner with cognitive memory, multi-agent orchestration, and self-improving reflection loops. Built on Model Context Protocol.",
+  "author": {
+    "name": "Aldo Karendra",
+    "url": "https://github.com/aldok10"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/aldok10/zara-agent-opc",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aldok10/zara-agent-opc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aldok10/zara-agent-opc/issues"
+  },
+  "keywords": [
+    "ai-agent",
+    "multi-agent-system",
+    "model-context-protocol",
+    "mcp",
+    "mcp-server",
+    "cognitive-memory",
+    "semantic-embeddings",
+    "self-improving-ai",
+    "developer-tools",
+    "agent-orchestration",
+    "opencode",
+    "ai-engineering",
+    "llm-agent",
+    "prompt-engineering",
+    "retrieval-augmented-generation"
+  ],
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "dependencies": {
     "@huggingface/transformers": "^4.2.0"
+  },
+  "scripts": {
+    "test": "for f in tests/*.test.mjs; do node \"$f\" 2>&1 | tail -1; done && echo '---' && echo 'All tests complete.'",
+    "syntax": "for f in $(find tools .opencode/plugin -name '*.mjs' -type f); do node --check \"$f\" 2>&1 || echo \"FAIL: $f\"; done && echo 'All syntax OK'",
+    "freshness": "node scripts/knowledge-freshness.mjs"
   },
   "devDependencies": {
     "@opencode-ai/plugin": "^1.17.10"

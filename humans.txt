@@ -1,0 +1,13 @@
+/* TEAM */
+Creator: Aldo Karendra
+Role: Software Engineer & AI Systems Architect
+GitHub: https://github.com/aldok10
+LinkedIn: https://www.linkedin.com/in/aldok10/
+Location: Indonesia
+
+/* SITE */
+Project: Zara Agent (zara-agent-opc)
+Description: Empathetic AI engineering partner with cognitive memory
+URL: https://github.com/aldok10/zara-agent-opc
+Language: English, Indonesian
+Technology: Node.js, SQLite, MCP, OpenCode

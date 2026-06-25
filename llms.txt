@@ -1,0 +1,45 @@
+# Zara Agent
+
+> Empathetic AI engineering partner with cognitive memory, multi-agent orchestration, and self-improving reflection loops.
+
+Zara is a persistent AI engineering partner built on the Model Context Protocol (MCP) by Aldo Karendra. Unlike stateless AI coding tools, Zara remembers across sessions, learns from outcomes, coordinates specialist agents, and enforces engineering methodology.
+
+## Core Concepts
+
+- Multi-Agent Orchestration: 10 agents coordinated via servant leadership pattern
+- Cognitive Memory: 3-layer (episodic/semantic/procedural) with semantic embeddings
+- Skill Routing: 132 signals across 27+ skills, weight-adaptive from usage data
+- Self-Improvement: outcome-weighted reflection, pattern crystallization into micro-tools
+- Trust Calibration: source-gated ceilings, evidence-required success claims
+
+## Links
+
+- Repository: https://github.com/aldok10/zara-agent-opc
+- Author: Aldo Karendra (https://github.com/aldok10)
+- Author LinkedIn: https://www.linkedin.com/in/aldok10/
+- License: MIT
+- Documentation: https://github.com/aldok10/zara-agent-opc/tree/main/docs
+- Examples: https://github.com/aldok10/zara-agent-opc/tree/main/examples
+
+## Technical Details
+
+- Runtime: Node.js 22+ (ESM modules)
+- Storage: SQLite + FTS5 full-text search
+- Embeddings: MiniLM-L6-v2 via @huggingface/transformers (384-dim vectors)
+- Protocol: Model Context Protocol (MCP) stdio transport
+- Platform: OpenCode
+- Tools: 24+ MCP tools across 9 domains
+- Agents: atlas (architecture), lens (code-review), shield (security), probe (testing), pulse (delivery), rhythm (loops), hive (swarm), forge (implementation), sketch (planning)
+- Plugin modules: observe, memory, flow, dev, social, evolve, empathy, relationship, voice, workspace, debate
+
+## Architecture Pattern
+
+Orchestrator pattern with specialist delegation. Zara acts as servant leader, dispatching to domain experts for depth while handling direct answers for speed. Multi-agent debate for complex decisions. Doom-loop detection prevents infinite retries.
+
+## Use Cases
+
+- Persistent AI coding companion that remembers your preferences and decisions
+- Multi-agent code review with security, quality, and testing specialists
+- Self-improving engineering workflow with TDD enforcement
+- Knowledge-grounded architecture decisions (254 indexed articles)
+- Cross-session project continuity with memory consolidation

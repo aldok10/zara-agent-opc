@@ -4,9 +4,6 @@ on:
   push:
     branches: [main]
     tags-ignore: ['v*']
-    paths-ignore:
-      - 'CHANGELOG.md'
-      - 'version.json'
   pull_request:
     branches: [main]
 

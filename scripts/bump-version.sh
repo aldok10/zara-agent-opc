@@ -173,9 +173,10 @@ log "Bump type:   $BUMP"
 log "New version: $NEW_VERSION"
 log "New tag:     $NEW_TAG"
 
-# Check if tag already exists
+# Check if tag already exists (idempotent: exit clean if already released)
 if git rev-parse "$NEW_TAG" >/dev/null 2>&1; then
-  die "Tag $NEW_TAG already exists. Something went wrong — aborting."
+  log "Tag $NEW_TAG already exists. Already released — skipping."
+  exit 0
 fi
 
 # ---- Categorize commits for changelog ----

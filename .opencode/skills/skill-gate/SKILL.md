@@ -69,6 +69,7 @@ User always wins. If user says "skip brainstorming", skip it.
 | Risky action, need confirmation workflow | `zara-hitl` |
 | MCP security, secrets in tool calls | `zara-privacy-mcp` |
 | Library/framework docs needed | `find-docs` |
+| Learn from external GitHub projects via GitReverse for Zara improvement | `gitreverse-learn` → or use `/learn from <owner/repo>` |
 
 ## Red Flags - You're Rationalizing
 

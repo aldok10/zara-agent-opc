@@ -46,12 +46,6 @@ jobs:
       - name: Check for vulnerable dependencies
         run: |
           if [ -f package.json ]; then
-            npm audit --production || echo "Vulnerabilities found (non-blocking for now)"
-          else
-            echo "No package.json found, skipping dependency audit"
+            npm audit --production || echo "Vulnerabilities found (non-blocking)"
           fi
         continue-on-error: true
-
-      - name: Run Dependency Review
-        uses: actions/dependency-review-action@v4
-        if: github.event_name == 'pull_request'

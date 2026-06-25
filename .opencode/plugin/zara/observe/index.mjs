@@ -504,6 +504,11 @@ export default function createObserve({ client, directory } = {}) {
   const skillSuggester = new SkillSuggester();
   let pendingNudge = null;
 
+  // ─── Verification Gate ─────────────────────────────────────────────────────
+  const VERIFY_RE = /\b(test|jest|vitest|mocha|pytest|go\s+test|cargo\s+test|npm\s+test|node\s+--test|make\s+test|lint|eslint|tsc|golangci-lint|phpstan|phpunit)\b/i;
+  let editsSinceVerify = 0;
+  let verifyNudgeSent = false;
+
   return {
     onEvent(event) {
       if (event.type === 'session.created') trace.startSession();
@@ -566,6 +571,18 @@ export default function createObserve({ client, directory } = {}) {
         pendingNudge = '[Observe] Same tool failed 3x consecutively. Step back and diagnose root cause.';
         budget.spend(repKey);
       }
+
+      // Verification gate: track edits vs verification commands
+      if ((toolName === 'edit' || toolName === 'write') && success) {
+        editsSinceVerify++;
+        verifyNudgeSent = false;
+      } else if (toolName === 'bash' && success) {
+        const cmd = input?.args?.command || '';
+        if (VERIFY_RE.test(cmd)) {
+          editsSinceVerify = 0;
+          verifyNudgeSent = false;
+        }
+      }
     },
 
     onResponse(res) {
@@ -602,6 +619,13 @@ export default function createObserve({ client, directory } = {}) {
       else if (skillSuggester.gapDetected && budget.canNudge('skill-gap')) {
         parts.push('[Skill-Gap] No existing skill matches this domain. Consider: (1) web research to build knowledge, (2) create a new skill if this domain is recurring.');
         budget.spend('skill-gap');
+      }
+
+      // Verification gate nudge: remind if 3+ edits without verification
+      if (editsSinceVerify >= 3 && !verifyNudgeSent && budget.canNudge('verify-gate')) {
+        parts.push('[Verify-Gate] ' + editsSinceVerify + ' file edits without verification. Run tests/lint before claiming done.');
+        verifyNudgeSent = true;
+        budget.spend('verify-gate');
       }
 
       if (parts.length) {

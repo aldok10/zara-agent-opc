@@ -127,7 +127,7 @@ class KnowledgeTools {
         knowledgeUpsert(key, section, title || basename, summary, rel, memType);
 
         // Also store in semantic memory (for FTS recall)
-        semanticLearn(key, summary, 'user_explicit', memType, `knowledge/${rel}`);
+        semanticLearn(key, summary, 'observed', memType, `knowledge/${rel}`);
 
         // Chunk + embed the full body for passage retrieval
         if (body) {

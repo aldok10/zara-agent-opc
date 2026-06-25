@@ -123,8 +123,8 @@ describe('memory-db upgrades', () => {
     });
 
     it('ignores seeded knowledge entries', () => {
-      store.learn('knowledge.design-patterns.strategy', 'strategy pattern swaps algorithms', 'user_explicit', 'architecture');
-      store.learn('knowledge.design-patterns.state', 'strategy pattern swaps algorithms behavior', 'user_explicit', 'architecture');
+      store.learn('knowledge.design-patterns.strategy', 'strategy pattern swaps algorithms', 'observed', 'architecture');
+      store.learn('knowledge.design-patterns.state', 'strategy pattern swaps algorithms behavior', 'observed', 'architecture');
       const flagged = store.detectContradictions(0.7);
       assert.ok(!flagged.some(f => f.a.startsWith('knowledge.') || f.b.startsWith('knowledge.')));
     });

@@ -9,7 +9,7 @@
 //   import { convertChm } from './chm2md.mjs';
 //   convertChm(input, output, { mode: 'skill', skillName: 'my-sdk' });
 
-import { execSync } from 'child_process';
+import { execFileSync } from 'child_process';
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync, rmSync } from 'fs';
 import { join, basename, extname } from 'path';
 import { tmpdir } from 'os';
@@ -36,11 +36,11 @@ function formatMd(text) {
 let hasPrettier = null;
 function prettifyMd(filePath) {
   if (hasPrettier === null) {
-    try { execSync('npx prettier --version', { stdio: 'pipe', timeout: 5000 }); hasPrettier = true; } catch { hasPrettier = false; }
+    try { execFileSync('npx', ['prettier', '--version'], { stdio: 'pipe', timeout: 5000 }); hasPrettier = true; } catch { hasPrettier = false; }
   }
   if (hasPrettier) {
     try {
-      execSync(`npx prettier --write --prose-wrap preserve --parser markdown "${filePath}"`, { stdio: 'pipe', timeout: 10000 });
+      execFileSync('npx', ['prettier', '--write', '--prose-wrap', 'preserve', '--parser', 'markdown', filePath], { stdio: 'pipe', timeout: 10000 });
       return true;
     } catch { /* fallback to manual */ }
   }
@@ -367,7 +367,7 @@ export function convertChm(inputPath, outputDir, options = {}) {
   const tmpDir = join(tmpdir(), `chm2skill-${Date.now()}`);
   mkdirSync(tmpDir, { recursive: true });
   try {
-    execSync(`7z x "${inputPath.replace(/"/g, '')}" -o"${tmpDir}" -y`, { stdio: 'pipe' });
+    execFileSync('7z', ['x', inputPath, `-o${tmpDir}`, '-y'], { stdio: 'pipe' });
   } catch {
     rmSync(tmpDir, { recursive: true, force: true });
     throw new Error('7z extraction failed. Ensure p7zip is installed.');
@@ -512,7 +512,15 @@ export function convertChm(inputPath, outputDir, options = {}) {
 
   // Step 6: Run prettier on all generated markdown (batch)
   try {
-    execSync(`npx prettier --write --prose-wrap preserve --parser markdown "${join(skillDir, 'SKILL.md')}" "${join(skillDir, 'subskills')}/*/SKILL.md"`, { stdio: 'pipe', timeout: 30000 });
+    const mdFiles = [join(skillDir, 'SKILL.md')];
+    const subsDir = join(skillDir, 'subskills');
+    if (existsSync(subsDir)) {
+      for (const d of readdirSync(subsDir)) {
+        const p = join(subsDir, d, 'SKILL.md');
+        if (existsSync(p)) mdFiles.push(p);
+      }
+    }
+    execFileSync('npx', ['prettier', '--write', '--prose-wrap', 'preserve', '--parser', 'markdown', ...mdFiles], { stdio: 'pipe', timeout: 30000 });
   } catch { /* prettier optional */ }
 
   rmSync(tmpDir, { recursive: true, force: true });
@@ -535,7 +543,7 @@ function convertChmLegacy(inputPath, outputDir, options) {
   const tmpDir = join(tmpdir(), `chm2md-${Date.now()}`);
   mkdirSync(tmpDir, { recursive: true });
   try {
-    execSync(`7z x "${inputPath.replace(/"/g, '')}" -o"${tmpDir}" -y`, { stdio: 'pipe' });
+    execFileSync('7z', ['x', inputPath, `-o${tmpDir}`, '-y'], { stdio: 'pipe' });
   } catch {
     rmSync(tmpDir, { recursive: true, force: true });
     throw new Error('7z extraction failed. Ensure p7zip is installed.');

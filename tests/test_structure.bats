@@ -23,8 +23,8 @@ setup() {
     [ -d "$PROJECT_DIR/prompts" ]
 }
 
-@test "prompts/sub-agents directory exists" {
-    [ -d "$PROJECT_DIR/prompts/sub-agents" ]
+@test "agent definitions directory exists" {
+    [ -d "$PROJECT_DIR/.opencode/agent" ]
 }
 
 @test "workflows directory exists" {

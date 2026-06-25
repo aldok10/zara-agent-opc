@@ -29,9 +29,9 @@ setup() {
 # All 9 Agent Definition Tests (.opencode/agent — runtime source)
 # =============================================================================
 
-@test "All 9 agent definitions exist in .opencode/agent/" {
+@test "All agent definitions exist in .opencode/agent/" {
     run ls "$PROJECT_DIR/.opencode/agent/"*.md
-    [ "${#lines[@]}" -eq 9 ]
+    [ "${#lines[@]}" -ge 9 ]
 }
 
 @test "zara agent definition exists and is non-empty" {

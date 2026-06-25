@@ -21,7 +21,7 @@ variables:
   GIT_DEPTH: 0
   GIT_STRATEGY: clone
   BUMP_SCRIPT: scripts/bump-version.sh
-  NODE_IMAGE: node:22-alpine
+  NODE_IMAGE: node:22-slim
 
 # =============================================================================
 # Lint stage — fast, cheap checks first

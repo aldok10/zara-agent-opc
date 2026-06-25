@@ -1,6 +1,7 @@
 import { FileStore } from '../infra/store.mjs';
 import { tool } from '@opencode-ai/plugin';
 import { execSync } from 'node:child_process';
+import { currentPhase, isAllowed, startGated, advancePhase, clearGate } from './phase-gate.mjs';
 
 const z = tool.schema;
 
@@ -344,6 +345,15 @@ export default function createFlow({ client, directory } = {}) {
     },
 
     dispose() {},
+
+    beforeTool(input) {
+      const toolName = input?.name || input?.tool || 'unknown';
+      if (!isAllowed(toolName)) {
+        const phase = currentPhase();
+        return { isError: true, output: `\u26a0\ufe0f Phase gate: currently in "${phase.phase}" phase for task "${phase.task}". File edits not allowed until "execute" phase. Use /focus advance to proceed.` };
+      }
+      return null;
+    },
 
     tools: {
       loop: tool({

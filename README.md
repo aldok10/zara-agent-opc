@@ -1,29 +1,47 @@
-# Zara - Personal Engineering Partner
+# Zara - Empathetic AI Engineering Partner
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![CI](https://github.com/aldok10/zara-agent-opc/actions/workflows/ci.yml/badge.svg)](https://github.com/aldok10/zara-agent-opc/actions/workflows/ci.yml)
+[![GitHub stars](https://img.shields.io/github/stars/aldok10/zara-agent-opc?style=social)](https://github.com/aldok10/zara-agent-opc)
+[![MCP Compatible](https://img.shields.io/badge/MCP-compatible-blue)](https://modelcontextprotocol.io)
+[![Node.js 22+](https://img.shields.io/badge/node-22%2B-green)](https://nodejs.org)
 
-Zara is a persistent, evolving AI engineering partner built for OpenCode. She combines empathetic orchestration with multi-agent coordination, continuous learning, and proactive intelligence. Speaks Indonesian, English, or mixed naturally.
+> **The AI agent that remembers, learns, and grows with you.** Not an assistant. A persistent engineering partner with cognitive memory, multi-agent orchestration, and empathetic leadership DNA.
 
-## What Zara Does
+Created by **[Aldo Karendra](https://github.com/aldok10)** | Built on [Model Context Protocol](https://modelcontextprotocol.io) + [OpenCode](https://opencode.ai)
 
-- Skill-enforced development methodology (brainstorming → planning → execution → verification)
-- 27 project skills + 100+ global skills with adaptive routing (132 signals across 32 skills)
-- Multi-agent coordination: 10 agents (Zara + 9 specialists)
-- Multi-agent debate for complex decisions (`/debate`)
-- Workspace memory: shared memory across agents
-- Context compression with protected tail segments
-- File-based progress tracking: design specs, plans, task ledgers
-- Persistent memory: 3-layer cognitive (episodic/semantic/procedural) with auto-capture
-- Knowledge-grounded: 254 DevIQ articles, 100+ global skills
-- Self-improving: outcome-weighted reflection, pattern extraction, crystallized micro-tools, blindspot detection
-- Proactive: doom-loop detection, skill suggestion, git context preloading
-- Trust-calibrated: source-gated ceilings, evidence-required success, temporal decay
-- Privacy-aware: MCP gateway with automatic data masking
+---
+
+## Why Zara?
+
+Most AI coding tools are stateless. Every session starts from zero. Zara is different:
+
+| Problem | Zara's Solution |
+|---------|----------------|
+| AI forgets everything between sessions | 3-layer cognitive memory (episodic/semantic/procedural) with temporal decay |
+| One-size-fits-all responses | Learns your preferences, stack, patterns. Adapts over time. |
+| Single-agent bottleneck | 10 coordinated agents with domain expertise and debate capability |
+| No methodology enforcement | Skill-gated workflow: brainstorm → plan → TDD → verify → ship |
+| Generic assistant tone | Empathetic orchestration with Radical Candor. Pushes back when needed. |
+| No learning from mistakes | Outcome-weighted reflection. Same mistake twice triggers systemic fix. |
+
+## Key Features
+
+- **Multi-Agent Orchestration** - 10 agents (Zara + 9 specialists) with servant leadership coordination
+- **Cognitive Memory** - 3-layer persistent memory with semantic embeddings (MiniLM-L6-v2, 384-dim)
+- **132-Signal Skill Routing** - 27 project skills + 100+ global skills, weight-adaptive from usage
+- **Self-Improving** - Outcome-weighted reflection, micro-tool crystallization, blindspot detection
+- **Knowledge-Grounded** - 254 indexed articles for architecture, patterns, and design decisions
+- **Trust-Calibrated** - Source-gated ceilings, evidence-required success claims, temporal decay
+- **MCP Server** - 24+ tools across 9 domains, stdio transport, zero external dependencies
+- **Privacy-Aware** - Automatic secrets detection, data masking, bulk-delete protection
+- **Multi-Agent Debate** - Agents argue positions before consensus on complex decisions
+- **Doom-Loop Detection** - Automatically detects retry patterns and forces strategy pivots
 
 ## Quick Start
 
 ```bash
-git clone <repo>
+git clone https://github.com/aldok10/zara-agent-opc.git
 cd zara-agent-opc
 npm install
 opencode --project .
@@ -32,35 +50,33 @@ opencode --project .
 **Requirements:**
 - **Node.js 22+** with FTS5 support (required by the MCP memory server)
 - Run `node --experimental-sqlite` to verify FTS5 is available
-- See [docs/installation.md](docs/installation.md) for Windows setup details
+- See [docs/installation.md](docs/installation.md) for detailed setup
 
-Sub-agents: `@atlas` (architect), `@lens` (code-reviewer), `@probe` (testing-lead), `@shield` (security-reviewer), `@pulse` (delivery-lead), `@rhythm` (loop-engineer), `@hive` (swarm), `@sketch` (plan), `@forge` (implementation)
+## Agents
+
+| Agent | Role | Trigger |
+|-------|------|---------|
+| `@atlas` | Architecture & system design | `/decide`, tradeoff analysis |
+| `@lens` | Code review & quality | `/review`, >50 line changes |
+| `@shield` | Security & threat modeling | Auth/crypto concerns |
+| `@probe` | Testing strategy | Coverage gaps, test design |
+| `@pulse` | Delivery & shipping | Blockers, tech debt |
+| `@rhythm` | Loop engineering | Iterative workflows, failure modes |
+| `@hive` | Swarm coordination | 3+ parallel tasks |
+| `@forge` | Implementation | Plan → code → verify → ship |
+| `@sketch` | Planning (read-only) | `/think`, design exploration |
 
 ## Development Methodology
 
-Skills trigger automatically based on context via adaptive routing:
+Skill-gated workflow enforced automatically:
 
 ```
-skill-gate → brainstorming → writing-plans → subagent-driven-dev/executing-plans → finishing-branch
-                                                    |
+skill-gate → brainstorming → writing-plans → subagent-driven-dev → finishing-branch
+                                                    │
                                                    tdd → verification-before-completion
 ```
 
-All work produces file artifacts:
-
-| Artifact | Location |
-|----------|----------|
-| Design specs | `docs/specs/YYYY-MM-DD-<topic>-design.md` |
-| Implementation plans | `docs/plans/YYYY-MM-DD-<feature>.md` |
-| Progress ledger | `.tasks/progress.md` |
-| Task briefs | `.tasks/task-{id}.md` |
-| Task reports | `.tasks/report-{id}.md` |
-
-Iron laws:
-- No code without a failing test first
-- No fixes without root cause investigation
-- No completion claims without fresh verification
-- No implementation without design approval
+**Iron laws:** No code without a failing test. No fixes without root cause. No completion claims without verification. No implementation without design.
 
 ## Project Structure
 
@@ -188,9 +204,57 @@ Safety rules enforced at code level (not just prompt):
 - Trust budget: max 5 positive trust adjustments per session
 - Reflection evidence: success claims without evidence auto-downgrade to partial
 
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                     Zara (Orchestrator)                  │
+│         Empathetic Leadership + Servant Coordination     │
+├─────────────────────────────────────────────────────────┤
+│  @atlas  @lens  @shield  @probe  @pulse  @rhythm  ...   │
+│              Specialist Agent Layer                      │
+├─────────────────────────────────────────────────────────┤
+│  Plugin System (11 modules)                             │
+│  observe│memory│flow│dev│social│evolve│empathy│voice│...│
+├─────────────────────────────────────────────────────────┤
+│  MCP Server (24+ tools, 9 domains)                     │
+│  memory│reflection│metrics│session│music│knowledge│...   │
+├─────────────────────────────────────────────────────────┤
+│  SQLite + FTS5 + Semantic Embeddings (MiniLM-L6-v2)    │
+└─────────────────────────────────────────────────────────┘
+```
+
 ## Documentation
 
-See `docs/` for: installation, architecture, configuration, skills reference, plugins, tools reference, memory system, workflows, prompts, FAQ.
+See `docs/` for: [installation](docs/installation.md), [architecture](docs/architecture.md), [configuration](docs/configuration.md), [skills reference](docs/skills.md), [plugins](docs/plugins.md), [tools reference](docs/tools-reference.md), [memory system](docs/memory.md), [workflows](docs/workflows.md), [FAQ](docs/faq.md).
+
+## Contributing
+
+Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+- Report bugs via [GitHub Issues](https://github.com/aldok10/zara-agent-opc/issues)
+- Suggest features via [Discussions](https://github.com/aldok10/zara-agent-opc/discussions)
+- Submit skills, knowledge articles, or agent improvements via PR
+
+## Citation
+
+If you use Zara in your research or project, please cite:
+
+```bibtex
+@software{karendra2026zara,
+  author = {Karendra, Aldo},
+  title = {Zara: Empathetic AI Engineering Partner with Cognitive Memory},
+  year = {2026},
+  url = {https://github.com/aldok10/zara-agent-opc},
+  license = {MIT}
+}
+```
+
+## Author
+
+**Aldo Karendra** ([@aldok10](https://github.com/aldok10))
+
+Building AI systems that grow with their users. Zara is the result of years of thinking about what AI companionship in engineering should look like: persistent, opinionated, caring, and self-improving.
 
 ## License
 

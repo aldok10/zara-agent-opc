@@ -27,7 +27,7 @@ function projectFile(dir) {
 }
 
 function scanProject(dir) {
-  const scan = { lang: [], entryPoints: [], configFiles: [], dirs: [], fileCount: 0, scannedAt: new Date().toISOString() };
+  const scan = { lang: [], entryPoints: [], configFiles: [], dirs: [], fileCount: 0, commands: [], scannedAt: new Date().toISOString() };
   try {
     const topFiles = fs.readdirSync(dir).filter(f => !f.startsWith('.') && f !== 'node_modules' && f !== 'vendor');
     for (const f of topFiles) {
@@ -61,7 +61,46 @@ function scanProject(dir) {
     }
     scan.lang = [...new Set(scan.lang)];
   } catch {}
+  scan.commands = discoverCommands(dir);
   return scan;
+}
+
+function discoverCommands(dir) {
+  const commands = [];
+
+  // package.json scripts
+  try {
+    const pkg = JSON.parse(fs.readFileSync(path.join(dir, 'package.json'), 'utf-8'));
+    if (pkg.scripts) {
+      for (const [name, cmd] of Object.entries(pkg.scripts)) {
+        commands.push({ name, cmd: `npm run ${name}`, source: 'package.json' });
+      }
+    }
+  } catch {}
+
+  // Makefile targets
+  try {
+    const makefile = fs.readFileSync(path.join(dir, 'Makefile'), 'utf-8');
+    const targets = makefile.match(/^([a-zA-Z_][a-zA-Z0-9_-]*):/gm) || [];
+    for (const t of targets) {
+      const name = t.replace(':', '');
+      if (!name.startsWith('.') && name !== 'all') {
+        commands.push({ name, cmd: `make ${name}`, source: 'Makefile' });
+      }
+    }
+  } catch {}
+
+  // Taskfile.yml
+  try {
+    const taskfile = fs.readFileSync(path.join(dir, 'Taskfile.yml'), 'utf-8');
+    const tasks = taskfile.match(/^\s{2}([a-zA-Z_][a-zA-Z0-9_-]*):/gm) || [];
+    for (const t of tasks) {
+      const name = t.trim().replace(':', '');
+      commands.push({ name, cmd: `task ${name}`, source: 'Taskfile.yml' });
+    }
+  } catch {}
+
+  return commands;
 }
 
 // ─── 8 Principles ──────────────────────────────────────────────────────────

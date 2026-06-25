@@ -75,7 +75,15 @@ done`;
     if (!hasCommand('yt-dlp')) return '\u274C yt-dlp not installed.';
     if (!hasCommand('ffplay')) return '\u274C ffplay not found.';
     const state = this.#getState();
-    const ytQuery = (query.includes('youtube.com') || query.includes('youtu.be')) ? query : `ytsearch1:${query}`;
+    let isYoutubeUrl = false;
+    try {
+      const parsed = new URL(query);
+      const host = parsed.hostname.toLowerCase();
+      isYoutubeUrl = host === 'youtube.com' || host.endsWith('.youtube.com') || host === 'youtu.be' || host.endsWith('.youtu.be');
+    } catch {
+      isYoutubeUrl = false;
+    }
+    const ytQuery = isYoutubeUrl ? query : `ytsearch1:${query}`;
     this.#killCurrent(state);
     const autoplay = enableAutoplay !== undefined ? enableAutoplay : state.autoplay;
 

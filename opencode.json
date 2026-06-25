@@ -17,7 +17,6 @@
     "plan": {
       "description": "Sketch — Zara's planning mode, analysis and design without changes",
       "mode": "primary",
-      "model": "claude-sonnet-4-20250514",
       "prompt": "{file:.opencode/agent/sketch.md}",
       "temperature": 0.2,
       "permission": {
@@ -28,7 +27,6 @@
     "architect": {
       "description": "Atlas — architecture specialist, system design, patterns, tradeoffs",
       "mode": "subagent",
-      "model": "claude-sonnet-4-20250514",
       "prompt": "{file:.opencode/agent/atlas.md}",
       "temperature": 0.2,
       "steps": 15,
@@ -40,7 +38,6 @@
     "code-reviewer": {
       "description": "Lens — code review specialist, quality, smells, refactoring",
       "mode": "subagent",
-      "model": "claude-sonnet-4-20250514",
       "prompt": "{file:.opencode/agent/lens.md}",
       "temperature": 0.1,
       "steps": 15,
@@ -52,7 +49,6 @@
     "testing-lead": {
       "description": "Probe — testing specialist, strategy, coverage, test design",
       "mode": "subagent",
-      "model": "claude-sonnet-4-20250514",
       "prompt": "{file:.opencode/agent/probe.md}",
       "temperature": 0.2,
       "steps": 15,
@@ -64,7 +60,6 @@
     "security-reviewer": {
       "description": "Shield — security specialist, threat modeling, secure design, auth",
       "mode": "subagent",
-      "model": "claude-sonnet-4-20250514",
       "prompt": "{file:.opencode/agent/shield.md}",
       "temperature": 0.1,
       "steps": 15,
@@ -76,7 +71,6 @@
     "delivery-lead": {
       "description": "Pulse — delivery specialist, shipping, velocity, tech debt",
       "mode": "subagent",
-      "model": "claude-sonnet-4-20250514",
       "prompt": "{file:.opencode/agent/pulse.md}",
       "temperature": 0.3,
       "steps": 15,
@@ -100,7 +94,6 @@
     "loop-engineer": {
       "description": "Rhythm — loop engineering partner, iterative workflows, verification, failure modes",
       "mode": "subagent",
-      "model": "claude-sonnet-4-20250514",
       "prompt": "{file:.opencode/agent/rhythm.md}",
       "temperature": 0.2,
       "steps": 15,

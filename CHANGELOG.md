@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2026-06-19
 
+## [0.3.3] - 2026-06-25
+
+### Maintenance
+- chore(ci): bump github/codeql-action from 3 to 4 (ec67965)
+
+### Other
+- Merge pull request #1 from aldok10/dependabot/github_actions/github/codeql-action-4 (a49a8d5)
+
+
 ## [0.3.2] - 2026-06-25
 
 ### Fixed

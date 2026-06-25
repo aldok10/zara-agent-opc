@@ -142,6 +142,12 @@ zara-agent-opc/
 
 See `docs/` for: [installation](docs/installation.md), [architecture](docs/architecture.md), [configuration](docs/configuration.md), [skills reference](docs/skills.md), [plugins](docs/plugins.md), [tools reference](docs/tools-reference.md), [memory system](docs/memory.md), [workflows](docs/workflows.md), [FAQ](docs/faq.md).
 
+## Support
+
+If you find Zara useful, consider supporting the project:
+
+[![Donate](https://img.shields.io/badge/Donate-SociaBuzz-orange)](https://sociabuzz.com/aldok10)
+
 ## Contributing
 
 Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.

@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2026-06-19
 
+## [0.4.1] - 2026-06-25
+
+### Maintenance
+- chore(ci): bump actions/checkout from 4 to 7 (bdd1a84)
+
+### Other
+- Merge pull request #2 from aldok10/dependabot/github_actions/actions/checkout-7 (f227b24)
+
+
 ## [0.4.0] - 2026-06-25
 
 ### Added

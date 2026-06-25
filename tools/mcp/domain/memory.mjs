@@ -50,25 +50,76 @@ class MemoryTools {
 
   async #handleRecall(args) {
     const layer = args.layer || 'all';
-    const results = [];
-    if (layer === 'all' || layer === 'semantic') {
-      let m;
-      try { m = await semanticRecallAsync(args.query, 5, { scope: args.scope, type: args.type }); }
-      catch { m = semanticRecall(args.query, 5, { scope: args.scope, type: args.type }); }
-      if (m.length) {
-        for (const r of m) { if (recalledKeys.size < 20) recalledKeys.add(r.key); }
-        results.push(m.map(r => `[${r.type || 'fact'}] ${r.key}: ${r.value}`).join('\n'));
+
+    // Single-layer mode: direct retrieval (no fusion needed)
+    if (layer !== 'all') {
+      const results = [];
+      if (layer === 'semantic') {
+        let m;
+        try { m = await semanticRecallAsync(args.query, 5, { scope: args.scope, type: args.type }); }
+        catch { m = semanticRecall(args.query, 5, { scope: args.scope, type: args.type }); }
+        if (m.length) {
+          for (const r of m) { if (recalledKeys.size < 20) recalledKeys.add(r.key); }
+          results.push(m.map(r => `[${r.type || 'fact'}] ${r.key}: ${r.value}`).join('\n'));
+        }
       }
+      if (layer === 'episodic') {
+        const m = episodicRecall(args.query, 5);
+        if (m.length) results.push(m.map(r => `[${r.ts?.split('T')[0]}] ${r.event}${r.outcome ? ' → ' + r.outcome : ''}`).join('\n'));
+      }
+      if (layer === 'procedural') {
+        const m = proceduralRecall(args.query, 3);
+        if (m.length) results.push(m.map(r => `${r.name}: ${JSON.parse(r.steps).join(' → ')}`).join('\n'));
+      }
+      return results.join('\n\n') || `No memories for "${args.query}"`;
     }
-    if (layer === 'all' || layer === 'episodic') {
-      const m = episodicRecall(args.query, 3);
-      if (m.length) results.push(m.map(r => `[${r.ts?.split('T')[0]}] ${r.event}${r.outcome ? ' → ' + r.outcome : ''}`).join('\n'));
+
+    // Multi-layer RRF (Reciprocal Rank Fusion) mode
+    // Retrieve from all layers, fuse rankings so items relevant across multiple layers rank higher
+    const K = 60; // RRF constant (standard value from original paper)
+    const fused = new Map(); // id -> { display, rrfScore, sources[], evidence }
+
+    // Semantic layer
+    let sem;
+    try { sem = await semanticRecallAsync(args.query, 8, { scope: args.scope, type: args.type }); }
+    catch { sem = semanticRecall(args.query, 8, { scope: args.scope, type: args.type }); }
+    for (let rank = 0; rank < sem.length; rank++) {
+      const r = sem[rank];
+      const id = `sem:${r.key}`;
+      if (recalledKeys.size < 20) recalledKeys.add(r.key);
+      const entry = fused.get(id) || { id, display: `[${r.type || 'fact'}] ${r.key}: ${r.value}`, rrfScore: 0, sources: [], evidence: { source: r.source, confidence: r.confidence, trust: r.trust_score, grounded: !!r.grounded, type: r.type } };
+      entry.rrfScore += 1 / (K + rank + 1);
+      entry.sources.push('semantic');
+      fused.set(id, entry);
     }
-    if (layer === 'all' || layer === 'procedural') {
-      const m = proceduralRecall(args.query, 3);
-      if (m.length) results.push(m.map(r => `${r.name}: ${JSON.parse(r.steps).join(' → ')}`).join('\n'));
+
+    // Episodic layer
+    const epi = episodicRecall(args.query, 5);
+    for (let rank = 0; rank < epi.length; rank++) {
+      const r = epi[rank];
+      const id = `epi:${r.id || r.event.slice(0, 40)}`;
+      const entry = fused.get(id) || { id, display: `[${r.ts?.split('T')[0]}] ${r.event}${r.outcome ? ' → ' + r.outcome : ''}`, rrfScore: 0, sources: [], evidence: { source: 'episodic', confidence: 0.9, type: 'episode' } };
+      entry.rrfScore += 1 / (K + rank + 1);
+      entry.sources.push('episodic');
+      fused.set(id, entry);
     }
-    return results.join('\n\n') || `No memories for "${args.query}"`;
+
+    // Procedural layer
+    const proc = proceduralRecall(args.query, 3);
+    for (let rank = 0; rank < proc.length; rank++) {
+      const r = proc[rank];
+      const id = `proc:${r.name}`;
+      const entry = fused.get(id) || { id, display: `${r.name}: ${JSON.parse(r.steps).join(' → ')}`, rrfScore: 0, sources: [], evidence: { source: 'procedural', confidence: 0.85, type: 'procedure' } };
+      entry.rrfScore += 1 / (K + rank + 1);
+      entry.sources.push('procedural');
+      fused.set(id, entry);
+    }
+
+    if (!fused.size) return `No memories for "${args.query}"`;
+
+    // Sort by RRF score (items appearing in multiple layers rank higher)
+    const ranked = [...fused.values()].sort((a, b) => b.rrfScore - a.rrfScore).slice(0, 8);
+    return ranked.map(r => r.display).join('\n');
   }
 
   #handleLearn(args) {

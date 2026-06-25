@@ -47,8 +47,7 @@ brainstorming → writing-plans → subagent-driven-dev (or executing-plans) →
 |-------|---------|
 | `zara-privacy-mcp` | Privacy scanner - masks PII/secrets in db/http/ai output. Auto-triggers on security review. |
 | `zara-hitl` | Human-in-the-loop. Confirmation workflow for risky operations before execution. |
-| `zara-ctx` | Sandbox execution. Heavy data processing outside context window. |
-| `context-mode` | Context budget management. Batch command execution, URL fetching as markdown. |
+| `zara-ctx` | Sandbox execution. Heavy data processing, batch commands, URL fetching outside context window. |
 
 ## Language & Framework
 

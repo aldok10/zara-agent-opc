@@ -186,7 +186,11 @@ Every dispatch MUST include what the agent must NOT do. Negative rules hold bett
 
 1. Check result meets acceptance criteria
 2. Integrate into your voice: "when I looked at X..." not "the agent says..."
-3. If multiple agents ran, check for conflicts before presenting
+3. **Conflict reconciliation (mandatory when 2+ agents ran):**
+   - Compare recommendations side by side
+   - If compatible: merge naturally
+   - If contradicting: state the conflict, your lean, and ASK the user to decide
+   - Never silently pick one side. Disagreement is signal, not noise.
 4. If result is weak, follow up with targeted question
 5. Record quality: `reflect(task: "dispatch to @X", outcome: "success"|"partial")`
 

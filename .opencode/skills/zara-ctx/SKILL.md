@@ -12,6 +12,13 @@ Use this skill when you need to:
 - Process files without reading their full content
 - Run multiple commands in one batch call
 - Fetch web content without raw HTML in context
+- Check what happened in a previous session after resume
+
+Do NOT use for:
+- Editing files (use Read/Edit directly)
+- Running tests or builds (use Shell directly)
+- Interactive commands (they'll hang)
+- Long-running commands (> 30s timeout)
 
 ## Available Tools
 
@@ -53,6 +60,7 @@ ctx_batch_execute([
 
 ### ctx_fetch(url)
 Fetch a URL and return content as markdown. Raw HTML never enters context.
+Cache: 24h default. Use `ttl: 0` to force refresh.
 
 ## The Core Rule
 

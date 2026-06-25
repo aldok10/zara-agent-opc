@@ -1,30 +1,204 @@
 {
-  "auto-resume": "6ccdee2d49bf658fdadf99c0c64ec40c53781220cd358de18955d38f8875bed5",
-  "brainstorming": "ff830a665438a37b4b5bd22b80d0f4552e4dc51efa0bcdfd007845ad26c83db6",
-  "code-review": "a4d57e29a7c7e2db615137cc53480d2bf46320de7a3f1fa3c01ef34d779a9bb7",
-  "codebase-onboarding": "b7a76b1c18371638745282b9c4c592b2bdb1cec0d34f45cebb646f82a072f70f",
-  "conventional-commits": "12a909a7e6c0589e033f51aaafa96aacc9b5ef62c6dd1e3f21d69ecf3dcec821",
-  "dispatching-parallel-agents": "d2e6c9bd8b00150d3ec463b2ff45354c3e1f1875dafb950e5536da0f4fc308a3",
-  "executing-plans": "f7459c6ecef3e3cc410ac8fe1e74cc44c05c59b939126675d8ee9102c6157b7a",
-  "finishing-branch": "da548b3ed5bb3a77061737e5179da80cc6dc025fa9f780c825c182061fcf6340",
-  "git-expert": "095d89682b86c6df5273511bc2213fe9a505c68b356b306a5a42abe4308e6c19",
-  "git-worktrees": "85e671ac83fb93871437029ef17d288a875fe4063d4ff7b50ff1e1b446cc3e94",
-  "golang-compare": "f1ac963e0a6144382801ac8df511679dd8e1e3a20f26672f36197e1f8126a6ee",
-  "golang-expert": "fba8b2cb525e822c0701a4ad2b361b2d8c32f21bd27c92ca4bc17a8f839b0ba1",
-  "leadership-expert": "4c03a71f44ef1d515c903a624d1c7ea905226c973ee691895d9807aea6179068",
-  "natural-voice": "07de8ade6d6ee09f568bb09d4234320f7771f25ba79a29dfd1a666dcd7284514",
-  "php-expert": "46cd9e7bdcfe74b6ba34969a69045a6f7363010f9dc9e15addafca2529c95e7d",
-  "php-extension-dev": "a91cd61a9fa494340e657711c8c36b403dee2d4369854bcdfa52544fe6073d14",
-  "reverse-engineering": "c2cfa8fbf46c1863c47df8fc2cab6dcb8e7c1d6f70983d0f51e4f926deb3475c",
-  "session-handoff": "fc4fcefd7d49169482ee32d8bc2afc23d469aa1ed15a02da4f5c0edb4afdb19e",
-  "skill-gate": "91d1a1fe22c577c90c3c2a4e85ea69870252c2228df723fac68b94c26c119e52",
-  "subagent-driven-dev": "1409e190b1023767261ba4d1f60d7d438da8f203b2b372af6f9172eda3a6a7e6",
-  "swig-expert": "10be136fffba422f01e50e76ae01093c0036d0e64de3a2682017074e7d0ef27c",
-  "systematic-debugging": "d6bbba78ea8613336fe5258fcbce80234b971920f59446ba5b81be88614a5908",
-  "tdd": "9dd9d0f835be5f102fe76b6087c238a2acde50562e95d094d36ae039379f65a6",
-  "verification-before-completion": "36c16341afbbdc18ad0f65e301eb7c6dfefe24dff7bfc0a27895e845e0e360c0",
-  "writing-plans": "378d3f4c5c0492a0633a0227d2d963c87539a8944fa15ec07bf8d379c196460a",
-  "zara-ctx": "59e5c2b6dd78405988a0e0bb6f1dc1a6b811dbb41deea1dbaa9869958159522c",
-  "zara-hitl": "ecc1dc690a327439085dbf7f583273c1c9bfe6ef5bfb6d4ad69b0edfaeeba2b4",
-  "zara-privacy-mcp": "6618b1cb4ade3adbd8a4a6b262fb876d0a849b21592d22563c68b6c6fc467f9b"
+  "auto-resume": {
+    "hash": "6ccdee2d49bf658fdadf99c0c64ec40c53781220cd358de18955d38f8875bed5",
+    "requires": [
+      "session-handoff"
+    ]
+  },
+  "brainstorming": {
+    "hash": "ff830a665438a37b4b5bd22b80d0f4552e4dc51efa0bcdfd007845ad26c83db6",
+    "requires": [
+      "writing-plans"
+    ]
+  },
+  "code-review": {
+    "hash": "a4d57e29a7c7e2db615137cc53480d2bf46320de7a3f1fa3c01ef34d779a9bb7",
+    "requires": [
+      "tdd",
+      "systematic-debugging",
+      "finishing-branch"
+    ]
+  },
+  "codebase-onboarding": {
+    "hash": "b7a76b1c18371638745282b9c4c592b2bdb1cec0d34f45cebb646f82a072f70f"
+  },
+  "conventional-commits": {
+    "hash": "12a909a7e6c0589e033f51aaafa96aacc9b5ef62c6dd1e3f21d69ecf3dcec821",
+    "requires": [
+      "git-expert",
+      "finishing-branch"
+    ]
+  },
+  "dispatching-parallel-agents": {
+    "hash": "d2e6c9bd8b00150d3ec463b2ff45354c3e1f1875dafb950e5536da0f4fc308a3",
+    "requires": [
+      "git-worktrees",
+      "subagent-driven-dev"
+    ]
+  },
+  "executing-plans": {
+    "hash": "f7459c6ecef3e3cc410ac8fe1e74cc44c05c59b939126675d8ee9102c6157b7a",
+    "requires": [
+      "subagent-driven-dev",
+      "tdd",
+      "finishing-branch",
+      "verification-before-completion",
+      "writing-plans",
+      "brainstorming"
+    ]
+  },
+  "finishing-branch": {
+    "hash": "da548b3ed5bb3a77061737e5179da80cc6dc025fa9f780c825c182061fcf6340",
+    "requires": [
+      "conventional-commits",
+      "git-expert",
+      "code-review"
+    ]
+  },
+  "git-expert": {
+    "hash": "095d89682b86c6df5273511bc2213fe9a505c68b356b306a5a42abe4308e6c19",
+    "requires": [
+      "conventional-commits",
+      "git-worktrees",
+      "finishing-branch"
+    ]
+  },
+  "git-worktrees": {
+    "hash": "85e671ac83fb93871437029ef17d288a875fe4063d4ff7b50ff1e1b446cc3e94",
+    "requires": [
+      "conventional-commits",
+      "finishing-branch",
+      "code-review"
+    ]
+  },
+  "golang-compare": {
+    "hash": "f1ac963e0a6144382801ac8df511679dd8e1e3a20f26672f36197e1f8126a6ee"
+  },
+  "golang-expert": {
+    "hash": "fba8b2cb525e822c0701a4ad2b361b2d8c32f21bd27c92ca4bc17a8f839b0ba1",
+    "requires": [
+      "tdd",
+      "code-review",
+      "systematic-debugging"
+    ]
+  },
+  "leadership-expert": {
+    "hash": "4c03a71f44ef1d515c903a624d1c7ea905226c973ee691895d9807aea6179068"
+  },
+  "natural-voice": {
+    "hash": "07de8ade6d6ee09f568bb09d4234320f7771f25ba79a29dfd1a666dcd7284514"
+  },
+  "php-expert": {
+    "hash": "46cd9e7bdcfe74b6ba34969a69045a6f7363010f9dc9e15addafca2529c95e7d",
+    "requires": [
+      "tdd",
+      "code-review",
+      "systematic-debugging",
+      "php-extension-dev"
+    ]
+  },
+  "php-extension-dev": {
+    "hash": "a91cd61a9fa494340e657711c8c36b403dee2d4369854bcdfa52544fe6073d14",
+    "requires": [
+      "php-expert",
+      "systematic-debugging",
+      "swig-expert",
+      "reverse-engineering"
+    ]
+  },
+  "reverse-engineering": {
+    "hash": "c2cfa8fbf46c1863c47df8fc2cab6dcb8e7c1d6f70983d0f51e4f926deb3475c",
+    "requires": [
+      "golang-expert",
+      "php-expert",
+      "systematic-debugging"
+    ]
+  },
+  "session-handoff": {
+    "hash": "fc4fcefd7d49169482ee32d8bc2afc23d469aa1ed15a02da4f5c0edb4afdb19e"
+  },
+  "skill-gate": {
+    "hash": "91d1a1fe22c577c90c3c2a4e85ea69870252c2228df723fac68b94c26c119e52",
+    "requires": [
+      "brainstorming",
+      "writing-plans",
+      "zara-privacy-mcp",
+      "tdd",
+      "finishing-branch",
+      "subagent-driven-dev",
+      "executing-plans",
+      "dispatching-parallel-agents",
+      "systematic-debugging",
+      "verification-before-completion",
+      "code-review",
+      "git-worktrees",
+      "git-expert",
+      "conventional-commits",
+      "golang-expert",
+      "golang-compare",
+      "php-expert",
+      "swig-expert",
+      "codebase-onboarding",
+      "leadership-expert",
+      "natural-voice",
+      "session-handoff",
+      "auto-resume",
+      "zara-ctx",
+      "zara-hitl"
+    ]
+  },
+  "subagent-driven-dev": {
+    "hash": "1409e190b1023767261ba4d1f60d7d438da8f203b2b372af6f9172eda3a6a7e6",
+    "requires": [
+      "finishing-branch",
+      "git-worktrees",
+      "writing-plans",
+      "code-review",
+      "tdd",
+      "verification-before-completion",
+      "executing-plans"
+    ]
+  },
+  "swig-expert": {
+    "hash": "10be136fffba422f01e50e76ae01093c0036d0e64de3a2682017074e7d0ef27c"
+  },
+  "systematic-debugging": {
+    "hash": "d6bbba78ea8613336fe5258fcbce80234b971920f59446ba5b81be88614a5908",
+    "requires": [
+      "tdd",
+      "code-review"
+    ]
+  },
+  "tdd": {
+    "hash": "9dd9d0f835be5f102fe76b6087c238a2acde50562e95d094d36ae039379f65a6",
+    "requires": [
+      "systematic-debugging",
+      "verification-before-completion"
+    ]
+  },
+  "verification-before-completion": {
+    "hash": "0978304fa638e6c137f032d7f55d36285c8c9aaa381ec1a8497b4f3a5b1e5562",
+    "requires": [
+      "finishing-branch",
+      "code-review"
+    ]
+  },
+  "writing-plans": {
+    "hash": "378d3f4c5c0492a0633a0227d2d963c87539a8944fa15ec07bf8d379c196460a",
+    "requires": [
+      "subagent-driven-dev",
+      "executing-plans",
+      "brainstorming",
+      "dispatching-parallel-agents"
+    ]
+  },
+  "zara-ctx": {
+    "hash": "59e5c2b6dd78405988a0e0bb6f1dc1a6b811dbb41deea1dbaa9869958159522c"
+  },
+  "zara-hitl": {
+    "hash": "ecc1dc690a327439085dbf7f583273c1c9bfe6ef5bfb6d4ad69b0edfaeeba2b4"
+  },
+  "zara-privacy-mcp": {
+    "hash": "6618b1cb4ade3adbd8a4a6b262fb876d0a849b21592d22563c68b6c6fc467f9b"
+  }
 }

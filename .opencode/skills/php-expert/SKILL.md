@@ -131,3 +131,4 @@ Multiple subskills OK. Load only what's needed.
 | Implementing feature/fix | `tdd` |
 | Need code review | `code-review` |
 | Bug or test failure | `systematic-debugging` |
+| PHP extension dev, C/Zend API, PECL, phpize, config.m4 | `php-extension-dev` |

@@ -83,6 +83,7 @@ verify-tag:
     - bump-version
   script:
     - apk add --no-cache git
+    - git fetch --tags origin
     - |
       LATEST_TAG=$(git tag --sort=-v:refname | head -1)
       echo "Latest tag after release: $LATEST_TAG"

@@ -5,6 +5,8 @@ import fs from 'fs';
 import path from 'path';
 import { tool } from '@opencode-ai/plugin';
 import { FileStore, HOME, estimateTokens, ensure, loadJson, saveJson, contextPressure as sharedPressure } from '../infra/store.mjs';
+import { getTeam, listTeams } from './teams.mjs';
+import { spawnBackground, backgroundStatus, collectBackground, pendingCount } from './background.mjs';
 
 const z = tool.schema;
 
@@ -562,6 +564,24 @@ export default function createEvolve({ client, directory } = {}) {
         },
       }),
 
+      // ── Team Tools ──────────────────────────────────────────────────────
+
+      zara_team: tool({
+        description: 'List or select a pre-built agent team for coordinated work (review, ship, design, security, full)',
+        args: {
+          name: z.string().optional().describe('Team name: review, ship, design, security, full. Omit to list all.'),
+        },
+        async execute(args) {
+          if (!args.name) {
+            const teams = listTeams();
+            return { output: `## Available Teams\n\n${teams.map(t => `- **${t.key}** (${t.name}): ${t.agents.join(', ')} [${t.handoff}]`).join('\n')}` };
+          }
+          const team = getTeam(args.name);
+          if (!team) return { output: `Unknown team "${args.name}". Available: review, ship, design, security, full` };
+          return { output: `## Team: ${team.name}\n\nAgents: ${team.agents.join(', ')}\nHandoff: ${team.handoff}\nGoal: ${team.goal}\n\nDispatch these agents for the current task.` };
+        },
+      }),
+
       // ── Swarm Tools ─────────────────────────────────────────────────────
 
       swarm_create_epic: tool({
@@ -953,6 +973,43 @@ export default function createEvolve({ client, directory } = {}) {
         async execute() {
           saveScratch(scratchFilepath, { notes: [], plan: null });
           return { output: 'Scratchpad cleared.' };
+        },
+      }),
+
+      // ── Background Agent Tools ──────────────────────────────────────────
+
+      zara_background: tool({
+        description: 'Spawn a background agent task (non-blocking). Fire and forget. Check results later with zara_background_status.',
+        args: {
+          agent: z.string().describe('Agent to dispatch (e.g., architect, testing-lead)'),
+          prompt: z.string().describe('Task prompt for the agent'),
+        },
+        async execute(args, ctx) {
+          if (!client) return { output: 'No client available for background dispatch.' };
+          const sessionID = ctx?.sessionID;
+          if (!sessionID) return { output: 'No session context for background dispatch.' };
+          const result = spawnBackground(client, sessionID, args.agent, args.prompt);
+          if (result.error) return { output: `Error: ${result.error}` };
+          return { output: `Background task ${result.id} started: @${result.agent} is working on it.` };
+        },
+      }),
+
+      zara_background_status: tool({
+        description: 'Check status of background agent tasks. Collect results from completed tasks.',
+        args: {
+          collect: z.string().optional().describe('Task ID to collect result from (e.g., bg-1)'),
+        },
+        async execute(args) {
+          if (args.collect) {
+            const result = collectBackground(args.collect);
+            if (result.error) return { output: `Error: ${result.error}` };
+            if (result.status === 'still running') return { output: `Task ${args.collect} still running (${Math.round(result.elapsed / 1000)}s elapsed)` };
+            return { output: `## Background Result: ${result.agent}\n\n${(result.result || result.error || 'no output').slice(0, 2000)}` };
+          }
+          const status = backgroundStatus();
+          if (!status.length) return { output: 'No background tasks.' };
+          const lines = status.map(t => `- ${t.id} (@${t.agent}): ${t.done ? 'done' : `running ${Math.round(t.elapsed / 1000)}s`}${t.error ? ` [error: ${t.error}]` : ''}`);
+          return { output: `## Background Tasks (${pendingCount()} pending)\n\n${lines.join('\n')}` };
         },
       }),
     },

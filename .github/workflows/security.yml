@@ -49,3 +49,7 @@ jobs:
             npm audit --production || echo "Vulnerabilities found (non-blocking)"
           fi
         continue-on-error: true
+
+      - name: Run Dependency Review
+        uses: actions/dependency-review-action@v4
+        if: github.event_name == 'pull_request'

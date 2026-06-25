@@ -76,7 +76,7 @@ test:unit:
   before_script:
     - npm ci --ignore-scripts 2>/dev/null || npm install --ignore-scripts
   script:
-    - node --test tests/*.test.mjs
+    - node --test --test-concurrency=1 tests/*.test.mjs
 
 test:structure:
   stage: test

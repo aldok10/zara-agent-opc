@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2026-06-19
 
+## [0.4.0] - 2026-06-25
+
+### Added
+- feat(ci): re-enable dependency-review-action (Dependency Graph now active) (79265f0)
+- feat(ci): add GitHub→GitLab reverse sync workflow (17e84b1)
+
+### Fixed
+- fix(ci): remove dependency-review-action (requires Dependency Graph enabled) (50eaece)
+
+### Other
+- Merge branch 'fix/ci-remove-dep-review' into 'main' (af37402)
+
+
 ## [0.3.2] - 2026-06-25
 
 ### Fixed

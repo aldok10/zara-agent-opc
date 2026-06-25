@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { HOME, loadJson, saveJson } from '../infra.mjs';
-import { dreamConsolidate, detectContradictions } from '../../memory-db.mjs';
+import { dreamConsolidate, detectContradictions, detectContradictionsAsync } from '../../memory-db.mjs';
 import { resolveBest, discoverAll, persistIdentity } from './identity.mjs';
 
 class SessionTools {
@@ -74,7 +74,7 @@ class SessionTools {
     return lines.join('\n');
   }
 
-  #handleSessionLog(args) {
+  async #handleSessionLog(args) {
     const file = path.join(HOME, 'session.json');
     const session = loadJson(file, { active: false, startedAt: null, context: '', totalToday: 0 });
 
@@ -103,8 +103,7 @@ class SessionTools {
       session.lastEnded = new Date().toISOString();
       saveJson(file, session);
 
-      // Deterministic session-end maintenance: consolidation only.
-      // Contradiction scan disabled (2167 false positives, trigram-based, needs semantic upgrade).
+      // Deterministic session-end maintenance: consolidation + contradiction scan.
       let maintenance = '';
       try {
         const r = dreamConsolidate();
@@ -112,6 +111,15 @@ class SessionTools {
         if (r.merged || r.archived || r.reinforced) bits.push(`${r.merged} merged, ${r.archived} archived, ${r.reinforced} promoted`);
         if (bits.length) maintenance = `\nMemory maintained: ${bits.join('; ')}.`;
       } catch (e) { process.stderr.write(`[mcp:session] end-of-session consolidation failed: ${e.message}\n`); }
+
+      // Contradiction scan: async/semantic with high threshold to avoid false positives
+      try {
+        const conflicts = await detectContradictionsAsync(0.95);
+        if (conflicts.length > 0) {
+          const top = conflicts.slice(0, 3).map(c => `  - "${c.a}" vs "${c.b}" (sim: ${c.sim.toFixed(2)})`).join('\n');
+          maintenance += `\n⚠️ ${conflicts.length} potential contradiction(s):\n${top}`;
+        }
+      } catch { /* embedder unavailable, skip silently */ }
 
       return `Session ended. Duration: ${mins}min. Total today: ${session.totalToday}min.${maintenance}`;
     }

@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { createHash } from 'crypto';
 
 // Resolve project root from this module's location (tools/mcp/domain → project root)
 const PROJECT_ROOT = path.resolve(new URL('.', import.meta.url).pathname, '../../..');
@@ -15,6 +16,11 @@ class SelfAuditTools {
         description: 'Audit Zara config integrity: agents declared in opencode.json vs prompt files on disk, plugin modules imported vs present, MCP domain count, and orphaned references. Returns actionable findings. Run periodically to catch config drift.',
         inputSchema: { type: 'object', properties: { map: { type: 'boolean', description: 'Also emit a capability map: every MCP domain, plugin module, and agent available.' } } },
         handler: (args) => this.#handleAudit(args),
+      },
+      zara_skill_integrity: {
+        description: 'Check skill file integrity: generate or verify SHA-256 hashes of all project skills. Use action=generate to create manifest, action=verify to check against it.',
+        inputSchema: { type: 'object', properties: { action: { type: 'string', enum: ['generate', 'verify'], description: 'generate = create manifest, verify = check against existing' } }, required: ['action'] },
+        handler: (args) => this.#handleSkillIntegrity(args),
       },
     };
   }
@@ -97,6 +103,44 @@ class SelfAuditTools {
       mapLine = '\n\n' + await this.#capabilityMap();
     }
     return header + okLine + findLine + mapLine;
+  }
+
+  #handleSkillIntegrity(args) {
+    const skillDir = path.join(PROJECT_ROOT, '.opencode/skills');
+    const manifestPath = path.join(PROJECT_ROOT, '.opencode/skill-manifest.json');
+
+    // Collect all skill hashes
+    const current = {};
+    try {
+      for (const name of fs.readdirSync(skillDir)) {
+        const skillFile = path.join(skillDir, name, 'SKILL.md');
+        if (fs.existsSync(skillFile)) {
+          const content = fs.readFileSync(skillFile);
+          current[name] = createHash('sha256').update(content).digest('hex');
+        }
+      }
+    } catch (e) { return `Error reading skills: ${e.message}`; }
+
+    if (args.action === 'generate') {
+      fs.writeFileSync(manifestPath, JSON.stringify(current, null, 2) + '\n');
+      return `Manifest generated: ${Object.keys(current).length} skills hashed → .opencode/skill-manifest.json`;
+    }
+
+    // Verify mode
+    if (!fs.existsSync(manifestPath)) {
+      return `No manifest found. Run with action=generate first.`;
+    }
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
+    const issues = [];
+    for (const [name, hash] of Object.entries(manifest)) {
+      if (!current[name]) issues.push(`MISSING: ${name} (in manifest but not on disk)`);
+      else if (current[name] !== hash) issues.push(`MODIFIED: ${name}`);
+    }
+    for (const name of Object.keys(current)) {
+      if (!manifest[name]) issues.push(`NEW: ${name} (on disk but not in manifest)`);
+    }
+    if (!issues.length) return `Skill integrity: clean ✓ (${Object.keys(manifest).length} skills verified)`;
+    return `Skill integrity: ${issues.length} issue(s)\n${issues.map(i => `  ⚠️ ${i}`).join('\n')}`;
   }
 
   // Enumerate every capability the agent can actually invoke, so nothing

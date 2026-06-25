@@ -174,6 +174,11 @@ Every dispatch MUST include what the agent must NOT do. Negative rules hold bett
 | rhythm | Loop pattern named, verification gates defined, stop conditions set |
 | hive | Workers non-overlapping, acceptance criteria per worker, synthesis complete |
 
+**Completeness check (post-dispatch, mandatory):**
+- If agent output ends mid-sentence or lacks the completeness signal from AGENTS.md Output Contracts table: treat as PARTIAL. Re-dispatch with narrower scope.
+- If agent output says "Needs more context" or "Blocked": provide the missing info or handle directly.
+- Never present partial/truncated agent output to user as final answer.
+
 ### 6. Context Isolation
 
 - Always use `task()` to create a fresh context. Never paste into current conversation.

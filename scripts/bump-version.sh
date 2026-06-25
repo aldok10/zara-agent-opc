@@ -67,30 +67,17 @@ fi
 log "Fetching tags from $REMOTE..."
 git fetch --tags "$REMOTE" 2>/dev/null || warn "Could not fetch tags (continuing)"
 
-# ---- Get current version ----
-if [ -f "$VERSION_FILE" ]; then
-  CURRENT_VERSION=$(python3 -c "
-import json
-with open('$VERSION_FILE') as f:
-    d = json.load(f)
-print(d['version'])
-" 2>/dev/null) || CURRENT_VERSION="0.1.0"
-else
-  CURRENT_VERSION="0.1.0"
-  warn "No $VERSION_FILE found — defaulting to $CURRENT_VERSION"
-fi
-log "Current version (from $VERSION_FILE): v$CURRENT_VERSION"
-
-# ---- Find latest tag ----
+# ---- Get current version (from latest git tag, the source of truth) ----
 LATEST_TAG=$(git tag --sort=-v:refname | head -1)
 BASE_TAG=""
 
 if [ -z "$LATEST_TAG" ]; then
-  log "No tags found — using v$CURRENT_VERSION as base"
-  LATEST_TAG="v$CURRENT_VERSION"
+  CURRENT_VERSION="0.0.0"
+  log "No tags found — starting from v$CURRENT_VERSION"
   BASE_TAG=""
 else
-  log "Latest tag: $LATEST_TAG"
+  CURRENT_VERSION="${LATEST_TAG#v}"
+  log "Current version (from tag): v$CURRENT_VERSION"
   BASE_TAG="$LATEST_TAG"
 fi
 
@@ -127,19 +114,21 @@ while IFS= read -r line; do
   msg=$(echo "$line" | sed 's/^[0-9a-f]\{7,40\} //')
 
   # Check for breaking changes: "BREAKING CHANGE:" in body or "!:" in subject
-  if echo "$msg" | grep -qiE '^BREAKING CHANGE|!:' || echo "$msg" | grep -qiE 'BREAKING CHANGE'; then
+  if echo "$msg" | grep -qiE '^BREAKING CHANGE|!:'; then
     MAJOR=true
   elif echo "$msg" | grep -qiE '^feat[(:]'; then
     MINOR=true
-  elif echo "$msg" | grep -qiE '^fix[(:]'; then
-    PATCH=true
-  elif echo "$msg" | grep -qiE '^perf[(:]'; then
-    PATCH=true
-  else
-    # chore, docs, refactor, test, ci, style, build, etc. → patch
+  elif echo "$msg" | grep -qiE '^fix[(:]|^perf[(:]'; then
     PATCH=true
   fi
+  # chore, docs, refactor, test, ci, style, build → intentionally no bump
 done <<< "$COMMITS"
+
+# Skip release if only non-functional commits
+if [ "$MAJOR" = false ] && [ "$MINOR" = false ] && [ "$PATCH" = false ]; then
+  log "Only non-functional commits (chore/docs/ci/test/style/build/refactor). Skipping release."
+  exit 0
+fi
 
 # ---- Calculate new version ----
 IFS='.' read -ra PARTS <<< "$CURRENT_VERSION"

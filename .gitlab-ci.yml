@@ -2,7 +2,7 @@
 # Zara Agent — GitLab CI/CD Pipeline
 #
 # MR: lint + test (fast feedback)
-# Main: lint + test + release (bump version, changelog, tag)
+# Main: lint + test + release (bump version, changelog, tag) + mirror to GitHub
 # =============================================================================
 
 workflow:
@@ -145,5 +145,19 @@ verify-tag:
         exit 1
       fi
       echo "Release verified: $LATEST_TAG"
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+mirror-github:
+  stage: release
+  image: bash:5
+  needs:
+    - bump-version
+  script:
+    - apk add --no-cache git
+    - git fetch --tags origin
+    - git remote add github "https://x-access-token:${GITHUB_TOKEN}@github.com/aldok10/zara-agent-opc.git"
+    - git push github "HEAD:refs/heads/$CI_DEFAULT_BRANCH" --follow-tags --force
+    - echo "Mirrored to GitHub with tags"
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

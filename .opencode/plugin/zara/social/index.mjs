@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import os from 'os';
 import { tool } from '@opencode-ai/plugin';
-import { FileStore, HOME } from '../infra/store.mjs';
+import { FileStore, HOME, contextPressure } from '../infra/store.mjs';
 
 const z = tool.schema;
 
@@ -261,6 +261,9 @@ const allTools = {
 export default function createSocial({ client, directory } = {}) {
   return {
     inject(messages) {
+      // Shed social injection under high pressure (>70%)
+      if (contextPressure.level > 0.70) return messages;
+
       leadership.countInteraction();
       const p = leadership.loadProfile();
       const lines = [];

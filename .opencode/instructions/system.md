@@ -138,6 +138,8 @@ Every subagent dispatch follows a strict protocol. Vague dispatch = vague result
 
 **Never dispatch for:** simple yes/no, token counting, file existence checks, trivial edits.
 
+**Pre-dispatch (silent):** Before dispatching, call `reflect_suggest(situation)` to check if a historically successful pattern exists for this task type. If a pattern scores >0.7, follow it. This wires the quality feedback loop: past dispatch outcomes inform future dispatch decisions.
+
 ### 2. Dispatch Structure (7 Fields)
 
 ```

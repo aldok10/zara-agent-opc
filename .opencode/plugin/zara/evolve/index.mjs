@@ -4,7 +4,7 @@
 import fs from 'fs';
 import path from 'path';
 import { tool } from '@opencode-ai/plugin';
-import { FileStore, HOME, estimateTokens, ensure, loadJson, saveJson } from '../infra/store.mjs';
+import { FileStore, HOME, estimateTokens, ensure, loadJson, saveJson, contextPressure as sharedPressure } from '../infra/store.mjs';
 
 const z = tool.schema;
 
@@ -237,6 +237,7 @@ export default function createEvolve({ client, directory } = {}) {
       contextPressure.estimatedTokens = totalTokens;
       contextPressure.pressure = totalTokens / CONTEXT_WINDOW;
       contextPressure.lastCheck = new Date().toISOString();
+      sharedPressure.level = contextPressure.pressure;
 
       if (contextPressure.pressure > PRESSURE_COMPACT) {
         const cutoff = messages.length - 10;

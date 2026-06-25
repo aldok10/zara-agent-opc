@@ -123,7 +123,7 @@ bump-version:
   script:
     - |
       bash "$BUMP_SCRIPT" \
-        --token "${CI_JOB_TOKEN}" \
+        --token "${RELEASE_TOKEN}" \
         --remote "origin" \
         --branch "${CI_DEFAULT_BRANCH}"
   rules:

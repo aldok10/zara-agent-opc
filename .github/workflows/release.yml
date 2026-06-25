@@ -1,0 +1,39 @@
+name: Release (from mirror)
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract notes from CHANGELOG
+        id: notes
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          NOTES=""
+          if [ -f CHANGELOG.md ]; then
+            NOTES=$(awk "/^## \\[${VERSION}\\]/,/^## \\[/" CHANGELOG.md | head -n -1 | sed '1d')
+          fi
+          if [ -z "$NOTES" ]; then
+            PREV=$(git tag --sort=-v:refname | sed -n '2p')
+            [ -n "$PREV" ] && NOTES=$(git log "$PREV..HEAD" --oneline --no-decorate | sed 's/^/- /')
+          fi
+          echo "notes<<EOF" >> $GITHUB_OUTPUT
+          echo "${NOTES:-Release $GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          body: ${{ steps.notes.outputs.notes }}
+          generate_release_notes: true

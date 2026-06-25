@@ -278,6 +278,33 @@ export default function createEvolve({ client, directory } = {}) {
         }
       }
 
+      // 4. Self-improvement cycles (pending improvements from loops)
+      try {
+        const pendingFile = path.join(HOME, 'pending-improvements.json');
+        if (fs.existsSync(pendingFile)) {
+          const pending = loadJson(pendingFile, []);
+          const due = pending.filter(p => p.type === 'self-improve' && p.status === 'pending');
+          if (due.length > 0) {
+            const last = messages[messages.length - 1];
+            if (last && last.role === 'system') {
+              last.content += '\n\n## 🔄 Self-Improvement Due\n' +
+                `You have ${due.length} self-improvement cycle(s) pending. Each cycle runs every 3 hours to auto-improve Zara.\n` +
+                '→ Run `zara_self_improve(phase: "observe")` to see what needs fixing.\n' +
+                '→ Or `loop start "self-improvement cycle" 3h` for autonomous execution.\n' +
+                '→ Or `zara_self_improve(phase: "full")` to run the self-improvement workflow.\n';
+            } else {
+              messages.push({ role: 'system', content: '\n## 🔄 Self-Improvement Due\n' +
+                `You have ${due.length} self-improvement cycle(s) pending. Each cycle runs every 3 hours to auto-improve Zara.\n` +
+                '→ Run `zara_self_improve(phase: "observe")` to see what needs fixing.\n' +
+                '→ Or `loop start "self-improvement cycle" 3h` for autonomous execution.\n' +
+                '→ Or `zara_self_improve(phase: "full")` to run the self-improvement workflow.\n' });
+            }
+          }
+        }
+      } catch (e) {
+        process.stderr.write(`[zara-evolve] pending improvements error: ${e.message}\n`);
+      }
+
       return messages;
     },
 

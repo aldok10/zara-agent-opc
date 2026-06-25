@@ -1,7 +1,8 @@
 {
-  "version": "0.5.2",
+  "version": "1.0.0",
   "name": "zara-agent-opc",
-  "description": "Zara \u2014 empathetic AI orchestrator for OpenCode",
-  "remote": "gitlab.com/aldo_k/zara-agent-opc",
-  "updated": "2026-06-25"
+  "description": "Zara — empathetic AI orchestrator for OpenCode",
+  "author": "Aldo Karendra <https://github.com/aldok10>",
+  "remote": "github.com/aldok10/zara-agent-opc",
+  "updated": "2026-06-26"
 }

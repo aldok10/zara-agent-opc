@@ -1,0 +1,38 @@
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  "name": "Zara Agent",
+  "alternateName": "zara-agent-opc",
+  "description": "Empathetic AI engineering partner with cognitive memory, multi-agent orchestration, and self-improving reflection loops. Built on Model Context Protocol.",
+  "url": "https://github.com/aldok10/zara-agent-opc",
+  "codeRepository": "https://github.com/aldok10/zara-agent-opc",
+  "programmingLanguage": ["JavaScript", "Markdown"],
+  "runtimePlatform": "Node.js 22+",
+  "license": "https://opensource.org/licenses/MIT",
+  "author": {
+    "@type": "Person",
+    "name": "Aldo Karendra",
+    "url": "https://github.com/aldok10",
+    "sameAs": [
+      "https://github.com/aldok10",
+      "https://www.linkedin.com/in/aldok10/"
+    ]
+  },
+  "dateCreated": "2026-01-01",
+  "dateModified": "2026-06-26",
+  "version": "1.0.0",
+  "keywords": [
+    "ai-agent",
+    "multi-agent-system",
+    "model-context-protocol",
+    "mcp-server",
+    "cognitive-memory",
+    "semantic-embeddings",
+    "self-improving-ai",
+    "developer-tools",
+    "agent-orchestration",
+    "opencode"
+  ],
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Cross-platform"
+}

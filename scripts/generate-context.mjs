@@ -95,6 +95,37 @@ function generateStructure() {
   }
 
   out += '\n**Key files:** `opencode.json` (agent config), `version.json` (version), `.gitlab-ci.yml` (CI pipeline)\n';
+
+  // Cross-references: find hub files (most imported by others)
+  const importCounts = {};
+  function scanImports(dir) {
+    try {
+      for (const entry of fs.readdirSync(path.join(ROOT, dir), { recursive: true })) {
+        const full = path.join(dir, entry);
+        if (!full.endsWith('.mjs') && !full.endsWith('.js') && !full.endsWith('.ts')) continue;
+        const content = read(full);
+        if (!content) continue;
+        const imports = [...content.matchAll(/from\s+['"]([^'"]+)['"]/g)];
+        for (const m of imports) {
+          if (m[1].startsWith('.')) {
+            const resolved = path.normalize(path.join(path.dirname(full), m[1])).replace(/\\/g, '/');
+            importCounts[resolved] = (importCounts[resolved] || 0) + 1;
+          }
+        }
+      }
+    } catch {}
+  }
+  scanImports('tools');
+  scanImports('.opencode/plugin');
+
+  const hubs = Object.entries(importCounts).sort((a, b) => b[1] - a[1]).slice(0, 5).filter(([, c]) => c >= 3);
+  if (hubs.length) {
+    out += '\n## Hub Files (most imported)\n\n';
+    for (const [file, count] of hubs) {
+      out += `- \`${file}\` (${count} importers)\n`;
+    }
+  }
+
   fs.writeFileSync(path.join(CTX, 'STRUCTURE.md'), out);
 }
 
@@ -149,6 +180,23 @@ function generateEntryPoints() {
     out += `\n## Recent Activity (7 days)\n\n`;
     for (const line of recent.split('\n').filter(Boolean).slice(0, 10)) {
       out += `- ${line.replace(/^[0-9a-f]+ /, '')}\n`;
+    }
+  }
+
+  // Hot paths: most-changed files in last 30 days
+  const hotFiles = git('log', '--format=', '--name-only', '--since=30 days ago', 'HEAD');
+  if (hotFiles) {
+    const counts = {};
+    for (const f of hotFiles.split('\n').filter(Boolean)) {
+      if (f.startsWith('.') || f.includes('node_modules') || f === 'CHANGELOG.md' || f === 'version.json') continue;
+      counts[f] = (counts[f] || 0) + 1;
+    }
+    const top = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 8);
+    if (top.length) {
+      out += `\n## Hot Paths (most changed, 30 days)\n\n`;
+      for (const [file, count] of top) {
+        out += `- \`${file}\` (${count}x)\n`;
+      }
     }
   }
 

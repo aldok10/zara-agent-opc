@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2026-06-19
 
+## [0.5.0] - 2026-06-25
+
+### Added
+- feat(tools): add .context/ generator for AI-friendly project onboarding (5c2da85)
+
+### Fixed
+- fix(tools): clean architecture extraction, avoid truncated diagrams (93d3f91)
+
+### Changed
+- refactor(tools): add hub files, hot paths, and improve onboarding skill (b185106)
+- refactor(tools): optimize context generator based on research (c09fdc2)
+
+### Other
+- Merge branch 'feat/project-context-generator' into 'main' (6071467)
+
+
 ## [0.4.2] - 2026-06-25
 
 ### Fixed

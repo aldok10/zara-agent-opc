@@ -77,6 +77,33 @@ Before pushing, verify:
 - NEVER rebase a branch that others are working on
 - NEVER claim "done" without verifying branch state
 
+## CI/CD Bot Identity
+
+When configuring CI pipelines to comment or push as a bot:
+
+**GitLab:**
+- Create Project Access Token (Settings > Access tokens): name it "Zara Bot", Maintainer role, scopes: api + write_repository
+- Store as CI variable `RELEASE_TOKEN` (masked, protected)
+- Commits/comments appear as `@zara_bot_project_<id>_bot`
+- git config in CI: `user.name "zara-bot"`, `user.email "zara@zara-agent-opc"`
+
+**GitHub:**
+- Built-in `GITHUB_TOKEN` appears as `github-actions[bot]` (cannot rename)
+- For custom bot: create a GitHub App (not PAT)
+- Store GitLab token as `GITLAB_TOKEN` secret for reverse sync
+- Encrypt secrets for GitHub API: requires `pynacl` (SealedBox with repo public key)
+
+**Cross-platform mirroring:**
+- GitLab to GitHub: `mirror-github` job after release, uses `GITHUB_TOKEN` PAT
+- GitHub to GitLab: `sync-gitlab.yml` workflow on push to main, uses `GITLAB_TOKEN`
+- Loop prevention: skip if `github.actor != 'zara-bot'` (GitHub) / commit message check (GitLab)
+
+**Push to protected branches from CI (GitLab):**
+- `CI_JOB_TOKEN` cannot push to protected branches
+- Use Project Access Token with Maintainer role instead
+- Remote URL in CI has existing auth: strip with `sed -E 's|https?://([^@]+@)?||'` before injecting token
+- Detached HEAD: use `HEAD:refs/heads/main` refspec (not branch name)
+
 ## Related Skills
 
 | When | Load |

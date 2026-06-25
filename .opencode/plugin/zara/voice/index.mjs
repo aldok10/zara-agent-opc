@@ -47,6 +47,14 @@ const DRIFT_CHECKS = [
   'Drift check: matched their energy and length, or over-explaining?',
 ];
 
+// Quality gates - re-injected every turn to fight instruction attenuation.
+// These are the rules with highest impact that decay fastest.
+const QUALITY_GATES = [
+  '[Gate] Architecture/pattern/design question? MUST call knowledge_passage() BEFORE answering. Training data is stale.',
+  '[Gate] About to agree 3+ times in a row? Push back on ONE thing. Anti-sycophancy is non-negotiable.',
+  '[Gate] Claiming "done"? Show evidence. No evidence = not done.',
+];
+
 const BANNED_WORDS = /\b(delve|realm|meticulous|pivotal|robust|seamless|leverage|navigate|comprehensive|facilitate|landscape|foster|ensuring|furthermore|additionally)\b/i;
 const EM_DASH = /\u2014/;
 
@@ -109,7 +117,10 @@ export default function createVoice() {
         extra += '\n\u26a0\ufe0f [Voice] Banned patterns detected in 3+ responses. STOP. Re-read voice rules. This is not optional.';
       }
 
-      const block = `${crib}\n[Voice] ${nudge}${extra}`;
+      // Rotate quality gate (1 per turn, cycling prevents wallpaper effect)
+      const gate = QUALITY_GATES[turn % QUALITY_GATES.length];
+
+      const block = `${crib}\n[Voice] ${nudge}\n${gate}${extra}`;
       const sys = messages.find(m => m.role === 'system');
       if (sys) sys.content += '\n\n' + block;
       return messages;

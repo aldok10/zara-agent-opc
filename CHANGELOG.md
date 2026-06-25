@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2026-06-19
 
+## [0.3.2] - 2026-06-25
+
+### Fixed
+- fix(ci): run tests sequentially to avoid SQLite lock contention (4ac47e3)
+
+### Other
+- Merge branch 'fix/ci-test-concurrency' into 'main' (702f036)
+
+
 ## [0.3.1] - 2026-06-25
 
 ### Fixed

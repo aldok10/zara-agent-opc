@@ -6,6 +6,7 @@ import { tool } from '@opencode-ai/plugin';
 import { matchInjection, PROMPT_INJECTION_PATTERNS } from './patterns.mjs';
 import { checkEnvAccess } from './env-guard.mjs';
 import { SkillSuggester } from './skill-suggest.mjs';
+import { scorePatch, trustLevel } from './trust-score.mjs';
 import { FlowDetector } from '../empathy/flow-detector.mjs';
 
 const z = tool.schema;
@@ -602,6 +603,15 @@ export default function createObserve({ client, directory } = {}) {
       // Verification gate: track edits vs verification commands
       if ((toolName === 'edit' || toolName === 'write') && success) {
         editsSinceVerify++;
+        // Trust scoring for edits
+        const filePath = input?.args?.filePath || input?.args?.path || '';
+        const content = input?.args?.content || input?.args?.newString || '';
+        const linesChanged = (content.match(/\n/g) || []).length + 1;
+        const trust = scorePatch({ filePath, linesChanged, toolName });
+        const level = trustLevel(trust);
+        if (level === 'dangerous') {
+          pendingNudge = `[Trust] Risky edit detected (${filePath}, score ${trust.toFixed(2)}). Verify before continuing.`;
+        }
         verifyNudgeSent = false;
         if (!skillLoaded) codeEditsWithoutSkill++;
       } else if (toolName === 'bash' && success) {

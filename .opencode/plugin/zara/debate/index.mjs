@@ -47,7 +47,26 @@ function scoreConsensus(positions) {
     }
   }
 
-  const score = count ? total / count : 0;
+  // Base score from bigram overlap
+  let score = count ? total / count : 0;
+
+  // Boost: if agents mention same option/recommendation, boost consensus
+  const optionRe = /(?:option|recommend|choose|pick|go with|prefer)\s+([A-D]|[\w-]+)/gi;
+  const recommendations = positions.map(p => {
+    const matches = [...(p.position || '').matchAll(optionRe)];
+    return matches.map(m => m[1].toLowerCase());
+  });
+  const allRecs = recommendations.flat();
+  if (allRecs.length >= 2) {
+    const counts = {};
+    for (const r of allRecs) counts[r] = (counts[r] || 0) + 1;
+    const maxAgree = Math.max(...Object.values(counts));
+    if (maxAgree >= 2) score = Math.min(1.0, score + 0.2);
+  }
+
+  // Confidence weighting: high-confidence agents count more
+  const avgConfidence = positions.reduce((s, p) => s + (p.confidence || 0.5), 0) / positions.length;
+  if (avgConfidence >= 0.8) score = Math.min(1.0, score + 0.1);
 
   const agreementAreas = [];
   const disagreementAreas = [];

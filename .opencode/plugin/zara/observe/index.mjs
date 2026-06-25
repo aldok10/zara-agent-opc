@@ -509,6 +509,11 @@ export default function createObserve({ client, directory } = {}) {
   let editsSinceVerify = 0;
   let verifyNudgeSent = false;
 
+  // ─── Skill Routing Gate ────────────────────────────────────────────────────
+  let skillLoaded = false;
+  let codeEditsWithoutSkill = 0;
+  let skillGateNudged = false;
+
   return {
     onEvent(event) {
       if (event.type === 'session.created') trace.startSession();
@@ -576,12 +581,17 @@ export default function createObserve({ client, directory } = {}) {
       if ((toolName === 'edit' || toolName === 'write') && success) {
         editsSinceVerify++;
         verifyNudgeSent = false;
+        if (!skillLoaded) codeEditsWithoutSkill++;
       } else if (toolName === 'bash' && success) {
         const cmd = input?.args?.command || '';
         if (VERIFY_RE.test(cmd)) {
           editsSinceVerify = 0;
           verifyNudgeSent = false;
         }
+      } else if (toolName === 'skill' && success) {
+        skillLoaded = true;
+        codeEditsWithoutSkill = 0;
+        skillGateNudged = false;
       }
     },
 
@@ -626,6 +636,13 @@ export default function createObserve({ client, directory } = {}) {
         parts.push('[Verify-Gate] ' + editsSinceVerify + ' file edits without verification. Run tests/lint before claiming done.');
         verifyNudgeSent = true;
         budget.spend('verify-gate');
+      }
+
+      // Skill routing gate nudge: remind if 2+ code edits without any skill loaded
+      if (codeEditsWithoutSkill >= 2 && !skillGateNudged && budget.canNudge('skill-gate')) {
+        parts.push('[Skill-Gate] Code edits detected but no skill loaded. Check if a relevant skill should be active (tdd, golang-expert, php-expert, etc).');
+        skillGateNudged = true;
+        budget.spend('skill-gate');
       }
 
       if (parts.length) {

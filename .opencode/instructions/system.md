@@ -180,6 +180,7 @@ Every dispatch MUST include what the agent must NOT do. Negative rules hold bett
 - Pass only spec, file paths, acceptance criteria, and negative boundaries.
 - Subagent reads its own files from paths provided.
 - After dispatch, Zara synthesizes the result in her own voice.
+- **Context Receipt (mandatory for @forge, @hive):** End every dispatch prompt with: "Before starting, echo back in 1-2 sentences: what is the problem, what are the constraints, and what does done look like." If the echo mismatches intent, re-dispatch with corrected context.
 
 ### 7. Post-Dispatch Synthesis
 

@@ -4,6 +4,7 @@
 import { FileStore, today, spanId, estimateTokens, hash, SECRET_PATTERN } from '../infra/store.mjs';
 import { tool } from '@opencode-ai/plugin';
 import { matchInjection, PROMPT_INJECTION_PATTERNS } from './patterns.mjs';
+import { checkEnvAccess } from './env-guard.mjs';
 import { SkillSuggester } from './skill-suggest.mjs';
 import { FlowDetector } from '../empathy/flow-detector.mjs';
 
@@ -385,15 +386,29 @@ export class ContextCompressor {
     if (!Array.isArray(messages)) return messages || [];
     let result = this.deduplicateMessages(messages);
     result = this.purgeErrorInputs(result);
+    result = this.pruneOldToolResults(result);
     const tail = result.length - 3;
     return result.map((msg, i) => {
       if (!msg || i >= tail) return msg;
-      // Strip reasoning blocks from older assistant messages
       if (msg.role === 'assistant' && typeof msg.content === 'string' && msg.content.includes('<thinking>')) {
         return { ...msg, content: this.stripReasoning(msg.content) };
       }
       if (msg.role === 'tool' && typeof msg.content === 'string') {
         return { ...msg, content: this.truncateOutput(msg.content) };
+      }
+      return msg;
+    });
+  }
+
+  pruneOldToolResults(messages) {
+    if (!Array.isArray(messages) || messages.length < 8) return messages;
+    const tail = messages.length - 6;
+    return messages.map((msg, i) => {
+      if (!msg || i >= tail) return msg;
+      if (msg.role === 'tool' && typeof msg.content === 'string' && msg.content.length > 500) {
+        const firstLine = msg.content.split('\n')[0].slice(0, 100);
+        const tokens = estimateTokens(msg.content);
+        return { ...msg, content: `[pruned ${tokens} tokens] ${firstLine}...` };
       }
       return msg;
     });
@@ -524,6 +539,13 @@ export default function createObserve({ client, directory } = {}) {
       const toolName = input?.name || input?.tool || 'unknown';
       const toolArgs = input?.args || {};
       trace.startSpan(toolName, toolArgs);
+
+      // Guard: block .env file access
+      const envBlock = checkEnvAccess(toolName, toolArgs);
+      if (envBlock) {
+        trace.endSpan(toolName, false, 'blocked: env-guard');
+        return envBlock;
+      }
 
       // Guard: check tool inputs for injection
       const inputText = Object.values(toolArgs).filter(v => typeof v === 'string').join(' ');

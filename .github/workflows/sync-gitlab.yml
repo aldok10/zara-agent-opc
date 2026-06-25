@@ -1,0 +1,21 @@
+name: Sync to GitLab
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    if: github.actor != 'zara-bot'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push to GitLab
+        run: |
+          git remote add gitlab "https://oauth2:${GITLAB_TOKEN}@gitlab.com/aldo_k/zara-agent-opc.git"
+          git push gitlab main --follow-tags --force
+        env:
+          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}

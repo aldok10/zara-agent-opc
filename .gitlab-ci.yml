@@ -5,6 +5,13 @@
 # Main: lint + test + release (bump version, changelog, tag)
 # =============================================================================
 
+workflow:
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
 stages:
   - lint
   - test
@@ -28,11 +35,6 @@ lint:json:
     - python3 -m json.tool opencode.json
     - python3 -m json.tool package.json
     - python3 -m json.tool .opencode/skill-manifest.json
-  rules:
-    - if: $CI_COMMIT_TAG
-      when: never
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 lint:syntax:
   stage: lint
@@ -53,11 +55,6 @@ lint:syntax:
         exit 1
       fi
       echo "All syntax OK"
-  rules:
-    - if: $CI_COMMIT_TAG
-      when: never
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 lint:script:
   stage: lint
@@ -66,13 +63,7 @@ lint:script:
     - bash -n "$BUMP_SCRIPT"
     - echo "Syntax OK"
   rules:
-    - if: $CI_COMMIT_TAG
-      when: never
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      changes:
-        - scripts/bump-version.sh
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      changes:
+    - changes:
         - scripts/bump-version.sh
 
 # =============================================================================
@@ -86,11 +77,6 @@ test:unit:
     - npm ci --ignore-scripts 2>/dev/null || npm install --ignore-scripts
   script:
     - node --test tests/*.test.mjs
-  rules:
-    - if: $CI_COMMIT_TAG
-      when: never
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 test:structure:
   stage: test
@@ -101,11 +87,6 @@ test:structure:
     - /tmp/bats/install.sh /usr/local
   script:
     - bats tests/test_structure.bats tests/test_prompts.bats
-  rules:
-    - if: $CI_COMMIT_TAG
-      when: never
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 test:skill-integrity:
   stage: test
@@ -114,11 +95,6 @@ test:skill-integrity:
     - npm ci --ignore-scripts 2>/dev/null || npm install --ignore-scripts
   script:
     - node -e "import a from './tools/mcp/domain/audit.mjs'; const r = a.zara_skill_integrity.handler({ action: 'verify' }); console.log(r); if (r.includes('issue')) process.exit(1);"
-  rules:
-    - if: $CI_COMMIT_TAG
-      when: never
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 # =============================================================================
 # Release stage — only on main, after all checks pass
@@ -146,10 +122,6 @@ bump-version:
         --branch "${CI_DEFAULT_BRANCH}"
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: always
-    - if: $CI_COMMIT_TAG
-      when: never
-    - when: never
 
 verify-tag:
   stage: release
@@ -169,5 +141,3 @@ verify-tag:
       echo "Release verified: $LATEST_TAG"
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: always
-    - when: never

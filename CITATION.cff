@@ -1,32 +1,27 @@
 cff-version: 1.2.0
-title: "Zara: Empathetic AI Engineering Partner"
 message: "If you use this software, please cite it as below."
 type: software
+title: "Zara Agent OPC: Empathetic AI Engineering Partner"
 authors:
-  - family-names: Karendra
-    given-names: Aldo
+  - family-names: "Karendra"
+    given-names: "Aldo"
     orcid: ""
-    alias: aldok10
-repository-code: "https://github.com/aldok10/zara-agent-opc"
+    affiliation: "Independent"
+    alias: "aldok10"
 url: "https://github.com/aldok10/zara-agent-opc"
-abstract: >-
-  Zara is a persistent, self-improving AI engineering partner built on the
-  Model Context Protocol. Features multi-agent orchestration (10 agents),
-  3-layer cognitive memory with semantic embeddings, 132-signal adaptive
-  skill routing, outcome-weighted reflection loops, and empathetic
-  leadership coordination. Designed for developers who want an AI that
-  remembers, learns, and grows with them.
+repository-code: "https://github.com/aldok10/zara-agent-opc"
+license: MIT
+version: "7.0.0"
+date-released: "2026-06-26"
 keywords:
   - ai-agent
   - multi-agent-system
-  - model-context-protocol
   - cognitive-memory
-  - semantic-embeddings
-  - self-improving-ai
-  - developer-tools
-  - agent-orchestration
+  - model-context-protocol
   - mcp-server
+  - semantic-embeddings
+  - prompt-engineering
+  - self-improving-ai
   - opencode
-license: MIT
-version: 1.0.0
-date-released: "2026-06-26"
+  - developer-tools
+abstract: "Zara is a persistent, evolving AI engineering partner built on Model Context Protocol. It combines 3-layer cognitive memory with semantic embeddings, multi-agent orchestration (10 agents), 132-signal skill routing, and self-improving reflection loops to deliver an AI companion that remembers, learns, and grows with the developer."

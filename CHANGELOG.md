@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2026-06-19
 
+## [0.5.2] - 2026-06-25
+
+### Fixed
+- fix(opencode): remove deprecated model references for planning and subagent roles (92c8c53)
+
+
 ## [0.5.1] - 2026-06-25
 
 ### Changed

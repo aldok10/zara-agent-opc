@@ -56,7 +56,7 @@
     ]
   },
   "git-expert": {
-    "hash": "095d89682b86c6df5273511bc2213fe9a505c68b356b306a5a42abe4308e6c19",
+    "hash": "e38f2d45e4c8d6255c010a11c8151b07dda373237178c5fd8dde43306314f0b6",
     "requires": [
       "conventional-commits",
       "git-worktrees",

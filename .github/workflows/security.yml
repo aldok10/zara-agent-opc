@@ -8,6 +8,10 @@ on:
   schedule:
     - cron: '0 6 * * 1'  # Every Monday at 6 AM
 
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   scan:
     runs-on: ubuntu-latest
@@ -25,6 +29,7 @@ jobs:
 
   secrets:
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -36,7 +41,7 @@ jobs:
           path: ./
           base: ${{ github.event.repository.default_branch }}
           head: HEAD
-          extra_args: --debug --only-verified
+          extra_args: --only-verified
 
   dependencies:
     runs-on: ubuntu-latest

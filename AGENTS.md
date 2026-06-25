@@ -18,33 +18,6 @@ Source of truth: `opencode.json`. Discover structure via filesystem.
 - PHP: load `php-expert` skill (PSR + strict_types)
 - Prompts/instructions: markdown, under 500 lines per file
 
-## Available Commands (22)
-
-| Command | Function | Agent Dispatch |
-|---------|----------|---------------|
-| `/audit` | System health - self-audit, memory, config cross-ref | - |
-| `/auto` | Autonomous work mode - pre-flight, loop, anti-doom-loop | auto (via task) |
-| `/code` | Structured coding workflow - explore → plan → code → verify → ship | Zara orchestrates, dispatches @forge mid-workflow |
-| `/decide` | Architecture decision - grounded in knowledge + tradeoffs | → @atlas |
-| `/distill` | Failure pattern extraction - reflects → policies/pitfalls | - |
-| `/debate` | Multi-agent debate for complex decisions requiring diverse perspectives | deliberate tool |
-| `/focus` | Focus mode - session tracking, skills, check-in loops | `/focus loop` → @rhythm |
-| `/goal` | Goal management - persist, reflect, memory recovery | - |
-| `/handoff` | Session capture - git state, memory, files, threads | - |
-| `/install` | Global install to ~/.config/opencode | - |
-| `/learn` | Extract project-specific knowledge from codebase | - |
-| `/loop` | Multi-mode cycles - timer, patterns, verify, design, study | `/loop design` → @rhythm |
-| `/music` | Music player - play, stop, radio, taste | - |
-| `/resume` | Full context restoration - memory, git, metrics | - |
-| `/review` | Code review - staged/last commit, auto @shield for security | → @lens |
-| `/shutdown` | Wind-down - auto-handoff, music, bedtime | - |
-| `/standup` | Activity snapshot - git + metrics + patterns | `/standup deep` → @pulse |
-| `/swarm` | Parallel decomposition - independent workstreams | → @hive |
-| `/think` | Structured planning - brainstorming + writing-plans | - |
-| `/zara` | General engineering - orchestration, swarm, session mgmt | `/zara swarm` → @hive |
-| `/version` | Version info + update check against remote | - |
-| `/update` | Self-update from remote (pull + re-install) | - |
-
 ## Skill Gate (Non-Negotiable)
 
 Before ANY task, check for relevant skills. If one applies, LOAD IT. No exceptions.
@@ -62,50 +35,15 @@ Load `skill-gate` if unsure which skill matches - it has the full routing table.
 | Hive | swarm | 3+ independent parallel tasks | `task(swarm)` or `/swarm` |
 | Rhythm | loop-engineer | Loop design, verification, failure | `task(loop-engineer)` via `/loop` or `/focus` |
 | Sketch | plan | Read-only planning | `/think` command or switch mode |
-| Forge | implementation | Plan → code → verify → ship | `task(implementation)` |
-
-## Skill Gate (Routing Table)
-
-| Situation | Do this |
-|-----------|---------|
-| Session start / after compaction | Load `skill-gate` (routing table), then `auto-resume` |
-| Task start (non-trivial) | `reflect_suggest` + `evolve_check_rules` + `blindspot_check` — recall what was learned |
-| Session end / preserving context | Load `session-handoff` |
-| Go project detected | Load `golang-expert` skill |
-| PHP project detected | Load `php-expert` skill |
-| TypeScript/Node.js project | Load `typescript-expert` skill |
-| Python project | Load `python-expert` skill |
-| Bug or test failure | Load `systematic-debugging` skill |
-| Feature work starting | Load `brainstorming` → then `writing-plans` |
-| Plan ready, subagents available | Load `subagent-driven-dev` skill |
-| Plan ready, inline execution | Load `executing-plans` skill |
-| 3+ independent parallel tasks | Load `dispatching-parallel-agents` skill |
-| Implementation ready (per task) | Load `tdd` skill |
-| Work complete / claiming done | Load `verification-before-completion` skill |
-| Task done / pattern emerged | `reflect` WITH outcome (success/partial/failure) — feeds success-weighted learning |
-| Code review needed or received | Load `code-review` skill |
-| Branch ready to integrate | Load `finishing-branch` skill |
-| Need isolated workspace | Load `git-worktrees` skill |
-| Git operations, rebase, conflicts | Load `git-expert` skill |
-| Writing commit messages | Load `conventional-commits` skill |
-| GitHub PRs, issues, Actions | Load `github` skill |
-| Docker/containers | Load `docker` skill |
-| CI/CD pipelines | Load `ci-cd` skill |
-| Reverse-engineer / decompile / analyze a *.dll / binary | Load `reverse-engineering` skill |
-| Rebuild a binary's logic in Go/PHP, unpack/deobfuscate | Load `reverse-engineering` skill |
-| Complex parallel task (3+ streams) | Use `@swarm` |
-| Architecture question | Use `@architect` |
-| Leadership/team topic | Load `leadership-expert` skill |
+| Forge | implementation | Plan -> code -> verify -> ship | `task(implementation)` |
 
 ## Development Workflow
 
-The standard chain produces file artifacts at each step:
-
 ```
-brainstorming        → docs/specs/YYYY-MM-DD-<topic>-design.md
-writing-plans        → docs/plans/YYYY-MM-DD-<feature>.md
-subagent-driven-dev  → .tasks/progress.md, .tasks/task-{id}.md, .tasks/report-{id}.md
-finishing-branch     → merge/PR/keep/discard decision
+brainstorming        -> docs/specs/YYYY-MM-DD-<topic>-design.md
+writing-plans        -> docs/plans/YYYY-MM-DD-<feature>.md
+subagent-driven-dev  -> .tasks/progress.md, .tasks/task-{id}.md, .tasks/report-{id}.md
+finishing-branch     -> merge/PR/keep/discard decision
 ```
 
 After context compaction: re-read `.tasks/progress.md` + `git log` to determine state.
@@ -126,7 +64,7 @@ After context compaction: re-read `.tasks/progress.md` + `git log` to determine 
 
 ## Agent Output Contracts
 
-Each agent must include these fields in their response. If missing, Zara re-prompts before presenting to user.
+Each agent must include these fields. If missing, Zara re-prompts before presenting to user.
 
 | Agent | Required Output Fields | Completeness Signal |
 |-------|----------------------|---------------------|
@@ -138,5 +76,3 @@ Each agent must include these fields in their response. If missing, Zara re-prom
 | @pulse | ship_blockers[], quick_wins[], debt_items[], timeline | "Plan ready" or "Missing info: ..." |
 | @rhythm | loop_pattern, verification_gates[], stop_conditions[] | "Design ready" or "Ambiguous failure mode: ..." |
 | @hive | workers[] with {scope, acceptance_criteria}, synthesis | "Coordination complete" or "Overlap detected: ..." |
-
-**Rule:** If agent output lacks the completeness signal, treat as partial. Follow up before presenting to user.

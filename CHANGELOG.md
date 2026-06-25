@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2026-06-19
 
+## [0.5.1] - 2026-06-25
+
+### Changed
+- perf(prompts): token diet 39% reduction + quality gate hardening (47e1ab9)
+
+### Other
+- Merge branch 'feat/token-diet-quality-hardening' into 'main' (e816663)
+
+
 ## [0.5.0] - 2026-06-25
 
 ### Added

@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2026-06-19
 
+## [0.4.2] - 2026-06-25
+
+### Fixed
+- fix(ci): skip releases for non-functional commits, derive version from tags (1ab9cca)
+- fix(ci): exit clean when tag already exists (idempotent release) (de7a456)
+- fix(ci): add security-events permission, fix TruffleHog on push, regen manifest (726fdf7)
+
+### Documentation
+- docs(skill): add CI/CD bot identity and mirroring knowledge to git-expert (63714ed)
+
+### Other
+- Merge branch 'fix/semver-skip-nonfunctional' into 'main' (0bc3979)
+- Merge branch 'fix/skill-cicd-knowledge' into 'main' (51c3cc0)
+- Merge branch 'fix/skill-cicd-knowledge' into 'main' (d8a0898)
+
+
 ## [0.4.0] - 2026-06-25
 
 ### Added

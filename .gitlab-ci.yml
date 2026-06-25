@@ -1,64 +1,145 @@
 # =============================================================================
 # Zara Agent — GitLab CI/CD Pipeline
 #
-# On push to main: validates, bumps version, generates changelog, tags release.
-# Uses conventional commits (feat!, feat, fix, etc.) for semver bumping.
+# MR: lint + test (fast feedback)
+# Main: lint + test + release (bump version, changelog, tag)
 # =============================================================================
 
 stages:
-  - validate
+  - lint
+  - test
   - release
 
 variables:
-  GIT_DEPTH: 0                        # full history for tag analysis
-  GIT_STRATEGY: clone                 # clean clone per run
+  GIT_DEPTH: 0
+  GIT_STRATEGY: clone
   BUMP_SCRIPT: scripts/bump-version.sh
+  NODE_IMAGE: node:22-alpine
 
-# -----------------------------------------------------------------------------
-# Validate stage — fast checks before bumping
-# -----------------------------------------------------------------------------
+# =============================================================================
+# Lint stage — fast, cheap checks first
+# =============================================================================
 
-validate:json:
-  stage: validate
+lint:json:
+  stage: lint
   image: python:3.12-alpine
   script:
-    - apk add --no-cache git
     - python3 -m json.tool version.json
+    - python3 -m json.tool opencode.json
+    - python3 -m json.tool package.json
+    - python3 -m json.tool .opencode/skill-manifest.json
   rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: always
-    - when: never
 
-validate:script:
-  stage: validate
+lint:syntax:
+  stage: lint
+  image: $NODE_IMAGE
+  script:
+    - |
+      echo "Checking .mjs syntax..."
+      ERRORS=0
+      for f in $(find tools .opencode/plugin -name '*.mjs' -type f); do
+        if ! node --check "$f" 2>/dev/null; then
+          echo "FAIL: $f"
+          ERRORS=$((ERRORS + 1))
+        fi
+      done
+      echo "Checked $(find tools .opencode/plugin -name '*.mjs' -type f | wc -l) files"
+      if [ "$ERRORS" -gt 0 ]; then
+        echo "$ERRORS file(s) failed syntax check"
+        exit 1
+      fi
+      echo "All syntax OK"
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+lint:script:
+  stage: lint
   image: bash:5
   script:
     - bash -n "$BUMP_SCRIPT"
     - echo "Syntax OK"
   rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - scripts/bump-version.sh
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:
         - scripts/bump-version.sh
-    - when: never
 
-# -----------------------------------------------------------------------------
-# Release stage — bump version, update changelog, tag
-# -----------------------------------------------------------------------------
+# =============================================================================
+# Test stage — unit tests, structural validation
+# =============================================================================
+
+test:unit:
+  stage: test
+  image: $NODE_IMAGE
+  before_script:
+    - npm ci --ignore-scripts 2>/dev/null || npm install --ignore-scripts
+  script:
+    - node --test tests/*.test.mjs
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+test:structure:
+  stage: test
+  image: bash:5
+  before_script:
+    - apk add --no-cache git bash
+    - git clone --depth 1 https://github.com/bats-core/bats-core.git /tmp/bats
+    - /tmp/bats/install.sh /usr/local
+  script:
+    - bats tests/test_structure.bats tests/test_prompts.bats
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+test:skill-integrity:
+  stage: test
+  image: $NODE_IMAGE
+  before_script:
+    - npm ci --ignore-scripts 2>/dev/null || npm install --ignore-scripts
+  script:
+    - node -e "import a from './tools/mcp/domain/audit.mjs'; const r = a.zara_skill_integrity.handler({ action: 'verify' }); console.log(r); if (r.includes('issue')) process.exit(1);"
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+# =============================================================================
+# Release stage — only on main, after all checks pass
+# =============================================================================
 
 bump-version:
   stage: release
   image: bash:5
+  needs:
+    - lint:json
+    - lint:syntax
+    - test:unit
+    - test:structure
+    - test:skill-integrity
   before_script:
-    # Install dependencies
-    - apk add --no-cache git python3 py3-pip
-    # Configure git for the CI runner
+    - apk add --no-cache git python3
     - git config user.name "zara-bot"
     - git config user.email "zara@zara-agent-opc"
-    # Ensure we're on the right commit (detached HEAD in CI)
     - git checkout "$CI_COMMIT_SHA"
   script:
     - |
-      # Run the bump script with CI_JOB_TOKEN for push auth
       bash "$BUMP_SCRIPT" \
         --token "${CI_JOB_TOKEN}" \
         --remote "origin" \
@@ -66,15 +147,9 @@ bump-version:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: always
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      when: never
     - if: $CI_COMMIT_TAG
-      when: never                    # don't re-tag tag pushes
+      when: never
     - when: never
-
-# -----------------------------------------------------------------------------
-# Post-release: verify tag was created
-# -----------------------------------------------------------------------------
 
 verify-tag:
   stage: release
@@ -86,12 +161,12 @@ verify-tag:
     - git fetch --tags origin
     - |
       LATEST_TAG=$(git tag --sort=-v:refname | head -1)
-      echo "Latest tag after release: $LATEST_TAG"
+      echo "Latest tag: $LATEST_TAG"
       if [ -z "$LATEST_TAG" ]; then
-        echo "No tag was created — check bump-version output"
+        echo "No tag created — check bump-version output"
         exit 1
       fi
-      echo "Release tag verified: $LATEST_TAG"
+      echo "Release verified: $LATEST_TAG"
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: always

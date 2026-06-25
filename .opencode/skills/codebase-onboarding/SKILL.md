@@ -24,6 +24,19 @@ You are reading code and reporting what exists. Not evaluating it. Not improving
 
 ## Process
 
+### Step 0: Check for Pre-Generated Context
+
+If `.context/` directory exists, read it FIRST:
+- `.context/PROJECT.md` - identity, stack, architecture
+- `.context/STRUCTURE.md` - directory map with annotations
+- `.context/ENTRY_POINTS.md` - where to start
+- `.context/CONVENTIONS.md` - coding style and patterns
+- `.context/DEPENDENCIES.md` - dependency graph
+
+If these files exist and are recent (<7 days), skip Steps 1-3 and go directly to output. The heavy lifting is already done.
+
+To generate: `node scripts/generate-context.mjs [path]`
+
 ### Step 1: Inventory
 
 Read these first (in parallel where possible):

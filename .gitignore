@@ -64,6 +64,7 @@ opencode.local.md
 
 # Generated files
 knowledge/search-index.json
+.context/
 
 *.mp3
 *.dll

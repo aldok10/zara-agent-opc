@@ -54,7 +54,7 @@ jobs:
         run: npm ci --ignore-scripts 2>/dev/null || npm install --ignore-scripts
 
       - name: Unit tests
-        run: node --test tests/*.test.mjs
+        run: node --test --test-concurrency=1 tests/*.test.mjs
 
       - name: Skill integrity
         run: node -e "import a from './tools/mcp/domain/audit.mjs'; const r = a.zara_skill_integrity.handler({ action:'verify' }); console.log(r); if (r.includes('issue')) process.exit(1);"

@@ -1,5 +1,5 @@
 {
-  "version": "0.3.0",
+  "version": "0.3.1",
   "name": "zara-agent-opc",
   "description": "Zara \u2014 empathetic AI orchestrator for OpenCode",
   "remote": "gitlab.com/aldo_k/zara-agent-opc",

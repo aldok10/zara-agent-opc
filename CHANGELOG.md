@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2026-06-19
 
+## [0.3.1] - 2026-06-25
+
+### Fixed
+- fix(ci): commit package-lock.json, fix CodeQL language (7470aed)
+
+### Other
+- Merge branch 'fix/ci-github-workflow' into 'main' (6d53048)
+
+
 ## [0.3.0] - 2026-06-25
 
 ### Added

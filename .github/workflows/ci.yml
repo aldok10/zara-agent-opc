@@ -2,83 +2,71 @@ name: CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main]
+    tags-ignore: ['v*']
   pull_request:
     branches: [main]
 
 jobs:
-  validate:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18, 20, 22]
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Validate configuration
-        run: |
-          cat opencode.json | python3 -c "import json,sys;json.load(sys.stdin);print('opencode.json: valid')"
-
-      - name: Run structure tests
-        run: |
-          chmod +x scripts/test.sh
-          ./scripts/test.sh
-
-      - name: Check for secrets
-        run: |
-          # Check for potential API keys
-          ! grep -rE '[A-Za-z0-9_-]{20,}' --include='*.md' --include='*.yaml' --include='*.json' --include='*.sh' . 2>/dev/null | grep -v node_modules | grep -v '.git/' | grep -v '.env.example'
-        continue-on-error: true
-
-      - name: Check MCP server starts
-        run: |
-          echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"ci"}}}' | timeout 5 node tools/mcp/index.mjs | grep -q '"result"' && echo "MCP: OK"
-        continue-on-error: true
-
   lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check shell scripts with shellcheck
-        uses: ludeeus/action-shellcheck@master
+      - name: Validate JSON
+        run: |
+          python3 -m json.tool version.json
+          python3 -m json.tool opencode.json
+          python3 -m json.tool package.json
+          python3 -m json.tool .opencode/skill-manifest.json
+
+      - uses: actions/setup-node@v4
         with:
-          scandir: './scripts'
-        continue-on-error: true
+          node-version: 22
 
-      - name: Check markdown formatting
-        uses: actionshub/markdownlint@main
-        continue-on-error: true
+      - name: Check .mjs syntax
+        run: |
+          ERRORS=0
+          for f in $(find tools .opencode/plugin -name '*.mjs' -type f); do
+            if ! node --check "$f" 2>/dev/null; then
+              echo "FAIL: $f"
+              ERRORS=$((ERRORS + 1))
+            fi
+          done
+          echo "Checked $(find tools .opencode/plugin -name '*.mjs' -type f | wc -l) files"
+          [ "$ERRORS" -eq 0 ] || exit 1
 
-  security:
+      - name: Check shell scripts
+        run: bash -n scripts/bump-version.sh
+
+  test:
     runs-on: ubuntu-latest
+    needs: lint
     steps:
       - uses: actions/checkout@v4
 
-      - name: Run Gitleaks for secret scanning
-        uses: gitleaks/gitleaks-action@v2
-        continue-on-error: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
 
-      - name: Check for sensitive patterns
-        run: |
-          echo "Checking for hardcoded paths..."
-          ! grep -r '/Users/' --include='*.md' --include='*.yaml' --include='*.json' . 2>/dev/null | grep -v node_modules | grep -v AUDIT.md
-          echo "Checking for personal references..."
-          ! grep -riE '(my company|my project|internal repo|internal api)' --include='*.md' --include='*.yaml' . 2>/dev/null | grep -v node_modules
+      - name: Install dependencies
+        run: npm ci --ignore-scripts 2>/dev/null || npm install --ignore-scripts
 
-  notify:
-    needs: [validate, lint, security]
-    if: always()
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check status
+      - name: Unit tests
+        run: node --test tests/*.test.mjs
+
+      - name: Skill integrity
+        run: node -e "import a from './tools/mcp/domain/audit.mjs'; const r = a.zara_skill_integrity.handler({ action:'verify' }); console.log(r); if (r.includes('issue')) process.exit(1);"
+
+      - name: Structure tests (bats)
         run: |
-          echo "Validation: ${{ needs.validate.result }}"
-          echo "Lint: ${{ needs.lint.result }}"
-          echo "Security: ${{ needs.security.result }}"
+          git clone --depth 1 https://github.com/bats-core/bats-core.git /tmp/bats
+          sudo /tmp/bats/install.sh /usr/local
+          bats tests/test_structure.bats tests/test_prompts.bats
+
+      - name: MCP server starts
+        run: |
+          echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"ci"}}}' \
+            | timeout 10 node tools/mcp/index.mjs \
+            | grep -q '"result"' && echo "MCP: OK"

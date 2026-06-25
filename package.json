@@ -5,5 +5,8 @@
   "private": true,
   "dependencies": {
     "@huggingface/transformers": "^4.2.0"
+  },
+  "devDependencies": {
+    "@opencode-ai/plugin": "^1.17.10"
   }
 }

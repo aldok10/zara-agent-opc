@@ -315,10 +315,10 @@ fi
 
 if [ -n "$REMOTE_URL" ]; then
   log "Pushing to $REMOTE using token auth..."
-  git push "$REMOTE_URL" "$DEFAULT_BRANCH" --follow-tags 2>&1 || warn "Push failed — check token permissions"
+  git push "$REMOTE_URL" "HEAD:refs/heads/$DEFAULT_BRANCH" --follow-tags 2>&1 || die "Push failed — check token permissions"
 else
   log "Pushing to $REMOTE..."
-  git push "$REMOTE" "$DEFAULT_BRANCH" --follow-tags 2>&1 || warn "Push failed — run manually: git push $REMOTE $DEFAULT_BRANCH --follow-tags"
+  git push "$REMOTE" "HEAD:refs/heads/$DEFAULT_BRANCH" --follow-tags 2>&1 || die "Push failed — run manually: git push $REMOTE $DEFAULT_BRANCH --follow-tags"
 fi
 
 echo ""

@@ -45,8 +45,11 @@ function generateProject() {
 
   const arch = read('docs/architecture.md');
   if (arch) {
-    const lines = arch.split('\n').filter(l => l.trim() && !l.startsWith('#'));
-    out += `## Architecture\n\n${lines.slice(0, 15).join('\n')}\n\n`;
+    // Take first meaningful paragraph (stop before code blocks or deep content)
+    const firstPara = arch.split('\n').filter(l => !l.startsWith('#')).join('\n')
+      .split(/\n```[\s\S]*?```\n/)[0]  // stop before code blocks
+      .split('\n').filter(l => l.trim()).slice(0, 5).join('\n');
+    if (firstPara) out += `## Architecture\n\n${firstPara}\n\n`;
   }
 
   out += '## API Surface\n\n';

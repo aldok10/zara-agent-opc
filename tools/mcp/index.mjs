@@ -51,8 +51,11 @@ process.on('unhandledRejection', (reason) => {
 // Weekly decay
 try {
   const lastDecay = path.join(HOME, '.last-decay');
-  const shouldDecay = !fs.existsSync(lastDecay) ||
-    (Date.now() - fs.statSync(lastDecay).mtimeMs) > 7 * 24 * 60 * 60 * 1000;
+  let shouldDecay = true;
+  try {
+    const stat = fs.statSync(lastDecay);
+    shouldDecay = (Date.now() - stat.mtimeMs) > 7 * 24 * 60 * 60 * 1000;
+  } catch { /* file doesn't exist, proceed with decay */ }
   if (shouldDecay) {
     applyDecay();
     consolidate(0.05);

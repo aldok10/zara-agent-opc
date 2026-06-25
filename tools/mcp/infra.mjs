@@ -1,5 +1,5 @@
 // Platform utilities shared across MCP tools
-import { execSync, execFileSync, spawn } from 'child_process';
+import { execFileSync, spawn } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import os from 'os';

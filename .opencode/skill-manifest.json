@@ -22,6 +22,9 @@
   "codebase-onboarding": {
     "hash": "cfa7d0d4fb17abb015754f20aff6c07cd8c42161949a5dea42eadfe51386eebd"
   },
+  "connection-template": {
+    "hash": "f4f0ee89d69d14ad44a3f18d9fcca0fad3f15bec091b6d06c6135a92d3bc49f6"
+  },
   "conventional-commits": {
     "hash": "12a909a7e6c0589e033f51aaafa96aacc9b5ef62c6dd1e3f21d69ecf3dcec821",
     "requires": [

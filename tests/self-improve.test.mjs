@@ -1,8 +1,5 @@
-import { describe, it, before, after } from 'node:test';
+import { describe, it, before } from 'node:test';
 import assert from 'node:assert/strict';
-import fs from 'fs';
-import path from 'path';
-import os from 'os';
 import { McpServer } from '../tools/mcp/server.mjs';
 import improveTools from '../tools/mcp/domain/improve.mjs';
 import sessionTools from '../tools/mcp/domain/session.mjs';

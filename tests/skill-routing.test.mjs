@@ -10,11 +10,6 @@ const GLOBAL_SKILLS = [
   path.join(os.homedir(), '.claude/skills'),
 ];
 
-function skillExists(name) {
-  const dirs = [PROJECT_SKILLS, ...GLOBAL_SKILLS];
-  return dirs.some(d => fs.existsSync(path.join(d, name, 'SKILL.md')));
-}
-
 describe('skill-gate routing validation', () => {
   const gateFile = fs.readFileSync(path.join(PROJECT_SKILLS, 'skill-gate', 'SKILL.md'), 'utf-8');
   // Extract all backtick-quoted skill names from the routing table

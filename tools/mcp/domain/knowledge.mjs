@@ -4,7 +4,7 @@ import os from 'os';
 import { HOME, loadJson } from '../infra.mjs';
 import { convertChm } from '../../chm2md.mjs';
 import {
-  semanticLearn, semanticRecall,
+  semanticLearn,
   knowledgeUpsert, knowledgeBySection, knowledgeSearch, knowledgeSections, knowledgeCount,
   knowledgeChunkUpsert, knowledgeChunkSearch, knowledgeChunkSearchAsync, knowledgeChunkUpsertAsync, knowledgeChunkCount
 } from '../../memory-db.mjs';

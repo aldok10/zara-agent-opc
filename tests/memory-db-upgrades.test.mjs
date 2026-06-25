@@ -13,7 +13,7 @@ describe('memory-db upgrades', () => {
   before(() => {
     fs.mkdirSync(TEST_HOME, { recursive: true });
     store = new MemoryStore(TEST_HOME);
-    store.db; // trigger init
+    void store.db; // trigger init
   });
 
   after(() => {

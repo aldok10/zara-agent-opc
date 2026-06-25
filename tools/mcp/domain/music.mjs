@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { execSync, execFile, execFileSync, spawn } from 'child_process';
+import { execFile, execFileSync, spawn } from 'child_process';
 import { HOME, PLATFORM, loadJson, saveJson, killProcess, shellSpawn, hasCommand, spawnPipe, localPlayerArgs } from '../infra.mjs';
 
 const stateFile = path.join(HOME, 'player.json');

@@ -67,7 +67,6 @@ class ReflectionTools {
     // Trust calibration: adjust trust scores of memories recalled this session
     // CONSTITUTION P3: only raise trust on explicit success WITH evidence (worked field).
     // Without evidence, trust may stay flat or fall, never rise.
-    let trustResult = null;
     if (args.outcome && recalledKeys.size > 0) {
       // Hourly budget: max 5 trust adjustments per clock-hour
       const hour = new Date().getHours();
@@ -76,7 +75,7 @@ class ReflectionTools {
         _trustBudgetCount++;
         const canRaise = args.outcome === 'success' && args.worked;
         const effectiveOutcome = canRaise ? 'success' : (args.outcome === 'failure' ? 'failure' : 'partial');
-        trustResult = adjustTrust([...recalledKeys], effectiveOutcome);
+        adjustTrust([...recalledKeys], effectiveOutcome);
       }
       recalledKeys.clear();
     }

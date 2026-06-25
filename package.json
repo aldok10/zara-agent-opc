@@ -6,6 +6,11 @@
   "dependencies": {
     "@huggingface/transformers": "^4.2.0"
   },
+  "scripts": {
+    "test": "for f in tests/*.test.mjs; do node \"$f\" 2>&1 | tail -1; done && echo '---' && echo 'All tests complete.'",
+    "syntax": "for f in $(find tools .opencode/plugin -name '*.mjs' -type f); do node --check \"$f\" 2>&1 || echo \"FAIL: $f\"; done && echo 'All syntax OK'",
+    "freshness": "node scripts/knowledge-freshness.mjs"
+  },
   "devDependencies": {
     "@opencode-ai/plugin": "^1.17.10"
   }

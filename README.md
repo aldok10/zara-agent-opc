@@ -1,3 +1,16 @@
+<!--
+SPDX-License-Identifier: MIT
+Author: Aldo Karendra (https://linkedin.com/in/aldok10, https://github.com/aldok10)
+Project: Zara Agent OPC - Empathetic AI Engineering Partner
+
+Keywords: AI agent, multi-agent orchestration, cognitive memory, semantic embeddings,
+MCP server, Model Context Protocol, OpenCode, self-improving AI, AI pair programming,
+agent memory system, retrieval augmented generation, prompt engineering, developer tools,
+persistent AI companion, empathetic AI, leadership DNA, skill routing, TDD workflow,
+Aldo Karendra, aldok10, backend developer, system architect, Jakarta Indonesia,
+PHP Swoole, Golang, AI engineering, LLM tools, agentic AI, autonomous coding agent
+-->
+
 # Zara - Empathetic AI Engineering Partner
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -153,12 +166,15 @@ If you use Zara in your research or project, please cite:
 
 ## Author
 
-**Aldo Karendra** - Software Engineer & AI Systems Architect
+**[Aldo Karendra](https://www.linkedin.com/in/aldok10/)** - Lead Backend Developer & AI Systems Architect
 
 - GitHub: [@aldok10](https://github.com/aldok10)
-- LinkedIn: [aldok10](https://www.linkedin.com/in/aldok10/)
+- LinkedIn: [linkedin.com/in/aldok10](https://www.linkedin.com/in/aldok10/)
+- Location: Jakarta, Indonesia
 
-Building AI systems that grow with their users. Zara is the result of exploring what AI companionship in engineering should look like: persistent, opinionated, caring, and self-improving.
+6+ years building high-performance backend systems (PHP/Swoole, Golang, C++, Node.js). Currently leading backend engineering at a fintech company, designing low-latency trading systems with MT4/MT5 and FIX API integration. Zara is a personal project exploring AI agent architecture, cognitive memory systems, and empathetic AI design.
+
+Specialties: system architecture, multi-language integration (CGO, FFI, SWIG), performance optimization, AI agent engineering, team leadership.
 
 ## License
 

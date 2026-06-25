@@ -302,12 +302,12 @@ REMOTE_URL=""
 if [ -n "$GIT_PUSH_TOKEN" ]; then
   # Inject token into remote URL for auth
   ORIGIN_URL=$(git remote get-url "$REMOTE" 2>/dev/null || echo "")
-  if echo "$ORIGIN_URL" | grep -q "gitlab.com"; then
-    # GitLab: https://gitlab.com/user/repo.git → https://oauth2:TOKEN@gitlab.com/user/repo.git
-    REMOTE_URL="https://oauth2:${GIT_PUSH_TOKEN}@$(echo "$ORIGIN_URL" | sed 's|https://||')"
-  elif echo "$ORIGIN_URL" | grep -q "github.com"; then
-    # GitHub: https://github.com/user/repo.git → https://x-access-token:TOKEN@github.com/user/repo.git
-    REMOTE_URL="https://x-access-token:${GIT_PUSH_TOKEN}@$(echo "$ORIGIN_URL" | sed 's|https://||')"
+  # Strip protocol and any existing auth to get bare host/path
+  BARE_URL=$(echo "$ORIGIN_URL" | sed -E 's|https?://([^@]+@)?||')
+  if echo "$BARE_URL" | grep -q "gitlab.com"; then
+    REMOTE_URL="https://oauth2:${GIT_PUSH_TOKEN}@${BARE_URL}"
+  elif echo "$BARE_URL" | grep -q "github.com"; then
+    REMOTE_URL="https://x-access-token:${GIT_PUSH_TOKEN}@${BARE_URL}"
   else
     REMOTE_URL="$ORIGIN_URL"
   fi

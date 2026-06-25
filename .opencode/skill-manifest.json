@@ -71,6 +71,9 @@
       "code-review"
     ]
   },
+  "gitreverse-learn": {
+    "hash": "cbcec7f4e216230401eac0d5c902f3ebecb4c44d9b4f69b9af0b01611c1b55c5"
+  },
   "golang-compare": {
     "hash": "f1ac963e0a6144382801ac8df511679dd8e1e3a20f26672f36197e1f8126a6ee"
   },
@@ -118,7 +121,7 @@
     "hash": "fc4fcefd7d49169482ee32d8bc2afc23d469aa1ed15a02da4f5c0edb4afdb19e"
   },
   "skill-gate": {
-    "hash": "91d1a1fe22c577c90c3c2a4e85ea69870252c2228df723fac68b94c26c119e52",
+    "hash": "9e519e722c8e2fa439a73109e6d3b07ed03215729d67edc1b54eebadda89d7d7",
     "requires": [
       "brainstorming",
       "writing-plans",

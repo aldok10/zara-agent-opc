@@ -74,22 +74,29 @@ class MemoryTools {
   #handleLearn(args) {
     const memType = args.type || 'fact';
     const source = args.source || 'observed';
+    const agent = args.agent || '';
     // CONSTITUTION Privacy: block obvious secrets from being stored
     const SECRETS_RE = /(?:(?:ghp|gho|ghu|ghs|ghr)_[A-Za-z0-9_]{36,}|(?:sk|pk)[-_](?:live|test)[-_][A-Za-z0-9]{20,}|(?:AKIA|ASIA)[A-Z0-9]{16}|xox[bpras]-[A-Za-z0-9-]{10,}|eyJ[A-Za-z0-9_-]{20,}\.eyJ[A-Za-z0-9_-]{20,}|AIza[A-Za-z0-9_-]{35}|sk-ant-[A-Za-z0-9_-]{20,}|sk-proj-[A-Za-z0-9_-]{20,}|sk-[A-Za-z0-9_-]{40,}|-----BEGIN.*PRIVATE KEY-----|(?:postgres|mysql|mongodb\+srv|redis):\/\/[^\s]+:[^\s]+@|(?:password|secret|token|api_key)\s*[=:]\s*['"][^\s'"]{8,})/;
     if (SECRETS_RE.test(args.key + ' ' + args.value)) {
       return `⚠️ Refused: value appears to contain a secret/token. Never store credentials in memory.`;
     }
+    // CONSTITUTION P3: subagents cannot write policy-tier memories
+    const POLICY_TYPES = ['policy', 'architecture', 'decision', 'preference', 'pitfall'];
+    const RESTRICTED_AGENTS = ['forge', 'implementation', 'hive', 'swarm', 'explore', 'general'];
+    if (POLICY_TYPES.includes(memType) && RESTRICTED_AGENTS.includes(agent.toLowerCase())) {
+      return `⚠️ Refused: agent '${agent}' cannot write type '${memType}'. Only orchestrator or user can set policies.`;
+    }
     // CONSTITUTION P1: truth-asserting types require owner's explicit statement
-    if (['policy', 'architecture', 'decision', 'preference', 'pitfall'].includes(memType) && source !== 'user_explicit') {
+    if (POLICY_TYPES.includes(memType) && source !== 'user_explicit') {
       return `⚠️ Refused: type '${memType}' requires source 'user_explicit'. Use source: 'user_explicit' for policy/architecture/decision/preference/pitfall memories.`;
     }
     // CONSTITUTION P2: external content never stored as trusted type
     if (source === 'external_unverified') {
-      if (['policy', 'architecture', 'decision', 'preference', 'pitfall'].includes(memType)) {
+      if (POLICY_TYPES.includes(memType)) {
         return `⚠️ Refused: external_unverified content cannot be stored as ${memType}. Use type 'fact' for external content.`;
       }
     }
-    const result = semanticLearn(args.key, args.value, source, memType, args.scope || '', { agent: args.agent || '' });
+    const result = semanticLearn(args.key, args.value, source, memType, args.scope || '', { agent });
     return `Stored: ${result.key} = ${result.value} [${result.type}]`;
   }
 

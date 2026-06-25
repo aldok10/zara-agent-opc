@@ -27,27 +27,27 @@ describe('session domain', () => {
     assert.ok(sessionTools.shutdown_ritual);
   });
 
-  it('start → check → end lifecycle', () => {
-    const start = sessionTools.session_log.handler({ action: 'start', context: 'test-session' });
+  it('start → check → end lifecycle', async () => {
+    const start = await sessionTools.session_log.handler({ action: 'start', context: 'test-session' });
     assert.match(start, /Session started/);
 
-    const check = sessionTools.session_log.handler({ action: 'check' });
+    const check = await sessionTools.session_log.handler({ action: 'check' });
     assert.match(check, /Active:/);
 
-    const end = sessionTools.session_log.handler({ action: 'end' });
+    const end = await sessionTools.session_log.handler({ action: 'end' });
     assert.match(end, /Session ended/);
   });
 
-  it('end with no active session is graceful', () => {
+  it('end with no active session is graceful', async () => {
     // Ensure ended first
-    sessionTools.session_log.handler({ action: 'end' });
-    const out = sessionTools.session_log.handler({ action: 'end' });
+    await sessionTools.session_log.handler({ action: 'end' });
+    const out = await sessionTools.session_log.handler({ action: 'end' });
     assert.match(out, /No active session/);
   });
 
-  it('session-end runs deterministic memory maintenance (hooks-as-spine)', () => {
-    sessionTools.session_log.handler({ action: 'start', context: 'maintenance-test' });
-    const end = sessionTools.session_log.handler({ action: 'end' });
+  it('session-end runs deterministic memory maintenance (hooks-as-spine)', async () => {
+    await sessionTools.session_log.handler({ action: 'start', context: 'maintenance-test' });
+    const end = await sessionTools.session_log.handler({ action: 'end' });
     // Maintenance line is appended when consolidation produced output OR contradictions exist.
     // At minimum the call must not throw and must report a clean session end.
     assert.match(end, /Session ended/);

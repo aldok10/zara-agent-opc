@@ -8,6 +8,7 @@
 // This closes the gap the audit found: skill was "display only" at runtime.
 
 import fs from 'fs';
+import { contextPressure } from '../infra/store.mjs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -71,6 +72,9 @@ export default function createVoice() {
 
   return {
     inject(messages) {
+      // Shed voice injection under high pressure (>75%)
+      if (contextPressure.level > 0.75) return messages;
+
       const crib = loadCrib();
       const nudge = DRIFT_CHECKS[turn % DRIFT_CHECKS.length];
       turn++;

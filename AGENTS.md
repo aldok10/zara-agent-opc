@@ -123,3 +123,20 @@ After context compaction: re-read `.tasks/progress.md` + `git log` to determine 
 | @rhythm | Task type, failure mode, loop pattern to consider | Full codebase, business requirements |
 | @hive | Task description, sub-tasks, file boundaries per worker | Full project history, every agent's prompt |
 | @sketch | Problem statement, constraints, available options | Raw code, test output, session history |
+
+## Agent Output Contracts
+
+Each agent must include these fields in their response. If missing, Zara re-prompts before presenting to user.
+
+| Agent | Required Output Fields | Completeness Signal |
+|-------|----------------------|---------------------|
+| @atlas | tradeoffs[], recommendation, confidence(0-1), open_questions[] | "Analysis complete" or "Needs more context: ..." |
+| @forge | files_changed[], tests_run(bool), verification_evidence, diff_summary | "Implementation complete" or "Blocked: ..." |
+| @lens | findings[] with {severity, location, description}, root_cause | "Review complete" or "Need more context for: ..." |
+| @shield | vulnerabilities[] with {severity, impact, fix}, threat_summary | "Assessment complete" or "Scope unclear: ..." |
+| @probe | strategy, risk_areas[], coverage_gaps[], skip_justification | "Strategy ready" or "Need clarification: ..." |
+| @pulse | ship_blockers[], quick_wins[], debt_items[], timeline | "Plan ready" or "Missing info: ..." |
+| @rhythm | loop_pattern, verification_gates[], stop_conditions[] | "Design ready" or "Ambiguous failure mode: ..." |
+| @hive | workers[] with {scope, acceptance_criteria}, synthesis | "Coordination complete" or "Overlap detected: ..." |
+
+**Rule:** If agent output lacks the completeness signal, treat as partial. Follow up before presenting to user.

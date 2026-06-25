@@ -142,7 +142,7 @@ Single entry point (`.opencode/plugin/zara.mjs`) loads domain modules:
 |----------|--------|
 | Workflow | skill-gate, brainstorming, writing-plans, executing-plans, subagent-driven-dev, dispatching-parallel-agents, finishing-branch |
 | Quality | tdd, systematic-debugging, verification-before-completion, code-review |
-| Workspace | git-worktrees, git-expert, conventional-commits, context-mode, auto-resume, session-handoff, codebase-onboarding |
+| Workspace | git-worktrees, git-expert, conventional-commits, zara-ctx, auto-resume, session-handoff, codebase-onboarding |
 | Language | golang-expert, golang-compare, php-expert, swig-expert |
 | Voice | natural-voice |
 | Leadership | leadership-expert |

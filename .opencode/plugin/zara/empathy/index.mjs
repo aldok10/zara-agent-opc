@@ -1,7 +1,7 @@
 // Empathy module — Longitudinal emotional tracking, sentiment analysis, burnout detection
 // Tracks user energy, sentiment, frustration signals across sessions for adaptive interaction
 
-import { FileStore } from '../infra/store.mjs';
+import { FileStore, contextPressure } from '../infra/store.mjs';
 import { tool } from '@opencode-ai/plugin';
 import { FlowDetector } from './flow-detector.mjs';
 
@@ -185,6 +185,8 @@ export default function createEmpathy({ client, directory } = {}) {
 
     inject(messages) {
       if (!currentSession) return messages;
+      // Shed empathy injection under high pressure (>70%)
+      if (contextPressure.level > 0.70) return messages;
       // Flow-state protection: suppress proactive nudges when user is in deep flow
       if (flowDetector.isInFlow()) return messages;
 

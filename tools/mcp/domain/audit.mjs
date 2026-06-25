@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { createHash } from 'crypto';
 
 // Resolve project root from this module's location (tools/mcp/domain → project root)
 const PROJECT_ROOT = path.resolve(new URL('.', import.meta.url).pathname, '../../..');
@@ -15,6 +16,11 @@ class SelfAuditTools {
         description: 'Audit Zara config integrity: agents declared in opencode.json vs prompt files on disk, plugin modules imported vs present, MCP domain count, and orphaned references. Returns actionable findings. Run periodically to catch config drift.',
         inputSchema: { type: 'object', properties: { map: { type: 'boolean', description: 'Also emit a capability map: every MCP domain, plugin module, and agent available.' } } },
         handler: (args) => this.#handleAudit(args),
+      },
+      zara_skill_integrity: {
+        description: 'Check skill file integrity: generate or verify SHA-256 hashes of all project skills. Use action=generate to create manifest, action=verify to check against it.',
+        inputSchema: { type: 'object', properties: { action: { type: 'string', enum: ['generate', 'verify'], description: 'generate = create manifest, verify = check against existing' } }, required: ['action'] },
+        handler: (args) => this.#handleSkillIntegrity(args),
       },
     };
   }
@@ -97,6 +103,58 @@ class SelfAuditTools {
       mapLine = '\n\n' + await this.#capabilityMap();
     }
     return header + okLine + findLine + mapLine;
+  }
+
+  #handleSkillIntegrity(args) {
+    const skillDir = path.join(PROJECT_ROOT, '.opencode/skills');
+    const manifestPath = path.join(PROJECT_ROOT, '.opencode/skill-manifest.json');
+
+    // Collect all skill hashes + dependency info
+    const current = {};
+    try {
+      for (const name of fs.readdirSync(skillDir)) {
+        const skillFile = path.join(skillDir, name, 'SKILL.md');
+        if (fs.existsSync(skillFile)) {
+          const content = fs.readFileSync(skillFile, 'utf-8');
+          const hash = createHash('sha256').update(content).digest('hex');
+          // Extract dependencies from Related Skills tables and skill references
+          const deps = [...new Set(
+            [...content.matchAll(/`([a-z][\w-]+)`/g)].map(m => m[1])
+              .filter(s => fs.existsSync(path.join(skillDir, s, 'SKILL.md')) && s !== name)
+          )];
+          current[name] = { hash, requires: deps.length ? deps : undefined };
+        }
+      }
+    } catch (e) { return `Error reading skills: ${e.message}`; }
+
+    if (args.action === 'generate') {
+      fs.writeFileSync(manifestPath, JSON.stringify(current, null, 2) + '\n');
+      const depCount = Object.values(current).filter(v => v.requires).length;
+      return `Manifest generated: ${Object.keys(current).length} skills (${depCount} with dependencies) → .opencode/skill-manifest.json`;
+    }
+
+    // Verify mode
+    if (!fs.existsSync(manifestPath)) {
+      return `No manifest found. Run with action=generate first.`;
+    }
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
+    const issues = [];
+    for (const [name, entry] of Object.entries(manifest)) {
+      const hash = typeof entry === 'string' ? entry : entry.hash;
+      if (!current[name]) issues.push(`MISSING: ${name} (in manifest but not on disk)`);
+      else if (current[name].hash !== hash) issues.push(`MODIFIED: ${name}`);
+    }
+    for (const name of Object.keys(current)) {
+      if (!manifest[name]) issues.push(`NEW: ${name} (on disk but not in manifest)`);
+    }
+    // Check broken dependencies
+    for (const [name, entry] of Object.entries(current)) {
+      for (const dep of (entry.requires || [])) {
+        if (!current[dep]) issues.push(`BROKEN DEP: ${name} requires "${dep}" (not found)`);
+      }
+    }
+    if (!issues.length) return `Skill integrity: clean ✓ (${Object.keys(manifest).length} skills verified)`;
+    return `Skill integrity: ${issues.length} issue(s)\n${issues.map(i => `  ⚠️ ${i}`).join('\n')}`;
   }
 
   // Enumerate every capability the agent can actually invoke, so nothing

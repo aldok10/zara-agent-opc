@@ -65,7 +65,7 @@ User always wins. If user says "skip brainstorming", skip it.
 | Session ending, preserving context | `session-handoff` → or use `/handoff` |
 | Session start, checking for incomplete work | `auto-resume` → or use `/resume` |
 | Need heavy data processing outside context | `zara-ctx` |
-| Context budget low, need sandbox execution | `context-mode` |
+| Context budget low, need sandbox execution | `zara-ctx` |
 | Risky action, need confirmation workflow | `zara-hitl` |
 | MCP security, secrets in tool calls | `zara-privacy-mcp` |
 | Library/framework docs needed | `find-docs` |

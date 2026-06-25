@@ -132,3 +132,7 @@ export function atomicWrite(filePath, data) {
 // connection strings, and generic key=value secrets.
 
 export const SECRET_PATTERN = /(?:sk-[a-zA-Z0-9_-]{20,}|ghp_[a-zA-Z0-9]{36,}|gho_[a-zA-Z0-9]{36,}|glpat-[a-zA-Z0-9_-]{20,}|xox[bp]-[a-zA-Z0-9-]{20,}|AKIA[0-9A-Z]{16}|eyJ[a-zA-Z0-9_-]{20,}\.eyJ[a-zA-Z0-9_-]{20,}\.[a-zA-Z0-9_-]+|-----BEGIN\s(?:RSA\s|EC\s|OPENSSH\s)?PRIVATE\sKEY-----|(?:mongodb(?:\+srv)?|postgres(?:ql)?|mysql|redis):\/\/\S{10,}|(?:api[_-]?key|password|passwd|secret|token|bearer|authorization)[=:\s]\S{8,})/i;
+
+// ─── Shared Context Pressure ─────────────────────────────────────────────────
+// Written by evolve module, read by other modules to self-limit under pressure.
+export const contextPressure = { level: 0 }; // 0-1, updated every inject cycle

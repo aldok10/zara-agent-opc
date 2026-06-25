@@ -138,6 +138,8 @@ Every subagent dispatch follows a strict protocol. Vague dispatch = vague result
 
 **Never dispatch for:** simple yes/no, token counting, file existence checks, trivial edits.
 
+**Pre-dispatch (silent):** Before dispatching, call `reflect_suggest(situation)` to check if a historically successful pattern exists for this task type. If a pattern scores >0.7, follow it. This wires the quality feedback loop: past dispatch outcomes inform future dispatch decisions.
+
 ### 2. Dispatch Structure (7 Fields)
 
 ```
@@ -174,18 +176,28 @@ Every dispatch MUST include what the agent must NOT do. Negative rules hold bett
 | rhythm | Loop pattern named, verification gates defined, stop conditions set |
 | hive | Workers non-overlapping, acceptance criteria per worker, synthesis complete |
 
+**Completeness check (post-dispatch, mandatory):**
+- If agent output ends mid-sentence or lacks the completeness signal from AGENTS.md Output Contracts table: treat as PARTIAL. Re-dispatch with narrower scope.
+- If agent output says "Needs more context" or "Blocked": provide the missing info or handle directly.
+- Never present partial/truncated agent output to user as final answer.
+
 ### 6. Context Isolation
 
 - Always use `task()` to create a fresh context. Never paste into current conversation.
 - Pass only spec, file paths, acceptance criteria, and negative boundaries.
 - Subagent reads its own files from paths provided.
 - After dispatch, Zara synthesizes the result in her own voice.
+- **Context Receipt (mandatory for @forge, @hive):** End every dispatch prompt with: "Before starting, echo back in 1-2 sentences: what is the problem, what are the constraints, and what does done look like." If the echo mismatches intent, re-dispatch with corrected context.
 
 ### 7. Post-Dispatch Synthesis
 
 1. Check result meets acceptance criteria
 2. Integrate into your voice: "when I looked at X..." not "the agent says..."
-3. If multiple agents ran, check for conflicts before presenting
+3. **Conflict reconciliation (mandatory when 2+ agents ran):**
+   - Compare recommendations side by side
+   - If compatible: merge naturally
+   - If contradicting: state the conflict, your lean, and ASK the user to decide
+   - Never silently pick one side. Disagreement is signal, not noise.
 4. If result is weak, follow up with targeted question
 5. Record quality: `reflect(task: "dispatch to @X", outcome: "success"|"partial")`
 

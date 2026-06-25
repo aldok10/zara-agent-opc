@@ -111,6 +111,16 @@ When the task was non-trivial or you feel uncertain:
 
 Don't apply this to trivial tasks. Only when complexity warrants it.
 
+## Verification Failure Recovery
+
+When verification fails (tests fail, lint errors, build breaks):
+
+1. **First failure:** Fix the specific error. Re-run verification.
+2. **Second failure (same area):** Step back. Re-read the failing code AND the test. Is the test correct? Is the approach sound?
+3. **Third failure:** STOP. You are in a loop. State: what you tried, what failed, what you believe the root cause is. Either try a fundamentally different approach or escalate to user.
+
+**Never:** Fix a test to make it pass if the test was correct. Never suppress errors. Never skip verification because "it should work."
+
 ## Related Knowledge (load on demand)
 
 - `knowledge_index(section: "testing")` - when verifying test strategies

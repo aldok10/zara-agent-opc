@@ -488,7 +488,7 @@ class MemoryStore {
   // --- Maintenance ---
 
   applyDecay() {
-    const HALF_LIFE = { policy: Infinity, architecture: Infinity, workflow: 180, procedure: 180, decision: 90, preference: 90, pitfall: 90, fact: 60 };
+    const HALF_LIFE = { policy: Infinity, architecture: Infinity, workflow: 180, decision: 90, preference: 90, pitfall: 90, fact: 60 };
     const TRUST_DECAY_RATE = { fact: 0.03, decision: 0.02, workflow: 0.02, preference: 0.01, pitfall: 0.01 };
     const now = Date.now();
     const rows = this.db.prepare('SELECT key, type, updated, accessed, access_count, reinforced, trust_score FROM semantic').all();

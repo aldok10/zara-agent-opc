@@ -12,7 +12,7 @@
 - [x] Dependency pinning (@huggingface/transformers exact version)
 - [x] Install script: Node version check + npm install + env fallbacks
 
-## Next Up: v1.2.0 - Universal Install
+## Next Up: v1.2.0 - Universal Install (target: July 2026)
 
 ### v1.2.0 - Zero-Friction Install (#72, #73, #76)
 - [ ] One-command install for all OS (npx or curl pipe)
@@ -22,7 +22,7 @@
 - [ ] GitHub Actions CI matrix (ubuntu, windows, macos x Node 22/24)
 - [ ] Fix all Windows-specific bugs (import paths, process groups, music module)
 
-### v1.3.0 - Security & Performance (#74, #75)
+### v1.3.0 - Security & Performance (target: August 2026)
 - [ ] Eliminate shell script generation in music module (direct spawn)
 - [ ] Sanitize all user inputs passed to shell commands
 - [ ] Fuzz test: random inputs to all MCP tools
@@ -32,13 +32,13 @@
 
 ## Medium-term (Q4 2026)
 
-### v2.0.0 - Platform Expansion
+### v2.0.0 - Platform Expansion (target: October 2026)
 - [ ] IDE-agnostic (VS Code extension, JetBrains plugin)
 - [ ] CLI-only mode (no OpenCode dependency)
 - [ ] Web UI for knowledge management
 - [ ] REST API for external integrations
 
-### v2.1.0 - Advanced Coordination
+### v2.1.0 - Advanced Coordination (target: December 2026)
 - [ ] Hierarchical swarm coordination (nested swarms)
 - [ ] Multi-repository support
 - [ ] Cross-team knowledge sharing

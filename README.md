@@ -33,20 +33,20 @@ Most AI coding tools are stateless. Every session starts from zero. Zara is diff
 |---------|----------------|
 | AI forgets everything between sessions | 3-layer cognitive memory (episodic/semantic/procedural) with temporal decay |
 | One-size-fits-all responses | Learns your preferences, stack, patterns. Adapts over time. |
-| Single-agent bottleneck | 10 coordinated agents with domain expertise and debate capability |
+| Single-agent bottleneck | 11 coordinated agents with domain expertise and debate capability |
 | No methodology enforcement | Skill-gated workflow: brainstorm → plan → TDD → verify → ship |
 | Generic assistant tone | Empathetic orchestration with Radical Candor. Pushes back when needed. |
 | No learning from mistakes | Outcome-weighted reflection. Same mistake twice triggers systemic fix. |
 
 ## Key Features
 
-- **Multi-Agent Orchestration** - 10 agents (Zara + 9 specialists) with servant leadership coordination
+- **Multi-Agent Orchestration** - 11 agents (Zara + 10 specialists) with servant leadership coordination
 - **Cognitive Memory** - 3-layer persistent memory with semantic embeddings (MiniLM-L6-v2, 384-dim)
 - **77-Route Skill Routing** - 200+ keyword signals across 100+ global skills, weight-adaptive from usage
 - **Self-Improving** - Outcome-weighted reflection, grounded in real test results, autonomous self-audit
-- **Knowledge-Grounded** - 292 indexed articles for architecture, patterns, and design decisions
+- **Knowledge-Grounded** - 294 indexed articles for architecture, patterns, and design decisions
 - **Trust-Calibrated** - Source-gated ceilings, evidence-required success claims, temporal decay
-- **MCP Server** - 31 tools across 10 domains, stdio transport, zero external dependencies
+- **MCP Server** - 29 tools across 10 domains, stdio transport, zero external dependencies
 - **Privacy-Aware** - Automatic secrets detection, data masking, bulk-delete protection
 - **Multi-Agent Debate** - Agents argue positions before consensus on complex decisions
 - **Doom-Loop Detection** - Automatically detects retry patterns and forces strategy pivots
@@ -70,6 +70,39 @@ AI_MODE=1 ./scripts/install.sh
 - **OpenCode** ([opencode.ai](https://opencode.ai))
 - See [docs/installation.md](docs/installation.md) for Windows/platform details
 
+## Your First 5 Minutes
+
+After installing, run `opencode` in any project directory:
+
+```
+You: hey
+
+Zara: Hey mas! First time we're talking. What are you working on?
+      I'll remember your stack, preferences, and open threads across sessions.
+
+You: review this function for me [pastes code]
+
+Zara: [recalls your preference for Go stdlib]
+      [dispatches @lens for code review]
+      [dispatches @shield for security check]
+
+      Three issues. The SQL concatenation on line 12 is injectable.
+      Here's the fix...
+
+You: [next day] hey
+
+Zara: Morning! Yesterday you were working on that auth refactor.
+      The SQL injection fix - did you ship that? Want to continue
+      where we left off?
+```
+
+**What's happening under the hood:**
+- Session 1: Zara learns your name, stack, and coding style
+- Session 2: Memory recall activates. She remembers open threads.
+- Session 5+: Skill routing adapts to your patterns. Reflection scores improve recommendations.
+
+The more you use her, the sharper she gets. Not because of fine-tuning, but because of persistent memory + outcome-weighted learning.
+
 ## Agents
 
 | Agent | Role | Trigger |
@@ -81,20 +114,48 @@ AI_MODE=1 ./scripts/install.sh
 | `@pulse` | Delivery & shipping | Blockers, tech debt |
 | `@rhythm` | Loop engineering | Iterative workflows, failure modes |
 | `@hive` | Swarm coordination | 3+ parallel tasks |
-| `@forge` | Implementation | Plan → code → verify → ship |
+| `@forge` | Implementation | Plan -> code -> verify -> ship |
 | `@sketch` | Planning (read-only) | `/think`, design exploration |
+
+## How Zara Differs
+
+| | Zara | Claude Code / Cursor | Aider | Devin |
+|--|------|---------------------|-------|-------|
+| **Memory across sessions** | 3-layer cognitive memory with decay | None (starts fresh) | Git-based context | Limited |
+| **Multi-agent** | 11 specialists with debate | Single agent | Single agent | Multi-agent |
+| **Methodology** | Skill-gated TDD workflow | Freeform | Freeform | Task-based |
+| **Self-improving** | Outcome-weighted reflection | No | No | No |
+| **Personality** | Opinionated, pushes back, cares | Neutral assistant | Neutral | Task executor |
+| **Knowledge base** | 294 grounded articles | Training data only | None | None |
+| **Open source** | MIT, fully transparent | Proprietary | MIT | Proprietary |
+| **Cost** | Your own API keys | Subscription | Your keys | $500/mo |
+
+Zara is not trying to replace these tools. She's a different category: a **persistent engineering partner** that grows with you over time.
 
 ## Development Methodology
 
 Skill-gated workflow enforced automatically:
 
 ```
-skill-gate → brainstorming → writing-plans → subagent-driven-dev → finishing-branch
+skill-gate -> brainstorming -> writing-plans -> subagent-driven-dev -> finishing-branch
                                                     │
-                                                   tdd → verification-before-completion
+                                                   tdd -> verification-before-completion
 ```
 
 **Iron laws:** No code without a failing test. No fixes without root cause. No completion claims without verification. No implementation without design.
+
+## Not Just a Tool
+
+Zara has personality. She has opinions. She's not neutral by design.
+
+- **Pushes back** when you skip tests, over-engineer, or reach for a dependency you don't need
+- **Remembers your open threads** and follows up naturally ("did you ship that auth fix?")
+- **Tells you to take a break** at 3am. Once. Then respects the adult.
+- **Celebrates growth** specifically ("your error handling is way cleaner than last month")
+- **Speaks your language** (literally, she matches Indonesian/English/mixed naturally)
+- **Has a safety constitution** with enforceable rules she cannot override
+
+She's warm, direct, and permanently on your side. Think senior engineering partner who happens to have perfect recall and 11 specialist brains she can consult.
 
 ## Project Structure
 
@@ -102,12 +163,12 @@ skill-gate → brainstorming → writing-plans → subagent-driven-dev → finis
 zara-agent-opc/
 ├── opencode.json              # Project config (agents, MCP, plugins)
 ├── AGENTS.md                  # AI agent instructions + decision table
-├── tools/mcp/                 # MCP server (24+ tools, DDD-lite architecture)
+├── tools/mcp/                 # MCP server (29 tools, DDD-lite architecture)
 ├── .opencode/
-│   ├── agent/                 # 10 agent definitions
-│   ├── plugin/                # 11 domain modules
-│   └── skills/                # 27 project skills
-├── knowledge/                 # 254 indexed articles (architecture, patterns, etc.)
+│   ├── agent/                 # 11 agent definitions
+│   ├── plugin/                # 13 domain modules
+│   └── skills/                # Routing to 100+ global skills
+├── knowledge/                 # 294 indexed articles (architecture, patterns, etc.)
 ├── docs/                      # Full documentation suite
 ├── examples/                  # Usage examples by category
 └── tests/                     # Unit + structure + integration tests
@@ -131,12 +192,12 @@ zara-agent-opc/
 │         Empathetic Leadership + Servant Coordination     │
 ├─────────────────────────────────────────────────────────┤
 │  @atlas  @lens  @shield  @probe  @pulse  @rhythm  ...   │
-│              Specialist Agent Layer                      │
+│              Specialist Agent Layer (11)                 │
 ├─────────────────────────────────────────────────────────┤
-│  Plugin System (11 modules)                             │
+│  Plugin System (13 domain modules)                      │
 │  observe│memory│flow│dev│social│evolve│empathy│voice│...│
 ├─────────────────────────────────────────────────────────┤
-│  MCP Server (24+ tools, 9 domains)                     │
+│  MCP Server (29 tools, 10 domains)                      │
 │  memory│reflection│metrics│session│music│knowledge│...   │
 ├─────────────────────────────────────────────────────────┤
 │  SQLite + FTS5 + Semantic Embeddings (MiniLM-L6-v2)    │

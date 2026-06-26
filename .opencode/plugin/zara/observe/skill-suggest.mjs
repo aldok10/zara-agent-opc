@@ -1,6 +1,8 @@
 // Skill suggestion based on skill_routes table + filesystem discovery (adaptive, weight-sorted)
 
-import { skillRoutesAll } from '../../../../tools/memory-db.mjs';
+let skillRoutesAll;
+try { ({ skillRoutesAll } = await import('../../../../tools/memory-db.mjs')); }
+catch { skillRoutesAll = () => []; }
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';

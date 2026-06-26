@@ -218,7 +218,7 @@
         "--experimental-sqlite",
         "tools/mcp/index.mjs"
       ],
-      "timeout": 5000,
+      "timeout": 30000,
       "enabled": true
     }
   },

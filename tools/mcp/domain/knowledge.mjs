@@ -3,7 +3,6 @@ import path from 'path';
 import os from 'os';
 import { fileURLToPath } from 'url';
 import { HOME, loadJson } from '../infra.mjs';
-import { convertChm } from '../../chm2md.mjs';
 import {
   semanticLearn,
   knowledgeUpsert, knowledgeBySection, knowledgeSearch, knowledgeSections, knowledgeCount,
@@ -232,68 +231,6 @@ class KnowledgeTools {
     ).slice(0, 10);
     if (!matched.length) return 'No matches.';
     return matched.map(([k, v]) => `${k}: ${v.value}`).join('\n');
-  }
-
-  #handleChm2md(args) {
-    const skillName = args.skill_name || path.basename(args.input, path.extname(args.input)).toLowerCase().replace(/[^a-z0-9]+/g, '-');
-    const outputDir = args.output || path.join(os.homedir(), '.agents', 'skills', skillName);
-    const result = convertChm(args.input, outputDir, { mode: args.mode || 'skill', skillName });
-    if (result.subskills) {
-      let out = `AI Skill installed: ${result.skillName}\n  Location: ${outputDir}/\n  Router: ${result.skillPath}\n  Source: ${result.inputFiles} pages \u2192 ${result.totalLines} lines\n\n  Subskills (${result.subskills.length}):\n`;
-      for (const s of result.subskills) out += `    - ${s.name}: ${s.entries} entries, ${s.files} knowledge files\n`;
-      out += `\n  Next: call chm2md_improve to get AI optimization prompts.`;
-      return out;
-    }
-    return `Converted ${result.inputFiles} \u2192 ${result.outputFiles || 0} files (${result.totalLines} lines)\nOutput: ${outputDir}`;
-  }
-
-  #handleChm2mdImprove(args) {
-    const skillPath = args.skill_path;
-    const action = args.action || 'plan';
-    if (!fs.existsSync(skillPath)) return `Error: ${skillPath} not found`;
-
-    const subskillsDir = path.join(skillPath, 'subskills');
-    let subskills = [];
-    if (fs.existsSync(subskillsDir)) {
-      subskills = fs.readdirSync(subskillsDir).filter(d => fs.existsSync(path.join(subskillsDir, d, 'SKILL.md')));
-    }
-    if (args.subskill) {
-      subskills = subskills.filter(s => s === args.subskill);
-      if (!subskills.length) return `Error: subskill "${args.subskill}" not found`;
-    }
-
-    if (action === 'template') {
-      return `# [Subskill Name]\n\n## Description\n[1-2 sentences]\n\n## When to Use\n- [trigger 1]\n\n## Key Concepts\n\`term1\`, \`term2\`\n\n## Quick Lookup\n\n| I need to... | Load file |\n|---|---|\n| [task] | knowledge/[file].md |\n\n## Common Patterns\n\n\`\`\`\n// [Pattern]\n\`\`\`\n\n## Pitfalls\n- [mistake]\n\n## Knowledge Files\n\n| File | Content | Lines |\n|------|---------|-------|\n| [file] | [desc] | [n] |`;
-    }
-
-    if (action === 'files') {
-      let files = [];
-      for (const sub of subskills) {
-        const kDir = path.join(subskillsDir, sub, 'knowledge');
-        if (!fs.existsSync(kDir)) continue;
-        for (const f of fs.readdirSync(kDir).filter(f => f.endsWith('.md'))) {
-          const fp = path.join(kDir, f);
-          const content = fs.readFileSync(fp, 'utf-8');
-          const lines = content.split('\n').length;
-          const headers = (content.match(/^#{2,3}\s/gm) || []).length;
-          files.push({ path: fp, subskill: sub, file: f, lines, score: lines - headers * 50 });
-        }
-      }
-      files.sort((a, b) => b.score - a.score);
-      let out = `Files needing improvement (${files.length} total, top 20):\n\n`;
-      for (const f of files.slice(0, 20)) out += `${f.path}\n  ${f.lines} lines (score: ${f.score})\n\n`;
-      return out;
-    }
-
-    let plan = `# Improvement Plan: ${path.basename(skillPath)}\n\n`;
-    plan += `1. Read subskill SKILL.md\n2. Rewrite with template (action="template")\n3. Improve largest knowledge files\n4. Cross-reference subskills\n\n`;
-    plan += `| Priority | Subskill | Files |\n|---|---|---|\n`;
-    const ranked = subskills.map(sub => {
-      const kDir = path.join(subskillsDir, sub, 'knowledge');
-      return { sub, files: fs.existsSync(kDir) ? fs.readdirSync(kDir).filter(f => f.endsWith('.md')).length : 0 };
-    }).sort((a, b) => b.files - a.files);
-    ranked.forEach((r, i) => { plan += `| ${i + 1} | ${r.sub} | ${r.files} |\n`; });
-    return plan;
   }
 }
 

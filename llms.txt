@@ -10,8 +10,8 @@ Zara is a persistent, evolving AI engineering partner that remembers context acr
 
 Key capabilities:
 - 3-layer cognitive memory (episodic/semantic/procedural) with MiniLM-L6-v2 embeddings
-- 10 coordinated AI agents with domain expertise (architecture, security, testing, delivery)
-- 132-signal adaptive skill routing across 100+ engineering skills
+- 11 coordinated AI agents with domain expertise (architecture, security, testing, delivery)
+- 77-route adaptive skill routing across 100+ engineering skills
 - Reciprocal Rank Fusion (RRF) for multi-layer memory retrieval
 - Self-improving: outcome-weighted reflection, micro-tool crystallization
 - Trust-calibrated memory with source-gated ceilings and temporal decay
@@ -23,10 +23,10 @@ Key capabilities:
 - Protocol: Model Context Protocol (MCP) over stdio
 - Storage: SQLite with semantic embeddings (384-dim vectors)
 - State: File-based at ~/.zara/ (JSON, JSONL, SQLite)
-- Agents: 10 (orchestrator + 9 specialists)
-- MCP Tools: 24+ across 9 domains (memory, reflection, metrics, session, music, knowledge, identity, project, audit)
-- Skills: 27 project + 100+ global
-- Knowledge: 254 indexed DevIQ articles with passage-level semantic search
+- Agents: 11 (orchestrator + 10 specialists)
+- MCP Tools: 29 across 10 domains (memory, reflection, metrics, session, music, knowledge, audit, project, identity, improve)
+- Skills: 100+ global engineering skills
+- Knowledge: 294 indexed DevIQ articles with passage-level semantic search
 
 ## Links
 
@@ -39,8 +39,8 @@ Key capabilities:
 ## Sections
 
 - [README](https://github.com/aldok10/zara-agent-opc/blob/main/README.md): Full documentation, quick start, architecture
-- [MCP Server](https://github.com/aldok10/zara-agent-opc/tree/main/tools/mcp): 24+ tools implementation
-- [Knowledge Base](https://github.com/aldok10/zara-agent-opc/tree/main/knowledge): 254 architecture and engineering articles
-- [Skills](https://github.com/aldok10/zara-agent-opc/tree/main/.opencode/skills): 27 engineering methodology skills
-- [Agents](https://github.com/aldok10/zara-agent-opc/tree/main/.opencode/agent): 10 specialized AI agent definitions
-- [Plugins](https://github.com/aldok10/zara-agent-opc/tree/main/.opencode/plugin): 11 domain modules (memory, voice, empathy, etc.)
+- [MCP Server](https://github.com/aldok10/zara-agent-opc/tree/main/tools/mcp): 29 tools implementation
+- [Knowledge Base](https://github.com/aldok10/zara-agent-opc/tree/main/knowledge): 294 architecture and engineering articles
+- [Skills](https://github.com/aldok10/zara-agent-opc/tree/main/.opencode/skills): 100+ engineering methodology skills
+- [Agents](https://github.com/aldok10/zara-agent-opc/tree/main/.opencode/agent): 11 specialized AI agent definitions
+- [Plugins](https://github.com/aldok10/zara-agent-opc/tree/main/.opencode/plugin): 13 domain modules (memory, voice, empathy, etc.)

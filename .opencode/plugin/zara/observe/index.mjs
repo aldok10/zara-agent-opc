@@ -84,8 +84,9 @@ export class TraceService {
       agent: span.agent || null,
     });
 
-    // Keep in-memory tree for trace queries
+    // Keep in-memory tree for trace queries (cap at 200 to prevent memory leak)
     this.#traceTree.push({ spanId: span.spanId, parentId: span.parentId, tool: span.tool, duration, success, args: span.args, context, agent: span.agent || null, ts: new Date().toISOString() });
+    if (this.#traceTree.length > 200) this.#traceTree.splice(0, this.#traceTree.length - 200);
 
     return duration;
   }
@@ -465,7 +466,16 @@ export class CacheService {
       .sort((a, b) => b[1].ts - a[1].ts).slice(0, this.#max);
     this.#cache = Object.fromEntries(entries);
   }
-  #save() { this.#store.writeJSON('cache.json', this.#cache); this.#store.writeJSON('stats.json', this.#stats); }
+  #save() {
+    // Debounce: write at most once per 30s
+    if (this._saveTimer) return;
+    this._saveTimer = setTimeout(() => {
+      this.#store.writeJSON('cache.json', this.#cache);
+      this.#store.writeJSON('stats.json', this.#stats);
+      this._saveTimer = null;
+    }, 30000);
+  }
+  flush() { if (this._saveTimer) { clearTimeout(this._saveTimer); this._saveTimer = null; } this.#store.writeJSON('cache.json', this.#cache); this.#store.writeJSON('stats.json', this.#stats); }
 }
 
 // ─── Proactive Intelligence ──────────────────────────────────────────────────

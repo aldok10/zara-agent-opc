@@ -291,7 +291,23 @@ echo "║  Knowledge: $KB_COUNT articles"
 echo "║                                                             ║"
 echo "║  Next steps:                                                ║"
 echo "║  1. Edit $ZARA_HOME/.env with your settings            ║"
-echo "║  2. Run: zara status                                         ║"
-echo "║  3. Set CONTEXT7_API_KEY for live docs                       ║"
-echo "║  4. Restart OpenCode to activate Zara                       ║"
+echo "║  2. Run: opencode (in any project directory)                ║"
+echo "║  3. Set CONTEXT7_API_KEY for live docs (optional)           ║"
 echo "╚══════════════════════════════════════════════════════════════╝"
+
+# MCP smoke test
+echo ""
+echo -e "${CYAN}[Smoke Test]${NC} MCP server..."
+MCP_RESULT=$(echo '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}' | timeout 15 node --experimental-sqlite "$SCRIPT_DIR/tools/mcp/index.mjs" 2>/dev/null | head -1)
+if echo "$MCP_RESULT" | grep -q '"tools"'; then
+    echo -e "  ${GREEN}✓${NC} MCP server responds"
+else
+    echo -e "  ${YELLOW}⚠${NC} MCP server did not respond (non-fatal)"
+fi
+
+# AI-mode: machine-readable output
+if [ "${AI_MODE:-}" = "1" ] || [ "${1:-}" = "--ai-mode" ]; then
+    echo ""
+    echo "---AI_STATUS_JSON---"
+    echo "{\"success\": true, \"platform\": \"$OS\", \"arch\": \"$ARCH\", \"node\": \"$NODE_VERSION\", \"zara_home\": \"$ZARA_HOME\", \"knowledge_articles\": $KB_COUNT}"
+fi

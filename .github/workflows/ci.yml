@@ -55,7 +55,8 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci --ignore-scripts 2>/dev/null || npm install --ignore-scripts
+        shell: bash
+        run: npm install --ignore-scripts
 
       - name: Unit tests
         run: node --experimental-sqlite --test --test-concurrency=1 tests/*.test.mjs
@@ -86,7 +87,8 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci --ignore-scripts 2>/dev/null || npm install --ignore-scripts
+        shell: bash
+        run: npm install --ignore-scripts
 
       - name: Structure tests (bats)
         run: |

@@ -4,6 +4,13 @@
 // Usage:
 //   node tools/mcp/index.mjs
 
+// Node version gate: FTS5 requires >=22.14.0
+const [major, minor] = process.versions.node.split('.').map(Number);
+if (major < 22 || (major === 22 && minor < 14)) {
+  process.stderr.write(`[zara-mcp] ERROR: Node.js >=22.14.0 required (found ${process.version}). FTS5 unavailable.\n`);
+  process.exit(1);
+}
+
 import fs from 'fs';
 import path from 'path';
 import { McpServer } from './server.mjs';

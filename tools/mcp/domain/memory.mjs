@@ -164,6 +164,8 @@ class MemoryTools {
     const r = dreamConsolidate();
     let conflicts = [];
     try { conflicts = await detectContradictionsAsync(); } catch (e) { process.stderr.write(`[mcp:memory] detectContradictions failed: ${e.message}\n`); }
+    // Regenerate user profile cache
+    try { const { regenerateProfileCache } = await import('./identity.mjs'); regenerateProfileCache(); } catch {}
     const conflictNote = conflicts.length
       ? `\n⚠️ ${conflicts.length} potential contradiction(s) detected — run memory_contradictions to review.`
       : '';

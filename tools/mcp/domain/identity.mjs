@@ -84,6 +84,21 @@ function persistIdentity(name, source) {
 
 export { resolveBest, discoverAll, persistIdentity };
 
+// Profile cache: regenerated on consolidation, fast injection without 6 queries
+const PROFILE_CACHE = path.join(HOME, 'profile.json');
+
+function regenerateProfileCache() {
+  const who = semanticRecall('user name identity values personality', 5, { type: 'preference' }).map(r => ({ claim: r.value, source: r.key }));
+  const goals = semanticRecall('goal objective target milestone', 5, { type: 'decision' }).map(r => ({ claim: r.value, source: r.key }));
+  const cares = semanticRecall('interest priority care important value', 5, { type: 'preference' }).map(r => ({ claim: r.value, source: r.key }));
+  const projects = semanticRecall('project working on building', 5, { type: 'fact' }).map(r => ({ claim: r.value, source: r.key }));
+  const profile = { generated: new Date().toISOString(), who, goals, cares, projects };
+  saveJson(PROFILE_CACHE, profile);
+  return profile;
+}
+
+export { regenerateProfileCache };
+
 class IdentityTools {
   get tools() {
     return {

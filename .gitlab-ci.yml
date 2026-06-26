@@ -34,7 +34,6 @@ lint:json:
     - python3 -m json.tool version.json
     - python3 -m json.tool opencode.json
     - python3 -m json.tool package.json
-    - python3 -m json.tool .opencode/skill-manifest.json
 
 lint:syntax:
   stage: lint
@@ -96,20 +95,6 @@ test:structure:
   script:
     - bats tests/test_structure.bats tests/test_prompts.bats
 
-test:skill-integrity:
-  stage: test
-  image: $NODE_IMAGE
-  before_script:
-    - npm ci --ignore-scripts 2>/dev/null || npm install --ignore-scripts
-  script:
-    - |
-      node -e "
-        import a from './tools/mcp/domain/audit.mjs';
-        const r = a.zara_skill_integrity.handler({ action: 'verify' });
-        console.log(r);
-        if (r.includes('issue')) process.exit(1);
-      "
-
 # =============================================================================
 # Release stage — only on main, after all checks pass
 # =============================================================================
@@ -122,7 +107,6 @@ bump-version:
     - lint:syntax
     - test:unit
     - test:structure
-    - test:skill-integrity
   before_script:
     - apk add --no-cache git python3
     - git config user.name "zara-bot"

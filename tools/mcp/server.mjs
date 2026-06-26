@@ -35,6 +35,19 @@ export class McpServer {
     this.version = version;
     this.tools = {};
     this._toolsCache = null;
+    // Rate limiter: sliding window per tool, max 120 calls/minute
+    this._callLog = [];
+    this._rateLimit = 120;
+    this._rateWindow = 60_000;
+  }
+
+  /** Returns true if rate limit exceeded */
+  _isRateLimited() {
+    const now = Date.now();
+    this._callLog = this._callLog.filter(t => now - t < this._rateWindow);
+    if (this._callLog.length >= this._rateLimit) return true;
+    this._callLog.push(now);
+    return false;
   }
 
   /** @param {Record<string, {description: string, inputSchema: object, handler: Function}>} toolMap */
@@ -70,6 +83,9 @@ export class McpServer {
       case 'tools/list':
         return { jsonrpc: '2.0', id, result: { tools: this.toolsList } };
       case 'tools/call': {
+        if (this._isRateLimited()) {
+          return { jsonrpc: '2.0', id, error: { code: -32000, message: 'Rate limited: max 120 tool calls per minute' } };
+        }
         const tool = this.tools[params.name];
         if (!tool) {
           logCall(params.name, params.arguments, false, 0, 'unknown_tool');

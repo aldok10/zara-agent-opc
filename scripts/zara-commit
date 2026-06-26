@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# zara-commit — commit as zara-agent[bot]
+# Usage: scripts/zara-commit "fix: description"
+#        scripts/zara-commit "fix: description" --push
+set -euo pipefail
+
+BOT_NAME="zara-agent[bot]"
+BOT_EMAIL="297082100+zara-agent[bot]@users.noreply.github.com"
+
+if [ $# -lt 1 ]; then
+  echo "Usage: scripts/zara-commit <message> [--push]"
+  exit 1
+fi
+
+MSG="$1"
+PUSH="${2:-}"
+
+git -c user.name="$BOT_NAME" -c user.email="$BOT_EMAIL" commit -m "$MSG"
+
+if [ "$PUSH" = "--push" ]; then
+  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  TOKEN=$(ZARA_APP_ID="${ZARA_APP_ID:-4150092}" ZARA_APP_KEY="${ZARA_APP_KEY:-$HOME/.zara/zara-app.pem}" node "$SCRIPT_DIR/gh-app-token.mjs" 2>/dev/null)
+  BRANCH=$(git rev-parse --abbrev-ref HEAD)
+  git -c http.https://github.com/.extraheader="Authorization: basic $(echo -n "x-access-token:$TOKEN" | base64)" \
+    push github "$BRANCH" -u
+fi

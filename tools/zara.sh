@@ -75,6 +75,8 @@ show_help() {
     echo "  learn <file>            Import a skill file"
     echo "  journal                 Show recent journal entries"
     echo "  session <name>          Start a new session"
+    echo "  cost [today|session|week] Show token spend and est. cost"
+    echo "  health                  Show memory, knowledge, and system health"
     echo ""
     echo "Sections:"
     echo "  Configure DEVIQ_KNOWLEDGE_SECTIONS env variable"
@@ -446,6 +448,71 @@ EOF
 # =============================================================================
 ensure_dirs
 
+# =============================================================================
+# Command: cost
+# =============================================================================
+show_cost() {
+    local period="${1:-today}"
+    local db="$ZARA_HOME/telemetry.db"
+    if [ ! -f "$db" ]; then
+        echo -e "${YELLOW}No telemetry data yet. Use Zara in OpenCode to generate data.${NC}"
+        return
+    fi
+    echo -e "${CYAN}Token Spend ($period):${NC}"
+    node --experimental-sqlite -e "
+      const { DatabaseSync } = require('node:sqlite');
+      const db = new DatabaseSync('$db');
+      const w = '$period' === 'today' ? \"WHERE date(ts)=date('now')\"
+        : '$period' === 'session' ? \"WHERE session_id=(SELECT session_id FROM turns ORDER BY id DESC LIMIT 1)\"
+        : '$period' === 'week' ? \"WHERE ts > datetime('now','-7 days')\" : '';
+      const r = db.prepare('SELECT COUNT(*) as turns, COALESCE(SUM(tokens_in),0) as ti, COALESCE(SUM(tokens_out),0) as to2, COALESCE(SUM(cached_tokens),0) as cached FROM turns '+w).get();
+      const cost = ((r.ti - r.cached) * 3 + r.to2 * 15 + r.cached * 0.3) / 1e6;
+      const cache_pct = r.ti > 0 ? Math.round(r.cached / r.ti * 100) : 0;
+      console.log('  Turns:     ' + r.turns);
+      console.log('  Input:     ' + r.ti.toLocaleString() + ' tok (' + r.cached.toLocaleString() + ' cached, ' + cache_pct + '%)');
+      console.log('  Output:    ' + r.to2.toLocaleString() + ' tok');
+      console.log('  Est. cost: \$' + cost.toFixed(4));
+    " 2>/dev/null || echo -e "  ${RED}Failed to read telemetry (Node issue?)${NC}"
+}
+
+# =============================================================================
+# Command: health
+# =============================================================================
+show_health() {
+    local db="$ZARA_HOME/memory.db"
+    echo -e "${CYAN}Zara Health:${NC}"
+    if [ -f "$db" ]; then
+        node --experimental-sqlite -e "
+          const { DatabaseSync } = require('node:sqlite');
+          const db = new DatabaseSync('$db');
+          const sem = db.prepare('SELECT COUNT(*) as n FROM semantic').get().n;
+          const epi = db.prepare('SELECT COUNT(*) as n FROM episodic').get().n;
+          const proc = db.prepare('SELECT COUNT(*) as n FROM procedural').get().n;
+          console.log('  Memory:    ' + sem + ' semantic, ' + epi + ' episodic, ' + proc + ' procedural');
+        " 2>/dev/null || echo "  Memory: unavailable"
+    else
+        echo "  Memory: no database yet"
+    fi
+    # Knowledge count
+    local kb_dir
+    for d in "$(dirname "$(realpath "${BASH_SOURCE[0]}" 2>/dev/null || echo "$0")")/../knowledge" "$ZARA_HOME/knowledge"; do
+        [ -d "$d" ] && kb_dir="$d" && break
+    done
+    if [ -n "${kb_dir:-}" ]; then
+        local total=$(find "$kb_dir" -name "*.md" ! -name "_index.md" ! -name "README.md" 2>/dev/null | wc -l | tr -d ' ')
+        echo "  Knowledge: $total articles"
+    fi
+    # Disk usage
+    local size=$(du -sh "$ZARA_HOME" 2>/dev/null | cut -f1)
+    echo "  Disk:      ${size:-unknown}"
+    # Patterns
+    local patterns_file="$ZARA_HOME/reflections/patterns.json"
+    if [ -f "$patterns_file" ]; then
+        local pcount=$(node -e "console.log(JSON.parse(require('fs').readFileSync('$patterns_file','utf8')).length)" 2>/dev/null || echo 0)
+        echo "  Patterns:  $pcount learned"
+    fi
+}
+
 if [ $# -eq 0 ]; then
     show_help
     exit 0
@@ -490,6 +557,12 @@ case "$command" in
         ;;
     session|start)
         start_session "$@"
+        ;;
+    cost)
+        show_cost "$@"
+        ;;
+    health)
+        show_health
         ;;
     *)
         echo -e "${RED}Unknown command: $command${NC}"

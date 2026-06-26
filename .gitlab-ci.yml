@@ -78,6 +78,14 @@ test:unit:
   script:
     - node --test --test-concurrency=1 tests/*.test.mjs
 
+test:behavioral-eval:
+  stage: test
+  image: $NODE_IMAGE
+  before_script:
+    - npm ci --ignore-scripts 2>/dev/null || npm install --ignore-scripts
+  script:
+    - node --test tests/behavioral-eval.test.mjs
+
 test:structure:
   stage: test
   image: bash:5

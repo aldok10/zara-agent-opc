@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import os from 'os';
+import { fileURLToPath } from 'url';
 import { HOME, loadJson } from '../infra.mjs';
 import { convertChm } from '../../chm2md.mjs';
 import {
@@ -84,7 +85,7 @@ class KnowledgeTools {
     }
 
     // Resolve knowledge dir: explicit path > cwd > MCP server's own project
-    const serverRoot = path.resolve(new URL('.', import.meta.url).pathname, '../../..');
+    const serverRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
     const root = args.path || (fs.existsSync(path.join(process.cwd(), 'knowledge')) ? process.cwd() : serverRoot);
     const resolvedRoot = path.resolve(root);
     // Prevent path traversal: must be within serverRoot or cwd

@@ -81,7 +81,7 @@ export class McpServer {
           const duration = Date.now() - start;
           const preview = typeof result === 'string' ? result.slice(0, 60) : JSON.stringify(result).slice(0, 60);
           logCall(params.name, params.arguments, true, duration, preview);
-          return { jsonrpc: '2.0', id, result: { content: [{ type: 'text', text: result }] } };
+          return { jsonrpc: '2.0', id, result: { content: [{ type: 'text', text: typeof result === 'string' ? result : JSON.stringify(result, null, 2) }] } };
         } catch (e) {
           const duration = Date.now() - start;
           logCall(params.name, params.arguments, false, duration, `error: ${e.message}`);
@@ -102,6 +102,7 @@ export class McpServer {
     process.stdin.setEncoding('utf-8');
     process.stdin.on('data', (chunk) => {
       buffer += chunk;
+      if (buffer.length > 10_000_000) { buffer = ''; process.stderr.write('[mcp] buffer overflow, flushing\n'); return; }
       let idx;
       while ((idx = buffer.indexOf('\n')) !== -1) {
         const line = buffer.slice(0, idx).trim();

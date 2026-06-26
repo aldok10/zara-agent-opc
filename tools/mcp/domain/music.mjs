@@ -34,8 +34,10 @@ class MusicTools {
   #killCurrent(state) {
     if (state.pid) {
       killProcess(state.pid);
-      // Also try to kill the process group (our spawned children only)
-      try { process.kill(-state.pid, 'SIGTERM'); } catch {}
+      // Process groups only exist on Unix
+      if (PLATFORM !== 'win32') {
+        try { process.kill(-state.pid, 'SIGTERM'); } catch {}
+      }
     }
   }
 
@@ -53,17 +55,21 @@ class MusicTools {
   }
 
   #writeAutoplayScriptFile() {
+    // Shell-escape paths to prevent injection if HOME contains special chars
+    const esc = (s) => "'" + s.replace(/'/g, "'\\''") + "'";
     const script = `#!/bin/bash
 trap '' HUP
+QUEUE_FILE=${esc(queueFile)}
+STATE_FILE=${esc(stateFile)}
 play_from_queue() {
-  QUERY=$(node -e "const q=JSON.parse(require('fs').readFileSync('${queueFile}','utf-8'));if(q.length){console.log(q[0].query);q.shift();require('fs').writeFileSync('${queueFile}',JSON.stringify(q,null,2));}else{process.exit(1);}" 2>/dev/null)
+  QUERY=$(node -e "const q=JSON.parse(require('fs').readFileSync(process.argv[1],'utf-8'));if(q.length){console.log(q[0].query);q.shift();require('fs').writeFileSync(process.argv[1],JSON.stringify(q,null,2));}else{process.exit(1);}" "$QUEUE_FILE" 2>/dev/null)
   if [ $? -ne 0 ] || [ -z "$QUERY" ]; then return 1; fi
   TITLE=$(yt-dlp --get-title "ytsearch1:$QUERY" 2>/dev/null | head -1)
-  node -e 'const fs=require("fs"),t=process.argv[1],s=JSON.parse(fs.readFileSync("${stateFile}","utf-8"));s.file=t;fs.writeFileSync("${stateFile}",JSON.stringify(s));' "$TITLE" 2>/dev/null
+  node -e 'const fs=require("fs"),t=process.argv[1],s=JSON.parse(fs.readFileSync(process.argv[2],"utf-8"));s.file=t;fs.writeFileSync(process.argv[2],JSON.stringify(s));' "$TITLE" "$STATE_FILE" 2>/dev/null
   yt-dlp -f "bestaudio" -o - "ytsearch1:$QUERY" 2>/dev/null | ffplay -nodisp -autoexit -loglevel quiet -
 }
 while true; do
-  AUTOPLAY=$(cat "${stateFile}" 2>/dev/null | grep -o '"autoplay":true' || echo "")
+  AUTOPLAY=$(cat "$STATE_FILE" 2>/dev/null | grep -o '"autoplay":true' || echo "")
   if [ -z "$AUTOPLAY" ]; then exit 0; fi
   play_from_queue || exit 0
   sleep 1

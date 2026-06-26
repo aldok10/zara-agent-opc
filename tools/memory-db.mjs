@@ -671,7 +671,8 @@ class MemoryStore {
 
   #trigramSearch(query, limit) {
     const queryVec = this.#embedder.embed(query);
-    return this.db.prepare('SELECT key, value, confidence, source, type, scope, updated, reinforced, decay_score, trust_score, grounded FROM semantic').all()
+    // Cap at 500 rows to prevent memory/latency issues at scale
+    return this.db.prepare('SELECT key, value, confidence, source, type, scope, updated, reinforced, decay_score, trust_score, grounded FROM semantic ORDER BY decay_score DESC LIMIT 500').all()
       .map(r => ({ ...r, trigramSim: this.#embedder.cosineSim(queryVec, this.#embedder.embed(`${r.key} ${r.value}`)) }))
       .filter(r => r.trigramSim > 0.15)
       .sort((a, b) => b.trigramSim - a.trigramSim)

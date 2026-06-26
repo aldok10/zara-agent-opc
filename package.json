@@ -1,6 +1,6 @@
 {
   "name": "zara-agent-opc",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "type": "module",
   "description": "Empathetic AI engineering partner with cognitive memory, multi-agent orchestration, and self-improving reflection loops. Built on Model Context Protocol.",
   "author": {
@@ -16,6 +16,21 @@
   "bugs": {
     "url": "https://github.com/aldok10/zara-agent-opc/issues"
   },
+  "bin": {
+    "zara-agent-opc": "./bin/cli.mjs"
+  },
+  "files": [
+    "bin/",
+    "tools/",
+    "knowledge/",
+    "prompts/",
+    ".opencode/",
+    "opencode.json",
+    "scripts/install.sh",
+    "scripts/install.ps1",
+    "AGENTS.md",
+    "ZARA_CONSTITUTION.md"
+  ],
   "keywords": [
     "ai-agent",
     "multi-agent-system",
@@ -40,9 +55,10 @@
     "@huggingface/transformers": "4.2.0"
   },
   "scripts": {
-    "test": "for f in tests/*.test.mjs; do node \"$f\" 2>&1 | tail -1; done && echo '---' && echo 'All tests complete.'",
+    "test": "node --experimental-sqlite --test --test-concurrency=1 tests/*.test.mjs",
     "syntax": "for f in $(find tools .opencode/plugin -name '*.mjs' -type f); do node --check \"$f\" 2>&1 || echo \"FAIL: $f\"; done && echo 'All syntax OK'",
-    "freshness": "node scripts/knowledge-freshness.mjs"
+    "freshness": "node scripts/knowledge-freshness.mjs",
+    "postinstall": "node bin/postinstall.mjs"
   },
   "devDependencies": {
     "@opencode-ai/plugin": "^1.17.10"

@@ -186,7 +186,7 @@ export default function createHarness({ client, directory } = {}) {
   return {
     onEvent(event) {
       // Run lightweight security check on session start
-      if (event === 'session.created' || event === 'created') {
+      if (event?.type === 'session.created') {
         try {
           const secFindings = securityAudit(directory || process.cwd());
           if (secFindings.length > 0) {

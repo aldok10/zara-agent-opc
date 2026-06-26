@@ -43,7 +43,11 @@ export async function server({ client, directory }) {
   return {
     // Event lifecycle (session.start, session.end, etc)
     event: async ({ event }) => {
-      each(m => m.onEvent?.(event));
+      // Normalize: OpenCode may pass string ('created') or object ({type:'session.created'})
+      const normalized = typeof event === 'string'
+        ? { type: event.startsWith('session.') ? event : `session.${event}` }
+        : event;
+      each(m => m.onEvent?.(normalized));
     },
 
     // System prompt injection

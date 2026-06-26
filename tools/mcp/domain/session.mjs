@@ -2,6 +2,7 @@ import path from 'path';
 import { HOME, loadJson, saveJson } from '../infra.mjs';
 import { dreamConsolidate, detectContradictionsAsync } from '../../memory-db.mjs';
 import { resolveBest, discoverAll, persistIdentity } from './identity.mjs';
+import { recalledKeys } from './reflection.mjs';
 
 class SessionTools {
   get tools() {
@@ -90,6 +91,7 @@ class SessionTools {
       session.active = true;
       session.startedAt = new Date().toISOString();
       session.context = args.context || '';
+      recalledKeys.clear(); // Prevent cross-session trust contamination
       saveJson(file, session);
       return `Session started: ${session.context || 'general'}`;
     }

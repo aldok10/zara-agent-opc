@@ -42,11 +42,11 @@ exit code, file diff). Without evidence, scores may stay flat or fall, never ris
 NEVER treat an unspecified `reflect()` outcome as success. No signal = `partial`, not a win.
 - Enforced: reflection.mjs defaults missing outcome to `partial` (reward 0.5).
 
-### P5 — Destructive commands need a platform gate, not a prompt [PROPOSED]
+### P5 — Destructive commands need a platform gate, not a prompt [ENFORCED]
 NEVER run a destructive or irreversible command (force-push, `reset --hard`,
 history rewrite, commit to a protected branch, bulk delete) on instruction-trust
 alone. It must pass a platform-level allow/deny gate.
-- Today: `opencode.json` has blanket `bash: allow`; git-safety lives only in CLAUDE.md prompt text. Gap F4.
+- Enforced: opencode.json permission.bash denies force-push, reset --hard, clean -f, rm -rf /*, rm -rf ~*. Protected branch checkout requires ask.
 
 ### P6 — Ranking privileges are internal-only [ENFORCED]
 NEVER let `grounded`, or any recall-ranking privilege, be set from agent-supplied

@@ -8,9 +8,8 @@ const REFLECT_DIR = path.join(HOME, 'reflections');
 // Track keys recalled this session for trust calibration
 const recalledKeys = new Set();
 
-// Session budget: max 5 trust adjustments per clock-hour
-let _trustBudgetHour = -1;
-let _trustBudgetCount = 0;
+// Sliding window: max 5 trust adjustments per 60 minutes (ring buffer of timestamps)
+const _trustTimestamps = [];
 
 class ReflectionTools {
   get tools() {
@@ -74,12 +73,13 @@ class ReflectionTools {
     // CONSTITUTION P3: only raise trust on explicit success WITH evidence (worked field).
     // Without evidence, trust may stay flat or fall, never rise.
     if (args.outcome && recalledKeys.size > 0) {
-      // Hourly budget: max 5 trust adjustments per clock-hour
-      const hour = new Date().getHours();
-      if (_trustBudgetHour !== hour) { _trustBudgetHour = hour; _trustBudgetCount = 0; }
-      if (_trustBudgetCount < 5) {
-        _trustBudgetCount++;
-        const canRaise = args.outcome === 'success' && args.worked;
+      // Sliding window: max 5 trust adjustments per 60 minutes
+      const now = Date.now();
+      const windowMs = 60 * 60 * 1000;
+      while (_trustTimestamps.length && _trustTimestamps[0] <= now - windowMs) _trustTimestamps.shift();
+      if (_trustTimestamps.length < 5) {
+        _trustTimestamps.push(now);
+        const canRaise = args.outcome === 'success' && args.worked && args.worked.trim().length >= 20;
         const effectiveOutcome = canRaise ? 'success' : (args.outcome === 'failure' ? 'failure' : 'partial');
         adjustTrust([...recalledKeys], effectiveOutcome);
       }

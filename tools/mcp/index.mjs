@@ -18,6 +18,7 @@ import { HOME, ensure, loadJson } from './infra.mjs';
 import {
   getDb, applyDecay, consolidate, closeDb
 } from '../memory-db.mjs';
+import { SemanticEmbedder } from '../embedder.mjs';
 
 // Tool modules
 import memoryTools from './domain/memory.mjs';
@@ -38,6 +39,9 @@ const METRICS_DIR = path.join(HOME, 'metrics');
 const SCRATCH_DIR = path.join(HOME, 'scratch');
 [MEM_DIR, REFLECT_DIR, METRICS_DIR, SCRATCH_DIR].forEach(ensure);
 getDb();
+
+// Warm embedder in background (non-blocking, eliminates cold-start lag on first recall)
+SemanticEmbedder.instance().embed('warmup').catch(() => {});
 
 // Create server
 const server = new McpServer('zara-mcp', '0.1.0');

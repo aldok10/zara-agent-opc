@@ -93,6 +93,8 @@ class SessionTools {
       session.context = args.context || '';
       recalledKeys.clear(); // Prevent cross-session trust contamination
       saveJson(file, session);
+      // Warm embedder in background (eliminates cold-start lag on first recall)
+      import('../../embedder.mjs').then(mod => mod.SemanticEmbedder.instance().embed('warmup')).catch(() => {});
       return `Session started: ${session.context || 'general'}`;
     }
     if (args.action === 'end') {

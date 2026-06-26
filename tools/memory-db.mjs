@@ -220,32 +220,91 @@ class MemoryStore {
   }
 
   async recallAsync(query, limit = 5, options = {}) {
-    const candidates = this.recall(query, limit * 3, options);
-    if (!candidates.length) return candidates;
+    const { scope, type, tokenBudget } = options;
+    const db = this.db;
+
     try {
-      // Always use SemanticEmbedder in async path when SEMANTIC_MODE is active
-      let embedder = this.#embedder;
-      if (SEMANTIC_MODE || embedder.constructor.name === 'TrigramEmbedder') {
-        const mod = await import('./embedder.mjs');
-        embedder = mod.SemanticEmbedder.instance();
+      // Use SemanticEmbedder if available, otherwise fall back to injected embedder
+      let embedder;
+      try {
+        embedder = SemanticEmbedder.instance();
+        await embedder.embed('test'); // probe if model loads
+      } catch {
+        embedder = this.#embedder;
       }
+
       const queryVec = await embedder.embed(query);
-      const reranked = [];
-      for (const c of candidates) {
-        let semScore;
-        // Use stored embedding if available (avoid re-computation)
-        if (c.embedding && c.embedding.byteLength >= 4) {
-          const cVec = new Float32Array(c.embedding.buffer, c.embedding.byteOffset, c.embedding.byteLength / 4);
-          semScore = embedder.cosineSim(queryVec, cVec);
-        } else {
-          const cVec = await embedder.embed(c.value.slice(0, 200));
-          semScore = embedder.cosineSim(queryVec, cVec);
-        }
-        reranked.push({ ...c, relevance: semScore * (TYPE_BOOST[c.type] || 1.0) * (c.decay_score || 0.5) * (c.grounded ? 1.25 : 1.0) });
+
+      // Path 1: FTS5 candidates (keyword match)
+      const ftsCandidates = this.recall(query, limit * 3, options);
+
+      // Path 2: Vector candidates (semantic match on stored embeddings)
+      let vecSql = 'SELECT key, value, type, scope, decay_score, reinforced, trust_score, grounded, embedding FROM semantic WHERE embedding IS NOT NULL';
+      const params = [];
+      if (type) { vecSql += ' AND type = ?'; params.push(type); }
+      if (scope) { vecSql += ' AND scope = ?'; params.push(scope); }
+      vecSql += ' LIMIT 500';
+      const vecRows = db.prepare(vecSql).all(...params);
+
+      const vecCandidates = [];
+      for (const r of vecRows) {
+        if (!r.embedding || r.embedding.byteLength < 4) continue;
+        const dim = r.embedding.byteLength / 4;
+        if (dim !== queryVec.length) continue;
+        const vec = new Float32Array(r.embedding.buffer, r.embedding.byteOffset, dim);
+        const score = embedder.cosineSim(queryVec, vec);
+        if (score > 0.2) vecCandidates.push({ ...r, vecScore: score, embedding: undefined });
       }
-      return reranked.sort((a, b) => b.relevance - a.relevance).slice(0, limit);
+      vecCandidates.sort((a, b) => b.vecScore - a.vecScore);
+
+      // If no stored embeddings exist yet, fall back to reranking FTS candidates
+      if (!vecCandidates.length && ftsCandidates.length) {
+        const reranked = [];
+        for (const c of ftsCandidates) {
+          const cVec = await embedder.embed(c.value.slice(0, 200));
+          const semScore = embedder.cosineSim(queryVec, cVec);
+          reranked.push({ ...c, relevance: semScore * (TYPE_BOOST[c.type] || 1.0) * (c.decay_score || 0.5) * (c.grounded ? 1.25 : 1.0) });
+        }
+        reranked.sort((a, b) => b.relevance - a.relevance);
+        let results = reranked.slice(0, limit);
+        if (tokenBudget) {
+          let tokens = 0;
+          results = results.filter(r => { tokens += Math.ceil((r.key.length + r.value.length) / 4); return tokens <= tokenBudget; });
+        }
+        return results;
+      }
+
+      // RRF fusion: merge both ranked lists
+      const K = 60;
+      const scoreMap = new Map();
+
+      for (let i = 0; i < ftsCandidates.length; i++) {
+        const key = ftsCandidates[i].key;
+        scoreMap.set(key, (scoreMap.get(key) || 0) + 1 / (K + i + 1));
+        if (!scoreMap.has(`_data_${key}`)) scoreMap.set(`_data_${key}`, ftsCandidates[i]);
+      }
+      for (let i = 0; i < Math.min(vecCandidates.length, limit * 3); i++) {
+        const key = vecCandidates[i].key;
+        scoreMap.set(key, (scoreMap.get(key) || 0) + 1 / (K + i + 1));
+        if (!scoreMap.has(`_data_${key}`)) scoreMap.set(`_data_${key}`, vecCandidates[i]);
+      }
+
+      const merged = [];
+      for (const [k, score] of scoreMap) {
+        if (k.startsWith('_data_')) continue;
+        const data = scoreMap.get(`_data_${k}`);
+        if (data) merged.push({ ...data, relevance: score });
+      }
+      merged.sort((a, b) => b.relevance - a.relevance);
+
+      let results = merged.slice(0, limit);
+      if (tokenBudget) {
+        let tokens = 0;
+        results = results.filter(r => { tokens += Math.ceil((r.key.length + r.value.length) / 4); return tokens <= tokenBudget; });
+      }
+      return results;
     } catch {
-      return candidates.slice(0, limit);
+      return this.recall(query, limit, options);
     }
   }
 

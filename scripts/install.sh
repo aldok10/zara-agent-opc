@@ -11,7 +11,7 @@
 # =============================================================================
 set -euo pipefail
 
-ZARA_VERSION="1.0.0"
+ZARA_VERSION="$(node -e "process.stdout.write(require('./version.json').version)" 2>/dev/null || echo "unknown")"
 
 # Colors (disable on Windows CMD)
 if [ "$TERM" = "dumb" ] || [ -z "${TERM:-}" ]; then

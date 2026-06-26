@@ -336,7 +336,7 @@ describe('embedder DIP seam', () => {
   const homes = [];
   function track(h) { homes.push(h); return h; }
   after(() => {
-    for (const h of homes) fs.rmSync(h, { recursive: true, force: true });
+    for (const h of homes) try { fs.rmSync(h, { recursive: true, force: true }); } catch {}
   });
 
   it('accepts a custom embedder and uses it for recall', () => {

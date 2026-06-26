@@ -5,6 +5,23 @@ All notable changes to Zara Agent will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-06-26
+
+### Added
+- feat(plugin): 77-route skill auto-router with new-skill-creation detection
+- feat(plugin): auto-suggest skill creation for unmatched technical topics via web research
+
+### Fixed
+- fix(reflection): enforce P3/P4 constitution rules (default outcome=partial, evidence min 20 chars)
+- fix(reflection): trust budget sliding window replaces hourly reset (prevents boundary gaming)
+- fix(session): clear recalledKeys on session start (prevent cross-session trust contamination)
+- fix(plugin): ctx_execute env sanitization flipped from denylist to allowlist
+
+### Changed
+- refactor(system.md): compressed from 295 to 121 lines (59% reduction, zero behavioral loss)
+- docs(CONSTITUTION): all 7 enforceable rules verified and marked [ENFORCED]
+- docs(AGENTS.md): updated skill routing from mandatory skill-gate to auto-routing description
+
 ## [1.0.0] - 2026-06-19
 
 ## [0.5.2] - 2026-06-25

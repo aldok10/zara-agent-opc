@@ -201,6 +201,13 @@ export default function createEmpathy({ client, directory } = {}) {
       return messages;
     },
 
+    onCompact() {
+      if (!currentSession) return null;
+      const e = (currentSession.energy * 100).toFixed(0);
+      const s = (currentSession.sentiment * 100).toFixed(0);
+      return { context: `[Empathy state] energy=${e}% sentiment=${s}% frustration=${currentSession.frustrationSignals} msgs=${currentSession.messageCount}` };
+    },
+
     dispose() {},
 
     tools: {

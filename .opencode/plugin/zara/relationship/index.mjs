@@ -103,6 +103,13 @@ export default function createRelationship({ client, directory } = {}) {
       return messages;
     },
 
+    onCompact() {
+      const threads = loadThreads().filter(t => t.status === 'pending');
+      if (!threads.length) return null;
+      const summary = threads.slice(0, 3).map(t => `- ${t.context} (${t.type})`).join('\n');
+      return { context: `[Relationship] ${threads.length} open thread(s):\n${summary}` };
+    },
+
     dispose() {},
 
     tools: {

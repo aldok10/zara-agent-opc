@@ -43,7 +43,11 @@ export async function server({ client, directory }) {
   return {
     // Event lifecycle (session.start, session.end, etc)
     event: async ({ event }) => {
-      each(m => m.onEvent?.(event));
+      // Normalize: OpenCode may pass string ('created') or object ({type:'session.created'})
+      const normalized = typeof event === 'string'
+        ? { type: event.startsWith('session.') ? event : `session.${event}` }
+        : event;
+      each(m => m.onEvent?.(normalized));
     },
 
     // System prompt injection
@@ -59,13 +63,23 @@ export async function server({ client, directory }) {
     },
 
     // Session compacting (OpenCode built-in)
-    'experimental.session.compacting': async () => {
-      const contexts = [];
-      each(m => {
-        const result = m.onCompact?.();
-        if (result?.context) contexts.push(result.context);
-      });
-      return contexts.length ? { context: contexts.join('\n') } : {};
+    'experimental.session.compacting': async (input, output) => {
+      // Support both old format (no args) and new format (input, output with context[])
+      if (output?.context) {
+        // New OpenCode API: push to output.context array
+        each(m => {
+          const result = m.onCompact?.();
+          if (result?.context) output.context.push(result.context);
+        });
+      } else {
+        // Legacy fallback
+        const contexts = [];
+        each(m => {
+          const result = m.onCompact?.();
+          if (result?.context) contexts.push(result.context);
+        });
+        return contexts.length ? { context: contexts.join('\n') } : {};
+      }
     },
 
     // Before tool execution (trace start + guard validation + cache check)

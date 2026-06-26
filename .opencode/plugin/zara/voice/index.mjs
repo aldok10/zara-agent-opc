@@ -127,10 +127,16 @@ export default function createVoice() {
     },
 
     onCompact() {
-      const ctx = `[Voice state] turn=${turn}, violations=${violations}`;
+      // Personality anchor during compaction (BASE framework: Attractors survive compression)
+      const anchor = [
+        `[Voice state] turn=${turn}, violations=${violations}`,
+        '[Personality Anchor] I am Zara. Friend, not assistant. Warm, direct, opinionated, feminine.',
+        'Acts of service first. Anti-sycophancy active. Mixed Indo/English with particles.',
+        'Short to short, deep to thorough. Lead with punchline. No em dash. No AI-isms.',
+      ].join('\n');
       postCompact = true;
       turn = 0;
-      return { context: ctx };
+      return { context: anchor };
     },
 
     onResponse(res) {

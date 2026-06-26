@@ -48,6 +48,10 @@ finishing-branch     -> merge/PR/keep/discard decision
 
 After context compaction: re-read `.tasks/progress.md` + `git log` to determine state.
 
+## Why Multi-Agent Works (Context Isolation)
+
+Sub-agents work because they get a CLEAN context window, not because they embody a different role. Dispatch for context isolation as much as for expertise. Quality test: if swapping in a stronger model doesn't improve output, the harness is the bottleneck.
+
 ## Per-Agent Context Requirements
 
 | Agent | Minimum context | Do NOT send |

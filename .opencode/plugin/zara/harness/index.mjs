@@ -186,7 +186,7 @@ export default function createHarness({ client, directory } = {}) {
   return {
     onEvent(event) {
       // Run lightweight security check on session start
-      if (event === 'session.created' || event === 'created') {
+      if (event?.type === 'session.created') {
         try {
           const secFindings = securityAudit(directory || process.cwd());
           if (secFindings.length > 0) {
@@ -198,6 +198,77 @@ export default function createHarness({ client, directory } = {}) {
         } catch (e) {
           process.stderr.write(`[zara-harness] security audit error: ${e.message}\n`);
         }
+      }
+
+      // Run self-harness loop on session end (lightweight, auto-apply safe fixes)
+      if (event?.type === 'session.ended') {
+        try {
+          const failures = mineFailures(7);
+          if (failures.length >= 2) {
+            const groups = groupByPattern(failures);
+            const rules = loadJson(RULES_FILE, []);
+            let applied = 0;
+
+            for (const group of groups.slice(0, 3)) {
+              if (group.count < 2) continue;
+              const diag = diagnose(group);
+              if (diag.fixType === 'rule') {
+                const exists = rules.some(r => r.when.includes(diag.pattern.slice(0, 30)));
+                if (!exists) {
+                  rules.push({
+                    when: diag.pattern,
+                    then: `Avoid failed approach. Root: ${diag.rootCause}. Try different strategy.`,
+                    priority: group.count >= 3 ? 'high' : 'medium',
+                    createdAt: new Date().toISOString(),
+                    fired: 0,
+                    source: 'self-harness-auto',
+                  });
+                  applied++;
+                }
+              }
+            }
+
+            if (applied > 0) {
+              saveJson(RULES_FILE, rules);
+              const appLog = loadJson(APPLIED_FILE, []);
+              appLog.push({ ts: new Date().toISOString(), applied, trigger: 'session.ended' });
+              if (appLog.length > 30) appLog.splice(0, appLog.length - 30);
+              saveJson(APPLIED_FILE, appLog);
+            }
+          }
+        } catch (e) {
+          process.stderr.write(`[zara-harness] session-end self-improvement error: ${e.message}\n`);
+        }
+      }
+
+      // On idle: run security re-check + proactive context preparation
+      if (event?.type === 'session.idle') {
+        try {
+          const secFindings = securityAudit(directory || process.cwd());
+          if (secFindings.some(f => f.severity === 'critical')) {
+            const log = loadJson(SECURITY_FILE, []);
+            log.push({ ts: new Date().toISOString(), findings: secFindings, trigger: 'idle' });
+            if (log.length > 50) log.splice(0, log.length - 50);
+            saveJson(SECURITY_FILE, log);
+          }
+        } catch {}
+
+        // Proactive: check for stale knowledge that might be needed soon
+        try {
+          const reflectLog = path.join(HOME, 'reflections', 'log.jsonl');
+          if (fs.existsSync(reflectLog)) {
+            const lines = fs.readFileSync(reflectLog, 'utf-8').trim().split('\n').filter(Boolean);
+            const recent = lines.slice(-5).map(l => { try { return JSON.parse(l); } catch { return null; } }).filter(Boolean);
+            const domains = recent.map(r => r.task || '').filter(Boolean);
+            if (domains.length > 0) {
+              // Store anticipation hint for next inject cycle
+              const hints = loadJson(path.join(HARNESS_DIR, 'proactive-hints.json'), []);
+              hints.push({ ts: new Date().toISOString(), recentDomains: domains.slice(-3), trigger: 'idle' });
+              if (hints.length > 10) hints.splice(0, hints.length - 10);
+              saveJson(path.join(HARNESS_DIR, 'proactive-hints.json'), hints);
+            }
+          }
+        } catch {}
       }
     },
 

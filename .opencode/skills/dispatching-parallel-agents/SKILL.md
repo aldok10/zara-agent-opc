@@ -130,6 +130,27 @@ Coordinator → Sub-Coordinator 1 → Workers...
 ```
 Use when: mega-task with multiple coordination layers. See plugin `swarm_nest_epic`.
 
+## Pre-Dispatch Protocol (Mandatory)
+
+Before dispatching, run these checks silently:
+
+1. **Reflect first** — `reflect_suggest(situation)`. If pattern scores >0.7, follow it directly.
+2. **Independence test** — Would one agent's output change if it saw another's? If yes: NOT independent. Use pipeline or supervisor.
+3. **File boundary check** — Will any two agents touch the same file? If yes: either split the file scope or serialize those agents.
+4. **Confidence check** — Is each task well-defined enough that the agent can complete it without asking questions? If vague: refine the prompt, don't dispatch.
+5. **Cost check** — Is fan-out actually faster than sequential? For 2 tasks, sequential might be fine. Fan-out pays off at 3+.
+
+## Failure Modes (Predict and Prevent)
+
+| Mode | Signal | Prevention |
+|------|--------|-----------|
+| Cycle formation | Agent retries same fix | Hard turn cap (15-25) in dispatch prompt |
+| Duplicate work | Two agents edit overlapping scope | Explicit file boundaries in constraints |
+| Error cascade | Downstream uses bad upstream output | Per-stage validation (pipeline only) |
+| Silent drift | Agent solves wrong problem | Acceptance criteria in dispatch prompt |
+| Context contamination | Agent gets too much irrelevant info | Minimal context: spec + paths only |
+| Over-delegation | Dispatching what you could handle in 2 min | Self-assess before dispatching |
+
 ## Key Benefits
 
 - **Speed** - N problems in time of 1

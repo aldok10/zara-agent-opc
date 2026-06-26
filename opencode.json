@@ -235,16 +235,6 @@
       "git checkout develop": "ask",
       "rm -rf /*": "deny",
       "rm -rf ~*": "deny"
-    },
-    "task": {
-      "implementation": "allow",
-      "architect": "allow",
-      "code-reviewer": "allow",
-      "security-reviewer": "allow",
-      "testing-lead": "allow",
-      "delivery-lead": "allow",
-      "swarm": "allow",
-      "loop-engineer": "allow"
     }
   }
 }

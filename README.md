@@ -42,14 +42,17 @@ Most AI coding tools are stateless. Every session starts from zero. Zara is diff
 
 - **Multi-Agent Orchestration** - 10 agents (Zara + 9 specialists) with servant leadership coordination
 - **Cognitive Memory** - 3-layer persistent memory with semantic embeddings (MiniLM-L6-v2, 384-dim)
-- **132-Signal Skill Routing** - 27 project skills + 100+ global skills, weight-adaptive from usage
-- **Self-Improving** - Outcome-weighted reflection, micro-tool crystallization, blindspot detection
-- **Knowledge-Grounded** - 254 indexed articles for architecture, patterns, and design decisions
+- **77-Route Skill Routing** - 200+ keyword signals across 100+ global skills, weight-adaptive from usage
+- **Self-Improving** - Outcome-weighted reflection, grounded in real test results, autonomous self-audit
+- **Knowledge-Grounded** - 292 indexed articles for architecture, patterns, and design decisions
 - **Trust-Calibrated** - Source-gated ceilings, evidence-required success claims, temporal decay
-- **MCP Server** - 24+ tools across 9 domains, stdio transport, zero external dependencies
+- **MCP Server** - 31 tools across 10 domains, stdio transport, zero external dependencies
 - **Privacy-Aware** - Automatic secrets detection, data masking, bulk-delete protection
 - **Multi-Agent Debate** - Agents argue positions before consensus on complex decisions
 - **Doom-Loop Detection** - Automatically detects retry patterns and forces strategy pivots
+- **Cross-Platform** - macOS, Linux, Windows (Bash + PowerShell installers, CI-verified)
+
+> **Continuously self-improving.** Zara autonomously audits her own codebase, files issues, writes fixes, and ships them. Every session makes the next one better. We don't just respond to bugs, we hunt them before users find them. The goal: an AI partner that gets sharper, faster, and more reliable with every interaction, so you never have to ask twice.
 
 ## Quick Start
 

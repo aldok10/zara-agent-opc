@@ -27,7 +27,7 @@ $ZaraHome = "$env:USERPROFILE\.zara"
 $OpenCodeDir = if ($env:APPDATA) { "$env:APPDATA\opencode" } else { "$env:USERPROFILE\.config\opencode" }
 
 # Create dirs
-foreach ($dir in @("$ZaraHome", "$ZaraHome\memory", "$ZaraHome\reflections", "$ZaraHome\metrics", "$OpenCodeDir")) {
+foreach ($dir in @("$ZaraHome", "$ZaraHome\memory", "$ZaraHome\reflections", "$ZaraHome\metrics", "$ZaraHome\knowledge", "$ZaraHome\skills", "$ZaraHome\sessions", "$ZaraHome\agents", "$OpenCodeDir")) {
     if (-not (Test-Path $dir)) { New-Item -ItemType Directory -Path $dir -Force | Out-Null }
 }
 Write-Host "  [OK] Directories created" -ForegroundColor Green

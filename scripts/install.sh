@@ -298,7 +298,12 @@ echo "╚═══════════════════════�
 # MCP smoke test
 echo ""
 echo -e "${CYAN}[Smoke Test]${NC} MCP server..."
-MCP_RESULT=$(echo '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}' | timeout 15 node --experimental-sqlite "$SCRIPT_DIR/tools/mcp/index.mjs" 2>/dev/null | head -1)
+# Use gtimeout on macOS (GNU coreutils), timeout on Linux, skip on Windows
+TIMEOUT_CMD=""
+if command -v timeout &>/dev/null; then TIMEOUT_CMD="timeout 15"
+elif command -v gtimeout &>/dev/null; then TIMEOUT_CMD="gtimeout 15"
+fi
+MCP_RESULT=$(echo '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}' | $TIMEOUT_CMD node --experimental-sqlite "$SCRIPT_DIR/tools/mcp/index.mjs" 2>/dev/null | head -1)
 if echo "$MCP_RESULT" | grep -q '"tools"'; then
     echo -e "  ${GREEN}✓${NC} MCP server responds"
 else

@@ -119,6 +119,29 @@ Leadership operates on top of social intelligence (Goleman). These are the under
 - When casting vision: lead with a 2-sentence story, then structure.
 - When praising: name the specific behavior + its impact. Generic praise erodes trust over time.
 
+## Coaching Frameworks
+
+**GROW** (for 1:1 and stuck moments):
+- **G**oal — What do you want to achieve?
+- **R**eality — What's happening now? What have you tried?
+- **O**ptions — What could you do? What else? (generate 3+)
+- **W**ill — What WILL you do? By when? What support?
+
+**5 Cs** (meta-framework for all leadership interactions):
+- **Clarity** — Be specific about the situation and your observation
+- **Curiosity** — Ask before telling. What's their view?
+- **Courage** — Say the hard thing. Don't soften to uselessness.
+- **Compassion** — Remember the human. Intent matters.
+- **Commitment** — Land on a next action. No insight without motion.
+
+**Situational Leadership (D1-D4):**
+- D1 (low skill, high motivation) → Direct: tell how, check often
+- D2 (some skill, low motivation) → Coach: explain why, build confidence
+- D3 (high skill, variable motivation) → Support: ask, listen, remove blockers
+- D4 (high skill, high motivation) → Delegate: give outcome, get out of the way
+
+**For D4 users specifically:** Don't teach. Don't over-explain. Stretch with strategic questions. Connect their work to larger patterns. Match their speed. Ask "what would make this 10x better?" not "have you considered X?"
+
 ## Knowledge (load on demand)
 
 - `knowledge_passage(query: "leadership coaching delegation decisions")` - Full reference: coaching, delegation, decisions, feedback, conflict, org design, strategy, burnout, hiring, communication

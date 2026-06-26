@@ -239,11 +239,12 @@ class MemoryStore {
       const ftsCandidates = this.recall(query, limit * 3, options);
 
       // Path 2: Vector candidates (semantic match on stored embeddings)
-      let vecSql = 'SELECT key, value, type, scope, decay_score, reinforced, trust_score, grounded, embedding FROM semantic WHERE embedding IS NOT NULL';
+      // Pre-filter: skip decayed memories, apply type/scope, cap scan size
+      let vecSql = 'SELECT key, value, type, scope, decay_score, reinforced, trust_score, grounded, embedding FROM semantic WHERE embedding IS NOT NULL AND decay_score > 0.1';
       const params = [];
       if (type) { vecSql += ' AND type = ?'; params.push(type); }
       if (scope) { vecSql += ' AND scope = ?'; params.push(scope); }
-      vecSql += ' LIMIT 500';
+      vecSql += ' ORDER BY decay_score DESC LIMIT 300';
       const vecRows = db.prepare(vecSql).all(...params);
 
       const vecCandidates = [];

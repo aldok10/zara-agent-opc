@@ -71,13 +71,16 @@
 | Domain | Tools |
 |--------|-------|
 | Memory | 7 |
-| Reflection | 3 |
-| Metrics | 1 |
+| Reflection | 6 (reflect, patterns, reflect_suggest, zara_evolve_status, blindspot_log, blindspot_check) |
+| Metrics | 3 (dashboard, metrics_today, metrics_record_turn) |
 | Session | 5 |
 | Music | 1 |
 | Knowledge | 4 |
-| Audit | 1 |
-| **Total** | **22** |
+| Audit | 2 (zara_self_audit, zara_skill_integrity) |
+| Project | 1 (project_learn) |
+| Identity | 1 (user_profile with discover) |
+| Improve | 1 (zara_self_improve) |
+| **Total** | **31** |
 
 ## Removed Tools (consolidated into existing)
 

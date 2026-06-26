@@ -240,6 +240,19 @@ export default function createHarness({ client, directory } = {}) {
           process.stderr.write(`[zara-harness] session-end self-improvement error: ${e.message}\n`);
         }
       }
+
+      // On idle: run security re-check (lightweight, catches new issues since session start)
+      if (event?.type === 'session.idle') {
+        try {
+          const secFindings = securityAudit(directory || process.cwd());
+          if (secFindings.some(f => f.severity === 'critical')) {
+            const log = loadJson(SECURITY_FILE, []);
+            log.push({ ts: new Date().toISOString(), findings: secFindings, trigger: 'idle' });
+            if (log.length > 50) log.splice(0, log.length - 50);
+            saveJson(SECURITY_FILE, log);
+          }
+        } catch {}
+      }
     },
 
     inject(messages) {

@@ -16,7 +16,7 @@ import { DatabaseSync } from 'node:sqlite';
 import fs from 'fs';
 import path from 'path';
 import os from 'os';
-import { TrigramEmbedder } from './embedder.mjs';
+import { TrigramEmbedder, SemanticEmbedder } from './embedder.mjs';
 
 // --- Value Objects ---
 
@@ -32,6 +32,22 @@ function getSourceCeiling(source) {
 
 function escapeLike(s) { return s.replace(/[%_]/g, c => `\\${c}`); }
 
+// Embedder selection: ZARA_EMBED=semantic|trigram (default: semantic with lazy init)
+// Sync operations (learn dedup) always use TrigramEmbedder.
+// Async operations (recallAsync) prefer SemanticEmbedder when ZARA_EMBED=semantic.
+function createEmbedder() {
+  const mode = process.env.ZARA_EMBED || 'semantic';
+  // For sync paths (learn, recall), trigram is used regardless.
+  // SemanticEmbedder is used in recallAsync path automatically.
+  if (mode === 'trigram') return new TrigramEmbedder();
+  // Even in semantic mode, return TrigramEmbedder for sync operations.
+  // The recallAsync path already imports SemanticEmbedder dynamically.
+  return new TrigramEmbedder();
+}
+
+// Export whether semantic mode is active (for recallAsync to decide)
+export const SEMANTIC_MODE = (process.env.ZARA_EMBED || 'semantic') === 'semantic';
+
 // --- MemoryStore Class ---
 
 class MemoryStore {
@@ -41,7 +57,7 @@ class MemoryStore {
   #embedder;
   #trustBudget = 0;
 
-  constructor(home = path.join(os.homedir(), '.zara'), embedder = new TrigramEmbedder()) {
+  constructor(home = path.join(os.homedir(), '.zara'), embedder = createEmbedder()) {
     this.#home = home;
     this.#dbPath = path.join(home, 'memory.db');
     this.#embedder = embedder;
@@ -191,9 +207,9 @@ class MemoryStore {
     const candidates = this.recall(query, limit * 3, options);
     if (!candidates.length) return candidates;
     try {
+      // Always use SemanticEmbedder in async path when SEMANTIC_MODE is active
       let embedder = this.#embedder;
-      // Prefer SemanticEmbedder if available and instance embedder is trigram-only
-      if (!embedder.embed[Symbol.toStringTag] && embedder.constructor.name === 'TrigramEmbedder') {
+      if (SEMANTIC_MODE || embedder.constructor.name === 'TrigramEmbedder') {
         const mod = await import('./embedder.mjs');
         embedder = mod.SemanticEmbedder.instance();
       }

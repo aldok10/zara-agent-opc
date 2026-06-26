@@ -16,7 +16,7 @@ class ReflectionTools {
     return {
       reflect: {
         description: 'Record a reflection (what worked, what failed, pattern extracted). Pass outcome to feed the success-weighted learning loop.',
-        inputSchema: { type: 'object', properties: { task: { type: 'string', description: 'What was the task' }, worked: { type: 'string' }, failed: { type: 'string' }, pattern: { type: 'string' }, outcome: { type: 'string', enum: ['success', 'partial', 'failure'], description: 'How it went — trains pattern scores over time' }, agent: { type: 'string', description: 'Which agent is reflecting (provenance)' }, reflection_type: { type: 'string', enum: ['principle', 'procedural', 'both'], description: 'MARS-style: principle (normative rule) or procedural (step-by-step strategy)' } }, required: ['task'] },
+        inputSchema: { type: 'object', properties: { task: { type: 'string', description: 'What was the task' }, worked: { type: 'string' }, failed: { type: 'string' }, pattern: { type: 'string' }, outcome: { type: 'string', enum: ['success', 'partial', 'failure'], description: 'How it went — trains pattern scores over time' }, agent: { type: 'string', description: 'Which agent is reflecting (provenance)' }, reflection_type: { type: 'string', enum: ['principle', 'procedural', 'both'], description: 'MARS-style: principle (normative rule) or procedural (step-by-step strategy)' }, test_exit_code: { type: 'number', description: 'Exit code from test/lint run (0=pass). Grounds the reflection in real signal.' }, test_summary: { type: 'string', description: 'Brief test/lint output summary for evidence' } }, required: ['task'] },
         handler: (args) => this.#handleReflect(args),
       },
       patterns: {
@@ -61,8 +61,22 @@ class ReflectionTools {
       args.outcome = 'partial';
       downgraded = true;
     }
+    // GROUNDING (Issue #8): if test_exit_code provided, use it as ground truth.
+    // A success claim with failing tests is REJECTED (downgraded to failure).
+    let grounded = false;
+    let groundedNote = '';
+    if (typeof args.test_exit_code === 'number') {
+      grounded = true;
+      if (args.test_exit_code !== 0 && args.outcome === 'success') {
+        args.outcome = 'failure';
+        downgraded = true;
+        groundedNote = ' (GROUNDED: test_exit_code!=0, success rejected)';
+      } else if (args.test_exit_code === 0 && args.outcome === 'success') {
+        groundedNote = ' (grounded: tests passed)';
+      }
+    }
     const logFile = path.join(REFLECT_DIR, 'log.jsonl');
-    fs.appendFileSync(logFile, JSON.stringify({ ...args, agent: args.agent || '', ts: new Date().toISOString() }) + '\n');
+    fs.appendFileSync(logFile, JSON.stringify({ ...args, agent: args.agent || '', grounded, ts: new Date().toISOString() }) + '\n');
     // Rotate: keep last 500 entries
     try {
       const lines = fs.readFileSync(logFile, 'utf-8').trim().split('\n');
@@ -79,7 +93,8 @@ class ReflectionTools {
       while (_trustTimestamps.length && _trustTimestamps[0] <= now - windowMs) _trustTimestamps.shift();
       if (_trustTimestamps.length < 5) {
         _trustTimestamps.push(now);
-        const canRaise = args.outcome === 'success' && args.worked && args.worked.trim().length >= 20;
+        // P3: only raise trust on explicit success WITH evidence AND grounding signal
+        const canRaise = args.outcome === 'success' && args.worked && args.worked.trim().length >= 20 && (grounded || typeof args.test_exit_code !== 'number');
         const effectiveOutcome = canRaise ? 'success' : (args.outcome === 'failure' ? 'failure' : 'partial');
         adjustTrust([...recalledKeys], effectiveOutcome);
       }
@@ -125,8 +140,8 @@ class ReflectionTools {
       const recent = logLines.slice(-20).filter(l => { try { const e = JSON.parse(l); return e.outcome === 'failure' && e.failed; } catch { return false; } });
       if (recent.length >= 3) hints.push('ANTI-ENTRENCHMENT: 3+ recent failures. Switch perspective or approach.');
     }
-    const hintStr = hints.length ? `\n💡 ${hints.join(' | ')}` : '';
-    return `Reflected on: ${args.task}${args.pattern ? ` → pattern: ${args.pattern}${args.outcome ? ` [${args.outcome}]` : ''}` : ''}${note}${hintStr}`;
+    const hintStr = hints.length ? `\n${hints.join(' | ')}` : '';
+    return `Reflected on: ${args.task}${args.pattern ? ` → pattern: ${args.pattern}${args.outcome ? ` [${args.outcome}]` : ''}` : ''}${note}${groundedNote}${hintStr}`;
   }
 
   // Wilson-ish ranking: successRate weighted by log frequency so a proven pattern

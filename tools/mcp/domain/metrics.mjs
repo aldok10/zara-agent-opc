@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { HOME, loadJson } from '../infra.mjs';
 import { semanticRecall, proceduralRecall, proceduralCount, stats as dbStats } from '../../memory-db.mjs';
+import { recordTurn, getMetrics } from '../../telemetry.mjs';
 
 const METRICS_DIR = path.join(HOME, 'metrics');
 const REFLECT_DIR = path.join(HOME, 'reflections');
@@ -15,7 +16,37 @@ class MetricsTools {
         inputSchema: { type: 'object', properties: { section: { type: 'string', enum: ['all', 'memory', 'metrics', 'patterns', 'procedures', 'tools', 'rules'] } } },
         handler: (args) => this.#handleDashboard(args),
       },
+      metrics_today: {
+        description: 'Token spend and cost for today/session. Shows total tokens in/out, estimated cost, cache hit ratio, per-agent breakdown.',
+        inputSchema: { type: 'object', properties: { period: { type: 'string', enum: ['today', 'session', 'all'], description: 'Time window (default: today)' } } },
+        handler: (args) => this.#handleMetricsToday(args),
+      },
+      metrics_record_turn: {
+        description: 'Record a turn token count (called by plugin automatically).',
+        inputSchema: { type: 'object', properties: { tokens_in: { type: 'number' }, tokens_out: { type: 'number' }, cached_tokens: { type: 'number' }, tools_called: { type: 'number' }, agent: { type: 'string' }, model: { type: 'string' } } },
+        handler: (args) => { recordTurn(args); return 'Recorded.'; },
+      },
     };
+  }
+
+  #handleMetricsToday(args) {
+    const m = getMetrics(args?.period || 'today');
+    const lines = [
+      `Token spend (${args?.period || 'today'}):`,
+      `  Turns: ${m.turns}`,
+      `  Input: ${m.total_in.toLocaleString()} tok (${m.total_cached.toLocaleString()} cached)`,
+      `  Output: ${m.total_out.toLocaleString()} tok`,
+      `  Cache hit: ${Math.round(m.cache_hit_ratio * 100)}%`,
+      `  Est. cost: $${m.est_cost_usd.toFixed(4)}`,
+      `  Tools called: ${m.total_tools}`,
+    ];
+    if (Object.keys(m.by_agent).length) {
+      lines.push('  Per-agent:');
+      for (const [agent, d] of Object.entries(m.by_agent)) {
+        lines.push(`    ${agent}: ${d.turns} turns, ${d.tokens_in}+${d.tokens_out} tok`);
+      }
+    }
+    return lines.join('\n');
   }
 
   #handleDashboard(args) {

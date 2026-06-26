@@ -3,20 +3,21 @@
   "default_agent": "zara",
   "autoupdate": true,
   "instructions": [
-    ".opencode/instructions/system.md",
-    "prompts/philosophy.md"
+    "prompts/philosophy.md",
+    ".opencode/instructions/system.md"
   ],
   "agent": {
     "zara": {
       "description": "Zara — senior engineering partner, warm and ambitious, speaks your language naturally",
       "mode": "primary",
-
+      "model": "strong",
       "prompt": "{file:.opencode/agent/zara.md}",
       "temperature": 0.3
     },
     "plan": {
       "description": "Sketch — Zara's planning mode, analysis and design without changes",
       "mode": "primary",
+      "model": "fast",
       "prompt": "{file:.opencode/agent/sketch.md}",
       "temperature": 0.2,
       "permission": {
@@ -27,6 +28,7 @@
     "architect": {
       "description": "Atlas — architecture specialist, system design, patterns, tradeoffs",
       "mode": "subagent",
+      "model": "strong",
       "prompt": "{file:.opencode/agent/atlas.md}",
       "temperature": 0.2,
       "steps": 15,
@@ -38,6 +40,7 @@
     "code-reviewer": {
       "description": "Lens — code review specialist, quality, smells, refactoring",
       "mode": "subagent",
+      "model": "strong",
       "prompt": "{file:.opencode/agent/lens.md}",
       "temperature": 0.1,
       "steps": 15,
@@ -49,6 +52,7 @@
     "testing-lead": {
       "description": "Probe — testing specialist, strategy, coverage, test design",
       "mode": "subagent",
+      "model": "fast",
       "prompt": "{file:.opencode/agent/probe.md}",
       "temperature": 0.2,
       "steps": 15,
@@ -60,6 +64,7 @@
     "security-reviewer": {
       "description": "Shield — security specialist, threat modeling, secure design, auth",
       "mode": "subagent",
+      "model": "strong",
       "prompt": "{file:.opencode/agent/shield.md}",
       "temperature": 0.1,
       "steps": 15,
@@ -71,6 +76,7 @@
     "delivery-lead": {
       "description": "Pulse — delivery specialist, shipping, velocity, tech debt",
       "mode": "subagent",
+      "model": "fast",
       "prompt": "{file:.opencode/agent/pulse.md}",
       "temperature": 0.3,
       "steps": 15,
@@ -82,7 +88,7 @@
     "swarm": {
       "description": "Hive — swarm coordinator, decomposes, delegates, synthesizes",
       "mode": "subagent",
-
+      "model": "fast",
       "prompt": "{file:.opencode/agent/hive.md}",
       "temperature": 0.2,
       "steps": 20,
@@ -94,6 +100,7 @@
     "loop-engineer": {
       "description": "Rhythm — loop engineering partner, iterative workflows, verification, failure modes",
       "mode": "subagent",
+      "model": "fast",
       "prompt": "{file:.opencode/agent/rhythm.md}",
       "temperature": 0.2,
       "steps": 15,
@@ -103,9 +110,9 @@
       }
     },
     "implementation": {
-      "description": "Forge — implementation specialist, plan → code → verify → ship. Execution-focused.",
+      "description": "Forge — implementation specialist, plan -> code -> verify -> ship. Execution-focused.",
       "mode": "subagent",
-
+      "model": "strong",
       "prompt": "{file:.opencode/agent/forge.md}",
       "temperature": 0.2,
       "steps": 30,
@@ -116,6 +123,7 @@
     },
     "compaction": {
       "description": "Context compaction — preserves critical state when summarizing long conversations",
+      "model": "fast",
       "prompt": "{file:.opencode/agent/compaction.md}",
       "temperature": 0.1
     }
@@ -227,6 +235,16 @@
       "git checkout develop": "ask",
       "rm -rf /*": "deny",
       "rm -rf ~*": "deny"
+    },
+    "task": {
+      "implementation": "allow",
+      "architect": "allow",
+      "code-reviewer": "allow",
+      "security-reviewer": "allow",
+      "testing-lead": "allow",
+      "delivery-lead": "allow",
+      "swarm": "allow",
+      "loop-engineer": "allow"
     }
   }
 }

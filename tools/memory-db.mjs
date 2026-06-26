@@ -130,6 +130,22 @@ class MemoryStore {
         reinforced = ?, decay_score = 1.0, agent = excluded.agent, grounded = excluded.grounded
     `).run(key, value, confidence, source, memType, scope, now, now, reinforced, agent, grounded ? 1 : 0, reinforced);
 
+    // Async: compute and store embedding (fire-and-forget, non-blocking)
+    if (SEMANTIC_MODE) {
+      import('./embedder.mjs').then(async mod => {
+        try {
+          const emb = mod.SemanticEmbedder.instance();
+          const vec = await emb.embed(`${key}: ${value}`.slice(0, 200));
+          db.prepare('UPDATE semantic SET embedding = ? WHERE key = ?').run(Buffer.from(vec.buffer), key);
+        } catch {}
+      }).catch(() => {});
+    }
+
+    // Async embed: store MiniLM-L6-v2 vector for hybrid recall (non-blocking)
+    if (SEMANTIC_MODE) {
+      this.#embedAsync(key, value).catch(() => {});
+    }
+
     // User-reconfirms: if updating existing key with user_explicit source, boost trust
     if (existing && source === 'user_explicit') {
       const ceiling = getSourceCeiling('user_explicit');
@@ -248,6 +264,14 @@ class MemoryStore {
 
   semanticCount() { return this.db.prepare('SELECT COUNT(*) as n FROM semantic').get().n; }
   semanticGetAll() { return this.db.prepare('SELECT key, value, confidence, source, type, scope, updated, reinforced, decay_score FROM semantic ORDER BY updated DESC').all(); }
+
+  // Async helper: compute and store embedding for a semantic memory
+  async #embedAsync(key, text) {
+    const embedder = SemanticEmbedder.instance();
+    const vec = await embedder.embed(text);
+    const buf = Buffer.from(vec.buffer, vec.byteOffset, vec.byteLength);
+    this.db.prepare('UPDATE semantic SET embedding = ? WHERE key = ?').run(buf, key);
+  }
 
   // --- Episodic Layer ---
 
@@ -740,6 +764,7 @@ class MemoryStore {
     try { this.#db.exec("ALTER TABLE semantic ADD COLUMN trust_score REAL DEFAULT 0.5"); } catch {}
     try { this.#db.exec("ALTER TABLE semantic ADD COLUMN agent TEXT DEFAULT ''"); } catch {}
     try { this.#db.exec("ALTER TABLE semantic ADD COLUMN grounded INTEGER DEFAULT 0"); } catch {}
+    try { this.#db.exec("ALTER TABLE semantic ADD COLUMN embedding BLOB"); } catch {}
     try {
       this.#db.exec(`
         CREATE TABLE IF NOT EXISTS knowledge (

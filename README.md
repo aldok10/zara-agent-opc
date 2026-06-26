@@ -54,16 +54,18 @@ Most AI coding tools are stateless. Every session starts from zero. Zara is diff
 ## Quick Start
 
 ```bash
-git clone https://github.com/aldok10/zara-agent-opc.git
-cd zara-agent-opc
-npm install
-opencode --project .
+git clone https://github.com/aldok10/zara-agent-opc.git && cd zara-agent-opc && ./scripts/install.sh
+```
+
+**For AI-driven installs:**
+```bash
+AI_MODE=1 ./scripts/install.sh
 ```
 
 **Requirements:**
-- **Node.js 22+** with FTS5 support (required by the MCP memory server)
-- Run `node --experimental-sqlite` to verify FTS5 is available
-- See [docs/installation.md](docs/installation.md) for detailed setup
+- **Node.js 22.14+** (the installer checks this automatically)
+- **OpenCode** ([opencode.ai](https://opencode.ai))
+- See [docs/installation.md](docs/installation.md) for Windows/platform details
 
 ## Agents
 

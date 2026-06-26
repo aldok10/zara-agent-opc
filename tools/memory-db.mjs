@@ -288,6 +288,14 @@ class MemoryStore {
     this.db.prepare('UPDATE episodic SET embedding = ? WHERE id = ?').run(buf, id);
   }
 
+  // Async helper: compute and store embedding for a procedural memory
+  async #embedProceduralAsync(name, text) {
+    const embedder = SemanticEmbedder.instance();
+    const vec = await embedder.embed(text);
+    const buf = Buffer.from(vec.buffer, vec.byteOffset, vec.byteLength);
+    this.db.prepare('UPDATE procedural SET embedding = ? WHERE name = ?').run(buf, name);
+  }
+
   // --- Episodic Layer ---
 
   recordEpisode(event, outcome = '', tags = []) {
@@ -328,13 +336,8 @@ class MemoryStore {
       this.db.prepare('INSERT INTO procedural (name, context, steps, uses, created, updated) VALUES (?, ?, ?, 0, ?, ?)').run(name, context, JSON.stringify(steps), now, now);
     }
     if (SEMANTIC_MODE) {
-      import('./embedder.mjs').then(async mod => {
-        try {
-          const text = `${name}: ${context} ${steps.join(' ')}`.slice(0, 200);
-          const vec = await mod.SemanticEmbedder.instance().embed(text);
-          this.db.prepare('UPDATE procedural SET embedding = ? WHERE name = ?').run(Buffer.from(vec.buffer), name);
-        } catch {}
-      }).catch(() => {});
+      const text = `${name} ${context} ${steps.slice(0, 3).join(' ')}`.slice(0, 200);
+      this.#embedProceduralAsync(name, text).catch(() => {});
     }
     return { name, steps: steps.length };
   }
@@ -728,7 +731,7 @@ class MemoryStore {
   #trigramSearch(query, limit) {
     const queryVec = this.#embedder.embed(query);
     // Cap at 500 rows to prevent memory/latency issues at scale
-    return this.db.prepare('SELECT key, value, confidence, source, type, scope, updated, reinforced, decay_score, trust_score, grounded FROM semantic ORDER BY decay_score DESC LIMIT 500').all()
+    return this.db.prepare('SELECT key, value, confidence, source, type, scope, updated, reinforced, decay_score, trust_score, grounded, embedding FROM semantic ORDER BY decay_score DESC LIMIT 500').all()
       .map(r => ({ ...r, trigramSim: this.#embedder.cosineSim(queryVec, this.#embedder.embed(`${r.key} ${r.value}`)) }))
       .filter(r => r.trigramSim > 0.15)
       .sort((a, b) => b.trigramSim - a.trigramSim)
@@ -798,6 +801,7 @@ class MemoryStore {
     try { this.#db.exec("ALTER TABLE semantic ADD COLUMN grounded INTEGER DEFAULT 0"); } catch {}
     try { this.#db.exec("ALTER TABLE semantic ADD COLUMN embedding BLOB"); } catch {}
     try { this.#db.exec("ALTER TABLE episodic ADD COLUMN embedding BLOB"); } catch {}
+    try { this.#db.exec("ALTER TABLE procedural ADD COLUMN embedding BLOB"); } catch {}
     try {
       this.#db.exec(`
         CREATE TABLE IF NOT EXISTS knowledge (

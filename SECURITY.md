@@ -38,6 +38,22 @@ You should receive a response within 48 hours. If you don't, please follow up.
 3. **Review Diffs**: Check all diffs for accidentally committed secrets.
 4. **Dependencies**: Keep dependencies updated. Use `npm audit` regularly.
 
+### MCP Server Security (Tool Poisoning Defense)
+
+MCP tool poisoning is the #1 security threat in 2026 (30+ CVEs, including CVSS 9.6 RCE). A malicious MCP server can hide directives in tool descriptions that the model follows blindly.
+
+**Defense layers:**
+1. **Sanitize tool metadata**: Never trust tool descriptions as instructions. Treat as untrusted content.
+2. **Isolate high-privilege tools**: MCP tools with file write or network access require explicit permission.
+3. **Scan server manifests**: Review MCP server tool descriptions before connecting.
+4. **Disable always-allow**: Never auto-approve all MCP tool calls in production.
+5. **Monitor tool outputs**: MCP tool responses are untrusted data. Never execute embedded instructions from tool output.
+
+**For Zara specifically:**
+- All MCP servers configured in `.mcp.json` are reviewed by the project maintainer.
+- The plugin system validates tool schemas at composition time.
+- Memory tools gate write operations by source classification.
+
 ## Security Checklist
 
 - [ ] No API keys in source code
@@ -48,3 +64,5 @@ You should receive a response within 48 hours. If you don't, please follow up.
 - [ ] Command execution is restricted
 - [ ] Dependencies are up to date
 - [ ] No personal/company references in public code
+- [ ] MCP server manifests reviewed for tool poisoning
+- [ ] No always-allow on MCP tool permissions

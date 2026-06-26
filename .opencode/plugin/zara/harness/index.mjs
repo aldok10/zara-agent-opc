@@ -241,7 +241,7 @@ export default function createHarness({ client, directory } = {}) {
         }
       }
 
-      // On idle: run security re-check (lightweight, catches new issues since session start)
+      // On idle: run security re-check + proactive context preparation
       if (event?.type === 'session.idle') {
         try {
           const secFindings = securityAudit(directory || process.cwd());
@@ -250,6 +250,23 @@ export default function createHarness({ client, directory } = {}) {
             log.push({ ts: new Date().toISOString(), findings: secFindings, trigger: 'idle' });
             if (log.length > 50) log.splice(0, log.length - 50);
             saveJson(SECURITY_FILE, log);
+          }
+        } catch {}
+
+        // Proactive: check for stale knowledge that might be needed soon
+        try {
+          const reflectLog = path.join(HOME, 'reflections', 'log.jsonl');
+          if (fs.existsSync(reflectLog)) {
+            const lines = fs.readFileSync(reflectLog, 'utf-8').trim().split('\n').filter(Boolean);
+            const recent = lines.slice(-5).map(l => { try { return JSON.parse(l); } catch { return null; } }).filter(Boolean);
+            const domains = recent.map(r => r.task || '').filter(Boolean);
+            if (domains.length > 0) {
+              // Store anticipation hint for next inject cycle
+              const hints = loadJson(path.join(HARNESS_DIR, 'proactive-hints.json'), []);
+              hints.push({ ts: new Date().toISOString(), recentDomains: domains.slice(-3), trigger: 'idle' });
+              if (hints.length > 10) hints.splice(0, hints.length - 10);
+              saveJson(path.join(HARNESS_DIR, 'proactive-hints.json'), hints);
+            }
           }
         } catch {}
       }

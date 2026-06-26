@@ -18,10 +18,11 @@ Source of truth: `opencode.json`. Discover structure via filesystem.
 - PHP: load `php-expert` skill (PSR + strict_types)
 - Prompts/instructions: markdown, under 500 lines per file
 
-## Skill Gate (Non-Negotiable)
+## Skill Routing (Auto + Manual)
 
-Before ANY task, check for relevant skills. If one applies, LOAD IT. No exceptions.
-Load `skill-gate` if unsure which skill matches - it has the full routing table.
+Skills are auto-suggested by the dev plugin (keyword match on user message, injected at system level).
+If auto-routing doesn't match, load `skill-gate` manually for the full routing table.
+For new/unknown topics: the plugin will suggest creating a skill via web research.
 
 ## Agent Dispatch Map
 

@@ -409,11 +409,10 @@ export default function createDev({ client, directory } = {}) {
             fs.writeFileSync(srcFile, args.code, 'utf-8');
             if (args.language === 'shell') fs.chmodSync(srcFile, 0o755);
 
-            // Sanitize env: strip secrets from child process
+            // Sanitize env: allowlist only safe vars (Constitution P5 spirit: minimize blast radius)
+            const ENV_ALLOW = new Set(['HOME', 'PATH', 'LANG', 'SHELL', 'TERM', 'USER', 'LOGNAME', 'TMPDIR', 'XDG_RUNTIME_DIR', 'LC_ALL', 'LC_CTYPE']);
             const safeEnv = Object.fromEntries(
-              Object.entries(process.env).filter(([k]) =>
-                !/(?:KEY|SECRET|TOKEN|PASSWORD|CREDENTIAL|AUTH|PRIVATE|DSN|DATABASE|REDIS|MONGO|MYSQL|POSTGRES|AMQP|SMTP|API_?URL|AWS_|AZURE_|GCP_|OPENAI|ANTHROPIC|GITHUB_TOKEN|NPM_TOKEN|DOCKER_)/i.test(k)
-              )
+              Object.entries(process.env).filter(([k]) => ENV_ALLOW.has(k))
             );
             safeEnv.NODE_OPTIONS = '--no-warnings';
 

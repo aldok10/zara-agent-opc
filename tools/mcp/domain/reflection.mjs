@@ -17,7 +17,7 @@ class ReflectionTools {
     return {
       reflect: {
         description: 'Record a reflection (what worked, what failed, pattern extracted). Pass outcome to feed the success-weighted learning loop.',
-        inputSchema: { type: 'object', properties: { task: { type: 'string', description: 'What was the task' }, worked: { type: 'string' }, failed: { type: 'string' }, pattern: { type: 'string' }, outcome: { type: 'string', enum: ['success', 'partial', 'failure'], description: 'How it went — trains pattern scores over time' }, agent: { type: 'string', description: 'Which agent is reflecting (provenance)' } }, required: ['task'] },
+        inputSchema: { type: 'object', properties: { task: { type: 'string', description: 'What was the task' }, worked: { type: 'string' }, failed: { type: 'string' }, pattern: { type: 'string' }, outcome: { type: 'string', enum: ['success', 'partial', 'failure'], description: 'How it went — trains pattern scores over time' }, agent: { type: 'string', description: 'Which agent is reflecting (provenance)' }, reflection_type: { type: 'string', enum: ['principle', 'procedural', 'both'], description: 'MARS-style: principle (normative rule) or procedural (step-by-step strategy)' } }, required: ['task'] },
         handler: (args) => this.#handleReflect(args),
       },
       patterns: {
@@ -110,7 +110,17 @@ class ReflectionTools {
       saveJson(pFile, patterns);
     }
     const note = downgraded ? ' (downgraded from success: no evidence in worked field)' : '';
-    return `Reflected on: ${args.task}${args.pattern ? ` → pattern: ${args.pattern}${args.outcome ? ` [${args.outcome}]` : ''}` : ''}${note}`;
+    // MARS-style dual reflection hints
+    const hints = [];
+    if (args.outcome === 'failure' && !args.pattern) hints.push('PRINCIPLE: What rule would prevent this failure?');
+    if (args.outcome === 'success' && args.worked && !args.pattern) hints.push('PROCEDURAL: What exact sequence worked? Consider storing as procedure.');
+    if (args.outcome === 'failure' && args.failed) {
+      const logLines = fs.existsSync(logFile) ? fs.readFileSync(logFile, 'utf-8').trim().split('\n') : [];
+      const recent = logLines.slice(-20).filter(l => { try { const e = JSON.parse(l); return e.outcome === 'failure' && e.failed; } catch { return false; } });
+      if (recent.length >= 3) hints.push('ANTI-ENTRENCHMENT: 3+ recent failures. Switch perspective or approach.');
+    }
+    const hintStr = hints.length ? `\n💡 ${hints.join(' | ')}` : '';
+    return `Reflected on: ${args.task}${args.pattern ? ` → pattern: ${args.pattern}${args.outcome ? ` [${args.outcome}]` : ''}` : ''}${note}${hintStr}`;
   }
 
   // Wilson-ish ranking: successRate weighted by log frequency so a proven pattern

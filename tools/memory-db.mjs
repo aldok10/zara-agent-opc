@@ -239,11 +239,12 @@ class MemoryStore {
       const ftsCandidates = this.recall(query, limit * 3, options);
 
       // Path 2: Vector candidates (semantic match on stored embeddings)
-      let vecSql = 'SELECT key, value, type, scope, decay_score, reinforced, trust_score, grounded, embedding FROM semantic WHERE embedding IS NOT NULL';
+      // Pre-filter: skip decayed memories, apply type/scope, cap scan size
+      let vecSql = 'SELECT key, value, type, scope, decay_score, reinforced, trust_score, grounded, embedding FROM semantic WHERE embedding IS NOT NULL AND decay_score > 0.1';
       const params = [];
       if (type) { vecSql += ' AND type = ?'; params.push(type); }
       if (scope) { vecSql += ' AND scope = ?'; params.push(scope); }
-      vecSql += ' LIMIT 500';
+      vecSql += ' ORDER BY decay_score DESC LIMIT 300';
       const vecRows = db.prepare(vecSql).all(...params);
 
       const vecCandidates = [];
@@ -274,7 +275,7 @@ class MemoryStore {
         return results;
       }
 
-      // RRF fusion: merge both ranked lists
+      // RRF fusion: merge both ranked lists with vector score weighting
       const K = 60;
       const scoreMap = new Map();
 
@@ -285,7 +286,9 @@ class MemoryStore {
       }
       for (let i = 0; i < Math.min(vecCandidates.length, limit * 3); i++) {
         const key = vecCandidates[i].key;
-        scoreMap.set(key, (scoreMap.get(key) || 0) + 1 / (K + i + 1));
+        // Weight vector contribution by raw cosine score for better discrimination
+        const vecWeight = 1 + vecCandidates[i].vecScore;
+        scoreMap.set(key, (scoreMap.get(key) || 0) + vecWeight / (K + i + 1));
         if (!scoreMap.has(`_data_${key}`)) scoreMap.set(`_data_${key}`, vecCandidates[i]);
       }
 
@@ -333,7 +336,7 @@ class MemoryStore {
 
   // Async helper: compute and store embedding for a semantic memory
   async #embedAsync(key, text) {
-    const embedder = SemanticEmbedder.instance();
+    const embedder = this.#embedder.constructor.name !== 'TrigramEmbedder' ? this.#embedder : SemanticEmbedder.instance();
     const vec = await embedder.embed(text);
     const buf = Buffer.from(vec.buffer, vec.byteOffset, vec.byteLength);
     this.db.prepare('UPDATE semantic SET embedding = ? WHERE key = ?').run(buf, key);
@@ -341,7 +344,7 @@ class MemoryStore {
 
   // Async helper: compute and store embedding for an episodic memory
   async #embedEpisodicAsync(id, text) {
-    const embedder = SemanticEmbedder.instance();
+    const embedder = this.#embedder.constructor.name !== 'TrigramEmbedder' ? this.#embedder : SemanticEmbedder.instance();
     const vec = await embedder.embed(text);
     const buf = Buffer.from(vec.buffer, vec.byteOffset, vec.byteLength);
     this.db.prepare('UPDATE episodic SET embedding = ? WHERE id = ?').run(buf, id);
@@ -349,7 +352,7 @@ class MemoryStore {
 
   // Async helper: compute and store embedding for a procedural memory
   async #embedProceduralAsync(name, text) {
-    const embedder = SemanticEmbedder.instance();
+    const embedder = this.#embedder.constructor.name !== 'TrigramEmbedder' ? this.#embedder : SemanticEmbedder.instance();
     const vec = await embedder.embed(text);
     const buf = Buffer.from(vec.buffer, vec.byteOffset, vec.byteLength);
     this.db.prepare('UPDATE procedural SET embedding = ? WHERE name = ?').run(buf, name);

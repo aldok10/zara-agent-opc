@@ -569,11 +569,11 @@ class MemoryStore {
     return flagged;
   }
 
-  // Async version using SemanticEmbedder for real semantic comparison (far fewer false positives)
+  // Async version using stored embeddings first, fallback to live computation
   async detectContradictionsAsync(threshold = 0.92) {
     const db = this.db;
     const rows = db.prepare(`
-      SELECT key, value, type, trust_score FROM semantic
+      SELECT key, value, type, trust_score, embedding FROM semantic
       WHERE key NOT LIKE 'knowledge.%' AND key NOT LIKE 'kb_%' AND key NOT LIKE 'auto.%'
     `).all();
 
@@ -586,9 +586,15 @@ class MemoryStore {
     const byType = new Map();
     for (const r of rows) {
       if (!byType.has(r.type)) byType.set(r.type, []);
-      const vec = await embedder.embed(r.value.slice(0, 200));
+      // Use stored embedding if available, otherwise compute live
+      let vec;
+      if (r.embedding && r.embedding.byteLength >= 4) {
+        vec = new Float32Array(r.embedding.buffer, r.embedding.byteOffset, r.embedding.byteLength / 4);
+      } else {
+        vec = await embedder.embed(r.value.slice(0, 200));
+      }
       const norm = r.value.toLowerCase().replace(/\s+/g, ' ').trim();
-      byType.get(r.type).push({ ...r, vec, norm });
+      byType.get(r.type).push({ key: r.key, type: r.type, trust_score: r.trust_score, vec, norm });
     }
 
     const flagged = [];

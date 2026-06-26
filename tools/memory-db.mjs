@@ -232,8 +232,15 @@ class MemoryStore {
       const queryVec = await embedder.embed(query);
       const reranked = [];
       for (const c of candidates) {
-        const cVec = await embedder.embed(c.value.slice(0, 200));
-        const semScore = embedder.cosineSim(queryVec, cVec);
+        let semScore;
+        // Use stored embedding if available (avoid re-computation)
+        if (c.embedding && c.embedding.byteLength >= 4) {
+          const cVec = new Float32Array(c.embedding.buffer, c.embedding.byteOffset, c.embedding.byteLength / 4);
+          semScore = embedder.cosineSim(queryVec, cVec);
+        } else {
+          const cVec = await embedder.embed(c.value.slice(0, 200));
+          semScore = embedder.cosineSim(queryVec, cVec);
+        }
         reranked.push({ ...c, relevance: semScore * (TYPE_BOOST[c.type] || 1.0) * (c.decay_score || 0.5) * (c.grounded ? 1.25 : 1.0) });
       }
       return reranked.sort((a, b) => b.relevance - a.relevance).slice(0, limit);
@@ -273,11 +280,27 @@ class MemoryStore {
     this.db.prepare('UPDATE semantic SET embedding = ? WHERE key = ?').run(buf, key);
   }
 
+  // Async helper: compute and store embedding for an episodic memory
+  async #embedEpisodicAsync(id, text) {
+    const embedder = SemanticEmbedder.instance();
+    const vec = await embedder.embed(text);
+    const buf = Buffer.from(vec.buffer, vec.byteOffset, vec.byteLength);
+    this.db.prepare('UPDATE episodic SET embedding = ? WHERE id = ?').run(buf, id);
+  }
+
   // --- Episodic Layer ---
 
   recordEpisode(event, outcome = '', tags = []) {
     const ts = new Date().toISOString();
     this.db.prepare('INSERT INTO episodic (event, outcome, tags, ts) VALUES (?, ?, ?, ?)').run(event, outcome, JSON.stringify(tags), ts);
+
+    // Async embed for hybrid recall
+    if (SEMANTIC_MODE) {
+      const text = outcome ? `${event} ${outcome}` : event;
+      const id = this.db.prepare('SELECT last_insert_rowid() as id').get().id;
+      this.#embedEpisodicAsync(id, text).catch(() => {});
+    }
+
     return { event, ts };
   }
 
@@ -303,6 +326,15 @@ class MemoryStore {
       this.db.prepare('UPDATE procedural SET context = ?, steps = ?, updated = ? WHERE name = ?').run(context, JSON.stringify(steps), now, name);
     } else {
       this.db.prepare('INSERT INTO procedural (name, context, steps, uses, created, updated) VALUES (?, ?, ?, 0, ?, ?)').run(name, context, JSON.stringify(steps), now, now);
+    }
+    if (SEMANTIC_MODE) {
+      import('./embedder.mjs').then(async mod => {
+        try {
+          const text = `${name}: ${context} ${steps.join(' ')}`.slice(0, 200);
+          const vec = await mod.SemanticEmbedder.instance().embed(text);
+          this.db.prepare('UPDATE procedural SET embedding = ? WHERE name = ?').run(Buffer.from(vec.buffer), name);
+        } catch {}
+      }).catch(() => {});
     }
     return { name, steps: steps.length };
   }
@@ -765,6 +797,7 @@ class MemoryStore {
     try { this.#db.exec("ALTER TABLE semantic ADD COLUMN agent TEXT DEFAULT ''"); } catch {}
     try { this.#db.exec("ALTER TABLE semantic ADD COLUMN grounded INTEGER DEFAULT 0"); } catch {}
     try { this.#db.exec("ALTER TABLE semantic ADD COLUMN embedding BLOB"); } catch {}
+    try { this.#db.exec("ALTER TABLE episodic ADD COLUMN embedding BLOB"); } catch {}
     try {
       this.#db.exec(`
         CREATE TABLE IF NOT EXISTS knowledge (

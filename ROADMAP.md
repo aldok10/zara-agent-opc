@@ -1,20 +1,27 @@
 # Zara Agent Roadmap
 
-## Current Release: v1.0.0
+## Current Release: v1.1.0
+
+### v1.1.0 - Security & Intelligence (shipped 2026-06-26)
+- [x] Constitution enforcement (all 7 rules verified in code)
+- [x] 77-route skill auto-router with new-skill detection
+- [x] Trust budget sliding window (prevents gaming)
+- [x] Evidence-based reflection (min 20 chars for trust boost)
+- [x] ctx_execute env allowlist (security hardening)
+- [x] system.md 59% compression (295 -> 121 lines)
 
 ## Short-term (Q3 2026)
 
-### v1.1.0 - Enhanced Knowledge
-- [ ] Plugin system for custom knowledge sources
-- [ ] Knowledge base auto-indexing and search
-- [ ] Community-contributed skill repository
-- [ ] Skill sharing via GitHub gists
-
-### v1.2.0 - Memory & Persistence  
+### v1.2.0 - Memory & Persistence
 - [ ] Remote memory storage (SQLite, PostgreSQL)
 - [ ] Optional cloud sync for cross-device memory
 - [ ] Memory export/import functionality
 - [ ] Session replay and analysis
+
+### v1.3.0 - Enhanced Knowledge
+- [ ] Community-contributed skill repository
+- [ ] Skill sharing via GitHub gists
+- [ ] Auto-skill creation pipeline (detect gap -> research -> create)
 
 ## Medium-term (Q4 2026)
 

@@ -1,9 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 import { createHash } from 'crypto';
+import { fileURLToPath } from 'url';
 
-// Resolve project root from this module's location (tools/mcp/domain → project root)
-const PROJECT_ROOT = path.resolve(new URL('.', import.meta.url).pathname, '../../..');
+// Resolve project root from this module's location (tools/mcp/domain -> project root)
+const PROJECT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
 
 // Self-audit: validate that opencode.json config, skill routing, and plugin
 // wiring match what actually exists on disk. Catches config drift before it

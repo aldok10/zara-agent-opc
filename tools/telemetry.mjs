@@ -21,8 +21,15 @@ let _db = null;
 function getDb() {
   if (_db) return _db;
   fs.mkdirSync(HOME, { recursive: true });
-  _db = new DatabaseSync(DB_PATH);
-  _db.exec('PRAGMA journal_mode=WAL');
+  try {
+    _db = new DatabaseSync(DB_PATH);
+    _db.exec('PRAGMA journal_mode=WAL');
+  } catch (err) {
+    // Corruption recovery: rename and recreate
+    try { if (fs.existsSync(DB_PATH)) fs.renameSync(DB_PATH, `${DB_PATH}.corrupt.${Date.now()}`); } catch {}
+    _db = new DatabaseSync(DB_PATH);
+    _db.exec('PRAGMA journal_mode=WAL');
+  }
   _db.exec(`CREATE TABLE IF NOT EXISTS turns (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     ts TEXT NOT NULL DEFAULT (datetime('now')),

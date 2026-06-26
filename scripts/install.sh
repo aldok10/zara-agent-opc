@@ -107,21 +107,39 @@ fi
 # =============================================================================
 # Configuration
 # =============================================================================
+
+# Pre-flight: Node.js version check
+NODE_VERSION=$(node -e "process.stdout.write(process.versions.node)" 2>/dev/null || echo "0.0.0")
+NODE_MAJOR=$(echo "$NODE_VERSION" | cut -d. -f1)
+NODE_MINOR=$(echo "$NODE_VERSION" | cut -d. -f2)
+if [ "$NODE_MAJOR" -lt 22 ] || ([ "$NODE_MAJOR" -eq 22 ] && [ "$NODE_MINOR" -lt 14 ]); then
+    echo -e "${RED}[ERROR]${NC} Node.js >= 22.14.0 required (found: $NODE_VERSION)"
+    echo "  Install: https://nodejs.org or 'nvm install 22'"
+    exit 1
+fi
+echo -e "  ${GREEN}✓${NC} Node.js $NODE_VERSION (FTS5 compatible)"
+
 if [ "$OS" = "windows" ]; then
     # Windows paths
-    ZARA_HOME="${ZARA_HOME:-$USERPROFILE/.zara}"
-    ZARA_BIN="${ZARA_BIN:-$USERPROFILE/.local/bin}"
-    OPENCODE_CONFIG_DIR="${APPDATA}/opencode"
-    [ ! -d "$OPENCODE_CONFIG_DIR" ] && OPENCODE_CONFIG_DIR="${USERPROFILE}/.config/opencode"
+    ZARA_HOME="${ZARA_HOME:-${USERPROFILE:-$HOME}/.zara}"
+    ZARA_BIN="${ZARA_BIN:-${USERPROFILE:-$HOME}/.local/bin}"
+    OPENCODE_CONFIG_DIR="${APPDATA:-${USERPROFILE:-$HOME}/.config}/opencode"
+    [ ! -d "$OPENCODE_CONFIG_DIR" ] && OPENCODE_CONFIG_DIR="${USERPROFILE:-$HOME}/.config/opencode"
 else
     ZARA_HOME="${ZARA_HOME:-$HOME/.zara}"
     ZARA_BIN="${ZARA_BIN:-$HOME/.local/bin}"
     OPENCODE_CONFIG_DIR="${HOME}/.config/opencode"
 fi
 
-mkdir -p "$ZARA_HOME"/{knowledge,skills,memory,sessions,agents}
+mkdir -p "$ZARA_HOME/knowledge" "$ZARA_HOME/skills" "$ZARA_HOME/memory" "$ZARA_HOME/sessions" "$ZARA_HOME/agents"
 mkdir -p "$ZARA_BIN"
 mkdir -p "$OPENCODE_CONFIG_DIR"
+
+# Install npm dependencies (required for semantic embedder)
+echo -e "${CYAN}[0/6]${NC} Installing dependencies..."
+if [ -f "$SCRIPT_DIR/package.json" ]; then
+    (cd "$SCRIPT_DIR" && npm install --production --ignore-scripts 2>/dev/null) || echo -e "  ${YELLOW}⚠${NC} npm install failed (non-fatal, embedder may not work)"
+fi
 
 echo -e "${CYAN}[1/6]${NC} Installing Zara files..."
 

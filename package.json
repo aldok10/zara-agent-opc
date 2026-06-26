@@ -34,10 +34,10 @@
     "retrieval-augmented-generation"
   ],
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=22.14.0"
   },
   "dependencies": {
-    "@huggingface/transformers": "^4.2.0"
+    "@huggingface/transformers": "4.2.0"
   },
   "scripts": {
     "test": "for f in tests/*.test.mjs; do node \"$f\" 2>&1 | tail -1; done && echo '---' && echo 'All tests complete.'",

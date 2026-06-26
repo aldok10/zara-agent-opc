@@ -341,8 +341,8 @@ npm install
 # macOS/Linux — run installer
 ./scripts/install.sh
 
-# Windows (PowerShell) — run installer
-.\scripts\apply-zara.ps1
+# Windows (Git Bash / WSL) — run installer
+bash scripts/install.sh
 
 # Verify installation
 echo '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}' | node --experimental-sqlite tools/mcp/index.mjs

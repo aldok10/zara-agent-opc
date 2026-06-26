@@ -2,7 +2,7 @@
 // Rewired to SQLite (memory-db.mjs) instead of dead JSON files.
 
 import path from 'path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 import { SECRET_PATTERN } from '../infra/store.mjs';
 import { processMessage, queryGraph, graphStats } from './graph.mjs';
 import { tool } from '@opencode-ai/plugin';
@@ -17,8 +17,8 @@ let _store = null;
 function ensureStore() {
   if (_store) return;
   try {
-    // Dynamic import is async but we fire-and-forget from sync hooks
-    import(path.join(MCP_ROOT, 'memory-db.mjs')).then(mod => {
+    const modUrl = pathToFileURL(path.join(MCP_ROOT, 'memory-db.mjs')).href;
+    import(modUrl).then(mod => {
       _store = { learn: mod.semanticLearn, episode: mod.episodicRecord };
     }).catch(() => {});
   } catch {}

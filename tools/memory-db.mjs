@@ -314,8 +314,8 @@ class MemoryStore {
   }
 
   knowledgeSearch(query) {
-    const like = `%${query}%`;
-    return this.db.prepare('SELECT key, section, title, summary, file, mem_type FROM knowledge WHERE title LIKE ? OR summary LIKE ? OR key LIKE ? LIMIT 30').all(like, like, like);
+    const like = `%${escapeLike(query)}%`;
+    return this.db.prepare("SELECT key, section, title, summary, file, mem_type FROM knowledge WHERE title LIKE ? ESCAPE '\\' OR summary LIKE ? ESCAPE '\\' OR key LIKE ? ESCAPE '\\' LIMIT 30").all(like, like, like);
   }
 
   knowledgeSections() {

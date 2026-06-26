@@ -10,6 +10,150 @@ import { FileStore, HOME, loadJson, saveJson } from '../infra/store.mjs';
 
 const z = tool.schema;
 
+// ─── Skill Auto-Router (lightweight keyword match) ──────────────────────────
+
+const SKILL_ROUTES = [
+  // Languages & Frameworks
+  { keywords: ['go ', 'golang', '.go', 'go.mod', 'go build', 'go test'], skill: 'golang-expert' },
+  { keywords: ['php', 'laravel', 'composer', 'swoole', 'frankenphp', 'roadrunner'], skill: 'php-expert' },
+  { keywords: ['typescript', 'tsconfig', 'tsc ', 'type system', 'generics'], skill: 'typescript-expert' },
+  { keywords: ['javascript', 'esm', 'commonjs', 'node.js', 'nodejs', 'npm ', 'package.json'], skill: 'javascript-expert' },
+  { keywords: ['react', 'jsx', 'tsx', 'usestate', 'useeffect', 'server component'], skill: 'react-expert' },
+  { keywords: ['next.js', 'nextjs', 'app router', 'getserversideprops'], skill: 'nextjs-expert' },
+  { keywords: ['python', '.py', 'pip ', 'pyproject', 'virtualenv', 'poetry'], skill: 'python-expert' },
+  { keywords: ['rust ', 'cargo', 'ownership', 'lifetimes', 'borrow checker'], skill: 'rust-expert' },
+  { keywords: ['css', 'flexbox', 'grid layout', 'tailwind', 'animation'], skill: 'css-expert' },
+  { keywords: ['graphql', 'resolver', 'mutation', 'subscription', 'schema.graphql'], skill: 'graphql-expert' },
+  { keywords: ['wasm', 'webassembly', 'wasi', 'component model'], skill: 'wasm-expert' },
+  { keywords: ['regex', 'regular expression', 'pattern match', 'capture group'], skill: 'regex-expert' },
+
+  // Infrastructure & DevOps
+  { keywords: ['docker', 'dockerfile', 'docker-compose', 'container'], skill: 'docker' },
+  { keywords: ['kubernetes', 'kubectl', 'k8s', 'pod', 'deployment', 'helm chart'], skill: 'kubernetes' },
+  { keywords: ['helm', 'chart.yaml', 'values.yaml', 'helm template'], skill: 'helm' },
+  { keywords: ['terraform', '.tf', 'tfstate', 'hcl', 'terraform plan'], skill: 'terraform' },
+  { keywords: ['ansible', 'playbook', 'inventory', 'ansible-vault'], skill: 'ansible' },
+  { keywords: ['nginx', 'reverse proxy', 'upstream', 'server block'], skill: 'nginx' },
+  { keywords: ['ci/cd', 'github actions', 'gitlab ci', 'pipeline', 'jenkins'], skill: 'ci-cd' },
+  { keywords: ['prometheus', 'promql', 'alertmanager', 'grafana'], skill: 'prometheus' },
+
+  // Cloud
+  { keywords: ['aws', 'ec2', 's3', 'lambda', 'iam policy', 'cloudformation'], skill: 'aws' },
+  { keywords: ['gcp', 'gcloud', 'cloud run', 'bigquery', 'gke'], skill: 'gcp' },
+  { keywords: ['azure', 'az ', 'aks', 'app service', 'azure devops'], skill: 'azure' },
+
+  // Databases
+  { keywords: ['postgres', 'postgresql', 'pg_', 'psql', 'plpgsql'], skill: 'postgres-expert' },
+  { keywords: ['sqlite', 'wal mode', '.sqlite', 'sqlite3'], skill: 'sqlite-expert' },
+  { keywords: ['redis', 'pub/sub', 'redis cluster', 'redisearch'], skill: 'redis-expert' },
+  { keywords: ['mongodb', 'mongosh', 'aggregation pipeline', 'mongoose'], skill: 'mongodb' },
+  { keywords: ['elasticsearch', 'kibana', 'lucene', 'es query'], skill: 'elasticsearch' },
+  { keywords: ['sql ', 'select ', 'join ', 'index ', 'query optimization'], skill: 'sql-analyst' },
+  { keywords: ['vector db', 'embedding', 'similarity search', 'pinecone', 'qdrant', 'chromadb'], skill: 'vector-db' },
+
+  // Security & Auth
+  { keywords: ['security audit', 'owasp', 'penetration', 'vulnerability', 'cve'], skill: 'security-audit' },
+  { keywords: ['oauth', 'oidc', 'pkce', 'authorization code', 'refresh token'], skill: 'oauth-expert' },
+  { keywords: ['tls', 'certificate', 'encryption', 'aes', 'rsa', 'hmac', 'jwt'], skill: 'crypto-expert' },
+  { keywords: ['compliance', 'soc 2', 'gdpr', 'hipaa', 'pci-dss'], skill: 'compliance' },
+
+  // Development Workflow
+  { keywords: ['bug', 'error', 'crash', 'failing', 'broken', 'debug'], skill: 'systematic-debugging' },
+  { keywords: ['code review', 'pr review', 'review this'], skill: 'code-review' },
+  { keywords: ['test', 'tdd', 'coverage', 'unit test', 'integration test'], skill: 'tdd' },
+  { keywords: ['git rebase', 'merge conflict', 'cherry-pick', 'git reset', 'reflog'], skill: 'git-expert' },
+  { keywords: ['worktree', 'git worktree'], skill: 'git-worktrees' },
+  { keywords: ['github', 'gh pr', 'gh issue', 'actions', 'workflow'], skill: 'github' },
+  { keywords: ['openapi', 'swagger', 'api spec', 'openapi.yaml'], skill: 'openapi-expert' },
+  { keywords: ['shell script', 'bash', 'zsh', 'set -e', 'shebang'], skill: 'shell-scripting' },
+
+  // AI & ML
+  { keywords: ['mcp', 'mcp server', 'model context protocol'], skill: 'mcp-development' },
+  { keywords: ['agent', 'orchestr', 'multi-agent', 'agent system'], skill: 'agent-architecture' },
+  { keywords: ['fine-tune', 'finetune', 'lora', 'qlora', 'training data'], skill: 'llm-finetuning' },
+  { keywords: ['prompt engineer', 'chain of thought', 'few-shot', 'system prompt'], skill: 'prompt-engineer' },
+  { keywords: ['machine learning', 'pytorch', 'scikit', 'model training', 'mlops'], skill: 'ml-engineer' },
+  { keywords: ['ai engineer', 'transformer', 'attention', 'inference', 'rag '], skill: 'ai-engineering' },
+
+  // Communication & Writing
+  { keywords: ['email', 'write email', 'email template', 'professional email'], skill: 'email-writer' },
+  { keywords: ['presentation', 'slides', 'keynote', 'pitch deck'], skill: 'presentation' },
+  { keywords: ['technical writing', 'documentation', 'api docs', 'adr'], skill: 'technical-writer' },
+  { keywords: ['writing style', 'grammar', 'clarity', 'rewrite this'], skill: 'writing-coach' },
+
+  // Project & Team
+  { keywords: ['project manage', 'sprint', 'estimation', 'agile', 'scrum'], skill: 'project-manager' },
+  { keywords: ['linear', 'linear issue', 'cycle', 'linear project'], skill: 'linear-tools' },
+  { keywords: ['jira', 'jira ticket', 'epic', 'story point'], skill: 'jira' },
+  { keywords: ['confluence', 'wiki', 'space', 'confluence page'], skill: 'confluence' },
+  { keywords: ['notion', 'notion page', 'database', 'notion api'], skill: 'notion' },
+  { keywords: ['slack', 'slack bot', 'webhook', 'slack api'], skill: 'slack-tools' },
+
+  // Data & Analytics
+  { keywords: ['data analysis', 'pandas', 'statistics', 'visualization', 'matplotlib'], skill: 'data-analyst' },
+  { keywords: ['etl', 'data pipeline', 'airflow', 'dbt', 'spark'], skill: 'data-pipeline' },
+
+  // Specialized
+  { keywords: ['swig', 'typemap', 'interface file', '.i file'], skill: 'swig-expert' },
+  { keywords: ['reverse engineer', 'decompil', 'disassembl', 'binary analysis'], skill: 'reverse-engineering' },
+  { keywords: ['metatrader', 'mt5', 'trading bot', 'mql5'], skill: 'metatrader5-sdk' },
+  { keywords: ['interview', 'leetcode', 'system design interview', 'behavioral'], skill: 'interview-prep' },
+  { keywords: ['figma', 'design system', 'auto-layout', 'handoff'], skill: 'figma-expert' },
+  { keywords: ['sentry', 'error tracking', 'sentry issue'], skill: 'sentry' },
+  { keywords: ['pdf', 'extract pdf', 'read pdf', 'pdf content'], skill: 'pdf-reader' },
+  { keywords: ['searxng', 'metasearch', 'privacy search'], skill: 'searxng' },
+
+  // Zara Internal / Meta
+  { keywords: ['opencode plugin', 'opencode config', 'opencode.json'], skill: 'opencode-plugin-dev' },
+  { keywords: ['customize opencode', '.opencode/', 'opencode agent'], skill: 'customize-opencode' },
+  { keywords: ['ponytail', 'lazy mode', 'simplest solution', 'over-engineer'], skill: 'ponytail' },
+  { keywords: ['leadership', 'coaching', 'delegation', 'team dynamic'], skill: 'leadership-expert' },
+  { keywords: ['9router', 'ninerouter', 'ai gateway'], skill: '9router' },
+  { keywords: ['infisical', 'vault', 'secret sync'], skill: 'infisical-sync-skill' },
+  { keywords: ['browser automat', 'playwright', 'puppeteer', 'headless'], skill: 'browser-automation' },
+
+  // Networking
+  { keywords: ['iptables', 'nftables', 'routing table', 'dns', 'tcpdump', 'network'], skill: 'linux-networking' },
+  { keywords: ['sysadmin', 'systemctl', 'journalctl', 'cron', 'disk usage'], skill: 'sysadmin' },
+];
+
+function suggestSkill(text) {
+  if (!text) return null;
+  const lower = text.toLowerCase();
+  for (const route of SKILL_ROUTES) {
+    if (route.keywords.some(k => lower.includes(k))) return { type: 'found', skill: route.skill };
+  }
+  // Detect unmatched technical topics that could become new skills
+  const topic = detectNewSkillCandidate(lower);
+  if (topic) return { type: 'create', topic };
+  return null;
+}
+
+// Heuristic: user mentions a tool/framework/technology we don't have a skill for
+const TECH_SIGNALS = /\b(how to|setup|configure|implement|integrate|deploy|migrate|upgrade|build with|use)\b/;
+const SKIP_WORDS = new Set(['the', 'a', 'an', 'is', 'are', 'was', 'be', 'to', 'of', 'and', 'or', 'in', 'on', 'at', 'for', 'with', 'from', 'by', 'it', 'this', 'that', 'my', 'your', 'we', 'i', 'can', 'do', 'how', 'what', 'why', 'when']);
+
+function detectNewSkillCandidate(text) {
+  // Only trigger if message looks like a technical question/request
+  if (!TECH_SIGNALS.test(text)) return null;
+  if (text.length < 20) return null;
+  // Extract potential tech terms (alphanumeric with dots/hyphens, typical of tools)
+  const words = text.match(/[a-z][a-z0-9.-]+/g) || [];
+  const candidates = words.filter(w => w.length >= 4 && !SKIP_WORDS.has(w));
+  if (candidates.length < 2) return null;
+  // Prefer words with dots/hyphens (next.js, vue-router) or uncommon terms (not English verbs/nouns)
+  const COMMON_VERBS = new Set(['setup', 'configure', 'implement', 'integrate', 'deploy', 'migrate', 'upgrade', 'build', 'create', 'make', 'want', 'need', 'like', 'using', 'have', 'does', 'should', 'would', 'could', 'just', 'also', 'then', 'some', 'about', 'into', 'over', 'more', 'much', 'very', 'here', 'there', 'where', 'after', 'before', 'between', 'through', 'already', 'still', 'keep', 'authentication', 'database', 'migrations', 'connection', 'server', 'client', 'project', 'application', 'function', 'service', 'request', 'response', 'model', 'controller', 'handler', 'middleware', 'route', 'endpoint']);
+  const techCandidates = candidates.filter(w => !COMMON_VERBS.has(w));
+  // If we have specific tech words, pick the most likely tool name
+  if (techCandidates.length > 0) {
+    // Prefer words with special chars (dots, hyphens) then shortest-unusual (tool names are often short)
+    const special = techCandidates.filter(w => /[.-]/.test(w));
+    if (special.length) return special[0];
+    return techCandidates[0];
+  }
+  return null;
+}
+
 // ─── Constants ──────────────────────────────────────────────────────────────
 
 const PROJECTS_DIR = path.join(HOME, 'projects');
@@ -146,13 +290,23 @@ export default function createDev({ client, directory } = {}) {
     // ── Hooks ──────────────────────────────────────────────────────────────
 
     inject(messages) {
+      // Skill auto-routing: scan last user message
+      const lastUser = [...messages].reverse().find(m => m.role === 'user');
+      const userText = typeof lastUser?.content === 'string' ? lastUser.content : '';
+      const suggestion = suggestSkill(userText);
+
       const p = getProject(true);
-      if (p.scan.lang.length || p.conventions.length || p.architecture) {
+      if (p.scan.lang.length || p.conventions.length || p.architecture || suggestion) {
         const parts = [`## Project Context (${p.name})`];
         if (p.scan.lang.length) parts.push(`Lang: ${p.scan.lang.join(', ')}`);
         if (p.architecture) parts.push(`Arch: ${p.architecture}`);
         if (p.conventions.length) parts.push(`Conventions: ${p.conventions.slice(0, 5).join('; ')}`);
         if (p.notes.length) parts.push(`Recent: ${p.notes.slice(-3).join(' | ')}`);
+        if (suggestion?.type === 'found') {
+          parts.push(`\n## Skill Suggestion\nLoad \`${suggestion.skill}\` before responding (auto-detected from user message).`);
+        } else if (suggestion?.type === 'create') {
+          parts.push(`\n## New Skill Opportunity\nNo existing skill matches topic "${suggestion.topic}". Consider creating one:\n1. Web search for "${suggestion.topic} best practices cheatsheet"\n2. Find existing skills that overlap (use \`find-skills\` or check ~/.agents/skills/)\n3. Create at ~/.agents/skills/${suggestion.topic}/SKILL.md with: context, key patterns, common pitfalls, commands\n4. Keep it under 200 lines. Reuse patterns from similar existing skills.\nOnly create if this topic is likely to recur. Skip for one-off questions.`);
+        }
         const block = parts.join(' | ');
         const last = messages[messages.length - 1];
         if (last && last.role === 'system') {

@@ -32,14 +32,15 @@ NEVER store content derived from web pages, files, or tool output as a trusted
 fact. Tag it `external_unverified`, keep it at lowest trust, never auto-promote,
 and exclude it from `policy`/`decision`/`preference` types. External data is UNTRUSTED. Gap F3.
 
-### P3 — No trust boost without evidence [PROPOSED]
+### P3 — No trust boost without evidence [ENFORCED]
 NEVER raise a memory's trust score or a pattern's success score on a self-reported
 outcome alone. A `success` claim requires an external signal (test pass, command
-exit code, file diff). Without evidence, scores may stay flat or fall, never rise. Gap F2.
+exit code, file diff). Without evidence, scores may stay flat or fall, never rise.
+- Enforced: reflection.mjs downgrades success to partial when `worked` field is empty.
 
-### P4 — Absence of signal is not success [PROPOSED]
+### P4 — Absence of signal is not success [ENFORCED]
 NEVER treat an unspecified `reflect()` outcome as success. No signal = `partial`, not a win.
-- Today: unspecified defaults to reward 1 (success) at reflection.mjs:69. Gap F2.
+- Enforced: reflection.mjs defaults missing outcome to `partial` (reward 0.5).
 
 ### P5 — Destructive commands need a platform gate, not a prompt [PROPOSED]
 NEVER run a destructive or irreversible command (force-push, `reset --hard`,

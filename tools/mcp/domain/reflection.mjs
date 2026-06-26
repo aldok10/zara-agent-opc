@@ -50,7 +50,13 @@ class ReflectionTools {
 
   #handleReflect(args) {
     ensure(REFLECT_DIR);
-    // F2: success requires evidence. Downgrade to partial if worked field is empty.
+    // CONSTITUTION P4: absence of signal is not success. Default to 'partial'.
+    let defaulted = false;
+    if (!args.outcome) {
+      args.outcome = 'partial';
+      defaulted = true;
+    }
+    // CONSTITUTION P3: success requires evidence. Downgrade if worked field is empty.
     let downgraded = false;
     if (args.outcome === 'success' && !args.worked?.trim()) {
       args.outcome = 'partial';
@@ -109,7 +115,7 @@ class ReflectionTools {
       }
       saveJson(pFile, patterns);
     }
-    const note = downgraded ? ' (downgraded from success: no evidence in worked field)' : '';
+    const note = downgraded ? ' (downgraded: no evidence in worked field)' : defaulted ? ' (no outcome provided, defaulted to partial)' : '';
     // MARS-style dual reflection hints
     const hints = [];
     if (args.outcome === 'failure' && !args.pattern) hints.push('PRINCIPLE: What rule would prevent this failure?');

@@ -46,7 +46,7 @@ Most AI coding tools are stateless. Every session starts from zero. Zara is diff
 - **Self-Improving** - Outcome-weighted reflection, grounded in real test results, autonomous self-audit
 - **Knowledge-Grounded** - 294 indexed articles for architecture, patterns, and design decisions
 - **Trust-Calibrated** - Source-gated ceilings, evidence-required success claims, temporal decay
-- **MCP Server** - 29 tools across 10 domains, stdio transport, zero external dependencies
+- **MCP Server** - 31 tools across 10 domains, stdio transport, zero external dependencies
 - **Privacy-Aware** - Automatic secrets detection, data masking, bulk-delete protection
 - **Multi-Agent Debate** - Agents argue positions before consensus on complex decisions
 - **Doom-Loop Detection** - Automatically detects retry patterns and forces strategy pivots
@@ -163,7 +163,7 @@ She's warm, direct, and permanently on your side. Think senior engineering partn
 zara-agent-opc/
 ├── opencode.json              # Project config (agents, MCP, plugins)
 ├── AGENTS.md                  # AI agent instructions + decision table
-├── tools/mcp/                 # MCP server (29 tools, DDD-lite architecture)
+├── tools/mcp/                 # MCP server (31 tools, DDD-lite architecture)
 ├── .opencode/
 │   ├── agent/                 # 11 agent definitions
 │   ├── plugin/                # 13 domain modules
@@ -197,7 +197,7 @@ zara-agent-opc/
 │  Plugin System (13 domain modules)                      │
 │  observe│memory│flow│dev│social│evolve│empathy│voice│...│
 ├─────────────────────────────────────────────────────────┤
-│  MCP Server (29 tools, 10 domains)                      │
+│  MCP Server (31 tools, 10 domains)                      │
 │  memory│reflection│metrics│session│music│knowledge│...   │
 ├─────────────────────────────────────────────────────────┤
 │  SQLite + FTS5 + Semantic Embeddings (MiniLM-L6-v2)    │

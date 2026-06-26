@@ -66,20 +66,38 @@
 |------|-------------|----------------|
 | `zara_self_audit` | Validate config integrity: agents vs prompt files, plugin modules, MCP domains | `map` |
 
+## Identity Domain (`tools/mcp/domain/identity.mjs`)
+
+| Tool | Description | Key Parameters |
+|------|-------------|----------------|
+| `user_profile` | Get/update user profile, or discover identity from all sources (env, git, OS, memory) | `action` (get/discover), `update`, `persist`, `name` |
+
+## Project Domain (`tools/mcp/domain/project.mjs`)
+
+| Tool | Description | Key Parameters |
+|------|-------------|----------------|
+| `project_learn` | Extract project knowledge (stack, structure, tests, CI) from workspace and store as scoped facts | `path` |
+
+## Improve Domain (`tools/mcp/domain/improve.mjs`)
+
+| Tool | Description | Key Parameters |
+|------|-------------|----------------|
+| `zara_self_improve` | Run self-improvement cycle: observe (gather signals) or orient (prioritize findings) | `phase` (observe/orient/full) |
+
 ## Tool Count Summary
 
 | Domain | Tools |
 |--------|-------|
 | Memory | 7 |
-| Reflection | 6 (reflect, patterns, reflect_suggest, zara_evolve_status, blindspot_log, blindspot_check) |
-| Metrics | 3 (dashboard, metrics_today, metrics_record_turn) |
+| Reflection | 6 |
+| Metrics | 3 |
 | Session | 5 |
 | Music | 1 |
 | Knowledge | 4 |
-| Audit | 2 (zara_self_audit, zara_skill_integrity) |
-| Project | 1 (project_learn) |
-| Identity | 1 (user_profile with discover) |
-| Improve | 1 (zara_self_improve) |
+| Audit | 2 |
+| Project | 1 |
+| Identity | 1 |
+| Improve | 1 |
 | **Total** | **31** |
 
 ## Removed Tools (consolidated into existing)

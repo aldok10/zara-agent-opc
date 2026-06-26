@@ -199,6 +199,47 @@ export default function createHarness({ client, directory } = {}) {
           process.stderr.write(`[zara-harness] security audit error: ${e.message}\n`);
         }
       }
+
+      // Run self-harness loop on session end (lightweight, auto-apply safe fixes)
+      if (event?.type === 'session.ended') {
+        try {
+          const failures = mineFailures(7);
+          if (failures.length >= 2) {
+            const groups = groupByPattern(failures);
+            const rules = loadJson(RULES_FILE, []);
+            let applied = 0;
+
+            for (const group of groups.slice(0, 3)) {
+              if (group.count < 2) continue;
+              const diag = diagnose(group);
+              if (diag.fixType === 'rule') {
+                const exists = rules.some(r => r.when.includes(diag.pattern.slice(0, 30)));
+                if (!exists) {
+                  rules.push({
+                    when: diag.pattern,
+                    then: `Avoid failed approach. Root: ${diag.rootCause}. Try different strategy.`,
+                    priority: group.count >= 3 ? 'high' : 'medium',
+                    createdAt: new Date().toISOString(),
+                    fired: 0,
+                    source: 'self-harness-auto',
+                  });
+                  applied++;
+                }
+              }
+            }
+
+            if (applied > 0) {
+              saveJson(RULES_FILE, rules);
+              const appLog = loadJson(APPLIED_FILE, []);
+              appLog.push({ ts: new Date().toISOString(), applied, trigger: 'session.ended' });
+              if (appLog.length > 30) appLog.splice(0, appLog.length - 30);
+              saveJson(APPLIED_FILE, appLog);
+            }
+          }
+        } catch (e) {
+          process.stderr.write(`[zara-harness] session-end self-improvement error: ${e.message}\n`);
+        }
+      }
     },
 
     inject(messages) {

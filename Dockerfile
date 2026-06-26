@@ -13,7 +13,8 @@ RUN apt-get update \
 # Install opencode CLI globally.
 RUN npm install -g opencode-ai
 
-# Non-root user for safety; mounted volumes keep host ownership.
+# Run as non-root for safety.
+USER node
 WORKDIR /workspace
 
 # The project is mounted at runtime (see docker-compose.yml), not copied,

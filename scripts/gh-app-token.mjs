@@ -67,6 +67,13 @@ async function main() {
     process.exit(1);
   }
 
+  // Key age check: warn if > 90 days old
+  const { statSync } = await import('node:fs');
+  const keyAge = (Date.now() - statSync(KEY_PATH).mtimeMs) / (1000 * 60 * 60 * 24);
+  if (keyAge > 90) {
+    console.error(`WARNING: Private key is ${Math.floor(keyAge)} days old. Rotate at https://github.com/settings/apps/zara-agent`);
+  }
+
   const jwt = makeJwt(APP_ID, privateKey);
 
   // Find the installation for this repo

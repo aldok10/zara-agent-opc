@@ -61,6 +61,6 @@
     "postinstall": "node bin/postinstall.mjs"
   },
   "devDependencies": {
-    "@opencode-ai/plugin": "^1.17.10"
+    "@opencode-ai/plugin": "^1.17.11"
   }
 }

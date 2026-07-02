@@ -23,7 +23,6 @@
     "bin/",
     "tools/",
     "knowledge/",
-    "prompts/",
     ".opencode/",
     "opencode.json",
     "scripts/install.sh",

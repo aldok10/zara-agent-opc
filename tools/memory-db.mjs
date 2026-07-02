@@ -17,6 +17,7 @@ import fs from 'fs';
 import path from 'path';
 import os from 'os';
 import { TrigramEmbedder, SemanticEmbedder } from './embedder.mjs';
+import { getVectorStore, CHROMA_ENABLED } from './vector-store.mjs';
 
 // --- Value Objects ---
 
@@ -239,24 +240,60 @@ class MemoryStore {
       const ftsCandidates = this.recall(query, limit * 3, options);
 
       // Path 2: Vector candidates (semantic match on stored embeddings)
-      // Pre-filter: skip decayed memories, apply type/scope, cap scan size
-      let vecSql = 'SELECT key, value, type, scope, decay_score, reinforced, trust_score, grounded, embedding FROM semantic WHERE embedding IS NOT NULL AND decay_score > 0.1';
-      const params = [];
-      if (type) { vecSql += ' AND type = ?'; params.push(type); }
-      if (scope) { vecSql += ' AND scope = ?'; params.push(scope); }
-      vecSql += ' ORDER BY decay_score DESC LIMIT 300';
-      const vecRows = db.prepare(vecSql).all(...params);
+      let vecCandidates = [];
 
-      const vecCandidates = [];
-      for (const r of vecRows) {
-        if (!r.embedding || r.embedding.byteLength < 4) continue;
-        const dim = r.embedding.byteLength / 4;
-        if (dim !== queryVec.length) continue;
-        const vec = new Float32Array(r.embedding.buffer, r.embedding.byteOffset, dim);
-        const score = embedder.cosineSim(queryVec, vec);
-        if (score > 0.2) vecCandidates.push({ ...r, vecScore: score, embedding: undefined });
+      // Path 2a: Chroma KNN when enabled — native ANN instead of a capped scan.
+      // Chroma returns keys ranked by similarity; hydrate full rows from SQLite
+      // so metadata/trust/decay stay the single source of truth.
+      let chromaUsed = false;
+      if (CHROMA_ENABLED) {
+        const store = getVectorStore();
+        if (store) {
+          try {
+            const where = {};
+            if (type) where.type = type;
+            if (scope) where.scope = scope;
+            const hits = await store.query(queryVec, limit * 3, where);
+            if (hits.length) {
+              const byKey = new Map(hits.map(h => [h.key, h.score]));
+              const keys = [...byKey.keys()];
+              const placeholders = keys.map(() => '?').join(',');
+              const rows = db.prepare(
+                `SELECT key, value, type, scope, decay_score, reinforced, trust_score, grounded FROM semantic WHERE key IN (${placeholders}) AND decay_score > 0.1`
+              ).all(...keys);
+              for (const r of rows) {
+                const score = byKey.get(r.key);
+                if (score > 0.2) vecCandidates.push({ ...r, vecScore: score });
+              }
+              vecCandidates.sort((a, b) => b.vecScore - a.vecScore);
+              chromaUsed = true;
+            }
+          } catch {
+            // fall through to the SQLite scan below
+          }
+        }
       }
-      vecCandidates.sort((a, b) => b.vecScore - a.vecScore);
+
+      // Path 2b: in-SQLite vector scan (default backend, or Chroma fallback).
+      // Pre-filter: skip decayed memories, apply type/scope, cap scan size.
+      if (!chromaUsed) {
+        let vecSql = 'SELECT key, value, type, scope, decay_score, reinforced, trust_score, grounded, embedding FROM semantic WHERE embedding IS NOT NULL AND decay_score > 0.1';
+        const params = [];
+        if (type) { vecSql += ' AND type = ?'; params.push(type); }
+        if (scope) { vecSql += ' AND scope = ?'; params.push(scope); }
+        vecSql += ' ORDER BY decay_score DESC LIMIT 300';
+        const vecRows = db.prepare(vecSql).all(...params);
+
+        for (const r of vecRows) {
+          if (!r.embedding || r.embedding.byteLength < 4) continue;
+          const dim = r.embedding.byteLength / 4;
+          if (dim !== queryVec.length) continue;
+          const vec = new Float32Array(r.embedding.buffer, r.embedding.byteOffset, dim);
+          const score = embedder.cosineSim(queryVec, vec);
+          if (score > 0.2) vecCandidates.push({ ...r, vecScore: score, embedding: undefined });
+        }
+        vecCandidates.sort((a, b) => b.vecScore - a.vecScore);
+      }
 
       // If no stored embeddings exist yet, fall back to reranking FTS candidates
       if (!vecCandidates.length && ftsCandidates.length) {
@@ -340,6 +377,16 @@ class MemoryStore {
     const vec = await embedder.embed(text);
     const buf = Buffer.from(vec.buffer, vec.byteOffset, vec.byteLength);
     this.db.prepare('UPDATE semantic SET embedding = ? WHERE key = ?').run(buf, key);
+
+    // Mirror to Chroma when enabled. Best-effort: failure never blocks the
+    // SQLite write, which remains the source of truth.
+    if (CHROMA_ENABLED) {
+      const store = getVectorStore();
+      if (store) {
+        const row = this.db.prepare('SELECT type, scope FROM semantic WHERE key = ?').get(key);
+        store.upsert(key, vec, { type: row?.type || 'fact', scope: row?.scope || '' }).catch(() => {});
+      }
+    }
   }
 
   // Async helper: compute and store embedding for an episodic memory

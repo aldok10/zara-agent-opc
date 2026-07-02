@@ -3,8 +3,9 @@
 # Prompt File Tests for Zara Agent
 # =============================================================================
 # Verifies the canonical prompt structure exists and is valid.
-# Canonical instructions live in .opencode/instructions/, agent prompts in
-# .opencode/agent/, and engineering philosophy in prompts/.
+# Canonical instructions live in .opencode/instructions/system.md (single
+# source of truth; engineering philosophy was merged in) and agent prompts
+# in .opencode/agent/.
 # =============================================================================
 
 setup() {
@@ -18,11 +19,6 @@ setup() {
 @test "canonical system.md exists and is non-empty" {
     [ -f "$PROJECT_DIR/.opencode/instructions/system.md" ]
     [ -s "$PROJECT_DIR/.opencode/instructions/system.md" ]
-}
-
-@test "philosophy.md exists and is non-empty" {
-    [ -f "$PROJECT_DIR/prompts/philosophy.md" ]
-    [ -s "$PROJECT_DIR/prompts/philosophy.md" ]
 }
 
 # =============================================================================
@@ -97,12 +93,12 @@ setup() {
 # Structure Tests
 # =============================================================================
 
-@test "canonical system.md references Connection DNA" {
-    grep -q "Connection DNA" "$PROJECT_DIR/.opencode/instructions/system.md"
+@test "canonical system.md defines behavior rules" {
+    grep -q "## Behavior" "$PROJECT_DIR/.opencode/instructions/system.md"
 }
 
-@test "philosophy.md contains priority stack" {
-    grep -q "Priority Stack" "$PROJECT_DIR/prompts/philosophy.md"
+@test "canonical system.md contains priority stack" {
+    grep -q "Correctness >" "$PROJECT_DIR/.opencode/instructions/system.md"
 }
 
 # =============================================================================
@@ -111,12 +107,10 @@ setup() {
 
 @test "no deprecated personal paths in prompts" {
     ! grep -r "/Users/" "$PROJECT_DIR/.opencode/" 2>/dev/null
-    ! grep -r "/Users/" "$PROJECT_DIR/prompts/" 2>/dev/null
 }
 
 @test "no hardcoded API keys in prompts" {
     ! grep -rE 'sk-[a-zA-Z0-9]{20,}' "$PROJECT_DIR/.opencode/" 2>/dev/null
-    ! grep -rE 'sk-[a-zA-Z0-9]{20,}' "$PROJECT_DIR/prompts/" 2>/dev/null
 }
 
 @test "zara.md defines all 8 specialist @-mentions" {

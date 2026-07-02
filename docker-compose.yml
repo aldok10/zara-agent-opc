@@ -72,5 +72,26 @@ services:
       OPENCODE_SERVER_PASSWORD: "${OPENCODE_SERVER_PASSWORD:-}"
     command: ["opencode", "web", "--mdns", "--hostname", "0.0.0.0", "--port", "8080"]
 
+  # Optional vector backend for Zara memory. SQLite stays the default store;
+  # set ZARA_VECTOR=chroma + ZARA_CHROMA_URL=http://localhost:8000 to route
+  # KNN similarity search here instead of the in-SQLite vector scan.
+  #   docker compose up -d chroma
+  chroma:
+    image: chromadb/chroma:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma-data:/data
+    environment:
+      IS_PERSISTENT: "TRUE"
+      ANONYMIZED_TELEMETRY: "FALSE"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v2/heartbeat"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
 volumes:
   zara-home:
+  chroma-data:

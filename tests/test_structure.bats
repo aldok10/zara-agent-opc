@@ -19,10 +19,6 @@ setup() {
     [ -d "$PROJECT_DIR/examples" ]
 }
 
-@test "prompts directory exists" {
-    [ -d "$PROJECT_DIR/prompts" ]
-}
-
 @test "agent definitions directory exists" {
     [ -d "$PROJECT_DIR/.opencode/agent" ]
 }

@@ -23,7 +23,6 @@
     "bin/",
     "tools/",
     "knowledge/",
-    "prompts/",
     ".opencode/",
     "opencode.json",
     "scripts/install.sh",
@@ -62,5 +61,8 @@
   },
   "devDependencies": {
     "@opencode-ai/plugin": "^1.17.11"
+  },
+  "optionalDependencies": {
+    "chromadb": "^3.0.0"
   }
 }

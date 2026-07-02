@@ -129,3 +129,33 @@ Zara stores runtime data at `~/.zara/`:
 | `~/.zara/reflections/` | Pattern log |
 | `~/.zara/metrics/` | Daily tool usage |
 | `~/.zara/state/` | Session handoff state |
+
+### Vector backend (optional Chroma)
+
+SQLite is the default and owns all metadata, FTS, trust, and decay scoring.
+For larger memory sets you can offload KNN similarity search to a
+[Chroma](https://www.trychroma.com/) server instead of the in-SQLite vector
+scan. Embeddings are still produced by Zara's own MiniLM-L6-v2 model; Chroma
+only stores and ranks the vectors.
+
+```bash
+# 1. start the server (persistent volume)
+docker compose up -d chroma
+
+# 2. install the optional client
+npm install chromadb
+
+# 3. point Zara at it
+export ZARA_VECTOR=chroma
+export ZARA_CHROMA_URL=http://localhost:8000   # default
+```
+
+| Env | Default | Purpose |
+|-----|---------|---------|
+| `ZARA_VECTOR` | `sqlite` | `chroma` to enable the Chroma backend |
+| `ZARA_CHROMA_URL` | `http://localhost:8000` | Chroma server address |
+| `ZARA_CHROMA_COLLECTION` | `zara_semantic` | collection name |
+
+SQLite remains the source of truth: every write goes to SQLite first, then
+mirrors to Chroma best-effort. If Chroma is unreachable or the client is not
+installed, recall falls back to the SQLite vector scan automatically.

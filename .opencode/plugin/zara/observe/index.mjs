@@ -3,7 +3,7 @@
 
 import { FileStore, today, spanId, estimateTokens, hash, SECRET_PATTERN } from '../infra/store.mjs';
 import { tool } from '@opencode-ai/plugin';
-import { matchInjection, PROMPT_INJECTION_PATTERNS } from './patterns.mjs';
+import { matchInjection } from './patterns.mjs';
 import { checkEnvAccess } from './env-guard.mjs';
 import { SkillSuggester } from './skill-suggest.mjs';
 import { scorePatch, trustLevel } from './trust-score.mjs';
@@ -32,7 +32,6 @@ export class TraceService {
   #store = new FileStore('traces');
   #session = null;
   #spanStack = [];
-  #traceTree = [];        // in-memory trace tree for current session
   #spanCounter = 0;
   #currentAgent = null;   // optional agent context for tool call attribution
 
@@ -40,7 +39,6 @@ export class TraceService {
 
   startSession() {
     this.#session = new Session();
-    this.#traceTree = [];
     this.#spanCounter = 0;
     this.#store.pruneOldFiles(/^\d{4}-\d{2}-\d{2}\.jsonl$/, 14);
   }
@@ -59,10 +57,6 @@ export class TraceService {
 
   setCurrentAgent(name) {
     this.#currentAgent = name || null;
-  }
-
-  clearCurrentAgent() {
-    this.#currentAgent = null;
   }
 
   startSpan(tool, args, agent) {
@@ -84,44 +78,11 @@ export class TraceService {
       agent: span.agent || null,
     });
 
-    // Keep in-memory tree for trace queries (cap at 200 to prevent memory leak)
-    this.#traceTree.push({ spanId: span.spanId, parentId: span.parentId, tool: span.tool, duration, success, args: span.args, context, agent: span.agent || null, ts: new Date().toISOString() });
-    if (this.#traceTree.length > 200) this.#traceTree.splice(0, this.#traceTree.length - 200);
-
     return duration;
-  }
-
-  traceTree(depth = 3) {
-    if (!this.#traceTree.length) return [];
-    // Build tree from flat list
-    const byId = {};
-    const roots = [];
-    for (const node of this.#traceTree) {
-      byId[node.spanId] = { ...node, children: [] };
-    }
-    for (const node of Object.values(byId)) {
-      if (node.parentId && byId[node.parentId]) {
-        byId[node.parentId].children.push(node);
-      } else {
-        roots.push(node);
-      }
-    }
-    // Format as tree string
-    function format(n, level = 0) {
-      if (level > depth) return '';
-      const indent = '  '.repeat(level);
-      const argStr = n.args?.name || n.args?.tool || '';
-      const ctxStr = n.context ? ` ← ${n.context}` : '';
-      let s = `${indent}${n.success ? '✓' : '✗'} ${n.tool} ${argStr} (${n.duration}ms)${ctxStr}`;
-      for (const c of n.children) s += '\n' + format(c, level + 1);
-      return s;
-    }
-    return roots.map(r => format(r)).join('\n');
   }
 
   onMessage(text) { if (this.#session) { this.#session.messages++; this.#session.outputTokens += estimateTokens(text); } }
   onInput(text) { if (this.#session) this.#session.inputTokens += estimateTokens(text); }
-  addCorrection() { if (this.#session) this.#session.corrections++; }
 
   summary(days = 1) {
     let cost = 0, sessions = 0, tools = 0, latency = 0, n = 0;
@@ -134,131 +95,6 @@ export class TraceService {
     }
     return { sessions, tools, avgLatency: n ? Math.round(latency / n) : 0, cost };
   }
-
-  slowTools() {
-    return this.#store.readLines(`${today()}.jsonl`)
-      .filter(s => s.type === 'tool').sort((a, b) => b.duration - a.duration).slice(0, 10);
-  }
-
-  costByDay(days = 7) {
-    const entries = this.#store.readLines('costs.jsonl');
-    const byDate = {};
-    for (const e of entries) {
-      if (!byDate[e.date]) byDate[e.date] = { cost: 0, input: 0, output: 0 };
-      byDate[e.date].cost += e.cost; byDate[e.date].input += e.inputTokens; byDate[e.date].output += e.outputTokens;
-    }
-    return Object.entries(byDate).sort((a, b) => b[0].localeCompare(a[0])).slice(0, days);
-  }
-
-  costByAgent(days = 7) {
-    const agentData = {};
-    let totalToolCalls = 0;
-    // Collect tool spans with agent field
-    for (let i = 0; i < days; i++) {
-      const d = new Date(); d.setDate(d.getDate() - i);
-      for (const s of this.#store.readLines(`${d.toISOString().split('T')[0]}.jsonl`)) {
-        if (s.type === 'tool') {
-          const agent = s.agent || 'unattributed';
-          if (!agentData[agent]) agentData[agent] = { toolCalls: 0, totalDuration: 0, successCount: 0, failCount: 0 };
-          agentData[agent].toolCalls++;
-          agentData[agent].totalDuration += s.duration || 0;
-          if (s.success) agentData[agent].successCount++;
-          else agentData[agent].failCount++;
-          totalToolCalls++;
-        }
-      }
-    }
-    // Get total session cost for proportional attribution
-    let totalCost = 0;
-    for (let i = 0; i < days; i++) {
-      const d = new Date(); d.setDate(d.getDate() - i);
-      for (const s of this.#store.readLines(`${d.toISOString().split('T')[0]}.jsonl`)) {
-        if (s.type === 'session') totalCost += s.cost || 0;
-      }
-    }
-    // Attribute cost proportionally by tool call count
-    const result = {};
-    for (const [agent, data] of Object.entries(agentData)) {
-      const proportion = totalToolCalls > 0 ? data.toolCalls / totalToolCalls : 0;
-      result[agent] = {
-        toolCalls: data.toolCalls,
-        avgLatency: data.toolCalls > 0 ? Math.round(data.totalDuration / data.toolCalls) : 0,
-        totalDuration: data.totalDuration,
-        successCount: data.successCount,
-        failCount: data.failCount,
-        estimatedCost: +(totalCost * proportion).toFixed(4),
-      };
-    }
-    return result;
-  }
-
-  latencyByAgent(days = 7) {
-    const agentData = {};
-    for (let i = 0; i < days; i++) {
-      const d = new Date(); d.setDate(d.getDate() - i);
-      for (const s of this.#store.readLines(`${d.toISOString().split('T')[0]}.jsonl`)) {
-        if (s.type === 'tool') {
-          const agent = s.agent || 'unattributed';
-          if (!agentData[agent]) agentData[agent] = { calls: 0, total: 0, max: 0, byTool: {} };
-          agentData[agent].calls++;
-          agentData[agent].total += s.duration || 0;
-          if ((s.duration || 0) > agentData[agent].max) agentData[agent].max = s.duration || 0;
-          const tool = s.tool || 'unknown';
-          if (!agentData[agent].byTool[tool]) agentData[agent].byTool[tool] = { calls: 0, total: 0 };
-          agentData[agent].byTool[tool].calls++;
-          agentData[agent].byTool[tool].total += s.duration || 0;
-        }
-      }
-    }
-    const result = {};
-    for (const [agent, data] of Object.entries(agentData)) {
-      const toolBreakdown = {};
-      for (const [tool, td] of Object.entries(data.byTool)) {
-        toolBreakdown[tool] = { calls: td.calls, avgLatency: Math.round(td.total / td.calls) };
-      }
-      result[agent] = {
-        calls: data.calls,
-        avgLatency: Math.round(data.total / data.calls),
-        maxLatency: data.max,
-        totalDuration: data.total,
-        byTool: toolBreakdown,
-      };
-    }
-    return result;
-  }
-}
-
-// ─── Eval Service ────────────────────────────────────────────────────────────
-
-export class EvalService {
-  #store = new FileStore('eval');
-  #quality;
-
-  constructor() { this.#quality = this.#store.readJSON('quality.json') || { overall: 0, total: 0, categories: {}, weekly: [], streak: 0 }; }
-
-  score(score, category, source, context) {
-    const q = this.#quality;
-    q.total++;
-    q.overall = ((q.overall * (q.total - 1)) + score) / q.total;
-    if (!q.categories[category]) q.categories[category] = { avg: 0, count: 0 };
-    const cat = q.categories[category];
-    cat.count++;
-    cat.avg = ((cat.avg * (cat.count - 1)) + score) / cat.count;
-    q.streak = score >= 4 ? q.streak + 1 : 0;
-
-    const week = today();
-    const last = q.weekly[q.weekly.length - 1];
-    if (last?.week === week) { last.scores.push(score); last.avg = last.scores.reduce((a, b) => a + b, 0) / last.scores.length; }
-    else { q.weekly.push({ week, scores: [score], avg: score }); if (q.weekly.length > 12) q.weekly.shift(); }
-
-    this.#store.appendLine('scores.jsonl', { score, category, source, context, ts: new Date().toISOString() });
-    this.#store.prune('scores.jsonl', 200);
-    this.#store.writeJSON('quality.json', q);
-    return q;
-  }
-
-  report() { return this.#quality; }
-  blindSpots() { return Object.entries(this.#quality.categories).filter(([, d]) => d.avg < 3.5 && d.count >= 3).sort((a, b) => a[1].avg - b[1].avg); }
 }
 
 // ─── Guard Service ───────────────────────────────────────────────────────────
@@ -520,7 +356,6 @@ class RepetitionDetector {
 
 export default function createObserve({ client, directory } = {}) {
   const trace = new TraceService();
-  const evalSvc = new EvalService();
   const guard = new GuardService();
   const cache = new CacheService();
   const compressor = new ContextCompressor();

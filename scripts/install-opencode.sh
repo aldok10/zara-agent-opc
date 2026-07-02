@@ -29,7 +29,6 @@ PROJECT_ROOT="$SCRIPT_DIR"
 OPENCODE_CONFIG_DIR="${HOME}/.config/opencode"
 OPENCODE_JSON="$OPENCODE_CONFIG_DIR/opencode.json"
 ZARA_LINK="$OPENCODE_CONFIG_DIR/zara"
-PROMPTS_LINK="$OPENCODE_CONFIG_DIR/prompts"
 
 ZARA_HOME="${HOME}/.zara"
 ZARA_BIN_DIR="${HOME}/.local/bin"
@@ -52,12 +51,11 @@ if [ "${1:-}" = "--help" ] || [ "${1:-}" = "-h" ]; then
   echo ""
   echo "What it does:"
   echo "  1. Symlink .opencode/     → ~/.config/opencode/zara"
-  echo "  2. Symlink prompts/       → ~/.config/opencode/prompts"
-  echo "  3. Merge opencode.json    → global config (agents, commands, MCP, plugins, instructions)"
-  echo "  4. Fix absolute MCP paths → point to actual clone location"
-  echo "  5. Install CLI            → ~/.local/bin/zara"
-  echo "  6. Sync skills            → makes project skills available"
-  echo "  7. Verify                 → checks everything works"
+  echo "  2. Merge opencode.json    → global config (agents, commands, MCP, plugins, instructions)"
+  echo "  3. Fix absolute MCP paths → point to actual clone location"
+  echo "  4. Install CLI            → ~/.local/bin/zara"
+  echo "  5. Sync skills            → makes project skills available"
+  echo "  6. Verify                 → checks everything works"
   exit 0
 fi
 
@@ -77,7 +75,7 @@ if [ "${1:-}" = "--uninstall" ]; then
   step "Uninstalling Zara from OpenCode"
 
   # Remove symlinks
-  for link in "$ZARA_LINK" "$PROMPTS_LINK"; do
+  for link in "$ZARA_LINK"; do
     if [ -L "$link" ] || [ -d "$link" ]; then
       rm -rf "$link"
       info "Removed $link"
@@ -113,7 +111,6 @@ if [ "${1:-}" = "--verify" ]; then
   }
 
   check "$ZARA_LINK"               "Symlink: ~/.config/opencode/zara → .opencode/"
-  check "$PROMPTS_LINK"            "Symlink: ~/.config/opencode/prompts → prompts/"
   check "$OPENCODE_JSON"           "Config:  opencode.json exists"
 
   # Check agents (filenames = agent names, not config keys)
@@ -191,7 +188,7 @@ info "Zara CLI:         $ZARA_BIN_DIR"
 step "Phase 2/7 — Symlinking project files"
 
 # Remove existing symlinks/dirs
-for target in "$ZARA_LINK" "$PROMPTS_LINK"; do
+for target in "$ZARA_LINK"; do
   if [ -e "$target" ] || [ -L "$target" ]; then
     rm -rf "$target"
   fi
@@ -199,10 +196,8 @@ done
 
 # Create symlinks
 ln -sf "$PROJECT_ROOT/.opencode" "$ZARA_LINK"
-ln -sf "$PROJECT_ROOT/prompts"   "$PROMPTS_LINK"
 
 info "~/.config/opencode/zara    → $PROJECT_ROOT/.opencode"
-info "~/.config/opencode/prompts → $PROJECT_ROOT/prompts"
 
 # =============================================================================
 # PHASE 3: Merge opencode.json
@@ -240,15 +235,19 @@ global_cfg['default_agent'] = project.get('default_agent', 'zara')
 if 'autoupdate' not in global_cfg:
     global_cfg['autoupdate'] = project.get('autoupdate', True)
 
+# 3b. model / small_model / lsp — carry project defaults so subagent dispatch
+#     never falls back to a null model, and LSP diagnostics stay on.
+for key in ('model', 'small_model', 'lsp'):
+    if key in project:
+        global_cfg[key] = project[key]
+
 # 4. Instructions — merge with zara/ prefix (paths relative to symlink)
 project_instructions = project.get('instructions', [])
 zara_instructions = []
 for inst in project_instructions:
-    # Rewrite paths: .opencode/xxx → zara/xxx, prompts/xxx → prompts/xxx
+    # Rewrite paths: .opencode/xxx -> zara/xxx (relative to symlink)
     if inst.startswith('.opencode/'):
         zara_instructions.append('zara/' + inst[len('.opencode/'):])
-    elif inst.startswith('prompts/'):
-        zara_instructions.append(inst)
     else:
         zara_instructions.append(inst)
 
@@ -441,7 +440,6 @@ verify() {
 
 # Core symlinks
 verify "$ZARA_LINK"           "Symlink: zara/ → .opencode/"
-verify "$PROMPTS_LINK"        "Symlink: prompts/ → prompts/"
 
 # Config
 verify "$OPENCODE_JSON"       "Global config exists"

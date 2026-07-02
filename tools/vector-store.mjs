@@ -37,7 +37,13 @@ class ChromaStore {
         this.#available = false;
         throw new Error('chromadb not installed — run: npm install chromadb');
       }
-      const client = new ChromaClient({ path: CHROMA_URL });
+      // Parse ZARA_CHROMA_URL into ssl/host/port (chromadb 3.x dropped `path`).
+      const u = new URL(CHROMA_URL);
+      const client = new ChromaClient({
+        ssl: u.protocol === 'https:',
+        host: u.hostname,
+        port: u.port ? Number(u.port) : (u.protocol === 'https:' ? 443 : 8000),
+      });
       // Zara supplies its own vectors; disable Chroma's server-side embedding.
       this.#collection = await client.getOrCreateCollection({
         name: COLLECTION,
@@ -51,6 +57,17 @@ class ChromaStore {
 
   get available() { return this.#available; }
 
+  // Probe the server before assuming collections exist (per Chroma skill
+  // guidance). Returns true if the v2 heartbeat responds.
+  async reachable() {
+    try {
+      const res = await fetch(`${CHROMA_URL}/api/v2/heartbeat`, { signal: AbortSignal.timeout(5000) });
+      return res.ok;
+    } catch {
+      return false;
+    }
+  }
+
   // Store or replace a vector. metadata is a flat object of scalar fields.
   async upsert(id, vector, metadata = {}) {
     const col = await this.#init();
@@ -59,6 +76,20 @@ class ChromaStore {
       embeddings: [Array.from(vector)],
       metadatas: [metadata],
     });
+  }
+
+  // Batch upsert for bulk sync. `items` is [{ id, vector, metadata }].
+  // Chunked to keep request sizes sane (Chroma rejects very large batches).
+  async upsertBatch(items, chunkSize = 200) {
+    const col = await this.#init();
+    for (let i = 0; i < items.length; i += chunkSize) {
+      const slice = items.slice(i, i + chunkSize);
+      await col.upsert({
+        ids: slice.map(x => x.id),
+        embeddings: slice.map(x => Array.from(x.vector)),
+        metadatas: slice.map(x => x.metadata || {}),
+      });
+    }
   }
 
   // KNN search. Returns [{ key, score, metadata }] sorted by similarity desc.

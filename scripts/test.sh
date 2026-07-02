@@ -57,7 +57,7 @@ echo ""
 echo -e "${CYAN}[Group 2] Repository Structure Tests${NC}"
 
 # Test 2.1: Required directories exist
-for dir in docs examples prompts workflows tools scripts tests; do
+for dir in docs examples workflows tools scripts tests; do
     if [ ! -d "$SCRIPT_DIR/$dir" ]; then
         echo -e "  ${RED}✗${NC} Missing directory: $dir"
         failed=$((failed + 1))
@@ -86,7 +86,7 @@ echo ""
 echo -e "${CYAN}[Group 3] Prompt File Tests${NC}"
 
 # Test 3.1: Canonical instruction files exist
-for prompt in "prompts/philosophy.md" ".opencode/instructions/system.md"; do
+for prompt in ".opencode/instructions/system.md" ".opencode/agent/zara.md"; do
     if [ ! -f "$SCRIPT_DIR/$prompt" ]; then
         echo -e "  ${RED}✗${NC} Missing prompt: $prompt"
         failed=$((failed + 1))

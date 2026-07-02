@@ -17,24 +17,6 @@ class LeadershipService {
   #cache = null;
   #mtime = 0;
 
-  #decisionTypes = {
-    type1: { label: 'Irreversible', approach: 'Deliberate. Pre-mortem. Second-order effects. Sleep on it.' },
-    type2: { label: 'Reversible', approach: 'Bias to action. Timebox. Ship to learn. Fix forward.' },
-    data: { label: 'Data-available', approach: 'Measure first. Data beats debate. A/B test if possible.' },
-    people: { label: 'Interpersonal', approach: 'Perspective-taking. Shared goals. Psychological safety.' },
-    priority: { label: 'Prioritization', approach: 'ICE scoring (Impact x Confidence x Ease). Top 1-3 only.' },
-  };
-
-  #coachingPrompts = {
-    stuck: "What's the real challenge here for you? (Not the surface problem — the underlying one.)",
-    overwhelmed: "If you could only move ONE thing forward today, what would it be?",
-    deciding: "What would you regret NOT doing? And what's the cost of not deciding right now?",
-    conflict: "What's the generous interpretation of their behavior? What goal do you share?",
-    growth: "What skill, if you developed it, would make everything else easier?",
-    celebrating: "What specifically did you do that made this work? How can you repeat that pattern?",
-    frustrated: "What's in your control here? Let's focus there.",
-  };
-
   loadProfile() {
     const file = this.#store.path('user-profile.json');
     try {
@@ -78,46 +60,8 @@ class LeadershipService {
     p.interactions.total += 1;
     this.saveProfile(p);
   }
-
-  classifyDecision(args) {
-    let type = 'type2';
-    if (args.reversible === false || args.stakes === 'high') type = 'type1';
-    if (args.decision.toLowerCase().match(/priorit|rank|order|focus|backlog/)) type = 'priority';
-    if (args.decision.toLowerCase().match(/team|person|conflict|hire|fire|feedback/)) type = 'people';
-    if (args.decision.toLowerCase().match(/performance|metric|benchmark|faster|slower/)) type = 'data';
-    const dt = this.#decisionTypes[type];
-    return [
-      `**Decision Type**: ${dt.label}`,
-      `**Approach**: ${dt.approach}`,
-      '', type === 'type1' ? '⚠️ Irreversible — take time, consider pre-mortem.' : '✓ Proceed with bias to action.',
-    ].join('\n');
-  }
-
-  getCoachingPrompt(situation) {
-    return this.#coachingPrompts[situation];
-  }
 }
 
-class TeamService {
-  #store = new FileStore('team');
-  #maxAudit = 1000;
-
-  currentUser() {
-    return process.env.ZARA_USER || os.userInfo().username || 'default';
-  }
-
-  audit(action, details) {
-    this.#store.appendLine('audit.jsonl', { user: this.currentUser(), action, details, ts: new Date().toISOString() });
-    this.#store.prune('audit.jsonl', this.#maxAudit);
-  }
-
-  getShared() { return this.#store.readJSON('shared-knowledge.json', {}); }
-  saveShared(data) { this.#store.writeJSON('shared-knowledge.json', data); }
-  readAudit(max) { return this.#store.readLines('audit.jsonl', max); }
-  get dir() { return this.#store.dir; }
-}
-
-// ponytail: music player lives in MCP (tools/mcp/domain/music.mjs). This is read-only state for inject().
 function getMusicState() {
   const stateFile = path.join(HOME, 'player.json');
   try {
@@ -129,14 +73,13 @@ function getMusicState() {
 }
 
 const leadership = new LeadershipService();
-const teamSvc = new TeamService();
 
 // NOTE: Empathy tracking is now handled by the dedicated empathy/index.mjs module.
 // NOTE: Music player is now in MCP (tools/mcp/domain/music.mjs). Plugin only reads state for inject().
 
 const allTools = {
   zara_update_user: tool({
-    description: 'Update user profile memory — call when you learn something new about the user.',
+    description: 'Update user profile.',
     args: {
       field: z.enum(['name', 'preferredAddress', 'language', 'tone', 'leadershipLevel', 'communicationStyle', 'techExpertise', 'activeProjects', 'goals', 'strengths', 'growthAreas', 'notes', 'preferences']).describe('Field to update'),
       value: z.string().describe('New value (arrays: comma-separated; objects: JSON string)'),
@@ -162,100 +105,15 @@ const allTools = {
   }),
 
   zara_get_user: tool({
-    description: 'Read current user profile from memory.',
+    description: 'Get user profile.',
     args: {},
     async execute() {
       return { output: JSON.stringify(leadership.loadProfile(), null, 2) };
     },
   }),
 
-  zara_classify_decision: tool({
-    description: 'Classify a decision and recommend the appropriate framework.',
-    args: {
-      decision: z.string().describe('The decision to classify'),
-      reversible: z.boolean().optional().describe('Is this reversible?'),
-      stakes: z.enum(['low', 'medium', 'high']).optional().describe('Stakes level'),
-    },
-    async execute(args) {
-      return { output: leadership.classifyDecision(args) };
-    },
-  }),
-
-  zara_coaching_prompt: tool({
-    description: 'Get a contextual coaching question based on user situation.',
-    args: {
-      situation: z.enum(['stuck', 'overwhelmed', 'deciding', 'conflict', 'growth', 'celebrating', 'frustrated']).describe('User situation'),
-    },
-    async execute(args) {
-      return { output: leadership.getCoachingPrompt(args.situation) };
-    },
-  }),
-
-  team_share: tool({
-    description: 'Share a fact with the team knowledge graph.',
-    args: {
-      key: z.string().describe('Knowledge key'),
-      value: z.string().describe('The shared knowledge'),
-      tags: z.array(z.string()).optional().describe('Tags for discovery'),
-    },
-    async execute(args) {
-      const shared = teamSvc.getShared();
-      shared[args.key] = { value: args.value, tags: args.tags || [], author: teamSvc.currentUser(), updatedAt: new Date().toISOString() };
-      teamSvc.saveShared(shared);
-      teamSvc.audit('share', { key: args.key });
-      return { output: `Shared: ${args.key} (by ${teamSvc.currentUser()})` };
-    },
-  }),
-
-  team_knowledge: tool({
-    description: 'Search shared team knowledge graph.',
-    args: { query: z.string().optional().describe('Search keyword') },
-    async execute(args) {
-      const shared = teamSvc.getShared();
-      const entries = Object.entries(shared);
-      if (!entries.length) return { output: 'Team knowledge graph is empty.' };
-      let results = entries;
-      if (args.query) {
-        const terms = args.query.toLowerCase().split(/\s+/);
-        results = entries.filter(([k, v]) => {
-          const text = `${k} ${v.value} ${(v.tags || []).join(' ')}`.toLowerCase();
-          return terms.some(t => text.includes(t));
-        });
-      }
-      if (!results.length) return { output: `No team knowledge found for "${args.query}"` };
-      const lines = results.slice(0, 10).map(([k, v]) => `- **${k}**: ${v.value} (by ${v.author}, ${v.updatedAt.split('T')[0]})`);
-      return { output: `## Team Knowledge (${results.length} entries)\n${lines.join('\n')}` };
-    },
-  }),
-
-  team_audit: tool({
-    description: 'View audit trail — who did what, when.',
-    args: {
-      limit: z.number().optional().describe('Entries to show (default 20)'),
-      user: z.string().optional().describe('Filter by user'),
-    },
-    async execute(args) {
-      const limit = args.limit || 20;
-      let entries = teamSvc.readAudit(500);
-      if (args.user) entries = entries.filter(e => e.user === args.user);
-      entries = entries.slice(-limit).reverse();
-      if (!entries.length) return { output: 'No audit entries found.' };
-      const output = entries.map(e =>
-        `[${e.ts.split('T')[0]} ${e.ts.split('T')[1]?.slice(0, 5)}] ${e.user}: ${e.action} — ${JSON.stringify(e.details).slice(0, 80)}`
-      ).join('\n');
-      return { output };
-    },
-  }),
-
-  team_whoami: tool({
-    description: 'Show current user identity and isolation namespace.',
-    args: {},
-    async execute() {
-      return { output: `User: ${teamSvc.currentUser()}\nMemory: ${path.join(HOME, 'memory')}\nTeam: ${teamSvc.dir}\nSet ZARA_USER env var to change identity.` };
-    },
-  }),
-
   // NOTE: Empathy tools (zara_empathy_*) and growth tools (zara_growth_*) are now in empathy/index.mjs
+  // NOTE: team_knowledge lives in MCP (tools/mcp/domain/knowledge.mjs) — removed here to avoid name collision.
 };
 
 export default function createSocial({ client, directory } = {}) {

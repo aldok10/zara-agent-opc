@@ -22,7 +22,6 @@ describe('self-harness module', () => {
     assert.equal(typeof harness.inject, 'function');
     assert.ok(harness.tools.harness_run);
     assert.ok(harness.tools.harness_security);
-    assert.ok(harness.tools.harness_history);
   });
 
   it('harness_run returns report even with no failures', async () => {
@@ -33,11 +32,6 @@ describe('self-harness module', () => {
   it('harness_security runs without crash', async () => {
     const result = await harness.tools.harness_security.execute({ fix: false });
     assert.ok(result.output.includes('Security') || result.output.includes('clean'));
-  });
-
-  it('harness_history returns even when empty', async () => {
-    const result = await harness.tools.harness_history.execute({ type: 'findings' });
-    assert.ok(result.output);
   });
 
   it('inject does not crash on empty messages', () => {

@@ -16,7 +16,6 @@ function measureZaraFull() {
   const files = [
     '.opencode/agent/zara.md',
     '.opencode/instructions/system.md',
-    'prompts/philosophy.md',
     'AGENTS.md',
     'ZARA_CONSTITUTION.md',
   ];

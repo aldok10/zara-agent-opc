@@ -23,13 +23,21 @@ describe('plugin lifecycle', () => {
     }
   });
 
-  it('voice inject appends content to system message', async () => {
+  it('voice inject stays silent under violation threshold', async () => {
     const voice = (await import('../.opencode/plugin/zara/voice/index.mjs')).default;
     const v = voice(config);
     const msgs = [{ role: 'system', content: 'base' }];
     const out = v.inject(msgs);
-    assert.ok(out[0].content.length > 'base'.length, 'voice should append to system');
-    assert.ok(out[0].content.includes('[Voice]'), 'should contain voice marker');
+    assert.equal(out[0].content, 'base', 'voice should not inject without violations');
+  });
+
+  it('voice inject fires after 3 banned-word violations', async () => {
+    const voice = (await import('../.opencode/plugin/zara/voice/index.mjs')).default;
+    const v = voice(config);
+    for (let i = 0; i < 3; i++) v.onResponse('we must leverage a robust seamless solution');
+    const msgs = [{ role: 'system', content: 'base' }];
+    const out = v.inject(msgs);
+    assert.ok(out[0].content.includes('[Voice]'), 'should inject after 3 violations');
   });
 
   it('observe afterTool does not throw on valid input', async () => {

@@ -143,7 +143,7 @@ export default function createDebate({ client, directory } = {}) {
   return {
     tools: {
       deliberate: tool({
-        description: 'Initiate a multi-agent debate. Dispatches 2-3 specialists in parallel, scores consensus, iterates if needed. Use for high-stakes decisions.',
+        description: 'Multi-agent debate for decisions.',
         args: {
           question: z.string().describe('The decision or question to deliberate on'),
           agents: z.array(z.string()).optional().describe(`Agent names (default: ${DEFAULT_AGENTS.join(', ')})`),

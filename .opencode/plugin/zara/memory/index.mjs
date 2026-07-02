@@ -150,7 +150,7 @@ export default function createMemory({ client, directory } = {}) {
 
     tools: {
       zara_graph_query: tool({
-        description: 'Query knowledge graph for entities and relationships connected to a topic',
+        description: 'Query knowledge graph.',
         args: {
           query: z.string().describe('Entity name or topic to search for'),
           depth: z.number().min(1).max(5).optional().describe('Traversal depth (default 1)'),

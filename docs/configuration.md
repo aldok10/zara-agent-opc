@@ -47,17 +47,15 @@ JSON keys (architect, code-reviewer, etc.) are stable runtime identifiers. Displ
 
 ### Instructions
 
-Two instruction files loaded in order:
+Instruction file loaded at startup:
 
 ```json
 "instructions": [
-  ".opencode/instructions/system.md",
-  "prompts/philosophy.md"
+  ".opencode/instructions/system.md"
 ]
 ```
 
-- `system.md` - Runtime behavior, memory protocol, git safety, anti-AI writing
-- `philosophy.md` - Engineering priorities, architecture review, AI engineering considerations
+- `system.md` - Priority stack, runtime behavior, memory protocol, git safety, voice rules (philosophy merged in)
 
 ### MCP Servers
 

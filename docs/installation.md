@@ -138,8 +138,7 @@ Create or update `$env:USERPROFILE\.config\opencode\opencode.json`:
     "file:///C:/Users/<YOUR_USERNAME>/.config/opencode/zara/.opencode/plugin/zara.mjs"
   ],
   "instructions": [
-    "C:/Users/<YOUR_USERNAME>/.config/opencode/zara/.opencode/instructions/system.md",
-    "C:/Users/<YOUR_USERNAME>/.config/opencode/zara/prompts/philosophy.md"
+    "C:/Users/<YOUR_USERNAME>/.config/opencode/zara/.opencode/instructions/system.md"
   ],
   "agent": {
     "zara": {
@@ -378,8 +377,6 @@ zara-agent-opc/
 │   ├── dashboard.mjs         ← CLI dashboard
 │   └── zara.sh               ← CLI helper
 ├── knowledge/                ← 254+ DevIQ articles across 13 sections
-├── prompts/
-│   └── philosophy.md         ← Engineering philosophy
 ├── scripts/                  ← Install/uninstall/validate scripts
 ├── docs/                     ← Documentation
 └── examples/                 ← Usage examples

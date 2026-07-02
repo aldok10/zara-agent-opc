@@ -292,7 +292,7 @@ export default function createHarness({ client, directory } = {}) {
 
     tools: {
       harness_run: tool({
-        description: 'Run the full self-harness loop: mine failures, diagnose, propose fixes, and optionally apply. This is automated self-improvement.',
+        description: 'Run self-improvement loop.',
         args: {
           days: z.number().optional().describe('Look back N days for failures (default 7)'),
           apply: z.boolean().optional().describe('Auto-apply safe fixes (default false, dry-run)'),
@@ -353,7 +353,7 @@ export default function createHarness({ client, directory } = {}) {
       }),
 
       harness_security: tool({
-        description: 'Run security self-audit on the current project. Checks secrets exposure, permission model, MCP config, and memory DB security.',
+        description: 'Security self-audit.',
         args: {
           fix: z.boolean().optional().describe('Attempt auto-fix for safe issues (default false)'),
         },
@@ -392,32 +392,6 @@ export default function createHarness({ client, directory } = {}) {
         },
       }),
 
-      harness_history: tool({
-        description: 'View self-harness run history and applied fixes.',
-        args: {
-          type: z.enum(['findings', 'security', 'applied']).optional().describe('What to show (default: findings)'),
-        },
-        async execute(args) {
-          const type = args.type || 'findings';
-          let data;
-
-          switch (type) {
-            case 'findings':
-              data = loadJson(FINDINGS_FILE, []);
-              break;
-            case 'security':
-              data = loadJson(SECURITY_FILE, []);
-              break;
-            case 'applied':
-              data = loadJson(APPLIED_FILE, []);
-              break;
-          }
-
-          if (!data?.length) return { output: `No ${type} history found.` };
-          const recent = data.slice(-5);
-          return { output: `## ${type} History (last ${recent.length})\n\n${JSON.stringify(recent, null, 2)}` };
-        },
-      }),
     },
   };
 }

@@ -157,9 +157,6 @@ function detectNewSkillCandidate(text) {
 // ─── Constants ──────────────────────────────────────────────────────────────
 
 const PROJECTS_DIR = path.join(HOME, 'projects');
-const CTX_CACHE_DIR = path.join(HOME, 'ctx', 'cache');
-const HITL_DIR = path.join(HOME, 'hitl');
-const DECISIONS_FILE = path.join(HITL_DIR, 'decisions.jsonl');
 // ─── Codebase Helpers ───────────────────────────────────────────────────────
 
 function projectId(dir) {
@@ -247,19 +244,6 @@ function discoverCommands(dir) {
   return commands;
 }
 
-// ─── 8 Principles ──────────────────────────────────────────────────────────
-
-const CREED = [
-  { id: 'delete-first', mantra: 'Delete first. Add second. Only if you must.', ask: 'What can I remove before I add anything?', signals: ['adding code/deps', 'new abstraction', 'new feature'] },
-  { id: 'readability', mantra: 'Code is written once. Read a hundred times.', ask: 'Will the next engineer understand this in 30 seconds?', signals: ['clever code', 'deep nesting', 'implicit behavior'] },
-  { id: 'solve-the-problem', mantra: 'Solve the problem in front of you. Not the one you imagine.', ask: 'Am I solving a real problem or an imagined future problem?', signals: ['speculative', 'what-if', 'might need later'] },
-  { id: 'data-beats-debate', mantra: 'Measure before you decide.', ask: 'Do I have data, or just an opinion?', signals: ['performance claim', 'optimization', 'technology choice'] },
-  { id: 'ship-to-learn', mantra: 'Ship small. Ship often. Learn from real usage.', ask: 'What is the smallest thing I can ship to learn?', signals: ['big bang change', 'long-running branch', 'delayed release'] },
-  { id: 'consistency', mantra: 'Consistency is the closest thing to correctness.', ask: 'Does this follow existing patterns, or introduce a new one?', signals: ['new pattern', 'different style', 'breaking convention'] },
-  { id: 'good-enough', mantra: 'Good enough today beats perfect tomorrow.', ask: 'Is this good enough to ship, or am I polishing?', signals: ['perfectionism', 'gold-plating', 'scope creep'] },
-  { id: 'future-self', mantra: 'Your future self is not your friend. Write for a stranger.', ask: 'If I read this in 6 months during an outage, would I understand it immediately?', signals: ['magic values', 'missing docs', 'complex flow'] },
-];
-
 // ─── Module Export ──────────────────────────────────────────────────────────
 
 export default function createDev({ client, directory } = {}) {
@@ -296,24 +280,13 @@ export default function createDev({ client, directory } = {}) {
       const suggestion = suggestSkill(userText);
 
       const p = getProject(true);
-      if (p.scan.lang.length || p.conventions.length || p.architecture || suggestion) {
-        const parts = [`## Project Context (${p.name})`];
-        if (p.scan.lang.length) parts.push(`Lang: ${p.scan.lang.join(', ')}`);
-        if (p.architecture) parts.push(`Arch: ${p.architecture}`);
-        if (p.conventions.length) parts.push(`Conventions: ${p.conventions.slice(0, 5).join('; ')}`);
-        if (p.notes.length) parts.push(`Recent: ${p.notes.slice(-3).join(' | ')}`);
-        if (suggestion?.type === 'found') {
-          parts.push(`\n## Skill Suggestion\nLoad \`${suggestion.skill}\` before responding (auto-detected from user message).`);
-        } else if (suggestion?.type === 'create') {
-          parts.push(`\n## New Skill Opportunity\nNo existing skill matches topic "${suggestion.topic}". Consider creating one:\n1. Web search for "${suggestion.topic} best practices cheatsheet"\n2. Find existing skills that overlap (use \`find-skills\` or check ~/.agents/skills/)\n3. Create at ~/.agents/skills/${suggestion.topic}/SKILL.md with: context, key patterns, common pitfalls, commands\n4. Keep it under 200 lines. Reuse patterns from similar existing skills.\nOnly create if this topic is likely to recur. Skip for one-off questions.`);
-        }
-        const block = parts.join(' | ');
-        const last = messages[messages.length - 1];
-        if (last && last.role === 'system') {
-          last.content += '\n\n' + block;
-        } else {
-          messages.push({ role: 'system', content: block });
-        }
+      const parts = [];
+      if (p.scan.lang.length) parts.push(`[Project] ${p.name}: ${p.scan.lang.join(',')}`);
+      if (suggestion?.type === 'found') parts.push(`[Skill] Load ${suggestion.skill}`);
+
+      if (parts.length) {
+        const sys = messages.find(m => m.role === 'system');
+        if (sys) sys.content += '\n\n' + parts.join(' | ');
       }
       return messages;
     },
@@ -324,7 +297,7 @@ export default function createDev({ client, directory } = {}) {
       // ── Codebase Tools ──────────────────────────────────────────────────
 
       codebase_info: tool({
-        description: 'Get current project understanding — languages, structure, conventions, architecture notes.',
+        description: 'Get project info.',
         args: {},
         async execute() {
           const p = getProject();
@@ -345,7 +318,7 @@ export default function createDev({ client, directory } = {}) {
       }),
 
       codebase_note: tool({
-        description: 'Add a note about this project (architecture insight, gotcha, convention). Persists across sessions.',
+        description: 'Add project note.',
         args: {
           note: z.string().describe('The note to add'),
           type: z.enum(['convention', 'architecture', 'gotcha', 'dependency', 'pattern']).optional().describe('Note type'),
@@ -365,28 +338,10 @@ export default function createDev({ client, directory } = {}) {
         },
       }),
 
-      codebase_conventions: tool({
-        description: 'Set or list project conventions (naming, structure, patterns to follow).',
-        args: {
-          add: z.string().optional().describe('Add a new convention'),
-          list: z.boolean().optional().describe('List all conventions'),
-        },
-        async execute(args) {
-          const p = getProject();
-          if (args.add) {
-            if (!p.conventions.includes(args.add)) p.conventions.push(args.add);
-            saveJson(file, p);
-            return { output: `Convention added: "${args.add}" (${p.conventions.length} total)` };
-          }
-          if (!p.conventions.length) return { output: 'No conventions recorded yet.' };
-          return { output: p.conventions.map((c, i) => `${i + 1}. ${c}`).join('\n') };
-        },
-      }),
-
       // ── Sandbox Tools ───────────────────────────────────────────────────
 
       ctx_execute: tool({
-        description: 'Run code in a sandbox subprocess. Only stdout enters context (saves tokens). Use for analysis, counting, data processing.',
+        description: 'Run code in sandbox.',
         args: {
           language: z.enum(['javascript', 'shell', 'python']).describe('Language to execute'),
           code: z.string().describe('Code to run'),
@@ -449,179 +404,6 @@ export default function createDev({ client, directory } = {}) {
           }
         },
       }),
-
-      ctx_fetch: tool({
-        description: 'Fetch a URL and return content as markdown. Raw HTML never enters context.',
-        args: {
-          url: z.string().url().describe('URL to fetch'),
-        },
-        async execute(args) {
-          fs.mkdirSync(CTX_CACHE_DIR, { recursive: true });
-          const cacheKey = crypto.createHash('md5').update(args.url).digest('hex');
-          const cacheFile = path.join(CTX_CACHE_DIR, `${cacheKey}.json`);
-
-          // Check cache (24h TTL)
-          if (fs.existsSync(cacheFile)) {
-            const cached = JSON.parse(fs.readFileSync(cacheFile, 'utf-8'));
-            if (Date.now() - cached.ts < 86_400_000) {
-              return { output: cached.content.slice(0, 30_000), metadata: { cached: true, url: args.url } };
-            }
-          }
-
-          try {
-            const response = await fetch(args.url, {
-              signal: AbortSignal.timeout(15_000),
-              headers: { 'User-Agent': 'Zara/1.0' },
-            });
-
-            if (!response.ok) return { output: `HTTP ${response.status}: ${response.statusText}` };
-
-            const html = await response.text();
-            const content = html
-              .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
-              .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
-              .replace(/<nav[^>]*>[\s\S]*?<\/nav>/gi, '')
-              .replace(/<footer[^>]*>[\s\S]*?<\/footer>/gi, '')
-              .replace(/<[^>]+>/g, '')
-              .replace(/\n{3,}/g, '\n\n')
-              .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
-              .replace(/&quot;/g, '"').replace(/&#39;/g, "'")
-              .trim()
-              .slice(0, 50_000);
-
-            fs.writeFileSync(cacheFile, JSON.stringify({ url: args.url, content, ts: Date.now() }), 'utf-8');
-
-            return { output: content.slice(0, 30_000), metadata: { url: args.url, bytes: content.length } };
-          } catch (err) {
-            return { output: `Fetch failed: ${err.message}` };
-          }
-        },
-      }),
-
-      // ── Principles Tool ─────────────────────────────────────────────────
-
-      zara_principles: tool({
-        description: 'Get the 8 engineering principles checklist to evaluate a proposal. Returns all principles with their diagnostic questions — YOU then judge which ones flag concerns based on the actual proposal semantics.',
-        args: {
-          proposal: z.string().describe('What is being proposed (feature, refactor, dependency, architecture decision)'),
-          flagged: z.array(z.enum([
-            'delete-first', 'readability', 'solve-the-problem',
-            'data-beats-debate', 'ship-to-learn', 'consistency',
-            'good-enough', 'future-self'
-          ])).optional().describe('Which principles YOU think are violated (optional — if provided, skips checklist and goes straight to verdict)'),
-        },
-        async execute(args) {
-          if (args.flagged?.length) {
-            const flaggedPrinciples = CREED.filter(p => args.flagged.includes(p.id));
-            const count = flaggedPrinciples.length;
-            const verdict = count >= 3 ? 'RETHINK' : count >= 2 ? 'CAUTION' : 'NOTE';
-            const lines = [
-              `**Verdict: ${verdict}** (${count} principle${count > 1 ? 's' : ''} flagged)`,
-              `**Proposal**: ${args.proposal}`,
-              '',
-              ...flaggedPrinciples.map(p => `- **${p.id}**: ${p.mantra}\n  Ask yourself: ${p.ask}`),
-              '',
-              count >= 3 ? 'Recommend a different approach.' : 'Proceed with awareness.',
-            ];
-            return { output: lines.join('\n') };
-          }
-
-          const lines = [
-            `**Evaluating**: ${args.proposal}`,
-            '',
-            'Run through each principle. Flag any that raise concerns:',
-            '',
-            ...CREED.map(p => `- [ ] **${p.id}**: ${p.mantra}\n  Ask: ${p.ask}\n  Watch for: ${p.signals.join(', ')}`),
-            '',
-            'After checking all 8, call this tool again with `flagged` set to the violated principles for a verdict.',
-          ];
-          return { output: lines.join('\n') };
-        },
-      }),
-
-      // ── HITL Tools ──────────────────────────────────────────────────────
-
-      zara_confidence: tool({
-        description: 'Rate confidence before a complex change. Low confidence = ask for review.',
-        args: {
-          action: z.string().describe('What action is being considered'),
-          understanding: z.number().min(0).max(1).describe('How well you understand the change (0-1)'),
-          risk: z.number().min(0).max(1).describe('Risk level (0=safe, 1=catastrophic)'),
-          reversible: z.boolean().describe('Whether the action is easily reversible'),
-          testCoverage: z.number().min(0).max(1).optional().describe('Test coverage for affected area (0-1)'),
-        },
-        async execute(args) {
-          const score = Math.round(
-            (args.understanding * 0.35 + (1 - args.risk) * 0.35 +
-             (args.reversible ? 0.15 : 0) + (args.testCoverage || 0.5) * 0.15) * 100
-          );
-          const level = score >= 80 ? 'HIGH' : score >= 50 ? 'MEDIUM' : 'LOW';
-          const action = score >= 80 ? 'proceed' : score >= 50 ? 'proceed with caution' : 'ask user first';
-
-          fs.mkdirSync(HITL_DIR, { recursive: true });
-          fs.appendFileSync(DECISIONS_FILE, JSON.stringify({ type: 'confidence', action: args.action, score, level, ts: new Date().toISOString() }) + '\n', 'utf-8');
-
-          return {
-            output: `Confidence: ${score}% (${level}) → ${action}\n` +
-              `Understanding: ${Math.round(args.understanding * 100)}% | Risk: ${Math.round(args.risk * 100)}% | Reversible: ${args.reversible}`,
-          };
-        },
-      }),
-
-      zara_log_decision: tool({
-        description: 'Log an important engineering decision for future reference',
-        args: {
-          decision: z.string().describe('What was decided'),
-          reason: z.string().describe('Why this was chosen'),
-          alternatives: z.array(z.string()).optional().describe('What alternatives were considered'),
-          tradeoffs: z.string().optional().describe('Key tradeoffs accepted'),
-        },
-        async execute(args) {
-          fs.mkdirSync(HITL_DIR, { recursive: true });
-          fs.appendFileSync(DECISIONS_FILE, JSON.stringify({ type: 'decision', ts: new Date().toISOString(), data: args }) + '\n', 'utf-8');
-          return { output: `Decision logged: ${args.decision}` };
-        },
-      }),
-
-      zara_decision_history: tool({
-        description: 'Retrieve recent decisions from the log',
-        args: {
-          limit: z.number().optional().describe('Number of decisions to retrieve (default 10)'),
-        },
-        async execute(args) {
-          const limit = args.limit || 10;
-          try {
-            if (!fs.existsSync(DECISIONS_FILE)) return { output: 'No decisions logged yet.' };
-            const lines = fs.readFileSync(DECISIONS_FILE, 'utf-8').trim().split('\n');
-            const recent = lines.slice(-limit).map(l => JSON.parse(l)).reverse();
-            return { output: JSON.stringify(recent, null, 2) };
-          } catch { return { output: 'No decisions logged yet.' }; }
-        },
-      }),
-
-      zara_calibration: tool({
-        description: 'Report whether a previous confidence assessment was accurate. Tracks calibration over time so future confidence scores improve.',
-        args: {
-          action: z.string().describe('Which action this is about'),
-          predictedConfidence: z.number().min(0).max(100).describe('What confidence score was given (0-100)'),
-          actualOutcome: z.enum(['success', 'failure', 'partial']).describe('What actually happened'),
-        },
-        async execute(args) {
-          const accurate = (args.predictedConfidence >= 80 && args.actualOutcome === 'success') ||
-                          (args.predictedConfidence < 50 && args.actualOutcome === 'failure') ||
-                          (args.predictedConfidence >= 50 && args.predictedConfidence < 80 && args.actualOutcome === 'partial');
-
-          fs.mkdirSync(HITL_DIR, { recursive: true });
-          fs.appendFileSync(DECISIONS_FILE, JSON.stringify({ type: 'calibration', ts: new Date().toISOString(), data: args }) + '\n', 'utf-8');
-
-          return {
-            output: accurate
-              ? `Calibration: accurate (predicted ${args.predictedConfidence}%, got ${args.actualOutcome})`
-              : `Calibration: off (predicted ${args.predictedConfidence}%, got ${args.actualOutcome}) — adjust future estimates`,
-          };
-        },
-      }),
-
 
     },
   };

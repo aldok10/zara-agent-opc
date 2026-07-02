@@ -86,10 +86,11 @@ services:
       IS_PERSISTENT: "TRUE"
       ANONYMIZED_TELEMETRY: "FALSE"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v2/heartbeat"]
+      test: ["CMD", "bash", "-c", "echo > /dev/tcp/localhost/8000"]
       interval: 30s
       timeout: 10s
       retries: 3
+      start_period: 20s
     restart: unless-stopped
 
 volumes:

@@ -93,6 +93,19 @@ services:
       start_period: 20s
     restart: unless-stopped
 
+  # Web admin UI for browsing Chroma collections (flanker/chromadb-admin).
+  # Not an official Chroma project. Optional — start it only when you want a
+  # visual browser for the memory store.
+  #   docker compose up -d chroma chroma-admin
+  #   open http://localhost:3001  (connection string: http://chroma:8000)
+  chroma-admin:
+    image: fengzhichao/chromadb-admin:latest
+    ports:
+      - "3001:3001"
+    depends_on:
+      - chroma
+    restart: unless-stopped
+
 volumes:
   zara-home:
   chroma-data:

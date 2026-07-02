@@ -118,7 +118,7 @@ export default function createWorkspace({ directory } = {}) {
 
     tools: {
       workspace_write: tool({
-        description: 'Store a tagged entry in workspace memory (project-scoped, shared between agents). Filters secrets automatically.',
+        description: 'Store workspace entry.',
         args: {
           agent: z.string().describe('Which agent is writing (e.g. atlas, lens, shield)'),
           type: z.enum(['decision', 'context', 'discovery', 'constraint', 'reference']).describe('Entry type'),
@@ -170,7 +170,7 @@ export default function createWorkspace({ directory } = {}) {
       }),
 
       workspace_read: tool({
-        description: 'Query workspace memory. Filter by key, agent, type, or free text search.',
+        description: 'Query workspace memory.',
         args: {
           key: z.string().optional().describe('Filter by exact key'),
           agent: z.string().optional().describe('Filter by agent name'),
@@ -210,7 +210,7 @@ export default function createWorkspace({ directory } = {}) {
       }),
 
       workspace_clear: tool({
-        description: 'Clear workspace entries. Remove expired, a specific entry by ID, or all entries.',
+        description: 'Clear workspace entries.',
         args: {
           all: z.boolean().optional().describe('Clear ALL entries'),
           id: z.string().optional().describe('Clear a specific entry by ID'),

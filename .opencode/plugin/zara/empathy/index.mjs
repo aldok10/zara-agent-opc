@@ -112,32 +112,6 @@ class GrowthTracker {
     }
     return skillData;
   }
-
-  getReport(skillFilter) {
-    const entries = skillFilter
-      ? Object.entries(this.skills).filter(([k]) => k.includes(skillFilter.toLowerCase()))
-      : Object.entries(this.skills);
-
-    if (!entries.length) return null;
-
-    const lines = [];
-    for (const [skill, data] of entries.sort((a, b) => b[1].lastAssessed.localeCompare(a[1].lastAssessed))) {
-      const hist = data.history || [];
-      const first = hist[0]?.level || data.level;
-      const current = data.level;
-      const change = current - first;
-      const trend = change > 0 ? `+${change}` : change < 0 ? `${change}` : '→';
-      const direction = change > 0 ? '↑' : change < 0 ? '↓' : '→';
-      lines.push(`- **${skill}**: ${first}${direction}${current} (${trend}) — last: ${data.lastAssessed?.split('T')[0] || '?'}`);
-    }
-
-    const recentMilestones = this.milestones.slice(-5).reverse();
-    const milestoneBlock = recentMilestones.length
-      ? `\n**Recent Milestones**\n${recentMilestones.map(m => `- ${m.date?.split('T')[0]}: ${m.description}`).join('\n')}`
-      : '';
-
-    return `**Skills Tracked** (${entries.length})\n${lines.join('\n')}${milestoneBlock}`;
-  }
 }
 
 // ─── Module Export ───────────────────────────────────────────────────────────
@@ -212,7 +186,7 @@ export default function createEmpathy({ client, directory } = {}) {
 
     tools: {
       zara_empathy_status: tool({
-        description: 'Current session emotional state — energy, sentiment, frustration level',
+        description: 'Current emotional state.',
         args: {},
         async execute() {
           if (!currentSession) return { output: 'No active session.' };
@@ -228,49 +202,10 @@ export default function createEmpathy({ client, directory } = {}) {
         },
       }),
 
-      zara_empathy_trend: tool({
-        description: 'Weekly trend report — burnout detection and behavioral shifts across sessions',
-        args: {},
-        async execute() {
-          const sessions = store.readLines('sessions.jsonl', 50);
-          if (sessions.length < 3) return { output: `Need at least 3 sessions for trends (have ${sessions.length}).` };
-          const trend = trendAnalyzer.detectBurnout(sessions);
-          const recent = sessions.slice(-7);
-          const avgEnergy = recent.reduce((s, r) => s + (r.energy ?? 0.5), 0) / recent.length;
-          const avgSentiment = recent.reduce((s, r) => s + (r.sentiment ?? 0.5), 0) / recent.length;
-
-          const lines = [
-            `**Sessions tracked**: ${sessions.length}`,
-            `**Recent avg energy**: ${(avgEnergy * 100).toFixed(0)}%`,
-            `**Recent avg sentiment**: ${(avgSentiment * 100).toFixed(0)}%`,
-            `**Burnout alert**: ${trend.alert ? '⚠️ Yes' : '✅ No'}`,
-          ];
-          if (trend.alert) {
-            const declining = Object.entries(trend.signals || {}).filter(([, v]) => v).map(([k]) => k);
-            lines.push(`**Declining indicators**: ${declining.join(', ')}`);
-          }
-          return { output: lines.join('\n') };
-        },
-      }),
-
-      zara_empathy_history: tool({
-        description: 'Historical session emotion data for review',
-        args: { limit: z.number().min(1).max(50).optional().describe('Sessions to show (default 10)') },
-        async execute(args) {
-          const sessions = store.readLines('sessions.jsonl', args.limit || 10);
-          if (!sessions.length) return { output: 'No session history.' };
-          const lines = sessions.reverse().map(s => {
-            const date = s.startedAt?.split('T')[0] || '?';
-            return `[${date}] E:${(s.energy * 100).toFixed(0)}% S:${(s.sentiment * 100).toFixed(0)}% F:${s.frustrationSignals} C:${s.correctionCount} (${s.messageCount} msgs)`;
-          });
-          return { output: lines.join('\n') };
-        },
-      }),
-
       // ── Growth Tracking Tools ──────────────────────────────────────────
 
       zara_growth_record: tool({
-        description: 'Record a skill observation — track progression over time (1=novice, 5=expert). Auto-detects milestones on level jumps.',
+        description: 'Record skill observation (1-5).',
         args: {
           skill: z.string().describe('Skill name (e.g. "go-concurrency", "system-design", "ai-agents")'),
           level: z.number().min(1).max(5).describe('Observed level (1=novice, 5=expert)'),
@@ -287,19 +222,6 @@ export default function createEmpathy({ client, directory } = {}) {
         },
       }),
 
-      zara_growth_report: tool({
-        description: 'Growth report with progress trajectory and milestones. Filter by skill name or see all.',
-        args: { skill: z.string().optional().describe('Filter by skill name keyword') },
-        async execute(args) {
-          if (!growthTracker) {
-            const data = store.readJSON('growth.json', null);
-            growthTracker = new GrowthTracker(data);
-          }
-          const report = growthTracker.getReport(args.skill);
-          if (!report) return { output: args.skill ? `No growth data for "${args.skill}".` : 'No growth data yet. Use zara_growth_record to start tracking.' };
-          return { output: report };
-        },
-      }),
     },
   };
 }

@@ -669,20 +669,20 @@ export default function createObserve({ client, directory } = {}) {
       const skillNudge = skillSuggester.suggest();
       if (skillNudge && budget.canNudge('skill')) { parts.push(skillNudge); budget.spend('skill'); }
       else if (skillSuggester.gapDetected && budget.canNudge('skill-gap')) {
-        parts.push('[Skill-Gap] No existing skill matches this domain. Consider: (1) web research to build knowledge, (2) create a new skill if this domain is recurring.');
+        parts.push('[Skill-Gap] No skill matches. Research or create one if recurring.');
         budget.spend('skill-gap');
       }
 
-      // Verification gate nudge: remind if 3+ edits without verification
+      // Verification gate nudge
       if (editsSinceVerify >= 3 && !verifyNudgeSent && budget.canNudge('verify-gate')) {
-        parts.push('[Verify-Gate] ' + editsSinceVerify + ' file edits without verification. Run tests/lint before claiming done.');
+        parts.push(`[Verify] ${editsSinceVerify} edits without test. Verify before done.`);
         verifyNudgeSent = true;
         budget.spend('verify-gate');
       }
 
-      // Skill routing gate nudge: remind if 2+ code edits without any skill loaded
+      // Skill routing gate nudge
       if (codeEditsWithoutSkill >= 2 && !skillGateNudged && budget.canNudge('skill-gate')) {
-        parts.push('[Skill-Gate] Code edits detected but no skill loaded. Check if a relevant skill should be active (tdd, golang-expert, php-expert, etc).');
+        parts.push('[Skill-Gate] Code edits without skill. Load relevant skill.');
         skillGateNudged = true;
         budget.spend('skill-gate');
       }
@@ -705,155 +705,38 @@ export default function createObserve({ client, directory } = {}) {
 
     tools: {
       zara_trace_summary: tool({
-        description: 'AI observability summary — sessions, tool latency, cost (last N days)',
-        args: { days: z.number().optional().describe('Days to summarize (default 1, max 7)') },
+        description: 'Trace summary (sessions, cost).',
+        args: { days: z.number().optional().describe('Days (default 1)') },
         async execute(args) {
           const s = trace.summary(args.days || 1);
-          return { output: `**Trace Summary (${args.days || 1}d)**\nSessions: ${s.sessions}\nTool calls: ${s.tools}\nAvg latency: ${s.avgLatency}ms\nCost: $${s.cost.toFixed(4)}` };
-        },
-      }),
-
-      zara_slow_tools: tool({
-        description: 'Show slowest tool calls today',
-        args: {},
-        async execute() {
-          const slow = trace.slowTools();
-          if (!slow.length) return { output: 'No slow tools today.' };
-          return { output: slow.map(s => `- ${s.tool}: ${s.duration}ms (${s.success ? '✓' : '✗'})`).join('\n') };
-        },
-      }),
-
-      zara_cost_report: tool({
-        description: 'Daily cost breakdown (last N days)',
-        args: { days: z.number().optional().describe('Days (default 7)') },
-        async execute(args) {
-          const report = trace.costByDay(args.days || 7);
-          if (!report.length) return { output: 'No cost data.' };
-          return { output: report.map(([date, d]) => `${date}: $${d.cost.toFixed(4)} (${d.input}+${d.output} tokens)`).join('\n') };
-        },
-      }),
-
-      zara_cost_by_agent: tool({
-        description: 'Cost breakdown by agent (last N days) — tool call counts and proportional cost attribution',
-        args: { days: z.number().optional().describe('Days (default 7)') },
-        async execute(args) {
-          const report = trace.costByAgent(args.days || 7);
-          if (!Object.keys(report).length) return { output: 'No agent cost data available. Start using agents first.' };
-          const lines = Object.entries(report).sort((a, b) => b[1].estimatedCost - a[1].estimatedCost)
-            .map(([agent, d]) => `${agent}: $${d.estimatedCost} (${d.toolCalls} calls, ${d.successCount}✓ ${d.failCount}✗, ${d.avgLatency}ms avg)`);
-          return { output: `## Cost by Agent (${args.days || 7}d)\n${lines.join('\n')}` };
-        },
-      }),
-
-      zara_latency_by_agent: tool({
-        description: 'Latency breakdown by agent (last N days) — average, max, and per-tool latency',
-        args: { days: z.number().optional().describe('Days (default 7)') },
-        async execute(args) {
-          const report = trace.latencyByAgent(args.days || 7);
-          if (!Object.keys(report).length) return { output: 'No agent latency data available. Start using agents first.' };
-          const lines = Object.entries(report).sort((a, b) => b[1].avgLatency - a[1].avgLatency)
-            .map(([agent, d]) => {
-              const toolLines = Object.entries(d.byTool).sort((a, b) => b[1].avgLatency - a[1].avgLatency)
-                .map(([t, td]) => `  - ${t}: ${td.avgLatency}ms (${td.calls}x)`).join('\n');
-              return `${agent}: ${d.avgLatency}ms avg / ${d.maxLatency}ms max (${d.calls} calls)\n${toolLines}`;
-            });
-          return { output: `## Latency by Agent (${args.days || 7}d)\n${lines.join('\n')}` };
-        },
-      }),
-
-      zara_trace_tree: tool({
-        description: 'Execution path tree — see decision chain, tool calls, and outcomes for the current session',
-        args: { depth: z.number().min(1).max(5).optional().describe('Tree depth (default 3)') },
-        async execute(args) {
-          const tree = trace.traceTree(args.depth || 3);
-          if (!tree) return { output: 'No trace tree available. Start a session first.' };
-          return { output: `## Execution Path\n\`\`\`\n${tree}\n\`\`\`` };
-        },
-      }),
-
-      zara_eval_score: tool({
-        description: 'Record a quality score (1-5) for self-improvement tracking',
-        args: {
-          score: z.number().min(1).max(5).describe('Quality score 1-5'),
-          category: z.enum(['accuracy', 'helpfulness', 'efficiency', 'tone', 'proactivity', 'language']).describe('Category'),
-          source: z.enum(['self', 'user_explicit', 'user_implicit']).optional().describe('Source of evaluation'),
-          context: z.string().optional().describe('Context for this score'),
-        },
-        async execute(args) {
-          const q = evalSvc.score(args.score, args.category, args.source || 'self', args.context);
-          return { output: `Score recorded: ${args.score}/5 in ${args.category}\nOverall: ${q.overall.toFixed(2)}/5 (${q.total} ratings)` };
-        },
-      }),
-
-      zara_eval_report: tool({
-        description: 'Quality report — overall, per-category, trends',
-        args: {},
-        async execute() {
-          const q = evalSvc.report();
-          const lines = [`**Overall**: ${q.overall.toFixed(2)}/5 (${q.total} ratings)`];
-          for (const [cat, d] of Object.entries(q.categories || {})) {
-            lines.push(`**${cat}**: ${d.avg.toFixed(2)}/5 (${d.count}x)`);
-          }
-          lines.push(`**Streak**: ${q.streak} high-quality in a row`);
-          if (q.weekly?.length) {
-            const last = q.weekly[q.weekly.length - 1];
-            lines.push(`**This week**: ${last.avg.toFixed(2)}/5 (${last.scores.length} scores)`);
-          }
-          return { output: lines.join('\n') };
-        },
-      }),
-
-      zara_eval_blind_spots: tool({
-        description: 'Categories needing improvement (avg <3.5 with 3+ ratings)',
-        args: {},
-        async execute() {
-          const spots = evalSvc.blindSpots();
-          if (!spots.length) return { output: 'No blind spots detected.' };
-          return { output: spots.map(([cat, d]) => `- **${cat}**: ${d.avg.toFixed(2)}/5 (${d.count} ratings)`).join('\n') };
+          return { output: `**Trace (${args.days || 1}d)** Sessions:${s.sessions} Tools:${s.tools} Latency:${s.avgLatency}ms Cost:$${s.cost.toFixed(4)}` };
         },
       }),
 
       zara_guardrail_check: tool({
-        description: 'Check text for prompt injection or PII issues',
+        description: 'Scan text for injection/PII.',
         args: { text: z.string().describe('Text to check') },
         async execute(args) {
           const issues = guard.check(args.text);
           if (!issues.length) return { output: 'No issues detected.' };
-          const lines = issues.map(i =>
-            `- [${i.risk}] ${i.label}: ${i.matched?.slice(0, 80)}`
-          );
-          return { output: `⚠️ **${issues.length} issue(s) detected**\n${lines.join('\n')}` };
-        },
-      }),
-
-      zara_guardrail_incidents: tool({
-        description: 'Recent safety incidents',
-        args: {},
-        async execute() {
-          const incidents = guard.incidents();
-          if (!incidents.length) return { output: 'No incidents recorded.' };
-          return { output: incidents.map(i =>
-            `[${i.risk || 'unknown'}] ${i.type}: ${i.issues?.map?.(x => `${x.label} (${x.risk})`).join(', ') || i.type} (${i.ts?.split('T')[0] || ''})`
-          ).join('\n') };
+          const lines = issues.map(i => `- [${i.risk}] ${i.label}: ${i.matched?.slice(0, 80)}`);
+          return { output: `${issues.length} issue(s)\n${lines.join('\n')}` };
         },
       }),
 
       zara_cache_stats: tool({
-        description: 'Cache hit/miss stats and entry count',
+        description: 'Cache stats.',
         args: {},
         async execute() {
           const s = cache.stats();
-          return { output: `Cache: ${s.entries} entries | ${s.hitRate}% hit rate (${s.hits} hits, ${s.misses} misses)` };
+          return { output: `Cache: ${s.entries} entries | ${s.hitRate}% hit (${s.hits}/${s.hits + s.misses})` };
         },
       }),
 
       zara_cache_clear: tool({
-        description: 'Clear the semantic cache',
+        description: 'Clear cache.',
         args: {},
-        async execute() {
-          cache.clear();
-          return { output: 'Cache cleared.' };
-        },
+        async execute() { cache.clear(); return { output: 'Cleared.' }; },
       }),
     },
   };

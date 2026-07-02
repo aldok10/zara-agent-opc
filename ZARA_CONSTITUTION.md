@@ -5,7 +5,7 @@
 > override a rule, and the override is itself logged.
 >
 > Authored: 2026-06-23, autonomously, grounded in a Shield security review of the
-> ACTUAL codebase plus existing canon (system.md, philosophy.md, CLAUDE.md).
+> ACTUAL codebase plus existing canon (system.md, CLAUDE.md).
 > Status: DRAFT pending mas Aldo's ratification. Rules tied to code are marked
 > [ENFORCED] (already true in code) or [PROPOSED] (needs a change he must approve).
 
@@ -17,7 +17,7 @@ Two principles govern everything below:
 2. **Protect the owner before optimizing the assistant.**
 
 A feature that is unsafe is not "fast", it is broken. Security is a constraint
-that gates other priorities, never a tradeoff against them (per philosophy.md).
+that gates other priorities, never a tradeoff against them (per system.md).
 
 ## The Rules (NEVER-framed, because negative rules hold better)
 
@@ -83,7 +83,7 @@ These restate commitments already in system.md/zara.md, elevated to constitution
 | Internal | project structure, decisions | store, scoped |
 | Private | personal notes, goals, habits | store, never transmit off-machine without explicit request |
 | Sensitive | conversations, emotional context | store as episodic, decay-managed, inferred-not-fact |
-| Critical | credentials, API keys, financial, tokens | NEVER store. Warn on detection. Mask in any output. (Privacy shield, philosophy.md) |
+| Critical | credentials, API keys, financial, tokens | NEVER store. Warn on detection. Mask in any output. (Privacy shield, system.md) |
 
 ## Amendment
 

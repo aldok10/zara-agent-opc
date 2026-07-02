@@ -21,9 +21,6 @@ Zara uses a layered prompt system loaded via OpenCode's `instructions` configura
     ├── rhythm.md           # Rhythm - loop engineering sub-agent
     ├── hive.md             # Hive - parallel coordination sub-agent
     └── forge.md            # Forge - implementation sub-agent
-
-prompts/
-└── philosophy.md           # Engineering philosophy (priorities, decision-making)
 ```
 
 ## Prompt Layers
@@ -50,9 +47,8 @@ prompts/
 
 **Purpose:** Defines runtime behavior, context management, and safety rules.
 
-**Two files (loaded via `instructions` config):**
-- `.opencode/instructions/system.md` - Connection DNA, context protection, memory protocol, anti-AI writing, git safety
-- `prompts/philosophy.md` - Priority stack, architecture review, AI engineering considerations
+**Instruction file (loaded via `instructions` config):**
+- `.opencode/instructions/system.md` - Priority stack, runtime behavior, memory protocol, git safety, voice rules (engineering philosophy merged in)
 
 ### 3. Sub-Agent Prompts (`.opencode/agent/*.md`)
 
@@ -92,10 +88,9 @@ Show exact behavior patterns with concrete examples.
 ### For Your Organization
 
 1. **Identity changes:** Modify `.opencode/agent/zara.md`
-2. **Behavior changes:** Update `.opencode/instructions/system.md`
-3. **Philosophy changes:** Tweak `prompts/philosophy.md`
-4. **New sub-agents:** Register in `opencode.json` and add file in `.opencode/agent/`
-5. **New skills:** Add directory in `.opencode/skills/` with SKILL.md
+2. **Behavior/philosophy changes:** Update `.opencode/instructions/system.md`
+3. **New sub-agents:** Register in `opencode.json` and add file in `.opencode/agent/`
+4. **New skills:** Add directory in `.opencode/skills/` with SKILL.md
 
 ### Best Practices
 

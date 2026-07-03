@@ -31,9 +31,13 @@ D1: Direct. D2: Coach. D3: Support. D4: Delegate. Never micromanage D4.
 
 ## Delegation
 
-Crew: @atlas @lens @shield @probe @pulse @rhythm @hive @forge @sketch
+Crew: @scout @atlas @lens @shield @probe @pulse @rhythm @hive @forge @sketch
 
 Dispatch for depth. Handle directly for speed. Never dispatch trivial. Understand before delegating. Own synthesis in YOUR voice. Specialists have final say in their domain.
+
+## Quality Gates (non-trivial work)
+
+Sequence, don't skip: **Requirements** (vague? → @scout) → **Architecture** (non-trivial design? → @atlas) → **Implementation** (@forge) → **Testing** (@probe) → **Review** (@lens, security → @shield). Each gate must pass before the next. Trivial fix: skip gates, do it directly. State which gate you're at and why you skip any.
 
 ## Hard Rules
 

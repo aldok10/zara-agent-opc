@@ -22,6 +22,7 @@ Source of truth: `opencode.json`. Discover structure via filesystem.
 
 | Agent | Key | Trigger |
 |-------|-----|---------|
+| Scout | requirements-clarifier | Vague/underspecified request, needs spec |
 | Atlas | architect | Architecture, tradeoffs |
 | Lens | code-reviewer | Code review, >50 lines |
 | Shield | security-reviewer | Auth/crypto/security |

@@ -36,15 +36,20 @@ import * as trustOps from './memory/trust.mjs';
 import * as maint from './memory/maintenance.mjs';
 import * as knowledgeOps from './memory/knowledge-ops.mjs';
 
-// --- Value Objects ---
+// --- Embedder strategy ---
+//
+// Two roles, one injected strategy:
+//   sync role  — dedup, sync recall, sync contradiction detection call embed()
+//                synchronously, so they REQUIRE a sync embedder (TrigramEmbedder).
+//                This is `this.#embedder`, the constructor parameter.
+//   async role — the vector store/query path (recallAsync, #embedAsync) resolves
+//                a semantic-capable embedder ONCE via #resolveAsyncEmbedder():
+//                the injected embedder when it is non-trigram (tests inject their
+//                own; production may inject SemanticEmbedder), otherwise the shared
+//                MiniLM model in semantic mode. Store and query use the SAME
+//                resolved embedder, so injected strategies actually drive vectors.
 
-// Embedder selection: sync operations (learn dedup, recall) always use TrigramEmbedder.
-// Async operations (recallAsync) prefer SemanticEmbedder when the model loads.
-function createEmbedder() {
-  return new TrigramEmbedder();
-}
-
-// Export whether semantic mode is active (for recallAsync/embed to decide).
+// Export whether semantic mode is active (for the async embedder resolver).
 export const SEMANTIC_MODE = (process.env.ZARA_EMBED || 'semantic') === 'semantic';
 
 // --- MemoryStore Class (Facade) ---
@@ -60,7 +65,7 @@ class MemoryStore {
   #procedural = null;
   #knowledgeChunks = null;
 
-  constructor(home = path.join(os.homedir(), '.zara'), embedder = createEmbedder()) {
+  constructor(home = path.join(os.homedir(), '.zara'), embedder = new TrigramEmbedder()) {
     this.#home = home;
     this.#dbPath = path.join(home, 'memory.db');
     this.#embedder = embedder;
@@ -221,7 +226,7 @@ class MemoryStore {
   }
 
   _sqliteRecallAsync(query, limit = 5, options = {}) {
-    return recallOps.recallAsync(this.db, this.#embedder, query, limit, options);
+    return recallOps.recallAsync(this.db, this.#embedder, this.#resolveAsyncEmbedder(), query, limit, options);
   }
 
   _sqliteBaseline(tokenBudget = 500) {
@@ -240,9 +245,19 @@ class MemoryStore {
     return recallOps.getAll(this.db);
   }
 
-  // Async helper: compute and store embedding for a semantic memory (SQLite mode only).
+  // Resolve the embedder for async/vector operations. The injected embedder is
+  // the strategy: use it when it is semantic-capable (non-trigram). Otherwise,
+  // in semantic mode, use the shared MiniLM model; in trigram mode, keep the
+  // injected trigram embedder (async recall degrades to keyword+trigram).
+  #resolveAsyncEmbedder() {
+    if (this.#embedder.constructor.name !== 'TrigramEmbedder') return this.#embedder;
+    return SEMANTIC_MODE ? SemanticEmbedder.instance() : this.#embedder;
+  }
+
+  // Async helper: compute and store embedding for a semantic memory. Uses the
+  // SAME resolved embedder as recallAsync so store/query vectors are consistent.
   async #embedAsync(key, text) {
-    const embedder = this.#embedder.constructor.name !== 'TrigramEmbedder' ? this.#embedder : SemanticEmbedder.instance();
+    const embedder = this.#resolveAsyncEmbedder();
     const vec = await embedder.embed(text);
     const buf = Buffer.from(vec.buffer, vec.byteOffset, vec.byteLength);
     this.db.prepare('UPDATE semantic SET embedding = ? WHERE key = ?').run(buf, key);

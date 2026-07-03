@@ -2,10 +2,10 @@
 // memory-db.mjs): FTS5 + trigram sync recall, hybrid async fusion, and the
 // simple baseline/scoped/count/getAll queries.
 //
-// Functions take an explicit `db` and `embedder`. The async path uses the
-// SemanticEmbedder singleton when it loads, else falls back to `embedder`.
+// The sync `embedder` is always trigram-capable. The async fusion takes a
+// separate `asyncEmbedder` (the resolved strategy: injected or MiniLM) so store
+// and query use the same vectors — no internal embedder probing here.
 
-import { SemanticEmbedder } from '../embedder.mjs';
 import { TYPE_BOOST, relevanceScore, applyTokenBudget, escapeLike } from './semantic-store.mjs';
 
 const today = () => new Date().toISOString().split('T')[0];
@@ -101,20 +101,14 @@ export function recall(db, embedder, query, limit = 5, options = {}) {
 }
 
 // --- Hybrid async recall (FTS + vector RRF fusion) ---
-
-export async function recallAsync(db, embedder, query, limit = 5, options = {}) {
+//
+// `embedder`      — sync trigram embedder (for the FTS candidate pass)
+// `asyncEmbedder` — resolved strategy for the query/vector similarity
+export async function recallAsync(db, embedder, asyncEmbedder, query, limit = 5, options = {}) {
   const { scope, type, tokenBudget } = options;
 
   try {
-    // Use SemanticEmbedder if available, otherwise fall back to injected embedder
-    let embed;
-    try {
-      embed = SemanticEmbedder.instance();
-      await embed.embed('test'); // probe if model loads
-    } catch {
-      embed = embedder;
-    }
-
+    const embed = asyncEmbedder;
     const queryVec = await embed.embed(query);
 
     // Path 1: FTS5 candidates (keyword match)

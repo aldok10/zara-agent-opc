@@ -1,356 +1,25 @@
 // Observe module — Tracing, Evaluation, Guardrails, Cache
 // Combines: zara-metrics, zara-observability, zara-evaluation, zara-guardrails, zara-cost-optimizer
+//
+// This file is a composition root: it wires the extracted services
+// (TraceService, GuardService, ContextCompressor, CacheService, ProactiveMonitor)
+// into the plugin hook lifecycle. Service logic lives in sibling files.
 
-import { FileStore, today, spanId, estimateTokens, hash, SECRET_PATTERN } from '../infra/store.mjs';
 import { tool } from '@opencode-ai/plugin';
-import { matchInjection } from './patterns.mjs';
 import { checkEnvAccess } from './env-guard.mjs';
-import { SkillSuggester } from './skill-suggest.mjs';
-import { scorePatch, trustLevel } from './trust-score.mjs';
-import { FlowDetector } from '../empathy/flow-detector.mjs';
+import { TraceService } from './trace-service.mjs';
+import { GuardService } from './guard-service.mjs';
+import { ContextCompressor } from './context-compressor.mjs';
+import { CacheService } from './cache-service.mjs';
+import { ProactiveMonitor } from './proactive-monitor.mjs';
 
 const z = tool.schema;
 
-// ─── Trace Service ───────────────────────────────────────────────────────────
-
-class Session {
-  constructor() {
-    this.id = spanId();
-    this.startedAt = Date.now();
-    this.messages = 0;
-    this.toolCalls = 0;
-    this.inputTokens = 0;
-    this.outputTokens = 0;
-    this.corrections = 0;
-    this.errors = 0;
-  }
-  get duration() { return Date.now() - this.startedAt; }
-  get cost() { return ((this.inputTokens * 3) + (this.outputTokens * 15)) / 1_000_000; }
-}
-
-export class TraceService {
-  #store = new FileStore('traces');
-  #session = null;
-  #spanStack = [];
-  #spanCounter = 0;
-  #currentAgent = null;   // optional agent context for tool call attribution
-
-  get session() { return this.#session; }
-
-  startSession() {
-    this.#session = new Session();
-    this.#spanCounter = 0;
-    this.#store.pruneOldFiles(/^\d{4}-\d{2}-\d{2}\.jsonl$/, 14);
-  }
-
-  endSession() {
-    const s = this.#session;
-    if (!s) return;
-    this.#store.appendLine(`${today()}.jsonl`, {
-      type: 'session', id: s.id, duration: s.duration, messages: s.messages,
-      toolCalls: s.toolCalls, inputTokens: s.inputTokens, outputTokens: s.outputTokens,
-      cost: s.cost, corrections: s.corrections, errors: s.errors, ts: new Date().toISOString(),
-    });
-    this.#store.appendLine('costs.jsonl', { date: today(), cost: s.cost, inputTokens: s.inputTokens, outputTokens: s.outputTokens });
-    this.#session = null;
-  }
-
-  setCurrentAgent(name) {
-    this.#currentAgent = name || null;
-  }
-
-  startSpan(tool, args, agent) {
-    const parentId = this.#spanStack.length > 0 ? this.#spanStack[this.#spanStack.length - 1].spanId : null;
-    const spanId = `${++this.#spanCounter}`;
-    this.#spanStack.push({ spanId, parentId, tool, start: Date.now(), args: args || {}, agent: agent || this.#currentAgent || null });
-  }
-
-  endSpan(tool, success, context) {
-    const span = this.#spanStack.pop();
-    if (!span) return 0;
-    const duration = Date.now() - span.start;
-    if (this.#session) { this.#session.toolCalls++; if (!success) this.#session.errors++; }
-
-    // Persist span with execution path context
-    this.#store.appendLine(`${today()}.jsonl`, {
-      type: 'tool', tool: span.tool, spanId: span.spanId, parentId: span.parentId,
-      duration, success, ts: new Date().toISOString(), args: span.args, context,
-      agent: span.agent || null,
-    });
-
-    return duration;
-  }
-
-  onMessage(text) { if (this.#session) { this.#session.messages++; this.#session.outputTokens += estimateTokens(text); } }
-  onInput(text) { if (this.#session) this.#session.inputTokens += estimateTokens(text); }
-
-  summary(days = 1) {
-    let cost = 0, sessions = 0, tools = 0, latency = 0, n = 0;
-    for (let i = 0; i < days; i++) {
-      const d = new Date(); d.setDate(d.getDate() - i);
-      for (const s of this.#store.readLines(`${d.toISOString().split('T')[0]}.jsonl`)) {
-        if (s.type === 'session') { sessions++; cost += s.cost || 0; tools += s.toolCalls || 0; }
-        if (s.type === 'tool') { latency += s.duration || 0; n++; }
-      }
-    }
-    return { sessions, tools, avgLatency: n ? Math.round(latency / n) : 0, cost };
-  }
-}
-
-// ─── Guard Service ───────────────────────────────────────────────────────────
-
-export class GuardService {
-  #store = new FileStore('guardrails');
-
-  /**
-   * Check text for security issues (secrets + prompt injection).
-   * Returns structured issue objects with type, label, risk, and matched snippet.
-   */
-  check(text) {
-    if (!text) return [];
-    const issues = [];
-
-    // Layer 1a: Secret detection
-    if (SECRET_PATTERN.test(text)) {
-      issues.push({ type: 'secret', label: 'credential_leak', risk: 'high', matched: text.match(SECRET_PATTERN)?.[0]?.slice(0, 80) || '' });
-    }
-
-    // Layer 1b: Prompt injection detection
-    issues.push(...matchInjection(text));
-
-    if (issues.length) {
-      this.#store.appendLine('incidents.jsonl', {
-        type: issues.map(i => i.type).join(','),
-        risk: issues.some(i => i.risk === 'high') ? 'high' : issues.some(i => i.risk === 'medium') ? 'medium' : 'low',
-        issues,
-        textPreview: text.slice(0, 200),
-        ts: new Date().toISOString(),
-      });
-    }
-    return issues;
-  }
-
-  /**
-   * Quick check that only tests for secrets (for redaction).
-   * Doesn't log incidents — used in hot path for output filtering.
-   */
-  hasSecret(text) {
-    return SECRET_PATTERN.test(text);
-  }
-
-  redact(text) {
-    if (!text) return text;
-    return text.replace(new RegExp(SECRET_PATTERN.source, 'gi'), '[REDACTED]');
-  }
-
-  incidents() { return this.#store.readLines('incidents.jsonl', 50); }
-}
-
-// ─── Context Compressor ──────────────────────────────────────────────────────
-
-const MAX_TOOL_OUTPUT_TOKENS = 2000;
-const ERROR_PURGE_AGE = 4;
-const ANSI_RE = /\x1b\[[0-9;]*m/g;
-const SHELL_NOISE = [
-  /^(PASS|FAIL|ok)\s+\S+\s+\d+\.\d+s$/gm,
-  /^\s*at\s+\S+\s+\(.*:\d+:\d+\)$/gm,
-  /^(npm|yarn|bun)\s+(warn|notice)\s+/gm,
-  /^Downloading\s+/gm,
-];
-// Matches <thinking>...</thinking> blocks (including multiline)
-const THINKING_RE = /<thinking>[\s\S]*?<\/thinking>/gi;
-
-export class ContextCompressor {
-  truncateOutput(text) {
-    if (!text || typeof text !== 'string') return text ?? '';
-    const tokens = estimateTokens(text);
-    if (tokens <= MAX_TOOL_OUTPUT_TOKENS) return text;
-    const chars = Math.floor(MAX_TOOL_OUTPUT_TOKENS * 3.5);
-    const head = Math.floor(chars * 0.7);
-    const tail = Math.floor(chars * 0.3);
-    return text.slice(0, head) + `\n[...${tokens - MAX_TOOL_OUTPUT_TOKENS} tokens truncated...]\n` + text.slice(-tail);
-  }
-
-  filterShellOutput(text) {
-    if (!text || typeof text !== 'string') return text ?? '';
-    let out = text.replace(ANSI_RE, '');
-    for (const p of SHELL_NOISE) out = out.replace(p, '');
-    return out.replace(/\n{3,}/g, '\n\n').trim();
-  }
-
-  // Strip <thinking> blocks from older messages to save context
-  stripReasoning(text) {
-    if (!text || typeof text !== 'string') return text ?? '';
-    return text.replace(THINKING_RE, '[reasoning stripped]').trim();
-  }
-
-  deduplicateMessages(messages) {
-    if (!Array.isArray(messages) || messages.length < 4) return messages || [];
-    const seen = new Map();
-    const remove = new Set();
-    for (let i = 0; i < messages.length; i++) {
-      const msg = messages[i];
-      if (!msg || msg.role !== 'tool') continue;
-      const key = `${msg.name || msg.tool || ''}:${msg.tool_call_id || ''}`;
-      if (!key || key === ':') continue;
-      if (seen.has(key)) remove.add(seen.get(key));
-      seen.set(key, i);
-    }
-    return remove.size ? messages.filter((_, i) => !remove.has(i)) : messages;
-  }
-
-  purgeErrorInputs(messages) {
-    if (!Array.isArray(messages) || messages.length < ERROR_PURGE_AGE) return messages || [];
-    const tail = messages.length - ERROR_PURGE_AGE;
-    return messages.map((msg, i) => {
-      if (!msg || i >= tail) return msg;
-      if (msg.role === 'assistant' && Array.isArray(msg.tool_calls)) {
-        const callIds = msg.tool_calls.map(tc => tc?.id).filter(Boolean);
-        const hasErr = messages.slice(i + 1, i + 4).some(m =>
-          m && m.role === 'tool' && callIds.includes(m.tool_call_id) &&
-          (m.content?.includes?.('Error') || m.isError)
-        );
-        if (hasErr && JSON.stringify(msg.tool_calls).length > 1000) {
-          return { ...msg, tool_calls: msg.tool_calls.map(tc => ({
-            ...tc, function: { ...(tc?.function || {}), arguments: '[pruned]' }
-          }))};
-        }
-      }
-      return msg;
-    });
-  }
-
-  transform(messages) {
-    if (!Array.isArray(messages)) return messages || [];
-    let result = this.deduplicateMessages(messages);
-    result = this.purgeErrorInputs(result);
-    result = this.pruneOldToolResults(result);
-    const tail = result.length - 3;
-    return result.map((msg, i) => {
-      if (!msg || i >= tail) return msg;
-      if (msg.role === 'assistant' && typeof msg.content === 'string' && msg.content.includes('<thinking>')) {
-        return { ...msg, content: this.stripReasoning(msg.content) };
-      }
-      if (msg.role === 'tool' && typeof msg.content === 'string') {
-        return { ...msg, content: this.truncateOutput(msg.content) };
-      }
-      return msg;
-    });
-  }
-
-  pruneOldToolResults(messages) {
-    if (!Array.isArray(messages) || messages.length < 8) return messages;
-    const tail = messages.length - 6;
-    return messages.map((msg, i) => {
-      if (!msg || i >= tail) return msg;
-      if (msg.role === 'tool' && typeof msg.content === 'string' && msg.content.length > 500) {
-        const firstLine = msg.content.split('\n')[0].slice(0, 100);
-        const tokens = estimateTokens(msg.content);
-        return { ...msg, content: `[pruned ${tokens} tokens] ${firstLine}...` };
-      }
-      return msg;
-    });
-  }
-}
-
-// ─── Cache Service ───────────────────────────────────────────────────────────
-
-export class CacheService {
-  #store = new FileStore('cache');
-  #cache = null;
-  #stats = null;
-  #ttl = 4 * 3600000;
-  #max = 100;
-  #cacheable = new Set(['web_search', 'webfetch', 'context7_query-docs', 'context7_resolve-library-id']);
-
-  isCacheable(tool) { return this.#cacheable.has(tool); }
-
-  get(tool, args) {
-    const c = this.#getCache();
-    const key = hash(`${tool}:${JSON.stringify(args)}`);
-    const entry = c[key];
-    if (entry && (Date.now() - entry.ts) < this.#ttl) { this.#getStats().hits++; this.#save(); return entry.output; }
-    this.#getStats().misses++;
-    this.#save();
-    return null;
-  }
-
-  set(tool, args, output) {
-    if (!output || (typeof output === 'string' && output.startsWith('Error'))) return;
-    const c = this.#getCache();
-    c[hash(`${tool}:${JSON.stringify(args)}`)] = { output, ts: Date.now() };
-    this.#evict();
-    this.#save();
-  }
-
-  stats() {
-    const s = this.#getStats();
-    const total = s.hits + s.misses;
-    return { hitRate: total ? Math.round((s.hits / total) * 100) : 0, ...s, entries: Object.keys(this.#getCache()).length };
-  }
-
-  clear() { this.#cache = {}; this.#save(); }
-
-  #getCache() { if (!this.#cache) this.#cache = this.#store.readJSON('cache.json') || {}; return this.#cache; }
-  #getStats() {
-    if (!this.#stats) this.#stats = this.#store.readJSON('stats.json') || { hits: 0, misses: 0, today: '' };
-    if (this.#stats.today !== today()) this.#stats = { hits: 0, misses: 0, today: today() };
-    return this.#stats;
-  }
-  #evict() {
-    const entries = Object.entries(this.#getCache()).filter(([, v]) => (Date.now() - v.ts) < this.#ttl)
-      .sort((a, b) => b[1].ts - a[1].ts).slice(0, this.#max);
-    this.#cache = Object.fromEntries(entries);
-  }
-  #save() {
-    // Debounce: write at most once per 30s
-    if (this._saveTimer) return;
-    this._saveTimer = setTimeout(() => {
-      this.#store.writeJSON('cache.json', this.#cache);
-      this.#store.writeJSON('stats.json', this.#stats);
-      this._saveTimer = null;
-    }, 30000);
-  }
-  flush() { if (this._saveTimer) { clearTimeout(this._saveTimer); this._saveTimer = null; } this.#store.writeJSON('cache.json', this.#cache); this.#store.writeJSON('stats.json', this.#stats); }
-}
-
-// ─── Proactive Intelligence ──────────────────────────────────────────────────
-
-class NudgeBudget {
-  #count = 0;
-  #lastTurn = -Infinity;
-  #turn = 0;
-  #fired = new Set();
-  #flow;
-  constructor(flowDetector) { this.#flow = flowDetector; }
-  tick() { this.#turn++; }
-  canNudge(key) {
-    if (this.#count >= 3) return false;
-    if (this.#turn - this.#lastTurn < 5) return false;
-    if (this.#fired.has(key)) return false;
-    if (this.#flow.isInFlow()) return false;
-    return true;
-  }
-  spend(key) { this.#count++; this.#lastTurn = this.#turn; this.#fired.add(key); }
-}
-
-class RepetitionDetector {
-  #ring = []; // last 10: { tool, argsHash, success }
-
-  record(tool, argsHash, success) {
-    this.#ring.push({ tool, argsHash, success });
-    if (this.#ring.length > 10) this.#ring.shift();
-  }
-
-  detect() {
-    if (this.#ring.length < 3) return null;
-    const last3 = this.#ring.slice(-3);
-    if (last3.every(e => !e.success && e.tool === last3[0].tool)) {
-      return 'repetition:' + last3[0].tool;
-    }
-    return null;
-  }
-}
+// Re-export extracted services for backward compatibility
+export { TraceService } from './trace-service.mjs';
+export { GuardService } from './guard-service.mjs';
+export { ContextCompressor } from './context-compressor.mjs';
+export { CacheService } from './cache-service.mjs';
 
 // ─── Module Export ───────────────────────────────────────────────────────────
 
@@ -359,21 +28,7 @@ export default function createObserve({ client, directory } = {}) {
   const guard = new GuardService();
   const cache = new CacheService();
   const compressor = new ContextCompressor();
-  const flowDetector = new FlowDetector();
-  const budget = new NudgeBudget(flowDetector);
-  const repetition = new RepetitionDetector();
-  const skillSuggester = new SkillSuggester();
-  let pendingNudge = null;
-
-  // ─── Verification Gate ─────────────────────────────────────────────────────
-  const VERIFY_RE = /\b(test|jest|vitest|mocha|pytest|go\s+test|cargo\s+test|npm\s+test|node\s+--test|make\s+test|lint|eslint|tsc|golangci-lint|phpstan|phpunit)\b/i;
-  let editsSinceVerify = 0;
-  let verifyNudgeSent = false;
-
-  // ─── Skill Routing Gate ────────────────────────────────────────────────────
-  let skillLoaded = false;
-  let codeEditsWithoutSkill = 0;
-  let skillGateNudged = false;
+  const monitor = new ProactiveMonitor();
 
   return {
     onEvent(event) {
@@ -437,39 +92,8 @@ export default function createObserve({ client, directory } = {}) {
         cache.set(toolName, input?.args || input, output?.output);
       }
 
-      // Repetition detection
-      repetition.record(toolName, hash(JSON.stringify(input?.args || '')), success);
-      const repKey = repetition.detect();
-      if (repKey && budget.canNudge(repKey)) {
-        pendingNudge = '[Observe] Same tool failed 3x consecutively. Step back and diagnose root cause.';
-        budget.spend(repKey);
-      }
-
-      // Verification gate: track edits vs verification commands
-      if ((toolName === 'edit' || toolName === 'write') && success) {
-        editsSinceVerify++;
-        // Trust scoring for edits
-        const filePath = input?.args?.filePath || input?.args?.path || '';
-        const content = input?.args?.content || input?.args?.newString || '';
-        const linesChanged = (content.match(/\n/g) || []).length + 1;
-        const trust = scorePatch({ filePath, linesChanged, toolName });
-        const level = trustLevel(trust);
-        if (level === 'dangerous') {
-          pendingNudge = `[Trust] Risky edit detected (${filePath}, score ${trust.toFixed(2)}). Verify before continuing.`;
-        }
-        verifyNudgeSent = false;
-        if (!skillLoaded) codeEditsWithoutSkill++;
-      } else if (toolName === 'bash' && success) {
-        const cmd = input?.args?.command || '';
-        if (VERIFY_RE.test(cmd)) {
-          editsSinceVerify = 0;
-          verifyNudgeSent = false;
-        }
-      } else if (toolName === 'skill' && success) {
-        skillLoaded = true;
-        codeEditsWithoutSkill = 0;
-        skillGateNudged = false;
-      }
+      // Proactive monitoring: repetition detection, verify/skill gates, trust scoring
+      monitor.recordTool(toolName, input, output, success);
     },
 
     onResponse(res) {
@@ -479,18 +103,9 @@ export default function createObserve({ client, directory } = {}) {
     },
 
     inject(messages) {
-      budget.tick();
-      flowDetector.recordMessage();
-
       // Track input tokens from system message
       const sysMsg = messages.find(m => m.role === 'system');
       if (sysMsg?.content) trace.onInput(sysMsg.content);
-
-      // Feed user messages to skill suggester
-      const lastUser = [...messages].reverse().find(m => m.role === 'user');
-      if (lastUser?.content && typeof lastUser.content === 'string') {
-        skillSuggester.addMessage(lastUser.content);
-      }
 
       // Read agent context from last user message metadata if available
       const lastMsg = messages.filter(m => m.role === 'user' || m.role === 'assistant').pop();
@@ -498,30 +113,8 @@ export default function createObserve({ client, directory } = {}) {
         trace.setCurrentAgent(lastMsg.metadata.agent);
       }
 
-      // Surface proactive nudges
-      const parts = [];
-      if (pendingNudge) { parts.push(pendingNudge); pendingNudge = null; }
-      const skillNudge = skillSuggester.suggest();
-      if (skillNudge && budget.canNudge('skill')) { parts.push(skillNudge); budget.spend('skill'); }
-      else if (skillSuggester.gapDetected && budget.canNudge('skill-gap')) {
-        parts.push('[Skill-Gap] No skill matches. Research or create one if recurring.');
-        budget.spend('skill-gap');
-      }
-
-      // Verification gate nudge
-      if (editsSinceVerify >= 3 && !verifyNudgeSent && budget.canNudge('verify-gate')) {
-        parts.push(`[Verify] ${editsSinceVerify} edits without test. Verify before done.`);
-        verifyNudgeSent = true;
-        budget.spend('verify-gate');
-      }
-
-      // Skill routing gate nudge
-      if (codeEditsWithoutSkill >= 2 && !skillGateNudged && budget.canNudge('skill-gate')) {
-        parts.push('[Skill-Gate] Code edits without skill. Load relevant skill.');
-        skillGateNudged = true;
-        budget.spend('skill-gate');
-      }
-
+      // Proactive nudges (repetition, skill routing, verification gates)
+      const parts = monitor.collectNudges(messages);
       if (parts.length) {
         const last = messages[messages.length - 1];
         if (last?.role === 'system') last.content += '\n\n' + parts.join('\n');

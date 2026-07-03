@@ -8,8 +8,8 @@ class SessionTools {
   get tools() {
     return {
       user_profile: {
-        description: 'Get or update user profile. Use action="discover" to resolve identity from all sources (env, git, OS, memory).',
-        inputSchema: { type: 'object', properties: { update: { type: 'object', description: 'Fields to update (partial merge). Omit to just read.' }, action: { type: 'string', enum: ['get', 'discover'], description: 'discover = resolve identity from all sources' }, persist: { type: 'boolean', description: 'If true with discover, save as canonical identity' }, name: { type: 'string', description: 'Explicitly set canonical user name (with discover)' } } },
+        description: 'Get or update user profile. action="discover" resolves identity from env/git/OS/memory.',
+        inputSchema: { type: 'object', properties: { update: { type: 'object', description: 'Fields to merge (omit to read)' }, action: { type: 'string', enum: ['get', 'discover'] }, persist: { type: 'boolean' }, name: { type: 'string' } } },
         handler: (args) => args?.action === 'discover' ? this.#handleDiscover(args) : this.#handleUserProfile(args),
       },
       session_log: {
@@ -21,11 +21,6 @@ class SessionTools {
         description: 'Set a goal/exit condition for the current session.',
         inputSchema: { type: 'object', properties: { action: { type: 'string', enum: ['set', 'check', 'done', 'status', 'clear'] }, condition: { type: 'string' }, max_turns: { type: 'number' }, notes: { type: 'string' } }, required: ['action'] },
         handler: (args) => this.#handleGoal(args),
-      },
-      loop: {
-        description: 'Schedule a recurring prompt/reminder at intervals.',
-        inputSchema: { type: 'object', properties: { action: { type: 'string', enum: ['start', 'stop', 'list', 'clear', 'check'] }, interval: { type: 'string' }, prompt: { type: 'string' }, id: { type: 'string' } }, required: ['action'] },
-        handler: (args) => this.#handleLoop(args),
       },
       shutdown_ritual: {
         description: 'Wind-down helper for vibecoding sessions.',
@@ -109,7 +104,7 @@ class SessionTools {
       // Deterministic session-end maintenance: consolidation + contradiction scan.
       let maintenance = '';
       try {
-        const r = dreamConsolidate();
+        const r = await dreamConsolidate();
         const bits = [];
         if (r.merged || r.archived || r.reinforced) bits.push(`${r.merged} merged, ${r.archived} archived, ${r.reinforced} promoted`);
         if (bits.length) maintenance = `\nMemory maintained: ${bits.join('; ')}.`;
@@ -164,53 +159,6 @@ class SessionTools {
     if (args.action === 'clear') {
       saveJson(file, { active: false, condition: null, turns: 0, maxTurns: 20, history: [] });
       return '🗑 Goal cleared.';
-    }
-    return 'Unknown action.';
-  }
-
-  #handleLoop(args) {
-    const file = path.join(HOME, 'loops.json');
-    const loops = loadJson(file, []);
-    if (args.action === 'list') {
-      if (!loops.length) return 'No active loops.';
-      const now = Date.now();
-      return loops.map((l, i) => {
-        const m = Math.round((new Date(l.nextFire).getTime() - now) / 60000);
-        return `${i + 1}. [${l.id}] ${m <= 0 ? '🔴 DUE' : `⏳ ${m}m`} every ${l.interval}: "${l.prompt}" (fires: ${l.fireCount || 0})`;
-      }).join('\n');
-    }
-    if (args.action === 'clear') { saveJson(file, []); return '🗑 All loops cleared.'; }
-    if (args.action === 'stop') {
-      const target = args.id || args.prompt;
-      if (!target) return 'Need loop ID or prompt.';
-      const idx = loops.findIndex(l => l.id === target || l.prompt.includes(target));
-      if (idx === -1) return 'Loop not found.';
-      const removed = loops.splice(idx, 1)[0];
-      saveJson(file, loops);
-      return `⏹ Stopped loop: "${removed.prompt}"`;
-    }
-    if (args.action === 'check') {
-      const now = Date.now();
-      const fired = loops.filter(l => now >= new Date(l.nextFire).getTime());
-      if (!fired.length) {
-        const next = loops.sort((a, b) => new Date(a.nextFire) - new Date(b.nextFire))[0];
-        if (next) return `No loops due. Next in ${Math.round((new Date(next.nextFire).getTime() - now) / 60000)}m: "${next.prompt}"`;
-        return 'No active loops.';
-      }
-      for (const l of fired) { l.nextFire = new Date(now + l.ms).toISOString(); l.fireCount = (l.fireCount || 0) + 1; }
-      saveJson(file, loops);
-      return '🔔 LOOPS FIRED:\n' + fired.map(l => `• [${l.id}] ${l.prompt}`).join('\n');
-    }
-    if (args.action === 'start') {
-      if (!args.prompt) return 'Need a prompt.';
-      const interval = args.interval || '10m';
-      const match = interval.match(/^(\d+)(s|m|h|d)$/);
-      if (!match) return 'Invalid interval. Use: 30s, 5m, 1h, 1d';
-      const ms = parseInt(match[1]) * { s: 1000, m: 60000, h: 3600000, d: 86400000 }[match[2]];
-      const id = Math.random().toString(36).slice(2, 8);
-      loops.push({ id, interval, ms, prompt: args.prompt, startedAt: new Date().toISOString(), nextFire: new Date(Date.now() + ms).toISOString(), fireCount: 0 });
-      saveJson(file, loops);
-      return `🔄 Loop started [${id}]: "${args.prompt}" every ${interval}.`;
     }
     return 'Unknown action.';
   }

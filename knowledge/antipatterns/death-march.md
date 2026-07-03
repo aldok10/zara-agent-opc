@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Death March
 date: 2024-08-20
 description: Understand the Death March antipattern, where projects are doomed from the start yet push teams to work excessive hours. Learn how to recognize and avoid this destructive project management trap.

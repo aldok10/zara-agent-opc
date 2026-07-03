@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Event Aggregator Pattern
 date: 2026-03-09
 description: Learn how the Event Aggregator design pattern decouples event publishers from subscribers by routing events through a central hub. Discover its benefits, drawbacks, use cases, and C# implementation.

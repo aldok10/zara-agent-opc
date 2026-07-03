@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Shared Kernel in DDD
 date: 2024-08-23
 description: In DDD, a Shared Kernel is a special type of Bounded Context that contains code and data shared across multiple bounded contexts within the same domain.

@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Reinventing the Wheel
 date: 2024-08-20
 description: Discover why Reinventing the Wheel is often counterproductive. Learn how leveraging existing solutions can save time and effort, allowing developers to focus on unique, value-adding features.

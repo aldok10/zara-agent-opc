@@ -1,3 +1,8 @@
+---
+type: fact
+title: Review-Driven Loop
+---
+
 # Review-Driven Loop
 
 Human feedback as observation source. The reviewer becomes the oracle for judgment calls that automated tools can't make.

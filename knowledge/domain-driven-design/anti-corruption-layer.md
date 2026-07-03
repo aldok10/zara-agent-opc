@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Anti-Corruption Layer
 date: 2024-04-02
 description: Anti-Corruption Layers (ACLs) are used in domain-driven design (DDD) to allow for interactions with other contexts without adversely impacting the design of the core domain model.

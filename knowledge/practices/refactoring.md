@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: Refactoring
 date: 2024-06-28
 description: As a verb, refactoring means to improve the design of a code without changing what it does. As a noun, it refers to an individual modification to a program that improves its design, without changing what the code does.

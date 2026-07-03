@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: "Design Patterns"
 description: "Design patterns are common approaches to solving similar problems."
 weight: 10

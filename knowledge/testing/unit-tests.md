@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: Unit Tests
 date: 2024-08-30
 description: Dive into the world of unit tests, the fastest and most granular way to ensure your code functions correctly at the smallest level.

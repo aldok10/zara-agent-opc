@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Mediator Pattern
 date: 2024-10-10
 description: Learn how the Mediator design pattern simplifies complex interactions by centralizing communication between components. Ideal for systems needing loose coupling, this pattern enhances modularity, scalability, and maintainability, making it a go-to for complex applications.

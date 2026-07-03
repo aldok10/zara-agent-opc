@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Aggregate Pattern
 date: 2024-04-02
 description: Aggregates are a design pattern that play a big role in domain-driven development.

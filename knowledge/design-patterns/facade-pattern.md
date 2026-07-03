@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Facade Pattern
 date: 2023-06-11
 description: The Facade Pattern was described in the Gang of Four's Design Patterns book. This pattern allows for a simpler interface to access a subsystem of a complex system.

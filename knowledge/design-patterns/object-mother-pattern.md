@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Object Mother Pattern
 date: 2024-04-02
 description: The Object Mother pattern is used for creating example objects in testing.

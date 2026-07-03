@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Memento Pattern
 date: 2023-10-04
 description: Like save points in a video game, commits in source control, and checkpoints in a Jupyter Notebook, the Memento Pattern allows you to capture the internal state of an object to be restored later.

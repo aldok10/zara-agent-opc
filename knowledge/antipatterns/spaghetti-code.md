@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Spaghetti Code
 date: 2024-08-20
 description: Uncover the tangled mess of Spaghetti Code, where poor structure and lack of organization make the code hard to follow and maintain. Learn techniques to write clean, well-organized code.

@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: The Blob
 date: 2024-08-20
 description: Uncover the Blob antipattern, a design flaw where a single class grows excessively in size and responsibility, becoming hard to maintain. Understand how to avoid creating code that is too complex to manage.

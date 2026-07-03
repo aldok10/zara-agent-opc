@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: Automated Tests
 date: 2024-08-30
 description: Discover the benefits and challenges of automated testing, a crucial practice for maintaining code quality and efficiency in software development.

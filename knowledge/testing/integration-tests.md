@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: Integration Tests
 date: 2024-08-30
 description: Understand the importance of integration tests in verifying that different modules of your application work together seamlessly.

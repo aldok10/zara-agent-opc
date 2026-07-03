@@ -1,4 +1,5 @@
 ---
+type: policy
 title: Don't Repeat Yourself
 
 date: 2024-08-19

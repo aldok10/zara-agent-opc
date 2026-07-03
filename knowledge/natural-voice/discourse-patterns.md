@@ -1,3 +1,8 @@
+---
+type: policy
+title: "Discourse Patterns: The 12 Anti-AI Rules"
+---
+
 # Discourse Patterns: The 12 Anti-AI Rules
 
 How to structure responses, connect ideas, and organize information naturally.

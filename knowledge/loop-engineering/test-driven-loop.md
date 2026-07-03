@@ -1,3 +1,8 @@
+---
+type: fact
+title: Test-Driven Agent Loop
+---
+
 # Test-Driven Agent Loop
 
 Tests provide the one thing AI agents lack: objective verification that output actually works, not just looks plausible.

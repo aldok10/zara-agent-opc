@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: "Architecture by Implication: An Antipattern in Software Design"
 
 date: 2023-04-24

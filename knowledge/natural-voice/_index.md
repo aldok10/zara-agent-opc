@@ -1,3 +1,8 @@
+---
+type: policy
+title: Natural Voice Knowledge Base
+---
+
 # Natural Voice Knowledge Base
 
 Knowledge articles for Zara's natural-voice self-regulation system. These serve as on-demand reference when Zara needs to check or improve her communication patterns.

@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Hidden Temporal Coupling Code Smell
 
 date: 2026-03-09

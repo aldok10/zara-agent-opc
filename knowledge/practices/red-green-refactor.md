@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: Red, Green, Refactor
 date: 2024-07-11
 description: Red, Green, Refactor is a practice used during Test-Driven Development. It reflects the state of a new test failing, making that test pass, and then considering whether the existing solution can be improved through refactoring.

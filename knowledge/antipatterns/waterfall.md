@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Waterfall
 date: 2024-08-20
 description: Learn about the limitations of the Waterfall methodology, a rigid, sequential approach to software development. Explore more flexible alternatives that adapt to changing project requirements

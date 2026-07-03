@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Inconsistent Abstraction Levels Code Smell
 
 date: 2026-03-08

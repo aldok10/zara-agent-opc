@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Golden Hammer
 date: 2024-08-20
 description: Uncover the pitfalls of the Golden Hammer antipattern, where developers use their favorite tool or technology for every problem. Understand why relying too heavily on one solution can limit creativity and effectiveness.

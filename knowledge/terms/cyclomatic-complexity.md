@@ -1,4 +1,5 @@
 ---
+type: fact
 title: Cyclomatic Complexity
 
 date: 2026-03-09

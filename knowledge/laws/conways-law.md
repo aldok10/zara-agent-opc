@@ -1,4 +1,5 @@
 ---
+type: fact
 title: "Conway's Law: Unraveling the Connection Between Software and Organizations"
 date: 2023-04-21
 description: Organizations which design systems … are constrained to produce designs which are copies of the communication structures of these organizations.

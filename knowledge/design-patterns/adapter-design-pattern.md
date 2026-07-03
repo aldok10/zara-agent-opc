@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Adapter Design Pattern
 date: 2024-08-19
 description: Learn how the Adapter design pattern helps integrate incompatible interfaces. Discover how it acts as a bridge, allowing different systems to communicate seamlessly and enhancing the flexibility of your software architecture.

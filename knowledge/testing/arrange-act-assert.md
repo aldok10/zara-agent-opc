@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: Arrange-Act-Assert
 date: 2023-12-18
 description: Arrange-Act-Assert is a pattern for setting up tests.

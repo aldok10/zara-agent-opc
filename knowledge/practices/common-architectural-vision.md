@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: Common Architectural Vision
 date: 2024-04-02
 description: Well-designed software must have a single, well-defined architecture. Virtually all software, regardless of how well-designed one might find it, starts out with a single architecture.

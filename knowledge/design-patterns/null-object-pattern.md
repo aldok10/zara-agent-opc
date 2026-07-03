@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Null Object Pattern
 date: 2015-10-26
 description: The Null Object Pattern was described in the Gang of Four's Design Patterns book. The intent of this pattern is to reduce the need to add checks and special behavior for handling null instances of certain variables that tend to propagate through applications.

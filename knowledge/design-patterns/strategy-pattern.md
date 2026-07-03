@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Strategy Design Pattern
 date: 2024-08-19
 description: Explore the Strategy design pattern in software development. See how it promotes flexibility by enabling the selection of algorithms at runtime, allowing for more adaptable and maintainable code structures.

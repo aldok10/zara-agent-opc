@@ -1,4 +1,5 @@
 ---
+type: policy
 title: SOLID
 date: 2024-04-02
 description: The SOLID principles of Object Oriented Design include these five principles.

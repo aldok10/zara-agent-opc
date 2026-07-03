@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: Defensive Programming
 date: 2024-01-01
 description: Defensive programming is the practice of anticipating problems that may arise in a software system and writing code to keep the system in a good state when such problems occur.

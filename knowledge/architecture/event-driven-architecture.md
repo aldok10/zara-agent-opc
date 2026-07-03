@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Event-Driven Architecture
 date: 2024-08-29
 description: Discover the power of Event-Driven Architecture (EDA) in building scalable, real-time systems. Boost your knowledge on designing responsive and decoupled software architectures.

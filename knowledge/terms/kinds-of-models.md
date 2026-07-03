@@ -1,4 +1,5 @@
 ---
+type: fact
 title: Kinds of Models
 
 date: 2016-08-15

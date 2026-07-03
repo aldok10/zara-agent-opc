@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Bounded Context
 date: 2024-04-02
 description: A bounded context is a concept from Domain-Driven Design that establishes boundary within a domain and contains models related to that context.

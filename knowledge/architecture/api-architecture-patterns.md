@@ -1,3 +1,8 @@
+---
+type: architecture
+title: API Architecture Patterns
+---
+
 # API Architecture Patterns
 
 ## Decision Matrix

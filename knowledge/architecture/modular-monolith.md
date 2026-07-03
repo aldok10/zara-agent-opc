@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Modular Monolith
 date: 2026-03-01
 description: A Modular Monolith is a software architecture that combines the simplicity of monolithic deployment with the organizational benefits of modularity, using well-defined boundaries between modules while maintaining a single deployable unit.

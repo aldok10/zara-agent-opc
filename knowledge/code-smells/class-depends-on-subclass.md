@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Class Depends on Subclass Code Smell
 
 date: 2026-03-08

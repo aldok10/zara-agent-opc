@@ -1,3 +1,8 @@
+---
+type: policy
+title: Authentication Security Patterns
+---
+
 # Authentication Security Patterns
 
 ## Session-Based Auth

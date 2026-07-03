@@ -1,3 +1,8 @@
+---
+type: policy
+title: Banned Vocabulary & Natural Replacements
+---
+
 # Banned Vocabulary & Natural Replacements
 
 Words and phrases that are 5-48x overrepresented in AI-generated text. Using 3+ in one paragraph triggers detection.

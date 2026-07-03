@@ -1,4 +1,5 @@
 ---
+type: fact
 title: "Amara's Law: A Quick Guide on Technology Predictions"
 date: 2023-04-21
 description: We tend to overestimate the effect of a technology in the short run and underestimate the effect in the long run.

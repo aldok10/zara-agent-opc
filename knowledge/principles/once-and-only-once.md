@@ -1,4 +1,5 @@
 ---
+type: policy
 title: Once and Only Once
 date: 2024-08-19
 description: Adopt the Once and Only Once (OAOO) principle in software design. Understand how ensuring each piece of knowledge has a single, authoritative representation can reduce complexity and improve code quality.

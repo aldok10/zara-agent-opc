@@ -1,3 +1,8 @@
+---
+type: policy
+title: "Sentence Structure: Burstiness & Length Variance"
+---
+
 # Sentence Structure: Burstiness & Length Variance
 
 Statistical targets for natural-sounding text, based on detection research. The single most impactful factor (40% of detection signal).

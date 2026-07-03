@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: "Architecture"
 description: "Code can be successful with the right supports, a solid architecture."
 weight: 80

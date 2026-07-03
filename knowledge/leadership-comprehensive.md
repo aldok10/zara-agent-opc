@@ -1,3 +1,8 @@
+---
+type: fact
+title: Leadership Knowledge Base — Comprehensive Reference
+---
+
 # Leadership Knowledge Base — Comprehensive Reference
 
 > Load on demand via `knowledge_load(doc: "leadership")` or `knowledge_read(path: "leadership-frameworks.md")`

@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: N-Tier Architecture
 date: 2026-03-01
 description: N-Tier Architecture organizes applications into multiple layers—commonly UI, Business Logic, and Data Access—each with distinct responsibilities, and can be deployed across separate physical tiers.

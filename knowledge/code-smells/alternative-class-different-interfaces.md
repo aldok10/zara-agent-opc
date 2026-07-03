@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Alternative Class with Different Interfaces Code Smell
 
 date: 2026-03-08

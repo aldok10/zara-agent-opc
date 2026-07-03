@@ -1,3 +1,8 @@
+---
+type: policy
+title: Threat Modeling
+---
+
 # Threat Modeling
 
 ## What It Is

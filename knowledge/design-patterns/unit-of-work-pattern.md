@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Unit of Work Pattern
 
 date: 2026-03-09

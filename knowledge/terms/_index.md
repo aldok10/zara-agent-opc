@@ -1,4 +1,5 @@
 ---
+type: fact
 title: "Terms"
 description: "These are terms that are commonly used in software development or software architecture."
 weight: 100

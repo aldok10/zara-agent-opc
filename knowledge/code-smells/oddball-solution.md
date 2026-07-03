@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Oddball Solution Code Smell
 
 date: 2026-03-08

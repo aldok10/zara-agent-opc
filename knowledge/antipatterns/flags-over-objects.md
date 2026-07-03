@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Flags Over Objects
 
 date: 2024-06-28

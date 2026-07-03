@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: "Practices"
 description: "Good coding practices are important to good code."
 weight: 30

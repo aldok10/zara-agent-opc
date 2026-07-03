@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Big Ball of Mud
 date: 2024-08-23
 description: The Big Ball of Mud is an architectural anti-pattern that refers to an architecture that lacks any modular design, and thus becomes just a mass of disorganized code lacking any real structure.

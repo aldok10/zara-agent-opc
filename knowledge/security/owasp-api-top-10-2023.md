@@ -1,3 +1,8 @@
+---
+type: policy
+title: OWASP API Security Top 10 (2023)
+---
+
 # OWASP API Security Top 10 (2023)
 
 Source: https://owasp.org/API-Security/editions/2023/en/0x00-toc/

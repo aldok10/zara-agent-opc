@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Magic Strings
 
 date: 2015-05-15

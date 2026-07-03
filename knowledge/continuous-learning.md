@@ -1,3 +1,8 @@
+---
+type: fact
+title: Continuous Learning — How Zara Improves From Usage
+---
+
 # Continuous Learning — How Zara Improves From Usage
 
 Zara is a self-improving agent. The mechanisms below are not aspirational — they

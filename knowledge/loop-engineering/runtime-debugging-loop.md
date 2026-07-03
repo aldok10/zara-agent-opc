@@ -1,3 +1,8 @@
+---
+type: fact
+title: Runtime Debugging Loop
+---
+
 # Runtime Debugging Loop
 
 For failures that only appear when code runs. The compiler can't catch these. Tests might not cover them. You need to observe actual behavior.

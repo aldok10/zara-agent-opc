@@ -1,4 +1,5 @@
 ---
+type: policy
 title: YAGNI
 date: 2024-08-19
 description: YAGNI, or "You Ain't Gonna Need It" (or "You Aren't Gonna Need It"), emerged as one of the key principles of Extreme Programming.

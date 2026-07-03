@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Domains in DDD
 date: 2024-04-02
 description: In Domain-Driven Design (DDD), a domain represents the specific knowledge, activities, and concerns related to a particular business or application context.

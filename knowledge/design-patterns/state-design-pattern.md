@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: State Design Pattern
 
 date: 2018-01-03

@@ -1,3 +1,8 @@
+---
+type: fact
+title: Compiler-Driven Loop
+---
+
 # Compiler-Driven Loop
 
 Use the type system as your feedback source. The compiler becomes the oracle: it tells you exactly what's broken and where.

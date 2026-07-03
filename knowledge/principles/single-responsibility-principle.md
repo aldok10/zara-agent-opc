@@ -1,4 +1,5 @@
 ---
+type: policy
 title: Single Responsibility Principle
 
 date: 2024-04-02

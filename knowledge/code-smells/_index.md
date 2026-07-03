@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: "Code Smells"
 description: "Code smells, or bad smells in code, refer to symptoms of code that may indicate deeper problems."
 weight: 120

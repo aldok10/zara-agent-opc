@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Dead Code Code Smell
 
 date: 2026-03-09

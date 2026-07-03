@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Message Chains Code Smell
 
 date: 2026-03-09

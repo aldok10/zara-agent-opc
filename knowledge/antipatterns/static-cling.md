@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Static Cling
 date: 2024-06-28
 description: Static Cling is a code smell used to describe the undesirable coupling introduced by accessing static (global) functionality, either as variables or methods.

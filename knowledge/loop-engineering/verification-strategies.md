@@ -1,3 +1,8 @@
+---
+type: fact
+title: Verification Strategies for Loops
+---
+
 # Verification Strategies for Loops
 
 Verify at the fastest reliable level. Don't run E2E to catch a typo.

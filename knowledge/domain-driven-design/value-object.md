@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Value Object
 date: 2024-04-02
 description: A Value Object is an immutable type that is distinguishable only by the state of its properties.

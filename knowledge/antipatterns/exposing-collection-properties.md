@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Exposing Collection Properties
 date: 2015-06-22
 description: Generally, exposing collection properties from domain Entities is an antipattern, because it leads to an anemic domain model and breaks encapsulation.

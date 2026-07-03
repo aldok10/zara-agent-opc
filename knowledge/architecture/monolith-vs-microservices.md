@@ -1,3 +1,8 @@
+---
+type: architecture
+title: Monolith vs Microservices
+---
+
 # Monolith vs Microservices
 
 Pairwise decision guide for choosing between monolithic and microservice architectures.

@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: Rubber Duck Debugging
 date: 2015-11-17
 description: Sometimes the process of describing a problem, even to an inanimate object, can reveal the solution.

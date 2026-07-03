@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Guard Clause
 
 date: 2017-09-01

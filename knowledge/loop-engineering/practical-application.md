@@ -1,3 +1,8 @@
+---
+type: fact
+title: Practical Loop Engineering Application
+---
+
 # Practical Loop Engineering Application
 
 How Zara applies loop engineering in real sessions.

@@ -1,3 +1,8 @@
+---
+type: fact
+title: Context Engineering for Loops
+---
+
 # Context Engineering for Loops
 
 65% of enterprise AI agent failures trace to context drift or memory loss, not model capability. The model is only as good as what's in its window.

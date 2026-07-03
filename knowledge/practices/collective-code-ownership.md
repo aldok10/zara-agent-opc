@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: Collective Code Ownership
 date: 2024-08-21
 description: Explore the practice of Collective Code Ownership, where all team members are responsible for the codebase. Learn how this approach promotes collaboration, quality, and faster issue resolution.

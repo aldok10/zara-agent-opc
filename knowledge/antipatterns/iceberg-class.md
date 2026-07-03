@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Iceberg Class
 date: 2024-08-20
 description: Learn about the Iceberg Class antipattern, where a class has a deceptively simple interface but hides a massive, complex implementation. Discover strategies to keep your classes transparent and manageable.

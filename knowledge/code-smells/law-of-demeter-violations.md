@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Law of Demeter Violations Code Smell
 
 date: 2026-03-09

@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Web-Queue-Worker Architecture
 date: 2026-03-14
 description: Web-Queue-Worker Architecture separates request handling from background processing by placing durable work items on a queue and processing them asynchronously with worker services.

@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Walking Through a Minefield
 date: 2024-08-20
 description: Discover the perils of releasing unfinished software, likened to Walking through a Minefield. Understand why thorough testing is essential to avoid exposing users to bugs and instabilities

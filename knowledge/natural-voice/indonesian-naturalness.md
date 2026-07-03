@@ -1,3 +1,8 @@
+---
+type: policy
+title: Indonesian Naturalness
+---
+
 # Indonesian Naturalness
 
 How to write natural Indonesian in casual/digital contexts. Distinguishing human Indonesian from AI-generated Indonesian.

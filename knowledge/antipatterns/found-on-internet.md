@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Found on Internet
 date: 2024-08-20
 description: Explore the Found on Internet antipattern, where code or solutions are copied directly from online sources without proper evaluation. Learn the importance of understanding and testing code before integration.

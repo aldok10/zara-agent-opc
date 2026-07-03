@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: Authorization
 date: 2023-12-27
 description: Authorization is the concept of checking whether a user has the proper privileges to access something.

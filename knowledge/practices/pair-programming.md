@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: Pair Programming
 date: 2024-08-21
 description: Uncover the benefits of Pair Programming, where two developers work together at one workstation. Learn how this practice improves code quality, enhances learning, and boosts team collaboration.

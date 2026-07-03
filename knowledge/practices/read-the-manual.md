@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: Read the Manual
 date: 2024-08-21
 description: Explore the importance of the 'Read the Manual' approach. Discover how understanding documentation thoroughly can prevent errors, save time, and improve the effective use of tools and libraries.

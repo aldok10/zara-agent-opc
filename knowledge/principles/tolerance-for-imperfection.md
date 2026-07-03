@@ -1,4 +1,5 @@
 ---
+type: policy
 title: Tolerance for Imperfection in Software Architecture
 date: 2023-04-22
 description: Don't let perfect be the enemy of good. Software architecture is rarely perfect, but must be designed to support future optionality in the face of unknown future constraints and requirements.

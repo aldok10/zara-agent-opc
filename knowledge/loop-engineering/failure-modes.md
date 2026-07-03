@@ -1,3 +1,8 @@
+---
+type: fact
+title: Loop Failure Modes and Fixes
+---
+
 # Loop Failure Modes and Fixes
 
 Every failure mode has a structural fix. Recognize the pattern, apply the fix, don't just retry harder.

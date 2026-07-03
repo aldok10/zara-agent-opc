@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Not Invented Here
 date: 2024-08-20
 description: Understand the Not Invented Here antipattern, where teams reject external solutions in favor of creating their own. Learn how this mindset can waste resources and hinder innovation.

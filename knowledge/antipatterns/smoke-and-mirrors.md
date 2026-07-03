@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Smoke and Mirrors
 date: 2024-08-20
 description: Understand the Smoke and Mirrors antipattern, where demos show a facade of functionality that doesn’t exist yet. Learn why honesty and realistic expectations are crucial in software development.

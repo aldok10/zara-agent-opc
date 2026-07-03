@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Factory Method Pattern
 date: 2024-04-02
 description: The Factory Method pattern is an object creation pattern from the Design Patterns book. It defines an interface or abstract class for creating an object but leaves the specifics to the implementations.

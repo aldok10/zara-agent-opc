@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: Front-End Tests
 date: 2024-08-30
 description: Learn how front-end tests ensure your application’s user interface performs as expected, providing a seamless user experience across all devices.

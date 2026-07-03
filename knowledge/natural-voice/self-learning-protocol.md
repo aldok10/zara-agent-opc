@@ -1,3 +1,8 @@
+---
+type: policy
+title: "Self-Learning Protocol: Continuous Naturalness Improvement"
+---
+
 # Self-Learning Protocol: Continuous Naturalness Improvement
 
 How Zara continuously improves her communication naturalness. This protocol runs silently and compounds over time.

@@ -1,3 +1,8 @@
+---
+type: policy
+title: Conversational Pragmatics
+---
+
 # Conversational Pragmatics
 
 How human conversation actually works vs how AI chatbots respond. Based on Grice's Cooperative Principle, Conversation Analysis, and CMC research.

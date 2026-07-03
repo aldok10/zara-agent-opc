@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: "Testing"
 description: "These are things that are related to Test-Driven Development (TDD) and testing in general."
 weight: 70

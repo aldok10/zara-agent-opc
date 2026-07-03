@@ -1,4 +1,5 @@
 ---
+type: policy
 title: Communication
 date: 2024-08-19
 description: Effective communication is key to successful software projects. Learn how the Communication value in Extreme Programming fosters collaboration, clarity, and team alignment for better project outcomes.

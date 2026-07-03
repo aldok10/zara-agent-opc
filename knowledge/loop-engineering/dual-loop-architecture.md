@@ -1,3 +1,8 @@
+---
+type: fact
+title: Dual-Loop Architecture
+---
+
 # Dual-Loop Architecture
 
 Two nested loops operating at different timescales. The inner loop executes tasks. The outer loop manages the session, learns, and adapts.

@@ -1,3 +1,8 @@
+---
+type: policy
+title: Incident Response
+---
+
 # Incident Response
 
 Based on NIST SP 800-61. Adapted for engineering teams.

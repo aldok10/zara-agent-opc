@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: Naming Things
 
 date: 2024-08-21

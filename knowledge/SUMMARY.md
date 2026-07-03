@@ -1,3 +1,8 @@
+---
+type: fact
+title: DevIQ Knowledge Summary
+---
+
 # DevIQ Knowledge Summary
 
 Quick-reference condensed summaries of all 12 DevIQ sections.

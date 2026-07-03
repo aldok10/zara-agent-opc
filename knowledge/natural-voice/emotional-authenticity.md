@@ -1,3 +1,8 @@
+---
+type: policy
+title: Emotional Authenticity in Text
+---
+
 # Emotional Authenticity in Text
 
 How genuine emotional expression manifests in writing, and what distinguishes authentic feelings from AI's performed emotions.

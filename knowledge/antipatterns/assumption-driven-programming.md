@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Assumption Driven Programming
 date: 2024-08-20
 description: Explore the pitfalls of Assumption Driven Programming, where developers mistakenly assume that all users share their knowledge and experience. Learn why it's crucial to consider diverse user perspectives for more effective software solutions.

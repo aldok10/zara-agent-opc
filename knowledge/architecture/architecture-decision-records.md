@@ -1,3 +1,8 @@
+---
+type: architecture
+title: Architecture Decision Records (ADRs)
+---
+
 # Architecture Decision Records (ADRs)
 
 ## What

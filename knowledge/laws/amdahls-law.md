@@ -1,4 +1,5 @@
 ---
+type: fact
 title: "Understanding Amdahl's Law: Unlocking the Secrets of Parallel Computing"
 date: 2023-09-26
 description: Amdahl's Law is a foundational principle that shapes our understanding of parallel computing and its limitations. This article unravels the concept, mathematical equation, and real-world implications of Amdahl's Law. Learn how to maximize the efficiency of your computing systems and make informed decisions when scaling hardware resources.

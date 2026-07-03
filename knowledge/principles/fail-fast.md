@@ -1,4 +1,5 @@
 ---
+type: policy
 title: Fail Fast
 date: 2021-04-08
 description: "Fail fast suggests that if an error or problem is going to occur, it's best to detect it as early as possible."

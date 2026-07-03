@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Chain of Responsibility Pattern
 date: 2024-02-22
 description: The Chain of Responsibility pattern is a behavioral design pattern that allows you to pass requests along a chain of handlers.

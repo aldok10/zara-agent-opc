@@ -1,3 +1,8 @@
+---
+type: policy
+title: Runtime Protection
+---
+
 # Runtime Protection
 
 ## Rate Limiting

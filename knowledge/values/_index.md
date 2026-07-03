@@ -1,4 +1,5 @@
 ---
+type: policy
 title: "Values"
 description: "Extreme Programming is based on five values: Communication, Courage, Feedback, Respect, and Simplicity."
 weight: 90

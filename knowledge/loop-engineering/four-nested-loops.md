@@ -1,3 +1,8 @@
+---
+type: fact
+title: Four Nested Loops (Production Architecture)
+---
+
 # Four Nested Loops (Production Architecture)
 
 The dominant 2026 pattern for production-grade agents: four nested control loops, each with a single responsibility and distinct failure mode.

@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Tactical Design in DDD
 date: 2024-04-02
 description: Tactical Design starts with the conceptual domain model from the strategic phase and gets into the low-level implementation details.

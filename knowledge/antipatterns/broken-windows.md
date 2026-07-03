@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Broken Windows
 date: 2015-11-17
 description: Small problems, left uncorrected, signal a lack of care about the state of things.

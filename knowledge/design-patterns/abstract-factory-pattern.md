@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Abstract Factory Design Pattern
 
 date: 2023-10-27

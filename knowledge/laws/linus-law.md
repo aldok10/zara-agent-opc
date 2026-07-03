@@ -1,4 +1,5 @@
 ---
+type: fact
 title: "Linus's Law: Understanding the Wisdom of Collective Code Review"
 date: 2023-09-28
 description: Linus's Law posits that 'given enough eyeballs, all bugs are shallow.' Discover how this philosophy shapes open-source development, increases software quality, and enhances cybersecurity. Learn why many believe Linus's Law is the cornerstone of collaborative software engineering.

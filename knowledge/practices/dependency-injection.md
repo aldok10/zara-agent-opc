@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: Dependency Injection
 
 date: 2024-08-21

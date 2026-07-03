@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: Parse, Don't Validate
 
 date: 2024-07-11

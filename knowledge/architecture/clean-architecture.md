@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Clean Architecture
 date: 2024-08-29
 description: Clean Architecture is a software design approach that prioritizes maintainability, testability, and flexibility by organizing code into distinct layers with clear dependencies, ensuring a robust and scalable application structure.

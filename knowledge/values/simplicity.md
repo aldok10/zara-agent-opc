@@ -1,4 +1,5 @@
 ---
+type: policy
 title: Simplicity
 date: 2024-08-19
 description: Discover the value of Simplicity in Extreme Programming. Learn how focusing on simple solutions and avoiding unnecessary complexity can enhance efficiency and improve software development outcomes.

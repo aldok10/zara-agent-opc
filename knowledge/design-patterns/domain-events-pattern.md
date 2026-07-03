@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Domain Events Pattern
 date: 2015-09-20
 description: Dive deep into the Domain Events pattern. Master the nuances of pre-persistence and post-persistence events to build robust and scalable applications.

@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: Functional Tests
 date: 2024-08-30
 description: Explore functional tests that validate software features against specified requirements, ensuring that your application works as intended.

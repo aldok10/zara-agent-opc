@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: Whole Team
 date: 2024-08-21
 description: Understand the 'Whole Team' approach, where every team member's skills and insights are leveraged. Discover how this practice improves project outcomes by encouraging inclusivity and shared responsibility.

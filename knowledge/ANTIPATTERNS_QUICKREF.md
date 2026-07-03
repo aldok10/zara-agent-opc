@@ -1,3 +1,8 @@
+---
+type: fact
+title: Antipatterns Quick Reference
+---
+
 # Antipatterns Quick Reference
 
 | Antipattern | Problem | Solution |

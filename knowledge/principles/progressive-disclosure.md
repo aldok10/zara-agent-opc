@@ -1,4 +1,5 @@
 ---
+type: policy
 title: "Progressive Disclosure"
 date: 2026-04-07T10:29:40-04:00
 description: "Progressive Disclosure is a design principle that involves revealing information or complexity gradually, rather than all at once. It applies to software architecture, UX design, AI systems, presentations, and more."

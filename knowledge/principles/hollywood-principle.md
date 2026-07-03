@@ -1,4 +1,5 @@
 ---
+type: policy
 title: Hollywood Principle
 date: 2024-08-19
 description: Explore the Hollywood Principle in software design. Don't call us, we'll call you. Understand how this approach promotes loose coupling and more flexible, scalable software architectures.

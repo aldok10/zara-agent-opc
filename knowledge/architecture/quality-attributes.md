@@ -1,3 +1,8 @@
+---
+type: architecture
+title: Architecture Quality Attributes
+---
+
 # Architecture Quality Attributes
 
 ## Priority Stack

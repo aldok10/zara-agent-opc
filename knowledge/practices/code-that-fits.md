@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: Practices from Code That Fits in Your Head
 date: 2024-07-11
 description: Code That Fits in Your Head by Mark Seemann includes over two dozen specific practices one can follow to help write better software. A summary of these practices is shown below.

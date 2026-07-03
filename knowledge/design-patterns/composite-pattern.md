@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Composite Design Pattern
 
 date: 2026-03-09

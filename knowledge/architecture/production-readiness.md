@@ -1,3 +1,8 @@
+---
+type: architecture
+title: Production Readiness Checklist
+---
+
 # Production Readiness Checklist
 
 Based on Google SRE PRR and industry best practices. Use as a template before any production launch.

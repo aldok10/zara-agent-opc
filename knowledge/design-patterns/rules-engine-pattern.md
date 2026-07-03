@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Rules Engine Pattern
 date: 2023-11-17
 description: The Rules Engine pattern allows complex business rules to be defined, managed, and applied outside of the main application code.

@@ -1,4 +1,5 @@
 ---
+type: policy
 title: Boy Scout Rule
 date: 2024-06-28
 description: The Boy Scout Rule can be summarized as leave your code better than you found it.

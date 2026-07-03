@@ -1,4 +1,5 @@
 ---
+type: policy
 title: Inversion of Control
 date: 2023-12-26
 description: Inversion of Control (IoC or IOC) describes a system that follows the Hollywood Principle.

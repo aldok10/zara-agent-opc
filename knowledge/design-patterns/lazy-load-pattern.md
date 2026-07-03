@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Lazy Load Pattern
 
 date: 2026-03-09

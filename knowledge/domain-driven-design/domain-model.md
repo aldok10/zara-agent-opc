@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Domain Model in DDD
 date: 2024-04-02
 description: A domain model in DDD is a conceptual representation of the core concepts, entities, and relationships within a specific domain.

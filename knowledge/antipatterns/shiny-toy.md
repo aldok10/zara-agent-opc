@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Shiny Toy
 date: 2024-08-20
 description: Explore the Shiny Toy antipattern, where developers chase the latest trends and tools without evaluating their real-world benefits. Learn how to make technology choices based on needs, not hype.

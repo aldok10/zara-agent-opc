@@ -1,4 +1,5 @@
 ---
+type: policy
 title: Open-Closed Principle
 date: 2024-04-02
 description: The Open-Closed Principle (OCP) states that software entities (classes, modules, methods, etc.) should be open for extension, but closed for modification.

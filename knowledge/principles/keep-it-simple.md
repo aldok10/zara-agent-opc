@@ -1,4 +1,5 @@
 ---
+type: policy
 title: Keep It Simple
 date: 2024-08-19
 description: Discover the power of simplicity with the KISS principle in software design. Learn some ways to keep it simple and have fewer defects.

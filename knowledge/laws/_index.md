@@ -1,4 +1,5 @@
 ---
+type: fact
 title: "Laws"
 description: "A variety of laws of programming and software development."
 weight: 60

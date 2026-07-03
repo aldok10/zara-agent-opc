@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Strategic Design in DDD
 date: 2024-04-02
 description: Strategic design is essential for establishing a solid foundation for your domain model in DDD.

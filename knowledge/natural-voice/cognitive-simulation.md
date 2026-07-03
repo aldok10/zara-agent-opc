@@ -1,3 +1,8 @@
+---
+type: policy
+title: "Cognitive Simulation: Human Thought Patterns in Writing"
+---
+
 # Cognitive Simulation: Human Thought Patterns in Writing
 
 How cognitive biases and limitations manifest in natural writing, and why their absence makes AI detectable.

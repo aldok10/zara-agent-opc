@@ -1,4 +1,5 @@
 ---
+type: fact
 title: Build Server
 date: 2015-02-19
 description: A build server is a tool that enables Continuous Integration, an excellent practice to follow when developing software.

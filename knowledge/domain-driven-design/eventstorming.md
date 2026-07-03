@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: EventStorming
 date: 2024-04-02
 description: EventStorming is a powerful and collaborative workshop-based technique that enables teams to gain a deeper understanding of complex business domains, leading to more effective software development.

@@ -1,4 +1,5 @@
 ---
+type: policy
 title: Persistence Ignorance
 date: 2015-06-22
 description: The principle of Persistence Ignorance (PI) holds that classes modeling the business domain in a software application should not be impacted by how they might be persisted.

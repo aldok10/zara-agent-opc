@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Specification Pattern
 date: 2017-02-14
 description: One Domain-Driven-Design solution to the problem of where to place querying, sorting, and paging logic is to use a Specification.

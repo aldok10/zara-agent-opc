@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Competing Consumers Pattern
 date: 2026-03-14
 description: Competing Consumers is an architecture pattern in which a queue is filled with work requests or commands, and one or more consumers pull messages from the queue and process them.

@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Required Setup/Teardown Code Smell
 
 date: 2026-03-08

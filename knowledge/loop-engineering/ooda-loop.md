@@ -1,3 +1,8 @@
+---
+type: fact
+title: OODA Loop for Software Engineering
+---
+
 # OODA Loop for Software Engineering
 
 Speed of the loop matters more than perfection of any single step. The team or agent that cycles faster, learns faster, wins.

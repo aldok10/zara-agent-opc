@@ -1,4 +1,5 @@
 ---
+type: fact
 title: "Tools"
 description: "These are tools that are commonly used in software development or software architecture."
 weight: 110

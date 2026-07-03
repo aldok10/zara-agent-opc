@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Service Locator Pattern
 
 date: 2026-03-09

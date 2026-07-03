@@ -1,3 +1,8 @@
+---
+type: architecture
+title: SQL vs NoSQL
+---
+
 # SQL vs NoSQL
 
 Pairwise decision guide for choosing between relational databases and NoSQL stores.

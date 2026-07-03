@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Hidden Dependencies Code Smell
 
 date: 2026-03-09

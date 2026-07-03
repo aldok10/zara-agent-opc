@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: "Domain-Driven Design"
 description: "Domain Driven Design is a software design strategy intended to take complex domains and simplify them into extensible and maintainable software solutions."
 weight: 50

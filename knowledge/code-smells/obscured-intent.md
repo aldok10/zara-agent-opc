@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Obscured Intent Code Smell
 
 date: 2026-03-08

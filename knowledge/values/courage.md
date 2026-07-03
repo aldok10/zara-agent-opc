@@ -1,4 +1,5 @@
 ---
+type: policy
 title: Courage
 date: 2024-08-19
 description: Embrace the value of Courage in Extreme Programming. Discover how taking bold decisions, addressing challenges directly, and welcoming changes can lead to better, more adaptable software solutions.

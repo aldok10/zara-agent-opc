@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Builder Design Pattern
 date: 2024-04-02
 description: The Builder design pattern is a creational pattern, similar to the Factory pattern (Factory Method, Abstract Factory).

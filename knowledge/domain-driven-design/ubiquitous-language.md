@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Ubiquitous Language
 date: 2024-04-02
 description: All stakeholders on a software application, from users to product managers to developers, should share the same terminology when discussing the elements of the application.

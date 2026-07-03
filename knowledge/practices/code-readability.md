@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: Code Readability
 date: 2024-08-21
 description: Discover the importance of Code Readability in software development. Learn how writing clear, understandable code enhances collaboration, reduces bugs, and makes maintenance easier for everyone on the team.

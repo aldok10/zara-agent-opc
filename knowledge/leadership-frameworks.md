@@ -1,3 +1,8 @@
+---
+type: fact
+title: Leadership Frameworks for AI Leadership Partner
+---
+
 # Leadership Frameworks for AI Leadership Partner
 
 Comprehensive synthesis of 15 leadership frameworks + AI intersection patterns.

@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Vertical Slice Architecture
 
 date: 2024-06-28

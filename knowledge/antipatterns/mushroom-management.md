@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Mushroom Management
 date: 2024-08-20
 description: Explore the consequences of Mushroom Management, where developers are kept in the dark and fed misinformation. Understand the importance of transparency and communication for effective project management."

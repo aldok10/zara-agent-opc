@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Shotgun Surgery Code Smell
 
 date: 2026-03-08

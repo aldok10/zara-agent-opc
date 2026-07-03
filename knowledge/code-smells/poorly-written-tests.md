@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Poorly Written Tests Code Smell
 
 date: 2026-03-09

@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: The Testing Pyramid
 date: 2024-08-30
 description: A guide to the testing pyramid, explaining the optimal distribution of unit, integration, and end-to-end tests in your software project.

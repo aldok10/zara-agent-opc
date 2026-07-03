@@ -1,4 +1,5 @@
 ---
+type: policy
 title: Principle of Architectural Agility
 date: 2023-04-22
 description: This principle highlights the importance of designing software architectures that can adapt to changing requirements and conditions.

@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Poor Names Code Smell
 
 date: 2026-03-08

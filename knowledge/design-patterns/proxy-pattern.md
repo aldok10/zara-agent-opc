@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Proxy Pattern
 
 date: 2024-06-07

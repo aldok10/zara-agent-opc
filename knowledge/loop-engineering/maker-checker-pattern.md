@@ -1,3 +1,8 @@
+---
+type: fact
+title: Maker-Checker Pattern
+---
+
 # Maker-Checker Pattern
 
 The single highest-leverage pattern in loop engineering. External feedback, not self-grading. An agent reviewing its own work reinforces its own flawed reasoning.

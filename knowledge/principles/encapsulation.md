@@ -1,4 +1,5 @@
 ---
+type: policy
 title: Encapsulation
 date: 2024-06-28
 description: Encapsulation refers to the idea that objects should manage their own behavior and state, so that their collaborators need not concern themselves with the object's inner workings.

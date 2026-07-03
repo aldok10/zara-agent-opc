@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Interpreter Design Pattern
 
 date: 2026-03-09

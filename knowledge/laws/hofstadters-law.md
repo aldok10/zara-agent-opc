@@ -1,4 +1,5 @@
 ---
+type: fact
 title: Hofstadter's Law
 date: 2024-03-11
 description: "Discover the intriguing paradox of Hofstadter's Law in software development: 'It always takes longer than you expect, even when you account for Hofstadter's Law.' Dive into how this recursive principle challenges project timelines and explore strategies to navigate its complexities. Perfect for developers and project managers seeking insights into better estimating and managing the unpredictable nature of software projects."

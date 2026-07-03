@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Model-View-ViewModel (MVVM) Design Pattern
 
 date: 2026-03-09

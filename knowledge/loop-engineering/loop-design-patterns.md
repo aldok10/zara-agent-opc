@@ -1,3 +1,8 @@
+---
+type: fact
+title: Loop Design Patterns
+---
+
 # Loop Design Patterns
 
 A catalog of reusable loop structures. Pick the pattern that matches your situation.

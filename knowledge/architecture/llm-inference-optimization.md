@@ -1,3 +1,8 @@
+---
+type: architecture
+title: LLM Inference Optimization Stack
+---
+
 # LLM Inference Optimization Stack
 
 Reference for production LLM serving: techniques, tradeoffs, and decision points.

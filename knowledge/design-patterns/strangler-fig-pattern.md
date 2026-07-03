@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Strangler Fig Design Pattern
 date: 2023-06-06
 description: The Strangler Fig pattern allows a legacy system to be gradually migrated by replacing pieces of functionality with new applications.

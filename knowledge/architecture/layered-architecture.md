@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Layered Architecture
 date: 2026-03-01
 description: Layered Architecture organizes software into distinct layers, each with specific responsibilities, where each layer only communicates with adjacent layers.

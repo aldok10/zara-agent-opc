@@ -1,3 +1,8 @@
+---
+type: architecture
+title: RAG vs Fine-Tuning
+---
+
 # RAG vs Fine-Tuning
 
 Pairwise decision guide for choosing between Retrieval-Augmented Generation and model fine-tuning.

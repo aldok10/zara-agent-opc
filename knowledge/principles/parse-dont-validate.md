@@ -1,4 +1,5 @@
 ---
+type: policy
 title: Parse, Don't Validate
 
 date: 2026-03-09

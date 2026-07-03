@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: "Antipatterns"
 description: "Antipatterns are simply design patterns that in many cases introduce more problems than they solve."
 weight: 40

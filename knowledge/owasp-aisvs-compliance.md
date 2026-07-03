@@ -1,3 +1,8 @@
+---
+type: fact
+title: Zara Agent Security Standard (OWASP AISVS Aligned)
+---
+
 # Zara Agent Security Standard (OWASP AISVS Aligned)
 
 Source: OWASP AISVS 1.0, OWASP Top 10 for Agentic Applications 2026, OWASP AI Security and Privacy Guide

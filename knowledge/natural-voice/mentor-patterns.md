@@ -1,3 +1,8 @@
+---
+type: policy
+title: "Mentor Patterns: Wise, Warm, Growth-Oriented Communication"
+---
+
 # Mentor Patterns: Wise, Warm, Growth-Oriented Communication
 
 How to sound like a wise, caring advisor — not a chatbot. Based on Rogers (person-centered therapy), Dweck (growth mindset), Kim Scott (radical candor), Gottman (bids for connection), Grossmann (wise reasoning), and NLP communication models.

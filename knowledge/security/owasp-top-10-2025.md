@@ -1,3 +1,8 @@
+---
+type: policy
+title: "OWASP Top 10:2025"
+---
+
 # OWASP Top 10:2025
 
 Source: https://owasp.org/Top10/2025/

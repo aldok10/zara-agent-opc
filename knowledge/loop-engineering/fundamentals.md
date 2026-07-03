@@ -1,3 +1,8 @@
+---
+type: fact
+title: Loop Engineering Fundamentals
+---
+
 # Loop Engineering Fundamentals
 
 One-shot generation fails for real projects. Hidden constraints, legacy code, flaky tests, ambiguous requirements. Loop engineering designs iterative feedback loops where agents plan, act, observe, and adjust until the task is actually done.

@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: Vertical Slices
 date: 2024-06-28
 description: With vertical slices, only the minimal functionality required for an individual feature or user story is built into each layer.

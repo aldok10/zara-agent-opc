@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Analysis Paralysis
 date: 2023-04-22
 description: There is such a thing as too much planning and analysis. Remember Shipping is a Feature and a good enough plan executed quickly is always better than the perfect plan executed too late.

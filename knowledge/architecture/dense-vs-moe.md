@@ -1,3 +1,8 @@
+---
+type: architecture
+title: Dense Model vs MoE (Mixture of Experts)
+---
+
 # Dense Model vs MoE (Mixture of Experts)
 
 Pairwise decision guide for model architecture scaling decisions.

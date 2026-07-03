@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: Continuous Integration
 date: 2024-04-02
 description: Continuous Integration is an XP practice that ensures problems with the full system are detected as soon after they are introduced as possible.

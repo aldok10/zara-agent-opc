@@ -1,3 +1,8 @@
+---
+type: policy
+title: Security Testing Tools
+---
+
 # Security Testing Tools
 
 ## Tool Categories

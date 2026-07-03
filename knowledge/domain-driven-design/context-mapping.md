@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Context Mapping
 date: 2023-12-08
 description: Context Mapping enables seeing how bounded contexts integrate with each other.

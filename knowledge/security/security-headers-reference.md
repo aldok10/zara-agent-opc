@@ -1,3 +1,8 @@
+---
+type: policy
+title: HTTP Security Headers Reference
+---
+
 # HTTP Security Headers Reference
 
 ## Content-Security-Policy (CSP)

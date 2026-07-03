@@ -1,3 +1,8 @@
+---
+type: policy
+title: Secrets Management
+---
+
 # Secrets Management
 
 ## Never in Source Code

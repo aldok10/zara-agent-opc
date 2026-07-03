@@ -1,4 +1,5 @@
 ---
+type: policy
 title: Make Illegal States Unrepresentable
 
 date: 2026-03-09

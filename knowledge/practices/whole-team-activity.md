@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: Whole Team Activity
 date: 2024-08-21
 description: Explore the concept of Whole Team Activity, where everyone on the team collaborates towards common goals. Learn how this practice enhances communication, fosters innovation, and ensures project success.

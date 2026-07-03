@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: Authentication
 date: 2023-12-27
 description: Authentication is the concept of checking that the user is who they claim they are.

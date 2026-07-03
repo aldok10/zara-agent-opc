@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: REPR Design Pattern
 
 date: 2021-07-21

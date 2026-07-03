@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Copy Paste Programming
 date: 2024-08-20
 description: Learn about the pitfalls of Copy-Paste Programming. While convenient, this approach can lead to duplicated code, inconsistencies, and maintenance challenges. Explore better practices for code reuse and efficiency.

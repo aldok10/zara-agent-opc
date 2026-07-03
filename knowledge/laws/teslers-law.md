@@ -1,4 +1,5 @@
 ---
+type: fact
 title: "Tesler's Law: The Law of Conservation of Complexity"
 date: 2026-03-15
 description: Every application has an inherent amount of irreducible complexity. The only question is who will have to deal with it — the user, the developer, or the system.

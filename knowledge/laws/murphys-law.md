@@ -1,4 +1,5 @@
 ---
+type: fact
 title: Murphy's Law
 date: 2021-02-19
 description: Anything that can go wrong...

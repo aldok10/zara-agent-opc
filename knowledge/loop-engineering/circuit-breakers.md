@@ -1,3 +1,8 @@
+---
+type: fact
+title: Circuit Breakers and Stop Conditions
+---
+
 # Circuit Breakers and Stop Conditions
 
 A loop without stop conditions is a runaway process. Claude Code recursion burned $16K-$50K in 5 hours with no crash, no exception. Just no stopping rule.

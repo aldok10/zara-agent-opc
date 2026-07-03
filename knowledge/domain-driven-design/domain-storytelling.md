@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Domain Storytelling
 date: 2024-04-02
 description: Domain Storytelling allows domain experts to tell the stories, capture the workflows, and illustrate those stories.

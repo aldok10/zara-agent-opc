@@ -1,3 +1,8 @@
+---
+type: policy
+title: Anti-Detection Signals
+---
+
 # Anti-Detection Signals
 
 The top signals that AI detection tools use, ordered by impact. Based on analysis of GPTZero, Originality.ai, ZeroGPT, Turnitin, Winston AI, Copyleaks, and Sapling.

@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Entity
 date: 2024-04-02
 description: An Entity is an object that has some intrinsic identity, apart from the rest of its state.

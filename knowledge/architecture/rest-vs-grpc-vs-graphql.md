@@ -1,3 +1,8 @@
+---
+type: architecture
+title: REST vs gRPC vs GraphQL
+---
+
 # REST vs gRPC vs GraphQL
 
 Pairwise decision guide for API communication styles.

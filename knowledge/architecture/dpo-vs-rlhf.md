@@ -1,3 +1,8 @@
+---
+type: architecture
+title: DPO vs RLHF (PPO)
+---
+
 # DPO vs RLHF (PPO)
 
 Pairwise decision guide for LLM alignment methods.

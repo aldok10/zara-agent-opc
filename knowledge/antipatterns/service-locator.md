@@ -1,4 +1,5 @@
 ---
+type: pitfall
 title: Service Locator Antipattern in Software Development
 
 date: 2023-04-22

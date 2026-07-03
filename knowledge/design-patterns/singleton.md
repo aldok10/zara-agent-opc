@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Singleton
 date: 2016-06-18
 description: The Singleton design pattern is used to ensure an application never contains more than a single instance of a given type.

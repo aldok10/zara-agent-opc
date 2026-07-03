@@ -1,4 +1,5 @@
 ---
+type: architecture
 title: Anemic Model
 date: 2023-07-20
 description: In object-oriented programming, and especially in Domain-Driven Design, objects are said to be anemic if they have state but lack behavior.

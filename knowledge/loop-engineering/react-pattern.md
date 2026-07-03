@@ -1,3 +1,8 @@
+---
+type: fact
+title: ReAct Pattern (Reasoning + Acting)
+---
+
 # ReAct Pattern (Reasoning + Acting)
 
 ReAct interleaves explicit reasoning traces with tool actions. The agent thinks before it acts, observes the result, then thinks again. It beats pure chain-of-thought on tasks requiring tools, and beats pure tool-use on tasks requiring reasoning.

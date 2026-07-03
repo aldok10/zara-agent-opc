@@ -1,4 +1,5 @@
 ---
+type: workflow
 title: Behavior Driven Development
 date: 2023-12-18
 description: Behavior Driven Development (BDD) is a software development practice that focuses on defining the behavior of a software system in a way that's easy to understand for both technical and non-technical stakeholders.

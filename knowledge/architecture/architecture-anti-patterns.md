@@ -1,3 +1,8 @@
+---
+type: architecture
+title: Architecture Anti-Patterns
+---
+
 # Architecture Anti-Patterns
 
 ## 1. Distributed Monolith

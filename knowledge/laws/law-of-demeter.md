@@ -1,4 +1,5 @@
 ---
+type: fact
 title: The Law of Demeter
 
 date: 2023-10-03

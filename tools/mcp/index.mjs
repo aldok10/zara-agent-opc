@@ -21,17 +21,8 @@ import {
 } from '../memory-db.mjs';
 import { SemanticEmbedder } from '../embedder.mjs';
 
-// Tool modules
+// Tool modules — unified into a single `memory` tool (action-based routing)
 import memoryTools from './domain/memory.mjs';
-import reflectionTools from './domain/reflection.mjs';
-import metricsTools from './domain/metrics.mjs';
-import sessionTools from './domain/session.mjs';
-import musicTools from './domain/music.mjs';
-import knowledgeTools from './domain/knowledge.mjs';
-import auditTools from './domain/audit.mjs';
-import projectTools from './domain/project.mjs';
-import identityTools from './domain/identity.mjs';
-import improveTools from './domain/improve.mjs';
 
 // Version: single source of truth is package.json
 const PKG_PATH = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '..', 'package.json');
@@ -51,8 +42,8 @@ SemanticEmbedder.instance().embed('warmup').catch(() => {});
 // Create server
 const server = new McpServer('zara-mcp', VERSION);
 
-// Register all tools
-server.registerAll([memoryTools, reflectionTools, metricsTools, sessionTools, musicTools, knowledgeTools, auditTools, projectTools, identityTools, improveTools]);
+// Register the unified memory tool
+server.registerAll([memoryTools]);
 
 // Start listening
 server.listen();

@@ -85,11 +85,27 @@ services:
     environment:
       IS_PERSISTENT: "TRUE"
       ANONYMIZED_TELEMETRY: "FALSE"
+      # Note: Chroma 1.x (Rust) doesn't bundle built-in auth.
+      # For token auth, deploy a reverse proxy (Envoy/Nginx).
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v2/heartbeat"]
+      test: ["CMD", "bash", "-c", "echo > /dev/tcp/localhost/8000"]
       interval: 30s
       timeout: 10s
       retries: 3
+      start_period: 20s
+    restart: unless-stopped
+
+  # Web admin UI for browsing Chroma collections (flanker/chromadb-admin).
+  # Not an official Chroma project. Optional — start it only when you want a
+  # visual browser for the memory store.
+  #   docker compose up -d chroma chroma-admin
+  #   open http://localhost:3001  (connection string: http://chroma:8000)
+  chroma-admin:
+    image: fengzhichao/chromadb-admin:latest
+    ports:
+      - "3001:3001"
+    depends_on:
+      - chroma
     restart: unless-stopped
 
 volumes:

@@ -6,6 +6,10 @@ const z = tool.schema;
 
 const flowStore = new FileStore('flow');
 const stateStore = new FileStore('state');
+// Root store: goal.json + shutdown-ritual.json are OWNED by the MCP session
+// domain (~/.zara/goal.json). Read from the same file so the inject reminder
+// reflects the real goal set via the `goal` tool (no split-brain).
+const rootStore = new FileStore('');
 
 function getTimeUntilBed(bedtime) {
   const now = new Date();
@@ -17,69 +21,9 @@ function getTimeUntilBed(bedtime) {
   return { minsLeft, isPast: minsLeft < 0 };
 }
 
-class LoopService {
-  load() { return flowStore.readJSON('loops.json', []); }
-  save(loops) { flowStore.writeJSON('loops.json', loops); }
-
-  parseInterval(interval) {
-    const match = interval.match(/^(\d+)(s|m|h|d)$/);
-    if (!match) return null;
-    const [, num, unit] = match;
-    return parseInt(num) * { s: 1000, m: 60000, h: 3600000, d: 86400000 }[unit];
-  }
-
-  start(prompt, interval = '10m') {
-    const ms = this.parseInterval(interval);
-    if (!ms) return 'Invalid interval. Use: 30s, 5m, 1h, 1d';
-    const loops = this.load();
-    const id = Math.random().toString(36).slice(2, 8);
-    const loop = { id, interval, ms, prompt, startedAt: new Date().toISOString(), nextFire: new Date(Date.now() + ms).toISOString(), fireCount: 0 };
-    loops.push(loop);
-    this.save(loops);
-    return `Loop [${id}]: "${prompt}" every ${interval}\nNext: ${new Date(loop.nextFire).toLocaleTimeString()}`;
-  }
-
-  stop(target) {
-    if (!target) return 'Need loop ID or prompt text to stop.';
-    const loops = this.load();
-    const idx = loops.findIndex(l => l.id === target || l.prompt.includes(target));
-    if (idx === -1) return 'Loop not found.';
-    const removed = loops.splice(idx, 1)[0];
-    this.save(loops);
-    return `Stopped loop: "${removed.prompt}"`;
-  }
-
-  list() {
-    const loops = this.load();
-    if (!loops.length) return 'No active loops.';
-    return loops.map((l, i) => `${i + 1}. [${l.id}] every ${l.interval}: "${l.prompt}" (next: ${new Date(l.nextFire).toLocaleTimeString()})`).join('\n');
-  }
-
-  clear() { this.save([]); return 'All loops cleared.'; }
-
-  check() {
-    const loops = this.load();
-    const now = Date.now();
-    const fired = loops.filter(l => now >= new Date(l.nextFire).getTime());
-    if (!fired.length) return 'No loops due yet.';
-    for (const l of fired) {
-      l.nextFire = new Date(now + l.ms).toISOString();
-      l.fireCount = (l.fireCount || 0) + 1;
-    }
-    this.save(loops);
-    return 'LOOP REMINDERS:\n' + fired.map(l => `• [${l.id}] ${l.prompt}`).join('\n');
-  }
-
-  getDue() {
-    const loops = this.load();
-    const now = Date.now();
-    return { loops, due: loops.filter(l => now >= new Date(l.nextFire).getTime()) };
-  }
-}
-
 class GoalService {
-  load() { return flowStore.readJSON('goal.json', { active: false }); }
-  save(goal) { flowStore.writeJSON('goal.json', goal); }
+  load() { return rootStore.readJSON('goal.json', { active: false }); }
+  save(goal) { rootStore.writeJSON('goal.json', goal); }
 
   set(condition, maxTurns = 20) {
     const goal = { active: true, condition, turns: 0, maxTurns, startedAt: new Date().toISOString(), history: [] };
@@ -117,8 +61,8 @@ class GoalService {
 }
 
 class ShutdownService {
-  load() { return flowStore.readJSON('shutdown.json', { bedtime: '23:00', enabled: true, snoozed: false, snoozeUntil: null }); }
-  save(ritual) { flowStore.writeJSON('shutdown.json', ritual); }
+  load() { return rootStore.readJSON('shutdown-ritual.json', { bedtime: '23:00', enabled: true, snoozed: false, snoozeUntil: null }); }
+  save(ritual) { rootStore.writeJSON('shutdown-ritual.json', ritual); }
 
   configure(bedtime) {
     const ritual = this.load();
@@ -273,7 +217,6 @@ class ResumeService {
 // ─── Module Export ────────────────────────────────────────────────────────────
 
 export default function createFlow({ client, directory } = {}) {
-  const loops = new LoopService();
   const goals = new GoalService();
   const shutdown = new ShutdownService();
   const handoff = new HandoffService();
@@ -314,15 +257,6 @@ export default function createFlow({ client, directory } = {}) {
       const g = goals.load();
       if (g.active) {
         parts.push(`## Active Goal\n"${g.condition}" (turn ${g.turns}/${g.maxTurns})\nAfter completing work, call \`goal\` with action="check".`);
-      }
-
-      const { loops: allLoops, due } = loops.getDue();
-      if (due.length) {
-        parts.push(`## Loop Reminders Due\n${due.map(l => `• ${l.prompt}`).join('\n')}\nCall \`loop\` with action="check" to acknowledge.`);
-      } else if (allLoops.length) {
-        const next = allLoops.sort((a, b) => new Date(a.nextFire) - new Date(b.nextFire))[0];
-        const minsUntil = Math.round((new Date(next.nextFire).getTime() - Date.now()) / 60000);
-        if (minsUntil <= 5) parts.push(`## Loop reminder in ${minsUntil}min: "${next.prompt}"`);
       }
 
       const ritual = shutdown.load();

@@ -63,6 +63,6 @@
     "@opencode-ai/plugin": "^1.17.11"
   },
   "optionalDependencies": {
-    "chromadb": "^3.0.0"
+    "chromadb": "^3.5.0"
   }
 }

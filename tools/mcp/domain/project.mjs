@@ -87,7 +87,7 @@ class ProjectTools {
   get tools() {
     return {
       project_learn: {
-        description: 'Extract project knowledge (stack, structure, tests, CI) from the current workspace and store as scoped facts. Run once per project to teach Zara about the codebase.',
+        description: 'Extract project knowledge (stack, structure, tests, CI) as scoped facts. Run once per project.',
         inputSchema: {
           type: 'object',
           properties: {
@@ -99,7 +99,7 @@ class ProjectTools {
     };
   }
 
-  #handle(args) {
+  async #handle(args) {
     const root = path.resolve(args.path || process.cwd());
     if (!fs.existsSync(root)) return `Error: ${root} not found`;
 
@@ -120,7 +120,7 @@ class ProjectTools {
       for (const { slug, value } of facts) {
         const key = `project:${project}:${category}:${slug}`;
         const type = category === 'stack' ? 'architecture' : 'fact';
-        semanticLearn(key, value, 'observed', type, scope);
+        await semanticLearn(key, value, 'observed', type, scope);
         total++;
       }
       if (facts.length) summary.push(`${category}: ${facts.length}`);

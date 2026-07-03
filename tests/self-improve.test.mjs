@@ -61,41 +61,6 @@ describe('Self-Improve Tool', () => {
     assert.ok('priority' in parsed, 'full phase should include priority');
   });
 
-  it('loop tool can start a self-improvement loop', async () => {
-    const res = await server.handle({
-      jsonrpc: '2.0',
-      id: 4,
-      method: 'tools/call',
-      params: { name: 'loop', arguments: { action: 'start', prompt: 'self-improvement cycle', interval: '3h' } },
-    });
-
-    assert.ok(res.result);
-    const output = res.result.content[0].text;
-    assert.ok(output.includes('Loop started'), 'should confirm loop started');
-    assert.ok(output.includes('3h'), 'should show 3h interval');
-  });
-
-  it('loop tool can list and stop the self-improvement loop', async () => {
-    const listRes = await server.handle({
-      jsonrpc: '2.0',
-      id: 5,
-      method: 'tools/call',
-      params: { name: 'loop', arguments: { action: 'list' } },
-    });
-
-    assert.ok(listRes.result);
-    const listOutput = listRes.result.content[0].text;
-    assert.ok(listOutput.includes('self-improvement'), 'should list the self-improvement loop');
-
-    // Stop it
-    const stopRes = await server.handle({
-      jsonrpc: '2.0',
-      id: 6,
-      method: 'tools/call',
-      params: { name: 'loop', arguments: { action: 'stop', prompt: 'self-improvement' } },
-    });
-    assert.ok(stopRes.result);
-    const stopOutput = stopRes.result.content[0].text;
-    assert.ok(stopOutput.includes('Stopped'), 'should confirm loop stopped');
-  });
+  // Self-improvement is preserved as the on-demand zara_self_improve tool.
+  // The old timer-driven `loop` scheduling was removed (token/CPU waster).
 });

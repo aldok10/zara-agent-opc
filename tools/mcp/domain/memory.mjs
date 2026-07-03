@@ -10,13 +10,13 @@ class MemoryTools {
   get tools() {
     return {
       memory_recall: {
-        description: 'Search Zara memory (episodic, semantic, procedural). Supports scoped retrieval and token budget.',
-        inputSchema: { type: 'object', properties: { query: { type: 'string' }, layer: { type: 'string', enum: ['all', 'episodic', 'semantic', 'procedural'] }, scope: { type: 'string', description: 'File path or context for scoped retrieval' }, type: { type: 'string', enum: ['policy', 'workflow', 'pitfall', 'architecture', 'decision', 'preference', 'fact'], description: 'Filter by memory type' } }, required: ['query'] },
+        description: 'Search Zara memory (episodic/semantic/procedural). Scoped + token-budget aware.',
+        inputSchema: { type: 'object', properties: { query: { type: 'string' }, layer: { type: 'string', enum: ['all', 'episodic', 'semantic', 'procedural'] }, scope: { type: 'string', description: 'File path / context scope' }, type: { type: 'string', enum: ['policy', 'workflow', 'pitfall', 'architecture', 'decision', 'preference', 'fact'] } }, required: ['query'] },
         handler: (args) => this.#handleRecall(args),
       },
       memory_learn: {
-        description: 'Store a fact in semantic memory (key-value with metadata). Types: policy, workflow, pitfall, architecture, decision, preference, fact',
-        inputSchema: { type: 'object', properties: { key: { type: 'string', description: 'Memory key' }, value: { type: 'string', description: 'The fact to remember' }, source: { type: 'string', enum: ['user_explicit', 'observed', 'inferred', 'external_unverified'] }, type: { type: 'string', enum: ['policy', 'workflow', 'pitfall', 'architecture', 'decision', 'preference', 'fact'], description: 'Memory type for activation priority' }, scope: { type: 'string', description: 'File path or context scope (for scoped activation)' }, agent: { type: 'string', description: 'Which agent is storing this (provenance)' } }, required: ['key', 'value'] },
+        description: 'Store a fact in semantic memory (key-value + metadata).',
+        inputSchema: { type: 'object', properties: { key: { type: 'string' }, value: { type: 'string' }, source: { type: 'string', enum: ['user_explicit', 'observed', 'inferred', 'external_unverified'] }, type: { type: 'string', enum: ['policy', 'workflow', 'pitfall', 'architecture', 'decision', 'preference', 'fact'] }, scope: { type: 'string', description: 'File path / context scope' }, agent: { type: 'string' } }, required: ['key', 'value'] },
         handler: (args) => this.#handleLearn(args),
       },
       memory_episode: {
@@ -30,18 +30,18 @@ class MemoryTools {
         handler: (args) => this.#handleProcedure(args),
       },
       memory_consolidate: {
-        description: 'Run dreamer consolidation: merge duplicates, archive stale memories, promote recurring topics. Call periodically or at session end.',
+        description: 'Manual memory consolidation (merge dupes, archive stale, promote topics). session_log(end) runs this automatically.',
         inputSchema: { type: 'object', properties: {} },
         handler: () => this.#handleConsolidate(),
       },
       memory_contradictions: {
-        description: 'Detect semantically contradicting memories — same-type facts that are highly similar but say different things (e.g. "prefers X" vs "prefers Y"). Flags for review, does not auto-merge. Use to keep long-lived memory coherent.',
+        description: 'Detect contradicting memories (same-type, similar but conflicting, e.g. "prefers X" vs "prefers Y"). Flags for review, no auto-merge.',
         inputSchema: { type: 'object', properties: { threshold: { type: 'number', description: 'Similarity threshold 0-1 (default 0.85)' } } },
         handler: (args) => this.#handleContradictions(args),
       },
       memory_delete: {
-        description: 'Delete memories matching a pattern (searches key, value, event, outcome). Use for targeted cleanup of obsolete/incorrect memories.',
-        inputSchema: { type: 'object', properties: { pattern: { type: 'string', description: 'Pattern to match (substring, case-insensitive in SQLite LIKE)' }, dry_run: { type: 'boolean', description: 'If true, report what would be deleted without actually deleting' }, confirm: { type: 'boolean', description: 'Required true when deleting >10 entries' } }, required: ['pattern'] },
+        description: 'Delete memories matching a pattern (key/value/event/outcome). For cleanup of obsolete entries.',
+        inputSchema: { type: 'object', properties: { pattern: { type: 'string' }, dry_run: { type: 'boolean', description: 'Report without deleting' }, confirm: { type: 'boolean', description: 'Required when >10 match' } }, required: ['pattern'] },
         handler: (args) => this.#handleDelete(args),
       },
     };
@@ -56,18 +56,18 @@ class MemoryTools {
       if (layer === 'semantic') {
         let m;
         try { m = await semanticRecallAsync(args.query, 5, { scope: args.scope, type: args.type }); }
-        catch { m = semanticRecall(args.query, 5, { scope: args.scope, type: args.type }); }
+        catch { m = await semanticRecall(args.query, 5, { scope: args.scope, type: args.type }); }
         if (m.length) {
           for (const r of m) { if (recalledKeys.size < 20) recalledKeys.add(r.key); }
           results.push(m.map(r => `[${r.type || 'fact'}] ${r.key}: ${r.value}`).join('\n'));
         }
       }
       if (layer === 'episodic') {
-        const m = episodicRecall(args.query, 5);
+        const m = await episodicRecall(args.query, 5);
         if (m.length) results.push(m.map(r => `[${r.ts?.split('T')[0]}] ${r.event}${r.outcome ? ' → ' + r.outcome : ''}`).join('\n'));
       }
       if (layer === 'procedural') {
-        const m = proceduralRecall(args.query, 3);
+        const m = await proceduralRecall(args.query, 3);
         if (m.length) results.push(m.map(r => `${r.name}: ${JSON.parse(r.steps).join(' → ')}`).join('\n'));
       }
       return results.join('\n\n') || `No memories for "${args.query}"`;
@@ -81,7 +81,7 @@ class MemoryTools {
     // Semantic layer
     let sem;
     try { sem = await semanticRecallAsync(args.query, 8, { scope: args.scope, type: args.type }); }
-    catch { sem = semanticRecall(args.query, 8, { scope: args.scope, type: args.type }); }
+    catch { sem = await semanticRecall(args.query, 8, { scope: args.scope, type: args.type }); }
     for (let rank = 0; rank < sem.length; rank++) {
       const r = sem[rank];
       const id = `sem:${r.key}`;
@@ -93,7 +93,7 @@ class MemoryTools {
     }
 
     // Episodic layer
-    const epi = episodicRecall(args.query, 5);
+    const epi = await episodicRecall(args.query, 5);
     for (let rank = 0; rank < epi.length; rank++) {
       const r = epi[rank];
       const id = `epi:${r.id || r.event.slice(0, 40)}`;
@@ -104,7 +104,7 @@ class MemoryTools {
     }
 
     // Procedural layer
-    const proc = proceduralRecall(args.query, 3);
+    const proc = await proceduralRecall(args.query, 3);
     for (let rank = 0; rank < proc.length; rank++) {
       const r = proc[rank];
       const id = `proc:${r.name}`;
@@ -121,7 +121,7 @@ class MemoryTools {
     return ranked.map(r => r.display).join('\n');
   }
 
-  #handleLearn(args) {
+  async #handleLearn(args) {
     const memType = args.type || 'fact';
     const source = args.source || 'observed';
     const agent = args.agent || '';
@@ -146,26 +146,26 @@ class MemoryTools {
         return `⚠️ Refused: external_unverified content cannot be stored as ${memType}. Use type 'fact' for external content.`;
       }
     }
-    const result = semanticLearn(args.key, args.value, source, memType, args.scope || '', { agent });
+    const result = await semanticLearn(args.key, args.value, source, memType, args.scope || '', { agent });
     return `Stored: ${result.key} = ${result.value} [${result.type}]`;
   }
 
-  #handleEpisode(args) {
-    const result = episodicRecord(args.event, args.outcome || '', args.tags || []);
+  async #handleEpisode(args) {
+    const result = await episodicRecord(args.event, args.outcome || '', args.tags || []);
     return `Recorded: ${result.event}`;
   }
 
-  #handleProcedure(args) {
-    const result = proceduralSave(args.name, args.steps, args.context || '');
+  async #handleProcedure(args) {
+    const result = await proceduralSave(args.name, args.steps, args.context || '');
     return `Saved procedure: ${result.name} (${result.steps} steps)`;
   }
 
   async #handleConsolidate() {
-    const r = dreamConsolidate();
+    const r = await dreamConsolidate();
     let conflicts = [];
     try { conflicts = await detectContradictionsAsync(); } catch (e) { process.stderr.write(`[mcp:memory] detectContradictions failed: ${e.message}\n`); }
     // Regenerate user profile cache
-    try { const { regenerateProfileCache } = await import('./identity.mjs'); regenerateProfileCache(); } catch {}
+    try { const { regenerateProfileCache } = await import('./identity.mjs'); await regenerateProfileCache(); } catch {}
     const conflictNote = conflicts.length
       ? `\n⚠️ ${conflicts.length} potential contradiction(s) detected — run memory_contradictions to review.`
       : '';
@@ -181,21 +181,21 @@ class MemoryTools {
       flagged.map(f => `- [${f.type}] "${f.a}" (trust:${(f.trust_a ?? 0.5).toFixed(2)}) vs "${f.b}" (trust:${(f.trust_b ?? 0.5).toFixed(2)}) (${(f.sim * 100).toFixed(0)}% similar)`).join('\n');
   }
 
-  #handleDelete(args) {
+  async #handleDelete(args) {
     if (!args.pattern || args.pattern.length < 3) return 'Pattern must be at least 3 characters.';
     if (args.dry_run) {
-      const counts = countByPattern(args.pattern);
+      const counts = await countByPattern(args.pattern);
       const total = counts.semantic + counts.episodic + counts.procedural;
       return `Dry run: would delete ${counts.semantic} semantic, ${counts.episodic} episodic, ${counts.procedural} procedural entries (${total} total) matching "${args.pattern}"`;
     }
     // CONSTITUTION P7: bulk delete gate
-    const counts = countByPattern(args.pattern);
+    const counts = await countByPattern(args.pattern);
     const total = counts.semantic + counts.episodic + counts.procedural;
     if (total > 10 && !args.confirm) {
       return `⚠️ Bulk delete blocked: ${total} entries match "${args.pattern}". Pass confirm: true to proceed, or use a more specific pattern.`;
     }
-    const result = deleteByPattern(args.pattern);
-    if (result.error) return `Refused: ${result.error}. Would affect ${result.total} entries (${result.semantic} semantic, ${result.episodic} episodic, ${result.procedural} procedural). Use a more specific pattern.`;
+    const result = await deleteByPattern(args.pattern);
+    if (result.error) return `Refused: ${result.error} (${result.semantic} semantic match). Use a more specific pattern.`;
     return `Deleted: ${result.semantic} semantic, ${result.episodic} episodic, ${result.procedural} procedural entries matching "${args.pattern}"`;
   }
 }

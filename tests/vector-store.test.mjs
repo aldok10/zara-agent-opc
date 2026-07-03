@@ -20,4 +20,17 @@ describe('vector-store adapter', () => {
     assert.equal(typeof mod.CHROMA_ENABLED, 'boolean');
     assert.equal(typeof mod.VECTOR_BACKEND, 'string');
   });
+
+  it('store exposes upsert, upsertBatch, query, reachable, count, remove', async () => {
+    // Force-enable to inspect the store shape without a running server.
+    process.env.ZARA_VECTOR = 'chroma';
+    const mod = await import('../tools/vector-store.mjs?shape');
+    const store = mod.getVectorStore();
+    if (store) {
+      for (const m of ['upsert', 'upsertBatch', 'query', 'reachable', 'count', 'remove']) {
+        assert.equal(typeof store[m], 'function', `missing ${m}`);
+      }
+    }
+    delete process.env.ZARA_VECTOR;
+  });
 });

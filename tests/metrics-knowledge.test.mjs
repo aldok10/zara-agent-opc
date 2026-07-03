@@ -8,8 +8,8 @@ describe('metrics domain', () => {
     assert.ok(metricsTools.dashboard);
   });
 
-  it('dashboard (all) returns a string', () => {
-    const out = metricsTools.dashboard.handler({ section: 'all' });
+  it('dashboard (all) returns a string', async () => {
+    const out = await metricsTools.dashboard.handler({ section: 'all' });
     assert.equal(typeof out, 'string');
     assert.ok(out.length > 0);
   });
@@ -20,7 +20,7 @@ describe('knowledge domain', () => {
     assert.ok(knowledgeTools.knowledge_index);
     assert.ok(knowledgeTools.knowledge_passage);
     assert.ok(knowledgeTools.knowledge_load_init);
-    assert.ok(knowledgeTools.team_knowledge);
+    assert.ok(!knowledgeTools.team_knowledge, 'team_knowledge removed (dead, solo user)');
   });
 
   it('knowledge_index list_sections returns a string', () => {
@@ -33,10 +33,5 @@ describe('knowledge domain', () => {
     const out = await knowledgeTools.knowledge_passage.handler({ query: 'zzz_nonexistent_topic_xyz_qqq' });
     assert.equal(typeof out, 'string');
     assert.ok(out.length > 0);
-  });
-
-  it('team_knowledge returns a string', () => {
-    const out = knowledgeTools.team_knowledge.handler({ query: 'test' });
-    assert.equal(typeof out, 'string');
   });
 });

@@ -13,6 +13,7 @@ import createVoice from './zara/voice/index.mjs';
 import createWorkspace from './zara/workspace/index.mjs';
 import createDebate from './zara/debate/index.mjs';
 import createHarness from './zara/harness/index.mjs';
+import createProactive from './zara/proactive/index.mjs';
 
 export const id = 'zara';
 
@@ -32,10 +33,11 @@ export async function server({ client, directory }) {
   const workspace = createWorkspace(config);
   const debate = createDebate(config);
   const harness = createHarness(config);
+  const proactive = createProactive(config);
 
   // Unified hook dispatch — all modules get called in consistent order
   function each(fn) {
-    for (const m of [observe, memory, flow, dev, social, evolve, empathy, relationship, voice, workspace, debate, harness]) {
+    for (const m of [observe, memory, flow, dev, social, evolve, empathy, relationship, voice, workspace, debate, harness, proactive]) {
       fn(m);
     }
   }
@@ -120,6 +122,7 @@ export async function server({ client, directory }) {
       ...workspace.tools,
       ...debate.tools,
       ...harness.tools,
+      ...proactive.tools,
     },
 
     // Cleanup

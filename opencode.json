@@ -34,6 +34,17 @@
         "bash": "deny"
       }
     },
+    "requirements-clarifier": {
+      "description": "Scout \u2014 requirements clarifier, turns vague requests into specs (read-only)",
+      "mode": "subagent",
+      "prompt": "{file:.opencode/agent/scout.md}",
+      "temperature": 0.2,
+      "steps": 10,
+      "permission": {
+        "edit": "deny",
+        "bash": "deny"
+      }
+    },
     "code-reviewer": {
       "description": "Lens \u2014 code review specialist, quality, smells, refactoring",
       "mode": "subagent",

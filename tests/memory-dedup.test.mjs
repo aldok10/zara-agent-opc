@@ -12,28 +12,28 @@ describe('dedup-on-learn', () => {
   before(() => { store = new MemoryStore(tmpHome); });
   after(() => { store.close(); fs.rmSync(tmpHome, { recursive: true }); });
 
-  it('deduplicates near-identical values of same type', () => {
-    store.learn('orig', 'golang is excellent for building concurrent systems', 'observed', 'fact');
-    const r = store.learn('dupe', 'golang is excellent for building concurrent system', 'observed', 'fact');
+  it('deduplicates near-identical values of same type', async () => {
+    await store.learn('orig', 'golang is excellent for building concurrent systems', 'observed', 'fact');
+    const r = await store.learn('dupe', 'golang is excellent for building concurrent system', 'observed', 'fact');
     assert.equal(r.deduped, true);
   });
 
-  it('does NOT dedup different types even if values are similar', () => {
-    store.learn('arch-entry', 'prefer simple architecture patterns always', 'observed', 'architecture');
-    const r = store.learn('fact-entry', 'prefer simple architecture patterns always', 'observed', 'fact');
+  it('does NOT dedup different types even if values are similar', async () => {
+    await store.learn('arch-entry', 'prefer simple architecture patterns always', 'observed', 'architecture');
+    const r = await store.learn('fact-entry', 'prefer simple architecture patterns always', 'observed', 'fact');
     assert.notEqual(r.deduped, true);
   });
 
-  it('skips dedup for short values (<= 10 chars)', () => {
-    store.learn('short1', 'use Go', 'observed', 'fact');
-    const r = store.learn('short2', 'use Go', 'observed', 'fact');
+  it('skips dedup for short values (<= 10 chars)', async () => {
+    await store.learn('short1', 'use Go', 'observed', 'fact');
+    const r = await store.learn('short2', 'use Go', 'observed', 'fact');
     assert.notEqual(r.deduped, true);
   });
 
-  it('increments reinforced on dedup target', () => {
-    store.learn('reinf-orig', 'this is a sufficiently long value for dedup testing purposes', 'observed', 'fact');
-    store.learn('reinf-dupe', 'this is a sufficiently long value for dedup testing purpose', 'observed', 'fact');
-    const results = store.recall('reinf-orig', 1, {});
+  it('increments reinforced on dedup target', async () => {
+    await store.learn('reinf-orig', 'this is a sufficiently long value for dedup testing purposes', 'observed', 'fact');
+    await store.learn('reinf-dupe', 'this is a sufficiently long value for dedup testing purpose', 'observed', 'fact');
+    const results = await store.recall('reinf-orig', 1, {});
     assert.ok(results.length > 0);
     // The original should have been reinforced
   });

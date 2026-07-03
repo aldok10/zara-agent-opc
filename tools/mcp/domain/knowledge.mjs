@@ -9,6 +9,7 @@ import {
   knowledgeChunkUpsert, knowledgeChunkSearch, knowledgeChunkSearchAsync, knowledgeChunkUpsertAsync, knowledgeChunkCount
 } from '../../memory-db.mjs';
 import { SemanticEmbedder } from '../../embedder.mjs';
+import { parseBundle, isOkfBundle, mapType, validateBundle } from '../../memory/okf.mjs';
 
 const SECTION_TYPE_MAP = {
   principles: 'policy',
@@ -90,8 +91,65 @@ class KnowledgeTools {
     const knowledgeDir = path.join(resolvedRoot, 'knowledge');
     if (!fs.existsSync(knowledgeDir)) return `Error: ${knowledgeDir} not found`;
 
+    // Detect format: OKF bundle or legacy Hugo-style
+    if (isOkfBundle(knowledgeDir)) {
+      return this.#loadOkfBundle(knowledgeDir, args.dry_run);
+    }
+    return this.#loadLegacyBundle(knowledgeDir, args.dry_run);
+  }
+
+  // OKF bundle loader: uses the OKF parser for proper conformant loading.
+  async #loadOkfBundle(knowledgeDir, dryRun) {
+    const concepts = parseBundle(knowledgeDir);
+    if (dryRun) {
+      const validation = validateBundle(concepts);
+      return `OKF bundle detected. ${concepts.length} concepts found.${validation.valid ? ' All conformant.' : `\nNon-conformant: ${validation.errors.length} errors:\n${validation.errors.slice(0, 5).join('\n')}`}`;
+    }
+
+    let stored = 0, errors = [];
+    for (const concept of concepts) {
+      try {
+        const section = concept.conceptId.includes('/') ? concept.conceptId.split('/')[0] : 'standalone';
+        const memType = concept.type ? mapType(concept.type) : (SECTION_TYPE_MAP[section] || 'fact');
+        const key = `knowledge.${section}.${concept.conceptId.split('/').pop()}`;
+
+        // Build summary from OKF fields
+        const summary = concept.description
+          ? `${concept.title}: ${concept.description}`
+          : concept.body
+            ? `${concept.title}: ${concept.body.split(/\n\n/).find(p => p.trim() && !p.startsWith('#'))?.replace(/\n/g, ' ').slice(0, 300) || ''}`
+            : concept.title;
+
+        // Store in knowledge table
+        knowledgeUpsert(key, section, concept.title, summary, concept.file, memType);
+
+        // Store in semantic memory (for FTS recall)
+        await semanticLearn(key, summary, 'observed', memType, `knowledge/${concept.file}`);
+
+        // Chunk + embed the full body for passage retrieval
+        if (concept.body) {
+          try {
+            const embedder = SemanticEmbedder.instance();
+            await knowledgeChunkUpsertAsync(key, section, concept.body, embedder);
+          } catch {
+            try { await knowledgeChunkUpsert(key, section, concept.body); } catch (e2) { errors.push(`${concept.file}[fallback]: ${e2.message}`); }
+          }
+        }
+        stored++;
+      } catch (e) {
+        errors.push(`${concept.file}: ${e.message}`);
+      }
+    }
+
+    const sections = knowledgeSections().map(s => `${s.section}(${s.count})`).join(', ');
+    const chunkCount = await knowledgeChunkCount();
+    return `OKF bundle loaded: ${stored} concepts stored, ${errors.length} errors.\nPassages indexed: ${chunkCount}.\nSections: ${sections}${errors.length ? '\nErrors:\n' + errors.slice(0, 5).join('\n') : ''}`;
+  }
+
+  // Legacy loader (Hugo-style frontmatter without `type` field).
+  async #loadLegacyBundle(knowledgeDir, dryRun) {
     const files = this.#walkMd(knowledgeDir);
-    if (args.dry_run) return `Found ${files.length} knowledge files in ${knowledgeDir}`;
+    if (dryRun) return `Found ${files.length} knowledge files in ${knowledgeDir} (legacy format)`;
 
     let stored = 0, skipped = 0, errors = [];
 
@@ -107,7 +165,6 @@ class KnowledgeTools {
         const basename = path.basename(file, '.md');
         const key = `knowledge.${section}.${basename}`;
 
-        // Build summary: title + description or first meaningful paragraph
         let summary = '';
         if (description) {
           summary = `${title}: ${description}`;
@@ -118,19 +175,15 @@ class KnowledgeTools {
           summary = title;
         }
 
-        // Store in knowledge table (fast indexed lookup)
         knowledgeUpsert(key, section, title || basename, summary, rel, memType);
-
-        // Also store in semantic memory (for FTS recall)
         await semanticLearn(key, summary, 'observed', memType, `knowledge/${rel}`);
 
-        // Chunk + embed the full body for passage retrieval
         if (body) {
           try {
             const embedder = SemanticEmbedder.instance();
             await knowledgeChunkUpsertAsync(key, section, body, embedder);
           } catch {
-            try { knowledgeChunkUpsert(key, section, body); } catch (e2) { errors.push(`${file}[fallback]: ${e2.message}`); }
+            try { await knowledgeChunkUpsert(key, section, body); } catch (e2) { errors.push(`${file}[fallback]: ${e2.message}`); }
           }
         }
         stored++;
@@ -140,7 +193,8 @@ class KnowledgeTools {
     }
 
     const sections = knowledgeSections().map(s => `${s.section}(${s.count})`).join(', ');
-    return `Knowledge seeded: ${stored} stored, ${skipped} skipped, ${errors.length} errors.\nPassages indexed: ${knowledgeChunkCount()}.\nSections: ${sections}${errors.length ? '\nErrors:\n' + errors.slice(0, 5).join('\n') : ''}`;
+    const chunkCount = await knowledgeChunkCount();
+    return `Knowledge seeded: ${stored} stored, ${skipped} skipped, ${errors.length} errors.\nPassages indexed: ${chunkCount}.\nSections: ${sections}${errors.length ? '\nErrors:\n' + errors.slice(0, 5).join('\n') : ''}`;
   }
 
   async #handleKnowledgePassage(args) {

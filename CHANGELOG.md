@@ -7,6 +7,69 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.0] - 2026-06-26
 
+## [1.2.0] - 2026-07-03
+
+### Added
+- feat(memory): optional Chroma vector backend behind ZARA_VECTOR flag (92d73f7)
+- feat(memory): contradiction detection using stored vector embeddings (#108) (fc90442)
+- feat(memory): warm embedder on MCP server startup (#107) (a9894f0)
+- feat(memory): backfill embeddings for all memory layers (213f6ef)
+- feat(memory): warm embedder on session start (#98) (#105) (1fc3335)
+- feat(memory): warm embedder on session start (#98) (499a55a)
+- feat(memory): embed all layers on write + hybrid recall (#91, #92, #93, #94) (#104) (bd5de25)
+- feat(memory): embed procedural layer on write (memory_procedure) (#103) (c1689fa)
+- feat(memory): embed episodic layer on write (memory_episode) (#102) (b43d535)
+- feat(memory): embed semantic layer on write (memory_learn) (#101) (2e40efc)
+- feat: npm publish support - npx zara-agent-opc (v1.2.0) (2d0d00d)
+- feat: add 'zara cost' and 'zara health' CLI commands (e743238)
+- feat: Windows PowerShell installer + cross-platform fixes (#72, #73, #74) (a936923)
+- feat: single-command AI-friendly bootstrap script (#79) (1146c80)
+- feat: cross-platform CI matrix, security fix, performance cap (700a5f5)
+- feat: MCP rate limiter (120/min) + zara-commit helper script (#78) (ffb260d)
+- feat: self-audit implementation (issues #7-#30) (ecbd6aa)
+
+### Fixed
+- fix(chroma): healthcheck, pattern search, backfill + README overhaul (4917786)
+- fix(ci): update bats structure tests for merged philosophy.md (f9b59ac)
+- fix(config): add model/small_model/lsp for reliable subagent dispatch (6bf02a3)
+- fix(test): Windows EPERM on temp dir cleanup (7f5d5a8)
+- fix: dead code cleanup + I/O debounce + MCP timeout (#88, #89, #90) (d9d9d63)
+- fix: Windows CI failure + README accuracy + install robustness (982e6a7)
+- fix(ci): use 'npm install' instead of 'npm ci' for cross-platform compat (24161d2)
+- fix(ci): add --experimental-sqlite flag, fix macOS timeout issue (553102c)
+- fix(ci): remove skill-manifest.json and skill-integrity checks (824bfba)
+- fix: Dockerfile non-root, Node version gate, key rotation warning (#77) (ba542aa)
+- fix: version hardcode in install.sh, correct Node engine to >=22.14.0 (#70) (507c7b1)
+- fix: self-audit v2 - cross-platform hardening (2d89a6a)
+
+### Changed
+- refactor(plugin): remove dead code, fix broken phase-gate hook (35e43b0)
+- refactor(prompts): compress agent + command prompts (6309175)
+- refactor(plugin): cut 9 theater/duplicate tools (YAGNI) (a3d6eef)
+- perf(memory): pre-filter candidates before vector scan (#106) (e999d87)
+- refactor: remove 30 duplicated project skills (all in ~/.agents/skills/) (4484126)
+
+### Documentation
+- docs: merge philosophy into system.md, fold GSD loop, fix antipatterns (8dd0e9c)
+- docs: update tools-reference.md with accurate tool counts and missing domains (#109) (764acd8)
+- docs: README one-liner install + AI-mode docs + Node 22.14+ requirement (02dcc56)
+- docs: update roadmap with v1.1.1 shipped + v1.2.0 milestones (20effbe)
+- docs: update roadmap to reflect v1.1.0 shipped status (5be38e0)
+
+### Maintenance
+- chore(scripts): propagate model/lsp on install, drop philosophy refs (26a2182)
+- chore(ci): bump actions/setup-node from 4 to 6 (#113) (30f35e0)
+- test: update stale tests for removed tools and changed voice behavior (326b60a)
+- chore(ci): bump github/codeql-action from 3 to 4 (#112) (a720f35)
+- chore(ci): bump actions/dependency-review-action from 4 to 5 (#111) (625e171)
+- chore(deps): bump @opencode-ai/plugin from 1.17.10 to 1.17.11 (#110) (bc1da15)
+- test(memory): recall quality benchmark (paraphrase + negative cases) (a4a5534)
+
+### Other
+- Merge pull request #115 from aldok10/zara/fix-ci-structure-tests (336f6ce)
+- Merge pull request #114 from aldok10/zara/yagni-sweep-config-fix (82ca636)
+
+
 ### Added
 - feat(plugin): 77-route skill auto-router with new-skill-creation detection
 - feat(plugin): auto-suggest skill creation for unmatched technical topics via web research

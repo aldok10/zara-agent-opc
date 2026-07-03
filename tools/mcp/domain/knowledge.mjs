@@ -8,7 +8,7 @@ import {
 } from '../../memory-db.mjs';
 import { SemanticEmbedder } from '../../embedder.mjs';
 import { CHROMA_ENABLED } from '../../vector-store.mjs';
-import { parseBundle, isOkfBundle, mapType } from '../../memory/okf.mjs';
+import { parseBundle, isOkfBundle, mapType, validateBundle } from '../../memory/okf.mjs';
 
 const SECTION_TYPE_MAP = {
   principles: 'policy',
@@ -160,24 +160,26 @@ class KnowledgeTools {
       db.prepare('DELETE FROM knowledge WHERE key LIKE ?').run('knowledge.%');
       db.prepare('DELETE FROM knowledge_chunks WHERE key LIKE ?').run('knowledge.%');
     }
-
     for (const concept of concepts) {
       try {
         const section = concept.conceptId.includes('/') ? concept.conceptId.split('/')[0] : 'standalone';
         const memType = concept.type ? mapType(concept.type) : (SECTION_TYPE_MAP[section] || 'fact');
         const key = `knowledge.${section}.${concept.conceptId.split('/').pop()}`;
 
+        // Build summary from OKF fields
         const summary = concept.description
           ? `${concept.title}: ${concept.description}`
           : concept.body
             ? `${concept.title}: ${concept.body.split(/\n\n/).find(p => p.trim() && !p.startsWith('#'))?.replace(/\n/g, ' ') || ''}`
             : concept.title;
 
-        // SQLite knowledge table (always)
+        // Store in knowledge table
         knowledgeUpsert(key, section, concept.title, summary, concept.file, memType);
 
-        // Semantic memory + chunks — routes to SQLite or Chroma via adapter
+        // Store in semantic memory (for FTS recall)
         await semanticLearn(key, summary, 'observed', memType, `knowledge/${concept.file}`);
+
+        // Chunk + embed the full body for passage retrieval
         if (concept.body) {
           try {
             const embedder = SemanticEmbedder.instance();
@@ -234,7 +236,6 @@ class KnowledgeTools {
 
         // SQLite knowledge table (always — metadata/index layer)
         knowledgeUpsert(key, section, title || basename, summary, rel, memType);
-
         // Semantic memory + chunks — routes to SQLite or Chroma via adapter
         await semanticLearn(key, summary, 'observed', memType, `knowledge/${rel}`);
         if (body) {
@@ -325,6 +326,7 @@ class KnowledgeTools {
     const description = meta.match(/^description:\s*(.+)/m)?.[1]?.trim() || '';
     return { title, description, body };
   }
+
 }
 
 export default new KnowledgeTools().tools;

@@ -175,7 +175,6 @@ class ChromaStore {
       total -= batch.ids.length;
     }
   }
-
   async count() {
     const col = await this.#init();
     return col.count();

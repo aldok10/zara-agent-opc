@@ -129,49 +129,12 @@
     }
   },
   "command": {
-    "audit": {
-      "template": "{file:.opencode/commands/audit.md}"
-    },
-    "auto": {
-      "template": "{file:.opencode/commands/auto.md}"
-    },
-    "decide": {
-      "template": "{file:.opencode/commands/decide.md}",
-      "agent": "architect"
-    },
-    "distill": {
-      "template": "{file:.opencode/commands/distill.md}"
-    },
-    "focus": {
-      "template": "{file:.opencode/commands/focus.md}"
-    },
-    "goal": {
-      "template": "{file:.opencode/commands/goal.md}"
-    },
-    "handoff": {
-      "template": "{file:.opencode/commands/handoff.md}"
-    },
-    "install": {
-      "template": "{file:.opencode/commands/install.md}"
-    },
-    "loop": {
-      "template": "{file:.opencode/commands/loop.md}"
-    },
-    "music": {
-      "template": "{file:.opencode/commands/music.md}"
-    },
-    "resume": {
-      "template": "{file:.opencode/commands/resume.md}"
+    "code": {
+      "template": "{file:.opencode/commands/code.md}"
     },
     "review": {
       "template": "{file:.opencode/commands/review.md}",
       "agent": "code-reviewer"
-    },
-    "shutdown": {
-      "template": "{file:.opencode/commands/shutdown.md}"
-    },
-    "standup": {
-      "template": "{file:.opencode/commands/standup.md}"
     },
     "swarm": {
       "template": "{file:.opencode/commands/swarm.md}",
@@ -180,23 +143,11 @@
     "think": {
       "template": "{file:.opencode/commands/think.md}"
     },
-    "code": {
-      "template": "{file:.opencode/commands/code.md}"
+    "handoff": {
+      "template": "{file:.opencode/commands/handoff.md}"
     },
-    "zara": {
-      "template": "{file:.opencode/commands/zara.md}"
-    },
-    "version": {
-      "template": "{file:.opencode/commands/version.md}"
-    },
-    "update": {
-      "template": "{file:.opencode/commands/update.md}"
-    },
-    "debate": {
-      "template": "{file:.opencode/commands/debate.md}"
-    },
-    "learn": {
-      "template": "{file:.opencode/commands/learn.md}"
+    "resume": {
+      "template": "{file:.opencode/commands/resume.md}"
     }
   },
   "plugin": [

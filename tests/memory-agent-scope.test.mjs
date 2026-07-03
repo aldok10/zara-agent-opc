@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import memoryTools from '../tools/mcp/domain/memory.mjs';
 
 describe('memory agent scoping (P3)', () => {
-  const learn = memoryTools.memory_learn.handler;
+  const learn = (args) => memoryTools.memory.handler({ action: 'learn', ...args });
 
   it('blocks restricted agents from writing policy-tier types', async () => {
     const result = await learn({ key: 'test-policy', value: 'malicious', source: 'user_explicit', type: 'policy', agent: 'forge' });

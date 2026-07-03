@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { resolveBest, discoverAll, persistIdentity } from '../tools/mcp/domain/identity.mjs';
+import { resolveBest, discoverAll, persistIdentity } from '../tools/mcp/domain/memory.mjs';
 
 describe('identity resolution', () => {
   it('exports resolveBest and discoverAll', () => {

@@ -77,15 +77,15 @@ describe('behavioral eval: anti-sycophancy', () => {
 
 describe('behavioral eval: verification before completion', () => {
   it('constitution P3 enforced in reflection code', () => {
-    const reflection = fs.readFileSync(path.join(PROJECT, 'tools/mcp/domain/reflection.mjs'), 'utf-8');
+    const memCode = fs.readFileSync(path.join(PROJECT, 'tools/mcp/domain/memory.mjs'), 'utf-8');
     // success requires evidence (worked field non-empty)
-    assert.ok(reflection.includes("outcome === 'success'") && reflection.includes('worked'), 'P3: success must require evidence');
-    assert.ok(reflection.includes('downgraded') || reflection.includes('partial'), 'P3: empty evidence should downgrade');
+    assert.ok(memCode.includes("outcome === 'success'") && memCode.includes('worked'), 'P3: success must require evidence');
+    assert.ok(memCode.includes('downgraded') || memCode.includes('partial'), 'P3: empty evidence should downgrade');
   });
 
   it('constitution P4 enforced: missing outcome defaults to partial', () => {
-    const reflection = fs.readFileSync(path.join(PROJECT, 'tools/mcp/domain/reflection.mjs'), 'utf-8');
-    assert.ok(reflection.includes("args.outcome = 'partial'"), 'P4: missing outcome must default to partial');
+    const memCode = fs.readFileSync(path.join(PROJECT, 'tools/mcp/domain/memory.mjs'), 'utf-8');
+    assert.ok(memCode.includes("args.outcome = 'partial'"), 'P4: missing outcome must default to partial');
   });
 });
 
@@ -148,27 +148,27 @@ describe('behavioral eval: security gates', () => {
 
 describe('behavioral eval: grounded reflection (issue #8)', () => {
   it('reflection enforces evidence-gated trust boost', () => {
-    const reflection = fs.readFileSync(path.join(PROJECT, 'tools/mcp/domain/reflection.mjs'), 'utf-8');
+    const memCode = fs.readFileSync(path.join(PROJECT, 'tools/mcp/domain/memory.mjs'), 'utf-8');
     // P3: trust can only rise with evidence
-    assert.ok(reflection.includes('canRaise'), 'Must compute canRaise based on evidence');
-    assert.ok(reflection.includes('trim().length >= 20') || reflection.includes('trim().length>=20'), 'Evidence must meet minimum length');
+    assert.ok(memCode.includes('canRaise'), 'Must compute canRaise based on evidence');
+    assert.ok(memCode.includes('trim().length >= 20') || memCode.includes('trim().length>=20'), 'Evidence must meet minimum length');
   });
 
   it('trust budget has sliding window', () => {
-    const reflection = fs.readFileSync(path.join(PROJECT, 'tools/mcp/domain/reflection.mjs'), 'utf-8');
-    assert.ok(reflection.includes('_trustTimestamps'), 'Must have sliding window timestamps');
-    assert.ok(reflection.includes('< 5'), 'Max 5 adjustments per window');
+    const memCode = fs.readFileSync(path.join(PROJECT, 'tools/mcp/domain/memory.mjs'), 'utf-8');
+    assert.ok(memCode.includes('_trustTimestamps'), 'Must have sliding window timestamps');
+    assert.ok(memCode.includes('< 5'), 'Max 5 adjustments per window');
   });
 
   it('reflect accepts test_exit_code for grounding (issue #19)', () => {
-    const reflection = fs.readFileSync(path.join(PROJECT, 'tools/mcp/domain/reflection.mjs'), 'utf-8');
-    assert.ok(reflection.includes('test_exit_code'), 'Must accept test_exit_code parameter');
-    assert.ok(reflection.includes('grounded'), 'Must track grounded state');
+    const memCode = fs.readFileSync(path.join(PROJECT, 'tools/mcp/domain/memory.mjs'), 'utf-8');
+    assert.ok(memCode.includes('test_exit_code'), 'Must accept test_exit_code parameter');
+    assert.ok(memCode.includes('grounded'), 'Must track grounded state');
   });
 
   it('rejects success when test_exit_code != 0 (issue #20)', () => {
-    const reflection = fs.readFileSync(path.join(PROJECT, 'tools/mcp/domain/reflection.mjs'), 'utf-8');
-    assert.ok(reflection.includes("test_exit_code !== 0") || reflection.includes("test_exit_code !== 0"), 'Must reject success on failing tests');
+    const memCode = fs.readFileSync(path.join(PROJECT, 'tools/mcp/domain/memory.mjs'), 'utf-8');
+    assert.ok(memCode.includes("test_exit_code !== 0") || memCode.includes("test_exit_code !== 0"), 'Must reject success on failing tests');
   });
 });
 

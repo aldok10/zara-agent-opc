@@ -1,15 +1,14 @@
 import { describe, it, before } from 'node:test';
 import assert from 'node:assert/strict';
 import { McpServer } from '../tools/mcp/server.mjs';
-import improveTools from '../tools/mcp/domain/improve.mjs';
-import sessionTools from '../tools/mcp/domain/session.mjs';
+import memoryTools from '../tools/mcp/domain/memory.mjs';
 
 describe('Self-Improve Tool', () => {
   let server;
 
   before(() => {
     server = new McpServer('test-server', '1.0.0');
-    server.registerAll([improveTools, sessionTools]);
+    server.registerAll([memoryTools]);
   });
 
   it('zara_self_improve phase observe returns signals', async () => {
@@ -17,7 +16,7 @@ describe('Self-Improve Tool', () => {
       jsonrpc: '2.0',
       id: 1,
       method: 'tools/call',
-      params: { name: 'zara_self_improve', arguments: { phase: 'observe' } },
+      params: { name: 'memory', arguments: { action: 'system', op: 'improve', phase: 'observe' } },
     });
 
     assert.ok(res.result);
@@ -35,7 +34,7 @@ describe('Self-Improve Tool', () => {
       jsonrpc: '2.0',
       id: 2,
       method: 'tools/call',
-      params: { name: 'zara_self_improve', arguments: { phase: 'orient' } },
+      params: { name: 'memory', arguments: { action: 'system', op: 'improve', phase: 'orient' } },
     });
 
     assert.ok(res.result);
@@ -51,7 +50,7 @@ describe('Self-Improve Tool', () => {
       jsonrpc: '2.0',
       id: 3,
       method: 'tools/call',
-      params: { name: 'zara_self_improve', arguments: { phase: 'full' } },
+      params: { name: 'memory', arguments: { action: 'system', op: 'improve', phase: 'full' } },
     });
 
     assert.ok(res.result);
@@ -61,6 +60,6 @@ describe('Self-Improve Tool', () => {
     assert.ok('priority' in parsed, 'full phase should include priority');
   });
 
-  // Self-improvement is preserved as the on-demand zara_self_improve tool.
+  // Self-improvement is preserved via memory action:'system' op:'improve'.
   // The old timer-driven `loop` scheduling was removed (token/CPU waster).
 });

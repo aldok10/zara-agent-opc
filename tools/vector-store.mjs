@@ -155,6 +155,26 @@ class ChromaStore {
     }
   }
 
+  // Remove all entries matching a metadata filter. Uses Chroma server-side
+  // filtering so you don't have to fetch + filter client-side.
+  // `where` is a Chroma metadata filter object, e.g. { key: { "$eq": "knowledge.foo" } }.
+  async removeByWhere(where) {
+    if (!where || !Object.keys(where).length) return;
+    const col = await this.#init();
+    await col.delete({ where });
+  }
+
+  // Remove ALL entries from this collection. Paginates internally.
+  async removeAll(batchSize = 1000) {
+    const col = await this.#init();
+    let total = await col.count();
+    while (total > 0) {
+      const batch = await col.get({ limit: batchSize, include: [] });
+      if (!batch.ids?.length) break;
+      await col.delete({ ids: batch.ids });
+      total -= batch.ids.length;
+    }
+  }
   async count() {
     const col = await this.#init();
     return col.count();

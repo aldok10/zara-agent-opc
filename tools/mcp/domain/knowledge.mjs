@@ -1,14 +1,13 @@
 import fs from 'fs';
 import path from 'path';
-import os from 'os';
 import { fileURLToPath } from 'url';
-import { HOME, loadJson } from '../infra.mjs';
 import {
-  semanticLearn,
+  semanticLearn, getDb,
   knowledgeUpsert, knowledgeBySection, knowledgeSearch, knowledgeSections, knowledgeCount,
   knowledgeChunkUpsert, knowledgeChunkSearch, knowledgeChunkSearchAsync, knowledgeChunkUpsertAsync, knowledgeChunkCount
 } from '../../memory-db.mjs';
 import { SemanticEmbedder } from '../../embedder.mjs';
+import { CHROMA_ENABLED } from '../../vector-store.mjs';
 import { parseBundle, isOkfBundle, mapType, validateBundle } from '../../memory/okf.mjs';
 
 const SECTION_TYPE_MAP = {
@@ -31,13 +30,14 @@ class KnowledgeTools {
   get tools() {
     return {
       knowledge_load_init: {
-        description: 'Seed knowledge/ markdown into semantic memory (one-time; force=true re-seeds).',
+        description: 'Seed all knowledge from knowledge/ folder into SQLite index + vector backend (Chroma if ZARA_VECTOR=chroma). One call writes to both stores. Use force=true to re-seed. Reports backend used.',
         inputSchema: {
           type: 'object',
           properties: {
-            path: { type: 'string' },
-            dry_run: { type: 'boolean' },
-            force: { type: 'boolean' },
+            path: { type: 'string', description: 'Project root (looks for knowledge/ subfolder)' },
+            dry_run: { type: 'boolean', description: 'Count files without writing' },
+            force: { type: 'boolean', description: 'Re-seed even if already seeded' },
+            include_skills: { type: 'boolean', description: 'Also sync skill files (default: true)' },
           },
         },
         handler: (args) => this.#handleKnowledgeLoadInit(args),
@@ -67,33 +67,17 @@ class KnowledgeTools {
         },
         handler: (args) => this.#handleKnowledgePassage(args),
       },
-      knowledge_sync_chroma: {
-        description: 'Sync knowledge + skills to Chroma (requires ZARA_VECTOR=chroma).',
-        inputSchema: {
-          type: 'object',
-          properties: {
-            include_skills: { type: 'boolean' },
-          },
-        },
-        handler: (args) => this.#handleSyncChroma(args),
-      },
     };
   }
 
-  async #handleKnowledgeLoadInit(args) {
-    // Check if already seeded (skip unless forced)
-    if (!args.force && !args.dry_run) {
-      const count = knowledgeCount();
-      if (count > 0) {
-        return `Already seeded (${count} articles in knowledge table). Use force=true to re-seed.`;
-      }
-    }
+  get #backendLabel() {
+    return CHROMA_ENABLED ? 'ChromaDB' : 'SQLite';
+  }
 
-    // Resolve knowledge dir: explicit path > cwd > MCP server's own project
+  async #handleKnowledgeLoadInit(args) {
     const serverRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
     const root = args.path || (fs.existsSync(path.join(process.cwd(), 'knowledge')) ? process.cwd() : serverRoot);
     const resolvedRoot = path.resolve(root);
-    // Prevent path traversal: must be within serverRoot or cwd
     const allowedBases = [path.resolve(serverRoot), path.resolve(process.cwd())];
     if (args.path && !allowedBases.some(base => resolvedRoot.startsWith(base + path.sep) || resolvedRoot === base)) {
       return `Error: path must be within the project directory`;
@@ -101,22 +85,81 @@ class KnowledgeTools {
     const knowledgeDir = path.join(resolvedRoot, 'knowledge');
     if (!fs.existsSync(knowledgeDir)) return `Error: ${knowledgeDir} not found`;
 
-    // Detect format: OKF bundle or legacy Hugo-style
-    if (isOkfBundle(knowledgeDir)) {
-      return this.#loadOkfBundle(knowledgeDir, args.dry_run);
+    const includeSkills = args.include_skills !== false;
+
+    // Dry run: just count
+    if (args.dry_run) {
+      const files = this.#walkMd(knowledgeDir);
+      let msg = `Found ${files.length} knowledge files in ${knowledgeDir}`;
+      if (includeSkills) {
+        const skillDirs = fs.readdirSync(path.join(serverRoot, '.opencode/skills'), { withFileTypes: true })
+          .filter(d => d.isDirectory() && fs.existsSync(path.join(serverRoot, '.opencode/skills', d.name, 'SKILL.md')));
+        msg += `, ${skillDirs.length} skills`;
+      }
+      msg += `.\nVector backend: ${this.#backendLabel}.`;
+      return msg;
     }
-    return this.#loadLegacyBundle(knowledgeDir, args.dry_run);
+
+    // Detect format
+    const loader = isOkfBundle(knowledgeDir) ? this.#loadOkfBundle.bind(this) : this.#loadLegacyBundle.bind(this);
+
+    // Force: bulk-clear Chroma knowledge entries first (much faster than per-key delete)
+    if (args.force && CHROMA_ENABLED) {
+      try {
+        const { getVectorStore } = await import('../../vector-store.mjs');
+        // Delete all knowledge chunks by fetching IDs in pages
+        const kChunks = getVectorStore('zara_knowledge');
+        if (kChunks) await kChunks.removeAll();
+        // Delete knowledge entries from semantic collection
+        const kSemantic = getVectorStore('zara_semantic');
+        if (kSemantic) {
+          // Chroma doesn't support pattern delete; page through all and delete matching
+          const all = await kSemantic.getAll(null, 10000);
+          const toDelete = all.filter(e => e.metadata.key?.startsWith('knowledge.'));
+          if (toDelete.length) await kSemantic.removeMany(toDelete.map(e => e.id || e.key));
+        }
+      } catch { /* cleanup best-effort; per-key delete in adapter handles leftovers */ }
+    }
+
+    const result = await loader(knowledgeDir, args.force);
+
+    // Sync skills if requested
+    let skillsSynced = 0;
+    if (includeSkills) {
+      const skillsDir = path.join(serverRoot, '.opencode/skills');
+      if (fs.existsSync(skillsDir)) {
+        for (const entry of fs.readdirSync(skillsDir, { withFileTypes: true })) {
+          if (!entry.isDirectory()) continue;
+          const skillMd = path.join(skillsDir, entry.name, 'SKILL.md');
+          if (!fs.existsSync(skillMd)) continue;
+          try {
+            const content = fs.readFileSync(skillMd, 'utf-8');
+            const key = `skill.${entry.name}`;
+            await semanticLearn(key, `Skill ${entry.name}`, 'observed', 'workflow', `skills/${entry.name}`);
+            await knowledgeChunkUpsert(key, 'skills', content);
+            skillsSynced++;
+          } catch (e) { /* skip unreadable skills */ }
+        }
+      }
+    }
+
+    const chunkCount = await knowledgeChunkCount();
+    return `${result}\nSkills synced: ${skillsSynced}\nVector backend: ${this.#backendLabel}\nTotal chunks: ${chunkCount}`;
   }
 
   // OKF bundle loader: uses the OKF parser for proper conformant loading.
-  async #loadOkfBundle(knowledgeDir, dryRun) {
+  async #loadOkfBundle(knowledgeDir, force) {
     const concepts = parseBundle(knowledgeDir);
-    if (dryRun) {
-      const validation = validateBundle(concepts);
-      return `OKF bundle detected. ${concepts.length} concepts found.${validation.valid ? ' All conformant.' : `\nNon-conformant: ${validation.errors.length} errors:\n${validation.errors.slice(0, 5).join('\n')}`}`;
-    }
+    if (!concepts.length) return 'No concepts found.';
 
     let stored = 0, errors = [];
+
+    // Force: clear existing knowledge entries before re-seeding
+    if (force) {
+      const db = getDb();
+      db.prepare('DELETE FROM knowledge WHERE key LIKE ?').run('knowledge.%');
+      db.prepare('DELETE FROM knowledge_chunks WHERE key LIKE ?').run('knowledge.%');
+    }
     for (const concept of concepts) {
       try {
         const section = concept.conceptId.includes('/') ? concept.conceptId.split('/')[0] : 'standalone';
@@ -127,7 +170,7 @@ class KnowledgeTools {
         const summary = concept.description
           ? `${concept.title}: ${concept.description}`
           : concept.body
-            ? `${concept.title}: ${concept.body.split(/\n\n/).find(p => p.trim() && !p.startsWith('#'))?.replace(/\n/g, ' ').slice(0, 300) || ''}`
+            ? `${concept.title}: ${concept.body.split(/\n\n/).find(p => p.trim() && !p.startsWith('#'))?.replace(/\n/g, ' ') || ''}`
             : concept.title;
 
         // Store in knowledge table
@@ -152,16 +195,22 @@ class KnowledgeTools {
     }
 
     const sections = knowledgeSections().map(s => `${s.section}(${s.count})`).join(', ');
-    const chunkCount = await knowledgeChunkCount();
-    return `OKF bundle loaded: ${stored} concepts stored, ${errors.length} errors.\nPassages indexed: ${chunkCount}.\nSections: ${sections}${errors.length ? '\nErrors:\n' + errors.slice(0, 5).join('\n') : ''}`;
+    return `OKF bundle loaded: ${stored} concepts stored, ${errors.length} errors.\nSections: ${sections}${errors.length ? '\nErrors:\n' + errors.slice(0, 5).join('\n') : ''}`;
   }
 
   // Legacy loader (Hugo-style frontmatter without `type` field).
-  async #loadLegacyBundle(knowledgeDir, dryRun) {
+  async #loadLegacyBundle(knowledgeDir, force) {
     const files = this.#walkMd(knowledgeDir);
-    if (dryRun) return `Found ${files.length} knowledge files in ${knowledgeDir} (legacy format)`;
+    if (!files.length) return 'No markdown files found.';
 
     let stored = 0, skipped = 0, errors = [];
+
+    // Force: clear existing knowledge entries before re-seeding
+    if (force) {
+      const db = getDb();
+      db.prepare('DELETE FROM knowledge WHERE key LIKE ?').run('knowledge.%');
+      db.prepare('DELETE FROM knowledge_chunks WHERE key LIKE ?').run('knowledge.%');
+    }
 
     for (const file of files) {
       try {
@@ -180,14 +229,15 @@ class KnowledgeTools {
           summary = `${title}: ${description}`;
         } else if (body) {
           const firstPara = body.split(/\n\n/).find(p => p.trim() && !p.startsWith('![') && !p.startsWith('#'));
-          summary = firstPara ? `${title}: ${firstPara.replace(/\n/g, ' ').slice(0, 300)}` : title;
+          summary = firstPara ? `${title}: ${firstPara.replace(/\n/g, ' ')}` : title;
         } else {
           summary = title;
         }
 
+        // SQLite knowledge table (always — metadata/index layer)
         knowledgeUpsert(key, section, title || basename, summary, rel, memType);
+        // Semantic memory + chunks — routes to SQLite or Chroma via adapter
         await semanticLearn(key, summary, 'observed', memType, `knowledge/${rel}`);
-
         if (body) {
           try {
             const embedder = SemanticEmbedder.instance();
@@ -203,15 +253,13 @@ class KnowledgeTools {
     }
 
     const sections = knowledgeSections().map(s => `${s.section}(${s.count})`).join(', ');
-    const chunkCount = await knowledgeChunkCount();
-    return `Knowledge seeded: ${stored} stored, ${skipped} skipped, ${errors.length} errors.\nPassages indexed: ${chunkCount}.\nSections: ${sections}${errors.length ? '\nErrors:\n' + errors.slice(0, 5).join('\n') : ''}`;
+    return `Knowledge seeded: ${stored} stored, ${skipped} skipped, ${errors.length} errors.\nSections: ${sections}${errors.length ? '\nErrors:\n' + errors.slice(0, 5).join('\n') : ''}`;
   }
 
   async #handleKnowledgePassage(args) {
     if (knowledgeChunkCount() === 0) {
       return 'No passages indexed. Run knowledge_load_init (or force=true to re-seed) to build the passage index.';
     }
-    // Use SemanticEmbedder for quality search; fall back to trigram if model unavailable
     let hits;
     try {
       const embedder = SemanticEmbedder.instance();
@@ -240,7 +288,6 @@ class KnowledgeTools {
 
     let results;
     if (args.section && args.query) {
-      // Both: filter section results by query
       results = knowledgeBySection(args.section).filter(r => {
         const q = args.query.toLowerCase();
         return r.title.toLowerCase().includes(q) || r.summary.toLowerCase().includes(q);
@@ -250,7 +297,6 @@ class KnowledgeTools {
     } else if (args.query) {
       results = knowledgeSearch(args.query);
     } else {
-      // No filter — show sections overview
       return this.#handleKnowledgeIndex({ list_sections: true });
     }
 
@@ -276,77 +322,9 @@ class KnowledgeTools {
     if (!fm) return { title: '', description: '', body: content };
     const meta = fm[1];
     const body = fm[2].trim();
-    // Handle multiline or single-line frontmatter fields with blank lines between them
     const title = meta.match(/^title:\s*(.+)/m)?.[1]?.trim() || '';
     const description = meta.match(/^description:\s*(.+)/m)?.[1]?.trim() || '';
     return { title, description, body };
-  }
-
-  async #handleSyncChroma(args) {
-    if (process.env.ZARA_VECTOR !== 'chroma') {
-      return 'Error: ZARA_VECTOR must be "chroma" to sync. Set ZARA_VECTOR=chroma and restart.';
-    }
-
-    const serverRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
-    const includeSkills = args.include_skills !== false;
-    let synced = 0, skillsSynced = 0, errors = [];
-
-    // Sync knowledge/
-    const knowledgeDir = path.join(serverRoot, 'knowledge');
-    if (fs.existsSync(knowledgeDir)) {
-      if (isOkfBundle(knowledgeDir)) {
-        const concepts = parseBundle(knowledgeDir);
-        for (const concept of concepts) {
-          try {
-            const section = concept.conceptId.includes('/') ? concept.conceptId.split('/')[0] : 'standalone';
-            const memType = concept.type ? mapType(concept.type) : (SECTION_TYPE_MAP[section] || 'fact');
-            const key = `knowledge.${section}.${concept.conceptId.split('/').pop()}`;
-            const summary = concept.description ? `${concept.title}: ${concept.description}` : concept.title;
-
-            await semanticLearn(key, summary, 'observed', memType, `knowledge/${concept.file}`);
-            if (concept.body) await knowledgeChunkUpsert(key, section, concept.body);
-            synced++;
-          } catch (e) { errors.push(`${concept.file}: ${e.message}`); }
-        }
-      } else {
-        const files = this.#walkMd(knowledgeDir);
-        for (const file of files) {
-          try {
-            const content = fs.readFileSync(file, 'utf-8');
-            const rel = path.relative(knowledgeDir, file);
-            const section = rel.includes(path.sep) ? rel.split(path.sep)[0] : 'standalone';
-            const { title, body } = this.#parseFrontmatter(content);
-            if (!title && !body) continue;
-            const key = `knowledge.${section}.${path.basename(file, '.md')}`;
-            await semanticLearn(key, title || path.basename(file, '.md'), 'observed', SECTION_TYPE_MAP[section] || 'fact', `knowledge/${rel}`);
-            if (body) await knowledgeChunkUpsert(key, section, body);
-            synced++;
-          } catch (e) { errors.push(`${file}: ${e.message}`); }
-        }
-      }
-    }
-
-    // Sync skills/
-    if (includeSkills) {
-      const skillsDir = path.join(serverRoot, '.opencode/skills');
-      if (fs.existsSync(skillsDir)) {
-        for (const entry of fs.readdirSync(skillsDir, { withFileTypes: true })) {
-          if (!entry.isDirectory()) continue;
-          const skillMd = path.join(skillsDir, entry.name, 'SKILL.md');
-          if (!fs.existsSync(skillMd)) continue;
-          try {
-            const content = fs.readFileSync(skillMd, 'utf-8');
-            const key = `skill.${entry.name}`;
-            await semanticLearn(key, `Skill ${entry.name}`, 'observed', 'workflow', `skills/${entry.name}`);
-            await knowledgeChunkUpsert(key, 'skills', content);
-            skillsSynced++;
-          } catch (e) { errors.push(`skill/${entry.name}: ${e.message}`); }
-        }
-      }
-    }
-
-    const chunkCount = await knowledgeChunkCount();
-    return `Synced to Chroma: ${synced} knowledge articles, ${skillsSynced} skills. Chunks: ${chunkCount}.${errors.length ? `\nErrors (${errors.length}): ${errors.slice(0, 3).join('; ')}` : ''}`;
   }
 
 }

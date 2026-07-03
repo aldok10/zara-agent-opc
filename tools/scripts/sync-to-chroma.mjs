@@ -77,7 +77,7 @@ if (fs.existsSync(knowledgeDir)) {
         const key = `knowledge.${section}.${concept.conceptId.split('/').pop()}`;
         const summary = concept.description
           ? `${concept.title}: ${concept.description}`
-          : `${concept.title}: ${(concept.body || '').slice(0, 200)}`;
+          : `${concept.title}: ${(concept.body || '').split(/\n\n/).find(p => p.trim() && !p.startsWith('#'))?.replace(/\n/g, ' ') || concept.title}`;
 
         // Semantic memory (summaries for recall)
         await store.learn(key, summary, { source: 'observed', type: memType, scope: `knowledge/${concept.file}` });
@@ -116,13 +116,24 @@ if (fs.existsSync(knowledgeDir)) {
         const basename = path.basename(file, '.md');
         const key = `knowledge.${section}.${basename}`;
 
-        // Extract title from frontmatter
-        const titleMatch = content.match(/^title:\s*(.+)/m);
+        // Extract title + description from frontmatter (same regex as MCP tool)
+        // Uses /^---\s*\n.../ which only matches actual YAML frontmatter at file start,
+        // NOT horizontal rules (---) used later in the document.
+        const fm = content.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)/);
+        const meta = fm ? fm[1] : '';
+        const body = fm ? fm[2].trim() : content;
+        const titleMatch = meta.match(/^title:\s*(.+)/m);
         const title = titleMatch?.[1]?.trim()?.replace(/^["']|["']$/g, '') || basename;
-        const fmEnd = content.indexOf('\n---', 4);
-        const body = fmEnd > 0 ? content.slice(fmEnd + 4).trim() : content;
+        const descMatch = meta.match(/^description:\s*(.+)/m);
+        const description = descMatch?.[1]?.trim() || '';
 
-        const summary = `${title}: ${body.split(/\n\n/).find(p => p.trim() && !p.startsWith('#'))?.replace(/\n/g, ' ').slice(0, 200) || ''}`;
+        let summary;
+        if (description) {
+          summary = `${title}: ${description}`;
+        } else {
+          const firstPara = body.split(/\n\n/).find(p => p.trim() && !p.startsWith('#'));
+          summary = `${title}: ${firstPara ? firstPara.replace(/\n/g, ' ') : ''}`;
+        }
         await store.learn(key, summary, { source: 'observed', type: 'fact', scope: `knowledge/${rel}` });
 
         if (body) {

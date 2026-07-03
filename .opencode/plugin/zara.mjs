@@ -1,5 +1,5 @@
 // Zara — Composition Root
-// Imports all 11 domain modules, dispatches hooks, aggregates tools
+// Imports all 13 domain modules, dispatches hooks, aggregates tools
 
 import createObserve from './zara/observe/index.mjs';
 import createMemory from './zara/memory/index.mjs';

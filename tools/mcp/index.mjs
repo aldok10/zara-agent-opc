@@ -13,6 +13,7 @@ if (major < 22 || (major === 22 && minor < 14)) {
 
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { McpServer } from './server.mjs';
 import { HOME, ensure, loadJson } from './infra.mjs';
 import {
@@ -32,6 +33,11 @@ import projectTools from './domain/project.mjs';
 import identityTools from './domain/identity.mjs';
 import improveTools from './domain/improve.mjs';
 
+// Version: single source of truth is package.json
+const PKG_PATH = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '..', 'package.json');
+let VERSION = '0.0.0';
+try { VERSION = JSON.parse(fs.readFileSync(PKG_PATH, 'utf8')).version || VERSION; } catch { /* fall back */ }
+
 // Initialize
 const MEM_DIR = path.join(HOME, 'memory');
 const REFLECT_DIR = path.join(HOME, 'reflections');
@@ -43,7 +49,7 @@ getDb();
 SemanticEmbedder.instance().embed('warmup').catch(() => {});
 
 // Create server
-const server = new McpServer('zara-mcp', '0.1.0');
+const server = new McpServer('zara-mcp', VERSION);
 
 // Register all tools
 server.registerAll([memoryTools, reflectionTools, metricsTools, sessionTools, musicTools, knowledgeTools, auditTools, projectTools, identityTools, improveTools]);
@@ -79,4 +85,4 @@ try {
 // music domain; self-improvement stays fully available, just not timer-driven.
 
 process.on('exit', () => { closeDb(); });
-process.stderr.write('Zara MCP server v0.1.0 running (stdio)\n');
+process.stderr.write(`Zara MCP server v${VERSION} running (stdio)\n`);

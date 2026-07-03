@@ -26,7 +26,7 @@ Zara is a persistent, self-improving AI engineering partner built on the Model C
 - Embeddings: @huggingface/transformers (MiniLM-L6-v2, 384-dim)
 - Protocol: Model Context Protocol (MCP) via stdio
 - Platform: OpenCode
-- Architecture: Domain-Driven Design (DDD-lite), plugin system with 11 modules
+- Architecture: Domain-Driven Design (DDD-lite), plugin system with 13 modules
 
 ## Category
 - AI Agent Framework

@@ -168,7 +168,7 @@ function generateEntryPoints() {
   const entries = [
     ['opencode.json', 'Agent configuration root'],
     ['tools/mcp/index.mjs', 'MCP server entry'],
-    ['.opencode/plugin/zara.mjs', 'Plugin composition root (11 modules)'],
+    ['.opencode/plugin/zara.mjs', 'Plugin composition root (13 modules)'],
     ['.opencode/instructions/system.md', 'Behavior rules'],
     ['AGENTS.md', 'Agent dispatch + routing'],
   ];

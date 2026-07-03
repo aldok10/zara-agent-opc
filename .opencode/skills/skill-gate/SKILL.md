@@ -1,6 +1,6 @@
 ---
 name: skill-gate
-description: Auto-activation enforcement - ensures relevant skills are invoked BEFORE any response. Load this at session start or after compaction.
+description: Ensure relevant skills are invoked before response
 trigger: session start, context compaction, new task
 ---
 

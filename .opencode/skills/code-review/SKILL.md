@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: Use when requesting a code review, receiving review feedback, or handling review comments - workflow for giving and responding to reviews with technical rigor.
+description: Code review workflow with technical rigor
 triggers:
   - code review
   - review my code

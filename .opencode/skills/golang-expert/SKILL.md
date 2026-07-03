@@ -1,6 +1,6 @@
 ---
 name: golang-expert
-description: Go engineering orchestrator - senior Go developer DNA, stdlib-first, context-driven decisions, Uber style guide, 100 Go Mistakes. Routes to specialized subskills.
+description: Go engineering: stdlib-first, context-driven, Uber style
 ---
 
 # Go Expert

@@ -1,6 +1,6 @@
 ---
 name: executing-plans
-description: Use when you have a written implementation plan to execute without subagents - batch execution with review checkpoints
+description: Batch-execute implementation plans with review checkpoints
 trigger: plan execution inline, batch implementation, no subagent execution
 ---
 

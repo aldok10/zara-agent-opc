@@ -1,6 +1,6 @@
 ---
 name: zara-hitl
-description: Use when requesting human approval before risky operations, running QRSPI structured workflows, escalating to user when stuck or uncertain, or rating confidence before complex changes
+description: Request human approval before risky operations
 ---
 
 # Skill: zara-hitl - Human In The Loop

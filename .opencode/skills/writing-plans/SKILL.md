@@ -1,6 +1,6 @@
 ---
 name: writing-plans
-description: Write comprehensive implementation plans before touching code. Use when you have a spec/requirements for a multi-step task.
+description: Write implementation plans before touching code
 trigger: After brainstorming approval, or when user has clear requirements for implementation
 ---
 

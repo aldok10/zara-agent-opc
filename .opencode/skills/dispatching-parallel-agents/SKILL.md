@@ -1,6 +1,6 @@
 ---
 name: dispatching-parallel-agents
-description: Use when facing 3+ independent tasks that can run concurrently without shared state
+description: Coordinate 3+ independent concurrent tasks
 trigger: multiple independent failures, parallel investigation, concurrent tasks
 ---
 

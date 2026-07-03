@@ -1,6 +1,6 @@
 ---
 name: gitreverse-learn
-description: Study external GitHub projects via GitReverse API to extract patterns for Zara improvement
+description: Study GitHub projects via GitReverse API for patterns
 trigger: /learn from <owner/repo>, user asks to learn from a GitHub project wants Zara improvement patterns
 ---
 

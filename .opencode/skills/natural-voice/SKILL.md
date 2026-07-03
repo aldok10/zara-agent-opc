@@ -1,7 +1,7 @@
 ---
 name: natural-voice
 version: 1.1.0
-description: Self-regulation skill for natural, human-like writing. The hot-path subset auto-injects every turn via the voice plugin module; load this skill for the full depth (numeric targets, replacement table, cognitive simulation, Indonesian code-switching).
+description: Natural human-like writing with anti-AI-detection patterns
 license: MIT
 compatibility: opencode
 ---

@@ -1,6 +1,6 @@
 ---
 name: connection-template
-description: Template for creating external service integration skills. Load when building a new connection skill for Slack, GitHub, Linear, Notion, or any SaaS API.
+description: Template for external service integration skills
 trigger: creating integration skill, connecting external service, building API connection
 ---
 

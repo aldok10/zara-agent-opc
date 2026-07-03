@@ -1,6 +1,6 @@
 ---
 name: verification-before-completion
-description: Use when about to claim work is complete or fixed - requires running verification commands before making success claims
+description: Run verification commands before claiming done
 triggers:
   - about to say "done", "fixed", "working", "complete"
   - before committing changes

@@ -1,6 +1,6 @@
 ---
 name: git-expert
-description: Use for Git operations - branching, rebasing, merge conflicts, history rewriting, and workflow decisions. Git expert covering cherry-pick, bisect, reflog, and recovery.
+description: Git operations: branching, rebasing, conflicts, history
 ---
 # Git Operations Expert
 

@@ -1,6 +1,6 @@
 ---
 name: typescript-expert
-description: TypeScript engineering orchestrator - senior TS developer DNA (10+ yrs), TS 5.9/6.0, strict-first, type-safety as design, Node 24+/ESM/Bun, Effect & Zod boundaries. Routes to specialized subskills.
+description: TypeScript 5.9+: strict-first, type-safety, Node 24+/ESM
 ---
 
 # TypeScript Expert

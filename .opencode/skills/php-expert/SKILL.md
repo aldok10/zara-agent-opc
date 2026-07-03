@@ -1,6 +1,6 @@
 ---
 name: php-expert
-description: PHP engineering orchestrator - senior PHP 8.4 developer, PSR standards, Swoole, FrankenPHP, RoadRunner, DDD, performance, security. Routes to specialized subskills.
+description: PHP 8.4 engineering: PSR, Swoole, FrankenPHP, DDD
 ---
 
 # PHP Expert

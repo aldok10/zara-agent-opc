@@ -1,6 +1,6 @@
 ---
 name: golang-compare
-description: Compare Go code quality with and without golang-expert skill applied. Use when asked to demonstrate skill value, review existing code against standards, or benchmark code quality improvement.
+description: Compare Go code quality with/without golang-expert skill
 ---
 
 # Go Code Comparison - With vs Without Skill

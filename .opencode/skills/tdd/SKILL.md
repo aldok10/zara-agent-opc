@@ -1,6 +1,6 @@
 ---
 name: tdd
-description: Use when implementing any feature or bugfix, before writing implementation code. Enforces RED-GREEN-REFACTOR discipline with zero tolerance for code-before-test.
+description: RED-GREEN-REFACTOR discipline, test before implementation
 triggers:
   - implement feature
   - fix bug

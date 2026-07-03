@@ -1,6 +1,6 @@
 ---
 name: git-worktrees
-description: Use when starting feature work that needs isolation from current workspace
+description: Start isolated feature work via git worktrees
 triggers:
   - "new feature branch"
   - "isolate work"

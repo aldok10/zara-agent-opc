@@ -1,6 +1,6 @@
 ---
 name: zara-privacy-mcp
-description: Use when making database (SQL/MongoDB/Redis), HTTP API, or AI provider calls through the Zara Privacy MCP gateway, or when scanning/redacting secrets and PII. 21 tools with automatic data masking.
+description: Database/API/AI calls through privacy gateway with masking
 ---
 
 # Zara Privacy MCP

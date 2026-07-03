@@ -1,6 +1,6 @@
 ---
 name: codebase-onboarding
-description: Use when entering an unfamiliar codebase to build a fast, accurate mental model. Read-only exploration with structured output at three depth levels.
+description: Build mental model of unfamiliar codebase (read-only)
 triggers:
   - new repo
   - unfamiliar codebase

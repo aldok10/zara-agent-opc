@@ -1,6 +1,6 @@
 ---
 name: finishing-branch
-description: Use when implementation is complete and all tests pass - guides integration decision
+description: Guide integration after implementation complete and tests pass
 triggers:
   - "finish branch"
   - "done with branch"

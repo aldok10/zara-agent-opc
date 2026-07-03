@@ -1,6 +1,6 @@
 ---
 name: leadership-expert
-description: Leadership & empathetic orchestration - coaching, decision frameworks, team dynamics, delegation, emotional intelligence. Routes to specialized subskills.
+description: Leadership coaching, decision frameworks, team dynamics
 ---
 
 # Leadership Expert

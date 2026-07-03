@@ -1,6 +1,6 @@
 ---
 name: auto-resume
-description: Use when Zara activates to check for saved session state - detects incomplete work and proactively offers to resume without user prompting, using MCP memory recall
+description: Check for saved session state on activation, offer to resume
 tags:
   - zara
   - auto-resume

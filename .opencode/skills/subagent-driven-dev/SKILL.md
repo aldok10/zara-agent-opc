@@ -1,6 +1,6 @@
 ---
 name: subagent-driven-dev
-description: Use when executing implementation plans with independent tasks in the current session. Coordinates fresh subagents per task with mandatory review gates.
+description: Coordinate fresh subagents per task with review gates
 trigger: implementation plan execution, multi-task dispatch, parallel workstream coordination
 ---
 

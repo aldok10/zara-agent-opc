@@ -1,6 +1,6 @@
 ---
 name: conventional-commits
-description: Conventional Commits format for standardized, machine-readable commit messages. Load when committing, writing commit messages, or setting up commit conventions.
+description: Conventional Commits format for commit messages
 ---
 # Conventional Commits
 

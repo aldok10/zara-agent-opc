@@ -185,8 +185,35 @@ if (fs.existsSync(skillsDir)) {
   log('  .opencode/skills/ not found, skipping.\n');
 }
 
+// --- Backfill: migrate legacy entries that have value in metadata but no document ---
+log('\n=== Backfilling legacy entries (metadata.value -> documents) ===');
+const semanticVs = getVectorStore('zara_semantic');
+const allSemantic = await semanticVs.getAll(null, 10000);
+const legacy = allSemantic.filter(e => (!e.document || e.document.length === 0) && e.metadata.value);
+if (legacy.length) {
+  let backfilled = 0;
+  for (const entry of legacy) {
+    try {
+      const value = entry.metadata.value;
+      const key = entry.metadata.key || entry.key;
+      const text = `${key}: ${value}`.slice(0, 3000);
+      const vec = await embedder.embed(text);
+      // Remove value from metadata (it goes into document now)
+      const cleanMeta = { ...entry.metadata };
+      delete cleanMeta.value;
+      await semanticVs.upsert(entry.key, vec, cleanMeta, value);
+      backfilled++;
+    } catch (e) {
+      stats.errors.push(`backfill ${entry.key}: ${e.message}`);
+    }
+  }
+  log(`  Migrated ${backfilled}/${legacy.length} legacy entries to documents field.`);
+} else {
+  log('  No legacy entries to backfill.');
+}
+
 // --- Summary ---
-log('=== Sync Complete ===');
+log('\n=== Sync Complete ===');
 log(`  Knowledge articles: ${stats.knowledge}`);
 log(`  Skills: ${stats.skills}`);
 log(`  Passage sets: ${stats.chunks}`);

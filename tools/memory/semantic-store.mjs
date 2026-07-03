@@ -356,7 +356,7 @@ export class ChromaSemanticStore {
   async deleteByPattern(pattern) {
     const all = await this.#vectorStore.getAll(null, MAX_SCAN);
     const match = all.filter(e =>
-      (e.metadata.key || e.key).includes(pattern) || (e.metadata.value || '').includes(pattern)
+      (e.metadata.key || e.key).includes(pattern) || (e.document || e.metadata.value || '').includes(pattern)
     );
     if (match.length > 50) return { error: 'Pattern too broad', semantic: match.length, total: match.length };
     // Audit log (Constitution P7)
@@ -371,7 +371,7 @@ export class ChromaSemanticStore {
   async countByPattern(pattern) {
     const all = await this.#vectorStore.getAll(null, MAX_SCAN);
     return all.filter(e =>
-      (e.metadata.key || e.key).includes(pattern) || (e.metadata.value || '').includes(pattern)
+      (e.metadata.key || e.key).includes(pattern) || (e.document || e.metadata.value || '').includes(pattern)
     ).length;
   }
 

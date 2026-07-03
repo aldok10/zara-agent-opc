@@ -30,46 +30,41 @@ class KnowledgeTools {
   get tools() {
     return {
       knowledge_load_init: {
-        description: 'Scan ALL knowledge/ markdown files and batch-store to semantic memory. Skips if already seeded (use force=true to re-seed). Also builds a fast-lookup index.',
+        description: 'Seed knowledge/ markdown into semantic memory (one-time; force=true re-seeds).',
         inputSchema: {
           type: 'object',
           properties: {
-            path: { type: 'string', description: 'Project root path (defaults to cwd)' },
-            dry_run: { type: 'boolean', description: 'If true, count files without storing' },
-            force: { type: 'boolean', description: 'Force re-seed even if already done' },
+            path: { type: 'string' },
+            dry_run: { type: 'boolean' },
+            force: { type: 'boolean' },
           },
         },
         handler: (args) => this.#handleKnowledgeLoadInit(args),
       },
       knowledge_index: {
-        description: 'Search the knowledge index by section, keyword, or list all sections. Fast lookup without FTS.',
+        description: 'Search knowledge index by section/keyword, or list sections. Fast, no FTS.',
         inputSchema: {
           type: 'object',
           properties: {
-            section: { type: 'string', description: 'Filter by section (e.g. principles, antipatterns, design-patterns)' },
-            query: { type: 'string', description: 'Keyword filter within results' },
-            list_sections: { type: 'boolean', description: 'Just list available sections with counts' },
+            section: { type: 'string' },
+            query: { type: 'string' },
+            list_sections: { type: 'boolean' },
           },
         },
         handler: (args) => this.#handleKnowledgeIndex(args),
       },
       knowledge_passage: {
-        description: 'Semantic passage search over full article bodies (not just titles/summaries). Returns the most relevant text chunks. Use when you need the actual content that answers a question, not a list of article titles.',
+        description: 'Semantic search over full article bodies. Returns relevant text chunks (use when you need the content, not titles).',
         inputSchema: {
           type: 'object',
           properties: {
-            query: { type: 'string', description: 'What you want to find in the article bodies' },
-            section: { type: 'string', description: 'Optional: restrict to one section before ranking' },
-            k: { type: 'number', description: 'Max passages to return (default 5)' },
+            query: { type: 'string' },
+            section: { type: 'string' },
+            k: { type: 'number' },
           },
           required: ['query'],
         },
         handler: (args) => this.#handleKnowledgePassage(args),
-      },
-      team_knowledge: {
-        description: 'Search team shared knowledge',
-        inputSchema: { type: 'object', properties: { query: { type: 'string' } }, required: ['query'] },
-        handler: (args) => this.#handleTeamKnowledge(args),
       },
     };
   }
@@ -127,7 +122,7 @@ class KnowledgeTools {
         knowledgeUpsert(key, section, title || basename, summary, rel, memType);
 
         // Also store in semantic memory (for FTS recall)
-        semanticLearn(key, summary, 'observed', memType, `knowledge/${rel}`);
+        await semanticLearn(key, summary, 'observed', memType, `knowledge/${rel}`);
 
         // Chunk + embed the full body for passage retrieval
         if (body) {
@@ -223,15 +218,6 @@ class KnowledgeTools {
     return { title, description, body };
   }
 
-  #handleTeamKnowledge(args) {
-    const shared = loadJson(path.join(HOME, 'team', 'shared-knowledge.json'), {});
-    const terms = (args.query || '').toLowerCase().split(/\s+/);
-    const matched = Object.entries(shared).filter(([k, v]) =>
-      terms.some(t => `${k} ${v.value}`.toLowerCase().includes(t))
-    ).slice(0, 10);
-    if (!matched.length) return 'No matches.';
-    return matched.map(([k, v]) => `${k}: ${v.value}`).join('\n');
-  }
 }
 
 export default new KnowledgeTools().tools;

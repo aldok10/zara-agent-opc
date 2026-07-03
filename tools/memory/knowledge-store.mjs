@@ -151,17 +151,17 @@ export class ChromaKnowledgeChunkStore {
     if (!chunks.length) return { key, chunks: 0 };
 
     // Batch insert: chunk text goes into Chroma's documents field (full-text searchable).
-    const items = [];
-    for (let i = 0; i < chunks.length; i++) {
+    // Embed all chunks in parallel for speed.
+    const items = await Promise.all(chunks.map(async (text, i) => {
       const id = `${key}__chunk_${i}`;
-      const vec = await this.#embedder.embed(chunks[i].slice(0, 300));
-      items.push({
+      const vec = await this.#embedder.embed(text.slice(0, 300));
+      return {
         id,
         vector: vec,
         metadata: { key, section, chunk_index: String(i) },
-        document: chunks[i],
-      });
-    }
+        document: text,
+      };
+    }));
     await this.#vectorStore.upsertBatch(items);
     return { key, chunks: chunks.length };
   }
@@ -197,11 +197,17 @@ export class ChromaKnowledgeChunkStore {
   }
 
   async deleteByKey(key) {
-    // Fetch all chunks with this key prefix and remove them
-    const all = await this.#vectorStore.getAll(null, MAX_SCAN);
-    const toDelete = all.filter(e => (e.metadata.key || e.key.split('__chunk_')[0]) === key);
-    if (toDelete.length) {
-      await this.#vectorStore.removeMany(toDelete.map(e => e.key));
+    // Use server-side metadata filter instead of fetching all + client-side filter
+    try {
+      await this.#vectorStore.removeByWhere({ key: { '$eq': key } });
+    } catch {
+      // Fallback: Chroma versions that don't support delete with where on nested fields.
+      // Fetch matching entries and delete by ID.
+      const all = await this.#vectorStore.getAll(null, MAX_SCAN);
+      const toDelete = all.filter(e => (e.metadata.key || e.key.split('__chunk_')[0]) === key);
+      if (toDelete.length) {
+        await this.#vectorStore.removeMany(toDelete.map(e => e.id || e.key));
+      }
     }
   }
 }

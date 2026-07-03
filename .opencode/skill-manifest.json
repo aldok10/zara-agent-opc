@@ -99,24 +99,6 @@
     "requires": [
       "tdd",
       "code-review",
-      "systematic-debugging",
-      "php-extension-dev"
-    ]
-  },
-  "php-extension-dev": {
-    "hash": "a91cd61a9fa494340e657711c8c36b403dee2d4369854bcdfa52544fe6073d14",
-    "requires": [
-      "php-expert",
-      "systematic-debugging",
-      "swig-expert",
-      "reverse-engineering"
-    ]
-  },
-  "reverse-engineering": {
-    "hash": "c2cfa8fbf46c1863c47df8fc2cab6dcb8e7c1d6f70983d0f51e4f926deb3475c",
-    "requires": [
-      "golang-expert",
-      "php-expert",
       "systematic-debugging"
     ]
   },
@@ -143,7 +125,6 @@
       "golang-expert",
       "golang-compare",
       "php-expert",
-      "swig-expert",
       "codebase-onboarding",
       "leadership-expert",
       "natural-voice",
@@ -164,9 +145,6 @@
       "verification-before-completion",
       "executing-plans"
     ]
-  },
-  "swig-expert": {
-    "hash": "10be136fffba422f01e50e76ae01093c0036d0e64de3a2682017074e7d0ef27c"
   },
   "systematic-debugging": {
     "hash": "d6bbba78ea8613336fe5258fcbce80234b971920f59446ba5b81be88614a5908",

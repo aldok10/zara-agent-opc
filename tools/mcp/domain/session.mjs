@@ -101,6 +101,14 @@ class SessionTools {
       session.lastEnded = new Date().toISOString();
       saveJson(file, session);
 
+      // Increment session count in user profile
+      const profileFile = path.join(HOME, 'user-profile.json');
+      const profile = loadJson(profileFile, { sessionCount: 0 });
+      profile.sessionCount = (profile.sessionCount || 0) + 1;
+      profile.lastSeen = new Date().toISOString();
+      profile.lastUpdated = new Date().toISOString();
+      saveJson(profileFile, profile);
+
       // Deterministic session-end maintenance: consolidation + contradiction scan.
       let maintenance = '';
       try {

@@ -94,8 +94,6 @@ const SKILL_ROUTES = [
   { keywords: ['etl', 'data pipeline', 'airflow', 'dbt', 'spark'], skill: 'data-pipeline' },
 
   // Specialized
-  { keywords: ['swig', 'typemap', 'interface file', '.i file'], skill: 'swig-expert' },
-  { keywords: ['reverse engineer', 'decompil', 'disassembl', 'binary analysis'], skill: 'reverse-engineering' },
   { keywords: ['metatrader', 'mt5', 'trading bot', 'mql5'], skill: 'metatrader5-sdk' },
   { keywords: ['interview', 'leetcode', 'system design interview', 'behavioral'], skill: 'interview-prep' },
   { keywords: ['figma', 'design system', 'auto-layout', 'handoff'], skill: 'figma-expert' },

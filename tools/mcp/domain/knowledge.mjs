@@ -30,20 +30,20 @@ class KnowledgeTools {
   get tools() {
     return {
       knowledge_load_init: {
-        description: 'Seed all knowledge from knowledge/ folder into SQLite index + vector backend (Chroma if ZARA_VECTOR=chroma). One call writes to both stores. Use force=true to re-seed. Reports backend used.',
+        description: 'Seed knowledge to memory',
         inputSchema: {
           type: 'object',
           properties: {
             path: { type: 'string', description: 'Project root (looks for knowledge/ subfolder)' },
             dry_run: { type: 'boolean', description: 'Count files without writing' },
             force: { type: 'boolean', description: 'Re-seed even if already seeded' },
-            include_skills: { type: 'boolean', description: 'Also sync skill files (default: true)' },
+            include_skills: { type: 'boolean' },
           },
         },
         handler: (args) => this.#handleKnowledgeLoadInit(args),
       },
       knowledge_index: {
-        description: 'Search knowledge index by section/keyword, or list sections. Fast, no FTS.',
+        description: 'Search knowledge index or list sections',
         inputSchema: {
           type: 'object',
           properties: {
@@ -55,7 +55,7 @@ class KnowledgeTools {
         handler: (args) => this.#handleKnowledgeIndex(args),
       },
       knowledge_passage: {
-        description: 'Semantic search over full article bodies. Returns relevant text chunks (use when you need the content, not titles).',
+        description: 'Semantic search over article bodies',
         inputSchema: {
           type: 'object',
           properties: {

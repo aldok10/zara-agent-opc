@@ -14,7 +14,7 @@ class MetricsTools {
   get tools() {
     return {
       dashboard: {
-        description: 'Memory/learning dashboard. Sections: memory, patterns, procedures, tools, rules.',
+        description: 'Memory and learning dashboard',
         inputSchema: { type: 'object', properties: { section: { type: 'string', enum: ['all', 'memory', 'patterns', 'procedures', 'tools', 'rules'] } } },
         handler: (args) => this.#handleDashboard(args),
       },

@@ -105,7 +105,7 @@ class IdentityTools {
   get tools() {
     return {
       user_model: {
-        description: 'Assemble user model from memory: who, goals, patterns, priorities, projects, evolution.',
+        description: 'Assemble user model from memory',
         inputSchema: { type: 'object', properties: {} },
         handler: () => this.#handleUserModel(),
       },

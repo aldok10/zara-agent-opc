@@ -14,12 +14,12 @@ class SelfAuditTools {
   get tools() {
     return {
       zara_self_audit: {
-        description: 'Audit config integrity: agents, plugins, MCP domains vs disk. Returns actionable findings.',
+        description: 'Audit config integrity vs disk',
         inputSchema: { type: 'object', properties: { map: { type: 'boolean', description: 'Also emit capability map.' } } },
         handler: (args) => this.#handleAudit(args),
       },
       zara_skill_integrity: {
-        description: 'Check/generate SHA-256 manifest for project skills.',
+        description: 'Check/generate skill integrity manifest',
         inputSchema: { type: 'object', properties: { action: { type: 'string', enum: ['generate', 'verify'] } }, required: ['action'] },
         handler: (args) => this.#handleSkillIntegrity(args),
       },

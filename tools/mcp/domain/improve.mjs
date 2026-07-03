@@ -14,7 +14,7 @@ class ImproveTools {
   get tools() {
     return {
       zara_self_improve: {
-        description: 'Run self-improvement cycle: observe (gather signals) or orient (prioritize findings). Safe read-only tool.',
+        description: 'Run self-improvement cycle (read-only)',
         inputSchema: {
           type: 'object',
           properties: {

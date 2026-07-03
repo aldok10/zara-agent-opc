@@ -15,27 +15,27 @@ class ReflectionTools {
   get tools() {
     return {
       reflect: {
-        description: 'Record a reflection (worked/failed/pattern + outcome) to feed the learning loop.',
+        description: 'Record a reflection to feed learning',
         inputSchema: { type: 'object', properties: { task: { type: 'string' }, worked: { type: 'string' }, failed: { type: 'string' }, pattern: { type: 'string' }, outcome: { type: 'string', enum: ['success', 'partial', 'failure'] }, agent: { type: 'string' }, reflection_type: { type: 'string', enum: ['principle', 'procedural', 'both'] }, test_exit_code: { type: 'number', description: 'Test/lint exit code (0=pass). Grounds success claims.' }, test_summary: { type: 'string' } }, required: ['task'] },
         handler: (args) => this.#handleReflect(args),
       },
       patterns: {
-        description: 'List learned patterns from reflection, ranked by success-weighted score.',
+        description: 'List learned patterns by score',
         inputSchema: { type: 'object', properties: {} },
         handler: () => this.#handlePatterns(),
       },
       reflect_suggest: {
-        description: 'Recall the best-scoring learned approach for a situation (ranked by success x frequency).',
+        description: 'Recall best learned approach for a situation',
         inputSchema: { type: 'object', properties: { situation: { type: 'string', description: 'What you are about to do' } }, required: ['situation'] },
         handler: (args) => this.#handleSuggest(args),
       },
       zara_evolve_status: {
-        description: 'Snapshot of Zara learning state: top patterns, active rules, micro-tools, blindspots.',
+        description: 'Snapshot of Zara learning state',
         inputSchema: { type: 'object', properties: { days: { type: 'number', description: 'Filter to last N days (default: all time)' } } },
         handler: (args) => this.#handleEvolveStatus(args),
       },
       blindspot_log: {
-        description: 'Record a blindspot detected in user behavior (surfaced automatically on future relevant messages by the proactive plugin)',
+        description: 'Record a detected blindspot',
         inputSchema: { type: 'object', properties: { area: { type: 'string' }, observation: { type: 'string' }, suggestion: { type: 'string' } }, required: ['area', 'observation'] },
         handler: (args) => this.#handleBlindspotLog(args),
       },

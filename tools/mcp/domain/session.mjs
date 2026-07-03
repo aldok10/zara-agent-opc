@@ -8,22 +8,22 @@ class SessionTools {
   get tools() {
     return {
       user_profile: {
-        description: 'Get or update user profile. action="discover" resolves identity from env/git/OS/memory.',
+        description: 'Get or update user profile',
         inputSchema: { type: 'object', properties: { update: { type: 'object', description: 'Fields to merge (omit to read)' }, action: { type: 'string', enum: ['get', 'discover'] }, persist: { type: 'boolean' }, name: { type: 'string' } } },
         handler: (args) => args?.action === 'discover' ? this.#handleDiscover(args) : this.#handleUserProfile(args),
       },
       session_log: {
-        description: 'Log session start/end with context (tracks work duration for rest reminders)',
+        description: 'Log session start/end',
         inputSchema: { type: 'object', properties: { action: { type: 'string', enum: ['start', 'end', 'check'] }, context: { type: 'string' } }, required: ['action'] },
         handler: (args) => this.#handleSessionLog(args),
       },
       goal: {
-        description: 'Set a goal/exit condition for the current session.',
+        description: 'Set a session goal or exit condition',
         inputSchema: { type: 'object', properties: { action: { type: 'string', enum: ['set', 'check', 'done', 'status', 'clear'] }, condition: { type: 'string' }, max_turns: { type: 'number' }, notes: { type: 'string' } }, required: ['action'] },
         handler: (args) => this.#handleGoal(args),
       },
       shutdown_ritual: {
-        description: 'Wind-down helper for vibecoding sessions.',
+        description: 'Wind-down helper for coding sessions',
         inputSchema: { type: 'object', properties: { action: { type: 'string', enum: ['configure', 'check', 'trigger', 'status', 'snooze'] }, bedtime: { type: 'string' }, snooze_minutes: { type: 'number' } }, required: ['action'] },
         handler: (args) => this.#handleShutdownRitual(args),
       },

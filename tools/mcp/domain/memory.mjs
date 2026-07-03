@@ -10,37 +10,37 @@ class MemoryTools {
   get tools() {
     return {
       memory_recall: {
-        description: 'Search Zara memory (episodic/semantic/procedural). Scoped + token-budget aware.',
+        description: 'Search memory by query',
         inputSchema: { type: 'object', properties: { query: { type: 'string' }, layer: { type: 'string', enum: ['all', 'episodic', 'semantic', 'procedural'] }, scope: { type: 'string', description: 'File path / context scope' }, type: { type: 'string', enum: ['policy', 'workflow', 'pitfall', 'architecture', 'decision', 'preference', 'fact'] } }, required: ['query'] },
         handler: (args) => this.#handleRecall(args),
       },
       memory_learn: {
-        description: 'Store a fact in semantic memory (key-value + metadata).',
+        description: 'Store a fact',
         inputSchema: { type: 'object', properties: { key: { type: 'string' }, value: { type: 'string' }, source: { type: 'string', enum: ['user_explicit', 'observed', 'inferred', 'external_unverified'] }, type: { type: 'string', enum: ['policy', 'workflow', 'pitfall', 'architecture', 'decision', 'preference', 'fact'] }, scope: { type: 'string', description: 'File path / context scope' }, agent: { type: 'string' } }, required: ['key', 'value'] },
         handler: (args) => this.#handleLearn(args),
       },
       memory_episode: {
-        description: 'Record an episodic memory (event/outcome)',
+        description: 'Record an event',
         inputSchema: { type: 'object', properties: { event: { type: 'string', description: 'What happened' }, outcome: { type: 'string', description: 'Result or lesson' }, tags: { type: 'array', items: { type: 'string' }, description: 'Tags for retrieval' } }, required: ['event'] },
         handler: (args) => this.#handleEpisode(args),
       },
       memory_procedure: {
-        description: 'Save a reusable workflow/procedure',
+        description: 'Save a reusable procedure',
         inputSchema: { type: 'object', properties: { name: { type: 'string', description: 'Procedure name' }, context: { type: 'string', description: 'When to use this' }, steps: { type: 'array', items: { type: 'string' }, description: 'Steps in order' } }, required: ['name', 'steps'] },
         handler: (args) => this.#handleProcedure(args),
       },
       memory_consolidate: {
-        description: 'Manual memory consolidation (merge dupes, archive stale, promote topics). session_log(end) runs this automatically.',
+        description: 'Consolidate memory (runs at session end)',
         inputSchema: { type: 'object', properties: {} },
         handler: () => this.#handleConsolidate(),
       },
       memory_contradictions: {
-        description: 'Detect contradicting memories (same-type, similar but conflicting, e.g. "prefers X" vs "prefers Y"). Flags for review, no auto-merge.',
+        description: 'Flag conflicting memories for review',
         inputSchema: { type: 'object', properties: { threshold: { type: 'number', description: 'Similarity threshold 0-1 (default 0.85)' } } },
         handler: (args) => this.#handleContradictions(args),
       },
       memory_delete: {
-        description: 'Delete memories matching a pattern (key/value/event/outcome). For cleanup of obsolete entries.',
+        description: 'Delete memories matching a pattern',
         inputSchema: { type: 'object', properties: { pattern: { type: 'string' }, dry_run: { type: 'boolean', description: 'Report without deleting' }, confirm: { type: 'boolean', description: 'Required when >10 match' } }, required: ['pattern'] },
         handler: (args) => this.#handleDelete(args),
       },

@@ -87,7 +87,7 @@ class ProjectTools {
   get tools() {
     return {
       project_learn: {
-        description: 'Extract project knowledge (stack, structure, tests, CI) as scoped facts. Run once per project.',
+        description: 'Extract project knowledge as facts',
         inputSchema: {
           type: 'object',
           properties: {

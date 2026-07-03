@@ -37,14 +37,14 @@ describe('recall quality benchmark', () => {
     store = new MemoryStore(TEST_HOME, embedder);
 
     // Seed test memories
-    store.learn('pref.paradigm', 'prefers functional programming patterns', 'user_explicit', 'preference', '');
-    store.learn('pref.stdlib', 'likes Go stdlib over external frameworks', 'user_explicit', 'preference', '');
-    store.learn('event.deploy', 'deployed v2 with 40% latency drop', 'observed', 'fact', '');
-    store.learn('pref.simple', 'hates over-engineering, prefers simple solutions', 'user_explicit', 'preference', '');
-    store.learn('workflow.tdd', 'uses TDD for all features, test first always', 'observed', 'workflow', '');
-    store.learn('fact.deadline', 'deadline is next Friday for auth module', 'user_explicit', 'fact', '');
-    store.learn('pref.food', 'favorite food is nasi goreng', 'user_explicit', 'preference', '');
-    store.learn('fact.car', 'drives a Toyota Camry', 'user_explicit', 'fact', '');
+    await store.learn('pref.paradigm', 'prefers functional programming patterns', 'user_explicit', 'preference', '');
+    await store.learn('pref.stdlib', 'likes Go stdlib over external frameworks', 'user_explicit', 'preference', '');
+    await store.learn('event.deploy', 'deployed v2 with 40% latency drop', 'observed', 'fact', '');
+    await store.learn('pref.simple', 'hates over-engineering, prefers simple solutions', 'user_explicit', 'preference', '');
+    await store.learn('workflow.tdd', 'uses TDD for all features, test first always', 'observed', 'workflow', '');
+    await store.learn('fact.deadline', 'deadline is next Friday for auth module', 'user_explicit', 'fact', '');
+    await store.learn('pref.food', 'favorite food is nasi goreng', 'user_explicit', 'preference', '');
+    await store.learn('fact.car', 'drives a Toyota Camry', 'user_explicit', 'fact', '');
 
     // Wait for async embeddings to complete
     await new Promise(r => setTimeout(r, 200));
@@ -100,7 +100,7 @@ describe('recall quality benchmark', () => {
 
   it('hybrid outperforms FTS-only on paraphrase queries', async () => {
     // FTS-only (sync recall) should miss "preferred paradigm" since no keyword match
-    const ftsResults = store.recall('preferred paradigm', 5);
+    const ftsResults = await store.recall('preferred paradigm', 5);
     const hybridResults = await store.recallAsync('preferred paradigm', 5);
 
     const ftsKeys = ftsResults.map(r => r.key);

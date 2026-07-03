@@ -160,7 +160,7 @@ describe('memory provenance', () => {
     for (const h of homes) fs.rmSync(h, { recursive: true, force: true });
   });
 
-  it('pre-existing DB without new columns survives migration', () => {
+  it('pre-existing DB without new columns survives migration', async () => {
     const home = buildOldSchemaDb(track(freshHome('survive')), [
       { key: 'legacy.one', value: 'first legacy fact about widgets', type: 'fact' },
       { key: 'legacy.two', value: 'second legacy fact about gadgets', type: 'preference' },
@@ -170,14 +170,14 @@ describe('memory provenance', () => {
     const cols = db.prepare("PRAGMA table_info(semantic)").all().map(c => c.name);
     assert.ok(cols.includes('agent'), 'agent column should exist after migration');
     assert.ok(cols.includes('grounded'), 'grounded column should exist after migration');
-    assert.equal(store.semanticCount(), 2, 'row count unchanged');
+    assert.equal(await store.semanticCount(), 2, 'row count unchanged');
     const row = db.prepare('SELECT value, type FROM semantic WHERE key = ?').get('legacy.one');
     assert.equal(row.value, 'first legacy fact about widgets', 'original value intact');
     assert.equal(row.type, 'fact', 'original type intact');
     store.close();
   });
 
-  it('migration is idempotent (triggered twice, no throw, data unchanged)', () => {
+  it('migration is idempotent (triggered twice, no throw, data unchanged)', async () => {
     const home = buildOldSchemaDb(track(freshHome('idem')), [
       { key: 'legacy.a', value: 'alpha legacy value', type: 'fact' },
     ]);
@@ -186,7 +186,7 @@ describe('memory provenance', () => {
     store1.close();
     const store2 = new MemoryStore(home);
     assert.doesNotThrow(() => { void store2.db; }, 'second migration should not throw');
-    assert.equal(store2.semanticCount(), 1, 'data unchanged after second migration');
+    assert.equal(await store2.semanticCount(), 1, 'data unchanged after second migration');
     const cols = store2.db.prepare("PRAGMA table_info(semantic)").all().map(c => c.name);
     assert.ok(cols.includes('agent') && cols.includes('grounded'));
     store2.close();
@@ -220,9 +220,9 @@ describe('memory provenance', () => {
     store.close();
   });
 
-  it('old learn() 5-arg call still works (agent="", grounded=0)', () => {
+  it('old learn() 5-arg call still works (agent="", grounded=0)', async () => {
     const store = new MemoryStore(track(freshHome('5arg')));
-    store.learn('compat.key', 'a five-arg compatibility value', 'observed', 'fact', '');
+    await store.learn('compat.key', 'a five-arg compatibility value', 'observed', 'fact', '');
     const row = store.db.prepare('SELECT agent, grounded, value FROM semantic WHERE key = ?').get('compat.key');
     assert.equal(row.value, 'a five-arg compatibility value');
     assert.equal(row.agent, '');
@@ -230,21 +230,21 @@ describe('memory provenance', () => {
     store.close();
   });
 
-  it('new learn() with opts {agent, grounded} round-trips both values', () => {
+  it('new learn() with opts {agent, grounded} round-trips both values', async () => {
     const store = new MemoryStore(track(freshHome('opts')));
-    store.learn('prov.key', 'a grounded value from forge', 'user_explicit', 'fact', '', { agent: 'forge', grounded: true });
+    await store.learn('prov.key', 'a grounded value from forge', 'user_explicit', 'fact', '', { agent: 'forge', grounded: true });
     const row = store.db.prepare('SELECT agent, grounded FROM semantic WHERE key = ?').get('prov.key');
     assert.equal(row.agent, 'forge');
     assert.equal(row.grounded, 1);
     store.close();
   });
 
-  it('grounded boost does NOT overpower type (grounded fact < policy)', () => {
+  it('grounded boost does NOT overpower type (grounded fact < policy)', async () => {
     const store = new MemoryStore(track(freshHome('vstype')));
     // Same searchable token in both so FTS returns both with comparable rank.
-    store.learn('pol.key', 'orchestration policy directive', 'user_explicit', 'policy', '');
-    store.learn('fact.key', 'orchestration grounded fact', 'user_explicit', 'fact', '', { grounded: true });
-    const results = store.recall('orchestration', 5);
+    await store.learn('pol.key', 'orchestration policy directive', 'user_explicit', 'policy', '');
+    await store.learn('fact.key', 'orchestration grounded fact', 'user_explicit', 'fact', '', { grounded: true });
+    const results = await store.recall('orchestration', 5);
     const keys = results.map(r => r.key);
     assert.ok(keys.includes('pol.key') && keys.includes('fact.key'), 'both should be recalled');
     const polIdx = keys.indexOf('pol.key');
@@ -253,11 +253,11 @@ describe('memory provenance', () => {
     store.close();
   });
 
-  it('grounded fact outranks identical non-grounded fact (same type)', () => {
+  it('grounded fact outranks identical non-grounded fact (same type)', async () => {
     const store = new MemoryStore(track(freshHome('boost')));
-    store.learn('plain.fact', 'kubernetes deployment rollback strategy notes', 'user_explicit', 'fact', '');
-    store.learn('grounded.fact', 'kubernetes ingress tls termination details', 'user_explicit', 'fact', '', { grounded: true });
-    const results = store.recall('kubernetes', 5);
+    await store.learn('plain.fact', 'kubernetes deployment rollback strategy notes', 'user_explicit', 'fact', '');
+    await store.learn('grounded.fact', 'kubernetes ingress tls termination details', 'user_explicit', 'fact', '', { grounded: true });
+    const results = await store.recall('kubernetes', 5);
     const keys = results.map(r => r.key);
     const gIdx = keys.indexOf('grounded.fact');
     const pIdx = keys.indexOf('plain.fact');
@@ -292,9 +292,9 @@ describe('recallAsync', () => {
     }
     const home = track(path.join(os.tmpdir(), `zara-async-rank-${process.hrtime.bigint()}`));
     const store = new MemoryStore(home, new RankEmbedder());
-    store.learn('k8s.pods', 'kubernetes pod scaling strategy', 'observed', 'fact', '');
-    store.learn('k8s.deploy', 'kubernetes deployment rollout process', 'observed', 'fact', '');
-    store.learn('k8s.svc', 'kubernetes service mesh configuration', 'observed', 'fact', '');
+    await store.learn('k8s.pods', 'kubernetes pod scaling strategy', 'observed', 'fact', '');
+    await store.learn('k8s.deploy', 'kubernetes deployment rollout process', 'observed', 'fact', '');
+    await store.learn('k8s.svc', 'kubernetes service mesh configuration', 'observed', 'fact', '');
     const results = await store.recallAsync('kubernetes deployment', 5);
     assert.ok(results.length > 0, 'should return results');
     // The deploy-related one should rank first due to mock embedder
@@ -319,7 +319,7 @@ describe('recallAsync', () => {
     const home = track(path.join(os.tmpdir(), `zara-async-fail-${process.hrtime.bigint()}`));
     // Allow enough calls for learn + recall, then fail on recallAsync's re-rank
     const store = new MemoryStore(home, new LimitedEmbedder(50));
-    store.learn('fallback.fact', 'short', 'observed', 'fact', '');
+    await store.learn('fallback.fact', 'short', 'observed', 'fact', '');
     // Now replace embedder behavior by creating a new store that will fail
     const store2 = new MemoryStore(home, new LimitedEmbedder(0));
     const results = await store2.recallAsync('fallback', 5);
@@ -339,15 +339,15 @@ describe('embedder DIP seam', () => {
     for (const h of homes) try { fs.rmSync(h, { recursive: true, force: true }); } catch {}
   });
 
-  it('accepts a custom embedder and uses it for recall', () => {
+  it('accepts a custom embedder and uses it for recall', async () => {
     class MockEmbedder {
       embed(text) { return new Float32Array(128).fill(1 / Math.sqrt(128)); }
       cosineSim(a, b) { return a.reduce((s, v, i) => s + v * b[i], 0); }
     }
     const home = track(path.join(os.tmpdir(), `zara-embed-${process.hrtime.bigint()}`));
     const store = new MemoryStore(home, new MockEmbedder());
-    store.learn('embed.test', 'custom embedder value', 'observed', 'fact', '');
-    const results = store.recall('anything', 5);
+    await store.learn('embed.test', 'custom embedder value', 'observed', 'fact', '');
+    const results = await store.recall('anything', 5);
     assert.ok(results.length > 0, 'recall should return results with mock embedder');
     assert.ok(results.some(r => r.key === 'embed.test'), 'stored key should be found');
     store.close();

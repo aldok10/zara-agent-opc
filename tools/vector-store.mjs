@@ -1,25 +1,28 @@
-// tools/vector-store.mjs — Optional Chroma vector backend for Zara memory.
+// tools/vector-store.mjs — Chroma vector backend for Zara memory.
 //
-// SQLite stays the default and owns all metadata, FTS, trust, and decay.
-// When ZARA_VECTOR=chroma, KNN similarity search routes here instead of the
-// in-SQLite vector scan. Embeddings are still produced by Zara's own embedder
-// (MiniLM-L6-v2, 384-dim) and passed in precomputed — Chroma only stores and
-// ranks vectors.
+// ZARA_VECTOR controls which backend is active:
+//   'sqlite' (default) — all metadata + search in SQLite
+//   'chroma'           — all metadata + vector search in Chroma, SQLite semantic skipped
+//
+// When Chroma is the active backend it stores EVERYTHING: the vector, key,
+// value, type, scope, source, confidence, trust, decay, etc. in its metadata
+// map. No SQLite lookup needed. Episodic and procedural memories stay in
+// SQLite regardless (they don't use vectors).
 //
 // The chromadb client is an OPTIONAL peer dependency, dynamically imported so
-// it costs nothing unless the feature is turned on. If the flag is set but the
-// package or server is unavailable, callers fall back to SQLite.
+// it costs nothing unless the feature is turned on.
 //
 // Env:
-//   ZARA_VECTOR=chroma          enable this backend (default: sqlite)
-//   ZARA_CHROMA_URL=http://localhost:8000   server address
-//   ZARA_CHROMA_COLLECTION=zara_semantic    collection name
+//   ZARA_VECTOR=chroma              enable Chroma backend (default: sqlite)
+//   ZARA_CHROMA_URL=http://localhost:8000  server address
+//   ZARA_CHROMA_COLLECTION=zara_semantic  collection name
 
 export const VECTOR_BACKEND = (process.env.ZARA_VECTOR || 'sqlite').toLowerCase();
 export const CHROMA_ENABLED = VECTOR_BACKEND === 'chroma';
 
 const CHROMA_URL = process.env.ZARA_CHROMA_URL || 'http://localhost:8000';
 const COLLECTION = process.env.ZARA_CHROMA_COLLECTION || 'zara_semantic';
+const AUTH_TOKEN = process.env.ZARA_CHROMA_AUTH_TOKEN || '';
 
 class ChromaStore {
   #collection = null;
@@ -43,6 +46,7 @@ class ChromaStore {
         ssl: u.protocol === 'https:',
         host: u.hostname,
         port: u.port ? Number(u.port) : (u.protocol === 'https:' ? 443 : 8000),
+        headers: AUTH_TOKEN ? { 'x-chroma-token': AUTH_TOKEN } : undefined,
       });
       // Zara supplies its own vectors; disable Chroma's server-side embedding.
       this.#collection = await client.getOrCreateCollection({
@@ -110,14 +114,50 @@ class ChromaStore {
     }));
   }
 
+  // Update metadata only, without re-supplying the vector. Used for trust
+  // adjustment, decay scoring, and reinforcement counters.
+  async updateMetadata(id, metadata) {
+    const col = await this.#init();
+    await col.update({ ids: [id], metadatas: [metadata] });
+  }
+
   async remove(id) {
     const col = await this.#init();
     await col.delete({ ids: [id] });
   }
 
+  // Remove multiple IDs in a single call.
+  async removeMany(ids) {
+    if (!ids.length) return;
+    const col = await this.#init();
+    // Chroma v3.x delete accepts up to 50k ids per call; chunk defensively.
+    for (let i = 0; i < ids.length; i += 1000) {
+      await col.delete({ ids: ids.slice(i, i + 1000) });
+    }
+  }
+
   async count() {
     const col = await this.#init();
     return col.count();
+  }
+
+  // List entries with metadata. Supports optional `where` filter and can
+  // include stored embeddings (needed for contradiction detection).
+  // Returns [{ key, metadata, embedding? }].
+  async getAll(where = null, limit = 1000, offset = 0, withEmbeddings = false) {
+    const col = await this.#init();
+    const include = withEmbeddings ? ['metadatas', 'embeddings'] : ['metadatas'];
+    const args = { limit, offset, include };
+    if (where && Object.keys(where).length) args.where = where;
+    const res = await col.get(args);
+    const ids = res.ids || [];
+    const metadatas = res.metadatas || [];
+    const embeddings = res.embeddings || [];
+    return ids.map((key, i) => ({
+      key,
+      metadata: metadatas[i] || {},
+      embedding: withEmbeddings && embeddings[i] ? Float32Array.from(embeddings[i]) : null,
+    }));
   }
 }
 

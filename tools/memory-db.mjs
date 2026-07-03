@@ -17,21 +17,14 @@ import fs from 'fs';
 import path from 'path';
 import os from 'os';
 import { TrigramEmbedder, SemanticEmbedder } from './embedder.mjs';
-import { getVectorStore, CHROMA_ENABLED } from './vector-store.mjs';
+import { CHROMA_ENABLED } from './vector-store.mjs';
+import {
+  getSemanticStore, VALID_TYPES, TYPE_BOOST,
+  sourceCeiling as getSourceCeiling, confidenceForSource, escapeLike,
+  relevanceScore, applyTokenBudget,
+} from './memory/semantic-store.mjs';
 
 // --- Value Objects ---
-
-const VALID_TYPES = ['policy', 'workflow', 'pitfall', 'architecture', 'decision', 'preference', 'fact'];
-const TYPE_BOOST = { policy: 1.5, pitfall: 1.4, architecture: 1.3, decision: 1.2, workflow: 1.1, preference: 1.0, fact: 0.9 };
-
-function getSourceCeiling(source) {
-  if (source === 'user_explicit') return 1.0;
-  if (source === 'observed') return 0.85;
-  if (source === 'inferred') return 0.7;
-  return 0.5;
-}
-
-function escapeLike(s) { return s.replace(/[%_]/g, c => `\\${c}`); }
 
 // Embedder selection: ZARA_EMBED=semantic|trigram (default: semantic with lazy init)
 // Sync operations (learn dedup) always use TrigramEmbedder.
@@ -57,11 +50,22 @@ class MemoryStore {
   #dbPath;
   #embedder;
   #trustBudget = 0;
+  #semantic = null;
 
   constructor(home = path.join(os.homedir(), '.zara'), embedder = createEmbedder()) {
     this.#home = home;
     this.#dbPath = path.join(home, 'memory.db');
     this.#embedder = embedder;
+  }
+
+  // Home directory (exposed for the semantic adapter's audit/archive files).
+  get home() { return this.#home; }
+
+  // Active semantic backend (SQLite or Chroma), chosen by ZARA_VECTOR.
+  // Lazily resolved so tests can construct a store before Chroma is reachable.
+  get semantic() {
+    if (!this.#semantic) this.#semantic = getSemanticStore(this);
+    return this.#semantic;
   }
 
   // --- Lifecycle ---
@@ -96,20 +100,65 @@ class MemoryStore {
   }
 
   // --- Semantic Layer ---
+  //
+  // Public API delegates to the active backend adapter (`this.semantic`). Callers
+  // never branch on backend. All public semantic methods are async.
 
-  learn(key, value, source = 'observed', type = 'fact', scope = '', opts = {}) {
+  // Accepts either positional (legacy) or options-object form:
+  //   learn(key, value, source, type, scope, opts)   ← legacy signature
+  //   learn(key, value, { source, type, scope, agent, grounded })
+  learn(key, value, source, type, scope, opts = {}) {
+    const options = (source && typeof source === 'object')
+      ? source
+      : { source, type, scope, ...opts };
+    return this.semantic.learn(key, value, options);
+  }
+
+  recall(query, limit = 5, options = {}) {
+    return this.semantic.recall(query, limit, options);
+  }
+
+  // Hybrid recall (FTS + vector fusion on SQLite; KNN on Chroma).
+  recallAsync(query, limit = 5, options = {}) {
+    return this.semantic.recallHybrid(query, limit, options);
+  }
+
+  baseline(tokenBudget = 500) {
+    return this.semantic.baseline(tokenBudget);
+  }
+
+  scoped(filePath, limit = 5) {
+    return this.semantic.scoped(filePath, limit);
+  }
+
+  semanticCount() {
+    return this.semantic.count();
+  }
+
+  semanticGetAll() {
+    return this.semantic.getAll();
+  }
+
+  adjustTrust(keys, outcome) {
+    return this.semantic.adjustTrust(keys, outcome);
+  }
+
+  // --- Semantic Layer: SQLite implementation (delegated to by SqliteSemanticStore) ---
+  // NOTE: public semantic access goes through `this.semantic` (the active adapter).
+  // These `_sqlite*` methods are the concrete SQLite backend the adapter wraps.
+
+  _sqliteLearn(key, value, opts = {}) {
     // SECURITY (Constitution P6): `grounded` grants a recall-ranking boost and MUST be
     // set by internal trusted code only — NEVER threaded from agent-supplied tool args.
-    // Do not expose `grounded` in the memory_learn MCP schema. See ZARA_CONSTITUTION.md.
-    const { agent = '', grounded = false } = opts;
+    const { source = 'observed', type = 'fact', scope = '', agent = '', grounded = false } = opts;
+    const memType = VALID_TYPES.includes(type) ? type : 'fact';
     const db = this.db;
     const now = new Date().toISOString().split('T')[0];
     const existing = db.prepare('SELECT reinforced FROM semantic WHERE key = ?').get(key);
     const reinforced = (existing?.reinforced || 0) + 1;
-    const confidence = source === 'user_explicit' ? 1.0 : source === 'external_unverified' ? 0.5 : 0.8;
-    const memType = VALID_TYPES.includes(type) ? type : 'fact';
+    const confidence = confidenceForSource(source);
 
-    // Dedup check: if a semantically similar entry already exists (same type, high trigram sim), reinforce it instead
+    // Dedup: if a semantically similar entry exists (same type, trigram sim > 0.95), reinforce it.
     if (!existing && value.length > 10) {
       const queryVec = this.#embedder.embed(value);
       const candidates = db.prepare('SELECT key, value FROM semantic WHERE type = ? LIMIT 100').all(memType);
@@ -131,23 +180,12 @@ class MemoryStore {
         reinforced = ?, decay_score = 1.0, agent = excluded.agent, grounded = excluded.grounded
     `).run(key, value, confidence, source, memType, scope, now, now, reinforced, agent, grounded ? 1 : 0, reinforced);
 
-    // Async: compute and store embedding (fire-and-forget, non-blocking)
-    if (SEMANTIC_MODE) {
-      import('./embedder.mjs').then(async mod => {
-        try {
-          const emb = mod.SemanticEmbedder.instance();
-          const vec = await emb.embed(`${key}: ${value}`.slice(0, 200));
-          db.prepare('UPDATE semantic SET embedding = ? WHERE key = ?').run(Buffer.from(vec.buffer), key);
-        } catch {}
-      }).catch(() => {});
-    }
-
     // Async embed: store MiniLM-L6-v2 vector for hybrid recall (non-blocking)
     if (SEMANTIC_MODE) {
       this.#embedAsync(key, value).catch(() => {});
     }
 
-    // User-reconfirms: if updating existing key with user_explicit source, boost trust
+    // User-reconfirms: boost trust when overwriting with an explicit statement.
     if (existing && source === 'user_explicit') {
       const ceiling = getSourceCeiling('user_explicit');
       const cur = db.prepare('SELECT trust_score FROM semantic WHERE key = ?').get(key);
@@ -158,7 +196,7 @@ class MemoryStore {
     return { key, value, reinforced, type: memType };
   }
 
-  recall(query, limit = 5, options = {}) {
+  _sqliteRecall(query, limit = 5, options = {}) {
     const db = this.db;
     const now = new Date().toISOString().split('T')[0];
     const { scope, type, tokenBudget } = options;
@@ -220,7 +258,7 @@ class MemoryStore {
     return results;
   }
 
-  async recallAsync(query, limit = 5, options = {}) {
+  async _sqliteRecallAsync(query, limit = 5, options = {}) {
     const { scope, type, tokenBudget } = options;
     const db = this.db;
 
@@ -237,63 +275,28 @@ class MemoryStore {
       const queryVec = await embedder.embed(query);
 
       // Path 1: FTS5 candidates (keyword match)
-      const ftsCandidates = this.recall(query, limit * 3, options);
+      const ftsCandidates = this._sqliteRecall(query, limit * 3, options);
 
       // Path 2: Vector candidates (semantic match on stored embeddings)
       let vecCandidates = [];
 
-      // Path 2a: Chroma KNN when enabled — native ANN instead of a capped scan.
-      // Chroma returns keys ranked by similarity; hydrate full rows from SQLite
-      // so metadata/trust/decay stay the single source of truth.
-      let chromaUsed = false;
-      if (CHROMA_ENABLED) {
-        const store = getVectorStore();
-        if (store) {
-          try {
-            const where = {};
-            if (type) where.type = type;
-            if (scope) where.scope = scope;
-            const hits = await store.query(queryVec, limit * 3, where);
-            if (hits.length) {
-              const byKey = new Map(hits.map(h => [h.key, h.score]));
-              const keys = [...byKey.keys()];
-              const placeholders = keys.map(() => '?').join(',');
-              const rows = db.prepare(
-                `SELECT key, value, type, scope, decay_score, reinforced, trust_score, grounded FROM semantic WHERE key IN (${placeholders}) AND decay_score > 0.1`
-              ).all(...keys);
-              for (const r of rows) {
-                const score = byKey.get(r.key);
-                if (score > 0.2) vecCandidates.push({ ...r, vecScore: score });
-              }
-              vecCandidates.sort((a, b) => b.vecScore - a.vecScore);
-              chromaUsed = true;
-            }
-          } catch {
-            // fall through to the SQLite scan below
-          }
-        }
-      }
+      // in-SQLite vector scan. Pre-filter: skip decayed memories, apply type/scope, cap scan size.
+      let vecSql = 'SELECT key, value, type, scope, decay_score, reinforced, trust_score, grounded, embedding FROM semantic WHERE embedding IS NOT NULL AND decay_score > 0.1';
+      const params = [];
+      if (type) { vecSql += ' AND type = ?'; params.push(type); }
+      if (scope) { vecSql += ' AND scope = ?'; params.push(scope); }
+      vecSql += ' ORDER BY decay_score DESC LIMIT 300';
+      const vecRows = db.prepare(vecSql).all(...params);
 
-      // Path 2b: in-SQLite vector scan (default backend, or Chroma fallback).
-      // Pre-filter: skip decayed memories, apply type/scope, cap scan size.
-      if (!chromaUsed) {
-        let vecSql = 'SELECT key, value, type, scope, decay_score, reinforced, trust_score, grounded, embedding FROM semantic WHERE embedding IS NOT NULL AND decay_score > 0.1';
-        const params = [];
-        if (type) { vecSql += ' AND type = ?'; params.push(type); }
-        if (scope) { vecSql += ' AND scope = ?'; params.push(scope); }
-        vecSql += ' ORDER BY decay_score DESC LIMIT 300';
-        const vecRows = db.prepare(vecSql).all(...params);
-
-        for (const r of vecRows) {
-          if (!r.embedding || r.embedding.byteLength < 4) continue;
-          const dim = r.embedding.byteLength / 4;
-          if (dim !== queryVec.length) continue;
-          const vec = new Float32Array(r.embedding.buffer, r.embedding.byteOffset, dim);
-          const score = embedder.cosineSim(queryVec, vec);
-          if (score > 0.2) vecCandidates.push({ ...r, vecScore: score, embedding: undefined });
-        }
-        vecCandidates.sort((a, b) => b.vecScore - a.vecScore);
+      for (const r of vecRows) {
+        if (!r.embedding || r.embedding.byteLength < 4) continue;
+        const dim = r.embedding.byteLength / 4;
+        if (dim !== queryVec.length) continue;
+        const vec = new Float32Array(r.embedding.buffer, r.embedding.byteOffset, dim);
+        const score = embedder.cosineSim(queryVec, vec);
+        if (score > 0.2) vecCandidates.push({ ...r, vecScore: score, embedding: undefined });
       }
+      vecCandidates.sort((a, b) => b.vecScore - a.vecScore);
 
       // If no stored embeddings exist yet, fall back to reranking FTS candidates
       if (!vecCandidates.length && ftsCandidates.length) {
@@ -333,7 +336,9 @@ class MemoryStore {
       for (const [k, score] of scoreMap) {
         if (k.startsWith('_data_')) continue;
         const data = scoreMap.get(`_data_${k}`);
-        if (data) merged.push({ ...data, relevance: score });
+        // Fold in grounded/type/decay/trust factors so the fused ranking respects
+        // the same signals as the sync path (grounded boost, policy > fact, etc).
+        if (data) merged.push({ ...data, relevance: relevanceScore(score, data, scope) });
       }
       merged.sort((a, b) => b.relevance - a.relevance);
 
@@ -344,21 +349,20 @@ class MemoryStore {
       }
       return results;
     } catch {
-      return this.recall(query, limit, options);
+      return this._sqliteRecall(query, limit, options);
     }
   }
 
-  baseline(tokenBudget = 500) {
+  _sqliteBaseline(tokenBudget = 500) {
     const results = this.db.prepare(`
       SELECT key, value, type, scope FROM semantic
       WHERE (type IN ('policy', 'architecture', 'preference') OR confidence >= 1.0) AND decay_score > 0.3
       ORDER BY CASE type WHEN 'policy' THEN 1 WHEN 'architecture' THEN 2 WHEN 'preference' THEN 3 ELSE 4 END, reinforced DESC
     `).all();
-    let tokens = 0;
-    return results.filter(r => { tokens += Math.ceil((r.key.length + r.value.length) / 4); return tokens <= tokenBudget; });
+    return applyTokenBudget(results, tokenBudget);
   }
 
-  scoped(filePath, limit = 5) {
+  _sqliteScoped(filePath, limit = 5) {
     if (!filePath) return [];
     const dir = filePath.split('/').slice(0, -1).join('/');
     return this.db.prepare(`
@@ -368,25 +372,20 @@ class MemoryStore {
     `).all(filePath, dir, filePath, limit);
   }
 
-  semanticCount() { return this.db.prepare('SELECT COUNT(*) as n FROM semantic').get().n; }
-  semanticGetAll() { return this.db.prepare('SELECT key, value, confidence, source, type, scope, updated, reinforced, decay_score FROM semantic ORDER BY updated DESC').all(); }
+  _sqliteCount() {
+    return this.db.prepare('SELECT COUNT(*) as n FROM semantic').get().n;
+  }
 
-  // Async helper: compute and store embedding for a semantic memory
+  _sqliteGetAll() {
+    return this.db.prepare('SELECT key, value, confidence, source, type, scope, updated, reinforced, decay_score FROM semantic ORDER BY updated DESC').all();
+  }
+
+  // Async helper: compute and store embedding for a semantic memory (SQLite mode only).
   async #embedAsync(key, text) {
     const embedder = this.#embedder.constructor.name !== 'TrigramEmbedder' ? this.#embedder : SemanticEmbedder.instance();
     const vec = await embedder.embed(text);
     const buf = Buffer.from(vec.buffer, vec.byteOffset, vec.byteLength);
     this.db.prepare('UPDATE semantic SET embedding = ? WHERE key = ?').run(buf, key);
-
-    // Mirror to Chroma when enabled. Best-effort: failure never blocks the
-    // SQLite write, which remains the source of truth.
-    if (CHROMA_ENABLED) {
-      const store = getVectorStore();
-      if (store) {
-        const row = this.db.prepare('SELECT type, scope FROM semantic WHERE key = ?').get(key);
-        store.upsert(key, vec, { type: row?.type || 'fact', scope: row?.scope || '' }).catch(() => {});
-      }
-    }
   }
 
   // Async helper: compute and store embedding for an episodic memory
@@ -585,9 +584,15 @@ class MemoryStore {
 
   // --- Contradiction Detection (semantic, not just exact-string) ---
 
+  // Public delegate → active adapter.
+  detectContradictions(threshold = 0.85) {
+    // Sync path retained for callers that cannot await (SQLite trigram version).
+    return this._sqliteDetectContradictionsSync(threshold);
+  }
+
   // Find pairs of same-type memories that are highly similar but not identical —
   // likely contradictions (e.g. "prefers X" vs "switched to Y"). Flags, does not merge.
-  detectContradictions(threshold = 0.85) {
+  _sqliteDetectContradictionsSync(threshold = 0.85) {
     const db = this.db;
     // Exclude seeded knowledge entries — only user/agent facts matter here.
     const rows = db.prepare(`
@@ -617,7 +622,7 @@ class MemoryStore {
   }
 
   // Async version using stored embeddings first, fallback to live computation
-  async detectContradictionsAsync(threshold = 0.92) {
+  async _sqliteDetectContradictions(threshold = 0.92) {
     const db = this.db;
     const rows = db.prepare(`
       SELECT key, value, type, trust_score, embedding FROM semantic
@@ -628,7 +633,7 @@ class MemoryStore {
     try {
       const { SemanticEmbedder } = await import('./embedder.mjs');
       embedder = SemanticEmbedder.instance();
-    } catch { return this.detectContradictions(threshold); }
+    } catch { return this._sqliteDetectContradictionsSync(threshold); }
 
     const byType = new Map();
     for (const r of rows) {
@@ -659,9 +664,22 @@ class MemoryStore {
     return flagged;
   }
 
+  // Public delegate → active adapter (async, works for both backends).
+  detectContradictionsAsync(threshold = 0.92) {
+    return this.semantic.detectContradictions(threshold);
+  }
+
   // --- Maintenance ---
 
-  applyDecay() {
+  // Public: decay semantic memories via the active adapter, then always
+  // decay episodic (SQLite regardless of backend).
+  async applyDecay() {
+    const result = await this.semantic.applyDecay();
+    this.#decayEpisodic();
+    return result;
+  }
+
+  _sqliteApplyDecay() {
     const HALF_LIFE = { policy: Infinity, architecture: Infinity, workflow: 180, decision: 90, preference: 90, pitfall: 90, fact: 60 };
     const TRUST_DECAY_RATE = { fact: 0.03, decision: 0.02, workflow: 0.02, preference: 0.01, pitfall: 0.01 };
     const now = Date.now();
@@ -685,7 +703,6 @@ class MemoryStore {
         trustStmt.run(newTrust, row.key);
       }
     }
-    this.#decayEpisodic();
     return { total: rows.length, decayed };
   }
 
@@ -709,9 +726,37 @@ class MemoryStore {
     return { archived: weak.length };
   }
 
-  dreamConsolidate() {
+  // Public: consolidate semantic via adapter (merge dupes + archive stale),
+  // then promote recurring episodic topics (SQLite regardless of backend).
+  async dreamConsolidate() {
     const db = this.db;
-    const results = { merged: 0, archived: 0, reinforced: 0 };
+    const sem = await this.semantic.dreamConsolidateSemantic();
+    const results = { merged: sem.merged || 0, archived: sem.archived || 0, reinforced: 0 };
+
+    // Promote recurring episodic topics
+    const episodes = db.prepare('SELECT event, outcome FROM episodic ORDER BY ts DESC LIMIT 100').all();
+    const freq = new Map();
+    for (const ep of episodes) {
+      for (const w of new Set(`${ep.event} ${ep.outcome}`.toLowerCase().split(/\s+/).filter(w => w.length > 4))) {
+        freq.set(w, (freq.get(w) || 0) + 1);
+      }
+    }
+    for (const [topic, count] of freq) {
+      if (count >= 5) {
+        const dup = await this.semantic.countByPattern(`auto.${topic}`);
+        if (!dup) {
+          const best = episodes.find(ep => `${ep.event} ${ep.outcome}`.toLowerCase().includes(topic));
+          if (best) { await this.semantic.learn(`auto.${topic}`, `Recurring: ${best.event}`, { source: 'inferred', type: 'fact' }); results.reinforced++; }
+        }
+      }
+    }
+    return results;
+  }
+
+  // SQLite semantic consolidation (adapter delegate): merge dupes + archive stale.
+  _sqliteDreamSemantic() {
+    const db = this.db;
+    const results = { merged: 0, archived: 0 };
 
     // Merge duplicates
     const all = db.prepare('SELECT key, value, reinforced, decay_score, type FROM semantic ORDER BY reinforced DESC').all();
@@ -735,57 +780,60 @@ class MemoryStore {
       for (const s of stale) delStmt.run(s.key);
       results.archived = stale.length;
     }
-
-    // Promote recurring episodic topics
-    const episodes = db.prepare('SELECT event, outcome FROM episodic ORDER BY ts DESC LIMIT 100').all();
-    const freq = new Map();
-    for (const ep of episodes) {
-      for (const w of new Set(`${ep.event} ${ep.outcome}`.toLowerCase().split(/\s+/).filter(w => w.length > 4))) {
-        freq.set(w, (freq.get(w) || 0) + 1);
-      }
-    }
-    for (const [topic, count] of freq) {
-      if (count >= 5 && !db.prepare('SELECT key FROM semantic WHERE LOWER(key) LIKE ?').get(`%${topic}%`)) {
-        const best = episodes.find(ep => `${ep.event} ${ep.outcome}`.toLowerCase().includes(topic));
-        if (best) { this.learn(`auto.${topic}`, `Recurring: ${best.event}`, 'inferred', 'fact', ''); results.reinforced++; }
-      }
-    }
     return results;
   }
 
   // --- Delete ---
 
-  deleteByPattern(pattern) {
-    const db = this.db;
+  // Public: delete across all layers. Semantic goes through the active adapter;
+  // episodic + procedural are always SQLite.
+  async deleteByPattern(pattern) {
     const like = `%${escapeLike(pattern)}%`;
-    const semantic = db.prepare('SELECT key FROM semantic WHERE key LIKE ? OR value LIKE ?').all(like, like);
-    const episodic = db.prepare('SELECT id FROM episodic WHERE event LIKE ? OR outcome LIKE ?').all(like, like);
-    const procedural = db.prepare('SELECT id FROM procedural WHERE name LIKE ? OR context LIKE ?').all(like, like);
-    const total = semantic.length + episodic.length + procedural.length;
-    if (total > 50) return { error: 'Pattern too broad', semantic: semantic.length, episodic: episodic.length, procedural: procedural.length, total };
-    // Audit log (append-only, Constitution P7)
-    const auditFile = path.join(this.#home, 'memory-deletes.jsonl');
-    const entry = JSON.stringify({ pattern, ts: new Date().toISOString(), semantic: semantic.map(r => r.key), episodic: episodic.length, procedural: procedural.length });
-    fs.appendFileSync(auditFile, entry + '\n');
-    for (const r of semantic) db.prepare('DELETE FROM semantic WHERE key = ?').run(r.key);
-    for (const r of episodic) db.prepare('DELETE FROM episodic WHERE id = ?').run(r.id);
-    for (const r of procedural) db.prepare('DELETE FROM procedural WHERE id = ?').run(r.id);
-    return { semantic: semantic.length, episodic: episodic.length, procedural: procedural.length };
+    const db = this.db;
+    const episodicRows = db.prepare('SELECT id FROM episodic WHERE event LIKE ? OR outcome LIKE ?').all(like, like);
+    const proceduralRows = db.prepare('SELECT id FROM procedural WHERE name LIKE ? OR context LIKE ?').all(like, like);
+
+    const sem = await this.semantic.deleteByPattern(pattern);
+    if (sem.error) return { ...sem, episodic: episodicRows.length, procedural: proceduralRows.length, total: sem.total ?? sem.semantic };
+
+    for (const r of episodicRows) db.prepare('DELETE FROM episodic WHERE id = ?').run(r.id);
+    for (const r of proceduralRows) db.prepare('DELETE FROM procedural WHERE id = ?').run(r.id);
+    return { semantic: sem.semantic, episodic: episodicRows.length, procedural: proceduralRows.length };
   }
 
-  countByPattern(pattern) {
+  // SQLite-only semantic delete (adapter delegate). Includes audit log + broad-pattern guard.
+  _sqliteDeleteSemantic(pattern) {
+    const db = this.db;
+    const like = `%${escapeLike(pattern)}%`;
+    const semantic = db.prepare("SELECT key FROM semantic WHERE key LIKE ? ESCAPE '\\' OR value LIKE ? ESCAPE '\\'").all(like, like);
+    if (semantic.length > 50) return { error: 'Pattern too broad', semantic: semantic.length, total: semantic.length };
+    try {
+      const auditFile = path.join(this.#home, 'memory-deletes.jsonl');
+      fs.appendFileSync(auditFile, JSON.stringify({ pattern, ts: new Date().toISOString(), backend: 'sqlite', semantic: semantic.map(r => r.key) }) + '\n');
+    } catch {}
+    for (const r of semantic) db.prepare('DELETE FROM semantic WHERE key = ?').run(r.key);
+    return { semantic: semantic.length };
+  }
+
+  // Public: count matches across all layers.
+  async countByPattern(pattern) {
     const db = this.db;
     const like = `%${escapeLike(pattern)}%`;
     return {
-      semantic: db.prepare('SELECT COUNT(*) as n FROM semantic WHERE key LIKE ? OR value LIKE ?').get(like, like).n,
+      semantic: await this.semantic.countByPattern(pattern),
       episodic: db.prepare('SELECT COUNT(*) as n FROM episodic WHERE event LIKE ? OR outcome LIKE ?').get(like, like).n,
       procedural: db.prepare('SELECT COUNT(*) as n FROM procedural WHERE name LIKE ? OR context LIKE ?').get(like, like).n,
     };
   }
 
-  // Adjust trust score for memories that were recalled in a session.
+  _sqliteCountSemantic(pattern) {
+    const like = `%${escapeLike(pattern)}%`;
+    return this.db.prepare('SELECT COUNT(*) as n FROM semantic WHERE key LIKE ? OR value LIKE ?').get(like, like).n;
+  }
+
+  // Adjust trust score for memories that were recalled in a session (adapter delegate).
   // Call after reflect() with outcome to calibrate which memories are actually useful.
-  adjustTrust(keys, outcome) {
+  _sqliteAdjustTrust(keys, outcome) {
     const db = this.db;
     const delta = outcome === 'success' ? 0.1 : outcome === 'failure' ? -0.15 : 0.0;
     if (!delta || !keys.length) return { adjusted: 0 };
@@ -807,23 +855,36 @@ class MemoryStore {
 
   // --- Stats & Export ---
 
-  stats() {
+  // Public: async so semantic count works for both backends.
+  async stats() {
     return {
-      semantic: this.semanticCount(),
+      semantic: await this.semantic.count(),
       episodic: this.episodicCount(),
       procedural: this.proceduralCount(),
       dbSize: fs.existsSync(this.#dbPath) ? Math.round(fs.statSync(this.#dbPath).size / 1024) + 'KB' : '0KB',
+      backend: this.semantic.backend,
     };
   }
 
-  exportToJson() {
+  async exportToJson() {
+    const semantic = await this.semantic.exportAll();
+    return { semantic, episodic: this.episodicExport(), procedural: this.proceduralExport() };
+  }
+
+  _sqliteExportSemantic() {
     const semantic = {};
     for (const row of this.db.prepare('SELECT * FROM semantic').all()) {
       semantic[row.key] = { value: row.value, confidence: row.confidence, source: row.source, type: row.type, updated: row.updated, reinforced: row.reinforced };
     }
-    const episodic = this.db.prepare('SELECT event, outcome, tags, ts FROM episodic ORDER BY ts').all().map(r => ({ ...r, tags: JSON.parse(r.tags) }));
-    const procedural = this.db.prepare('SELECT name, context, steps, uses, updated FROM procedural').all().map(r => ({ ...r, steps: JSON.parse(r.steps) }));
-    return { semantic, episodic, procedural };
+    return semantic;
+  }
+
+  episodicExport() {
+    return this.db.prepare('SELECT event, outcome, tags, ts FROM episodic ORDER BY ts').all().map(r => ({ ...r, tags: JSON.parse(r.tags) }));
+  }
+
+  proceduralExport() {
+    return this.db.prepare('SELECT name, context, steps, uses, updated FROM procedural').all().map(r => ({ ...r, steps: JSON.parse(r.steps) }));
   }
 
   // --- Private Methods ---

@@ -70,22 +70,22 @@ describe('memory-db upgrades', () => {
   });
 
   describe('adaptive-depth recall', () => {
-    it('widens to trigram results when FTS top hit is weak', () => {
+    it('widens to trigram results when FTS top hit is weak', async () => {
       // Seed a fact whose value shares no exact tokens with the query phrasing,
       // so FTS is weak/empty but trigram similarity can still surface it.
-      store.learn('infra.queue.broker', 'message broker uses RabbitMQ for async job dispatch', 'observed', 'architecture');
+      await store.learn('infra.queue.broker', 'message broker uses RabbitMQ for async job dispatch', 'observed', 'architecture');
       // Query with morphological variants ("brokering", "dispatching") that FTS
       // exact-token match misses but trigrams catch.
-      const res = store.recall('brokering async dispatching', 10);
+      const res = await store.recall('brokering async dispatching', 10);
       assert.ok(Array.isArray(res), 'returns an array');
       // Should not throw and should still find the related entry via widening
       const hit = res.find(r => r.key === 'infra.queue.broker');
       assert.ok(hit, 'adaptive widening should surface the trigram-similar entry');
     });
 
-    it('does not duplicate keys when widening', () => {
-      store.learn('dedup.check.entry', 'kubernetes pod autoscaling horizontal metrics', 'observed', 'fact');
-      const res = store.recall('kubernetes autoscaling', 10);
+    it('does not duplicate keys when widening', async () => {
+      await store.learn('dedup.check.entry', 'kubernetes pod autoscaling horizontal metrics', 'observed', 'fact');
+      const res = await store.recall('kubernetes autoscaling', 10);
       const keys = res.map(r => r.key);
       assert.equal(keys.length, new Set(keys).size, 'no duplicate keys in results');
     });
@@ -93,8 +93,8 @@ describe('memory-db upgrades', () => {
 
   describe('contradiction detection', () => {
     it('flags two same-type memories that are similar but not identical', async () => {
-      store.learn('code.style.tabs', 'the codebase follows a strict tabs-only indentation policy', 'user_explicit', 'preference');
-      store.learn('code.style.spaces', 'all code must use four-space indentation without exception', 'user_explicit', 'preference');
+      await store.learn('code.style.tabs', 'the codebase follows a strict tabs-only indentation policy', 'user_explicit', 'preference');
+      await store.learn('code.style.spaces', 'all code must use four-space indentation without exception', 'user_explicit', 'preference');
       const flagged = await store.detectContradictionsAsync(0.5);
       const pair = flagged.find(f =>
         (f.a === 'code.style.tabs' && f.b === 'code.style.spaces') ||
@@ -104,27 +104,27 @@ describe('memory-db upgrades', () => {
       assert.equal(pair.type, 'preference');
     });
 
-    it('does not flag identical values (those are merge candidates, not conflicts)', () => {
-      store.learn('dup.one', 'always run tests before committing', 'observed', 'policy');
-      store.learn('dup.two', 'always run tests before committing', 'observed', 'policy');
+    it('does not flag identical values (those are merge candidates, not conflicts)', async () => {
+      await store.learn('dup.one', 'always run tests before committing', 'observed', 'policy');
+      await store.learn('dup.two', 'always run tests before committing', 'observed', 'policy');
       const flagged = store.detectContradictions(0.8);
       assert.ok(!flagged.some(f =>
         (f.a === 'dup.one' && f.b === 'dup.two') || (f.a === 'dup.two' && f.b === 'dup.one')
       ));
     });
 
-    it('does not flag different types as contradicting', () => {
-      store.learn('fact.x', 'the service runs on port 8080', 'observed', 'fact');
-      store.learn('policy.x', 'the service runs on port 9090', 'observed', 'policy');
+    it('does not flag different types as contradicting', async () => {
+      await store.learn('fact.x', 'the service runs on port 8080', 'observed', 'fact');
+      await store.learn('policy.x', 'the service runs on port 9090', 'observed', 'policy');
       const flagged = store.detectContradictions(0.7);
       assert.ok(!flagged.some(f =>
         (f.a === 'fact.x' && f.b === 'policy.x') || (f.a === 'policy.x' && f.b === 'fact.x')
       ));
     });
 
-    it('ignores seeded knowledge entries', () => {
-      store.learn('knowledge.design-patterns.strategy', 'strategy pattern swaps algorithms', 'observed', 'architecture');
-      store.learn('knowledge.design-patterns.state', 'strategy pattern swaps algorithms behavior', 'observed', 'architecture');
+    it('ignores seeded knowledge entries', async () => {
+      await store.learn('knowledge.design-patterns.strategy', 'strategy pattern swaps algorithms', 'observed', 'architecture');
+      await store.learn('knowledge.design-patterns.state', 'strategy pattern swaps algorithms behavior', 'observed', 'architecture');
       const flagged = store.detectContradictions(0.7);
       assert.ok(!flagged.some(f => f.a.startsWith('knowledge.') || f.b.startsWith('knowledge.')));
     });

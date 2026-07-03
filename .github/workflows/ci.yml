@@ -2,10 +2,10 @@ name: CI
 
 on:
   push:
-    branches: [main, v1.x.x]
+    branches: [main]
     tags-ignore: ['v*']
   pull_request:
-    branches: [main, v1.x.x]
+    branches: [main]
 
 jobs:
   lint:

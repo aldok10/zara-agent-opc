@@ -22,7 +22,7 @@ autonomous coding agent, code review agent, security review agent, testing agent
 [![Node.js 22+](https://img.shields.io/badge/node-22%2B-green)](https://nodejs.org)
 [![ChromaDB](https://img.shields.io/badge/vector-ChromaDB-orange)](https://www.trychroma.com)
 
-> **Not an assistant. A persistent engineering partner.** Zara has cognitive memory across sessions, orchestrates 10 specialist sub-agents, grounds decisions in 239 curated engineering articles, and gets sharper every time you use her. Built on the [Model Context Protocol](https://modelcontextprotocol.io) for [OpenCode](https://opencode.ai).
+> **Not an assistant. A persistent engineering partner.** Zara has cognitive memory across sessions, orchestrates 10 specialist sub-agents, grounds decisions in 239 curated engineering articles, and gets sharper every time you use her. A single unified MCP tool handles all memory operations — minimizing token overhead while preserving full functionality. Built on the [Model Context Protocol](https://modelcontextprotocol.io) for [OpenCode](https://opencode.ai).
 
 Created and maintained by **[Aldo Karendra](https://github.com/aldok10)** — Lead Backend Engineer & AI Systems Architect ([LinkedIn](https://www.linkedin.com/in/aldok10/) · [GitHub](https://github.com/aldok10))
 
@@ -182,20 +182,19 @@ Each module hooks into the session lifecycle (start, end, tool call) and contrib
 
 ## MCP Server
 
-A standalone Node.js server (`tools/mcp/index.mjs`) providing 43 tools across 10 domains, over JSON-RPC 2.0 stdio transport:
+A standalone Node.js server (`tools/mcp/index.mjs`) providing a single unified `memory` tool over JSON-RPC 2.0 stdio transport. All memory operations are routed via the `action` parameter:
 
-| Domain | Tools | Purpose |
-|--------|-------|---------|
-| memory | 13 | Learn, recall, episode, procedure, consolidate, contradictions, delete |
-| reflection | 8 | Reflect, suggest, patterns, evolve status |
-| knowledge | 6 | Index, load, passage search, Chroma sync |
-| session | 5 | Session log, user profile, goal, shutdown ritual |
-| audit | 3 | Self-audit, skill integrity |
-| improve | 2 | Self-improve cycle (observe/orient) |
-| project | 2 | Project learn, structure extraction |
-| music | 2 | Focus music player with taste learning |
-| identity | 1 | User identity resolution |
-| metrics | 1 | Learning dashboard |
+| Action | Sub-operations (op) | Purpose |
+|--------|---------------------|---------|
+| `recall` | — | Search memory (semantic, episodic, procedural, knowledge passages via RRF) |
+| `learn` | project | Store facts, preferences, architecture decisions; extract project knowledge |
+| `episode` | reflect, blindspot, suggest, patterns | Record events, reflections, blindspot tracking |
+| `procedure` | — | Save or recall reusable workflows |
+| `manage` | consolidate, delete, contradictions, seed, index | Memory maintenance, knowledge seeding |
+| `session` | start, end, check, profile, discover, model, goal_* | Session lifecycle, user identity, goals |
+| `system` | audit, improve, evolve, patterns, suggest, integrity, dashboard | Self-audit, self-improvement, diagnostics |
+
+**Design rationale:** 26 tools across 10 domain files were consolidated into 1 tool with action-based routing, reducing system-prompt token overhead by ~4.8K tokens per message (~85% reduction in MCP tool description cost).
 
 ## Commands
 
@@ -237,8 +236,8 @@ Zara is a layered system. Each layer has one job and a clean boundary to the nex
 │  Sub-Agent Layer (isolated context each)                      │
 │  scout atlas lens shield probe pulse rhythm hive forge sketch │
 ├─────────────────────────────────────────────────────────────┤
-│  MCP Server (43 tools · 10 domains · JSON-RPC 2.0 over stdio) │
-│  memory reflection knowledge session audit improve project…   │
+│  MCP Server (1 unified tool · action-based routing · JSON-RPC 2.0 over stdio) │
+│  memory: recall|learn|episode|procedure|manage|session|system                 │
 ├─────────────────────────────────────────────────────────────┤
 │  Memory Layer                                                 │
 │   SQLite + FTS5  (default)  │  ChromaDB  (ZARA_VECTOR=chroma) │
@@ -260,7 +259,7 @@ Modules that inject cost ~300-500 tokens per turn. The rest are tools-only — *
 
 **Sub-agents run in isolation.** Each gets a clean context window with only its task brief — no session history, no noise. This is deliberate: isolation is as valuable as expertise. A reviewer that hasn't seen you write the code reviews it more honestly.
 
-**The MCP server is a sidecar process.** It speaks JSON-RPC 2.0 over stdio, registers 43 tools across 10 domains, rate-limits to 120 calls/minute, and owns all persistence. It runs on Node.js stdlib alone — no framework, no required dependencies.
+**The MCP server is a sidecar process.** It speaks JSON-RPC 2.0 over stdio, exposes a single unified `memory` tool with action-based routing, rate-limits to 120 calls/minute, and owns all persistence. It runs on Node.js stdlib alone — no framework, no required dependencies. The unified design cuts ~4.8K tokens from every system prompt compared to the old 26-tool layout.
 
 **The memory layer is pluggable.** This is the piece that makes Zara grow with you instead of outgrowing you. By default, everything lives in embedded SQLite with FTS5 — one file, zero services, works offline. Flip `ZARA_VECTOR=chroma` and the exact same memory API routes vector search through **ChromaDB** instead, across four cosine-space HNSW collections (semantic, episodic, procedural, knowledge). The `chromadb` client is a dynamically-imported optional dependency, so it costs nothing until you switch it on. Either way, the same MiniLM-L6-v2 embeddings feed a **Reciprocal Rank Fusion** step (RRF, K=60) that merges full-text and vector rankings into one result list. You start local for free, and scale to a dedicated vector database when your corpus demands it — without touching a line of your workflow. See [ChromaDB Integration](#chromadb-integration--scaling-memory-to-production) for the full setup.
 
@@ -290,10 +289,10 @@ zara-agent-opc/
 ├── AGENTS.md                     # Agent dispatch rules
 ├── ZARA_CONSTITUTION.md          # Safety rules (highest authority)
 ├── tools/
-│   ├── mcp/                      # MCP server (43 tools, stdio transport)
+│   ├── mcp/                      # MCP server (1 unified tool, stdio transport)
 │   │   ├── index.mjs             # Entry point + tool registration
 │   │   ├── server.mjs            # JSON-RPC 2.0 over stdio
-│   │   └── domain/               # 10 domain modules
+│   │   └── domain/memory.mjs     # Unified memory tool (action-based routing)
 │   ├── memory-db.mjs             # SQLite + FTS5 memory backend (hybrid recall + RRF)
 │   ├── vector-store.mjs          # ChromaDB backend (optional, pluggable)
 │   ├── embedder.mjs              # Semantic embeddings (MiniLM-L6-v2)

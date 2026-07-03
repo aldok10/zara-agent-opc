@@ -24,7 +24,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const KNOWLEDGE_DIR = path.resolve(__dirname, '..', 'knowledge');
 
 // Section (first path segment under knowledge/) -> OKF type.
-// Mirrors SECTION_TYPE_MAP in tools/mcp/domain/knowledge.mjs, extended with the
+// Mirrors SECTION_TYPE_MAP in tools/mcp/domain/memory.mjs, extended with the
 // sections that lack a mapping there.
 const SECTION_TYPE_MAP = {
   antipatterns: 'pitfall',

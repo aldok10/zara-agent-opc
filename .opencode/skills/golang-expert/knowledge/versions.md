@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Go Version Features (1.21 → 1.26)"
+---
+
 # Go Version Features (1.21 → 1.26)
 
 ## Go 1.21 (August 2023)

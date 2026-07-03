@@ -1,3 +1,8 @@
+---
+type: fact
+title: "PHP 8.3 Changelog (November 2023)"
+---
+
 # PHP 8.3 Changelog (November 2023)
 
 ## Major Features

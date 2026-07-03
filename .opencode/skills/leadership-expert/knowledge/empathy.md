@@ -1,3 +1,8 @@
+---
+type: policy
+title: "Empathetic AI Patterns - Tone, Calibration & Care"
+---
+
 # Empathetic AI Patterns - Tone, Calibration & Care
 
 ## What Makes AI Feel Empathetic vs Robotic

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "PHP 8.2 Changelog (December 2022)"
+---
+
 # PHP 8.2 Changelog (December 2022)
 
 ## Major Features

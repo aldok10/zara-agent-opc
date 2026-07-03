@@ -1,3 +1,8 @@
+---
+type: policy
+title: "Agentic Orchestration - Leadership Patterns"
+---
+
 # Agentic Orchestration - Leadership Patterns
 
 ## The Lead Agent as Engineering Manager

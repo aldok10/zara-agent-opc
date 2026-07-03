@@ -1,3 +1,8 @@
+---
+type: policy
+title: "AI × Leadership - Research Synthesis (2023-2025)"
+---
+
 # AI × Leadership - Research Synthesis (2023-2025)
 
 ## Key Findings

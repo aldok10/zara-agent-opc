@@ -1,3 +1,8 @@
+---
+type: fact
+title: "tsconfig: every flag and the bug it prevents"
+---
+
 # tsconfig: every flag and the bug it prevents
 
 A senior tsconfig for a modern app (Node 24+ / bundler, ESM). Each flag annotated with WHY.

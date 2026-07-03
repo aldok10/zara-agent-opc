@@ -1,3 +1,8 @@
+---
+type: fact
+title: "TypeScript Gotchas: the traps seniors have been burned by"
+---
+
 # TypeScript Gotchas: the traps seniors have been burned by
 
 ## Structural typing (duck typing) surprises

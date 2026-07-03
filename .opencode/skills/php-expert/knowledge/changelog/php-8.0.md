@@ -1,3 +1,8 @@
+---
+type: fact
+title: "PHP 8.0 Changelog (November 2020)"
+---
+
 # PHP 8.0 Changelog (November 2020)
 
 ## Major Features

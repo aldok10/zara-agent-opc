@@ -1,3 +1,8 @@
+---
+type: fact
+title: "PSR Standards Reference"
+---
+
 # PSR Standards Reference
 
 > Docs: https://www.php-fig.org/psr/ | All PSRs: https://www.php-fig.org/psr/#index | PER Coding Style: https://www.php-fig.org/per/coding-style/

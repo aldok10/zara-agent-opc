@@ -1,3 +1,8 @@
+---
+type: policy
+title: "Leadership Frameworks - Deep Reference"
+---
+
 # Leadership Frameworks - Deep Reference
 
 ## 1. Servant Leadership (Robert Greenleaf)

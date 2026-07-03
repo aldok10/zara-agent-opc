@@ -1,3 +1,8 @@
+---
+type: fact
+title: "PHP 8.4 Changelog (November 2024)"
+---
+
 # PHP 8.4 Changelog (November 2024)
 
 ## Major Features

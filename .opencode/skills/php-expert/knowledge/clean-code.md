@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Clean Code PHP - Complete Guard Rails"
+---
+
 # Clean Code PHP - Complete Guard Rails
 
 > Docs: https://www.php.net/manual/en/ | RFC: https://wiki.php.net/rfc | PHP-FIG: https://www.php-fig.org/

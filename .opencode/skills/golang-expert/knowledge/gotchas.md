@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Go Gotchas & Common Mistakes"
+---
+
 # Go Gotchas & Common Mistakes
 
 Source: [golang50shades.com](https://golang50shades.com/) + production experience.

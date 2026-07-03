@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Senior Engineering DNA - Detailed Reference"
+---
+
 # Senior Engineering DNA - Detailed Reference
 
 Source: 254 DevIQ articles (antipatterns, architecture, code-smells, design-patterns, DDD, laws, practices, principles, testing, values)

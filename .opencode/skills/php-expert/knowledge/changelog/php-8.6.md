@@ -1,3 +1,8 @@
+---
+type: fact
+title: "PHP 8.6 Changelog (Expected November 2026)"
+---
+
 # PHP 8.6 Changelog (Expected November 2026)
 
 Status: In development. GA target: November 19, 2026.

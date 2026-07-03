@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Operational Rules"
+---
+
 # Operational Rules
 
 ## Activation Flow

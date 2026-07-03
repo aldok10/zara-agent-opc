@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Go Standard Library & Patterns Reference"
+---
+
 # Go Standard Library & Patterns Reference
 
 > Load this file when you need stdlib API details, idiomatic patterns, or version-specific features.

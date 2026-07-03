@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Modern PHP Patterns (8.4+)"
+---
+
 # Modern PHP Patterns (8.4+)
 
 > Docs: https://www.php.net/manual/en/ | Migration 8.4: https://www.php.net/migration84 | RFC: https://wiki.php.net/rfc | Releases: https://www.php.net/releases/

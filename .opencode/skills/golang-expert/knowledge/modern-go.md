@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Modern Go Features by Version"
+---
+
 # Modern Go Features by Version
 
 Source: [JetBrains/go-modern-guidelines](https://github.com/JetBrains/go-modern-guidelines)

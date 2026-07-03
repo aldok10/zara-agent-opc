@@ -1,3 +1,8 @@
+---
+type: fact
+title: "PHP 8.1 Changelog (November 2021)"
+---
+
 # PHP 8.1 Changelog (November 2021)
 
 ## Major Features

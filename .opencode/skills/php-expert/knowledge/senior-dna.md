@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Senior Engineering DNA - Detailed Reference"
+---
+
 # Senior Engineering DNA - Detailed Reference
 
 > DevIQ: https://deviq.com | Refactoring.Guru: https://refactoring.guru | Martin Fowler: https://martinfowler.com

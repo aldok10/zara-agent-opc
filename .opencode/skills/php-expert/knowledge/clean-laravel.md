@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Clean Code in Laravel"
+---
+
 # Clean Code in Laravel
 
 > Docs: https://laravel.com/docs | API: https://laravel.com/api | Source: https://github.com/laravel/framework | Ecosystem: https://laravel.com/docs/master/ecosystem

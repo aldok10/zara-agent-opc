@@ -1,3 +1,8 @@
+---
+type: fact
+title: "PHP 8.5 Changelog (November 2025)"
+---
+
 # PHP 8.5 Changelog (November 2025)
 
 ## Major Features

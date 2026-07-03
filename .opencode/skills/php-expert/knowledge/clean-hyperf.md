@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Clean Code in Hyperf"
+---
+
 # Clean Code in Hyperf
 
 ## Documentation Reference

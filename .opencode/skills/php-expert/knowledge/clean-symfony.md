@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Clean Code in Symfony"
+---
+
 # Clean Code in Symfony
 
 > Docs: https://symfony.com/doc/current/index.html | Best Practices: https://symfony.com/doc/current/best_practices.html | Components: https://symfony.com/components | Source: https://github.com/symfony/symfony

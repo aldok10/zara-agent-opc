@@ -1,3 +1,8 @@
+---
+type: fact
+title: "100 Go Mistakes - AI Guard Rails"
+---
+
 # 100 Go Mistakes - AI Guard Rails
 
 Source: [100go.co](https://100go.co) by Teiva Harsanyi (Manning, 2022)

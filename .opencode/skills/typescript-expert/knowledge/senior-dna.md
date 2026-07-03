@@ -1,3 +1,8 @@
+---
+type: fact
+title: "TypeScript Senior DNA"
+---
+
 # TypeScript Senior DNA
 
 The judgment that separates a senior from someone who just knows syntax. This is the "when to break the rules" layer.

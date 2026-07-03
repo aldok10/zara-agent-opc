@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Uber Go Style Guide - Detailed Explanation"
+---
+
 # Uber Go Style Guide - Detailed Explanation
 
 Source: [github.com/uber-go/guide](https://github.com/uber-go/guide/blob/master/style.md)

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Go Version Security Status (as of June 2026)"
+---
+
 # Go Version Security Status (as of June 2026)
 
 > **CRITICAL**: Only the latest 2 major releases receive security patches.

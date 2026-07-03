@@ -8,8 +8,8 @@
 // backend. Whatever SQLite does — dedup, trust calibration, decay, contradiction
 // detection, pattern delete — Chroma does too, reimplemented against its API.
 //
-// Episodic, procedural, and knowledge layers are NOT part of this adapter; they
-// stay in SQLite regardless of backend (they don't use vector similarity).
+// Episodic, procedural, and knowledge chunk layers have their own adapters in
+// episodic-store.mjs, procedural-store.mjs, and knowledge-store.mjs respectively.
 //
 // Contract (all methods async):
 //   learn(key, value, {source,type,scope,agent,grounded})  → {key,value,reinforced,type,deduped?}

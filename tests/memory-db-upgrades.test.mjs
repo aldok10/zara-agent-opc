@@ -36,7 +36,7 @@ describe('memory-db upgrades', () => {
       assert.deepEqual(store.chunkText(null), []);
     });
 
-    it('stores and retrieves passages by cosine similarity', () => {
+    it('stores and retrieves passages by cosine similarity', async () => {
       // Long paragraphs so each exceeds the word budget and becomes its own chunk
       const pad = (s) => s + ' ' + 'filler context detail example note '.repeat(45);
       const body = [
@@ -44,27 +44,27 @@ describe('memory-db upgrades', () => {
         pad('Saga pattern handles distributed transactions through compensating actions when a step fails partway.'),
         pad('Circuit breakers stop cascading failures by short-circuiting calls to a failing dependency.'),
       ].join('\n\n');
-      const res = store.knowledgeChunkUpsert('kb.test.patterns', 'design-patterns', body);
+      const res = await store.knowledgeChunkUpsert('kb.test.patterns', 'design-patterns', body);
       assert.equal(res.chunks, 3);
-      assert.equal(store.knowledgeChunkCount(), 3);
+      assert.equal(await store.knowledgeChunkCount(), 3);
 
-      const hits = store.knowledgeChunkSearch('compensating distributed transaction failure', '', 3);
+      const hits = await store.knowledgeChunkSearch('compensating distributed transaction failure', '', 3);
       assert.ok(hits.length > 0, 'should find matching passage');
       assert.match(hits[0].text.toLowerCase(), /saga|compensating/);
     });
 
-    it('upsert replaces existing chunks for a key (idempotent)', () => {
-      const before = store.knowledgeChunkCount();
-      store.knowledgeChunkUpsert('kb.test.patterns', 'design-patterns', 'One single short paragraph now.');
-      const after = store.knowledgeChunkCount();
+    it('upsert replaces existing chunks for a key (idempotent)', async () => {
+      const before = await store.knowledgeChunkCount();
+      await store.knowledgeChunkUpsert('kb.test.patterns', 'design-patterns', 'One single short paragraph now.');
+      const after = await store.knowledgeChunkCount();
       assert.equal(after, before - 2, 'should drop the 3 old chunks and add 1');
     });
 
-    it('section filter restricts search candidates', () => {
-      store.knowledgeChunkUpsert('kb.test.arch', 'architecture', 'Hexagonal architecture isolates the domain from infrastructure adapters.');
-      const inSection = store.knowledgeChunkSearch('hexagonal domain adapters', 'architecture', 5);
+    it('section filter restricts search candidates', async () => {
+      await store.knowledgeChunkUpsert('kb.test.arch', 'architecture', 'Hexagonal architecture isolates the domain from infrastructure adapters.');
+      const inSection = await store.knowledgeChunkSearch('hexagonal domain adapters', 'architecture', 5);
       assert.ok(inSection.every(r => r.section === 'architecture'));
-      const wrongSection = store.knowledgeChunkSearch('hexagonal domain adapters', 'testing', 5);
+      const wrongSection = await store.knowledgeChunkSearch('hexagonal domain adapters', 'testing', 5);
       assert.equal(wrongSection.length, 0);
     });
   });

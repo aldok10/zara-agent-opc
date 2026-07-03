@@ -23,6 +23,9 @@ import {
   sourceCeiling as getSourceCeiling, confidenceForSource, escapeLike,
   relevanceScore, applyTokenBudget,
 } from './memory/semantic-store.mjs';
+import { getEpisodicStore } from './memory/episodic-store.mjs';
+import { getProceduralStore } from './memory/procedural-store.mjs';
+import { getKnowledgeChunkStore, chunkText } from './memory/knowledge-store.mjs';
 
 // --- Value Objects ---
 
@@ -51,6 +54,9 @@ class MemoryStore {
   #embedder;
   #trustBudget = 0;
   #semantic = null;
+  #episodic = null;
+  #procedural = null;
+  #knowledgeChunks = null;
 
   constructor(home = path.join(os.homedir(), '.zara'), embedder = createEmbedder()) {
     this.#home = home;
@@ -66,6 +72,24 @@ class MemoryStore {
   get semantic() {
     if (!this.#semantic) this.#semantic = getSemanticStore(this);
     return this.#semantic;
+  }
+
+  // Active episodic backend (SQLite or Chroma).
+  get episodic() {
+    if (!this.#episodic) this.#episodic = getEpisodicStore(this);
+    return this.#episodic;
+  }
+
+  // Active procedural backend (SQLite or Chroma).
+  get procedural() {
+    if (!this.#procedural) this.#procedural = getProceduralStore(this);
+    return this.#procedural;
+  }
+
+  // Active knowledge chunk backend (SQLite or Chroma).
+  get knowledgeChunks() {
+    if (!this.#knowledgeChunks) this.#knowledgeChunks = getKnowledgeChunkStore(this);
+    return this.#knowledgeChunks;
   }
 
   // --- Lifecycle ---
@@ -388,80 +412,33 @@ class MemoryStore {
     this.db.prepare('UPDATE semantic SET embedding = ? WHERE key = ?').run(buf, key);
   }
 
-  // Async helper: compute and store embedding for an episodic memory
-  async #embedEpisodicAsync(id, text) {
-    const embedder = this.#embedder.constructor.name !== 'TrigramEmbedder' ? this.#embedder : SemanticEmbedder.instance();
-    const vec = await embedder.embed(text);
-    const buf = Buffer.from(vec.buffer, vec.byteOffset, vec.byteLength);
-    this.db.prepare('UPDATE episodic SET embedding = ? WHERE id = ?').run(buf, id);
-  }
-
-  // Async helper: compute and store embedding for a procedural memory
-  async #embedProceduralAsync(name, text) {
-    const embedder = this.#embedder.constructor.name !== 'TrigramEmbedder' ? this.#embedder : SemanticEmbedder.instance();
-    const vec = await embedder.embed(text);
-    const buf = Buffer.from(vec.buffer, vec.byteOffset, vec.byteLength);
-    this.db.prepare('UPDATE procedural SET embedding = ? WHERE name = ?').run(buf, name);
-  }
-
-  // --- Episodic Layer ---
+  // --- Episodic Layer (delegated to active backend adapter) ---
 
   recordEpisode(event, outcome = '', tags = []) {
-    const ts = new Date().toISOString();
-    this.db.prepare('INSERT INTO episodic (event, outcome, tags, ts) VALUES (?, ?, ?, ?)').run(event, outcome, JSON.stringify(tags), ts);
-
-    // Async embed for hybrid recall
-    if (SEMANTIC_MODE) {
-      const text = outcome ? `${event} ${outcome}` : event;
-      const id = this.db.prepare('SELECT last_insert_rowid() as id').get().id;
-      this.#embedEpisodicAsync(id, text).catch(() => {});
-    }
-
-    return { event, ts };
+    return this.episodic.record(event, outcome, tags);
   }
 
   recallEpisodes(query, limit = 5) {
-    try {
-      const fts = query.split(/\s+/).map(t => `"${t.replace(/"/g, '')}"`).join(' OR ');
-      return this.db.prepare(`SELECT e.id, e.event, e.outcome, e.tags, e.ts FROM episodic_fts f JOIN episodic e ON f.rowid = e.id WHERE episodic_fts MATCH ? ORDER BY rank LIMIT ?`).all(fts, limit);
-    } catch {
-      const terms = query.toLowerCase().split(/\s+/);
-      const where = terms.map(() => "(LOWER(event) LIKE ? ESCAPE '\\' OR LOWER(outcome) LIKE ? ESCAPE '\\' OR LOWER(tags) LIKE ? ESCAPE '\\')").join(' OR ');
-      return this.db.prepare(`SELECT id, event, outcome, tags, ts FROM episodic WHERE ${where} ORDER BY ts DESC LIMIT ?`).all(...terms.flatMap(t => { const e = `%${escapeLike(t)}%`; return [e, e, e]; }), limit);
-    }
+    return this.episodic.recall(query, limit);
   }
 
-  episodicCount() { return this.db.prepare('SELECT COUNT(*) as n FROM episodic').get().n; }
+  episodicCount() {
+    return this.episodic.count();
+  }
 
-  // --- Procedural Layer ---
+  // --- Procedural Layer (delegated to active backend adapter) ---
 
   saveProcedure(name, steps, context = '') {
-    const now = new Date().toISOString().split('T')[0];
-    const existing = this.db.prepare('SELECT uses FROM procedural WHERE name = ?').get(name);
-    if (existing) {
-      this.db.prepare('UPDATE procedural SET context = ?, steps = ?, updated = ? WHERE name = ?').run(context, JSON.stringify(steps), now, name);
-    } else {
-      this.db.prepare('INSERT INTO procedural (name, context, steps, uses, created, updated) VALUES (?, ?, ?, 0, ?, ?)').run(name, context, JSON.stringify(steps), now, now);
-    }
-    if (SEMANTIC_MODE) {
-      const text = `${name} ${context} ${steps.slice(0, 3).join(' ')}`.slice(0, 200);
-      this.#embedProceduralAsync(name, text).catch(() => {});
-    }
-    return { name, steps: steps.length };
+    return this.procedural.save(name, steps, context);
   }
 
   recallProcedures(query, limit = 3) {
-    try {
-      const fts = query.split(/\s+/).map(t => `"${t.replace(/"/g, '')}"`).join(' OR ');
-      return this.db.prepare(`SELECT p.id, p.name, p.context, p.steps, p.uses FROM procedural_fts f JOIN procedural p ON f.rowid = p.id WHERE procedural_fts MATCH ? ORDER BY rank LIMIT ?`).all(fts, limit);
-    } catch {
-      const terms = query.toLowerCase().split(/\s+/);
-      const where = terms.map(() => "(LOWER(name) LIKE ? ESCAPE '\\' OR LOWER(context) LIKE ? ESCAPE '\\')").join(' OR ');
-      return this.db.prepare(`SELECT id, name, context, steps, uses FROM procedural WHERE ${where} ORDER BY uses DESC LIMIT ?`).all(...terms.flatMap(t => { const e = `%${escapeLike(t)}%`; return [e, e]; }), limit);
-    }
+    return this.procedural.recall(query, limit);
   }
 
-  proceduralCount() { return this.db.prepare('SELECT COUNT(*) as n FROM procedural').get().n; }
+  proceduralCount() {
+    return this.procedural.count();
+  }
 
   // --- Knowledge Layer ---
 
@@ -493,93 +470,31 @@ class MemoryStore {
 
   // --- Knowledge Chunk Layer (passage retrieval over article bodies) ---
 
-  // Split an article body into ~maxWords-sized passages on paragraph boundaries.
+  // --- Knowledge Chunk Layer (delegated to active backend adapter) ---
+
+  // Keep chunkText as a public method for backward compat (knowledge seeder uses it).
   chunkText(body, maxWords = 220) {
-    if (!body) return [];
-    const paras = body.split(/\n{2,}/).map(p => p.replace(/\s+/g, ' ').trim()).filter(Boolean);
-    const chunks = [];
-    let buf = [];
-    let count = 0;
-    for (const p of paras) {
-      const words = p.split(' ').length;
-      if (count + words > maxWords && buf.length) {
-        chunks.push(buf.join(' '));
-        buf = [];
-        count = 0;
-      }
-      buf.push(p);
-      count += words;
-    }
-    if (buf.length) chunks.push(buf.join(' '));
-    return chunks;
+    return chunkText(body, maxWords);
   }
 
-  // Replace all chunks for an article key with freshly embedded passages.
   knowledgeChunkUpsert(key, section, body) {
-    const db = this.db;
-    const chunks = this.chunkText(body);
-    db.prepare('DELETE FROM knowledge_chunks WHERE key = ?').run(key);
-    if (!chunks.length) return { key, chunks: 0 };
-    const stmt = db.prepare('INSERT INTO knowledge_chunks (key, section, chunk_index, text, embedding) VALUES (?, ?, ?, ?, ?)');
-    chunks.forEach((text, i) => {
-      const vec = this.#embedder.embed(text);
-      const buf = Buffer.from(new Float32Array(vec).buffer);
-      stmt.run(key, section, i, text, buf);
-    });
-    return { key, chunks: chunks.length };
+    return this.knowledgeChunks.upsert(key, section, body);
   }
 
-  // Cosine-search article passages. Optional section pre-filter (Minds-style metadata filter before ranking).
   knowledgeChunkSearch(query, section = '', k = 5) {
-    const db = this.db;
-    const queryVec = this.#embedder.embed(query);
-    const rows = section
-      ? db.prepare('SELECT key, section, chunk_index, text, embedding FROM knowledge_chunks WHERE section = ?').all(section)
-      : db.prepare('SELECT key, section, chunk_index, text, embedding FROM knowledge_chunks').all();
-    return rows
-      .map(r => {
-        const vec = new Float32Array(r.embedding.buffer, r.embedding.byteOffset, r.embedding.byteLength / 4);
-        return { key: r.key, section: r.section, chunk_index: r.chunk_index, text: r.text, score: this.#embedder.cosineSim(queryVec, vec) };
-      })
-      .filter(r => r.score > 0.1)
-      .sort((a, b) => b.score - a.score)
-      .slice(0, k);
+    return this.knowledgeChunks.search(query, section, k);
   }
 
-  knowledgeChunkCount() { return this.db.prepare('SELECT COUNT(*) as n FROM knowledge_chunks').get().n; }
+  knowledgeChunkCount() { return this.knowledgeChunks.count(); }
 
-  // Async chunk upsert using any embedder (for SemanticEmbedder which is async)
   async knowledgeChunkUpsertAsync(key, section, body, embedder) {
-    const db = this.db;
-    const chunks = this.chunkText(body);
-    db.prepare('DELETE FROM knowledge_chunks WHERE key = ?').run(key);
-    if (!chunks.length) return { key, chunks: 0 };
-    const stmt = db.prepare('INSERT INTO knowledge_chunks (key, section, chunk_index, text, embedding) VALUES (?, ?, ?, ?, ?)');
-    for (let i = 0; i < chunks.length; i++) {
-      const vec = await embedder.embed(chunks[i]);
-      const buf = Buffer.from(new Float32Array(vec).buffer);
-      stmt.run(key, section, i, chunks[i], buf);
-    }
-    return { key, chunks: chunks.length };
+    // embedder param ignored: adapter handles its own embedder selection
+    return this.knowledgeChunks.upsertAsync(key, section, body);
   }
 
-  // Async chunk search using any embedder
   async knowledgeChunkSearchAsync(query, embedder, section = '', k = 5) {
-    const db = this.db;
-    const queryVec = await embedder.embed(query);
-    const queryDim = queryVec.length;
-    const rows = section
-      ? db.prepare('SELECT key, section, chunk_index, text, embedding FROM knowledge_chunks WHERE section = ?').all(section)
-      : db.prepare('SELECT key, section, chunk_index, text, embedding FROM knowledge_chunks').all();
-    const results = [];
-    for (const r of rows) {
-      const storedDim = r.embedding.byteLength / 4;
-      if (storedDim !== queryDim) continue; // skip dimension-mismatched chunks (need re-index)
-      const vec = new Float32Array(r.embedding.buffer, r.embedding.byteOffset, storedDim);
-      const score = embedder.cosineSim(queryVec, vec);
-      if (score > 0.1) results.push({ key: r.key, section: r.section, chunk_index: r.chunk_index, text: r.text, score });
-    }
-    return results.sort((a, b) => b.score - a.score).slice(0, k);
+    // embedder param ignored: adapter handles its own embedder selection
+    return this.knowledgeChunks.searchAsync(query, section, k);
   }
 
   // --- Contradiction Detection (semantic, not just exact-string) ---
@@ -671,11 +586,10 @@ class MemoryStore {
 
   // --- Maintenance ---
 
-  // Public: decay semantic memories via the active adapter, then always
-  // decay episodic (SQLite regardless of backend).
+  // Public: decay semantic memories via the active adapter, then decay episodic too.
   async applyDecay() {
     const result = await this.semantic.applyDecay();
-    this.#decayEpisodic();
+    await this.episodic.decayOld();
     return result;
   }
 
@@ -706,11 +620,6 @@ class MemoryStore {
     return { total: rows.length, decayed };
   }
 
-  #decayEpisodic() {
-    const cutoff = new Date(Date.now() - 30 * 86400000).toISOString();
-    this.db.prepare("DELETE FROM episodic WHERE ts < ? AND access_count = 0").run(cutoff);
-  }
-
   consolidate(minDecayScore = 0.05) {
     const weak = this.db.prepare('SELECT key, value, decay_score FROM semantic WHERE decay_score < ?').all(minDecayScore);
     if (!weak.length) return { archived: 0 };
@@ -729,12 +638,21 @@ class MemoryStore {
   // Public: consolidate semantic via adapter (merge dupes + archive stale),
   // then promote recurring episodic topics (SQLite regardless of backend).
   async dreamConsolidate() {
-    const db = this.db;
     const sem = await this.semantic.dreamConsolidateSemantic();
     const results = { merged: sem.merged || 0, archived: sem.archived || 0, reinforced: 0 };
 
-    // Promote recurring episodic topics
-    const episodes = db.prepare('SELECT event, outcome FROM episodic ORDER BY ts DESC LIMIT 100').all();
+    // Promote recurring episodic topics (pull last 100 episodes from active backend)
+    let episodes;
+    try {
+      const all = await this.episodic.export();
+      episodes = all.slice(-100).map(e => ({
+        event: e.event || '',
+        outcome: e.outcome || '',
+      }));
+    } catch {
+      episodes = [];
+    }
+
     const freq = new Map();
     for (const ep of episodes) {
       for (const w of new Set(`${ep.event} ${ep.outcome}`.toLowerCase().split(/\s+/).filter(w => w.length > 4))) {
@@ -785,20 +703,15 @@ class MemoryStore {
 
   // --- Delete ---
 
-  // Public: delete across all layers. Semantic goes through the active adapter;
-  // episodic + procedural are always SQLite.
+  // Public: delete across all layers via active backend adapters.
   async deleteByPattern(pattern) {
-    const like = `%${escapeLike(pattern)}%`;
-    const db = this.db;
-    const episodicRows = db.prepare('SELECT id FROM episodic WHERE event LIKE ? OR outcome LIKE ?').all(like, like);
-    const proceduralRows = db.prepare('SELECT id FROM procedural WHERE name LIKE ? OR context LIKE ?').all(like, like);
-
     const sem = await this.semantic.deleteByPattern(pattern);
-    if (sem.error) return { ...sem, episodic: episodicRows.length, procedural: proceduralRows.length, total: sem.total ?? sem.semantic };
-
-    for (const r of episodicRows) db.prepare('DELETE FROM episodic WHERE id = ?').run(r.id);
-    for (const r of proceduralRows) db.prepare('DELETE FROM procedural WHERE id = ?').run(r.id);
-    return { semantic: sem.semantic, episodic: episodicRows.length, procedural: proceduralRows.length };
+    if (sem.error) {
+      return { ...sem, episodic: 0, procedural: 0, total: sem.total ?? sem.semantic };
+    }
+    const episodic = await this.episodic.deleteByPattern(pattern);
+    const procedural = await this.procedural.deleteByPattern(pattern);
+    return { semantic: sem.semantic, episodic, procedural };
   }
 
   // SQLite-only semantic delete (adapter delegate). Includes audit log + broad-pattern guard.
@@ -817,12 +730,10 @@ class MemoryStore {
 
   // Public: count matches across all layers.
   async countByPattern(pattern) {
-    const db = this.db;
-    const like = `%${escapeLike(pattern)}%`;
     return {
       semantic: await this.semantic.countByPattern(pattern),
-      episodic: db.prepare('SELECT COUNT(*) as n FROM episodic WHERE event LIKE ? OR outcome LIKE ?').get(like, like).n,
-      procedural: db.prepare('SELECT COUNT(*) as n FROM procedural WHERE name LIKE ? OR context LIKE ?').get(like, like).n,
+      episodic: await this.episodic.countByPattern(pattern),
+      procedural: await this.procedural.countByPattern(pattern),
     };
   }
 
@@ -859,8 +770,8 @@ class MemoryStore {
   async stats() {
     return {
       semantic: await this.semantic.count(),
-      episodic: this.episodicCount(),
-      procedural: this.proceduralCount(),
+      episodic: await this.episodic.count(),
+      procedural: await this.procedural.count(),
       dbSize: fs.existsSync(this.#dbPath) ? Math.round(fs.statSync(this.#dbPath).size / 1024) + 'KB' : '0KB',
       backend: this.semantic.backend,
     };
@@ -868,7 +779,9 @@ class MemoryStore {
 
   async exportToJson() {
     const semantic = await this.semantic.exportAll();
-    return { semantic, episodic: this.episodicExport(), procedural: this.proceduralExport() };
+    const episodic = await this.episodic.export();
+    const procedural = await this.procedural.export();
+    return { semantic, episodic, procedural };
   }
 
   _sqliteExportSemantic() {
@@ -879,6 +792,7 @@ class MemoryStore {
     return semantic;
   }
 
+  // Legacy methods for backward compat with tests that call directly.
   episodicExport() {
     return this.db.prepare('SELECT event, outcome, tags, ts FROM episodic ORDER BY ts').all().map(r => ({ ...r, tags: JSON.parse(r.tags) }));
   }

@@ -2,12 +2,14 @@
 //
 // ZARA_VECTOR controls which backend is active:
 //   'sqlite' (default) — all metadata + search in SQLite
-//   'chroma'           — all metadata + vector search in Chroma, SQLite semantic skipped
+//   'chroma'           — all metadata + vector search in Chroma
 //
-// When Chroma is the active backend it stores EVERYTHING: the vector, key,
-// value, type, scope, source, confidence, trust, decay, etc. in its metadata
-// map. No SQLite lookup needed. Episodic and procedural memories stay in
-// SQLite regardless (they don't use vectors).
+// When Chroma is the active backend it stores EVERYTHING: vectors, key,
+// metadata. Collections:
+//   zara_semantic      — semantic (facts, decisions, preferences)
+//   zara_episodic      — episodic (events + outcomes)
+//   zara_procedural    — procedural (workflows + steps)
+//   zara_knowledge     — knowledge chunks (passage retrieval)
 //
 // The chromadb client is an OPTIONAL peer dependency, dynamically imported so
 // it costs nothing unless the feature is turned on.
@@ -15,19 +17,24 @@
 // Env:
 //   ZARA_VECTOR=chroma              enable Chroma backend (default: sqlite)
 //   ZARA_CHROMA_URL=http://localhost:8000  server address
-//   ZARA_CHROMA_COLLECTION=zara_semantic  collection name
+//   ZARA_CHROMA_COLLECTION=zara_semantic  collection prefix (backward compat)
 
 export const VECTOR_BACKEND = (process.env.ZARA_VECTOR || 'sqlite').toLowerCase();
 export const CHROMA_ENABLED = VECTOR_BACKEND === 'chroma';
 
 const CHROMA_URL = process.env.ZARA_CHROMA_URL || 'http://localhost:8000';
-const COLLECTION = process.env.ZARA_CHROMA_COLLECTION || 'zara_semantic';
+const DEFAULT_COLLECTION = process.env.ZARA_CHROMA_COLLECTION || 'zara_semantic';
 const AUTH_TOKEN = process.env.ZARA_CHROMA_AUTH_TOKEN || '';
 
 class ChromaStore {
+  #collectionName;
   #collection = null;
   #ready = null;
   #available = true;
+
+  constructor(collectionName = DEFAULT_COLLECTION) {
+    this.#collectionName = collectionName;
+  }
 
   async #init() {
     if (this.#collection) return this.#collection;
@@ -38,9 +45,8 @@ class ChromaStore {
         ({ ChromaClient } = await import('chromadb'));
       } catch {
         this.#available = false;
-        throw new Error('chromadb not installed — run: npm install chromadb');
+        throw new Error('chromadb not installed');
       }
-      // Parse ZARA_CHROMA_URL into ssl/host/port (chromadb 3.x dropped `path`).
       const u = new URL(CHROMA_URL);
       const client = new ChromaClient({
         ssl: u.protocol === 'https:',
@@ -48,9 +54,8 @@ class ChromaStore {
         port: u.port ? Number(u.port) : (u.protocol === 'https:' ? 443 : 8000),
         headers: AUTH_TOKEN ? { 'x-chroma-token': AUTH_TOKEN } : undefined,
       });
-      // Zara supplies its own vectors; disable Chroma's server-side embedding.
       this.#collection = await client.getOrCreateCollection({
-        name: COLLECTION,
+        name: this.#collectionName,
         embeddingFunction: null,
         metadata: { 'hnsw:space': 'cosine' },
       });
@@ -162,10 +167,19 @@ class ChromaStore {
 }
 
 let _instance = null;
+const _instances = new Map();
 
-// Returns the shared ChromaStore, or null when the backend is not enabled.
-export function getVectorStore() {
+// Returns the shared ChromaStore for a given collection name, or null when not enabled.
+// Default collection = zara_semantic (backward compat with existing semantic adapter).
+export function getVectorStore(collectionName = DEFAULT_COLLECTION) {
   if (!CHROMA_ENABLED) return null;
-  if (!_instance) _instance = new ChromaStore();
-  return _instance;
+  // Legacy single-instance path (no arg) for backward compat
+  if (collectionName === DEFAULT_COLLECTION) {
+    if (!_instance) _instance = new ChromaStore(DEFAULT_COLLECTION);
+    return _instance;
+  }
+  if (!_instances.has(collectionName)) {
+    _instances.set(collectionName, new ChromaStore(collectionName));
+  }
+  return _instances.get(collectionName);
 }

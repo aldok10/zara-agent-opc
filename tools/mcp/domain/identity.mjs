@@ -128,7 +128,7 @@ class IdentityTools {
       .map(r => `${r.key}: ${r.value}`);
     const projects = (await semanticRecall('project working on building', 5, { type: 'fact' }))
       .map(r => `${r.key}: ${r.value}`);
-    const evolving = episodicRecall('changed learned grew shifted', 5)
+    const evolving = (await episodicRecall('changed learned grew shifted', 5))
       .map(r => `[${r.ts?.split('T')[0] || '?'}] ${r.event}`);
 
     const sections = [

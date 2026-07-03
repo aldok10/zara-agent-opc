@@ -37,9 +37,12 @@ class MetricsTools {
       if (patterns.length) lines.push(patterns.sort((a, b) => b.occurrences - a.occurrences).slice(0, 10).map(p => `  ${p.name} (×${p.occurrences}): ${p.approach}`).join('\n'));
     }
     if (section === 'all' || section === 'procedures') {
-      const count = proceduralCount();
+      const count = await proceduralCount();
       lines.push(`\n⚙️ PROCEDURES (${count})`);
-      if (count) lines.push(proceduralRecall('', 10).map(p => `  ${p.name} (${p.uses}x): ${JSON.parse(p.steps).join(' → ')}`).join('\n'));
+      if (count) {
+        const procs = await proceduralRecall('', 10);
+        lines.push(procs.map(p => `  ${p.name} (${p.uses}x): ${JSON.parse(p.steps).join(' → ')}`).join('\n'));
+      }
     }
     if (section === 'all' || section === 'tools') {
       const mt = loadJson(path.join(EVOLVE_DIR, 'micro-tools.json'), []);

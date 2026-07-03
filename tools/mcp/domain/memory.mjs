@@ -63,11 +63,11 @@ class MemoryTools {
         }
       }
       if (layer === 'episodic') {
-        const m = episodicRecall(args.query, 5);
+        const m = await episodicRecall(args.query, 5);
         if (m.length) results.push(m.map(r => `[${r.ts?.split('T')[0]}] ${r.event}${r.outcome ? ' → ' + r.outcome : ''}`).join('\n'));
       }
       if (layer === 'procedural') {
-        const m = proceduralRecall(args.query, 3);
+        const m = await proceduralRecall(args.query, 3);
         if (m.length) results.push(m.map(r => `${r.name}: ${JSON.parse(r.steps).join(' → ')}`).join('\n'));
       }
       return results.join('\n\n') || `No memories for "${args.query}"`;
@@ -93,7 +93,7 @@ class MemoryTools {
     }
 
     // Episodic layer
-    const epi = episodicRecall(args.query, 5);
+    const epi = await episodicRecall(args.query, 5);
     for (let rank = 0; rank < epi.length; rank++) {
       const r = epi[rank];
       const id = `epi:${r.id || r.event.slice(0, 40)}`;
@@ -104,7 +104,7 @@ class MemoryTools {
     }
 
     // Procedural layer
-    const proc = proceduralRecall(args.query, 3);
+    const proc = await proceduralRecall(args.query, 3);
     for (let rank = 0; rank < proc.length; rank++) {
       const r = proc[rank];
       const id = `proc:${r.name}`;
@@ -150,13 +150,13 @@ class MemoryTools {
     return `Stored: ${result.key} = ${result.value} [${result.type}]`;
   }
 
-  #handleEpisode(args) {
-    const result = episodicRecord(args.event, args.outcome || '', args.tags || []);
+  async #handleEpisode(args) {
+    const result = await episodicRecord(args.event, args.outcome || '', args.tags || []);
     return `Recorded: ${result.event}`;
   }
 
-  #handleProcedure(args) {
-    const result = proceduralSave(args.name, args.steps, args.context || '');
+  async #handleProcedure(args) {
+    const result = await proceduralSave(args.name, args.steps, args.context || '');
     return `Saved procedure: ${result.name} (${result.steps} steps)`;
   }
 

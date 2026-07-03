@@ -14,13 +14,13 @@ class SelfAuditTools {
   get tools() {
     return {
       zara_self_audit: {
-        description: 'Audit Zara config integrity: agents declared in opencode.json vs prompt files on disk, plugin modules imported vs present, MCP domain count, and orphaned references. Returns actionable findings. Run periodically to catch config drift.',
-        inputSchema: { type: 'object', properties: { map: { type: 'boolean', description: 'Also emit a capability map: every MCP domain, plugin module, and agent available.' } } },
+        description: 'Audit config integrity: agents, plugins, MCP domains vs disk. Returns actionable findings.',
+        inputSchema: { type: 'object', properties: { map: { type: 'boolean', description: 'Also emit capability map.' } } },
         handler: (args) => this.#handleAudit(args),
       },
       zara_skill_integrity: {
-        description: 'Check skill file integrity: generate or verify SHA-256 hashes of all project skills. Use action=generate to create manifest, action=verify to check against it.',
-        inputSchema: { type: 'object', properties: { action: { type: 'string', enum: ['generate', 'verify'], description: 'generate = create manifest, verify = check against existing' } }, required: ['action'] },
+        description: 'Check/generate SHA-256 manifest for project skills.',
+        inputSchema: { type: 'object', properties: { action: { type: 'string', enum: ['generate', 'verify'] } }, required: ['action'] },
         handler: (args) => this.#handleSkillIntegrity(args),
       },
     };

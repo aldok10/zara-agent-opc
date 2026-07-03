@@ -15,8 +15,8 @@ class ReflectionTools {
   get tools() {
     return {
       reflect: {
-        description: 'Record a reflection (what worked, what failed, pattern extracted). Pass outcome to feed the success-weighted learning loop.',
-        inputSchema: { type: 'object', properties: { task: { type: 'string', description: 'What was the task' }, worked: { type: 'string' }, failed: { type: 'string' }, pattern: { type: 'string' }, outcome: { type: 'string', enum: ['success', 'partial', 'failure'], description: 'How it went — trains pattern scores over time' }, agent: { type: 'string', description: 'Which agent is reflecting (provenance)' }, reflection_type: { type: 'string', enum: ['principle', 'procedural', 'both'], description: 'MARS-style: principle (normative rule) or procedural (step-by-step strategy)' }, test_exit_code: { type: 'number', description: 'Exit code from test/lint run (0=pass). Grounds the reflection in real signal.' }, test_summary: { type: 'string', description: 'Brief test/lint output summary for evidence' } }, required: ['task'] },
+        description: 'Record a reflection (worked/failed/pattern + outcome) to feed the learning loop.',
+        inputSchema: { type: 'object', properties: { task: { type: 'string' }, worked: { type: 'string' }, failed: { type: 'string' }, pattern: { type: 'string' }, outcome: { type: 'string', enum: ['success', 'partial', 'failure'] }, agent: { type: 'string' }, reflection_type: { type: 'string', enum: ['principle', 'procedural', 'both'] }, test_exit_code: { type: 'number', description: 'Test/lint exit code (0=pass). Grounds success claims.' }, test_summary: { type: 'string' } }, required: ['task'] },
         handler: (args) => this.#handleReflect(args),
       },
       patterns: {
@@ -25,24 +25,19 @@ class ReflectionTools {
         handler: () => this.#handlePatterns(),
       },
       reflect_suggest: {
-        description: 'Before starting a task, recall the historically best-scoring approach for a similar situation. Returns patterns ranked by success rate x frequency.',
+        description: 'Recall the best-scoring learned approach for a situation (ranked by success x frequency).',
         inputSchema: { type: 'object', properties: { situation: { type: 'string', description: 'What you are about to do' } }, required: ['situation'] },
         handler: (args) => this.#handleSuggest(args),
       },
       zara_evolve_status: {
-        description: 'Snapshot of Zara learning state — top patterns, active rules, micro-tools, contradictions, blindspots.',
+        description: 'Snapshot of Zara learning state: top patterns, active rules, micro-tools, blindspots.',
         inputSchema: { type: 'object', properties: { days: { type: 'number', description: 'Filter to last N days (default: all time)' } } },
         handler: (args) => this.#handleEvolveStatus(args),
       },
       blindspot_log: {
-        description: 'Record a blindspot detected in user behavior (for gentle future reminders)',
+        description: 'Record a blindspot detected in user behavior (surfaced automatically on future relevant messages by the proactive plugin)',
         inputSchema: { type: 'object', properties: { area: { type: 'string' }, observation: { type: 'string' }, suggestion: { type: 'string' } }, required: ['area', 'observation'] },
         handler: (args) => this.#handleBlindspotLog(args),
-      },
-      blindspot_check: {
-        description: 'Check if current situation matches any known blindspots',
-        inputSchema: { type: 'object', properties: { context: { type: 'string' } }, required: ['context'] },
-        handler: (args) => this.#handleBlindspotCheck(args),
       },
     };
   }
@@ -96,7 +91,7 @@ class ReflectionTools {
         // P3: only raise trust on explicit success WITH evidence AND grounding signal
         const canRaise = args.outcome === 'success' && args.worked && args.worked.trim().length >= 20 && (grounded || typeof args.test_exit_code !== 'number');
         const effectiveOutcome = canRaise ? 'success' : (args.outcome === 'failure' ? 'failure' : 'partial');
-        adjustTrust([...recalledKeys], effectiveOutcome);
+        Promise.resolve(adjustTrust([...recalledKeys], effectiveOutcome)).catch(() => {});
       }
       recalledKeys.clear();
     }
@@ -214,15 +209,6 @@ class ReflectionTools {
     data.push({ ...args, ts: new Date().toISOString().split('T')[0], reminded: 0 });
     saveJson(file, data);
     return `Blindspot recorded: ${args.area} — ${args.observation}`;
-  }
-
-  #handleBlindspotCheck(args) {
-    const data = loadJson(path.join(HOME, 'blindspots.json'), []);
-    if (!data.length) return 'No blindspots recorded yet.';
-    const terms = args.context.toLowerCase().split(/\s+/);
-    const matched = data.filter(b => terms.some(t => `${b.area} ${b.observation}`.toLowerCase().includes(t)));
-    if (!matched.length) return 'No matching blindspots for this context.';
-    return matched.map(b => `⚡ ${b.area}: ${b.observation}\n   → ${b.suggestion || 'Be mindful.'}`).join('\n\n');
   }
 }
 

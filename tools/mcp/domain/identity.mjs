@@ -9,6 +9,8 @@ import { semanticRecall, episodicRecall } from '../../memory-db.mjs';
 
 const IDENTITY_FILE = path.join(HOME, 'identity.json');
 const PROFILE_FILE = path.join(HOME, 'user-profile.json');
+// Profile cache: regenerated on consolidation, fast injection without live queries.
+const PROFILE_CACHE = path.join(HOME, 'profile.json');
 
 function fromEnv() {
   const v = process.env.ZARA_USER_NAME;
@@ -26,10 +28,13 @@ function fromProfile() {
 }
 
 function fromMemory() {
+  // Read the materialized profile cache (refreshed on consolidation) instead of
+  // hitting the semantic store live — keeps identity resolution synchronous and
+  // backend-agnostic. The cache is written by regenerateProfileCache().
   try {
-    const hits = semanticRecall('user name preferred name call user', 3, { type: 'preference' });
-    const hit = hits.find(h => /name|panggil|call/i.test(h.key) || /name|panggil/i.test(h.value));
-    if (hit) return { name: hit.value, source: `memory:${hit.key}`, confidence: 0.8 };
+    const cache = loadJson(PROFILE_CACHE, null);
+    const hit = cache?.who?.find(h => /name|panggil|call/i.test(h.source) || /name|panggil/i.test(h.claim));
+    if (hit) return { name: hit.claim, source: `memory:${hit.source}`, confidence: 0.8 };
   } catch {}
   return null;
 }
@@ -84,14 +89,11 @@ function persistIdentity(name, source) {
 
 export { resolveBest, discoverAll, persistIdentity };
 
-// Profile cache: regenerated on consolidation, fast injection without 6 queries
-const PROFILE_CACHE = path.join(HOME, 'profile.json');
-
-function regenerateProfileCache() {
-  const who = semanticRecall('user name identity values personality', 5, { type: 'preference' }).map(r => ({ claim: r.value, source: r.key }));
-  const goals = semanticRecall('goal objective target milestone', 5, { type: 'decision' }).map(r => ({ claim: r.value, source: r.key }));
-  const cares = semanticRecall('interest priority care important value', 5, { type: 'preference' }).map(r => ({ claim: r.value, source: r.key }));
-  const projects = semanticRecall('project working on building', 5, { type: 'fact' }).map(r => ({ claim: r.value, source: r.key }));
+async function regenerateProfileCache() {
+  const who = (await semanticRecall('user name identity values personality', 5, { type: 'preference' })).map(r => ({ claim: r.value, source: r.key }));
+  const goals = (await semanticRecall('goal objective target milestone', 5, { type: 'decision' })).map(r => ({ claim: r.value, source: r.key }));
+  const cares = (await semanticRecall('interest priority care important value', 5, { type: 'preference' })).map(r => ({ claim: r.value, source: r.key }));
+  const projects = (await semanticRecall('project working on building', 5, { type: 'fact' })).map(r => ({ claim: r.value, source: r.key }));
   const profile = { generated: new Date().toISOString(), who, goals, cares, projects };
   saveJson(PROFILE_CACHE, profile);
   return profile;
@@ -103,28 +105,28 @@ class IdentityTools {
   get tools() {
     return {
       user_model: {
-        description: 'View over existing memory: assembles who the user is, their goals, thinking patterns, priorities, projects, and recent evolution.',
+        description: 'Assemble user model from memory: who, goals, patterns, priorities, projects, evolution.',
         inputSchema: { type: 'object', properties: {} },
         handler: () => this.#handleUserModel(),
       },
     };
   }
 
-  #handleUserModel() {
+  async #handleUserModel() {
     const fmt = (label, items) => items.length ? `**${label}:**\n${items.map(i => `- ${i}`).join('\n')}` : '';
-    const who = semanticRecall('user name identity values personality', 5, { type: 'preference' })
+    const who = (await semanticRecall('user name identity values personality', 5, { type: 'preference' }))
       .map(r => `${r.key}: ${r.value}`);
-    const goals = semanticRecall('goal objective target milestone', 5, { type: 'decision' })
-      .concat(semanticRecall('goal objective target', 3, { type: 'fact' }))
+    const goals = (await semanticRecall('goal objective target milestone', 5, { type: 'decision' }))
+      .concat(await semanticRecall('goal objective target', 3, { type: 'fact' }))
       .map(r => `${r.key}: ${r.value}`);
     const patternsFile = path.join(HOME, 'reflections', 'patterns.json');
     const patterns = loadJson(patternsFile, [])
       .sort((a, b) => (b.successRate * b.occurrences) - (a.successRate * a.occurrences))
       .slice(0, 5)
       .map(p => `${p.name} (${(p.successRate * 100).toFixed(0)}% over ${p.occurrences}x)`);
-    const cares = semanticRecall('interest priority care important value', 5, { type: 'preference' })
+    const cares = (await semanticRecall('interest priority care important value', 5, { type: 'preference' }))
       .map(r => `${r.key}: ${r.value}`);
-    const projects = semanticRecall('project working on building', 5, { type: 'fact' })
+    const projects = (await semanticRecall('project working on building', 5, { type: 'fact' }))
       .map(r => `${r.key}: ${r.value}`);
     const evolving = episodicRecall('changed learned grew shifted', 5)
       .map(r => `[${r.ts?.split('T')[0] || '?'}] ${r.event}`);

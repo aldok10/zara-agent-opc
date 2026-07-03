@@ -23,8 +23,8 @@ describe('session domain', () => {
     assert.ok(sessionTools.session_log);
     assert.ok(sessionTools.user_profile);
     assert.ok(sessionTools.goal);
-    assert.ok(sessionTools.loop);
     assert.ok(sessionTools.shutdown_ritual);
+    assert.ok(!sessionTools.loop, 'loop tool removed (token waster)');
   });
 
   it('start → check → end lifecycle', async () => {

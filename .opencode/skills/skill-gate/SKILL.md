@@ -6,145 +6,95 @@ trigger: session start, context compaction, new task
 
 # Skill Gate
 
-<SUBAGENT-STOP>
-If you were dispatched as a subagent to execute a specific task, skip this skill entirely.
-</SUBAGENT-STOP>
+Check for relevant skills BEFORE any response or action. Even 1% chance a skill applies = invoke it. If a skill applies, you MUST use it.
 
-## The Rule
+## Scope
 
-**Check for relevant skills BEFORE any response or action.** Even 1% chance a skill applies = invoke it.
+- HANDLES: skill routing, instruction priority, workflow chaining, MCP tool timing.
+- DEFERS: <SUBAGENT-STOP> if dispatched as a subagent for a specific task, skip this skill entirely.
 
-IF A SKILL APPLIES TO YOUR TASK, YOU MUST USE IT. This is not optional.
+## First Action
+
+Match the task signal against the routing table below, then load the matching skill before doing anything else.
 
 ## Instruction Priority
 
-1. **User's explicit instructions** (AGENTS.md, CLAUDE.md, direct requests) - highest
-2. **Skills** - override default behavior where they conflict
-3. **Default system prompt** - lowest
+1. User's explicit instructions (AGENTS.md, CLAUDE.md, direct requests) - highest.
+2. Skills - override default behavior on conflict.
+3. Default system prompt - lowest.
 
-User always wins. If user says "skip brainstorming", skip it.
+User always wins. "Skip brainstorming" = skip it.
 
-## Skill Matching Table
+## Constraints
 
-| Signal | Skill to Load → Agent Dispatch |
-|--------|---------------------------------|
-| Building a feature, creative work, "let's build X" | `brainstorming` → then `writing-plans` |
-| Architecture decision, tradeoffs | `brainstorming` → dispatch `task(architect)` via `/decide` |
-| Security concern, auth, crypto, threats | `zara-privacy-mcp` → dispatch `task(security-reviewer)` |
-| Test strategy needed, coverage gaps | `tdd` → dispatch `task(testing-lead)` |
-| Loop/iteration design, verification gates | dispatch `task(loop-engineer)` via `/loop design` (no skill pre-load needed) |
-| Delivery/shipping blockers, tech debt | `finishing-branch` → dispatch `task(delivery-lead)` via `/standup deep` |
-| Have spec/requirements, ready to plan | `writing-plans` |
-| Plan ready, need to execute (subagent available) | `subagent-driven-dev` → or `task(implementation)` for single focused task |
-| Plan ready, no subagents or user prefers inline | `executing-plans` |
-| 3+ independent tasks that can run concurrently | `dispatching-parallel-agents` → use `/swarm` for structured dispatch |
+1. Skill check comes BEFORE gathering context or exploring.
+2. Rigid skills (tdd, systematic-debugging, verification-before-completion): follow exactly, no shortcuts.
+3. Flexible skills (brainstorming, writing-plans): adapt to scale, don't skip steps.
+4. When user says "just do it": skip brainstorming/planning for trivial changes, but NEVER skip `tdd`, `verification-before-completion`, `systematic-debugging`.
+
+## DO NOT
+
+- "Too simple for a skill" - simple things grow complex. Check.
+- "I need context first" - skill check comes first.
+- "I can do this quickly without a skill" - undisciplined action wastes time.
+- "I know what the skill says" - skills evolve, load current version.
+- "I'll just do this one thing first" - check before doing anything.
+
+## Routing Table
+
+| Signal | Load → Dispatch |
+|--------|-----------------|
+| Building feature, creative work | `brainstorming` → `writing-plans` |
+| Architecture decision, tradeoffs | `brainstorming` → `task(architect)` via `/decide` |
+| Security, auth, crypto, threats | `zara-privacy-mcp` → `task(security-reviewer)` |
+| Test strategy, coverage gaps | `tdd` → `task(testing-lead)` |
+| Loop/iteration design | `task(loop-engineer)` via `/loop design` |
+| Delivery/shipping blockers, debt | `finishing-branch` → `task(delivery-lead)` via `/standup deep` |
+| Have spec, ready to plan | `writing-plans` |
+| Plan ready, subagents available | `subagent-driven-dev` or `task(implementation)` |
+| Plan ready, inline | `executing-plans` |
+| 3+ independent concurrent tasks | `dispatching-parallel-agents` via `/swarm` |
 | Bug, test failure, unexpected behavior | `systematic-debugging` |
-| Implementing code (feature or fix) | `tdd` → or `task(implementation)` via `/code` |
-| Claiming work is done, fixed, passing | `verification-before-completion` |
-| Code review needed or received | `code-review` → or use `/review` |
-| Work complete, need to integrate | `finishing-branch` |
+| Implementing code | `tdd` or `task(implementation)` via `/code` |
+| Claiming done/fixed/passing | `verification-before-completion` |
+| Code review | `code-review` or `/review` |
+| Work complete, integrate | `finishing-branch` |
 | Need isolated workspace | `git-worktrees` |
-| Git operations, branching, rebase, recovery | `git-expert` |
-| Writing commit messages, commit conventions | `conventional-commits` |
-| GitHub PRs, issues, Actions, gh CLI | `github` |
-| Go project detected | `golang-expert` |
-| Go code quality comparison/demo | `golang-compare` |
-| PHP project detected | `php-expert` |
-| TypeScript/Node.js project | `typescript-expert` |
-| Python project | `python-expert` |
-| Rust project | `rust-expert` |
-| C/C++ wrapping for other languages (SWIG) | `swig-expert` |
-| Docker/containers | `docker` |
-| CI/CD pipelines | `ci-cd` |
-| Database queries, optimization | `postgres-expert` / `sqlite-expert` / `redis-expert` |
-| API design, OpenAPI specs | `openapi-expert` |
-| New/unfamiliar codebase, "what is this", onboarding | `codebase-onboarding` |
-| Shell scripting, bash automation | `shell-scripting` |
-| Team/leadership/decision topic | `leadership-expert` |
-| Voice feels robotic, need deep humanizing mechanics | `natural-voice` (hot-path auto-injects every turn via voice plugin; load for depth) |
-| Session ending, preserving context | `session-handoff` → or use `/handoff` |
-| Session start, checking for incomplete work | `auto-resume` → or use `/resume` |
-| Need heavy data processing outside context | `zara-ctx` |
-| Context budget low, need sandbox execution | `zara-ctx` |
-| Risky action, need confirmation workflow | `zara-hitl` |
-| MCP security, secrets in tool calls | `zara-privacy-mcp` |
-| Library/framework docs needed | `find-docs` |
-| Learn from external GitHub projects via GitReverse for Zara improvement | `gitreverse-learn` → or use `/learn from <owner/repo>` |
-
-## Red Flags - You're Rationalizing
-
-| Thought | Reality |
-|---------|---------|
-| "This is too simple for a skill" | Simple things grow complex. Check. |
-| "I need context first" | Skill check comes BEFORE gathering context. |
-| "Let me explore the codebase first" | Skills tell you HOW to explore. |
-| "I can do this quickly without a skill" | Undisciplined action wastes time. |
-| "The skill is overkill" | If it exists for this situation, use it. |
-| "I'll just do this one thing first" | Check BEFORE doing anything. |
-| "I know what the skill says" | Skills evolve. Load the current version. |
-
-## Skill Types
-
-**Rigid** (tdd, systematic-debugging, verification-before-completion): Follow exactly. No shortcuts.
-**Flexible** (brainstorming, writing-plans): Adapt to scale of task, but don't skip steps.
+| Git operations, rebase, recovery | `git-expert` |
+| Commit messages | `conventional-commits` |
+| GitHub PRs, issues, Actions | `github` |
+| Go / PHP / TS / Python / Rust project | `golang-expert` / `php-expert` / `typescript-expert` / `python-expert` / `rust-expert` |
+| C/C++ wrapping (SWIG) | `swig-expert` |
+| Docker / CI/CD | `docker` / `ci-cd` |
+| DB queries | `postgres-expert` / `sqlite-expert` / `redis-expert` |
+| API design, OpenAPI | `openapi-expert` |
+| New/unfamiliar codebase | `codebase-onboarding` |
+| Shell scripting | `shell-scripting` |
+| Team/leadership/decision | `leadership-expert` |
+| Voice robotic, humanizing depth | `natural-voice` (hot-path auto-injects) |
+| Session ending | `session-handoff` or `/handoff` |
+| Session start, incomplete work | `auto-resume` or `/resume` |
+| Heavy data processing, sandbox | `zara-ctx` |
+| Risky action, confirmation | `zara-hitl` |
+| MCP security, secrets | `zara-privacy-mcp` |
+| Library/framework docs | `find-docs` |
+| Learn from GitHub project | `gitreverse-learn` via `/learn from <owner/repo>` |
 
 ## Workflow Chain
 
-The standard development flow:
+`brainstorming → writing-plans → /code (or subagent-driven-dev) → finishing-branch`. Per task: `tdd`. Bug found: `systematic-debugging`. Before done: `verification-before-completion`. Complex entry: architecture → `task(architect)`; security → `task(security-reviewer)`; parallel 3+ → `/swarm`.
 
-```
-brainstorming → writing-plans → /code (or subagent-driven-dev) → finishing-branch
-                          ↓ (per task)
-                        tdd
-                          ↓ (if bug found)
-                   systematic-debugging
-                          ↓ (if loop fails 3x)
-                   task(loop-engineer) for failure diagnosis
-                          ↓ (before claiming done)
-               verification-before-completion
-```
+## MCP Tool Timing
 
-**For complex tasks, add agent dispatch at entry point:**
-```
-Architecture decision → task(architect) → brainstorming → writing-plans → ...
-Security review       → task(security-reviewer) → zara-privacy-mcp → findings → ...
-Test strategy         → task(testing-lead) → tdd → test plan → ...
-Loop design           → task(loop-engineer) → verification gates → execute → ...
-Parallel work (3+)    → /swarm → task(swarm) → decompose → dispatch → synthesize
-Coding workflow       → /code → explore → plan → task(implementation) → verify → ship
-```
-
-## When User Says "Just Do It"
-
-Respect it. Skip brainstorming/planning for trivial changes. But NEVER skip:
-- `tdd` (always test first)
-- `verification-before-completion` (always verify before claiming done)
-- `systematic-debugging` (always investigate before fixing)
-
-## MCP Tool Integration
-
-Use these tools at the right moments during development:
-
-| When | Tool | Purpose |
-|------|------|---------|
-| Session start | `memory_recall` | Retrieve project context, user prefs, past decisions |
-| Discover user preference or project fact | `memory_learn` | Persist for future sessions |
-| Architecture/policy decision made | `memory_learn` (source: user_explicit) | High-priority memory |
-| Design approved, plan completed, bug fixed | `memory_episode` | Record significant event + outcome |
-| Discussing patterns, principles, architecture | `knowledge_passage` / `knowledge_index` | Pull DevIQ reference material |
-| Workflow works well, want to reuse | `memory_procedure` | Save named procedure with steps |
-| After non-trivial work | `reflect` | Extract patterns for future use |
+- Session start → `memory_recall`. Discover preference/fact → `memory_learn` (architecture/policy: source `user_explicit`).
+- Design approved / plan done / bug fixed → `memory_episode`. Patterns/principles → `knowledge_passage`/`knowledge_index`. Reusable workflow → `memory_procedure`. After non-trivial work → `reflect`.
 
 ## File-Based Tracking
 
-All tracking lives in version control for visibility and continuity across sessions.
+- Design specs: `docs/specs/YYYY-MM-DD-<topic>-design.md` · Plans: `docs/plans/YYYY-MM-DD-<feature>.md`
+- SDD ledger: `.tasks/progress.md` · Briefs/reports: `.tasks/task-{id}.md` / `.tasks/report-{id}.md`
 
-| Type | Path | Format |
-|------|------|--------|
-| Design specs | `docs/specs/YYYY-MM-DD-<topic>-design.md` | Problem, options, decision, tradeoffs |
-| Implementation plans | `docs/plans/YYYY-MM-DD-<feature>.md` | Tasks, acceptance criteria, file targets |
-| SDD progress ledger | `.tasks/progress.md` | Running log of task status |
-| Task briefs (SDD) | `.tasks/task-{id}.md` | Scope, context, acceptance criteria for subagent |
-| Task reports (SDD) | `.tasks/report-{id}.md` | Subagent output, verification results |
+## Verification
 
-Create these files as work progresses. The `docs/specs/` and `docs/plans/` directories are for human-reviewed documents. The `.tasks/` directory is operational tracking for subagent-driven-dev workflows.
+- Confirm the matching skill was loaded before responding.
+- For rigid skills, confirm all steps followed (no shortcuts taken).

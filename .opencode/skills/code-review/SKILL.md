@@ -9,128 +9,65 @@ triggers:
   - request review
 ---
 
-# Code Review Skill
+# Code Review
 
-## Requesting Code Review
+Give and respond to reviews with technical rigor. Verify before implementing. Technical correctness over social comfort.
 
-### When to Request
+## Scope
 
-- After completing a task in subagent-driven development
-- After major features land
-- Before merge to main/trunk
+- HANDLES: requesting review, acting on feedback, receiving/verifying feedback, pushback.
+- DEFERS: test failures to `tdd`; bug investigation to `systematic-debugging`; merge to `finishing-branch`.
 
-### How to Request
+## First Action
 
-1. Get the diff range:
-   ```bash
-   BASE_SHA=$(git merge-base HEAD main)
-   HEAD_SHA=$(git rev-parse HEAD)
-   ```
+For requesting: get diff range. For receiving: read complete feedback, restate it before touching code.
 
-2. Dispatch `@lens` subagent with:
-   - Description of what was built
-   - Reference to requirements/plan (if exists)
-   - Diff range: `BASE_SHA..HEAD_SHA`
-   - Any known tradeoffs or shortcuts taken
+```bash
+BASE_SHA=$(git merge-base HEAD main); HEAD_SHA=$(git rev-parse HEAD)
+```
 
-### Acting on Feedback
+## Constraints
+
+1. Verify every suggestion against the actual codebase before implementing.
+2. Implement one fix at a time, test after each. Never batch.
+3. Unclear feedback: STOP, ask clarification on ALL unclear items before implementing any.
+4. YAGNI check: reviewer says "add for completeness"? Grep usage. Unused/single-use = push back.
+5. Implementation order: blocking (build/tests) → simple → complex.
+6. Dispatch review via `@lens` with: what was built, requirements ref, diff range, known tradeoffs.
+
+## DO NOT
+
+- NEVER implement a suggestion without verifying it first.
+- NEVER batch multiple fixes without testing each.
+- NEVER claim "done" after review without running verification.
+- NEVER accept feedback you don't understand.
+- NEVER skip the YAGNI check.
+- NEVER push back without evidence.
+- NEVER implement without reading surrounding code.
+- No sycophancy: "You're absolutely right!", "Great point!".
+
+## Response Pattern (receiving)
+
+READ complete → UNDERSTAND (restate) → VERIFY against codebase → EVALUATE (technically sound?) → RESPOND (ack or reasoned pushback) → IMPLEMENT one at a time.
+
+## Acting on Feedback
 
 | Severity | Action |
 |----------|--------|
-| Critical | Fix immediately before any other work |
-| Important | Fix before proceeding to next task |
-| Minor | Note for later, batch with next change |
+| Critical | Fix immediately before other work |
+| Important | Fix before next task |
+| Minor | Note, batch with next change |
 | Disagree | Push back with technical reasoning |
 
-Push back when: reviewer lacks context, suggestion breaks existing behavior, violates YAGNI, or is technically incorrect. Always provide reasoning.
+## When to Push Back
 
-## Receiving Code Review
+Change breaks existing behavior (show test/caller) · reviewer lacks context · violates YAGNI (prove with grep) · technically incorrect (cite docs/spec) · conflicts with user's explicit decisions. Format: state disagreement, provide evidence, propose alternative.
 
-### Core Principle
+## Verification
 
-Verify before implementing. Technical correctness over social comfort.
-
-### Response Pattern
-
-```
-READ complete feedback
-  → UNDERSTAND (restate in your own words)
-  → VERIFY against actual codebase
-  → EVALUATE (is it technically sound?)
-  → RESPOND (technical ack or reasoned pushback)
-  → IMPLEMENT one fix at a time
-```
-
-### Forbidden
-
-- "You're absolutely right!"
-- "Great point!"
-- Any sycophantic acknowledgment
-- Implementing changes before verifying they're correct
-- Batch-implementing without testing each fix
-
-### Handling Unclear Feedback
-
-STOP. Ask clarification on ALL unclear items before implementing any of them. Do not guess intent.
-
-Example: "Item 3 and 5 are unclear. For item 3, do you mean X or Y? For item 5, can you show the pattern you're suggesting?"
-
-### YAGNI Check
-
-When reviewer suggests "implementing properly" or "adding for completeness":
-
-1. Grep for actual usage of the thing in question
-2. If unused or single-use: "Not called anywhere else. Remove? (YAGNI)"
-3. If genuinely needed: implement
-
-### When to Push Back
-
-- Change breaks existing functionality (show the test/caller)
-- Reviewer lacks context about a constraint or decision
-- Suggestion violates YAGNI (prove with grep)
-- Technically incorrect (cite docs/spec/behavior)
-- Conflicts with user's explicit decisions
-
-Format: State the disagreement, provide evidence, propose alternative if needed.
-
-### Implementation Order
-
-1. Blocking issues (breaks build/tests)
-2. Simple fixes (naming, formatting, small logic)
-3. Complex fixes (refactoring, architecture)
-
-Test after each individual fix. Do not batch.
-
-### Verification Before Implementation
-
-For every review comment:
-
-```
-1. Read the suggestion completely
-2. Find the relevant code in the codebase
-3. Check: Does this change make technical sense HERE?
-4. Check: Does this break anything else?
-5. Only then: implement or push back
-```
-
-Never implement a suggestion you don't understand. Never implement without checking the surrounding code first.
-
-## Anti-Patterns (NEVER Do These)
-
-- NEVER implement a review suggestion without verifying it first
-- NEVER batch multiple fixes without testing each one
-- NEVER claim "done" after review without running verification
-- NEVER accept feedback you don't understand
-- NEVER skip the YAGNI check
-- NEVER push back without evidence
-- NEVER implement without reading the surrounding code
-
-## Related Knowledge (load on demand)
-
-- `knowledge_passage(query: "code smell catalog")` - detecting quality issues
-- `knowledge_index(section: "code-smells")` - full smell catalog for systematic review
-- `knowledge_passage(query: "SOLID DRY YAGNI principles")` - for design feedback
-- `knowledge_index(section: "design-patterns")` - when suggesting refactoring alternatives
+- Each fix tested individually before the next.
+- Verification commands run before claiming review done.
+- Pushback backed by evidence (test, grep, doc).
 
 ## Related Skills
 
@@ -138,4 +75,9 @@ Never implement a suggestion you don't understand. Never implement without check
 |------|------|
 | Test failures found | `tdd` |
 | Bug needs investigation | `systematic-debugging` |
-| Review done, ready to merge | `finishing-branch` |
+| Ready to merge | `finishing-branch` |
+
+## Knowledge (load on demand)
+
+- `knowledge_passage(query: "code smell catalog")` · `knowledge_index(section: "code-smells")`
+- `knowledge_passage(query: "SOLID DRY YAGNI principles")` · `knowledge_index(section: "design-patterns")`

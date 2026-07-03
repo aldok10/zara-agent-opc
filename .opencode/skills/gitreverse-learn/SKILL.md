@@ -4,169 +4,85 @@ description: Study GitHub projects via GitReverse API for patterns
 trigger: /learn from <owner/repo>, user asks to learn from a GitHub project wants Zara improvement patterns
 ---
 
-# GitReverse Learning — Improve Zara by Studying Other Projects
+# GitReverse Learning
 
-## Why This Skill Exists
+Convert a GitHub codebase into a natural-language "project essence" via GitReverse, analyze it, extract patterns worth adopting for Zara.
 
-GitReverse converts entire codebases into a single natural language prompt ("project essence"). Instead of reading thousands of lines of source, you get the core architecture, goals, and mental model in AI-readable form. Zara then analyzes that essence to find patterns worth adopting.
+## Scope
 
-**The goal**: continuously improve Zara by studying the best projects in the AI engineering ecosystem.
+- HANDLES: fetching project essence, pattern extraction, adoption recommendations, storing learnings.
+- DEFERS: verification of stored knowledge to user (all starts `external_unverified`).
 
-## How It Works
+## First Action
 
-```
-GitHub Repo → GitReverse API → Project Essence (prompt) → Zara Analysis → Patterns Stored → Zara Improves
-```
-
----
-
-## API Reference
-
-### Endpoint
-
-```
-POST https://www.gitreverse.com/api/reverse-prompt
-Content-Type: application/json
-
-{"repoUrl": "owner/repo"}
-```
-
-### Response
-
-```json
-{
-  "prompt": "Build me a [language] [project type] called [name]..."
-}
-```
-
-Extract the `prompt` field. This is the AI-readable project essence.
-
-### Premium
-
-Deep Reverse ($9/mo): 5 deep analyzes/month + 5 manual controls/month.
-Quick Reverse: free, sufficient for most project analysis.
-
----
-
-## Analysis Protocol
-
-When analyzing a project essence from GitReverse, follow this protocol:
-
-### Step 1: Parse the Essence
-
-Extract from the prompt:
-- **Language/stack** — Python, TypeScript, Rust, etc.
-- **Core primitive** — graph, role, handoff, code-first, hybrid
-- **State model** — stateless, checkpointed, memory pools, vector store
-- **Coordination style** — sequential, hierarchical, swarm, graph, event-driven
-- **Key features** — what makes it special (3-5 bullet points)
-
-### Step 2: Map to Zara's Architecture
-
-For each pattern found, ask:
-- Does Zara already do this? (check memory / existing code)
-- If not, would it make Zara better? (impact assessment)
-- How hard would it be to adopt? (effort estimation)
-
-### Step 3: Generate Recommendations
-
-Every recommendation must include:
-- **What**: the exact pattern/concept
-- **Why it matters**: the problem it solves for Zara
-- **Effort**: low / medium / high
-- **Impact**: low / medium / high
-- **Priority**: effort vs impact ratio
-
-### Step 4: Store Learnings
+POST the repo to GitReverse, extract the `prompt` field (the AI-readable essence):
 
 ```bash
-# Project essence (compressed, ~50 tokens)
-memory_learn(key: "external_project:<owner/repo>:essence", value: "<essence>", source: "external_unverified", type: "fact", scope: "external_project:<owner/repo>")
-
-# Adoption recommendation
-memory_learn(key: "external_project:<owner/repo>:adoption:<pattern>", value: "<what+why+effort>", source: "inferred", type: "architecture", scope: "external_project:<owner/repo>")
-
-# Learning event
-memory_episode(event: "learned from <owner/repo> via GitReverse", outcome: "analyzed and stored N patterns", tags: ["gitreverse", "external-learning"])
-
-reflect(task: "learn from <owner/repo>", pattern: "gitreverse-external-analysis", outcome: "success")
+curl 'https://www.gitreverse.com/api/reverse-prompt' --compressed -X POST \
+  -H 'Content-Type: application/json' --data-raw '{"repoUrl":"owner/repo"}'
 ```
 
----
+## Constraints
 
-## Focus Lenses
+1. Extract from the essence: language/stack, core primitive, state model, coordination style, key features (3-5).
+2. For each pattern found: does Zara do this? Would it help? Effort to adopt?
+3. Every recommendation includes: What, Why it matters, Effort (low/med/high), Impact (low/med/high), Priority.
+4. All external knowledge starts as `external_unverified` - user confirms to upgrade.
 
-Use these when the user specifies a focus area:
+## DO NOT
 
-| Focus | What to Look For |
-|-------|-----------------|
-| `state-management` | Checkpointing, memory pools, vector stores, persistence |
-| `agent-memory` | Conversation history, semantic recall, RAG, working memory |
-| `multi-agent-coordination` | Swarm patterns, task routing, agent communication |
-| `safety` | Permissions, sandboxing, human-in-loop, guardrails |
-| `plugin-system` | MCP, hooks, extensibility, skill architecture |
-| `ui/ux` | Terminal UI, desktop app, web interface, visualization |
-| `testing` | Test patterns, coverage strategy, CI integration |
-| `error-handling` | Recovery, fallbacks, observability, tracing |
+- Present adoption patterns as verified fact.
+- Skip the map-to-Zara step (don't recommend what Zara already does).
+- Store without effort/impact assessment.
 
-### Custom Focus
+## Workflow
 
-If the user says `focus on <something else>`, adapt the analysis to prioritize that aspect. For example "focus on task-routing" means prioritize how the project decides which agent does what.
+1. Parse essence - extract stack, primitive, state model, coordination, key features.
+2. Map to Zara - for each pattern, check existing memory/code, assess impact + effort.
+3. Generate recommendations - What/Why/Effort/Impact/Priority.
+4. Store learnings:
+   - `memory_learn(key: "external_project:<repo>:essence", value, source: "external_unverified", type: "fact", scope: "external_project:<repo>")`
+   - `memory_learn(key: "external_project:<repo>:adoption:<pattern>", value: "<what+why+effort>", source: "inferred", type: "architecture")`
+   - `memory_episode(event: "learned from <repo>", outcome: "analyzed N patterns", tags: ["gitreverse"])`
+   - `reflect(task: "learn from <repo>", pattern: "gitreverse-external-analysis", outcome: "success")`
 
----
+## Focus Lenses (when user specifies)
+
+| Focus | Look for |
+|-------|----------|
+| state-management | Checkpointing, memory pools, vector stores |
+| agent-memory | History, semantic recall, RAG, working memory |
+| multi-agent-coordination | Swarm, task routing, agent comms |
+| safety | Permissions, sandboxing, HITL, guardrails |
+| plugin-system | MCP, hooks, extensibility, skill arch |
+| ui/ux | Terminal, desktop, web, visualization |
+| testing | Test patterns, coverage, CI |
+| error-handling | Recovery, fallbacks, observability |
+
+Custom focus (`focus on <x>`): adapt analysis to prioritize that aspect.
 
 ## Output Format
 
-Present findings as:
-
 ```
-## 📖 Learn: <project-name>
-
+## Learn: <project>
 ### Essence
-<1-2 sentence summary>
-
+<1-2 sentences>
 ### Top 3 for Zara
-1. **[pattern]** — <what> | effort: <low/med/high>
-2. **[pattern]** — <what> | effort: <low/med/high>
-3. **[pattern]** — <what> | effort: <low/med/high>
-
+1. **[pattern]** - <what> | effort: <low/med/high>
 ### Zara's Edge
 <1 thing Zara does better>
-
 ### Risk
 <1 anti-pattern to avoid>
-
 ### Stored
-✓ Project essence
-✓ N adoption patterns
-✓ Episode logged
+project essence, N adoption patterns, episode logged
 ```
 
----
+## Commands
 
-## Quick Reference
+`/learn from owner/repo` · `/learn from owner/repo focus on agent-memory` · `/learn list`
 
-```bash
-# Fetch essence from any GitHub repo
-curl 'https://www.gitreverse.com/api/reverse-prompt' \
-  --compressed -X POST \
-  -H 'Content-Type: application/json' \
-  --data-raw '{"repoUrl":"owner/repo"}'
+## Verification
 
-# Study for Zara improvement
-/learn from owner/repo
-
-# Focused analysis
-/learn from owner/repo focus on agent-memory
-/learn from owner/repo focus on state-management
-
-# List all studied
-/learn list
-```
-
-## Notes
-
-- All external knowledge starts as `external_unverified` — user must confirm to upgrade
-- Safe to study the same project multiple times (upserts)
-- The skill complement's Zara's `self-improvement` loop by adding external signal
-- Focus lenses narrow the analysis to what matters most for current Zara gaps
+- `prompt` field extracted successfully from API response.
+- Each recommendation has effort + impact.
+- `memory_learn` + `memory_episode` + `reflect` all called.

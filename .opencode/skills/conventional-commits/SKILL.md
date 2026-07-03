@@ -2,7 +2,19 @@
 name: conventional-commits
 description: Conventional Commits format for commit messages
 ---
+
 # Conventional Commits
+
+Standardized, machine-readable commit messages: `<type>(<scope>): <description>`.
+
+## Scope
+
+- HANDLES: commit type/scope/description format, breaking changes, commit sizing.
+- DEFERS: rebase/conflicts to `git-expert`; integration to `finishing-branch`.
+
+## First Action
+
+Check `git status` and detect scope from changed file paths before writing the message.
 
 ## Format
 
@@ -18,76 +30,62 @@ description: Conventional Commits format for commit messages
 
 | Type | When | SemVer |
 |------|------|--------|
-| `feat` | New feature for users | MINOR |
-| `fix` | Bug fix for users | PATCH |
-| `refactor` | Code change (no feature, no fix) | - |
-| `perf` | Performance improvement | PATCH |
-| `test` | Adding/fixing tests | - |
-| `docs` | Documentation only | - |
-| `style` | Formatting, whitespace (no logic) | - |
+| `feat` | New feature | MINOR |
+| `fix` | Bug fix | PATCH |
+| `perf` | Performance | PATCH |
+| `refactor` | Code change (no feat/fix) | - |
+| `test` | Tests | - |
+| `docs` | Docs only | - |
+| `style` | Formatting (no logic) | - |
 | `chore` | Maintenance, deps, tooling | - |
-| `ci` | CI/CD pipeline changes | - |
+| `ci` | CI/CD pipeline | - |
 | `build` | Build system, external deps | - |
-| `revert` | Reverting a previous commit | - |
+| `revert` | Reverting a commit | - |
 
-## Rules
+## Constraints
 
-1. Description: imperative mood, lowercase, no period, max 72 chars
-2. Scope: optional, identifies area affected (e.g., `auth`, `api`, `db`)
-3. Body: separated by blank line, explains WHY not WHAT (code shows what)
-4. Breaking changes: `!` after type OR `BREAKING CHANGE:` in footer
+1. Description: imperative mood, lowercase, no period, max 72 chars.
+2. Scope: optional, identifies area (`auth`, `api`, `db`). Multiple areas → pick primary or omit.
+3. Body: blank-line separated, explains WHY not WHAT.
+4. Breaking: `!` after type OR `BREAKING CHANGE:` footer.
+5. One logical change per commit. Description needs "and" → split.
+6. Migrations + code = separate commits (rollback safety).
+
+## DO NOT
+
+- NEVER `fix: fix` (describe WHAT).
+- NEVER `update stuff` (not conventional).
+- NEVER `feat: add feature and fix bug` (one concern per commit).
+- NEVER scope overload `feat(auth/db/api)`.
+- NEVER commit without checking `git status`.
+- NEVER past tense (use imperative).
+- NEVER end description with a period or exceed 72 chars.
+- NEVER claim "done" without running tests before commit.
 
 ## Examples
 
 ```
 feat(auth): add JWT refresh token rotation
-
 fix(db): prevent connection pool exhaustion under load
-
 refactor!: rename getUserName to getUsername across API
-
 chore(deps): update go modules to latest patch versions
-
-feat(api): add pagination to /users endpoint
 
 BREAKING CHANGE: response shape changed from array to {data, meta}
 ```
 
-## Anti-Patterns (NEVER Do These)
+## Verification
 
-- NEVER use `fix: fix` - meaningless, describe WHAT was fixed
-- NEVER use `update stuff` - not conventional format
-- NEVER use `feat: add feature and fix bug and refactor` - one concern per commit
-- NEVER use scope overload: `feat(auth/db/api)` - pick the primary area
-- NEVER commit without checking `git status` first
-- NEVER use past tense in description - use imperative mood
-- NEVER end description with a period
-- NEVER exceed 72 chars in description line
-- NEVER claim "done" without running tests before commit
+- Description ≤72 chars, imperative, lowercase, no trailing period.
+- Type matches the actual change; one concern per commit.
+- Tests run before committing.
 
-## Scope Discovery
+## Voice (commit body only)
 
-Detect scope from changed files:
-- `src/auth/*` → `auth`
-- `cmd/server/*` → `server`
-- `internal/db/*` → `db`
-- `*.test.*` → likely `test` type, not scope
-- Multiple areas → use the most impactful one, or omit scope
-
-## Commit Size
-
-- One logical change per commit
-- If description needs "and", split into two commits
-- Fixups during review: squash before merge
-- Migrations + code change: separate commits (rollback safety)
+Format stays strict; body applies natural voice: lead with why, vary sentence length, no banned AI words (robust/comprehensive/facilitate). Friend test: would a dev say this in a PR? Indonesian particles fine in internal/personal repos.
 
 ## Related Skills
 
 | When | Load |
 |------|------|
-| Git operations (rebase, conflicts) | `git-expert` |
+| Rebase, conflicts | `git-expert` |
 | Branch ready to integrate | `finishing-branch` |
-
-## Voice Integration
-
-Commit messages follow conventional format strictly - but the **body** is where natural voice applies. When writing commit bodies: lead with the punchline (why this matters), vary sentence length, no banned AI words ("robust", "comprehensive", "facilitate"). Write like you'd explain to a teammate, not a press release. Friend test: would a dev say this in a PR description? Indonesian particles fine in internal/personal repos.

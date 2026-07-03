@@ -6,167 +6,76 @@ trigger: After brainstorming approval, or when user has clear requirements for i
 
 # Writing Plans
 
-Write implementation plans assuming the engineer has zero codebase context. Document everything: which files, exact code, testing, how to verify.
+Write implementation plans assuming the engineer has zero codebase context. Document which files, exact code, tests, and how to verify.
 
-## Principles
+## Scope
 
-- Bite-sized tasks (2-5 minutes each)
-- DRY - never repeat logic across tasks
-- YAGNI - only what the spec requires
-- TDD - test first, implement second
-- Frequent commits - one per task
+- HANDLES: requirement analysis, file mapping, task breakdown, plan document, execution handoff.
+- DEFERS: design/spec to `brainstorming`; execution to `subagent-driven-dev` or `executing-plans`.
 
-## Process
+## First Action
 
-### 1. Analyze Requirements
+Read the spec/requirements. Identify inputs, outputs, constraints, feature dependencies, existing code touched.
 
-Read the spec/requirements. Identify:
-- Inputs, outputs, constraints
-- Dependencies between features
-- Existing code that will be touched
+## Constraints
 
-### 2. Map File Structure
+1. Bite-sized tasks (2-5 min each), one commit per task.
+2. DRY (never repeat logic), YAGNI (only what spec requires), TDD (test first).
+3. Every spec requirement maps to at least one task; every non-goal maps to zero tasks.
+4. Types/interfaces consistent across all tasks; file paths consistent (no typos).
+5. Split a task if it touches >3 files, has >5 steps, or mixes concerns.
+6. Save to `docs/plans/YYYY-MM-DD-<feature>.md`.
 
-Before defining tasks, list ALL files:
+## DO NOT (plan failures)
 
-```
-## Files
+- NO placeholders: "TBD", "TODO", "implement later", "add appropriate error handling", "similar to Task N", "follow the same pattern", "update as needed". Can't write exact code = don't understand it yet.
+- No tasks depending on unwritten tasks without explicit interface contracts.
+- No mixing refactoring with feature work in one task.
+- No plans without test steps.
+- No writing code before the plan is approved.
 
-### Create
-- path/to/new-file.ts - purpose
+## Workflow
 
-### Modify
-- path/to/existing.ts - what changes
+1. Analyze requirements.
+2. Map file structure - list ALL files under Create / Modify / Test with purpose.
+3. Write plan doc:
+   - Header: Goal, Architecture, Tech Stack, Global Constraints, Non-Goals, Estimated Tasks.
+   - Per task: Files (create/modify/test), Interfaces (consumes/produces), Steps (write test with exact code → implement with exact code → run+verify with expected output → commit with message).
+4. Right-size tasks (2-5 min, own test cycle, single commit, independently verifiable).
+5. Self-review checklist (below).
+6. Execution handoff.
 
-### Test
-- path/to/file.test.ts - covers what
-```
+## Self-Review Checklist
 
-### 3. Write Plan Document
+- [ ] Every spec requirement maps to a task.
+- [ ] Every non-goal covered by no task.
+- [ ] No placeholders (grep TBD/TODO/similar to/as needed).
+- [ ] Types/interfaces + file paths consistent.
+- [ ] Each task's test tests what it implements.
+- [ ] Run commands include expected output.
+- [ ] Commit messages meaningful.
 
-Save to: `docs/plans/YYYY-MM-DD-<feature>.md`
-
-#### Header Template
-
-```markdown
-# Plan: <Feature Name>
-
-**Goal**: One sentence outcome.
-**Architecture**: How it fits into the system.
-**Tech Stack**: Languages, frameworks, libraries used.
-**Global Constraints**: Performance targets, compatibility, security rules.
-**Non-Goals**: What this plan explicitly will NOT do (prevents scope creep).
-**Estimated Tasks**: N tasks, ~X minutes total.
-```
-
-#### Task Structure Template
-
-```markdown
-## Task N: <Verb> <Thing>
-
-**Files**:
-- Create: `path/file.ts`
-- Modify: `path/other.ts`
-- Test: `path/file.test.ts`
-
-**Interfaces**:
-- Consumes: `FunctionA(input: Type): ReturnType`
-- Produces: `FunctionB(input: Type): ReturnType`
-
-**Steps**:
-- [ ] Write test in `path/file.test.ts`:
-\```ts
-// exact test code here
-\```
-- [ ] Implement in `path/file.ts`:
-\```ts
-// exact implementation code here
-\```
-- [ ] Run and verify:
-\```bash
-npm test -- path/file.test.ts
-# Expected: 2 passed, 0 failed
-\```
-- [ ] Commit:
-\```bash
-git add path/file.ts path/file.test.ts
-git commit -m "feat: <what this task delivers>"
-\```
-```
-
-### 4. Right-Size Tasks
-
-Each task must:
-- Be completable in 2-5 minutes
-- Carry its own test cycle (write test → implement → verify)
-- Have a single commit at the end
-- Be independently verifiable
-
-Split if: task touches >3 files, has >5 steps, or mixes concerns.
-
-### 5. NO PLACEHOLDERS Rule
-
-Every step has actual content. These are plan failures:
-- "TBD"
-- "TODO"
-- "implement later"
-- "add appropriate error handling"
-- "similar to Task N"
-- "follow the same pattern"
-- "update as needed"
-
-If you can't write the exact code, you don't understand the task yet. Research more.
-
-### 6. Self-Review Checklist
-
-Before presenting the plan:
-- [ ] Every spec requirement maps to at least one task
-- [ ] Every non-goal from the spec is NOT covered by any task (no scope creep)
-- [ ] No placeholders or vague steps (grep for TBD, TODO, similar to, as needed)
-- [ ] Types/interfaces are consistent across all tasks
-- [ ] File paths are consistent (no typos between tasks)
-- [ ] Each task's test actually tests what the task implements
-- [ ] Run commands include expected output
-- [ ] Commit messages are meaningful
-
-### 7. Execution Handoff
-
-After plan approval, offer:
-
-1. **Subagent-driven** (recommended): Fresh subagent per task with two-stage review. Higher quality.
-2. **Inline execution**: Batch execution in current session with checkpoints.
+## Execution Handoff
 
 Ask: "Plan ready. Execute with subagents (recommended) or inline?"
+- Subagents → `subagent-driven-dev` (fresh context per task + two-stage review, higher quality).
+- Inline → `executing-plans`.
 
-Then load:
-- Option 1 → `subagent-driven-dev` skill
-- Option 2 → `executing-plans` skill
+## Verification
 
-## Anti-Patterns
-
-- Writing code before the plan is approved
-- Tasks that depend on unwritten tasks without explicit interface contracts
-- Mixing refactoring with feature work in same task
-- Plans without test steps
-- Optimizing before the feature works
-- Using placeholders or "similar to Task N" references
-
-## Integration
-
-**Input from:** `brainstorming` (produces the spec this skill consumes)
-**Output to:** `subagent-driven-dev` or `executing-plans`
-**Full chain:** brainstorming → **writing-plans** → execution → finishing-branch
-
-## Related Knowledge (load on demand)
-
-- `knowledge_index(section: "architecture")` - when planning architectural changes
-- `knowledge_index(section: "practices")` - for workflow/process decisions
-- `knowledge_passage(query: "vertical slice incremental development")` - when decomposing features into tasks
+- Plan exists at `docs/plans/` path.
+- Self-review checklist fully passes before presenting.
 
 ## Related Skills
 
 | When | Load |
 |------|------|
+| Produces the spec | `brainstorming` |
 | Execute with subagents | `subagent-driven-dev` |
 | Execute inline | `executing-plans` |
-| 3+ independent parallel tasks | `dispatching-parallel-agents` |
+| 3+ parallel tasks | `dispatching-parallel-agents` |
+
+## Knowledge (load on demand)
+
+- `knowledge_index(section: "architecture")` · `knowledge_index(section: "practices")`
+- `knowledge_passage(query: "vertical slice incremental development")`

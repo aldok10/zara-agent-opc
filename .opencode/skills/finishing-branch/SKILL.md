@@ -13,100 +13,63 @@ triggers:
 
 Guide the user through integrating completed work from a feature branch.
 
-## Step 1 - Verify Tests
+## Scope
 
-Run the project's test suite. Determine the command from package.json, Makefile, or project conventions.
+- HANDLES: test verification, integration options (merge/PR/keep/discard), worktree cleanup.
+- DEFERS: commit messages to `conventional-commits`; git internals to `git-expert`; review to `code-review`; PRs to `github`.
 
-- If tests **fail**: STOP. Report failures. Fix before proceeding.
-- If tests **pass**: Continue to Step 2.
+## First Action
 
-## Step 2 - Present Options
+Run the project's test suite (command from package.json/Makefile/conventions). Fail → STOP, report, fix. Pass → present options.
 
-Present exactly these 4 options:
+## Constraints
 
-1. **Merge** - Merge back to base branch locally
-2. **PR** - Push and create a pull request
-3. **Keep** - Leave branch as-is (user handles later)
-4. **Discard** - Delete this work entirely
+1. Present exactly 4 options: Merge, PR, Keep, Discard.
+2. Merge/Discard require cleanup; run `git worktree remove` from main repo root only.
+3. Discard: CONFIRM first, listing all commits that will be lost.
+4. Re-run tests on merged result; fail → abort merge, report.
 
-Ask the user to choose.
+## DO NOT
 
-## Step 3 - Execute Choice
+- NEVER proceed with failing tests.
+- NEVER delete without explicit user confirmation.
+- NEVER force-push without explicit request.
+- NEVER run `git worktree remove` from inside the worktree being removed.
+- NEVER claim "done" without running tests on merged result.
+- NEVER merge to a protected branch directly (use PR).
+- NEVER discard work without listing commits lost.
 
-### Option 1: Merge
+## Options
 
-```
-git checkout <base-branch>
-git pull origin <base-branch>
-git merge <feature-branch>
-```
+| Option | Merge? | Push? | Keep Worktree? | Cleanup Branch? |
+|--------|--------|-------|----------------|-----------------|
+| Merge | Yes | No | No | Yes (delete) |
+| PR | No | Yes | Yes | No |
+| Keep | No | No | Yes | No |
+| Discard | No | No | No | Yes (force) |
 
-Run tests again on merged result. If tests fail: abort merge, report.
-If pass: cleanup worktree, delete feature branch.
+- Merge: `git checkout <base> && git pull && git merge <feature>`, re-run tests, cleanup.
+- PR: `git push -u origin <feature> && gh pr create --fill`, keep worktree, report URL.
+- Keep: report branch + worktree location, do nothing else.
+- Discard: `git log --oneline <base>..<feature>` to list losses, confirm, then `git branch -D`.
 
-### Option 2: PR
+## Cleanup (Merge and Discard only)
 
-```
-git push -u origin <feature-branch>
-gh pr create --fill
-```
+1. `cd` to main repo root.
+2. `git worktree remove <path>`.
+3. `git worktree prune`.
 
-Do NOT cleanup worktree - user may need it for PR iteration.
-Report the PR URL.
+## Verification
 
-### Option 3: Keep
-
-Report the branch name and worktree location. Do nothing else.
-
-### Option 4: Discard
-
-**CONFIRM FIRST.** List all commits that will be lost:
-
-```
-git log --oneline <base-branch>..<feature-branch>
-```
-
-Only after explicit confirmation, proceed with cleanup.
-Force-delete the branch: `git branch -D <feature-branch>`
-
-## Cleanup Procedure
-
-Only for Merge and Discard. Order matters:
-
-1. `cd` to main repo root (never run worktree remove from inside the worktree)
-2. `git worktree remove <worktree-path>`
-3. `git worktree prune`
-
-## Quick Reference
-
-| Option  | Merge? | Push? | Keep Worktree? | Cleanup Branch? |
-|---------|--------|-------|----------------|-----------------|
-| Merge   | Yes    | No    | No             | Yes (delete)    |
-| PR      | No     | Yes   | Yes            | No              |
-| Keep    | No     | No    | Yes            | No              |
-| Discard | No     | No    | No             | Yes (force)     |
-
-## Anti-Patterns (NEVER Do These)
-
-- NEVER proceed with failing tests
-- NEVER delete without explicit user confirmation
-- NEVER force-push without explicit request
-- NEVER run `git worktree remove` from inside the worktree being removed
-- NEVER claim "done" without running tests on merged result
-- NEVER skip cleanup procedure for Merge and Discard options
-- NEVER merge to a protected branch directly - use PR
-- NEVER discard work without listing commits that will be lost
-
-## Related Knowledge (load on demand)
-
-- `knowledge_passage(query: "continuous integration merge deployment")` - CI/merge best practices
-- `knowledge_passage(query: "shipping is a feature incremental delivery")` - when to ship vs polish
+- Tests pass before presenting options.
+- Merged result re-tested before declaring merge complete.
+- Discard confirmed with commit list shown.
 
 ## Related Skills
 
 | When | Load |
 |------|------|
-| Writing commit messages | `conventional-commits` |
-| Git operations needed | `git-expert` |
-| Need code review before merge | `code-review` |
-| Creating PR on GitHub | `github` |
+| Commit messages | `conventional-commits` |
+| Git operations | `git-expert` |
+| Review before merge | `code-review` |
+| Creating PR | `github` |

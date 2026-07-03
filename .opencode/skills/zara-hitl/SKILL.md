@@ -3,111 +3,54 @@ name: zara-hitl
 description: Request human approval before risky operations
 ---
 
-# Skill: zara-hitl - Human In The Loop
+# Zara HITL (Human In The Loop)
 
-## Context
+Approval gates, structured workflows (QRSPI), escalation, and confidence scoring before risky or complex work.
 
-Use this skill when you need to:
-- Request human approval before risky operations
-- Run structured workflows (QRSPI: Questions → Research → Structure → Plan → Implement)
-- Escalate to the user when stuck or uncertain
-- Rate confidence before proceeding with complex changes
+## Scope
 
-## Available Tools
+- HANDLES: approval requests, QRSPI workflow, escalation, confidence rating.
+- DEFERS: MCP call masking to `zara-privacy-mcp`; git destructive-op guards to `git-expert`.
 
-### Approval Gates
+## First Action
 
-Before destructive or risky operations, request human approval:
+Assess risk level of the operation. Safe → proceed. Confirm/Review/Escalate → gate via `requestApproval` before acting.
 
-```javascript
-// Request approval for a risky operation
-requestApproval({
-  action: "DROP TABLE users",
-  risk: "destructive",    // destructive, production, permission, bulk, config, auth, security
-  context: "Removing deprecated users table - data has been migrated to profiles table",
-  impact: "Production database - requires downtime window",
-  options: [
-    "Proceed with DROP TABLE",
-    "Rename table instead (rollback option)",
-    "Archive data first, then drop"
-  ]
-})
-```
+## Constraints
 
-**Risk levels and their default approval requirements:**
+1. Destructive/production/security ops require `requestApproval` before executing.
+2. Complex multi-step features run through QRSPI phases.
+3. Stuck between options → `escalate` with concrete options.
+4. Non-trivial change → `rateConfidence` before proceeding.
 
-| Risk | Level | Auto-Approve |
-|------|-------|-------------|
-| `safe` | Safe (0) | Yes |
-| `confirm` | Confirm (1) | No - asks for quick confirm |
-| `review` | Review (2) | No - shows details |
-| `escalate` | Escalate (3) | No - full context needed |
+## DO NOT
 
-### QRSPI Workflow
+- Silently proceed on destructive/production/security operations.
+- Guess through a blocker instead of escalating.
+- Skip confidence check on high-risk unfamiliar changes.
 
-For complex tasks, run a structured workflow:
+## Tools
 
-```javascript
-// Create workflow for a complex task
-const wf = createWorkflow("Implement auth middleware")
+**requestApproval** - risk levels: `safe` (auto), `confirm` (quick confirm), `review` (shows details), `escalate` (full context). Params: action, risk (destructive/production/permission/bulk/config/auth/security), context, impact, options.
 
-// Get current phase info
-const phase = getCurrentPhaseInfo(wf.id)
-// phase: { currentPhase: "questions", checklist: [...], artifacts: [] }
+**QRSPI workflow** - `createWorkflow(task)` → `getCurrentPhaseInfo(id)` → `addArtifact(id, {...})` → `advancePhase(id)`. Phases: Questions → Research → Structure → Plan → Implement.
 
-// Add artifacts (research findings, design docs, plans)
-addArtifact(wf.id, { type: "research", content: "..." })
+**escalate** - params: type (stuck/ambiguous/blocked/error), context, question, options, severity.
 
-// Advance to next phase when ready
-advancePhase(wf.id)
-```
+**rateConfidence** - params: codeQuality, understandingChange, testCoverage, riskLevel, familiarity (0-1). Returns confidence % + level + action.
 
-**Phases:**
-
-1. **Questions** - What are we solving? What are constraints?
-2. **Research** - Map codebase, patterns, dependencies
-3. **Structure** - Break into verifiable steps
-4. **Plan** - File paths, test cases, acceptance criteria
-5. **Implement** - Execute with verification
-
-### Human Escalation
-
-When stuck, escalate with full context:
-
-```javascript
-escalate({
-  type: "blocked",          // stuck, ambiguous, blocked, error
-  context: "Three approaches found. Unsure which fits best.",
-  question: "Should I use JWT, session tokens, or API keys?",
-  options: [
-    "JWT - stateless, no DB lookup",
-    "Session tokens - revocable, stateful",
-    "API keys - simple but no user context"
-  ],
-  severity: "medium"
-})
-```
-
-### Confidence Scoring
-
-```javascript
-rateConfidence({
-  codeQuality: 0.8,        // How clean is the approach?
-  understandingChange: 0.7, // How well do I understand the change?
-  testCoverage: 0.6,        // How tested is the area?
-  riskLevel: 0.3,           // How risky? (low=0, high=1)
-  familiarity: 0.9          // How familiar am I with this code?
-})
-// Returns: { confidence: 78, level: "medium", action: "review_first" }
-```
-
-## When to Use Each
+## When to Use
 
 | Situation | Use |
 |-----------|-----|
-| Deleting/modifying data | `requestApproval` with risk: "destructive" |
-| Production changes | `requestApproval` with risk: "production" |
-| Complex, multi-step features | `createWorkflow` + QRSPI phases |
+| Deleting/modifying data | `requestApproval` risk: destructive |
+| Production changes | `requestApproval` risk: production |
+| Security/auth changes | `requestApproval` risk: security |
+| Complex multi-step feature | `createWorkflow` + QRSPI |
 | Stuck between options | `escalate` with options |
-| Unsure if approach is right | `rateConfidence` before proceeding |
-| Security/auth changes | `requestApproval` with risk: "security" |
+| Unsure approach is right | `rateConfidence` first |
+
+## Verification
+
+- Risk-classified before action; gate invoked for non-safe levels.
+- Escalation includes concrete options, not just a question.

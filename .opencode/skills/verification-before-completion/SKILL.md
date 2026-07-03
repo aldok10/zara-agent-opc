@@ -9,126 +9,80 @@ triggers:
 
 # Verification Before Completion
 
-## The Iron Law
+NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION EVIDENCE. Say "done" based on what you observed, not what you think will happen.
 
-NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION EVIDENCE.
+## Scope
 
-Never say "done" based on what you think will happen. Say "done" based on what you observed happen.
+- HANDLES: completion gate, evidence requirements, minimal-diff check, confidence check, failure recovery.
+- DEFERS: integration to `finishing-branch`; review to `code-review`.
 
-## The Gate Function
+## First Action
 
-Every completion claim must pass through this gate:
+Identify the exact command that proves the claim, then run it fresh (not cached, not from memory).
 
-1. **IDENTIFY** - What command proves the claim?
-2. **RUN** - Execute the full command fresh (not cached, not from memory)
-3. **READ** - Full output + exit code
-4. **VERIFY** - Output confirms claim (not "looks right" - actually confirms)
-5. **CLAIM** - Only now state the result
+## The Gate (every completion claim)
 
-If any step fails, you are not done. Go back to implementation.
+1. IDENTIFY - what command proves the claim?
+2. RUN - execute fresh, full command.
+3. READ - full output + exit code.
+4. VERIFY - output confirms claim (not "looks right").
+5. CLAIM - only now state the result.
 
-## Common Failures
+Any step fails, you are not done. Back to implementation.
 
-| Claim | Required Evidence | NOT Sufficient |
-|-------|-------------------|----------------|
-| "Tests pass" | Test output showing 0 failures | "should pass", "I fixed the test" |
-| "Build succeeds" | Build command exit 0 | "linter passed", "no syntax errors" |
-| "Bug fixed" | Original symptom test passes | "code changed", "logic looks correct" |
-| "Feature works" | Relevant test or demo output | "implemented per spec" |
-| "Type errors resolved" | Typecheck exit 0 | "removed the offending line" |
-| "Lint clean" | Lint command exit 0, no warnings | "fixed the flagged issue" |
+## Constraints
 
-## Red Flags - Stop and Verify
+1. Run the command. Read the output. Then claim. Non-negotiable.
+2. Walk the diff line by line: every changed line justifiable by the task.
+3. No "while I'm here" changes; note out-of-scope fixes as follow-ups.
+4. Three similar lines beats a premature abstraction (extract at the fourth).
+5. Bug fix = only the fix; refactoring gets its own commit.
 
-You are about to violate the iron law if you catch yourself:
+## DO NOT
 
-- Using "should", "probably", "seems to", "likely works"
-- Expressing satisfaction before running verification
-- About to commit without running tests/build
-- Trusting your own success reports without evidence
-- Saying "I'm confident" without command output backing it
+- Use "should", "probably", "seems to", "likely works" as evidence.
+- Express satisfaction before running verification.
+- Commit without running tests/build.
+- Trust your own success reports without command output.
+- Fix a correct test just to make it pass. Never suppress errors.
 
-## Rationalization Prevention
+## Evidence Required
 
-| You're Thinking | What To Do Instead |
-|-----------------|-------------------|
-| "Should work now" | RUN IT |
-| "I'm confident this fixes it" | Confidence is not evidence. RUN IT |
-| "Just this once I'll skip" | No exceptions. RUN IT |
-| "The change is trivial" | Trivial changes break things. RUN IT |
-| "I already ran it earlier" | Earlier is not now. RUN IT AGAIN |
+| Claim | Evidence | NOT sufficient |
+|-------|----------|----------------|
+| "Tests pass" | Output: 0 failures | "should pass", "I fixed it" |
+| "Build succeeds" | Exit 0 | "no syntax errors" |
+| "Bug fixed" | Original symptom test passes | "logic looks correct" |
+| "Feature works" | Test/demo output | "implemented per spec" |
+| "Type errors resolved" | Typecheck exit 0 | "removed the line" |
+| "Lint clean" | Lint exit 0, no warnings | "fixed the flagged issue" |
 
-## Key Patterns
+## Rationalizations (all → RUN IT)
 
-**Tests:**
-```
-run test command → see "X passed, 0 failed" in output → THEN claim "tests pass"
-```
+"Should work now" · "I'm confident" (confidence ≠ evidence) · "Just this once" · "Trivial change" (trivial breaks things) · "I ran it earlier" (earlier ≠ now).
 
-**Build:**
-```
-run build command → see exit code 0 → THEN claim "build succeeds"
-```
+## Failure Recovery
 
-**Bug fix:**
-```
-run reproduction steps → see correct behavior → THEN claim "bug fixed"
-```
+1. First failure: fix the specific error, re-run.
+2. Second (same area): step back, re-read failing code AND test. Is the test correct? Is the approach sound?
+3. Third: STOP, you're in a loop. State what you tried, what failed, believed root cause. Try a fundamentally different approach or escalate.
 
-**Requirements:**
-```
-re-read the plan → make checklist → verify each item has evidence → THEN claim "complete"
-```
+## Confidence Check (complex/ambiguous only)
 
-## Integration
+1. Re-read the original requirement: does output answer what was asked?
+2. List unstated assumptions: would the answer change if one was wrong?
+3. Confidence <70%? Say so: "I'm ~60% confident because X is unclear."
 
-This skill activates automatically at the boundary between implementation and communication. The moment you're about to tell the user something works - pause - and run the gate function.
+Skip for trivial tasks.
 
-## Bottom Line
+## Verification
 
-Run the command. Read the output. THEN claim the result.
-
-Non-negotiable.
-
-## Minimal Diff Discipline
-
-Before claiming done, also check scope:
-
-1. **Walk the diff line by line.** Every changed line must be justifiable: "this line exists because the task explicitly requires it."
-2. **No "while I'm here" changes.** If you spotted something worth fixing outside task scope, note it as a follow-up. Don't sneak it in.
-3. **Three similar lines beats a premature abstraction.** Don't extract a helper until the fourth occurrence.
-4. **Bug fix = only the fix.** Refactoring, cleanup, and improvements get their own commit.
-
-If the diff is larger than expected, ask: "Could this be smaller and still solve the problem?"
-
-## Confidence Check (for complex/ambiguous tasks)
-
-When the task was non-trivial or you feel uncertain:
-
-1. **Re-read the original requirement.** Does your output actually answer what was asked?
-2. **Check for unstated assumptions.** List any assumption you made. Would the answer change if one was wrong?
-3. **If confidence < 70%, say so.** "I'm ~60% confident because X is unclear" is more useful than a wrong definitive answer.
-
-Don't apply this to trivial tasks. Only when complexity warrants it.
-
-## Verification Failure Recovery
-
-When verification fails (tests fail, lint errors, build breaks):
-
-1. **First failure:** Fix the specific error. Re-run verification.
-2. **Second failure (same area):** Step back. Re-read the failing code AND the test. Is the test correct? Is the approach sound?
-3. **Third failure:** STOP. You are in a loop. State: what you tried, what failed, what you believe the root cause is. Either try a fundamentally different approach or escalate to user.
-
-**Never:** Fix a test to make it pass if the test was correct. Never suppress errors. Never skip verification because "it should work."
-
-## Related Knowledge (load on demand)
-
-- `knowledge_index(section: "testing")` - when verifying test strategies
-- `knowledge_passage(query: "observability monitoring logging")` - when verifying monitoring/logging
+- Command output + exit code shown before any completion claim.
+- Diff contains only task-justified changes.
 
 ## Related Skills
 
 | When | Load |
 |------|------|
-| Work verified, ready to integrate | `finishing-branch` |
+| Verified, ready to integrate | `finishing-branch` |
 | Need code review | `code-review` |

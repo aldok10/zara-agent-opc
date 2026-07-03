@@ -6,149 +6,96 @@ trigger: implementation plan execution, multi-task dispatch, parallel workstream
 
 # Subagent-Driven Development
 
-Core principle: **Fresh subagent per task + task review + final broad review.**
+Fresh subagent per task + task review + final broad review. Execute all tasks sequentially, continuously. Only stop when BLOCKED with no path.
 
-Continuous execution: Do NOT pause between tasks. Execute all tasks sequentially without asking "should I continue?" Only stop when BLOCKED with no resolution path.
+## Scope
 
-## Process Flow
+- HANDLES: task dispatch, review gates, ledger tracking, model selection, blocked-status handling.
+- DEFERS: plan creation to `writing-plans`; inline execution to `executing-plans`; final review to `code-review`; completion to `finishing-branch`.
 
-### 1. Plan Intake
+## First Action
 
-- Read the implementation plan
-- Create a progress ledger file (`.tasks/progress.md`) tracking: task ID, status, assignee model, verdict
-- Create todo items for each task
-- The ledger survives context compaction - always re-read it before dispatching
+Read the plan, create `.tasks/progress.md` ledger (task ID, status, model, verdict). Re-read ledger before every dispatch (survives compaction).
 
-### 2. Per-Task Execution Loop
+## Constraints
 
-For each task in order:
+1. Never paste the full plan into a subagent prompt: only the relevant task brief.
+2. Each subagent: fresh context, ONE task, exact files, must implement/test/commit/report.
+3. Two verdicts per task, both must PASS: spec compliance + code quality.
+4. PASS/PASS → mark complete, next task. Any FAIL → feedback, re-dispatch. Max 2 retries then escalate.
+5. Final review: separate reviewer subagent across ALL changed files. Fix Critical/Important before finishing.
+6. Trust ledger + `git log` over memory after compaction.
 
-**A. Prepare task brief**
-- Write a task brief file (`.tasks/task-{id}.md`) containing: objective, exact files to touch, constraints, acceptance criteria
-- Never paste the full plan into a subagent prompt - only the relevant task brief
+## DO NOT
 
-**B. Dispatch implementer subagent**
-- Fresh context (no session history)
-- ONE task, clear scope, exact files
-- Implementer must: implement, test, commit, write a report file (`.tasks/report-{id}.md`)
+- NEVER skip task review ("it looks fine").
+- NEVER proceed with unfixed Critical/Important issues.
+- NEVER dispatch parallel implementers to the same codebase.
+- NEVER paste the whole plan into a dispatch.
+- NEVER re-dispatch a task marked complete in ledger.
+- NEVER ask "should I continue?" between tasks.
+- NEVER let self-review replace actual review (reviewer must be separate).
+- NEVER tell reviewer what not to flag.
+- NEVER claim "done" without verification commands.
 
-**C. Review the output**
-Two verdicts required, both must pass:
+## Workflow
 
-| Verdict | Question | Criteria |
-|---------|----------|----------|
-| Spec compliance | Did it build what was asked? | Matches acceptance criteria, no missing requirements |
-| Code quality | Is it well-built? | Clean, tested, no smells, follows project conventions |
+1. Plan intake - read plan, create ledger + todos.
+2. Per-task loop:
+   - Write task brief `.tasks/task-{id}.md` (objective, files, constraints, acceptance criteria).
+   - Dispatch implementer (fresh context, one task). Implementer writes `.tasks/report-{id}.md`.
+   - Review: spec compliance + code quality, both PASS required.
+   - Handle: PASS/PASS → complete + next. FAIL → re-dispatch (max 2 retries).
+3. Final review - reviewer subagent across all changes: integration coherence, cross-task consistency, edge cases.
+4. Finish - `finishing-branch` skill, update ledger.
 
-**D. Handle result**
-- **PASS/PASS** → Mark complete in ledger, move to next task
-- **Any FAIL** → Write feedback, re-dispatch with fixes. Max 2 retries, then escalate.
-
-### 3. Final Review
-
-After all tasks complete:
-- Dispatch a final code reviewer subagent across ALL changed files
-- Focus: integration coherence, cross-task consistency, missed edge cases
-- Fix any Critical/Important issues before finishing
-
-### 4. Finish
-
-- Use `finishing-branch` skill (or equivalent branch finalization)
-- Update ledger with final status
-
-## Handling Statuses
+## Blocked Handling
 
 | Status | Action |
 |--------|--------|
 | DONE | Review immediately |
-| NEEDS_CONTEXT | Provide missing context in task brief, re-dispatch |
-| BLOCKED | Assess: need more context? bigger model? break into pieces? plan itself wrong? |
-
-For BLOCKED: try (in order) - provide context → use more capable model → decompose task → revise plan. If all fail, stop and report.
-
-## File Handoffs
-
-Never paste artifacts into dispatch prompts. Use files:
-
-- **Input**: `.tasks/task-{id}.md` (task brief)
-- **Output**: `.tasks/report-{id}.md` (implementer's report)
-- **Ledger**: `.tasks/progress.md` (overall tracking)
-
-This keeps subagent context clean and survives compaction.
+| NEEDS_CONTEXT | Provide context in brief, re-dispatch |
+| BLOCKED | In order: provide context → more capable model → decompose → revise plan. All fail: stop, report. |
 
 ## Model Selection
 
-| Task type | Model tier |
-|-----------|-----------|
-| Mechanical (clear spec, 1-2 files, no ambiguity) | Cheapest available |
-| Integration (multiple files, needs cross-file awareness) | Standard |
-| Architecture decisions, final review | Most capable |
+| Task | Model |
+|------|-------|
+| Mechanical (clear spec, 1-2 files) | Cheapest |
+| Integration (multiple files, cross-file) | Standard |
+| Architecture, final review | Most capable |
 
-## Constructing Reviewer Prompts
+## Reviewer Prompts
 
-- Do NOT add open-ended directives - keep scope tight
-- Do NOT ask reviewer to re-run tests the implementer already ran
-- Do NOT pre-judge findings (never "ignore X" or "don't flag Y")
-- Include global constraints from the plan verbatim
-- Provide the diff (use `git diff BASE..HEAD` output as context)
-- Dispatch prompt describes ONE task, not session history
-- Fix Critical and Important findings. Note Minor in ledger for final review.
+- Keep scope tight, no open-ended directives.
+- Don't ask to re-run tests the implementer ran.
+- Don't pre-judge findings.
+- Include global constraints verbatim + `git diff BASE..HEAD`.
+- Fix Critical/Important; note Minor in ledger.
 
-## Durable Progress
-
-Track in ledger file, not just todos:
-- Ledger at `.tasks/progress.md` is the source of truth
-- Tasks marked complete are DONE - never re-dispatch
-- When task review passes, append: `Task N: complete (commits abc1234..def5678, review clean)`
-- After context compaction, trust ledger + `git log` over memory
-
-## Anti-Patterns (NEVER Do These)
-
-- NEVER skip task review (even if "it looks fine")
-- NEVER proceed with unfixed Critical/Important issues
-- NEVER dispatch parallel implementers to the same codebase (merge conflicts)
-- NEVER paste the whole plan into a subagent dispatch (context bloat)
-- NEVER re-dispatch a task already marked complete in the ledger
-- NEVER ask "should I continue?" between tasks (continuous execution)
-- NEVER let self-review replace actual review (reviewer must be separate subagent)
-- NEVER tell reviewer what not to flag (let them find what they find)
-- NEVER move to next task with open Critical/Important issues
-- NEVER claim "done" without running verification commands
-
-## Progress Ledger Format
+## Ledger Format
 
 ```markdown
-# Progress Ledger
-
 | # | Task | Status | Model | Spec | Quality | Commits | Notes |
 |---|------|--------|-------|------|---------|---------|-------|
 | 1 | Auth middleware | DONE | std | PASS | PASS | abc..def | |
-| 2 | User endpoints | IN_PROGRESS | std | - | - | | |
-| 3 | DB migrations | PENDING | cheap | - | - | | |
 ```
+Update after every completion/status change. On pass append: `Task N: complete (commits abc..def, review clean)`.
 
-Update after every task completion or status change.
+## Verification
 
-## Integration
-
-**Required workflow skills:**
-- `git-worktrees` - isolated workspace
-- `writing-plans` - creates the plan this skill executes
-- `code-review` - final whole-branch review
-- `finishing-branch` - complete after all tasks
-
-**Subagents should use:**
-- `tdd` - test-driven implementation
-- `verification-before-completion` - before reporting DONE
-
-**Alternative:**
-- `executing-plans` - for inline execution without subagents
+- Ledger is source of truth; every task shows PASS/PASS or explicit block.
+- No open Critical/Important issues before moving on.
+- Verification commands run before any DONE.
 
 ## Related Skills
 
 | When | Load |
 |------|------|
+| Isolated workspace | `git-worktrees` |
+| Creates the plan | `writing-plans` |
 | Implementing each task | `tdd` |
-| Before claiming task done | `verification-before-completion` |
-| Final code review | `code-review` |
+| Before reporting DONE | `verification-before-completion` |
+| Final whole-branch review | `code-review` |
 | All tasks complete | `finishing-branch` |
+| Inline (no subagents) | `executing-plans` |

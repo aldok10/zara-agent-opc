@@ -8,64 +8,48 @@ tags:
   - session-management
 ---
 
-# Skill: Auto-Resume for Zara
+# Auto-Resume
 
-**Trigger**: On Zara activation or `/resume` command
-**Tags**: zara, auto-resume, continuation
+On activation or `/resume`, check MCP memory for saved session state and offer to continue.
 
-## Context
+## Scope
 
-Zara saves session state to MCP memory at session end. On activation, use
-`Orchestrator_memory_recall` to check for open session state instead of reading
-files from disk.
+- HANDLES: recall of saved session state, context announcement, resume/fresh-start handling.
+- DEFERS: how state gets saved to `session-handoff`.
 
-**Key constraint**: Do NOT read state files from `~/.zara/state/` - MCP memory
-is the single source of truth.
+## First Action
 
-## Steps
+Call `Orchestrator_memory_recall(query: "session handoff active task")` and `Orchestrator_memory_recall(query: "open threads")`. MCP memory is the single source of truth; do NOT read state files from disk.
 
-### 1. Check for Saved State
+## Constraints
 
-On activation, call:
+1. Use `memory_recall` only, never file reads.
+2. Look for: recent `memory_episode` (tag: session), `memory_learn` type `fact` keyed `thread_*`, most recent episode = saved state.
+3. Announce saved state within the first response.
 
-```
-Orchestrator_memory_recall(query: "session handoff active task")
-Orchestrator_memory_recall(query: "open threads")
-```
+## DO NOT
 
-Look for:
-- Recent `memory_episode` entries with tags: session
-- `memory_learn` entries with type: `fact` and keys prefixed `thread_` (from `/handoff` command)
-- `memory_recall(query: "thread")` - finds all thread-related keys
-- The most recent episode indicates saved session state
+- Read state files from `~/.zara/state/`.
+- Recall session memory after the user chose a fresh start.
 
-### 2. Announce Context
+## Workflow
 
-Present a clear summary to the user:
-```
-I see we were working on [activeTask] last time.
-Done: [completedSteps]
-Next: [currentStep]
-Key decisions: [summary]
-
-Shall I pick up where I left off?
-```
-
-### 3. Handle User Response
-
-| Response | Action |
-|----------|--------|
-| Yes / Continue | Reference saved decisions, continue from current step |
-| No / Fresh start | Start new task, don't recall session memory |
-
+1. Check saved state (recall queries above).
+2. Announce:
+   ```
+   I see we were working on [activeTask] last time.
+   Done: [completedSteps]
+   Next: [currentStep]
+   Shall I pick up where I left off?
+   ```
+3. Handle response - Yes/Continue → reference decisions, continue from current step. No/Fresh → new task, skip session recall.
 
 ## Verification
 
-- After activation, Zara announces any saved session state within first response
-- Uses `Orchestrator_memory_recall`, not file reads
-- `/resume` command triggers the same recall flow
+- Saved state announced in first response after activation.
+- Used `memory_recall`, not file reads.
+- `/resume` triggers the same flow.
 
 ## Related
 
-- `Orchestrator_memory_recall` - the only recall mechanism needed
-- `session-handoff` - how state gets saved in the first place
+- `memory_recall` (recall mechanism) · `session-handoff` (how state is saved)

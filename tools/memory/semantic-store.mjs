@@ -194,10 +194,11 @@ export class ChromaSemanticStore {
   }
 
   // Serialize a full memory row into Chroma's string-scalar metadata map.
+  // The `value` text goes into Chroma's `documents` field (not metadata) to
+  // leverage full-text search and keep metadata lean.
   #toMetadata(row) {
     return {
       key: row.key,
-      value: row.value,
       confidence: String(row.confidence),
       source: row.source,
       type: row.type,
@@ -214,11 +215,11 @@ export class ChromaSemanticStore {
     };
   }
 
-  // Deserialize Chroma metadata back into a typed row.
-  #fromMetadata(m, key) {
+  // Deserialize Chroma metadata + document back into a typed row.
+  #fromMetadata(m, key, document = '') {
     return {
       key: m.key || key,
-      value: m.value || '',
+      value: document || m.value || '',
       confidence: parseFloat(m.confidence ?? '0.8'),
       source: m.source || 'observed',
       type: m.type || 'fact',
@@ -249,7 +250,7 @@ export class ChromaSemanticStore {
       const hits = await this.#vectorStore.query(vec, 5, { type: memType });
       for (const h of hits) {
         if (h.score > 0.95 && h.metadata && h.key !== key) {
-          const dupRow = this.#fromMetadata(h.metadata, h.key);
+          const dupRow = this.#fromMetadata(h.metadata, h.key, h.document);
           dupRow.reinforced += 1;
           dupRow.decay_score = 1.0;
           dupRow.updated = now;
@@ -275,14 +276,14 @@ export class ChromaSemanticStore {
       access_count: existing?.access_count || 0,
       created: existing?.created || now, updated: now, accessed: existing?.accessed || '',
     };
-    await this.#vectorStore.upsert(key, vec, this.#toMetadata(row));
+    await this.#vectorStore.upsert(key, vec, this.#toMetadata(row), value);
     return { key, value, reinforced, type: memType };
   }
 
   async #getOne(key) {
     try {
       const entries = await this.#vectorStore.getAll({ key }, 1);
-      if (entries.length) return this.#fromMetadata(entries[0].metadata, entries[0].key);
+      if (entries.length) return this.#fromMetadata(entries[0].metadata, entries[0].key, entries[0].document);
     } catch {}
     return null;
   }
@@ -298,7 +299,7 @@ export class ChromaSemanticStore {
     let results = hits
       .filter(h => h.score > 0.2 && h.metadata)
       .map(h => {
-        const row = this.#fromMetadata(h.metadata, h.key);
+        const row = this.#fromMetadata(h.metadata, h.key, h.document);
         return { ...row, vecScore: h.score, relevance: relevanceScore(h.score, row, scope) };
       });
 
@@ -322,7 +323,7 @@ export class ChromaSemanticStore {
   async baseline(tokenBudget = 500) {
     const all = await this.#vectorStore.getAll(null, MAX_SCAN);
     const rows = all
-      .map(e => this.#fromMetadata(e.metadata, e.key))
+      .map(e => this.#fromMetadata(e.metadata, e.key, e.document))
       .filter(r => (POLICY_TYPES.has(r.type) || r.confidence >= 1.0) && r.decay_score > 0.3)
       .sort((a, b) => {
         const rank = { policy: 1, architecture: 2, preference: 3 };
@@ -337,7 +338,7 @@ export class ChromaSemanticStore {
     const dir = filePath.split('/').slice(0, -1).join('/');
     const all = await this.#vectorStore.getAll(null, MAX_SCAN);
     return all
-      .map(e => this.#fromMetadata(e.metadata, e.key))
+      .map(e => this.#fromMetadata(e.metadata, e.key, e.document))
       .filter(r => r.scope && (r.scope === filePath || r.scope === dir || filePath.startsWith(r.scope)))
       .sort((a, b) => (b.decay_score - a.decay_score) || (b.reinforced - a.reinforced))
       .slice(0, limit);
@@ -345,7 +346,7 @@ export class ChromaSemanticStore {
 
   async getAll() {
     const all = await this.#vectorStore.getAll(null, MAX_SCAN);
-    return all.map(e => this.#fromMetadata(e.metadata, e.key));
+    return all.map(e => this.#fromMetadata(e.metadata, e.key, e.document));
   }
 
   async count() {
@@ -396,7 +397,7 @@ export class ChromaSemanticStore {
     const rows = all
       .filter(e => !/^(knowledge\.|kb_|auto\.)/.test(e.key))
       .map(e => {
-        const row = this.#fromMetadata(e.metadata, e.key);
+        const row = this.#fromMetadata(e.metadata, e.key, e.document);
         return { ...row, vec: e.embedding, norm: row.value.toLowerCase().replace(/\s+/g, ' ').trim() };
       })
       .filter(r => r.vec);
@@ -429,7 +430,7 @@ export class ChromaSemanticStore {
     const now = Date.now();
     let decayed = 0;
     for (const e of all) {
-      const row = this.#fromMetadata(e.metadata, e.key);
+      const row = this.#fromMetadata(e.metadata, e.key, e.document);
       const { decay_score, trust_score } = computeDecay(row, now);
       if (decay_score !== row.decay_score || trust_score !== row.trust_score) {
         row.decay_score = decay_score;
@@ -443,7 +444,7 @@ export class ChromaSemanticStore {
 
   async dreamConsolidateSemantic() {
     const all = await this.#vectorStore.getAll(null, MAX_SCAN);
-    const rows = all.map(e => this.#fromMetadata(e.metadata, e.key)).sort((a, b) => b.reinforced - a.reinforced);
+    const rows = all.map(e => this.#fromMetadata(e.metadata, e.key, e.document)).sort((a, b) => b.reinforced - a.reinforced);
     const results = { merged: 0, archived: 0 };
 
     // Merge exact-normalized duplicates → reinforce the survivor, remove the rest.
@@ -483,7 +484,7 @@ export class ChromaSemanticStore {
     const all = await this.#vectorStore.getAll(null, MAX_SCAN);
     const out = {};
     for (const e of all) {
-      const r = this.#fromMetadata(e.metadata, e.key);
+      const r = this.#fromMetadata(e.metadata, e.key, e.document);
       out[r.key] = { value: r.value, confidence: r.confidence, source: r.source, type: r.type, updated: r.updated, reinforced: r.reinforced };
     }
     return out;

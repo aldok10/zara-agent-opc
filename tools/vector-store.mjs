@@ -78,44 +78,58 @@ class ChromaStore {
   }
 
   // Store or replace a vector. metadata is a flat object of scalar fields.
-  async upsert(id, vector, metadata = {}) {
+  // `document` is the raw text stored in Chroma's documents field (enables
+  // full-text search and avoids bloating metadata with large text).
+  async upsert(id, vector, metadata = {}, document = '') {
     const col = await this.#init();
-    await col.upsert({
+    const args = {
       ids: [id],
       embeddings: [Array.from(vector)],
       metadatas: [metadata],
-    });
+    };
+    if (document) args.documents = [document];
+    await col.upsert(args);
   }
 
-  // Batch upsert for bulk sync. `items` is [{ id, vector, metadata }].
+  // Batch upsert for bulk sync. `items` is [{ id, vector, metadata, document? }].
   // Chunked to keep request sizes sane (Chroma rejects very large batches).
   async upsertBatch(items, chunkSize = 200) {
     const col = await this.#init();
     for (let i = 0; i < items.length; i += chunkSize) {
       const slice = items.slice(i, i + chunkSize);
-      await col.upsert({
+      const args = {
         ids: slice.map(x => x.id),
         embeddings: slice.map(x => Array.from(x.vector)),
         metadatas: slice.map(x => x.metadata || {}),
-      });
+      };
+      if (slice.some(x => x.document)) {
+        args.documents = slice.map(x => x.document || '');
+      }
+      await col.upsert(args);
     }
   }
 
-  // KNN search. Returns [{ key, score, metadata }] sorted by similarity desc.
+  // KNN search. Returns [{ key, score, metadata, document? }] sorted by similarity desc.
   // `where` is an optional Chroma metadata filter, e.g. { type: 'fact' }.
   async query(vector, k = 15, where = null) {
     const col = await this.#init();
-    const args = { queryEmbeddings: [Array.from(vector)], nResults: k };
+    const args = {
+      queryEmbeddings: [Array.from(vector)],
+      nResults: k,
+      include: ['metadatas', 'distances', 'documents'],
+    };
     if (where && Object.keys(where).length) args.where = where;
     const res = await col.query(args);
     const ids = res.ids?.[0] || [];
     const distances = res.distances?.[0] || [];
     const metadatas = res.metadatas?.[0] || [];
+    const documents = res.documents?.[0] || [];
     return ids.map((key, i) => ({
       key,
       // cosine space: distance in [0,2]; convert to similarity in [-1,1]
       score: 1 - (distances[i] ?? 1),
       metadata: metadatas[i] || {},
+      document: documents[i] || '',
     }));
   }
 
@@ -146,21 +160,24 @@ class ChromaStore {
     return col.count();
   }
 
-  // List entries with metadata. Supports optional `where` filter and can
-  // include stored embeddings (needed for contradiction detection).
-  // Returns [{ key, metadata, embedding? }].
+  // List entries with metadata + documents. Supports optional `where` filter
+  // and can include stored embeddings (needed for contradiction detection).
+  // Returns [{ key, metadata, document?, embedding? }].
   async getAll(where = null, limit = 1000, offset = 0, withEmbeddings = false) {
     const col = await this.#init();
-    const include = withEmbeddings ? ['metadatas', 'embeddings'] : ['metadatas'];
+    const include = ['metadatas', 'documents'];
+    if (withEmbeddings) include.push('embeddings');
     const args = { limit, offset, include };
     if (where && Object.keys(where).length) args.where = where;
     const res = await col.get(args);
     const ids = res.ids || [];
     const metadatas = res.metadatas || [];
+    const documents = res.documents || [];
     const embeddings = res.embeddings || [];
     return ids.map((key, i) => ({
       key,
       metadata: metadatas[i] || {},
+      document: documents[i] || '',
       embedding: withEmbeddings && embeddings[i] ? Float32Array.from(embeddings[i]) : null,
     }));
   }

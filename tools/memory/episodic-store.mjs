@@ -104,13 +104,12 @@ export class ChromaEpisodicStore {
     const text = outcome ? `${event} ${outcome}` : event;
     const vec = await this.#embedder.embed(text.slice(0, 300));
 
+    // Store event+outcome as document (full-text searchable); metadata is lean.
     await this.#vectorStore.upsert(id, vec, {
-      event,
-      outcome,
       tags: JSON.stringify(tags),
       ts,
       access_count: '0',
-    });
+    }, text);
     return { event, ts };
   }
 
@@ -118,16 +117,22 @@ export class ChromaEpisodicStore {
     const vec = await this.#embedder.embed(query);
     const hits = await this.#vectorStore.query(vec, limit * 2);
     return hits
-      .filter(h => h.score > 0.2 && h.metadata)
+      .filter(h => h.score > 0.2)
       .slice(0, limit)
-      .map(h => ({
-        id: h.key,
-        event: h.metadata.event || '',
-        outcome: h.metadata.outcome || '',
-        tags: h.metadata.tags || '[]',
-        ts: h.metadata.ts || '',
-        score: h.score,
-      }));
+      .map(h => {
+        // Reconstruct event/outcome from document field
+        const doc = h.document || h.metadata.event || '';
+        const event = h.metadata.event || doc;
+        const outcome = h.metadata.outcome || '';
+        return {
+          id: h.key,
+          event,
+          outcome,
+          tags: h.metadata.tags || '[]',
+          ts: h.metadata.ts || '',
+          score: h.score,
+        };
+      });
   }
 
   async count() {
@@ -137,7 +142,7 @@ export class ChromaEpisodicStore {
   async export() {
     const all = await this.#vectorStore.getAll(null, MAX_SCAN);
     return all.map(e => ({
-      event: e.metadata.event || '',
+      event: e.document || e.metadata.event || '',
       outcome: e.metadata.outcome || '',
       tags: JSON.parse(e.metadata.tags || '[]'),
       ts: e.metadata.ts || '',
@@ -161,7 +166,7 @@ export class ChromaEpisodicStore {
   async deleteByPattern(pattern) {
     const all = await this.#vectorStore.getAll(null, MAX_SCAN);
     const match = all.filter(e =>
-      (e.metadata.event || '').includes(pattern) || (e.metadata.outcome || '').includes(pattern)
+      (e.document || e.metadata.event || '').includes(pattern) || (e.metadata.outcome || '').includes(pattern)
     );
     if (match.length) {
       await this.#vectorStore.removeMany(match.map(e => e.key));
@@ -172,7 +177,7 @@ export class ChromaEpisodicStore {
   async countByPattern(pattern) {
     const all = await this.#vectorStore.getAll(null, MAX_SCAN);
     return all.filter(e =>
-      (e.metadata.event || '').includes(pattern) || (e.metadata.outcome || '').includes(pattern)
+      (e.document || e.metadata.event || '').includes(pattern) || (e.metadata.outcome || '').includes(pattern)
     ).length;
   }
 }

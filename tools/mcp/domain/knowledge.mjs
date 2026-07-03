@@ -67,6 +67,16 @@ class KnowledgeTools {
         },
         handler: (args) => this.#handleKnowledgePassage(args),
       },
+      knowledge_sync_chroma: {
+        description: 'Sync knowledge + skills to Chroma (requires ZARA_VECTOR=chroma).',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            include_skills: { type: 'boolean' },
+          },
+        },
+        handler: (args) => this.#handleSyncChroma(args),
+      },
     };
   }
 
@@ -270,6 +280,73 @@ class KnowledgeTools {
     const title = meta.match(/^title:\s*(.+)/m)?.[1]?.trim() || '';
     const description = meta.match(/^description:\s*(.+)/m)?.[1]?.trim() || '';
     return { title, description, body };
+  }
+
+  async #handleSyncChroma(args) {
+    if (process.env.ZARA_VECTOR !== 'chroma') {
+      return 'Error: ZARA_VECTOR must be "chroma" to sync. Set ZARA_VECTOR=chroma and restart.';
+    }
+
+    const serverRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
+    const includeSkills = args.include_skills !== false;
+    let synced = 0, skillsSynced = 0, errors = [];
+
+    // Sync knowledge/
+    const knowledgeDir = path.join(serverRoot, 'knowledge');
+    if (fs.existsSync(knowledgeDir)) {
+      if (isOkfBundle(knowledgeDir)) {
+        const concepts = parseBundle(knowledgeDir);
+        for (const concept of concepts) {
+          try {
+            const section = concept.conceptId.includes('/') ? concept.conceptId.split('/')[0] : 'standalone';
+            const memType = concept.type ? mapType(concept.type) : (SECTION_TYPE_MAP[section] || 'fact');
+            const key = `knowledge.${section}.${concept.conceptId.split('/').pop()}`;
+            const summary = concept.description ? `${concept.title}: ${concept.description}` : concept.title;
+
+            await semanticLearn(key, summary, 'observed', memType, `knowledge/${concept.file}`);
+            if (concept.body) await knowledgeChunkUpsert(key, section, concept.body);
+            synced++;
+          } catch (e) { errors.push(`${concept.file}: ${e.message}`); }
+        }
+      } else {
+        const files = this.#walkMd(knowledgeDir);
+        for (const file of files) {
+          try {
+            const content = fs.readFileSync(file, 'utf-8');
+            const rel = path.relative(knowledgeDir, file);
+            const section = rel.includes(path.sep) ? rel.split(path.sep)[0] : 'standalone';
+            const { title, body } = this.#parseFrontmatter(content);
+            if (!title && !body) continue;
+            const key = `knowledge.${section}.${path.basename(file, '.md')}`;
+            await semanticLearn(key, title || path.basename(file, '.md'), 'observed', SECTION_TYPE_MAP[section] || 'fact', `knowledge/${rel}`);
+            if (body) await knowledgeChunkUpsert(key, section, body);
+            synced++;
+          } catch (e) { errors.push(`${file}: ${e.message}`); }
+        }
+      }
+    }
+
+    // Sync skills/
+    if (includeSkills) {
+      const skillsDir = path.join(serverRoot, '.opencode/skills');
+      if (fs.existsSync(skillsDir)) {
+        for (const entry of fs.readdirSync(skillsDir, { withFileTypes: true })) {
+          if (!entry.isDirectory()) continue;
+          const skillMd = path.join(skillsDir, entry.name, 'SKILL.md');
+          if (!fs.existsSync(skillMd)) continue;
+          try {
+            const content = fs.readFileSync(skillMd, 'utf-8');
+            const key = `skill.${entry.name}`;
+            await semanticLearn(key, `Skill ${entry.name}`, 'observed', 'workflow', `skills/${entry.name}`);
+            await knowledgeChunkUpsert(key, 'skills', content);
+            skillsSynced++;
+          } catch (e) { errors.push(`skill/${entry.name}: ${e.message}`); }
+        }
+      }
+    }
+
+    const chunkCount = await knowledgeChunkCount();
+    return `Synced to Chroma: ${synced} knowledge articles, ${skillsSynced} skills. Chunks: ${chunkCount}.${errors.length ? `\nErrors (${errors.length}): ${errors.slice(0, 3).join('; ')}` : ''}`;
   }
 
 }

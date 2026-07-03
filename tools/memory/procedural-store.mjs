@@ -109,14 +109,15 @@ export class ChromaProceduralStore {
     const existing = await this.#getOne(name);
     const uses = existing?.uses || 0;
 
+    // Store steps as document (full-text searchable), metadata stays lean.
+    const document = `${name}: ${steps.join(' -> ')}`;
     await this.#vectorStore.upsert(name, vec, {
       name,
       context,
-      steps: JSON.stringify(steps),
       uses: String(uses),
       created: existing?.created || now,
       updated: now,
-    });
+    }, document);
     return { name, steps: steps.length };
   }
 
@@ -124,13 +125,14 @@ export class ChromaProceduralStore {
     const vec = await this.#embedder.embed(query);
     const hits = await this.#vectorStore.query(vec, limit * 2);
     return hits
-      .filter(h => h.score > 0.2 && h.metadata)
+      .filter(h => h.score > 0.2)
       .slice(0, limit)
       .map(h => ({
         id: h.key,
         name: h.metadata.name || h.key,
         context: h.metadata.context || '',
-        steps: h.metadata.steps || '[]',
+        // Reconstruct steps from document or fallback to metadata
+        steps: h.metadata.steps || JSON.stringify(this.#stepsFromDocument(h.document)),
         uses: parseInt(h.metadata.uses || '0', 10),
         score: h.score,
       }));
@@ -145,7 +147,7 @@ export class ChromaProceduralStore {
     return all.map(e => ({
       name: e.metadata.name || e.key,
       context: e.metadata.context || '',
-      steps: JSON.parse(e.metadata.steps || '[]'),
+      steps: e.metadata.steps ? JSON.parse(e.metadata.steps) : this.#stepsFromDocument(e.document),
       uses: parseInt(e.metadata.uses || '0', 10),
       updated: e.metadata.updated || '',
     }));
@@ -156,6 +158,14 @@ export class ChromaProceduralStore {
     if (!row) return;
     const uses = (row.uses || 0) + 1;
     await this.#vectorStore.updateMetadata(name, { ...row._meta, uses: String(uses) });
+  }
+
+  // Parse steps from document string format "name: step1 -> step2 -> step3"
+  #stepsFromDocument(doc) {
+    if (!doc) return [];
+    const colonIdx = doc.indexOf(':');
+    const body = colonIdx >= 0 ? doc.slice(colonIdx + 1).trim() : doc;
+    return body.split(' -> ').map(s => s.trim()).filter(Boolean);
   }
 
   async #getOne(name) {

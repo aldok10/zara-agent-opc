@@ -150,7 +150,7 @@ export class ChromaKnowledgeChunkStore {
     await this.deleteByKey(key);
     if (!chunks.length) return { key, chunks: 0 };
 
-    // Batch insert all chunks
+    // Batch insert: chunk text goes into Chroma's documents field (full-text searchable).
     const items = [];
     for (let i = 0; i < chunks.length; i++) {
       const id = `${key}__chunk_${i}`;
@@ -158,7 +158,8 @@ export class ChromaKnowledgeChunkStore {
       items.push({
         id,
         vector: vec,
-        metadata: { key, section, chunk_index: String(i), text: chunks[i] },
+        metadata: { key, section, chunk_index: String(i) },
+        document: chunks[i],
       });
     }
     await this.#vectorStore.upsertBatch(items);
@@ -175,13 +176,13 @@ export class ChromaKnowledgeChunkStore {
     const where = section ? { section } : null;
     const hits = await this.#vectorStore.query(vec, k * 2, where);
     return hits
-      .filter(h => h.score > 0.1 && h.metadata)
+      .filter(h => h.score > 0.1)
       .slice(0, k)
       .map(h => ({
         key: h.metadata.key || h.key.split('__chunk_')[0],
         section: h.metadata.section || '',
         chunk_index: parseInt(h.metadata.chunk_index || '0', 10),
-        text: h.metadata.text || '',
+        text: h.document || h.metadata.text || '',
         score: h.score,
       }));
   }

@@ -11,6 +11,8 @@ export function ensure(dir) {
   fs.mkdirSync(dir, { recursive: true, mode: 0o700 });
 }
 
+// Distinct from plugin's store.mjs: MCP-server context prioritizes secure file
+// perms (0o600); plugin store.mjs prioritizes atomic (crash-safe) writes.
 export function loadJson(file, fallback) {
   try { return JSON.parse(fs.readFileSync(file, 'utf-8')); }
   catch { return fallback; }

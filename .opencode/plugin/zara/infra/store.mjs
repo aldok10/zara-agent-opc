@@ -106,6 +106,8 @@ export function hash(str) {
 
 export function ensure(dir) { fs.mkdirSync(dir, { recursive: true }); }
 
+// Distinct from MCP server's infra.mjs: plugin context prioritizes atomic
+// (crash-safe) writes + function fallbacks; infra.mjs prioritizes secure perms.
 export function loadJson(file, fallback = null) {
   try { return JSON.parse(fs.readFileSync(file, 'utf-8')); }
   catch { return typeof fallback === 'function' ? fallback() : fallback; }

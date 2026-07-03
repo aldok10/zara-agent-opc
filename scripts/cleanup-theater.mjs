@@ -3,19 +3,14 @@
 // Identifies theater: mechanisms that look rigorous but never fire (Issue #30)
 // Run: node scripts/cleanup-theater.mjs [--dry-run]
 
-import fs from 'fs';
 import path from 'path';
 import os from 'os';
+import { loadJson, saveJson } from '../tools/mcp/infra.mjs';
 
 const HOME = path.join(os.homedir(), '.zara');
 const EVOLVE_DIR = path.join(HOME, 'evolve');
 const REFLECT_DIR = path.join(HOME, 'reflections');
 const dryRun = process.argv.includes('--dry-run');
-
-function loadJson(file, fallback) {
-  try { return JSON.parse(fs.readFileSync(file, 'utf-8')); } catch { return fallback; }
-}
-function saveJson(file, data) { fs.writeFileSync(file, JSON.stringify(data, null, 2)); }
 
 console.log(`=== Theater Cleanup ${dryRun ? '(DRY RUN)' : ''} ===\n`);
 let removed = 0;

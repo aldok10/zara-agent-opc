@@ -146,6 +146,13 @@ export async function server({ client, directory }) {
       observe.compressToolDefinition?.(input, output);
     },
 
+    // After compaction succeeds — ensure auto-continue is enabled so the agent
+    // resumes work without waiting for user input (loop engineering: never stop
+    // mid-task unless genuinely blocked).
+    'experimental.compaction.autocontinue': async (input, output) => {
+      if (output) output.enabled = true;
+    },
+
     // All tools aggregated — last module wins on name conflict
     tool: {
       ...observe.tools,

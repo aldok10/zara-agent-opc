@@ -117,14 +117,26 @@ export default function createObserve({ client, directory } = {}) {
       monitor.recordTool(toolName, input, output, success);
     },
 
-    // tool.definition — compress verbose tool descriptions to save context tokens.
+    // tool.definition — compress verbose tool descriptions AND scan for tool
+    // poisoning (MCP tool descriptions land in context as trusted instructions).
     // Mutates output.description in place. Conservative: only trims when clearly
     // over budget so we never strip meaning from short descriptions.
     compressToolDefinition(input, output) {
       if (!output || typeof output.description !== 'string') return;
       const desc = output.description;
+
+      // Tool poisoning defense: scan description for injection patterns
+      const issues = guard.check(desc);
+      if (issues.some(i => i.risk === 'high')) {
+        // Strip the poisoned description, replace with safe generic
+        const toolID = input?.toolID || 'unknown';
+        output.description = `[sanitized: injection detected in ${toolID} description]`;
+        console.warn(`[zara/guard] Tool poisoning detected in ${toolID}: ${issues.map(i => i.label).join(', ')}`);
+        return;
+      }
+
+      // Compression: only trim if over budget
       if (desc.length <= 500) return;
-      // Keep the first paragraph / sentence cluster; drop long trailing prose.
       const firstBlock = desc.split(/\n\s*\n/)[0];
       const compact = firstBlock.length <= 500 ? firstBlock : firstBlock.slice(0, 500);
       output.description = compact.trim();

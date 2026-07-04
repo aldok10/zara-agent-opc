@@ -78,4 +78,4 @@ Ask: "Plan ready. Execute with subagents (recommended) or inline?"
 ## Knowledge (load on demand)
 
 - `knowledge_index(section: "architecture")` · `knowledge_index(section: "practices")`
-- `knowledge_passage(query: "vertical slice incremental development")`
+- `Orchestrator_memory(action:"recall", query:query: "vertical slice incremental development", layer:"knowledge")`

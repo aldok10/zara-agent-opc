@@ -91,14 +91,14 @@ Label the dynamic, state plainly, bridge to action, support the person.
 - `zara_classify_decision` - classify decision, recommend framework
 - `zara_coaching_prompt` - contextual coaching question (stuck/overwhelmed/deciding/conflict/growth/celebrating/frustrated)
 - `user_profile` - persist leadership level, goals, preferences
-- `knowledge_passage` - search patterns, principles, antipatterns
+- `Orchestrator_memory(action:"recall", layer:"knowledge")` - search patterns, principles, antipatterns
 
 ## Verification
 
 - Response ends with a concrete next action.
 - Recommendation includes confidence level.
 
-## Knowledge (load on demand via `knowledge_passage`)
+## Knowledge (load on demand via `Orchestrator_memory(action:"recall", layer:"knowledge")`)
 
 - `query: "leadership coaching delegation decisions"` - full reference
 - `query: "leadership frameworks"` · `"agentic orchestration patterns"` · `"empathetic AI patterns"` · `"AI leadership research"`

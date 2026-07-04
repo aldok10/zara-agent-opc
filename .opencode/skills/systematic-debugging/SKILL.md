@@ -79,4 +79,4 @@ Read the error message completely: every word, line number, stack frame. Do not 
 
 ## Knowledge (load on demand)
 
-- `knowledge_passage(query: "debugging antipattern root cause")` · `knowledge_index(section: "code-smells")` · `knowledge_index(section: "practices")`
+- `Orchestrator_memory(action:"recall", query:query: "debugging antipattern root cause")` · `knowledge_index(section: "code-smells")` · `knowledge_index(section: "practices", layer:"knowledge")`

@@ -79,5 +79,5 @@ Change breaks existing behavior (show test/caller) · reviewer lacks context · 
 
 ## Knowledge (load on demand)
 
-- `knowledge_passage(query: "code smell catalog")` · `knowledge_index(section: "code-smells")`
-- `knowledge_passage(query: "SOLID DRY YAGNI principles")` · `knowledge_index(section: "design-patterns")`
+- `Orchestrator_memory(action:"recall", query:query: "code smell catalog")` · `knowledge_index(section: "code-smells", layer:"knowledge")`
+- `Orchestrator_memory(action:"recall", query:query: "SOLID DRY YAGNI principles")` · `knowledge_index(section: "design-patterns", layer:"knowledge")`

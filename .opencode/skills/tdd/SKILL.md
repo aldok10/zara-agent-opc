@@ -82,4 +82,4 @@ Throwaway prototypes, generated/scaffolded code, pure config, exploratory spikes
 
 ## Knowledge (load on demand)
 
-- `knowledge_passage(query: "test driven development")` · `knowledge_index(section: "testing")`
+- `Orchestrator_memory(action:"recall", query:query: "test driven development")` · `knowledge_index(section: "testing", layer:"knowledge")`

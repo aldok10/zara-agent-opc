@@ -72,7 +72,7 @@ Classify complexity, then explore existing context (files, docs, recent commits)
 - User approved before transition to `writing-plans`.
 - Save decisions via `memory_episode` and `memory_learn(type: "decision")` after approval.
 
-## Knowledge (load on demand via `knowledge_passage`)
+## Knowledge (load on demand via `Orchestrator_memory(action:"recall", layer:"knowledge")`)
 
 - "architecture patterns clean architecture modular" · "design patterns strategy factory repository"
 - "YAGNI simple design principles" · "DDD bounded context aggregate value object" · "anti-patterns golden hammer feature creep"

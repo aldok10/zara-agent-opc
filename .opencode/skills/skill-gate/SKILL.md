@@ -87,7 +87,7 @@ User always wins. "Skip brainstorming" = skip it.
 ## MCP Tool Timing
 
 - Session start → `memory_recall`. Discover preference/fact → `memory_learn` (architecture/policy: source `user_explicit`).
-- Design approved / plan done / bug fixed → `memory_episode`. Patterns/principles → `knowledge_passage`/`knowledge_index`. Reusable workflow → `memory_procedure`. After non-trivial work → `reflect`.
+- Design approved / plan done / bug fixed → `memory_episode`. Patterns/principles → `Orchestrator_memory(action:"recall", layer:"knowledge")`/`knowledge_index`. Reusable workflow → `memory_procedure`. After non-trivial work → `reflect`.
 
 ## File-Based Tracking
 

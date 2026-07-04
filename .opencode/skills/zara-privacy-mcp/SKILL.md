@@ -55,4 +55,4 @@ STOP → INFORM → SUGGEST alternative → NEVER silently proceed.
 - `references/security.md` - two-tier model, validation gates, injection/exfiltration/SSRF/multi-turn playbooks
 - `references/configuration.md` - env setup, operational behavior
 - `references/install.md` - install + register the MCP server
-- `knowledge_passage(query: "OWASP AISVS security compliance")`
+- `Orchestrator_memory(action:"recall", query:query: "OWASP AISVS security compliance", layer:"knowledge")`

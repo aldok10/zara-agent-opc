@@ -96,20 +96,20 @@ Zara: Morning! Yesterday you were working on that auth refactor.
 
 ## Key Features
 
-- **Multi-Agent Orchestration** — Zara plus 10 domain specialists, each with a clean context window and final say in their domain
+- **Multi-Agent Orchestration** — Zara plus 10 domain specialists (including a dedicated answer quality evaluator), each with a clean context window and final say in their domain
 - **Cognitive Memory** — 3-layer persistent memory (episodic, semantic, procedural) backed by SQLite FTS5 and MiniLM-L6-v2 embeddings
 - **Hybrid Retrieval with RRF** — full-text search fused with vector similarity via Reciprocal Rank Fusion, so recall works on both exact terms and meaning
 - **Pluggable Vector Backend** — SQLite by default, or scale out to **ChromaDB** for large-corpus semantic search (details below)
 - **Self-Improving** — outcome-weighted reflection grounded in real test results, autonomous self-audit, micro-tool crystallization
-- **Knowledge-Grounded** — 239 indexed articles covering architecture, patterns, antipatterns, laws, DDD, security, and testing
-- **Skill-Gated Methodology** — 32 on-demand skills enforcing TDD, systematic debugging, and verification before completion
+- **Knowledge-Grounded** — 300+ indexed articles covering architecture, patterns, antipatterns, laws, DDD, security, and testing
+- **Skill-Gated Methodology** — 13 on-demand skill families (with subskills) enforcing TDD, systematic debugging, and verification before completion
 - **Empathetic Leadership DNA** — situational leadership (D1-D4), Radical Candor, reads your emotional signal and calibrates tone
 - **Privacy-Aware** — secrets and PII detection, destructive-op guards, protected-branch enforcement, a ratified safety constitution
 - **Zero Required Dependencies** — the MCP server runs on Node.js stdlib alone; embeddings and Chroma are optional add-ons
 
 ## Agents
 
-Zara orchestrates 10 specialized sub-agents, each an expert in their domain:
+Zara orchestrates 11 specialized sub-agents, each an expert in their domain:
 
 | Agent | Alias | Role | Can Write? |
 |-------|-------|------|-----------|
@@ -124,6 +124,7 @@ Zara orchestrates 10 specialized sub-agents, each an expert in their domain:
 | **Rhythm** | loop-engineer | Iterative workflows, verification, failure modes | No |
 | **Hive** | swarm | Parallel task decomposition and coordination | No |
 | **Forge** | implementation | Plan → code → verify → ship, TDD execution | Yes |
+| **Refiner** | refiner | Answer quality evaluation, gap identification, refinement judgment | No |
 
 **Dispatch rules:** Zara handles simple tasks directly. For depth, she dispatches to the right specialist. Trivial fixes skip the queue entirely. Each sub-agent works in isolation — clean context, no session noise.
 
@@ -234,7 +235,7 @@ Zara is a layered system. Each layer has one job and a clean boundary to the nex
 │  voice workspace debate harness proactive                     │
 ├─────────────────────────────────────────────────────────────┤
 │  Sub-Agent Layer (isolated context each)                      │
-│  scout atlas lens shield probe pulse rhythm hive forge sketch │
+│  scout atlas lens shield probe pulse rhythm hive forge refiner│
 ├─────────────────────────────────────────────────────────────┤
 │  MCP Server (1 unified tool · action-based routing · JSON-RPC 2.0 over stdio) │
 │  memory: recall|learn|episode|procedure|manage|session|system                 │
@@ -298,15 +299,15 @@ zara-agent-opc/
 │   ├── embedder.mjs              # Semantic embeddings (MiniLM-L6-v2)
 │   └── memory/                   # Per-layer stores (semantic/episodic/procedural/knowledge)
 ├── .opencode/
-│   ├── agent/                    # 12 agent prompt files
+│   ├── agent/                    # 14 agent prompt files (11 subagents + 2 primary + compaction)
 │   ├── plugin/zara/              # 13 plugin modules
-│   ├── skills/                   # 32 skill definitions
-│   └── instructions/             # System instructions
-├── knowledge/                    # 239 indexed articles (architecture, patterns, DDD, security)
-├── docs/                         # 11 documentation files
-├── tests/                        # 30 test files (node:test)
+│   ├── skills/                   # 13 skill families with subskills
+│   └── instructions/             # System instructions (2 files)
+├── knowledge/                    # 307 indexed articles (architecture, patterns, DDD, security)
+├── docs/                         # 12 documentation files
+├── tests/                        # 56 test files (node:test)
 ├── scripts/                      # Installers, Chroma backfill, CI helpers
-└── package.json                  # v1.2.0, ESM, Node >=22.14
+└── package.json                  # v1.3.0, ESM, Node >=22.14
 ```
 
 ## Documentation

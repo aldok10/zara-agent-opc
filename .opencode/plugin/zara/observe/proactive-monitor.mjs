@@ -72,6 +72,22 @@ export class ProactiveMonitor {
     this.#budget = new NudgeBudget(this.#flowDetector);
   }
 
+  // Reset all per-session state. Called on session.created so a new session
+  // starts with fresh counters (edits, stuck history, nudge budget, gates).
+  resetSession() {
+    this.#budget = new NudgeBudget(this.#flowDetector);
+    this.#repetition = new RepetitionDetector();
+    this.#stuckDetector = new StuckLoopDetector();
+    this.#pendingNudges = [];
+    this.#editsSinceVerify = 0;
+    this.#verifyNudgeSent = false;
+    this.#skillLoaded = false;
+    this.#codeEditsWithoutSkill = 0;
+    this.#skillGateNudged = false;
+    this.#lastAssistantHadNextSteps = false;
+    this.#lastAssistantEndedWithSummary = false;
+  }
+
   // Called from afterTool: track repetition, stuck loops, verify/skill gates, trust scoring
   recordTool(toolName, input, output, success) {
     const argsHash = hash(JSON.stringify(input?.args || ''));

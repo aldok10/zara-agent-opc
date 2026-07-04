@@ -1,5 +1,9 @@
 // Context Compressor — message dedup, truncation, reasoning stripping, pre-compaction trimming
 // Multi-layer strategy: tool result trimming (free) > message dedup > reasoning strip > truncation
+//
+// Operates on OpenCode's transform message format: { info: Message, parts: Part[] }[].
+// Tool results live in ToolPart.state.output (status === 'completed'). Reasoning
+// lives in ReasoningPart.text. Text lives in TextPart.text.
 
 import { estimateTokens } from '../infra/store.mjs';
 
@@ -25,6 +29,8 @@ export class ContextCompressor {
 
   get totalPruned() { return this.#totalPruned; }
 
+  // ─── String helpers (format-agnostic) ──────────────────────────────────────
+
   truncateOutput(text) {
     if (!text || typeof text !== 'string') return text ?? '';
     const tokens = estimateTokens(text);
@@ -48,108 +54,167 @@ export class ContextCompressor {
     return text.replace(THINKING_RE, '[reasoning stripped]').trim();
   }
 
-  deduplicateMessages(messages) {
-    if (!Array.isArray(messages) || messages.length < 4) return messages || [];
-    const seen = new Map();
-    const remove = new Set();
-    for (let i = 0; i < messages.length; i++) {
-      const msg = messages[i];
-      if (!msg || msg.role !== 'tool') continue;
-      const key = `${msg.name || msg.tool || ''}:${msg.tool_call_id || ''}`;
-      if (!key || key === ':') continue;
-      if (seen.has(key)) remove.add(seen.get(key));
-      seen.set(key, i);
-    }
-    return remove.size ? messages.filter((_, i) => !remove.has(i)) : messages;
+  // ─── Part accessors ─────────────────────────────────────────────────────────
+
+  #toolOutput(part) {
+    // Completed tool parts carry the result string in state.output
+    const out = part?.state?.output;
+    return typeof out === 'string' ? out : '';
   }
 
+  #setToolOutput(part, value) {
+    if (part?.state) part.state.output = value;
+  }
+
+  // ─── Layers ───────────────────────────────────────────────────────────────
+
+  /**
+   * Remove duplicate tool result parts. Two tool parts are duplicates when they
+   * share the same (tool, callID). Requires a NON-EMPTY callID before deduping —
+   * parts without a callID are skipped so empty ids never collide. Keeps the
+   * latest occurrence, drops earlier ones.
+   */
+  deduplicateMessages(messages) {
+    if (!Array.isArray(messages) || messages.length < 4) return messages || [];
+    const lastIndexByKey = new Map(); // key -> { i, j }
+    // First pass: find the latest occurrence of each key.
+    for (let i = 0; i < messages.length; i++) {
+      const parts = messages[i]?.parts;
+      if (!Array.isArray(parts)) continue;
+      for (let j = 0; j < parts.length; j++) {
+        const p = parts[j];
+        if (!p || p.type !== 'tool') continue;
+        const callID = p.callID || '';
+        if (!callID) continue; // require non-empty tool_call_id before deduping
+        lastIndexByKey.set(`${p.tool || ''}:${callID}`, { i, j });
+      }
+    }
+    // Second pass: drop earlier duplicate parts.
+    let mutated = false;
+    for (let i = 0; i < messages.length; i++) {
+      const entry = messages[i];
+      const parts = entry?.parts;
+      if (!Array.isArray(parts)) continue;
+      const kept = parts.filter((p, j) => {
+        if (!p || p.type !== 'tool') return true;
+        const callID = p.callID || '';
+        if (!callID) return true;
+        const latest = lastIndexByKey.get(`${p.tool || ''}:${callID}`);
+        return !(latest && (latest.i !== i || latest.j !== j));
+      });
+      if (kept.length !== parts.length) {
+        entry.parts = kept;
+        mutated = true;
+      }
+    }
+    void mutated;
+    return messages;
+  }
+
+  /**
+   * Prune verbose tool-call input args on OLD tool parts whose result errored.
+   * Keeps the tool metadata but replaces bulky inputs with a marker.
+   */
   purgeErrorInputs(messages) {
     if (!Array.isArray(messages) || messages.length < ERROR_PURGE_AGE) return messages || [];
     const tail = messages.length - ERROR_PURGE_AGE;
-    return messages.map((msg, i) => {
-      if (!msg || i >= tail) return msg;
-      if (msg.role === 'assistant' && Array.isArray(msg.tool_calls)) {
-        const callIds = msg.tool_calls.map(tc => tc?.id).filter(Boolean);
-        const hasErr = messages.slice(i + 1, i + 4).some(m =>
-          m && m.role === 'tool' && callIds.includes(m.tool_call_id) &&
-          (m.content?.includes?.('Error') || m.isError)
-        );
-        if (hasErr && JSON.stringify(msg.tool_calls).length > 1000) {
-          return { ...msg, tool_calls: msg.tool_calls.map(tc => ({
-            ...tc, function: { ...(tc?.function || {}), arguments: '[pruned]' }
-          }))};
+    for (let i = 0; i < messages.length; i++) {
+      if (i >= tail) break;
+      const parts = messages[i]?.parts;
+      if (!Array.isArray(parts)) continue;
+      for (const p of parts) {
+        if (!p || p.type !== 'tool') continue;
+        const errored = p.state?.status === 'error';
+        const input = p.state?.input;
+        if (errored && input && JSON.stringify(input).length > 1000) {
+          p.state.input = { __pruned: true };
         }
       }
-      return msg;
-    });
+    }
+    return messages;
   }
 
   /**
    * Layer 1: Aggressive tool result pruning for old messages.
-   * Replaces old tool outputs with concise summary, keeping tool call metadata.
+   * Replaces old tool outputs with a concise summary, keeping tool call metadata.
    * Preserves recent messages (tail) and protected tools.
    */
   pruneOldToolResults(messages) {
     if (!Array.isArray(messages) || messages.length < 8) return messages;
     const tail = messages.length - 6; // protect last 6 messages
-    return messages.map((msg, i) => {
-      if (!msg || i >= tail) return msg;
-      if (msg.role === 'tool' && typeof msg.content === 'string' && msg.content.length > 500) {
-        // Check if tool is protected
-        const toolName = msg.name || msg.tool || '';
-        if (PROTECTED_TOOLS.has(toolName)) return msg;
-
-        const firstLine = msg.content.split('\n')[0].slice(0, 120);
-        const tokens = estimateTokens(msg.content);
-        this.#totalPruned += tokens;
-        return { ...msg, content: `[cleared ${tokens}tok] ${firstLine}...` };
+    for (let i = 0; i < messages.length; i++) {
+      if (i >= tail) break;
+      const parts = messages[i]?.parts;
+      if (!Array.isArray(parts)) continue;
+      for (const p of parts) {
+        if (!p || p.type !== 'tool') continue;
+        if (PROTECTED_TOOLS.has(p.tool)) continue;
+        const out = this.#toolOutput(p);
+        if (out.length > 500) {
+          const firstLine = out.split('\n')[0].slice(0, 120);
+          const tokens = estimateTokens(out);
+          this.#totalPruned += tokens;
+          this.#setToolOutput(p, `[cleared ${tokens}tok] ${firstLine}...`);
+        }
       }
-      return msg;
-    });
+    }
+    return messages;
   }
 
   /**
    * Pre-compaction pass: more aggressive than regular transform.
    * Called when context is approaching limits but before full LLM compaction.
-   * Returns { messages, tokensSaved }
+   * Returns { messages, tokensSaved }.
    */
   preCompact(messages) {
     if (!Array.isArray(messages)) return { messages: messages || [], tokensSaved: 0 };
     let saved = 0;
     const tail = messages.length - 4; // protect only last 4 in pre-compaction
 
-    const result = messages.map((msg, i) => {
-      if (!msg || i >= tail) return msg;
+    for (let i = 0; i < messages.length; i++) {
+      if (i >= tail) break;
+      const parts = messages[i]?.parts;
+      if (!Array.isArray(parts)) continue;
 
-      // Aggressively clear ALL old tool results (except protected)
-      if (msg.role === 'tool' && typeof msg.content === 'string' && msg.content.length > 200) {
-        const toolName = msg.name || msg.tool || '';
-        if (PROTECTED_TOOLS.has(toolName)) return msg;
-        const tokens = estimateTokens(msg.content);
-        saved += tokens;
-        return { ...msg, content: `[pre-compact cleared - was ${tokens}tok]` };
-      }
+      for (const p of parts) {
+        if (!p) continue;
 
-      // Strip reasoning from ALL non-recent assistant messages
-      if (msg.role === 'assistant' && typeof msg.content === 'string') {
-        if (msg.content.includes('<thinking>')) {
-          const stripped = this.stripReasoning(msg.content);
-          saved += estimateTokens(msg.content) - estimateTokens(stripped);
-          return { ...msg, content: stripped };
+        // Aggressively clear ALL old tool results (except protected)
+        if (p.type === 'tool') {
+          if (PROTECTED_TOOLS.has(p.tool)) continue;
+          const out = this.#toolOutput(p);
+          if (out.length > 200) {
+            const tokens = estimateTokens(out);
+            saved += tokens;
+            this.#setToolOutput(p, `[pre-compact cleared - was ${tokens}tok]`);
+          }
+          continue;
         }
-        // Truncate very long assistant messages
-        if (msg.content.length > 3000) {
-          const tokens = estimateTokens(msg.content);
-          const truncated = msg.content.slice(0, 2000) + '\n[...truncated in pre-compaction...]';
-          saved += tokens - estimateTokens(truncated);
-          return { ...msg, content: truncated };
+
+        // Strip reasoning parts entirely
+        if (p.type === 'reasoning' && typeof p.text === 'string' && p.text) {
+          saved += estimateTokens(p.text);
+          p.text = '[reasoning stripped]';
+          continue;
+        }
+
+        // Strip <thinking> from text parts, truncate very long ones
+        if (p.type === 'text' && typeof p.text === 'string') {
+          if (p.text.includes('<thinking>')) {
+            const stripped = this.stripReasoning(p.text);
+            saved += estimateTokens(p.text) - estimateTokens(stripped);
+            p.text = stripped;
+          } else if (p.text.length > 3000) {
+            const tokens = estimateTokens(p.text);
+            const truncated = p.text.slice(0, 2000) + '\n[...truncated in pre-compaction...]';
+            saved += tokens - estimateTokens(truncated);
+            p.text = truncated;
+          }
         }
       }
+    }
 
-      return msg;
-    });
-
-    return { messages: result, tokensSaved: saved };
+    return { messages, tokensSaved: saved };
   }
 
   transform(messages) {
@@ -157,17 +222,24 @@ export class ContextCompressor {
     let result = this.deduplicateMessages(messages);
     result = this.purgeErrorInputs(result);
     result = this.pruneOldToolResults(result);
+
     const tail = result.length - 3;
-    return result.map((msg, i) => {
-      if (!msg || i >= tail) return msg;
-      if (msg.role === 'assistant' && typeof msg.content === 'string' && msg.content.includes('<thinking>')) {
-        return { ...msg, content: this.stripReasoning(msg.content) };
+    for (let i = 0; i < result.length; i++) {
+      if (i >= tail) break;
+      const parts = result[i]?.parts;
+      if (!Array.isArray(parts)) continue;
+      for (const p of parts) {
+        if (!p) continue;
+        if (p.type === 'reasoning' && typeof p.text === 'string') {
+          p.text = this.stripReasoning(p.text);
+        } else if (p.type === 'text' && typeof p.text === 'string' && p.text.includes('<thinking>')) {
+          p.text = this.stripReasoning(p.text);
+        } else if (p.type === 'tool') {
+          const out = this.#toolOutput(p);
+          if (out) this.#setToolOutput(p, this.truncateOutput(out));
+        }
       }
-      if (msg.role === 'tool' && typeof msg.content === 'string') {
-        return { ...msg, content: this.truncateOutput(msg.content) };
-      }
-      return msg;
-    });
+    }
+    return result;
   }
 }
-

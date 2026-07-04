@@ -32,21 +32,37 @@ export default function createObserve({ client, directory } = {}) {
 
   return {
     onEvent(event) {
-      if (event.type === 'session.created') trace.startSession();
+      if (event.type === 'session.created') {
+        trace.startSession();
+        monitor.resetSession();
+      }
       if (event.type === 'session.ended') trace.endSession();
     },
 
     getCompressor() { return compressor; },
 
-    beforeTool(input) {
-      const toolName = input?.name || input?.tool || 'unknown';
-      const toolArgs = input?.args || {};
+    // tool.execute.before — real API: args live in output.args, and the hook
+    // returns void. To block a tool we cannot throw/return; instead we mutate
+    // output.args so the blocked call becomes a no-op and record the block in
+    // the trace. A `__zaraBlocked` marker + short-circuit output are attached
+    // to output so afterTool / downstream can surface the reason.
+    beforeTool(input, output) {
+      const toolName = input?.tool || input?.name || 'unknown';
+      const toolArgs = (output && output.args) || input?.args || {};
       trace.startSpan(toolName, toolArgs);
+
+      const block = (reason, message) => {
+        trace.endSpan(toolName, false, `blocked: ${reason}`);
+        if (output) {
+          output.__zaraBlocked = reason;
+          if (message) output.__zaraMessage = message;
+        }
+      };
 
       // Guard: block .env file access
       const envBlock = checkEnvAccess(toolName, toolArgs);
       if (envBlock) {
-        trace.endSpan(toolName, false, 'blocked: env-guard');
+        block('env-guard', envBlock.output);
         return envBlock;
       }
 
@@ -55,7 +71,7 @@ export default function createObserve({ client, directory } = {}) {
       if (inputText) {
         const issues = guard.check(inputText);
         if (issues.some(i => i.risk === 'high')) {
-          trace.endSpan(toolName, false, `blocked: ${issues.map(i => i.label).join(',')}`);
+          block(issues.map(i => i.label).join(','), '⚠️ Blocked: prompt injection detected in tool input.');
           return { isError: true, output: `⚠️ Blocked: prompt injection detected in tool input.` };
         }
       }
@@ -63,13 +79,16 @@ export default function createObserve({ client, directory } = {}) {
       // Cache check (read-only, safe tools only)
       if (cache.isCacheable(toolName)) {
         const cached = cache.get(toolName, toolArgs);
-        if (cached) return { cached: true, output: cached };
+        if (cached) {
+          if (output) output.__zaraCached = cached;
+          return { cached: true, output: cached };
+        }
       }
       return null;
     },
 
     afterTool(input, output) {
-      const toolName = input?.name || input?.tool || 'unknown';
+      const toolName = input?.tool || input?.name || 'unknown';
       const success = !(output?.isError || output?.error);
       const execContext = output?.output && typeof output.output === 'string' ? output.output.slice(0, 60) : '';
       trace.endSpan(toolName, success, execContext);
@@ -96,6 +115,19 @@ export default function createObserve({ client, directory } = {}) {
 
       // Proactive monitoring: repetition detection, verify/skill gates, trust scoring
       monitor.recordTool(toolName, input, output, success);
+    },
+
+    // tool.definition — compress verbose tool descriptions to save context tokens.
+    // Mutates output.description in place. Conservative: only trims when clearly
+    // over budget so we never strip meaning from short descriptions.
+    compressToolDefinition(input, output) {
+      if (!output || typeof output.description !== 'string') return;
+      const desc = output.description;
+      if (desc.length <= 500) return;
+      // Keep the first paragraph / sentence cluster; drop long trailing prose.
+      const firstBlock = desc.split(/\n\s*\n/)[0];
+      const compact = firstBlock.length <= 500 ? firstBlock : firstBlock.slice(0, 500);
+      output.description = compact.trim();
     },
 
     onResponse(res) {

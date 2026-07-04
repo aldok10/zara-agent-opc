@@ -4,7 +4,6 @@
 export class StuckLoopDetector {
   #history = []; // { tool, argsHash, output hash, ts }
   #noToolTurns = 0;
-  #lastStateHash = null;
 
   static MAX_HISTORY = 20;
   static SAME_CALL_THRESHOLD = 2;  // same exact call 2x = stuck
@@ -73,9 +72,13 @@ export class StuckLoopDetector {
       last4[1].tool === last4[3].tool && last4[1].argsHash === last4[3].argsHash &&
       last4[0].argsHash !== last4[1].argsHash
     ) {
+      const sameTool = last4[0].tool === last4[1].tool;
+      const message = sameTool
+        ? `[Loop-Detect] Alternating between two ${last4[0].tool} calls with different args. Both variants failing. Step back, try a third approach.`
+        : `[Loop-Detect] A-B-A-B pattern between ${last4[0].tool} and ${last4[1].tool}. Both approaches failing. Step back, try a third approach.`;
       return {
         type: 'alternation',
-        message: `[Loop-Detect] A-B-A-B pattern between ${last4[0].tool} and ${last4[1].tool}. Both approaches failing. Step back, try a third approach.`,
+        message,
         severity: 'high',
       };
     }

@@ -52,67 +52,119 @@ export async function server({ client, directory }) {
       each(m => m.onEvent?.(normalized));
     },
 
-    // System prompt injection
-    'experimental.chat.system.transform': async ({ messages }) => {
+    // System prompt injection.
+    // Real OpenCode API (@opencode-ai/plugin 1.17.x): (input, output) where
+    // output.system is a string[]. Modules still operate on a messages array
+    // ({role, content}), so we bridge the string[] <-> messages representation.
+    // Legacy call shape ({ messages }) is preserved for backward compat/tests.
+    'experimental.chat.system.transform': async (input, output) => {
+      if (output && Array.isArray(output.system)) {
+        // New API: fold system[] into a synthetic messages array, run modules,
+        // then write the (possibly extended) system content back.
+        let messages = [{ role: 'system', content: output.system.join('\n\n') }];
+        each(m => { messages = m.inject?.(messages) || messages; });
+        const sys = messages.find(m => m.role === 'system');
+        const rebuilt = [];
+        if (sys && typeof sys.content === 'string') rebuilt.push(sys.content);
+        // Any additional messages modules pushed (e.g. appended nudges) get
+        // flattened into extra system strings.
+        for (const msg of messages) {
+          if (msg !== sys && typeof msg?.content === 'string' && msg.content) rebuilt.push(msg.content);
+        }
+        output.system = rebuilt.length ? rebuilt : output.system;
+        return;
+      }
+      // Legacy shape: input === { messages }
+      let messages = input?.messages || [];
       each(m => { messages = m.inject?.(messages) || messages; });
       return { messages };
     },
 
-    // Message transformation (tool result truncation)
-    'experimental.chat.messages.transform': async ({ messages }) => {
+    // Message transformation (tool result truncation).
+    // Real API: (input, output) where output.messages is { info: Message, parts: Part[] }[].
+    'experimental.chat.messages.transform': async (input, output) => {
+      if (output && Array.isArray(output.messages)) {
+        let messages = output.messages;
+        each(m => { messages = m.transformMessages?.(messages) || messages; });
+        output.messages = messages;
+        return;
+      }
+      // Legacy shape: input === { messages }
+      let messages = input?.messages || [];
       each(m => { messages = m.transformMessages?.(messages) || messages; });
       return { messages };
     },
 
-    // Session compacting (OpenCode built-in) — multi-layer strategy
+    // Session compacting (OpenCode built-in) — multi-layer strategy.
+    // Real API: (input, output) where output.context is a string[] and
+    // output.prompt is an optional override.
     'experimental.session.compacting': async (input, output) => {
-      // Layer 1: Pre-compaction tool result trimming (zero LLM cost)
       const compressor = observe.getCompressor?.() || null;
 
-      // Support both old format (no args) and new format (input, output with context[])
-      if (output?.context) {
-        // New OpenCode API: push to output.context array
+      if (output && Array.isArray(output.context)) {
         each(m => {
           const result = m.onCompact?.();
           if (result?.context) output.context.push(result.context);
         });
-        // Add pre-compaction context about what was trimmed
         if (compressor) {
           output.context.push(`[Pre-compaction] Total tokens saved by tool result pruning: ${compressor.totalPruned}`);
         }
-      } else {
-        // Legacy fallback
-        const contexts = [];
-        each(m => {
-          const result = m.onCompact?.();
-          if (result?.context) contexts.push(result.context);
-        });
-        return contexts.length ? { context: contexts.join('\n') } : {};
+        return;
       }
+      // Legacy fallback (no output.context provided)
+      const contexts = [];
+      each(m => {
+        const result = m.onCompact?.();
+        if (result?.context) contexts.push(result.context);
+      });
+      return contexts.length ? { context: contexts.join('\n') } : {};
     },
 
-    // Before tool execution (trace start + guard validation + cache check)
-    'tool.execute.before': async (input) => {
-      const result = observe.beforeTool?.(input);
-      if (result) return result; // cache hit, blocked tool, etc.
+    // Before tool execution (trace start + guard validation + cache check).
+    // Real API: args live in output.args. Hooks return void — to block/short-circuit
+    // a tool, mutate output (observe.beforeTool handles this).
+    'tool.execute.before': async (input, output) => {
+      observe.beforeTool?.(input, output);
     },
 
-    // After tool execution (trace end + guard + cache store)
+    // After tool execution (trace end + guard + cache store).
+    // Real API: input.tool, input.args, output.output/title/metadata.
     'tool.execute.after': async (input, output) => {
       observe.afterTool?.(input, output);
     },
 
-    // Chat message hook (auto-capture memory)
-    'chat.message': async (msg) => {
-      memory.onMessage?.(msg);
-      empathy.onMessage?.(msg);
+    // Chat message hook — fires for both user and assistant messages.
+    // Real API: (input, output) where output.message is a Message and
+    // output.parts is Part[]. We flatten parts into a legacy-shaped {role, content,
+    // tool_calls} object so the existing module handlers keep working. Assistant
+    // messages also drive the response-side logic that used to live on the
+    // (now-removed) chat.response hook.
+    'chat.message': async (input, output) => {
+      const message = output?.message || null;
+      const parts = Array.isArray(output?.parts) ? output.parts : [];
+      const role = message?.role || 'user';
+      const text = parts
+        .filter(p => p?.type === 'text' && typeof p.text === 'string')
+        .map(p => p.text)
+        .join('\n')
+        || (typeof message?.content === 'string' ? message.content : '');
+      const toolCalls = parts.filter(p => p?.type === 'tool');
+      const adapted = { ...(message || {}), role, content: text, tool_calls: toolCalls };
+
+      memory.onMessage?.(adapted);
+      empathy.onMessage?.(adapted);
+
+      if (role === 'assistant') {
+        observe.onResponse?.(adapted);
+        memory.onResponse?.(adapted);
+        voice.onResponse?.(adapted);
+      }
     },
 
-    // Chat response hook (trace + guard repetition + voice drift)
-    'chat.response': async (res) => {
-      observe.onResponse?.(res);
-      memory.onResponse?.(res);
-      voice.onResponse?.(res);
+    // Tool definition hook — compress verbose tool descriptions before they reach
+    // the LLM (saves context tokens).
+    'tool.definition': async (input, output) => {
+      observe.compressToolDefinition?.(input, output);
     },
 
     // All tools aggregated — last module wins on name conflict

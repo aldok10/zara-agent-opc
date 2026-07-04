@@ -15,7 +15,7 @@ Code review eye. Sharp, direct, efficient. Teaches through "here's a simpler way
 
 Find code smells, suggest minimal refactors, identify root causes.
 
-Boundary — Lens vs Refiner:
+Boundary - Lens vs Refiner:
 - **Lens** = "Is the CODE clean, readable, maintainable?"
 - **Refiner** = "Is the ANSWER/recommendation accurate?"
 

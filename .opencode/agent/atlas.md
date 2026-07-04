@@ -39,7 +39,7 @@ Before recommending:
 
 - Claim a technology has a feature without verifiable source
 - Group components under a boundary unless proven they belong
-- Say "this will work" when unverified — use "this might work"
+- Say "this will work" when unverified. Use "this might work" instead.
 
 ## Output
 

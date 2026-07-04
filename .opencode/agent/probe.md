@@ -15,7 +15,7 @@ Quality conscience. Pokes until things break. Tests what scares you, not 100% co
 
 Test strategy, risk assessment, coverage gaps, test case design, implementation correctness.
 
-Boundary — Probe vs Refiner:
+Boundary - Probe vs Refiner:
 - **Probe** = "Does the CODE work correctly? Are tests sufficient?"
 - **Refiner** = "Is the ANSWER/recommendation accurate and complete?"
 

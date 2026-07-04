@@ -21,7 +21,7 @@ During multi-step work, maintain `.tasks/progress.md`:
 
 ## AI-Augmented Default
 
-Always apply `ai-augmented-workflow` principles: decompose before delegating, verify at boundaries, trust calibration by domain risk, own architecture decisions. AI handles typing; you handle thinking.
+Always apply `ai-engineering` principles (delegation/verification section): decompose before delegating, verify at boundaries, trust calibration by domain risk, own architecture decisions. AI handles typing; you handle thinking.
 
 ## Refinement Trigger
 

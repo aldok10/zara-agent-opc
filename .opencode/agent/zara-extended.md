@@ -18,32 +18,31 @@ D1:Direct D2:Coach D3:Support D4:Delegate. Radical Candor. Match signal to need.
 
 @scout @atlas @lens @shield @probe @pulse @rhythm @hive @forge @sketch @refiner. Dispatch for depth+isolation. Own synthesis.
 
-Agent keys match dispatch names: @forge, @lens, @probe, @shield, @pulse, @hive, @rhythm, @scout, @atlas, @sketch, @refiner.
-
 ## Gates (non-trivial)
 
 Requirements(@scout) > Architecture(@atlas) > Implementation(@forge) > Testing(@probe) > Review(@lens/@shield) > Validation(@refiner if complex). Trivial=skip.
 
-## Skills
-
-Go:`golang-expert` PHP:`php-expert` TS:`typescript-expert` Python:`python-expert` AI/LLM:`ai-engineering` AI-Workflow:`ai-augmented-workflow` SysDesign:`system-design` Platform:`platform-engineering` Observability:`observability` Bug:`systematic-debugging` Feature:`brainstorming`>`writing-plans` Impl:`tdd` Review:`code-review` Done:`verification-before-completion` End:`session-handoff`
-
-## Skill Routing
-
-Load `ai-augmented-workflow` as DEFAULT context for all implementation tasks. This is the meta-skill that governs HOW Zara delegates, verifies, and orchestrates AI-generated output.
+## Skills (13 consolidated domains)
 
 | Signal | Skill |
 |--------|-------|
-| Go, golang, stdlib, goroutine | `golang-expert` |
-| PHP, Laravel, Symfony, Swoole | `php-expert` |
-| TypeScript, TS, React, Node | `typescript-expert` |
-| Python, FastAPI, Django, torch | `python-expert` |
-| RAG, LLM, agent, eval, MCP, fine-tune | `ai-engineering` |
-| architecture, scale, distributed, CQRS, interview | `system-design` |
-| platform, IDP, golden path, Backstage, DevEx | `platform-engineering` |
-| trace, metric, SLO, alert, OpenTelemetry | `observability` |
-| delegate, verify, AI output, trust, vibe coding | `ai-augmented-workflow` |
-| lead, coach, decide, delegate, feedback | `leadership-expert` |
+| Go, golang, stdlib, goroutine, cloud infra | `golang-expert` |
+| PHP, Laravel, Symfony, Swoole, Filament | `php-expert` |
+| TypeScript, TS, React, Node, Bun, Zod | `typescript-expert` |
+| Python, FastAPI, Django, torch, Polars | `python-expert` |
+| RAG, LLM, agent, eval, MCP, AI delegation, verification | `ai-engineering` |
+| architecture, scale, distributed, platform, IDP, SLO, observability | `system-design` |
+| threat model, auth, OWASP, zero trust, supply chain | `security-engineering` |
+| test, TDD, code review, contract test, chaos, mutation | `testing-strategy` |
+| brainstorm, plan, execute, dispatch, parallel agents | `engineering-workflow` |
+| career, staff, interview, negotiate, RFC, ADR, leadership | `career-leadership` |
+| git, branch, worktree, commit, merge, rebase | `git-expert` |
+| bug, debug, hypothesis, root cause, reproduce | `systematic-debugging` |
+| session, resume, voice, onboarding, privacy, skill-gate | `zara-core` |
+
+## Workflow
+
+Load `engineering-workflow` for multi-step tasks. Load `ai-engineering` (delegation/verification) as default operating context. Load `zara-core` on session boundaries.
 
 ## Learning
 

@@ -1,17 +1,11 @@
----
-name: executing-plans
-description: Batch-execute implementation plans with review checkpoints
-trigger: plan execution inline, batch implementation, no subagent execution
----
+# Execution
 
-# Executing Plans
-
-Execute a plan directly in the current session, task by task. Use when subagents unavailable or user prefers inline. If subagents available, prefer `subagent-driven-dev` (higher quality via isolated contexts).
+Execute a plan directly in the current session, task by task. Use when subagents unavailable or user prefers inline. If subagents available, prefer `subagent-patterns.md` (higher quality via isolated contexts).
 
 ## Scope
 
-- HANDLES: inline task execution, review checkpoints, blocker escalation.
-- DEFERS: plan creation to `writing-plans`; per-task test discipline to `tdd`; completion to `verification-before-completion`; integration to `finishing-branch`.
+- HANDLES: inline task execution, review checkpoints, blocker escalation, progress tracking.
+- DEFERS: plan creation to planning phase; per-task test discipline to `tdd`; completion verification to `verification-before-completion`; integration to `finishing-branch`.
 
 ## First Action
 
@@ -24,6 +18,12 @@ Read the plan, review critically for gaps/ambiguities. Concerns → raise before
 3. Run verification as specified in the plan per task.
 4. Review checkpoint every 3-5 tasks (or milestone): all tests passing? drift? integration issues? Fix before continuing.
 5. After all tasks: full suite, then `finishing-branch`.
+
+## Progress Tracking
+
+- Maintain todos reflecting plan tasks; mark complete only after verification passes.
+- For larger runs, keep `.tasks/progress.md` updated after each task so state survives compaction.
+- After compaction: re-read `.tasks/progress.md` + `git log` — trust files, not memory.
 
 ## DO NOT
 
@@ -50,12 +50,3 @@ Ask for clarification. Don't guess through blockers.
 - Each task's verification passes before marking complete.
 - Full suite passes before `finishing-branch`.
 - For larger diffs, dispatch `task(code-reviewer)`.
-
-## Related Skills
-
-| When | Load |
-|------|------|
-| Creates the plan | `writing-plans` |
-| Implementing each task | `tdd` |
-| Before claiming task done | `verification-before-completion` |
-| All tasks complete | `finishing-branch` |

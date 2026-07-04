@@ -1,17 +1,11 @@
----
-name: writing-plans
-description: Write implementation plans before touching code
-trigger: After brainstorming approval, or when user has clear requirements for implementation
----
-
-# Writing Plans
+# Planning
 
 Write implementation plans assuming the engineer has zero codebase context. Document which files, exact code, tests, and how to verify.
 
 ## Scope
 
 - HANDLES: requirement analysis, file mapping, task breakdown, plan document, execution handoff.
-- DEFERS: design/spec to `brainstorming`; execution to `subagent-driven-dev` or `executing-plans`.
+- DEFERS: design/spec to brainstorming phase; execution to execution/parallel-dispatch phases.
 
 ## First Action
 
@@ -37,7 +31,7 @@ Read the spec/requirements. Identify inputs, outputs, constraints, feature depen
 ## Workflow
 
 1. Analyze requirements.
-2. Map file structure - list ALL files under Create / Modify / Test with purpose.
+2. Map file structure — list ALL files under Create / Modify / Test with purpose.
 3. Write plan doc:
    - Header: Goal, Architecture, Tech Stack, Global Constraints, Non-Goals, Estimated Tasks.
    - Per task: Files (create/modify/test), Interfaces (consumes/produces), Steps (write test with exact code → implement with exact code → run+verify with expected output → commit with message).
@@ -58,24 +52,11 @@ Read the spec/requirements. Identify inputs, outputs, constraints, feature depen
 ## Execution Handoff
 
 Ask: "Plan ready. Execute with subagents (recommended) or inline?"
-- Subagents → `subagent-driven-dev` (fresh context per task + two-stage review, higher quality).
-- Inline → `executing-plans`.
+- Subagents → `subagent-patterns.md` (fresh context per task + two-stage review, higher quality).
+- Inline → `execution.md`.
+- 3+ parallel independent tasks → `parallel-dispatch.md`.
 
 ## Verification
 
 - Plan exists at `docs/plans/` path.
 - Self-review checklist fully passes before presenting.
-
-## Related Skills
-
-| When | Load |
-|------|------|
-| Produces the spec | `brainstorming` |
-| Execute with subagents | `subagent-driven-dev` |
-| Execute inline | `executing-plans` |
-| 3+ parallel tasks | `dispatching-parallel-agents` |
-
-## Knowledge (load on demand)
-
-- `knowledge_index(section: "architecture")` · `knowledge_index(section: "practices")`
-- `Orchestrator_memory(action:"recall", query:query: "vertical slice incremental development", layer:"knowledge")`

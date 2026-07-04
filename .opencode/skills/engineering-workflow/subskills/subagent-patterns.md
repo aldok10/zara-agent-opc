@@ -1,17 +1,11 @@
----
-name: subagent-driven-dev
-description: Coordinate fresh subagents per task with review gates
-trigger: implementation plan execution, multi-task dispatch, parallel workstream coordination
----
-
-# Subagent-Driven Development
+# Subagent Patterns
 
 Fresh subagent per task + task review + final broad review. Execute all tasks sequentially, continuously. Only stop when BLOCKED with no path.
 
 ## Scope
 
 - HANDLES: task dispatch, review gates, ledger tracking, model selection, blocked-status handling.
-- DEFERS: plan creation to `writing-plans`; inline execution to `executing-plans`; final review to `code-review`; completion to `finishing-branch`.
+- DEFERS: plan creation to planning phase; inline execution to `execution.md`; final review to `code-review`; completion to `finishing-branch`.
 
 ## First Action
 
@@ -35,19 +29,18 @@ Read the plan, create `.tasks/progress.md` ledger (task ID, status, model, verdi
 - NEVER re-dispatch a task marked complete in ledger.
 - NEVER ask "should I continue?" between tasks.
 - NEVER let self-review replace actual review (reviewer must be separate).
-- NEVER tell reviewer what not to flag.
-- NEVER claim "done" without verification commands.
+- NEVER tell reviewer what not to flag. NEVER claim "done" without verification commands.
 
 ## Workflow
 
-1. Plan intake - read plan, create ledger + todos.
+1. Plan intake — read plan, create ledger + todos.
 2. Per-task loop:
    - Write task brief `.tasks/task-{id}.md` (objective, files, constraints, acceptance criteria).
    - Dispatch implementer (fresh context, one task). Implementer writes `.tasks/report-{id}.md`.
    - Review: spec compliance + code quality, both PASS required.
    - Handle: PASS/PASS → complete + next. FAIL → re-dispatch (max 2 retries).
-3. Final review - reviewer subagent across all changes: integration coherence, cross-task consistency, edge cases.
-4. Finish - `finishing-branch` skill, update ledger.
+3. Final review — reviewer subagent across all changes: integration coherence, cross-task consistency, edge cases.
+4. Finish — `finishing-branch` skill, update ledger.
 
 ## Blocked Handling
 
@@ -67,10 +60,8 @@ Read the plan, create `.tasks/progress.md` ledger (task ID, status, model, verdi
 
 ## Reviewer Prompts
 
-- Keep scope tight, no open-ended directives.
-- Don't ask to re-run tests the implementer ran.
-- Don't pre-judge findings.
-- Include global constraints verbatim + `git diff BASE..HEAD`.
+- Keep scope tight, no open-ended directives. Don't ask to re-run tests the implementer ran.
+- Don't pre-judge findings. Include global constraints verbatim + `git diff BASE..HEAD`.
 - Fix Critical/Important; note Minor in ledger.
 
 ## Ledger Format
@@ -87,15 +78,3 @@ Update after every completion/status change. On pass append: `Task N: complete (
 - Ledger is source of truth; every task shows PASS/PASS or explicit block.
 - No open Critical/Important issues before moving on.
 - Verification commands run before any DONE.
-
-## Related Skills
-
-| When | Load |
-|------|------|
-| Isolated workspace | `git-worktrees` |
-| Creates the plan | `writing-plans` |
-| Implementing each task | `tdd` |
-| Before reporting DONE | `verification-before-completion` |
-| Final whole-branch review | `code-review` |
-| All tasks complete | `finishing-branch` |
-| Inline (no subagents) | `executing-plans` |

@@ -37,7 +37,7 @@ import { SemanticEmbedder } from '../embedder.mjs';
 // --- Shared domain constants (single source of truth) ---
 
 export const VALID_TYPES = ['policy', 'workflow', 'pitfall', 'architecture', 'decision', 'preference', 'fact'];
-export const TYPE_BOOST = { policy: 1.5, pitfall: 1.4, architecture: 1.3, decision: 1.2, workflow: 1.1, preference: 1.0, fact: 0.9 };
+export const TYPE_BOOST = { policy: 1.5, preference: 1.45, pitfall: 1.4, architecture: 1.3, decision: 1.2, workflow: 1.1, fact: 0.9 };
 const POLICY_TYPES = new Set(['policy', 'architecture', 'preference']);
 
 export function sourceCeiling(source) {

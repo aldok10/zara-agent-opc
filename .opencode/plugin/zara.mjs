@@ -14,6 +14,7 @@ import createWorkspace from './zara/workspace/index.mjs';
 import createDebate from './zara/debate/index.mjs';
 import createHarness from './zara/harness/index.mjs';
 import createProactive from './zara/proactive/index.mjs';
+import createGrowth from './zara/growth/index.mjs';
 
 export const id = 'zara';
 
@@ -34,10 +35,11 @@ export async function server({ client, directory }) {
   const debate = createDebate(config);
   const harness = createHarness(config);
   const proactive = createProactive(config);
+  const growth = createGrowth(config);
 
   // Unified hook dispatch — all modules get called in consistent order
   function each(fn) {
-    for (const m of [observe, memory, flow, dev, social, evolve, empathy, relationship, voice, workspace, debate, harness, proactive]) {
+    for (const m of [observe, memory, flow, dev, social, evolve, empathy, relationship, voice, workspace, debate, harness, proactive, growth]) {
       fn(m);
     }
   }
@@ -104,12 +106,14 @@ export async function server({ client, directory }) {
     // a tool, mutate output (observe.beforeTool handles this).
     'tool.execute.before': async (input, output) => {
       observe.beforeTool?.(input, output);
+      growth.beforeTool?.(input, output);
     },
 
     // After tool execution (trace end + guard + cache store).
     // Real API: input.tool, input.args, output.output/title/metadata.
     'tool.execute.after': async (input, output) => {
       observe.afterTool?.(input, output);
+      growth.afterTool?.(input, output);
     },
 
     // Chat message hook — fires for both user and assistant messages.
@@ -137,6 +141,9 @@ export async function server({ client, directory }) {
         observe.onResponse?.(adapted);
         memory.onResponse?.(adapted);
         voice.onResponse?.(adapted);
+        growth.onResponse?.(adapted);
+      } else {
+        growth.onMessage?.(adapted);
       }
     },
 
@@ -168,6 +175,7 @@ export async function server({ client, directory }) {
       ...debate.tools,
       ...harness.tools,
       ...proactive.tools,
+      ...growth.tools,
     },
 
     // Cleanup

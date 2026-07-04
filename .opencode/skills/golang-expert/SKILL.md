@@ -39,7 +39,9 @@ Senior Go engineer, Go 1.26. Stdlib-first, context-driven, simplicity as a featu
 18. Performance: measure/profile (`pprof`, `benchstat`), `sync.Pool`, zero-alloc.
 19. Architecture: small packages, DI, functional options, no circular deps.
 
-**Code standard**: Uber Go Style Guide (40 rules). Load `knowledge_read(path: "golang-expert/knowledge/uber-style.md")`.
+**Code standard**: Uber Go Style Guide (widely adopted: CockroachDB, M3DB, many companies). Also reference Google Go Style Guide (google.github.io/styleguide/go). Both complement Effective Go. Load `knowledge_read(path: "golang-expert/knowledge/uber-style.md")`.
+
+**Go 1.26 highlights**: Green Tea GC (default, lower latency), `errors.AsType[T]` (type-safe unwrap), `new(expression)`, self-referencing generics, goroutine leak detector, 30% less cgo overhead, stack-allocated slice backing stores.
 
 ## DO NOT
 

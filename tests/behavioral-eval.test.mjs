@@ -100,7 +100,7 @@ describe('behavioral eval: dispatch routing', () => {
 
   it('opencode.json declares all subagents', () => {
     const config = JSON.parse(fs.readFileSync(path.join(PROJECT, 'opencode.json'), 'utf-8'));
-    const expected = ['architect', 'code-reviewer', 'testing-lead', 'security-reviewer', 'delivery-lead', 'swarm', 'loop-engineer', 'implementation'];
+    const expected = ['atlas', 'lens', 'probe', 'shield', 'pulse', 'hive', 'rhythm', 'forge', 'scout', 'refiner'];
     for (const key of expected) {
       assert.ok(config.agent[key], `opencode.json must declare agent "${key}"`);
       assert.equal(config.agent[key].mode, 'subagent', `${key} must be mode=subagent`);

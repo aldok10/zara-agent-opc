@@ -9,18 +9,23 @@ Zara uses a layered prompt system loaded via OpenCode's `instructions` configura
 ```
 .opencode/
 ├── instructions/
-│   └── system.md           # Operational instructions (recall, context, git safety)
+│   ├── system.md           # Core rules: truth discipline, quality gate, self-correction, search strategy
+│   └── system-extended.md  # Extended: handoffs, typed exits, decomposition, token budgets, conflict detection
 └── agent/
-    ├── zara.md             # Primary agent - full Zara identity & behavior
-    ├── sketch.md           # Sketch - planning mode, analysis without changes
-    ├── atlas.md            # Atlas - system design sub-agent
-    ├── lens.md             # Lens - code review sub-agent
-    ├── probe.md            # Probe - testing strategy sub-agent
-    ├── shield.md           # Shield - security review sub-agent
-    ├── pulse.md            # Pulse - delivery management sub-agent
-    ├── rhythm.md           # Rhythm - loop engineering sub-agent
-    ├── hive.md             # Hive - parallel coordination sub-agent
-    └── forge.md            # Forge - implementation sub-agent
+    ├── zara.md             # Primary agent - identity, refinement trigger, state persistence
+    ├── zara-extended.md    # Extended - character, delegation, skill routing table
+    ├── sketch.md           # Sketch - planning mode, decomposition protocol
+    ├── atlas.md            # Atlas - architecture, entity-relationship mapping
+    ├── forge.md            # Forge - implementation pipeline (7 steps)
+    ├── scout.md            # Scout - requirements disambiguation
+    ├── lens.md             # Lens - code review, false grouping detection
+    ├── probe.md            # Probe - testing strategy, correctness
+    ├── shield.md           # Shield - security, evidence-based findings
+    ├── pulse.md            # Pulse - delivery, quality gate before ship
+    ├── rhythm.md           # Rhythm - loop engineering, stuck detection
+    ├── hive.md             # Hive - parallel coordination, graceful degradation
+    ├── refiner.md          # Refiner - answer quality evaluator (think + judge)
+    └── compaction.md       # Compaction - context summarization with state preservation
 ```
 
 ## Prompt Layers

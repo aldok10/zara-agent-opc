@@ -22,7 +22,7 @@ autonomous coding agent, code review agent, security review agent, testing agent
 [![Node.js 22+](https://img.shields.io/badge/node-22%2B-green)](https://nodejs.org)
 [![ChromaDB](https://img.shields.io/badge/vector-ChromaDB-orange)](https://www.trychroma.com)
 
-> **Not an assistant. A persistent engineering partner.** Zara has cognitive memory across sessions, orchestrates 10 specialist sub-agents, grounds decisions in 239 curated engineering articles, and gets sharper every time you use her. A single unified MCP tool handles all memory operations — minimizing token overhead while preserving full functionality. Built on the [Model Context Protocol](https://modelcontextprotocol.io) for [OpenCode](https://opencode.ai).
+> **Not an assistant. A persistent engineering partner.** Zara has cognitive memory across sessions, orchestrates 11 specialist sub-agents (including a dedicated answer quality evaluator), grounds decisions in 300+ curated engineering articles, and gets sharper every time you use her. A single unified MCP tool handles all memory operations — minimizing token overhead while preserving full functionality. Built on the [Model Context Protocol](https://modelcontextprotocol.io) for [OpenCode](https://opencode.ai).
 
 Created and maintained by **[Aldo Karendra](https://github.com/aldok10)** — Lead Backend Engineer & AI Systems Architect ([LinkedIn](https://www.linkedin.com/in/aldok10/) · [GitHub](https://github.com/aldok10))
 
@@ -38,7 +38,7 @@ Zara is a different category of tool.
 |---------------|------|
 | Forget everything between sessions | 3-layer cognitive memory with hybrid retrieval and temporal decay |
 | One-size-fits-all answers | Learns your stack, preferences, and patterns over time |
-| Single agent doing everything | 10 coordinated specialists (architecture, security, testing, review) |
+| Single agent doing everything | 11 coordinated specialists (architecture, security, testing, review, quality validation) |
 | No methodology | Skill-gated workflow: discuss → plan → execute → verify → ship |
 | Neutral, agreeable, forgettable | Opinionated. Pushes back. Cares about your growth. |
 | Repeat the same mistakes | Outcome-weighted reflection — same mistake twice triggers a systemic fix |

@@ -11,13 +11,33 @@
 
 ## Memory Domain (`tools/mcp/domain/memory.mjs`)
 
-| Tool | Description | Key Parameters |
-|------|-------------|----------------|
-| `memory_recall` | Search memory with scope/type filters + token budget | `query`, `layer` (all/episodic/semantic/procedural) |
-| `memory_learn` | Store fact with type classification | `key`, `value`, `source` (user_explicit/observed/inferred) |
-| `memory_episode` | Record event with outcome and tags | `event`, `outcome`, `tags[]` |
-| `memory_procedure` | Save reusable workflow | `name`, `steps[]`, `context` |
-| `memory_consolidate` | Dreamer pass: merge dupes, archive stale, promote recurring + flag contradictions | - |
+All memory operations route through a single unified `Orchestrator_memory` MCP tool with action-based routing:
+
+| Action | Description | Key Parameters |
+|--------|-------------|----------------|
+| `recall` | Search memory with scope/type filters | `query`, `layer` (all/semantic/episodic/procedural/knowledge), `k`, `section` |
+| `learn` | Store fact with type classification | `key`, `value`, `type`, `source` (user_explicit/observed/inferred/external_unverified) |
+| `episode` | Record event or reflect on task | `event`, `outcome`, `op` (reflect/blindspot/suggest/patterns) |
+| `procedure` | Save reusable workflow | `name`, `steps[]`, `context` |
+| `manage` | Consolidate, delete, update, seed, index | `op` (consolidate/delete/update/contradictions/seed/index) |
+| `session` | Session state management | `op`, `notes`, `persist` |
+| `system` | System info and diagnostics | `op` |
+
+### Knowledge Recall (layer: "knowledge")
+
+When `layer: "knowledge"` is specified, recall routes to passage search over indexed articles:
+
+```
+Orchestrator_memory(action:"recall", query:"<topic>", layer:"knowledge", section:"<optional>")
+```
+
+### Episode Reflect
+
+Records task outcome with trust calibration:
+
+```
+Orchestrator_memory(action:"episode", op:"reflect", agent:"<name>", outcome:"success|partial|failure", worked:"<what>", failed:"<what>")
+```
 | `memory_contradictions` | Detect same-type facts that are similar but conflicting (flags, no auto-merge) | `threshold` (0-1, default 0.85) |
 | `memory_delete` | Delete memories by pattern (substring match). Destructive. | `pattern`, `dry_run` |
 
@@ -53,12 +73,15 @@
 
 ## Knowledge Domain (`tools/mcp/domain/knowledge.mjs`)
 
-| Tool | Description | Key Parameters |
-|------|-------------|----------------|
-| `knowledge_load_init` | Scan knowledge/ markdown, store summaries + chunk bodies for passage retrieval | `path`, `force`, `dry_run` |
-| `knowledge_index` | Fast section/keyword lookup over titles + summaries | `section`, `query`, `list_sections` |
-| `knowledge_passage` | Semantic passage search over full article bodies | `query`, `section`, `k` |
-| `team_knowledge` | Search shared team knowledge | `query` |
+### Knowledge Operations (via unified memory tool)
+
+Knowledge operations are accessed through the same `Orchestrator_memory` tool:
+
+| Operation | Invocation | Description |
+|-----------|-----------|-------------|
+| Index/seed | `action:"manage", op:"seed"` | Scan knowledge/ markdown, store summaries + chunk bodies |
+| Section list | `action:"recall", layer:"knowledge", list_sections:true` | List available knowledge sections |
+| Passage search | `action:"recall", query:"...", layer:"knowledge", section:"..."` | Semantic passage search over article bodies |
 
 ## Audit Domain (`tools/mcp/domain/audit.mjs`)
 

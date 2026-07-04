@@ -17,7 +17,7 @@ describe('plugin lifecycle', () => {
     const hooks = ['event', 'experimental.chat.system.transform',
       'experimental.chat.messages.transform', 'experimental.session.compacting',
       'tool.execute.before', 'tool.execute.after', 'chat.message',
-      'chat.response', 'tool', 'dispose'];
+      'tool.definition', 'tool', 'dispose'];
     for (const h of hooks) {
       assert.ok(h in inst, `missing hook: ${h}`);
     }

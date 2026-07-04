@@ -7,6 +7,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.0] - 2026-06-26
 
+## [1.3.0] - 2026-07-05
+
+### Added
+- feat(agents): new @refiner agent for answer quality evaluation (think + judge pattern)
+- feat(instructions): Truth Discipline, Self-Correction Loop, Quality Gate, Human Escalation, Drift Prevention
+- feat(instructions): Structured Handoff Protocol, Typed Exit Reasons, Token Budget Per Subagent
+- feat(instructions): Entity-Aware Recall, Decomposition Discipline, Conflict Detection, Context Window Awareness
+- feat(instructions): Investigate Before Answering, Subagent Usage Discipline, Completion Balance
+- feat(agents): all 11 subagents now enforce EXIT: COMPLETED|BLOCKED|BUDGET_EXHAUSTED|ESCALATED
+- feat(agents): explicit boundary sections (Probe vs Refiner, Lens vs Refiner, Rhythm vs Refiner)
+- feat(plugin): AnswerQualityDetector in observe/proactive-monitor.mjs (absolute claims, unverified claims, hollow confidence)
+- feat(AGENTS.md): Subagent Protocol, Loop Engineering Rules, Context Efficiency, Regression & Evaluation
+
+### Changed
+- refactor(agents): all tool references updated from phantom `knowledge_passage()` to correct `Orchestrator_memory(action:"recall", layer:"knowledge")`
+- refactor(agents): all `reflect()` calls updated to correct `Orchestrator_memory(action:"episode", op:"reflect")`
+- refactor(instructions): system.md is single source of truth for rules (no duplication in zara.md/zara-extended.md)
+- refactor(agents): read-only agents explicitly state "data must be passed in dispatch context"
+- refactor(skills): 8 skill files updated from `knowledge_passage` to correct MCP invocation
+- refactor(commands): decide.md and think.md updated from phantom tool calls
+- docs(README): updated sub-agent count (11) and knowledge article count (300+)
+- docs(tools-reference): updated from stale individual tools to unified memory tool documentation
+- docs(prompts): updated file tree to include all current agents
+
+### Removed
+- Redundant rules between system.md/zara.md/zara-extended.md (45% primary context reduction)
+- Duplicated principles in hive.md and rhythm.md that were already covered by protocol/rules sections
+
 ## [1.2.0] - 2026-07-03
 
 ### Added

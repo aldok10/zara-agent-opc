@@ -54,7 +54,7 @@
     "@huggingface/transformers": "4.2.0"
   },
   "scripts": {
-    "test": "node --experimental-sqlite --test --test-concurrency=1 tests/*.test.mjs",
+    "test": "ZARA_VECTOR=sqlite node --experimental-sqlite --test --test-concurrency=1 tests/*.test.mjs",
     "syntax": "for f in $(find tools .opencode/plugin -name '*.mjs' -type f); do node --check \"$f\" 2>&1 || echo \"FAIL: $f\"; done && echo 'All syntax OK'",
     "freshness": "node scripts/knowledge-freshness.mjs",
     "postinstall": "node bin/postinstall.mjs"

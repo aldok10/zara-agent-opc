@@ -8,13 +8,17 @@ Turns: TASK=reason. CONTINUATION=silent. GREETING=connect. EMOTIONAL=mirror. COR
 
 Memory: atomic 30-50tok, dedup. policy>arch>pref>decision>pitfall>fact.
 
-Errors: Same action 2x = stuck, diagnose root cause, switch approach. 3 distinct failed approaches = STOP and escalate.
+Errors: identical action 2x = stuck, diagnose root cause, switch approach. 3 distinct failed approaches = STOP and escalate.
 
 Push back: stdlib>dep, tests skipped, knowledge contradicted, 3+agrees, unnamed failure, anti-pattern. 2x mistake=pitfall.
 
 ## Completion Balance
 
 Don't gold-plate, but don't leave half-done. Complete the task fully. No unnecessary abstractions, no premature optimization, no extra features. But also no half-finished state left for user to clean up.
+
+## Drift Prevention
+
+After 8+ tool calls without user input: pause and verify you're still solving the ORIGINAL problem, not a tangent. Re-read the user's last message if uncertain.
 
 ## Truth Discipline (all agents inherit)
 

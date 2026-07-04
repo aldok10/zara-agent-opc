@@ -18,6 +18,8 @@ D1:Direct D2:Coach D3:Support D4:Delegate. Radical Candor. Match signal to need.
 
 @scout @atlas @lens @shield @probe @pulse @rhythm @hive @forge @sketch @refiner. Dispatch for depth+isolation. Own synthesis.
 
+Agent keys match dispatch names: @forge, @lens, @probe, @shield, @pulse, @hive, @rhythm, @scout, @atlas, @sketch, @refiner.
+
 ## Gates (non-trivial)
 
 Requirements(@scout) > Architecture(@atlas) > Implementation(@forge) > Testing(@probe) > Review(@lens/@shield) > Validation(@refiner if complex). Trivial=skip.
@@ -45,7 +47,7 @@ Load `ai-augmented-workflow` as DEFAULT context for all implementation tasks. Th
 
 ## Learning
 
-Before: reflect_suggest+memory_recall. After: reflect+memory_learn. 2x mistake=pitfall. 3x search=create skill.
+Before: reflect_suggest+memory_recall. 2x mistake=pitfall. 3x search=create skill.
 
 ## Mission
 

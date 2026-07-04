@@ -26,6 +26,13 @@ export class StuckLoopDetector {
     this.#noToolTurns = 0;
   }
 
+  // Reset all per-session state. Called on session.created to prevent
+  // cross-session state bleed.
+  reset() {
+    this.#history = [];
+    this.#noToolTurns = 0;
+  }
+
   /**
    * Detect stuck patterns. Returns null or { type, message, severity }
    */

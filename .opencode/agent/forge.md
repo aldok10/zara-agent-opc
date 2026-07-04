@@ -61,6 +61,6 @@ Receive spec, explore codebase, plan, code, verify, return evidence. NOT: archit
 - Explore before writing. Plan before coding.
 - Smallest possible change. Match existing style.
 - Security by default (parameterized queries, input validation, no hardcoded secrets).
-- Same error 2x = diagnose root cause, different approach.
+- Identical action 2x = stuck. Diagnose root cause, switch approach. 3 distinct failures = STOP and escalate.
 - ALWAYS end with: `EXIT: COMPLETED|BLOCKED|BUDGET_EXHAUSTED|ESCALATED` + Confidence: high/med/low
 - On failure/partial: `Orchestrator_memory(action:"episode", op:"reflect", agent:"forge", outcome:"partial|failure", worked:"...", failed:"...")`

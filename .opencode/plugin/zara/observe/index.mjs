@@ -34,61 +34,61 @@ export default function createObserve({ client, directory } = {}) {
     onEvent(event) {
       if (event.type === 'session.created') {
         trace.startSession();
-        monitor.resetSession();
+        monitor.reset();
       }
       if (event.type === 'session.ended') trace.endSession();
     },
 
+    // Reset per-session ProactiveMonitor state (nudge budget, edit/verify
+    // counters, stuck-loop history, skill gates). The parent may call this
+    // directly on session.created; onEvent also invokes it.
+    reset() { monitor.reset(); },
+
     getCompressor() { return compressor; },
 
-    // tool.execute.before — real API: args live in output.args, and the hook
-    // returns void. To block a tool we cannot throw/return; instead we mutate
-    // output.args so the blocked call becomes a no-op and record the block in
-    // the trace. A `__zaraBlocked` marker + short-circuit output are attached
-    // to output so afterTool / downstream can surface the reason.
+    // tool.execute.before — real API (@opencode-ai/plugin 1.17.x):
+    //   (input: {tool, sessionID, callID}, output: {args})
+    // The hook returns void; there is NO way to short-circuit or block a tool by
+    // return value. Consequences:
+    //   - Tool name comes from input.tool; args live in output.args.
+    //   - We always startSpan here and let afterTool call the single matching
+    //     endSpan. We must NOT call endSpan here or the span stack double-pops.
+    //   - Env access is "blocked" by neutralizing output.args (empty the args)
+    //     so the underlying tool call has nothing to act on and fails cleanly.
+    //   - Injection cannot be blocked; we only screen/log it (guard.check
+    //     persists incidents). Cache cannot short-circuit, so no cache-get here.
     beforeTool(input, output) {
-      const toolName = input?.tool || input?.name || 'unknown';
-      const toolArgs = (output && output.args) || input?.args || {};
+      const toolName = input?.tool || 'unknown';
+      const toolArgs = (output && output.args) || {};
       trace.startSpan(toolName, toolArgs);
 
-      const block = (reason, message) => {
-        trace.endSpan(toolName, false, `blocked: ${reason}`);
-        if (output) {
-          output.__zaraBlocked = reason;
-          if (message) output.__zaraMessage = message;
-        }
-      };
-
-      // Guard: block .env file access
+      // Guard: neutralize .env file access. We can't block via return, so we
+      // strip the args — the read/edit/write then has no target and no-ops.
       const envBlock = checkEnvAccess(toolName, toolArgs);
       if (envBlock) {
-        block('env-guard', envBlock.output);
-        return envBlock;
+        if (output && output.args && typeof output.args === 'object') {
+          for (const k of Object.keys(output.args)) delete output.args[k];
+        }
+        try { console.warn(`[zara/observe] env-guard neutralized ${toolName}: ${envBlock.output.split('\n')[0]}`); } catch { /* noop */ }
+        return;
       }
 
-      // Guard: check tool inputs for injection
+      // Guard: screen tool inputs for injection. Log-only — cannot block.
       const inputText = Object.values(toolArgs).filter(v => typeof v === 'string').join(' ');
       if (inputText) {
         const issues = guard.check(inputText);
         if (issues.some(i => i.risk === 'high')) {
-          block(issues.map(i => i.label).join(','), '⚠️ Blocked: prompt injection detected in tool input.');
-          return { isError: true, output: `⚠️ Blocked: prompt injection detected in tool input.` };
+          try { console.warn(`[zara/observe] prompt-injection screened in ${toolName} input: ${issues.map(i => i.label).join(',')}`); } catch { /* noop */ }
         }
       }
-
-      // Cache check (read-only, safe tools only)
-      if (cache.isCacheable(toolName)) {
-        const cached = cache.get(toolName, toolArgs);
-        if (cached) {
-          if (output) output.__zaraCached = cached;
-          return { cached: true, output: cached };
-        }
-      }
-      return null;
     },
 
+    // tool.execute.after — real API:
+    //   (input: {tool, sessionID, callID, args}, output: {title, output, metadata})
+    // Tool name = input.tool, args = input.args, result = output.output.
+    // We mutate output.output directly for shell filtering and secret redaction.
     afterTool(input, output) {
-      const toolName = input?.tool || input?.name || 'unknown';
+      const toolName = input?.tool || 'unknown';
       const success = !(output?.isError || output?.error);
       const execContext = output?.output && typeof output.output === 'string' ? output.output.slice(0, 60) : '';
       trace.endSpan(toolName, success, execContext);
@@ -110,7 +110,7 @@ export default function createObserve({ client, directory } = {}) {
       }
 
       if (cache.isCacheable(toolName) && success) {
-        cache.set(toolName, input?.args || input, output?.output);
+        cache.set(toolName, input?.args || {}, output?.output);
       }
 
       // Proactive monitoring: repetition detection, verify/skill gates, trust scoring
@@ -163,7 +163,16 @@ export default function createObserve({ client, directory } = {}) {
       return messages;
     },
 
+    // transformMessages — bridged by the parent from experimental.chat.messages
+    // .transform, whose output.messages is `{ info, parts }[]`. The compressor
+    // operates on that parts-shape. Safety: if the incoming array doesn't look
+    // like the parts-shape, skip the transform and return it untouched so we
+    // never corrupt an unexpected message format.
     transformMessages(messages) {
+      if (!Array.isArray(messages)) return messages;
+      const looksLikePartsShape = messages.length === 0
+        || messages.some(m => m && Array.isArray(m.parts));
+      if (!looksLikePartsShape) return messages;
       try {
         // Normal transform (always applied)
         let result = compressor.transform(messages);

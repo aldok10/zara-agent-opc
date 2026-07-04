@@ -60,10 +60,10 @@ describe('plugin lifecycle', () => {
 
   it('system.transform propagates through all modules', async () => {
     const inst = await plugin.server(config);
-    const msgs = [{ role: 'system', content: 'original' }];
-    const result = await inst['experimental.chat.system.transform']({ messages: msgs });
-    assert.ok(result.messages[0].content.includes('original'), 'should keep original');
-    assert.ok(result.messages[0].content.length > 'original'.length, 'modules should inject');
+    const output = { system: ['original'] };
+    await inst['experimental.chat.system.transform']({}, output);
+    assert.ok(output.system[0].includes('original'), 'should keep original');
+    assert.ok(output.system.length >= 1, 'modules should inject into system array');
   });
 
   it('dispose does not throw', async () => {

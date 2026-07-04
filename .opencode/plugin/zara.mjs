@@ -54,70 +54,49 @@ export async function server({ client, directory }) {
 
     // System prompt injection.
     // Real OpenCode API (@opencode-ai/plugin 1.17.x): (input, output) where
-    // output.system is a string[]. Modules still operate on a messages array
-    // ({role, content}), so we bridge the string[] <-> messages representation.
-    // Legacy call shape ({ messages }) is preserved for backward compat/tests.
+    // output.system is a string[]. Returns void — mutate output.system in place.
+    // Modules still operate on a messages array ({role, content}), so we bridge
+    // the string[] <-> messages representation.
     'experimental.chat.system.transform': async (input, output) => {
-      if (output && Array.isArray(output.system)) {
-        // New API: fold system[] into a synthetic messages array, run modules,
-        // then write the (possibly extended) system content back.
-        let messages = [{ role: 'system', content: output.system.join('\n\n') }];
-        each(m => { messages = m.inject?.(messages) || messages; });
-        const sys = messages.find(m => m.role === 'system');
-        const rebuilt = [];
-        if (sys && typeof sys.content === 'string') rebuilt.push(sys.content);
-        // Any additional messages modules pushed (e.g. appended nudges) get
-        // flattened into extra system strings.
-        for (const msg of messages) {
-          if (msg !== sys && typeof msg?.content === 'string' && msg.content) rebuilt.push(msg.content);
-        }
-        output.system = rebuilt.length ? rebuilt : output.system;
-        return;
-      }
-      // Legacy shape: input === { messages }
-      let messages = input?.messages || [];
+      if (!output || !Array.isArray(output.system)) return;
+      // Fold system[] into a synthetic messages array, run modules, then write
+      // the (possibly extended) system content back.
+      let messages = [{ role: 'system', content: output.system.join('\n\n') }];
       each(m => { messages = m.inject?.(messages) || messages; });
-      return { messages };
+      const sys = messages.find(m => m.role === 'system');
+      const rebuilt = [];
+      if (sys && typeof sys.content === 'string') rebuilt.push(sys.content);
+      // Any additional messages modules pushed (e.g. appended nudges) get
+      // flattened into extra system strings.
+      for (const msg of messages) {
+        if (msg !== sys && typeof msg?.content === 'string' && msg.content) rebuilt.push(msg.content);
+      }
+      output.system = rebuilt.length ? rebuilt : output.system;
     },
 
     // Message transformation (tool result truncation).
     // Real API: (input, output) where output.messages is { info: Message, parts: Part[] }[].
+    // Returns void — mutate output.messages in place.
     'experimental.chat.messages.transform': async (input, output) => {
-      if (output && Array.isArray(output.messages)) {
-        let messages = output.messages;
-        each(m => { messages = m.transformMessages?.(messages) || messages; });
-        output.messages = messages;
-        return;
-      }
-      // Legacy shape: input === { messages }
-      let messages = input?.messages || [];
+      if (!output || !Array.isArray(output.messages)) return;
+      let messages = output.messages;
       each(m => { messages = m.transformMessages?.(messages) || messages; });
-      return { messages };
+      output.messages = messages;
     },
 
     // Session compacting (OpenCode built-in) — multi-layer strategy.
     // Real API: (input, output) where output.context is a string[] and
-    // output.prompt is an optional override.
+    // output.prompt is an optional override. Returns void — push to output.context.
     'experimental.session.compacting': async (input, output) => {
+      if (!output || !Array.isArray(output.context)) return;
       const compressor = observe.getCompressor?.() || null;
-
-      if (output && Array.isArray(output.context)) {
-        each(m => {
-          const result = m.onCompact?.();
-          if (result?.context) output.context.push(result.context);
-        });
-        if (compressor) {
-          output.context.push(`[Pre-compaction] Total tokens saved by tool result pruning: ${compressor.totalPruned}`);
-        }
-        return;
-      }
-      // Legacy fallback (no output.context provided)
-      const contexts = [];
       each(m => {
         const result = m.onCompact?.();
-        if (result?.context) contexts.push(result.context);
+        if (result?.context) output.context.push(result.context);
       });
-      return contexts.length ? { context: contexts.join('\n') } : {};
+      if (compressor) {
+        output.context.push(`[Pre-compaction] Total tokens saved by tool result pruning: ${compressor.totalPruned}`);
+      }
     },
 
     // Before tool execution (trace start + guard validation + cache check).

@@ -26,6 +26,7 @@ class NudgeBudget {
   spend(key) { this.#count++; this.#lastTurn = this.#turn; this.#fired.add(key); }
   // Allow re-firing loop detection nudges (they should fire each time a new pattern occurs)
   clear(key) { this.#fired.delete(key); }
+  reset() { this.#count = 0; this.#lastTurn = -Infinity; this.#turn = 0; this.#fired.clear(); }
 }
 
 class RepetitionDetector {
@@ -44,6 +45,8 @@ class RepetitionDetector {
     }
     return null;
   }
+
+  reset() { this.#ring = []; }
 }
 
 export class ProactiveMonitor {
@@ -74,10 +77,10 @@ export class ProactiveMonitor {
 
   // Reset all per-session state. Called on session.created so a new session
   // starts with fresh counters (edits, stuck history, nudge budget, gates).
-  resetSession() {
-    this.#budget = new NudgeBudget(this.#flowDetector);
-    this.#repetition = new RepetitionDetector();
-    this.#stuckDetector = new StuckLoopDetector();
+  reset() {
+    this.#budget.reset();
+    this.#repetition.reset();
+    this.#stuckDetector.reset();
     this.#pendingNudges = [];
     this.#editsSinceVerify = 0;
     this.#verifyNudgeSent = false;

@@ -24,11 +24,11 @@ describe('plugin composition root', () => {
     }
   });
 
-  it('inject hooks return the messages array (no accidental void)', async () => {
+  it('inject hooks mutate the system array (void return, no accidental drop)', async () => {
     const p = await import('../.opencode/plugin/zara.mjs');
     const inst = await p.server({ client: {}, directory: process.cwd() });
-    const messages = [{ role: 'system', content: 'base' }];
-    const out = await inst['experimental.chat.system.transform']({ messages });
-    assert.ok(out && Array.isArray(out.messages), 'system.transform should return { messages }');
+    const output = { system: ['base'] };
+    await inst['experimental.chat.system.transform']({}, output);
+    assert.ok(output && Array.isArray(output.system), 'system.transform should mutate output.system');
   });
 });

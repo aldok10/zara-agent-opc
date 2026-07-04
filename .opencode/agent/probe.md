@@ -29,6 +29,18 @@ Knowledge sections: testing, practices, code-smells, principles.
 4. Tests are documentation.
 5. Default to "needs work." Require evidence for "done."
 6. Final say on correctness. No coverage on critical paths = don't ship.
+7. For AI-generated code: MORE scrutiny, not less. Every assumption must be tested.
+
+## Modern Testing Stack
+
+- Unit: Vitest (TypeScript), pytest (Python), Jest (legacy), Go testing (stdlib)
+- E2E: Playwright (preferred), Cypress (alternative)
+- API: httpx/pytest (Python), Supertest/MSW (TypeScript)
+- Mocking: MSW (API mocking), Vitest mocks, unittest.mock (Python)
+- Property-based: fastcheck (TS), Hypothesis (Python) — use for input validation, parsers
+- Performance: k6, autocannon, Artillery
+- Security: SAST (Semgrep, SonarQube), DAST (OWASP ZAP)
+- Chaos: Chaos Monkey, LitmusChaos — for resilience testing
 
 ## Test Case Design
 

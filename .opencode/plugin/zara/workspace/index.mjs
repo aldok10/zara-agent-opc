@@ -106,7 +106,7 @@ export default function createWorkspace({ directory } = {}) {
       if (!recent.length) return messages;
 
       const summary = typeSummary(recent);
-      const nudge = `## Workspace Memory\n${recent.length} shared entries (${summary}). Use workspace_read to check context from other agents.`;
+      const nudge = `## Workspace Memory\n${recent.length} shared entries (${summary}). Use zara_workspace (action:query) to check context from other agents.`;
       const last = messages[messages.length - 1];
       if (last && last.role === 'system') {
         last.content += '\n\n' + nudge;
@@ -117,128 +117,125 @@ export default function createWorkspace({ directory } = {}) {
     },
 
     tools: {
-      workspace_write: tool({
-        description: 'Store workspace entry.',
+      zara_workspace: tool({
+        description: 'Workspace memory. action: query|store|clear',
         args: {
-          agent: z.string().describe('Which agent is writing (e.g. atlas, lens, shield)'),
-          type: z.enum(['decision', 'context', 'discovery', 'constraint', 'reference']).describe('Entry type'),
-          key: z.string().describe('Short key (e.g. "auth-strategy", "db-choice")'),
-          value: z.string().describe('The content to store'),
+          action: z.enum(['query', 'store', 'clear']).describe('Action to perform'),
+          // store args
+          agent: z.string().optional().describe('Which agent is writing (e.g. atlas, lens, shield); also filters query by agent'),
+          type: z.enum(['decision', 'context', 'discovery', 'constraint', 'reference']).optional().describe('Entry type (store); also filters query by type'),
+          key: z.string().optional().describe('Short key (e.g. "auth-strategy", "db-choice"); also filters query by exact key'),
+          value: z.string().optional().describe('The content to store'),
           confidence: z.number().optional().describe('Confidence 0-1 (default 0.8)'),
           refs: z.array(z.string()).optional().describe('Related file paths'),
           ttl: z.enum(['session', '1d', '7d', 'permanent']).optional().describe('Time to live (default 7d)'),
           supersedes: z.string().optional().describe('ID of entry this replaces'),
-        },
-        async execute(args) {
-          if (!args || !args.key || !args.value) return { output: 'Error [workspace_write]: key and value are required.' };
-
-          if (SECRET_PATTERN.test(args.value) || SECRET_PATTERN.test(args.key)) {
-            return { output: 'Error [workspace_write]: value contains potential secret/credential. Blocked.' };
-          }
-
-          try {
-            const entries = getEntries();
-            const filtered = args.supersedes
-              ? entries.filter(e => e.id !== args.supersedes)
-              : entries;
-
-            const entry = {
-              id: genId(),
-              agent: args.agent || 'unknown',
-              type: args.type || 'context',
-              key: args.key,
-              value: args.value,
-              confidence: typeof args.confidence === 'number' ? Math.max(0, Math.min(1, args.confidence)) : 0.8,
-              refs: Array.isArray(args.refs) ? args.refs : [],
-              ts: new Date().toISOString(),
-              ttl: TTL_MS[args.ttl] !== undefined ? args.ttl : '7d',
-              supersedes: args.supersedes || null,
-            };
-
-            filtered.push(entry);
-            const final = filtered.length > MAX_ENTRIES
-              ? filtered.slice(filtered.length - MAX_ENTRIES)
-              : filtered;
-
-            saveEntries(wsFile, final);
-            invalidateCache();
-            return { output: `Stored [${entry.id}]: ${args.key} (${args.type}, ttl=${entry.ttl})` };
-          } catch (err) {
-            return { output: `Error [workspace_write]: ${err.message}` };
-          }
-        },
-      }),
-
-      workspace_read: tool({
-        description: 'Query workspace memory.',
-        args: {
-          key: z.string().optional().describe('Filter by exact key'),
-          agent: z.string().optional().describe('Filter by agent name'),
-          type: z.enum(['decision', 'context', 'discovery', 'constraint', 'reference']).optional().describe('Filter by type'),
+          // query args
           query: z.string().optional().describe('Free text search across keys and values'),
           limit: z.number().optional().describe('Max results (default 20)'),
-        },
-        async execute(args) {
-          try {
-            let entries = getEntries();
-            const a = args || {};
-
-            if (a.key) entries = entries.filter(e => e.key === a.key);
-            if (a.agent) entries = entries.filter(e => e.agent === a.agent);
-            if (a.type) entries = entries.filter(e => e.type === a.type);
-            if (a.query) {
-              const terms = a.query.toLowerCase().split(/\s+/).filter(Boolean);
-              entries = entries.filter(e => {
-                const text = `${e.key || ''} ${e.value || ''} ${e.agent || ''}`.toLowerCase();
-                return terms.every(t => text.includes(t));
-              });
-            }
-
-            const limit = Math.max(1, Math.min(a.limit || 20, 100));
-            const results = entries.slice(-limit);
-
-            if (!results.length) return { output: 'No workspace entries found.' };
-
-            const lines = results.map(e =>
-              `[${e.id}] (${e.agent}/${e.type}) ${e.key}: ${(e.value || '').slice(0, 200)}${e.refs?.length ? ` refs:${e.refs.join(',')}` : ''} [${e.ttl}, conf:${e.confidence}]`
-            );
-            return { output: `${results.length} entries:\n${lines.join('\n')}` };
-          } catch (err) {
-            return { output: `Error [workspace_read]: ${err.message}` };
-          }
-        },
-      }),
-
-      workspace_clear: tool({
-        description: 'Clear workspace entries.',
-        args: {
+          // clear args
           all: z.boolean().optional().describe('Clear ALL entries'),
           id: z.string().optional().describe('Clear a specific entry by ID'),
         },
         async execute(args) {
-          try {
-            const a = args || {};
-            if (a.all) {
-              saveEntries(wsFile, []);
-              invalidateCache();
-              return { output: 'Workspace cleared.' };
+          const a = args || {};
+          switch (a.action) {
+            case 'store': {
+              if (!a.key || !a.value) return { output: 'Error [workspace_write]: key and value are required.' };
+
+              if (SECRET_PATTERN.test(a.value) || SECRET_PATTERN.test(a.key)) {
+                return { output: 'Error [workspace_write]: value contains potential secret/credential. Blocked.' };
+              }
+
+              try {
+                const entries = getEntries();
+                const filtered = a.supersedes
+                  ? entries.filter(e => e.id !== a.supersedes)
+                  : entries;
+
+                const entry = {
+                  id: genId(),
+                  agent: a.agent || 'unknown',
+                  type: a.type || 'context',
+                  key: a.key,
+                  value: a.value,
+                  confidence: typeof a.confidence === 'number' ? Math.max(0, Math.min(1, a.confidence)) : 0.8,
+                  refs: Array.isArray(a.refs) ? a.refs : [],
+                  ts: new Date().toISOString(),
+                  ttl: TTL_MS[a.ttl] !== undefined ? a.ttl : '7d',
+                  supersedes: a.supersedes || null,
+                };
+
+                filtered.push(entry);
+                const final = filtered.length > MAX_ENTRIES
+                  ? filtered.slice(filtered.length - MAX_ENTRIES)
+                  : filtered;
+
+                saveEntries(wsFile, final);
+                invalidateCache();
+                return { output: `Stored [${entry.id}]: ${a.key} (${entry.type}, ttl=${entry.ttl})` };
+              } catch (err) {
+                return { output: `Error [workspace_write]: ${err.message}` };
+              }
             }
 
-            const entries = loadEntries(wsFile);
-            if (a.id) {
-              const kept = entries.filter(e => e.id !== a.id);
-              saveEntries(wsFile, kept);
-              invalidateCache();
-              return { output: kept.length < entries.length ? `Removed entry ${a.id}.` : `Entry ${a.id} not found.` };
+            case 'query': {
+              try {
+                let entries = getEntries();
+
+                if (a.key) entries = entries.filter(e => e.key === a.key);
+                if (a.agent) entries = entries.filter(e => e.agent === a.agent);
+                if (a.type) entries = entries.filter(e => e.type === a.type);
+                if (a.query) {
+                  const terms = a.query.toLowerCase().split(/\s+/).filter(Boolean);
+                  entries = entries.filter(e => {
+                    const text = `${e.key || ''} ${e.value || ''} ${e.agent || ''}`.toLowerCase();
+                    return terms.every(t => text.includes(t));
+                  });
+                }
+
+                const limit = Math.max(1, Math.min(a.limit || 20, 100));
+                const results = entries.slice(-limit);
+
+                if (!results.length) return { output: 'No workspace entries found.' };
+
+                const lines = results.map(e =>
+                  `[${e.id}] (${e.agent}/${e.type}) ${e.key}: ${(e.value || '').slice(0, 200)}${e.refs?.length ? ` refs:${e.refs.join(',')}` : ''} [${e.ttl}, conf:${e.confidence}]`
+                );
+                return { output: `${results.length} entries:\n${lines.join('\n')}` };
+              } catch (err) {
+                return { output: `Error [workspace_read]: ${err.message}` };
+              }
             }
 
-            const kept = entries.filter(e => !isExpired(e));
-            const removed = entries.length - kept.length;
-            saveEntries(wsFile, kept);
-            invalidateCache();
-            return { output: `Cleared ${removed} expired entries. ${kept.length} remaining.` };
-          } catch (err) {
-            return { output: `Error [workspace_clear]: ${err.message}` };
+            case 'clear': {
+              try {
+                if (a.all) {
+                  saveEntries(wsFile, []);
+                  invalidateCache();
+                  return { output: 'Workspace cleared.' };
+                }
+
+                const entries = loadEntries(wsFile);
+                if (a.id) {
+                  const kept = entries.filter(e => e.id !== a.id);
+                  saveEntries(wsFile, kept);
+                  invalidateCache();
+                  return { output: kept.length < entries.length ? `Removed entry ${a.id}.` : `Entry ${a.id} not found.` };
+                }
+
+                const kept = entries.filter(e => !isExpired(e));
+                const removed = entries.length - kept.length;
+                saveEntries(wsFile, kept);
+                invalidateCache();
+                return { output: `Cleared ${removed} expired entries. ${kept.length} remaining.` };
+              } catch (err) {
+                return { output: `Error [workspace_clear]: ${err.message}` };
+              }
+            }
+
+            default:
+              return { output: `Error [zara_workspace]: unknown action "${a.action}".` };
           }
         },
       }),

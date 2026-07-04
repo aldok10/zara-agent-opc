@@ -1,16 +1,6 @@
----
-name: conventional-commits
-description: Conventional Commits format for commit messages
----
-
 # Conventional Commits
 
 Standardized, machine-readable commit messages: `<type>(<scope>): <description>`.
-
-## Scope
-
-- HANDLES: commit type/scope/description format, breaking changes, commit sizing.
-- DEFERS: rebase/conflicts to `git-expert`; integration to `finishing-branch`.
 
 ## First Action
 
@@ -73,19 +63,12 @@ chore(deps): update go modules to latest patch versions
 BREAKING CHANGE: response shape changed from array to {data, meta}
 ```
 
+## Voice (commit body only)
+
+Format stays strict; body applies natural voice: lead with why, vary sentence length, no banned AI words (robust/comprehensive/facilitate). Friend test: would a dev say this in a PR? Indonesian particles fine in internal/personal repos.
+
 ## Verification
 
 - Description ≤72 chars, imperative, lowercase, no trailing period.
 - Type matches the actual change; one concern per commit.
 - Tests run before committing.
-
-## Voice (commit body only)
-
-Format stays strict; body applies natural voice: lead with why, vary sentence length, no banned AI words (robust/comprehensive/facilitate). Friend test: would a dev say this in a PR? Indonesian particles fine in internal/personal repos.
-
-## Related Skills
-
-| When | Load |
-|------|------|
-| Rebase, conflicts | `git-expert` |
-| Branch ready to integrate | `finishing-branch` |

@@ -1,20 +1,31 @@
 ---
 name: git-expert
-description: Git operations: branching, rebasing, conflicts, history
+description: "Git mastery: operations, branching, worktrees, commits, repo analysis"
 ---
 
 # Git Expert
 
-Git specialist: repositories, conflicts, branching strategies, history recovery.
+Single entry point for all git work: operations, branching strategy, worktrees, conventional commits, branch finishing/integration, and learning patterns from external repos.
 
 ## Scope
 
-- HANDLES: branching, rebasing, conflict resolution, recovery, CI/CD bot identity.
-- DEFERS: commit messages to `conventional-commits`; isolated workspaces to `git-worktrees`; integration to `finishing-branch`; PRs to `github`.
+- HANDLES: branching, rebasing, conflict resolution, history recovery, CI/CD bot identity, and routing to specialized subskills below.
+- DEFERS: PRs to `github`; code review to `code-review`; security analysis to `shield`.
 
 ## First Action
 
 Check current branch before ANY commit or push: `git branch --show-current`. Check state before destructive ops: `git status`, `git log --oneline -10`.
+
+## Subskill Routing
+
+Load the matching subskill for specialized work; otherwise handle inline with the sections below.
+
+| When | Load |
+|------|------|
+| Isolated/parallel workspaces, `.worktrees/`, parallel agents | `subskills/worktrees.md` |
+| Writing commit messages (Conventional Commits format) | `subskills/commits.md` |
+| Branch strategy, finishing work, merge/PR/discard integration | `subskills/branching.md` |
+| Learning patterns from a GitHub repo (GitReverse) | `subskills/learn-from-repo.md` |
 
 ## Protected Branch Guard (mandatory)
 
@@ -26,7 +37,7 @@ If on a protected branch: STOP, create feature branch `git checkout -b <type>/<d
 
 1. Check current state before destructive operations.
 2. Small, focused commits with clear messages.
-3. Never rewrite history on shared branches unless whole team agrees.
+3. Never rewrite history on shared branches unless the whole team agrees.
 4. `git reflog` is the safety net; almost nothing is truly lost.
 5. New branches: `git push -u origin <branch>`.
 6. `--force-with-lease` only on your own feature branches, never protected.
@@ -41,12 +52,6 @@ If on a protected branch: STOP, create feature branch `git checkout -b <type>/<d
 - NEVER run destructive ops without checking `git status`.
 - NEVER rebase a branch others are working on.
 - NEVER claim "done" without verifying branch state.
-
-## Branching Strategies
-
-- Trunk-based: short-lived branches, merge to `main` frequently. Best for CI/CD-heavy.
-- Git Flow: `main`/`develop`/`feature/*`/`release/*`/`hotfix/*`. Best for versioned releases.
-- GitHub Flow: branch from `main`, PR, merge after review. Simple default.
 
 ## Rebasing / Merging
 
@@ -84,7 +89,6 @@ If on a protected branch: STOP, create feature branch `git checkout -b <type>/<d
 
 | When | Load |
 |------|------|
-| Commit messages | `conventional-commits` |
-| Isolated workspace | `git-worktrees` |
-| Branch ready to integrate | `finishing-branch` |
 | Creating PR | `github` |
+| Code review before merge | `code-review` |
+| Security analysis | `shield` |

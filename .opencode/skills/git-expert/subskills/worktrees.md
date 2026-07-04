@@ -1,23 +1,11 @@
----
-name: git-worktrees
-description: Start isolated feature work via git worktrees
-triggers:
-  - "new feature branch"
-  - "isolate work"
-  - "worktree"
-  - "parallel branch"
-  - "parallel development"
-  - "multiple branches"
----
-
-# Git Worktrees
+# Worktrees
 
 Isolated feature workspaces via git worktrees. One repo, multiple working directories.
 
 ## Scope
 
 - HANDLES: worktree creation, dependency setup, parallel agent isolation, lifecycle/cleanup.
-- DEFERS: commit messages to `conventional-commits`; integration to `finishing-branch`; review to `code-review`.
+- DEFERS: commit messages to `subskills/commits.md`; integration to `subskills/branching.md`.
 
 ## First Action
 
@@ -41,7 +29,7 @@ Feature work keeping current branch clean · parallel AI agent sessions · revie
 
 1. Never nest worktrees.
 2. Use `.worktrees/` at project root; ensure it's gitignored.
-3. Branch naming per conventional-commits: `feat/x`, `fix/x`, `chore/x`, `refactor/x`.
+3. Branch naming per conventional commits: `feat/x`, `fix/x`, `chore/x`, `refactor/x`.
 4. Parallel agents: exclusive file scope each, merge sequentially not simultaneously.
 5. Run `git worktree remove` from main repo root, never from inside the worktree.
 
@@ -56,7 +44,7 @@ Feature work keeping current branch clean · parallel AI agent sessions · revie
 ## Workflow
 
 1. Create: `git worktree add .worktrees/<branch> -b <branch>` (or `<branch>` for existing, `-b <branch> origin/main` from base).
-2. Install deps in new worktree by manifest: `pnpm install` / `yarn install` / `npm ci` / `go mod download` / `cargo fetch` / `pip install -r requirements.txt` / `composer install`.
+2. Install deps by manifest: `pnpm install` / `yarn install` / `npm ci` / `go mod download` / `cargo fetch` / `pip install -r requirements.txt` / `composer install`.
 3. Verify clean baseline: run test suite. Pass = ready; fail = report, ask before proceeding.
 
 ## Parallel Agent Pattern
@@ -91,12 +79,3 @@ git worktree prune                      # clean orphan refs
 
 - `git worktree list` shows the expected tree.
 - Test suite passes in the new worktree before starting work.
-
-## Related Skills
-
-| When | Load |
-|------|------|
-| Ready to commit | `conventional-commits` |
-| Done with feature | `finishing-branch` |
-| Need code review | `code-review` |
-| Create PR | `github` |

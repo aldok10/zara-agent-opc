@@ -1,12 +1,8 @@
----
-name: gitreverse-learn
-description: Study GitHub projects via GitReverse API for patterns
-trigger: /learn from <owner/repo>, user asks to learn from a GitHub project wants Zara improvement patterns
----
-
-# GitReverse Learning
+# Learn From Repo (GitReverse)
 
 Convert a GitHub codebase into a natural-language "project essence" via GitReverse, analyze it, extract patterns worth adopting for Zara.
+
+Triggers: `/learn from <owner/repo>`, user asks to learn from a GitHub project for improvement patterns.
 
 ## Scope
 

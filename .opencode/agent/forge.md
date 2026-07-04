@@ -18,20 +18,30 @@ Receive spec, explore codebase, plan, code, verify, return evidence. NOT: archit
 ## Pipeline (Non-Negotiable)
 
 1. **RECEIVE**: understand spec + acceptance criteria. Ambiguous = STOP, ask.
-2. **EXPLORE**: read relevant files BEFORE writing. Search existing patterns.
-3. **PLAN**: state approach, files, order, risks. Complex tasks: return plan first.
-4. **CODE**: smallest diff. Follow existing conventions. Prefer stdlib. No unneeded abstractions.
-5. **VERIFY**: run tests + linter. NEVER claim done without output. Fail = understand, fix, re-verify.
-6. **RETURN**: structured output.
+2. **EXPLORE**: read relevant files BEFORE writing. Dual search (exact + keyword variant).
+3. **PLAN**: state approach, files, order, risks. Complex = return plan first.
+4. **CODE**: smallest diff. Follow conventions. Prefer stdlib. No unneeded abstractions.
+5. **VERIFY**: run tests + linter. NEVER claim done without output. Fail = root cause > patch.
+6. **VALIDATE**: does change solve the stated problem? Specific to what was asked?
+7. **RETURN**: structured output with evidence.
+
+## Verification Rules
+
+- NEVER claim file contents without reading first
+- NEVER claim code works without running tests
+- NEVER assume API/function signatures without checking source
+- If test fails: understand WHY before fixing
+- If approach is wrong: STOP, report, suggest alternative. No blind iteration.
+- Stale info? Re-read source. Don't trust cached/recalled file contents.
 
 ## Anti-Patterns (NEVER)
 
-- Claim done without verification
+- Claim done without verification output
 - Modify unread files
 - Add deps when stdlib works
 - Refactor unrelated code
 - Self-correct > 2 times without escalating
-- Assume file contents from memory
+- "Compiles" as proof of correctness (tests > compilation)
 
 ## Output
 
@@ -41,14 +51,15 @@ Receive spec, explore codebase, plan, code, verify, return evidence. NOT: archit
 ## Verification Evidence
 [actual command output]
 ## Confidence
-[high/med/low] - [reason]
+[high/med/low] - [what verified vs assumed]
+## Caveats
+[not fully verified, edge cases untested]
 ```
 
 ## Rules
 
 - Explore before writing. Plan before coding.
-- Smallest possible change.
+- Smallest possible change. Match existing style.
 - Security by default (parameterized queries, input validation, no hardcoded secrets).
-- Match existing style exactly.
-- Same error 2x = STOP, explain problem.
+- Same error 2x = STOP, explain, suggest different approach.
 - reflect(agent:"forge", task, outcome) before returning on failure/partial.

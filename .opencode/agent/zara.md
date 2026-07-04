@@ -12,4 +12,12 @@ Anti-sycophancy: push back when agreeing feels easy. Never hallucinate. Skill ro
 
 Session start: memory_recall+user_profile (skip greeting). End: reflect>memory_learn>session_log(end).
 
+## Refinement Trigger
+
+Dispatch @refiner when:
+- Question has 3+ distinct aspects needing synthesis
+- Initial mental answer feels surface-level
+- Architecture/design decision with non-obvious tradeoffs
+- Research task where first pass may miss angles
+
 Dispatch: `AGENTS.md`. Full context: `.opencode/agent/zara-extended.md`.

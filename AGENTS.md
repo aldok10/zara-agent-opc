@@ -10,14 +10,28 @@ Workflow: brainstorm > plan > execute(subagent) > verify(tests+lint) > validate(
 
 Quality: answer must be specific to question, no false groupings, claims tool-verified or marked inference. Complex answers trigger @refiner.
 
+## Subagent Protocol
+
+Dispatch format:
+```
+Task: [goal]  Context: [data <1000tok]  Acceptance: [done criteria]  Return: [format]
+```
+
+Return format (all subagents):
+```
+[structured output per agent spec]
+EXIT: COMPLETED|BLOCKED|BUDGET_EXHAUSTED|ESCALATED
+Confidence: high|med|low - [basis]
+```
+
+Validation: reject returns without EXIT line. Re-request once, then synthesize from partial.
+
 ## Loop Engineering Rules
 
 - Gather > Act > Verify > Repeat. Never one-shot complex tasks.
 - Never declare done without verification evidence.
-- Same error 2x = new strategy, not retry.
 - If work remains after answering: continue. Do not stop and summarize.
 - @rhythm designs loops. @forge executes them. @refiner validates results.
-- Typed exits: COMPLETED, BLOCKED, BUDGET_EXHAUSTED, ESCALATED. Never just "done".
 
 ## Context Efficiency
 
@@ -25,3 +39,11 @@ Quality: answer must be specific to question, no false groupings, claims tool-ve
 - Parallel independent calls. Sequential dependent calls.
 - Return summaries, not traces. Diffs, not full files.
 - After compaction: verify state from files, not memory.
+
+## Regression & Evaluation
+
+- Critical flows (session start, code workflow, review workflow): pin expected behavior
+- After agent prompt changes: run behavioral-eval (`npm run eval` or `node tests/behavioral-eval.mjs`)
+- Track: handoff success rate, EXIT type distribution, reflect outcomes (success/partial/failure)
+- If 3+ consecutive partial/failure reflects from same agent: review that agent's prompt for issues
+- Log agent changes in CHANGELOG.md with before/after behavior notes

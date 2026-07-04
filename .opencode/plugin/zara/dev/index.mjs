@@ -292,113 +292,115 @@ export default function createDev({ client, directory } = {}) {
     // ── Tools ──────────────────────────────────────────────────────────────
 
     tools: {
-      // ── Codebase Tools ──────────────────────────────────────────────────
-
-      codebase_info: tool({
-        description: 'Get project info.',
-        args: {},
-        async execute() {
-          const p = getProject();
-          const parts = [
-            `**Project**: ${p.name} (${p.dir})`,
-            `**Languages**: ${p.scan.lang.join(', ') || 'unknown'}`,
-            `**Dirs**: ${p.scan.dirs.join(', ')}`,
-            `**Entry points**: ${p.scan.entryPoints.join(', ') || 'none detected'}`,
-            `**Config**: ${p.scan.configFiles.join(', ')}`,
-            `**Files**: ~${p.scan.fileCount}`,
-            `**Visits**: ${p.visits}`,
-          ];
-          if (p.conventions.length) parts.push(`**Conventions**: ${p.conventions.join('; ')}`);
-          if (p.architecture) parts.push(`**Architecture**: ${p.architecture}`);
-          if (p.notes.length) parts.push(`**Notes**: ${p.notes.slice(-5).join(' | ')}`);
-          return { output: parts.join('\n') };
-        },
-      }),
-
-      codebase_note: tool({
-        description: 'Add project note.',
+      zara_dev: tool({
+        description: 'Dev tools. action: sandbox|project_info|project_note',
         args: {
-          note: z.string().describe('The note to add'),
-          type: z.enum(['convention', 'architecture', 'gotcha', 'dependency', 'pattern']).optional().describe('Note type'),
+          action: z.enum(['sandbox', 'project_info', 'project_note']).describe('Action to perform'),
+          // sandbox args
+          language: z.enum(['javascript', 'shell', 'python']).optional().describe('Language to execute (sandbox)'),
+          code: z.string().optional().describe('Code to run (sandbox)'),
+          // project_note args
+          note: z.string().optional().describe('The note to add (project_note)'),
+          type: z.enum(['convention', 'architecture', 'gotcha', 'dependency', 'pattern']).optional().describe('Note type (project_note)'),
         },
         async execute(args) {
-          const p = getProject();
-          if (args.type === 'architecture') {
-            p.architecture = args.note;
-          } else if (args.type === 'convention') {
-            if (!p.conventions.includes(args.note)) p.conventions.push(args.note);
-          } else {
-            p.notes.push(`[${args.type || 'note'}] ${args.note}`);
-            if (p.notes.length > 30) p.notes = p.notes.slice(-30);
-          }
-          saveJson(file, p);
-          return { output: `Project note saved (${args.type || 'general'})` };
-        },
-      }),
-
-      // ── Sandbox Tools ───────────────────────────────────────────────────
-
-      ctx_execute: tool({
-        description: 'Run code in sandbox.',
-        args: {
-          language: z.enum(['javascript', 'shell', 'python']).describe('Language to execute'),
-          code: z.string().describe('Code to run'),
-        },
-        async execute(args) {
-          const ctxDir = path.join(HOME, 'ctx');
-          fs.mkdirSync(ctxDir, { recursive: true });
-          const tmpFile = path.join(ctxDir, `exec-${crypto.randomUUID()}.tmp`);
-
-          const langMap = {
-            javascript: { cmd: 'node', ext: '.mjs' },
-            shell: { cmd: 'bash', ext: '.sh' },
-            python: { cmd: 'python3', ext: '.py' },
-          };
-
-          const lang = langMap[args.language];
-          const srcFile = tmpFile + lang.ext;
-
-          try {
-            fs.writeFileSync(srcFile, args.code, 'utf-8');
-            if (args.language === 'shell') fs.chmodSync(srcFile, 0o755);
-
-            // Sanitize env: allowlist only safe vars (Constitution P5 spirit: minimize blast radius)
-            const ENV_ALLOW = new Set(['HOME', 'PATH', 'LANG', 'SHELL', 'TERM', 'USER', 'LOGNAME', 'TMPDIR', 'XDG_RUNTIME_DIR', 'LC_ALL', 'LC_CTYPE']);
-            const safeEnv = Object.fromEntries(
-              Object.entries(process.env).filter(([k]) => ENV_ALLOW.has(k))
-            );
-            safeEnv.NODE_OPTIONS = '--no-warnings';
-
-            const result = spawnSync(lang.cmd, [srcFile], {
-              timeout: 30_000,
-              maxBuffer: 1024 * 1024,
-              encoding: 'utf-8',
-              env: safeEnv,
-              cwd: dir,
-            });
-
-            // Cleanup
-            try { fs.unlinkSync(srcFile); } catch {}
-            try { fs.unlinkSync(tmpFile); } catch {}
-
-            if (result.error) {
-              return { output: `Execution error: ${result.error.message}${result.error.code === 'ETIMEDOUT' ? ' (timeout 30s)' : ''}` };
+          const a = args || {};
+          switch (a.action) {
+            // ── Codebase: project info ──────────────────────────────────────
+            case 'project_info': {
+              const p = getProject();
+              const parts = [
+                `**Project**: ${p.name} (${p.dir})`,
+                `**Languages**: ${p.scan.lang.join(', ') || 'unknown'}`,
+                `**Dirs**: ${p.scan.dirs.join(', ')}`,
+                `**Entry points**: ${p.scan.entryPoints.join(', ') || 'none detected'}`,
+                `**Config**: ${p.scan.configFiles.join(', ')}`,
+                `**Files**: ~${p.scan.fileCount}`,
+                `**Visits**: ${p.visits}`,
+              ];
+              if (p.conventions.length) parts.push(`**Conventions**: ${p.conventions.join('; ')}`);
+              if (p.architecture) parts.push(`**Architecture**: ${p.architecture}`);
+              if (p.notes.length) parts.push(`**Notes**: ${p.notes.slice(-5).join(' | ')}`);
+              return { output: parts.join('\n') };
             }
 
-            if (result.status !== 0) {
-              const stderr = (result.stderr || '').trim().slice(0, 500);
-              return { output: `Error (exit ${result.status}):\n${stderr || 'unknown error'}` };
+            // ── Codebase: add note ──────────────────────────────────────────
+            case 'project_note': {
+              const p = getProject();
+              if (a.type === 'architecture') {
+                p.architecture = a.note;
+              } else if (a.type === 'convention') {
+                if (!p.conventions.includes(a.note)) p.conventions.push(a.note);
+              } else {
+                p.notes.push(`[${a.type || 'note'}] ${a.note}`);
+                if (p.notes.length > 30) p.notes = p.notes.slice(-30);
+              }
+              saveJson(file, p);
+              return { output: `Project note saved (${a.type || 'general'})` };
             }
 
-            const stdout = result.stdout?.trim() || '(no output)';
-            return {
-              output: stdout.slice(0, 30_000),
-              metadata: { bytes: stdout.length, language: args.language },
-            };
-          } catch (err) {
-            try { fs.unlinkSync(srcFile); } catch {}
-            try { fs.unlinkSync(tmpFile); } catch {}
-            return { output: `Execution failed: ${err.message}` };
+            // ── Sandbox: run code ───────────────────────────────────────────
+            case 'sandbox': {
+              const ctxDir = path.join(HOME, 'ctx');
+              fs.mkdirSync(ctxDir, { recursive: true });
+              const tmpFile = path.join(ctxDir, `exec-${crypto.randomUUID()}.tmp`);
+
+              const langMap = {
+                javascript: { cmd: 'node', ext: '.mjs' },
+                shell: { cmd: 'bash', ext: '.sh' },
+                python: { cmd: 'python3', ext: '.py' },
+              };
+
+              const lang = langMap[a.language];
+              if (!lang) return { output: `Error [sandbox]: language is required (javascript|shell|python).` };
+              const srcFile = tmpFile + lang.ext;
+
+              try {
+                fs.writeFileSync(srcFile, a.code, 'utf-8');
+                if (a.language === 'shell') fs.chmodSync(srcFile, 0o755);
+
+                // Sanitize env: allowlist only safe vars (Constitution P5 spirit: minimize blast radius)
+                const ENV_ALLOW = new Set(['HOME', 'PATH', 'LANG', 'SHELL', 'TERM', 'USER', 'LOGNAME', 'TMPDIR', 'XDG_RUNTIME_DIR', 'LC_ALL', 'LC_CTYPE']);
+                const safeEnv = Object.fromEntries(
+                  Object.entries(process.env).filter(([k]) => ENV_ALLOW.has(k))
+                );
+                safeEnv.NODE_OPTIONS = '--no-warnings';
+
+                const result = spawnSync(lang.cmd, [srcFile], {
+                  timeout: 30_000,
+                  maxBuffer: 1024 * 1024,
+                  encoding: 'utf-8',
+                  env: safeEnv,
+                  cwd: dir,
+                });
+
+                // Cleanup
+                try { fs.unlinkSync(srcFile); } catch {}
+                try { fs.unlinkSync(tmpFile); } catch {}
+
+                if (result.error) {
+                  return { output: `Execution error: ${result.error.message}${result.error.code === 'ETIMEDOUT' ? ' (timeout 30s)' : ''}` };
+                }
+
+                if (result.status !== 0) {
+                  const stderr = (result.stderr || '').trim().slice(0, 500);
+                  return { output: `Error (exit ${result.status}):\n${stderr || 'unknown error'}` };
+                }
+
+                const stdout = result.stdout?.trim() || '(no output)';
+                return {
+                  output: stdout.slice(0, 30_000),
+                  metadata: { bytes: stdout.length, language: a.language },
+                };
+              } catch (err) {
+                try { fs.unlinkSync(srcFile); } catch {}
+                try { fs.unlinkSync(tmpFile); } catch {}
+                return { output: `Execution failed: ${err.message}` };
+              }
+            }
+
+            default:
+              return { output: `Error [zara_dev]: unknown action "${a.action}".` };
           }
         },
       }),

@@ -372,103 +372,107 @@ export default function createGrowth({ client, directory } = {}) {
     // ── Tools ────────────────────────────────────────────────────────────
 
     tools: {
-      growth_status: tool({
-        description: 'Show all growth metrics: Zara self-lessons, agent dispatch reliability, and the user skill map.',
-        args: {},
-        async execute() {
-          ensure(GROWTH_DIR);
-          const self = loadJson(SELF_LESSONS_FILE, () => ({ lessons: [], sessionCount: 0, lastReview: null }));
-          const agents = loadJson(AGENT_HISTORY_FILE, () => ({}));
-          const progress = loadJson(USER_PROGRESS_FILE, () => ({ topics: {}, milestones: [] }));
-
-          const out = [];
-
-          // Self-growth
-          out.push(`## Zara Self-Growth`);
-          out.push(`Sessions: ${self.sessionCount || 0} | Next review in ${REVIEW_EVERY - ((self.sessionCount || 0) % REVIEW_EVERY)} session(s) | Last review: ${self.lastReview || 'never'}`);
-          if ((self.lessons || []).length) {
-            for (const l of self.lessons) {
-              out.push(`- (${Math.round((l.confidence || 0) * 100)}%, applied ${l.appliedCount || 0}x) ${l.pattern} → ${l.fix}`);
-            }
-          } else {
-            out.push('- No lessons synthesized yet (needs failure/partial reflections).');
-          }
-
-          // Agent-growth
-          out.push(`\n## Agent Growth`);
-          const agentKeys = Object.keys(agents);
-          if (agentKeys.length) {
-            for (const name of agentKeys) {
-              const r = agents[name];
-              const total = r.successes + r.failures;
-              const rate = total ? Math.round((r.failures / total) * 100) : 0;
-              out.push(`- @${name}: ${r.successes}✓ / ${r.failures}✗ (${rate}% fail)${r.patterns?.length ? ` — ${r.patterns[0]}` : ''}`);
-            }
-          } else {
-            out.push('- No dispatch history yet.');
-          }
-
-          // User-growth
-          out.push(`\n## User Growth`);
-          const entries = Object.entries(progress.topics || {}).sort((a, b) => b[1].exposures - a[1].exposures);
-          if (entries.length) {
-            for (const [k, t] of entries) {
-              out.push(`- ${TOPICS[k]?.label || k}: ${t.exposures} exposures → ${t.level}`);
-            }
-            const recentMilestones = (progress.milestones || []).slice(-3);
-            if (recentMilestones.length) {
-              out.push(`\nRecent milestones:`);
-              for (const m of recentMilestones) out.push(`- ${TOPICS[m.topic]?.label || m.topic}: ${m.milestone} (${m.date?.split('T')[0]})`);
-            }
-          } else {
-            out.push('- No topic exposure tracked yet.');
-          }
-
-          return { output: out.join('\n') };
-        },
-      }),
-
-      growth_teach: tool({
-        description: 'Proactively suggest the next thing the user should learn, based on their skill map and exposure gaps.',
+      zara_growth: tool({
+        description: 'Growth tracking. action: metrics (Zara self-lessons, agent dispatch reliability, user skill map) | suggest_next (proactively suggest what the user should learn next).',
         args: {
-          topic: z.string().optional().describe('Optional: focus the suggestion around a specific area/keyword'),
+          action: z.enum(['metrics', 'suggest_next']).describe('metrics = show all growth metrics; suggest_next = suggest the next thing to learn'),
+          topic: z.string().optional().describe('suggest_next only: focus the suggestion around a specific area/keyword'),
         },
         async execute(args) {
-          const progress = loadJson(USER_PROGRESS_FILE, () => ({ topics: {} }));
-          const topics = progress.topics || {};
+          switch (args.action) {
+            case 'metrics': {
+              ensure(GROWTH_DIR);
+              const self = loadJson(SELF_LESSONS_FILE, () => ({ lessons: [], sessionCount: 0, lastReview: null }));
+              const agents = loadJson(AGENT_HISTORY_FILE, () => ({}));
+              const progress = loadJson(USER_PROGRESS_FILE, () => ({ topics: {}, milestones: [] }));
 
-          // If a focus topic is given, report its status + a concrete next step.
-          if (args.topic) {
-            const focus = extractTopics(args.topic)[0];
-            if (focus) {
-              const t = topics[focus] || { exposures: 0, level: 'new' };
-              const nextGoal = t.level === 'comfortable'
-                ? 'You are comfortable here — consider teaching it or tackling an advanced edge case.'
-                : t.level === 'growing'
-                  ? `Keep going — ${LEVEL_COMFORTABLE - t.exposures} more focused sessions to reach "comfortable".`
-                  : 'Early days — take on a small hands-on task to build a foundation.';
-              return { output: `${TOPICS[focus].label}: ${t.exposures} exposures (${t.level}).\n${nextGoal}` };
+              const out = [];
+
+              // Self-growth
+              out.push(`## Zara Self-Growth`);
+              out.push(`Sessions: ${self.sessionCount || 0} | Next review in ${REVIEW_EVERY - ((self.sessionCount || 0) % REVIEW_EVERY)} session(s) | Last review: ${self.lastReview || 'never'}`);
+              if ((self.lessons || []).length) {
+                for (const l of self.lessons) {
+                  out.push(`- (${Math.round((l.confidence || 0) * 100)}%, applied ${l.appliedCount || 0}x) ${l.pattern} → ${l.fix}`);
+                }
+              } else {
+                out.push('- No lessons synthesized yet (needs failure/partial reflections).');
+              }
+
+              // Agent-growth
+              out.push(`\n## Agent Growth`);
+              const agentKeys = Object.keys(agents);
+              if (agentKeys.length) {
+                for (const name of agentKeys) {
+                  const r = agents[name];
+                  const total = r.successes + r.failures;
+                  const rate = total ? Math.round((r.failures / total) * 100) : 0;
+                  out.push(`- @${name}: ${r.successes}✓ / ${r.failures}✗ (${rate}% fail)${r.patterns?.length ? ` — ${r.patterns[0]}` : ''}`);
+                }
+              } else {
+                out.push('- No dispatch history yet.');
+              }
+
+              // User-growth
+              out.push(`\n## User Growth`);
+              const entries = Object.entries(progress.topics || {}).sort((a, b) => b[1].exposures - a[1].exposures);
+              if (entries.length) {
+                for (const [k, t] of entries) {
+                  out.push(`- ${TOPICS[k]?.label || k}: ${t.exposures} exposures → ${t.level}`);
+                }
+                const recentMilestones = (progress.milestones || []).slice(-3);
+                if (recentMilestones.length) {
+                  out.push(`\nRecent milestones:`);
+                  for (const m of recentMilestones) out.push(`- ${TOPICS[m.topic]?.label || m.topic}: ${m.milestone} (${m.date?.split('T')[0]})`);
+                }
+              } else {
+                out.push('- No topic exposure tracked yet.');
+              }
+
+              return { output: out.join('\n') };
             }
-          }
 
-          const entries = Object.entries(topics);
-          // Candidate = a topic with some exposure but not yet comfortable (growth edge),
-          // preferring the one closest to leveling up.
-          const growing = entries
-            .filter(([, t]) => t.level === 'growing')
-            .sort((a, b) => b[1].exposures - a[1].exposures);
-          if (growing.length) {
-            const [k, t] = growing[0];
-            return { output: `Suggest next: **${TOPICS[k]?.label || k}**. You're growing here (${t.exposures} exposures) — ${LEVEL_COMFORTABLE - t.exposures} more focused sessions to reach "comfortable". Want to go deeper on it?` };
-          }
+            case 'suggest_next': {
+              const progress = loadJson(USER_PROGRESS_FILE, () => ({ topics: {} }));
+              const topics = progress.topics || {};
 
-          // Otherwise suggest an untouched high-value area.
-          const untouched = Object.keys(TOPICS).find(k => !topics[k]);
-          if (untouched) {
-            return { output: `Suggest next: **${TOPICS[untouched].label}** — a new frontier you haven't explored yet. Want an intro?` };
-          }
+              // If a focus topic is given, report its status + a concrete next step.
+              if (args.topic) {
+                const focus = extractTopics(args.topic)[0];
+                if (focus) {
+                  const t = topics[focus] || { exposures: 0, level: 'new' };
+                  const nextGoal = t.level === 'comfortable'
+                    ? 'You are comfortable here — consider teaching it or tackling an advanced edge case.'
+                    : t.level === 'growing'
+                      ? `Keep going — ${LEVEL_COMFORTABLE - t.exposures} more focused sessions to reach "comfortable".`
+                      : 'Early days — take on a small hands-on task to build a foundation.';
+                  return { output: `${TOPICS[focus].label}: ${t.exposures} exposures (${t.level}).\n${nextGoal}` };
+                }
+              }
 
-          return { output: 'No obvious gap — you have broad exposure across tracked topics. Pick an advanced project to deepen mastery.' };
+              const entries = Object.entries(topics);
+              // Candidate = a topic with some exposure but not yet comfortable (growth edge),
+              // preferring the one closest to leveling up.
+              const growing = entries
+                .filter(([, t]) => t.level === 'growing')
+                .sort((a, b) => b[1].exposures - a[1].exposures);
+              if (growing.length) {
+                const [k, t] = growing[0];
+                return { output: `Suggest next: **${TOPICS[k]?.label || k}**. You're growing here (${t.exposures} exposures) — ${LEVEL_COMFORTABLE - t.exposures} more focused sessions to reach "comfortable". Want to go deeper on it?` };
+              }
+
+              // Otherwise suggest an untouched high-value area.
+              const untouched = Object.keys(TOPICS).find(k => !topics[k]);
+              if (untouched) {
+                return { output: `Suggest next: **${TOPICS[untouched].label}** — a new frontier you haven't explored yet. Want an intro?` };
+              }
+
+              return { output: 'No obvious gap — you have broad exposure across tracked topics. Pick an advanced project to deepen mastery.' };
+            }
+
+            default:
+              return { output: `Unknown action: ${args.action}. Use "metrics" or "suggest_next".` };
+          }
         },
       }),
     },

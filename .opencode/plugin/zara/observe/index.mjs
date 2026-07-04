@@ -222,21 +222,6 @@ export default function createObserve({ client, directory } = {}) {
           return { output: `${issues.length} issue(s)\n${lines.join('\n')}` };
         },
       }),
-
-      zara_cache_stats: tool({
-        description: 'Cache stats.',
-        args: {},
-        async execute() {
-          const s = cache.stats();
-          return { output: `Cache: ${s.entries} entries | ${s.hitRate}% hit (${s.hits}/${s.hits + s.misses})` };
-        },
-      }),
-
-      zara_cache_clear: tool({
-        description: 'Clear cache.',
-        args: {},
-        async execute() { cache.clear(); return { output: 'Cleared.' }; },
-      }),
     },
   };
 }

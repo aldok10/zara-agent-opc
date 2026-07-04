@@ -275,267 +275,237 @@ export default function createEvolve({ client, directory } = {}) {
     // ── Tools ──────────────────────────────────────────────────────────────
 
     tools: {
-      // ── Evolve Tools ────────────────────────────────────────────────────
-
-      evolve_crystallize: tool({
-        description: 'Save repeated pattern as reusable micro-tool.',
+      zara_evolve: tool({
+        description: 'Evolve system. action: micro_save|micro_find|rule_create|rule_list|rule_check|compact|scratch_write|scratch_read|plan_set|background_spawn|background_status',
         args: {
-          name: z.string().describe('Micro-tool name (e.g. "go-test-debug", "pr-review-checklist")'),
-          trigger: z.string().describe('When to use this (situation description)'),
-          steps: z.array(z.string()).describe('Exact steps to follow'),
-          tools: z.array(z.string()).optional().describe('Which tools to call in sequence'),
-          notes: z.string().optional().describe('Additional context or caveats'),
-        },
-        async execute(args) {
-          const microTools = loadJson(MICRO_TOOLS_FILE, []);
-          const existing = microTools.findIndex(t => t.name === args.name);
-          const entry = {
-            name: args.name,
-            trigger: args.trigger,
-            steps: args.steps,
-            tools: args.tools || [],
-            notes: args.notes || '',
-            uses: existing >= 0 ? (microTools[existing].uses || 0) + 1 : 0,
-            createdAt: existing >= 0 ? microTools[existing].createdAt : new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-          };
-
-          if (existing >= 0) microTools[existing] = entry;
-          else microTools.push(entry);
-
-          saveJson(MICRO_TOOLS_FILE, microTools);
-          return { output: `Micro-tool crystallized: "${args.name}" (${args.steps.length} steps). Will be suggested when trigger matches.` };
-        },
-      }),
-
-      evolve_lookup: tool({
-        description: 'Find matching micro-tools for current task.',
-        args: {
-          situation: z.string().describe('Describe what you are about to do'),
-        },
-        async execute(args) {
-          const microTools = loadJson(MICRO_TOOLS_FILE, []);
-          if (!microTools.length) return { output: 'No micro-tools yet. Build them via evolve_crystallize after completing repeated tasks.' };
-
-          const terms = args.situation.toLowerCase().split(/\s+/).filter(w => w.length >= 3);
-          const matched = microTools.filter(t => {
-            const text = `${t.name} ${t.trigger} ${t.steps.join(' ')}`.toLowerCase();
-            return terms.filter(term => text.includes(term)).length >= 2;
-          });
-
-          if (!matched.length) return { output: 'No matching micro-tools. Proceed manually and crystallize if it becomes a pattern.' };
-
-          const lines = matched.map(t => [
-            `### ${t.name} (used ${t.uses}x)`,
-            `**When**: ${t.trigger}`,
-            `**Steps**: ${t.steps.map((s, i) => `${i + 1}. ${s}`).join('\n')}`,
-            t.tools.length ? `**Tools**: ${t.tools.join(', ')}` : '',
-            t.notes ? `**Notes**: ${t.notes}` : '',
-          ].filter(Boolean).join('\n'));
-
-          return { output: lines.join('\n\n') };
-        },
-      }),
-
-      evolve_rule: tool({
-        description: 'Create workflow rule (when X, do Y).',
-        args: {
-          when: z.string().describe('Trigger condition (natural language, e.g. "user asks about Go performance")'),
-          then: z.string().describe('Action to take (e.g. "load golang-expert skill, check benchmarks first")'),
-          priority: z.enum(['high', 'medium', 'low']).optional().describe('Rule priority (default medium)'),
-        },
-        async execute(args) {
-          const rules = loadJson(RULES_FILE, []);
-          rules.push({
-            when: args.when,
-            then: args.then,
-            priority: args.priority || 'medium',
-            createdAt: new Date().toISOString(),
-            fired: 0,
-          });
-          saveJson(RULES_FILE, rules);
-          return { output: `Rule created: WHEN "${args.when}" → THEN "${args.then}"` };
-        },
-      }),
-
-      evolve_rules: tool({
-        description: 'List all workflow rules.',
-        args: {},
-        async execute() {
-          const rules = loadJson(RULES_FILE, []);
-          if (!rules.length) return { output: 'No workflow rules defined yet.' };
-          const lines = rules.map((r, i) =>
-            `${i + 1}. [${r.priority}] WHEN "${r.when}" → THEN "${r.then}" (fired ${r.fired}x)`
-          );
-          return { output: lines.join('\n') };
-        },
-      }),
-
-      evolve_check_rules: tool({
-        description: 'Check rules matching current situation.',
-        args: {
-          situation: z.string().describe('Describe current task/context'),
-        },
-        async execute(args) {
-          const rules = loadJson(RULES_FILE, []);
-          if (!rules.length) return { output: 'No rules to check.' };
-
-          const terms = args.situation.toLowerCase().split(/\s+/).filter(w => w.length >= 3);
-          const matched = rules.filter(r => {
-            const text = r.when.toLowerCase();
-            return terms.filter(t => text.includes(t)).length >= 2;
-          });
-
-          if (!matched.length) return { output: 'No rules match this situation.' };
-
-          for (const m of matched) m.fired++;
-          saveJson(RULES_FILE, rules);
-
-          const lines = matched
-            .sort((a, b) => ({ high: 3, medium: 2, low: 1 }[b.priority] || 2) - ({ high: 3, medium: 2, low: 1 }[a.priority] || 2))
-            .map(r => `- [${r.priority}] **${r.then}** (because: ${r.when})`);
-          return { output: `## Matching Rules\n${lines.join('\n')}` };
-        },
-      }),
-
-      // ── Compaction Tools ────────────────────────────────────────────────
-
-      zara_compact: tool({
-        description: 'Compact working state to preserve context.',
-        args: {
-          activeTasks: z.array(z.string()).describe('Tasks currently in progress'),
-          completedTasks: z.array(z.string()).optional().describe('Tasks completed this session'),
-          keyDecisions: z.array(z.string()).describe('Important decisions made (preserve these)'),
-          activeFiles: z.array(z.string()).optional().describe('Files currently being worked on'),
-          openQuestions: z.array(z.string()).optional().describe('Unresolved questions'),
-          summary: z.string().describe('Compressed summary of work so far — what matters for continuation'),
-        },
-        async execute(args) {
-          ensure(COMPACT_DIR);
-          const snapshot = {
-            id: uid('compact'),
-            ts: new Date().toISOString(),
-            project: directory || process.cwd(),
-            ...args,
-          };
-
-          const file = path.join(COMPACT_DIR, `${snapshot.id}.json`);
-          fs.writeFileSync(file, JSON.stringify(snapshot, null, 2), 'utf-8');
-
-          const files = fs.readdirSync(COMPACT_DIR)
-            .filter(f => f.startsWith('compact-') && f.endsWith('.json'))
-            .sort()
-            .reverse();
-          for (const old of files.slice(10)) {
-            try { fs.unlinkSync(path.join(COMPACT_DIR, old)); } catch {}
-          }
-
-          return {
-            output: [
-              `Context compacted → ${snapshot.id}`,
-              `Active: ${args.activeTasks.join(', ')}`,
-              `Decisions preserved: ${args.keyDecisions.length}`,
-              '',
-              'You can now proceed with reduced context. The summary above is your working state.',
-            ].join('\n'),
-          };
-        },
-      }),
-
-      // ── Scratchpad Tools ────────────────────────────────────────────────
-
-      scratch_note: tool({
-        description: 'Write scratchpad note.',
-        args: {
-          content: z.string().describe('The note content'),
-          tag: z.enum(['finding', 'hypothesis', 'decision', 'blocker', 'todo', 'learning']).optional().describe('Note category'),
-        },
-        async execute(args) {
-          const data = loadScratch(scratchFilepath);
-          data.notes.push({
-            content: args.content,
-            tag: args.tag || 'finding',
-            ts: new Date().toISOString(),
-          });
-          if (data.notes.length > 50) data.notes = data.notes.slice(-50);
-          saveScratch(scratchFilepath, data);
-          return { output: `Note saved (${args.tag || 'finding'}). Total: ${data.notes.length}` };
-        },
-      }),
-
-      scratch_plan: tool({
-        description: 'Set current working plan.',
-        args: {
-          plan: z.string().describe('The current plan (overwrites previous)'),
-        },
-        async execute(args) {
-          const data = loadScratch(scratchFilepath);
-          data.plan = { content: args.plan, ts: new Date().toISOString() };
-          saveScratch(scratchFilepath, data);
-          return { output: 'Plan updated.' };
-        },
-      }),
-
-      scratch_read: tool({
-        description: 'Read scratchpad.',
-        args: {
-          limit: z.number().optional().describe('Max notes to return (default 10)'),
-        },
-        async execute(args) {
-          const data = loadScratch(scratchFilepath);
-          const limit = args.limit || 10;
-          const parts = [];
-
-          if (data.plan) {
-            parts.push(`## Plan\n${data.plan.content}\n(set: ${data.plan.ts})`);
-          }
-
-          const recent = data.notes.slice(-limit);
-          if (recent.length) {
-            parts.push(`## Notes (${recent.length}/${data.notes.length})`);
-            for (const n of recent) {
-              parts.push(`- [${n.tag}] ${n.content}`);
-            }
-          }
-
-          return { output: parts.length ? parts.join('\n\n') : 'Scratchpad is empty.' };
-        },
-      }),
-
-      // ── Background Agent Tools ──────────────────────────────────────────
-
-      zara_background: tool({
-        description: 'Spawn background agent task.',
-        args: {
-          agent: z.string().describe('Agent to dispatch (e.g., architect, testing-lead)'),
-          prompt: z.string().describe('Task prompt for the agent'),
+          action: z.enum([
+            'micro_save', 'micro_find', 'rule_create', 'rule_list', 'rule_check',
+            'compact', 'scratch_write', 'scratch_read', 'plan_set',
+            'background_spawn', 'background_status',
+          ]).describe('Action to perform'),
+          // ── Union of all args from individual tools (all optional) ──
+          // micro_save
+          name: z.string().optional().describe('[micro_save] Micro-tool name (e.g. "go-test-debug")'),
+          trigger: z.string().optional().describe('[micro_save] When to use this (situation description)'),
+          steps: z.array(z.string()).optional().describe('[micro_save] Exact steps to follow'),
+          tools: z.array(z.string()).optional().describe('[micro_save] Which tools to call in sequence'),
+          notes: z.string().optional().describe('[micro_save] Additional context or caveats'),
+          // micro_find / rule_check
+          situation: z.string().optional().describe('[micro_find|rule_check] Describe what you are about to do / current task'),
+          // rule_create
+          when: z.string().optional().describe('[rule_create] Trigger condition (natural language)'),
+          then: z.string().optional().describe('[rule_create] Action to take'),
+          priority: z.enum(['high', 'medium', 'low']).optional().describe('[rule_create] Rule priority (default medium)'),
+          // compact
+          activeTasks: z.array(z.string()).optional().describe('[compact] Tasks currently in progress'),
+          completedTasks: z.array(z.string()).optional().describe('[compact] Tasks completed this session'),
+          keyDecisions: z.array(z.string()).optional().describe('[compact] Important decisions made (preserve these)'),
+          activeFiles: z.array(z.string()).optional().describe('[compact] Files currently being worked on'),
+          openQuestions: z.array(z.string()).optional().describe('[compact] Unresolved questions'),
+          summary: z.string().optional().describe('[compact] Compressed summary of work so far'),
+          // scratch_write
+          content: z.string().optional().describe('[scratch_write] The note content'),
+          tag: z.enum(['finding', 'hypothesis', 'decision', 'blocker', 'todo', 'learning']).optional().describe('[scratch_write] Note category'),
+          // plan_set
+          plan: z.string().optional().describe('[plan_set] The current plan (overwrites previous)'),
+          // scratch_read
+          limit: z.number().optional().describe('[scratch_read] Max notes to return (default 10)'),
+          // background_spawn
+          agent: z.string().optional().describe('[background_spawn] Agent to dispatch (e.g., architect)'),
+          prompt: z.string().optional().describe('[background_spawn] Task prompt for the agent'),
+          // background_status
+          collect: z.string().optional().describe('[background_status] Task ID to collect result from (e.g., bg-1)'),
         },
         async execute(args, ctx) {
-          if (!client) return { output: 'No client available for background dispatch.' };
-          const sessionID = ctx?.sessionID;
-          if (!sessionID) return { output: 'No session context for background dispatch.' };
-          const result = spawnBackground(client, sessionID, args.agent, args.prompt);
-          if (result.error) return { output: `Error: ${result.error}` };
-          return { output: `Background task ${result.id} started: @${result.agent} is working on it.` };
-        },
-      }),
+          switch (args.action) {
+            // ── Evolve: micro-tools ──────────────────────────────────────
+            case 'micro_save': {
+              const microTools = loadJson(MICRO_TOOLS_FILE, []);
+              const existing = microTools.findIndex(t => t.name === args.name);
+              const entry = {
+                name: args.name,
+                trigger: args.trigger,
+                steps: args.steps,
+                tools: args.tools || [],
+                notes: args.notes || '',
+                uses: existing >= 0 ? (microTools[existing].uses || 0) + 1 : 0,
+                createdAt: existing >= 0 ? microTools[existing].createdAt : new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
+              };
 
-      zara_background_status: tool({
-        description: 'Check background task status.',
-        args: {
-          collect: z.string().optional().describe('Task ID to collect result from (e.g., bg-1)'),
-        },
-        async execute(args) {
-          if (args.collect) {
-            const result = collectBackground(args.collect);
-            if (result.error) return { output: `Error: ${result.error}` };
-            if (result.status === 'still running') return { output: `Task ${args.collect} still running (${Math.round(result.elapsed / 1000)}s elapsed)` };
-            return { output: `## Background Result: ${result.agent}\n\n${(result.result || result.error || 'no output').slice(0, 2000)}` };
+              if (existing >= 0) microTools[existing] = entry;
+              else microTools.push(entry);
+
+              saveJson(MICRO_TOOLS_FILE, microTools);
+              return { output: `Micro-tool crystallized: "${args.name}" (${args.steps.length} steps). Will be suggested when trigger matches.` };
+            }
+
+            case 'micro_find': {
+              const microTools = loadJson(MICRO_TOOLS_FILE, []);
+              if (!microTools.length) return { output: 'No micro-tools yet. Build them via zara_evolve(action:"micro_save") after completing repeated tasks.' };
+
+              const terms = args.situation.toLowerCase().split(/\s+/).filter(w => w.length >= 3);
+              const matched = microTools.filter(t => {
+                const text = `${t.name} ${t.trigger} ${t.steps.join(' ')}`.toLowerCase();
+                return terms.filter(term => text.includes(term)).length >= 2;
+              });
+
+              if (!matched.length) return { output: 'No matching micro-tools. Proceed manually and crystallize if it becomes a pattern.' };
+
+              const lines = matched.map(t => [
+                `### ${t.name} (used ${t.uses}x)`,
+                `**When**: ${t.trigger}`,
+                `**Steps**: ${t.steps.map((s, i) => `${i + 1}. ${s}`).join('\n')}`,
+                t.tools.length ? `**Tools**: ${t.tools.join(', ')}` : '',
+                t.notes ? `**Notes**: ${t.notes}` : '',
+              ].filter(Boolean).join('\n'));
+
+              return { output: lines.join('\n\n') };
+            }
+
+            // ── Evolve: rules ────────────────────────────────────────────
+            case 'rule_create': {
+              const rules = loadJson(RULES_FILE, []);
+              rules.push({
+                when: args.when,
+                then: args.then,
+                priority: args.priority || 'medium',
+                createdAt: new Date().toISOString(),
+                fired: 0,
+              });
+              saveJson(RULES_FILE, rules);
+              return { output: `Rule created: WHEN "${args.when}" → THEN "${args.then}"` };
+            }
+
+            case 'rule_list': {
+              const rules = loadJson(RULES_FILE, []);
+              if (!rules.length) return { output: 'No workflow rules defined yet.' };
+              const lines = rules.map((r, i) =>
+                `${i + 1}. [${r.priority}] WHEN "${r.when}" → THEN "${r.then}" (fired ${r.fired}x)`
+              );
+              return { output: lines.join('\n') };
+            }
+
+            case 'rule_check': {
+              const rules = loadJson(RULES_FILE, []);
+              if (!rules.length) return { output: 'No rules to check.' };
+
+              const terms = args.situation.toLowerCase().split(/\s+/).filter(w => w.length >= 3);
+              const matched = rules.filter(r => {
+                const text = r.when.toLowerCase();
+                return terms.filter(t => text.includes(t)).length >= 2;
+              });
+
+              if (!matched.length) return { output: 'No rules match this situation.' };
+
+              for (const m of matched) m.fired++;
+              saveJson(RULES_FILE, rules);
+
+              const lines = matched
+                .sort((a, b) => ({ high: 3, medium: 2, low: 1 }[b.priority] || 2) - ({ high: 3, medium: 2, low: 1 }[a.priority] || 2))
+                .map(r => `- [${r.priority}] **${r.then}** (because: ${r.when})`);
+              return { output: `## Matching Rules\n${lines.join('\n')}` };
+            }
+
+            // ── Compaction ───────────────────────────────────────────────
+            case 'compact': {
+              ensure(COMPACT_DIR);
+              const { action, ...compactArgs } = args;
+              const snapshot = {
+                id: uid('compact'),
+                ts: new Date().toISOString(),
+                project: directory || process.cwd(),
+                ...compactArgs,
+              };
+
+              const file = path.join(COMPACT_DIR, `${snapshot.id}.json`);
+              fs.writeFileSync(file, JSON.stringify(snapshot, null, 2), 'utf-8');
+
+              const files = fs.readdirSync(COMPACT_DIR)
+                .filter(f => f.startsWith('compact-') && f.endsWith('.json'))
+                .sort()
+                .reverse();
+              for (const old of files.slice(10)) {
+                try { fs.unlinkSync(path.join(COMPACT_DIR, old)); } catch {}
+              }
+
+              return {
+                output: [
+                  `Context compacted → ${snapshot.id}`,
+                  `Active: ${args.activeTasks.join(', ')}`,
+                  `Decisions preserved: ${args.keyDecisions.length}`,
+                  '',
+                  'You can now proceed with reduced context. The summary above is your working state.',
+                ].join('\n'),
+              };
+            }
+
+            // ── Scratchpad ───────────────────────────────────────────────
+            case 'scratch_write': {
+              const data = loadScratch(scratchFilepath);
+              data.notes.push({
+                content: args.content,
+                tag: args.tag || 'finding',
+                ts: new Date().toISOString(),
+              });
+              if (data.notes.length > 50) data.notes = data.notes.slice(-50);
+              saveScratch(scratchFilepath, data);
+              return { output: `Note saved (${args.tag || 'finding'}). Total: ${data.notes.length}` };
+            }
+
+            case 'plan_set': {
+              const data = loadScratch(scratchFilepath);
+              data.plan = { content: args.plan, ts: new Date().toISOString() };
+              saveScratch(scratchFilepath, data);
+              return { output: 'Plan updated.' };
+            }
+
+            case 'scratch_read': {
+              const data = loadScratch(scratchFilepath);
+              const limit = args.limit || 10;
+              const parts = [];
+
+              if (data.plan) {
+                parts.push(`## Plan\n${data.plan.content}\n(set: ${data.plan.ts})`);
+              }
+
+              const recent = data.notes.slice(-limit);
+              if (recent.length) {
+                parts.push(`## Notes (${recent.length}/${data.notes.length})`);
+                for (const n of recent) {
+                  parts.push(`- [${n.tag}] ${n.content}`);
+                }
+              }
+
+              return { output: parts.length ? parts.join('\n\n') : 'Scratchpad is empty.' };
+            }
+
+            // ── Background Agents ────────────────────────────────────────
+            case 'background_spawn': {
+              if (!client) return { output: 'No client available for background dispatch.' };
+              const sessionID = ctx?.sessionID;
+              if (!sessionID) return { output: 'No session context for background dispatch.' };
+              const result = spawnBackground(client, sessionID, args.agent, args.prompt);
+              if (result.error) return { output: `Error: ${result.error}` };
+              return { output: `Background task ${result.id} started: @${result.agent} is working on it.` };
+            }
+
+            case 'background_status': {
+              if (args.collect) {
+                const result = collectBackground(args.collect);
+                if (result.error) return { output: `Error: ${result.error}` };
+                if (result.status === 'still running') return { output: `Task ${args.collect} still running (${Math.round(result.elapsed / 1000)}s elapsed)` };
+                return { output: `## Background Result: ${result.agent}\n\n${(result.result || result.error || 'no output').slice(0, 2000)}` };
+              }
+              const status = backgroundStatus();
+              if (!status.length) return { output: 'No background tasks.' };
+              const lines = status.map(t => `- ${t.id} (@${t.agent}): ${t.done ? 'done' : `running ${Math.round(t.elapsed / 1000)}s`}${t.error ? ` [error: ${t.error}]` : ''}`);
+              return { output: `## Background Tasks (${pendingCount()} pending)\n\n${lines.join('\n')}` };
+            }
+
+            default:
+              return { output: `Unknown action: ${args.action}` };
           }
-          const status = backgroundStatus();
-          if (!status.length) return { output: 'No background tasks.' };
-          const lines = status.map(t => `- ${t.id} (@${t.agent}): ${t.done ? 'done' : `running ${Math.round(t.elapsed / 1000)}s`}${t.error ? ` [error: ${t.error}]` : ''}`);
-          return { output: `## Background Tasks (${pendingCount()} pending)\n\n${lines.join('\n')}` };
         },
       }),
     },

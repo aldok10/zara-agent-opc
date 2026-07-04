@@ -185,43 +185,47 @@ export default function createEmpathy({ client, directory } = {}) {
     dispose() {},
 
     tools: {
-      zara_empathy_status: tool({
-        description: 'Current emotional state.',
-        args: {},
-        async execute() {
-          if (!currentSession) return { output: 'No active session.' };
-          return {
-            output: [
-              `**Energy**: ${(currentSession.energy * 100).toFixed(0)}%`,
-              `**Sentiment**: ${(currentSession.sentiment * 100).toFixed(0)}%`,
-              `**Frustration signals**: ${currentSession.frustrationSignals}`,
-              `**Corrections**: ${currentSession.correctionCount}`,
-              `**Messages**: ${currentSession.messageCount}`,
-            ].join('\n'),
-          };
-        },
-      }),
-
-      // ── Growth Tracking Tools ──────────────────────────────────────────
-
-      zara_growth_record: tool({
-        description: 'Record skill observation (1-5).',
+      zara_empathy: tool({
+        description: 'Empathy + growth tracking. action: state (current emotional state) | skill_record (record a skill observation 1-5).',
         args: {
-          skill: z.string().describe('Skill name (e.g. "go-concurrency", "system-design", "ai-agents")'),
-          level: z.number().min(1).max(5).describe('Observed level (1=novice, 5=expert)'),
-          context: z.string().optional().describe('What demonstrated this level'),
+          action: z.enum(['state', 'skill_record']).describe('state = current emotional state; skill_record = record a skill observation'),
+          skill: z.string().optional().describe('skill_record only: skill name (e.g. "go-concurrency", "system-design", "ai-agents")'),
+          level: z.number().min(1).max(5).optional().describe('skill_record only: observed level (1=novice, 5=expert)'),
+          context: z.string().optional().describe('skill_record only: what demonstrated this level'),
         },
         async execute(args) {
-          if (!growthTracker) {
-            const data = store.readJSON('growth.json', null);
-            growthTracker = new GrowthTracker(data);
+          switch (args.action) {
+            case 'state': {
+              if (!currentSession) return { output: 'No active session.' };
+              return {
+                output: [
+                  `**Energy**: ${(currentSession.energy * 100).toFixed(0)}%`,
+                  `**Sentiment**: ${(currentSession.sentiment * 100).toFixed(0)}%`,
+                  `**Frustration signals**: ${currentSession.frustrationSignals}`,
+                  `**Corrections**: ${currentSession.correctionCount}`,
+                  `**Messages**: ${currentSession.messageCount}`,
+                ].join('\n'),
+              };
+            }
+
+            case 'skill_record': {
+              if (!args.skill || typeof args.level !== 'number') {
+                return { output: 'skill_record requires "skill" and "level" (1-5).' };
+              }
+              if (!growthTracker) {
+                const data = store.readJSON('growth.json', null);
+                growthTracker = new GrowthTracker(data);
+              }
+              const result = growthTracker.recordObservation(args.skill.toLowerCase(), args.level, args.context);
+              store.writeJSON('growth.json', { skills: growthTracker.skills, domains: growthTracker.domains, milestones: growthTracker.milestones });
+              return { output: `Recorded ${args.skill}: level ${result.level} (confidence: ${(result.confidence * 100).toFixed(0)}%)` };
+            }
+
+            default:
+              return { output: `Unknown action: ${args.action}. Use "state" or "skill_record".` };
           }
-          const result = growthTracker.recordObservation(args.skill.toLowerCase(), args.level, args.context);
-          store.writeJSON('growth.json', { skills: growthTracker.skills, domains: growthTracker.domains, milestones: growthTracker.milestones });
-          return { output: `Recorded ${args.skill}: level ${result.level} (confidence: ${(result.confidence * 100).toFixed(0)}%)` };
         },
       }),
-
     },
   };
 }

@@ -36,6 +36,8 @@ export default function createObserve({ client, directory } = {}) {
       if (event.type === 'session.ended') trace.endSession();
     },
 
+    getCompressor() { return compressor; },
+
     beforeTool(input) {
       const toolName = input?.name || input?.tool || 'unknown';
       const toolArgs = input?.args || {};
@@ -98,7 +100,12 @@ export default function createObserve({ client, directory } = {}) {
 
     onResponse(res) {
       if (res?.content) {
-        trace.onMessage(typeof res.content === 'string' ? res.content : '');
+        const text = typeof res.content === 'string' ? res.content : '';
+        trace.onMessage(text);
+        // Detect responses without tool calls (potential premature stop)
+        if (!res.tool_calls?.length && text.length > 0) {
+          monitor.recordResponseWithoutTools(text);
+        }
       }
     },
 
@@ -125,7 +132,18 @@ export default function createObserve({ client, directory } = {}) {
     },
 
     transformMessages(messages) {
-      try { return compressor.transform(messages); }
+      try {
+        // Normal transform (always applied)
+        let result = compressor.transform(messages);
+
+        // If message count is high, apply pre-compaction layer
+        if (result.length > 30) {
+          const { messages: preCompacted } = compressor.preCompact(result);
+          result = preCompacted;
+        }
+
+        return result;
+      }
       catch { return messages; }
     },
 

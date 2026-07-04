@@ -64,8 +64,11 @@ export async function server({ client, directory }) {
       return { messages };
     },
 
-    // Session compacting (OpenCode built-in)
+    // Session compacting (OpenCode built-in) — multi-layer strategy
     'experimental.session.compacting': async (input, output) => {
+      // Layer 1: Pre-compaction tool result trimming (zero LLM cost)
+      const compressor = observe.getCompressor?.() || null;
+
       // Support both old format (no args) and new format (input, output with context[])
       if (output?.context) {
         // New OpenCode API: push to output.context array
@@ -73,6 +76,10 @@ export async function server({ client, directory }) {
           const result = m.onCompact?.();
           if (result?.context) output.context.push(result.context);
         });
+        // Add pre-compaction context about what was trimmed
+        if (compressor) {
+          output.context.push(`[Pre-compaction] Total tokens saved by tool result pruning: ${compressor.totalPruned}`);
+        }
       } else {
         // Legacy fallback
         const contexts = [];

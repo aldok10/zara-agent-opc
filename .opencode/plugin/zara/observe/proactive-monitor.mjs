@@ -1,4 +1,4 @@
-// Proactive Monitor — nudge budgeting, repetition detection, verify/skill gates
+// Proactive Monitor — nudge budgeting, repetition detection, verify/skill gates, stuck loop detection
 // Encapsulates the proactive-intelligence concern so observe/index.mjs stays a
 // thin composition root.
 
@@ -6,6 +6,7 @@ import { hash } from '../infra/store.mjs';
 import { SkillSuggester } from './skill-suggest.mjs';
 import { scorePatch, trustLevel } from './trust-score.mjs';
 import { FlowDetector } from '../empathy/flow-detector.mjs';
+import { StuckLoopDetector } from './stuck-detector.mjs';
 
 class NudgeBudget {
   #count = 0;
@@ -16,13 +17,15 @@ class NudgeBudget {
   constructor(flowDetector) { this.#flow = flowDetector; }
   tick() { this.#turn++; }
   canNudge(key) {
-    if (this.#count >= 3) return false;
-    if (this.#turn - this.#lastTurn < 5) return false;
+    if (this.#count >= 5) return false; // raised from 3 to 5 for loop detection needs
+    if (this.#turn - this.#lastTurn < 3) return false; // reduced gap from 5 to 3 for faster stuck detection
     if (this.#fired.has(key)) return false;
     if (this.#flow.isInFlow()) return false;
     return true;
   }
   spend(key) { this.#count++; this.#lastTurn = this.#turn; this.#fired.add(key); }
+  // Allow re-firing loop detection nudges (they should fire each time a new pattern occurs)
+  clear(key) { this.#fired.delete(key); }
 }
 
 class RepetitionDetector {
@@ -46,9 +49,10 @@ class RepetitionDetector {
 export class ProactiveMonitor {
   #budget;
   #repetition = new RepetitionDetector();
+  #stuckDetector = new StuckLoopDetector();
   #skillSuggester = new SkillSuggester();
   #flowDetector = new FlowDetector();
-  #pendingNudge = null;
+  #pendingNudges = [];
 
   // Verification gate
   #VERIFY_RE = /\b(test|jest|vitest|mocha|pytest|go\s+test|cargo\s+test|npm\s+test|node\s+--test|make\s+test|lint|eslint|tsc|golangci-lint|phpstan|phpunit)\b/i;
@@ -60,17 +64,37 @@ export class ProactiveMonitor {
   #codeEditsWithoutSkill = 0;
   #skillGateNudged = false;
 
+  // Premature termination detection
+  #lastAssistantHadNextSteps = false;
+  #lastAssistantEndedWithSummary = false;
+
   constructor() {
     this.#budget = new NudgeBudget(this.#flowDetector);
   }
 
-  // Called from afterTool: track repetition, verify/skill gates, trust scoring
+  // Called from afterTool: track repetition, stuck loops, verify/skill gates, trust scoring
   recordTool(toolName, input, output, success) {
-    // Repetition detection
-    this.#repetition.record(toolName, hash(JSON.stringify(input?.args || '')), success);
+    const argsHash = hash(JSON.stringify(input?.args || ''));
+    const outputHash = output?.output ? hash(typeof output.output === 'string' ? output.output.slice(0, 500) : '') : '';
+
+    // Stuck loop detection
+    this.#stuckDetector.record(toolName, argsHash, outputHash, success);
+    const stuck = this.#stuckDetector.detect();
+    if (stuck) {
+      const budgetKey = `stuck:${stuck.type}`;
+      // Always clear previous stuck nudge of same type to allow re-firing
+      this.#budget.clear(budgetKey);
+      if (this.#budget.canNudge(budgetKey)) {
+        this.#pendingNudges.push(stuck.message);
+        this.#budget.spend(budgetKey);
+      }
+    }
+
+    // Legacy repetition detection (3x same failed tool)
+    this.#repetition.record(toolName, argsHash, success);
     const repKey = this.#repetition.detect();
     if (repKey && this.#budget.canNudge(repKey)) {
-      this.#pendingNudge = '[Observe] Same tool failed 3x consecutively. Step back and diagnose root cause.';
+      this.#pendingNudges.push('[Observe] Same tool failed 3x consecutively. Step back and diagnose root cause.');
       this.#budget.spend(repKey);
     }
 
@@ -84,7 +108,7 @@ export class ProactiveMonitor {
       const trust = scorePatch({ filePath, linesChanged, toolName });
       const level = trustLevel(trust);
       if (level === 'dangerous') {
-        this.#pendingNudge = `[Trust] Risky edit detected (${filePath}, score ${trust.toFixed(2)}). Verify before continuing.`;
+        this.#pendingNudges.push(`[Trust] Risky edit detected (${filePath}, score ${trust.toFixed(2)}). Verify before continuing.`);
       }
       this.#verifyNudgeSent = false;
       if (!this.#skillLoaded) this.#codeEditsWithoutSkill++;
@@ -98,6 +122,20 @@ export class ProactiveMonitor {
       this.#skillLoaded = true;
       this.#codeEditsWithoutSkill = 0;
       this.#skillGateNudged = false;
+    }
+
+    // Reset no-tool counter since we got a tool call
+    this.#stuckDetector.resetNoToolCounter();
+  }
+
+  // Called when assistant responds without any tool calls
+  recordResponseWithoutTools(content) {
+    this.#stuckDetector.recordTurnWithoutTool();
+
+    // Detect premature termination patterns
+    if (typeof content === 'string') {
+      this.#lastAssistantHadNextSteps = /next\s+steps?[:]/i.test(content) || /here'?s?\s+what\s+(you|we)\s+(could|can|should)/i.test(content);
+      this.#lastAssistantEndedWithSummary = /let\s+me\s+know/i.test(content) || /if\s+you\s+(need|want)\s+(anything|help)/i.test(content);
     }
   }
 
@@ -114,7 +152,38 @@ export class ProactiveMonitor {
 
     // Surface proactive nudges
     const parts = [];
-    if (this.#pendingNudge) { parts.push(this.#pendingNudge); this.#pendingNudge = null; }
+
+    // Stuck loop nudges (highest priority)
+    if (this.#pendingNudges.length) {
+      parts.push(...this.#pendingNudges);
+      this.#pendingNudges = [];
+    }
+
+    // Planning paralysis check
+    const stuckCheck = this.#stuckDetector.detect();
+    if (stuckCheck && stuckCheck.type === 'planning_paralysis') {
+      const budgetKey = 'stuck:planning_paralysis';
+      this.#budget.clear(budgetKey);
+      if (this.#budget.canNudge(budgetKey)) {
+        parts.push(stuckCheck.message);
+        this.#budget.spend(budgetKey);
+      }
+    }
+
+    // Premature termination nudge
+    if (this.#lastAssistantHadNextSteps && this.#budget.canNudge('premature-stop')) {
+      parts.push('[Loop-Enforce] You listed next steps but stopped. Execute them now. Do not stop until the task is complete or you are genuinely blocked.');
+      this.#budget.spend('premature-stop');
+      this.#lastAssistantHadNextSteps = false;
+    }
+
+    if (this.#lastAssistantEndedWithSummary && this.#budget.canNudge('summary-drift')) {
+      parts.push('[Loop-Enforce] You ended with a summary/offer pattern instead of completing work. If work remains, continue executing. If truly done, show verification evidence.');
+      this.#budget.spend('summary-drift');
+      this.#lastAssistantEndedWithSummary = false;
+    }
+
+    // Skill nudges
     const skillNudge = this.#skillSuggester.suggest();
     if (skillNudge && this.#budget.canNudge('skill')) { parts.push(skillNudge); this.#budget.spend('skill'); }
     else if (this.#skillSuggester.gapDetected && this.#budget.canNudge('skill-gap')) {
@@ -124,7 +193,7 @@ export class ProactiveMonitor {
 
     // Verification gate nudge
     if (this.#editsSinceVerify >= 3 && !this.#verifyNudgeSent && this.#budget.canNudge('verify-gate')) {
-      parts.push(`[Verify] ${this.#editsSinceVerify} edits without test. Verify before done.`);
+      parts.push(`[Verify] ${this.#editsSinceVerify} edits without test/lint. Run verification before claiming done.`);
       this.#verifyNudgeSent = true;
       this.#budget.spend('verify-gate');
     }

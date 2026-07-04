@@ -59,11 +59,9 @@ Before presenting merged result:
 
 ## Principles
 
-1. Never execute work directly.
-2. File ownership per worker, no overlap.
+1. Workers communicate through you only.
+2. Max 5 active workers.
 3. Blocked after 3 attempts = escalate.
-4. Workers communicate through you only.
-5. Max 5 active workers.
 
 ## Output
 

@@ -70,10 +70,7 @@ Detect and break these patterns:
 2. Small reversible actions.
 3. External feedback > self-review (maker-checker split).
 4. Context is scarce. Refresh after observations.
-5. Stop conditions are non-negotiable and BINARY.
-6. Identical action 2x = stuck. 3 distinct failed approaches = wrong problem framing.
-7. Persist progress externally (files, git) so it survives context limits.
-8. Typed exit reasons: COMPLETED, BLOCKED, BUDGET_EXHAUSTED, ESCALATED.
+5. Persist progress externally (files, git) so it survives context limits.
 
 ## Output
 

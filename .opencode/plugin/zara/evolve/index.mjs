@@ -203,10 +203,10 @@ export default function createEvolve({ client, directory } = {}) {
           }
         }
         const sys2 = messages.find(m => m.role === 'system');
-        if (sys2) sys2.content += `\n\n[Context ${Math.round(contextPressure.pressure * 100)}%] CRITICAL. Call zara_compact NOW.`;
+        if (sys2) sys2.content += `\n\n[Context ${Math.round(contextPressure.pressure * 100)}%] CRITICAL. Call zara_evolve(action:"compact") NOW.`;
       } else if (contextPressure.pressure > PRESSURE_WARN) {
         const sys2 = messages.find(m => m.role === 'system');
-        if (sys2) sys2.content += `\n\n[Context ${Math.round(contextPressure.pressure * 100)}%] Consider zara_compact.`;
+        if (sys2) sys2.content += `\n\n[Context ${Math.round(contextPressure.pressure * 100)}%] Consider zara_evolve(action:"compact").`;
       }
 
       // 3. Scratchpad: inject plan only (notes available via tool)

@@ -78,37 +78,45 @@ const leadership = new LeadershipService();
 // NOTE: Music player is now in MCP (tools/mcp/domain/music.mjs). Plugin only reads state for inject().
 
 const allTools = {
-  zara_update_user: tool({
-    description: 'Update user profile.',
+  zara_profile: tool({
+    description: 'User profile. action: get|update',
     args: {
-      field: z.enum(['name', 'preferredAddress', 'language', 'tone', 'leadershipLevel', 'communicationStyle', 'techExpertise', 'activeProjects', 'goals', 'strengths', 'growthAreas', 'notes', 'preferences']).describe('Field to update'),
-      value: z.string().describe('New value (arrays: comma-separated; objects: JSON string)'),
-      action: z.enum(['set', 'add', 'remove']).optional().describe('set=replace, add=append, remove=remove from array'),
+      action: z.enum(['get', 'update']).describe('Action to perform'),
+      // update args
+      field: z.enum(['name', 'preferredAddress', 'language', 'tone', 'leadershipLevel', 'communicationStyle', 'techExpertise', 'activeProjects', 'goals', 'strengths', 'growthAreas', 'notes', 'preferences']).optional().describe('Field to update (update)'),
+      value: z.string().optional().describe('New value (arrays: comma-separated; objects: JSON string) (update)'),
+      mode: z.enum(['set', 'add', 'remove']).optional().describe('set=replace, add=append, remove=remove from array (update)'),
     },
     async execute(args) {
-      const p = leadership.loadProfile();
-      const { field, value, action = 'set' } = args;
-      const arrayFields = ['techExpertise', 'activeProjects', 'goals', 'strengths', 'growthAreas', 'notes'];
-      if (arrayFields.includes(field)) {
-        const items = value.split(',').map(s => s.trim()).filter(Boolean);
-        if (action === 'add') p[field] = [...new Set([...p[field], ...items])];
-        else if (action === 'remove') p[field] = p[field].filter(i => !items.includes(i));
-        else p[field] = items;
-      } else if (field === 'preferences') {
-        try { Object.assign(p.preferences, JSON.parse(value)); } catch { p.preferences[value] = true; }
-      } else {
-        p[field] = value;
-      }
-      leadership.saveProfile(p);
-      return { output: `Profile updated: ${field} = ${JSON.stringify(p[field])}` };
-    },
-  }),
+      const a = args || {};
+      switch (a.action) {
+        case 'get': {
+          return { output: JSON.stringify(leadership.loadProfile(), null, 2) };
+        }
 
-  zara_get_user: tool({
-    description: 'Get user profile.',
-    args: {},
-    async execute() {
-      return { output: JSON.stringify(leadership.loadProfile(), null, 2) };
+        case 'update': {
+          if (!a.field || a.value === undefined) return { output: 'Error [zara_profile]: field and value are required for update.' };
+          const p = leadership.loadProfile();
+          const { field, value } = a;
+          const mode = a.mode || 'set';
+          const arrayFields = ['techExpertise', 'activeProjects', 'goals', 'strengths', 'growthAreas', 'notes'];
+          if (arrayFields.includes(field)) {
+            const items = value.split(',').map(s => s.trim()).filter(Boolean);
+            if (mode === 'add') p[field] = [...new Set([...p[field], ...items])];
+            else if (mode === 'remove') p[field] = p[field].filter(i => !items.includes(i));
+            else p[field] = items;
+          } else if (field === 'preferences') {
+            try { Object.assign(p.preferences, JSON.parse(value)); } catch { p.preferences[value] = true; }
+          } else {
+            p[field] = value;
+          }
+          leadership.saveProfile(p);
+          return { output: `Profile updated: ${field} = ${JSON.stringify(p[field])}` };
+        }
+
+        default:
+          return { output: `Error [zara_profile]: unknown action "${a.action}".` };
+      }
     },
   }),
 

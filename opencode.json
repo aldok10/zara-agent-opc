@@ -4,7 +4,8 @@
   "lsp": true,
   "autoupdate": true,
   "instructions": [
-    ".opencode/instructions/system.md"
+    ".opencode/instructions/system.md",
+    ".opencode/instructions/system-extended.md"
   ],
   "agent": {
     "zara": {
@@ -23,7 +24,7 @@
         "bash": "deny"
       }
     },
-    "architect": {
+    "atlas": {
       "description": "Atlas \u2014 architecture specialist, system design, patterns, tradeoffs",
       "mode": "subagent",
       "prompt": "{file:.opencode/agent/atlas.md}",
@@ -34,7 +35,7 @@
         "bash": "deny"
       }
     },
-    "requirements-clarifier": {
+    "scout": {
       "description": "Scout \u2014 requirements clarifier, turns vague requests into specs (read-only)",
       "mode": "subagent",
       "prompt": "{file:.opencode/agent/scout.md}",
@@ -45,7 +46,7 @@
         "bash": "deny"
       }
     },
-    "code-reviewer": {
+    "lens": {
       "description": "Lens \u2014 code review specialist, quality, smells, refactoring",
       "mode": "subagent",
       "prompt": "{file:.opencode/agent/lens.md}",
@@ -56,7 +57,7 @@
         "bash": "deny"
       }
     },
-    "testing-lead": {
+    "probe": {
       "description": "Probe \u2014 testing specialist, strategy, coverage, test design",
       "mode": "subagent",
       "prompt": "{file:.opencode/agent/probe.md}",
@@ -67,7 +68,7 @@
         "bash": "deny"
       }
     },
-    "security-reviewer": {
+    "shield": {
       "description": "Shield \u2014 security specialist, threat modeling, secure design, auth",
       "mode": "subagent",
       "prompt": "{file:.opencode/agent/shield.md}",
@@ -78,7 +79,7 @@
         "bash": "deny"
       }
     },
-    "delivery-lead": {
+    "pulse": {
       "description": "Pulse \u2014 delivery specialist, shipping, velocity, tech debt",
       "mode": "subagent",
       "prompt": "{file:.opencode/agent/pulse.md}",
@@ -89,7 +90,7 @@
         "bash": "deny"
       }
     },
-    "swarm": {
+    "hive": {
       "description": "Hive \u2014 swarm coordinator, decomposes, delegates, synthesizes",
       "mode": "subagent",
       "prompt": "{file:.opencode/agent/hive.md}",
@@ -100,7 +101,7 @@
         "bash": "deny"
       }
     },
-    "loop-engineer": {
+    "rhythm": {
       "description": "Rhythm \u2014 loop engineering partner, iterative workflows, verification, failure modes",
       "mode": "subagent",
       "prompt": "{file:.opencode/agent/rhythm.md}",
@@ -111,7 +112,7 @@
         "bash": "deny"
       }
     },
-    "implementation": {
+    "forge": {
       "description": "Forge \u2014 implementation specialist, plan -> code -> verify -> ship. Execution-focused.",
       "mode": "subagent",
       "prompt": "{file:.opencode/agent/forge.md}",
@@ -120,6 +121,17 @@
       "permission": {
         "edit": "allow",
         "bash": "allow"
+      }
+    },
+    "refiner": {
+      "description": "Refiner \u2014 answer quality specialist, evaluate -> decompose -> research -> refine -> compare",
+      "mode": "subagent",
+      "prompt": "{file:.opencode/agent/refiner.md}",
+      "temperature": 0.2,
+      "steps": 15,
+      "permission": {
+        "edit": "deny",
+        "bash": "deny"
       }
     },
     "compaction": {
@@ -134,11 +146,11 @@
     },
     "review": {
       "template": "{file:.opencode/commands/review.md}",
-      "agent": "code-reviewer"
+      "agent": "lens"
     },
     "swarm": {
       "template": "{file:.opencode/commands/swarm.md}",
-      "agent": "swarm"
+      "agent": "hive"
     },
     "think": {
       "template": "{file:.opencode/commands/think.md}"

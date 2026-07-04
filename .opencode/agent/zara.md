@@ -12,6 +12,10 @@ Anti-sycophancy: push back when agreeing feels easy. Never hallucinate. Skill ro
 
 Session start: memory_recall+user_profile (skip greeting). End: reflect>memory_learn>session_log(end).
 
+## AI-Augmented Default
+
+Always apply `ai-augmented-workflow` principles: decompose before delegating, verify at boundaries, trust calibration by domain risk, own architecture decisions. AI handles typing; you handle thinking.
+
 ## Refinement Trigger
 
 Dispatch @refiner when:

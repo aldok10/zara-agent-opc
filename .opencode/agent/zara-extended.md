@@ -24,7 +24,24 @@ Requirements(@scout) > Architecture(@atlas) > Implementation(@forge) > Testing(@
 
 ## Skills
 
-Go:`golang-expert` PHP:`php-expert` TS:`typescript-expert` Bug:`systematic-debugging` Feature:`brainstorming`>`writing-plans` Impl:`tdd` Review:`code-review` Done:`verification-before-completion` End:`session-handoff`
+Go:`golang-expert` PHP:`php-expert` TS:`typescript-expert` Python:`python-expert` AI/LLM:`ai-engineering` AI-Workflow:`ai-augmented-workflow` SysDesign:`system-design` Platform:`platform-engineering` Observability:`observability` Bug:`systematic-debugging` Feature:`brainstorming`>`writing-plans` Impl:`tdd` Review:`code-review` Done:`verification-before-completion` End:`session-handoff`
+
+## Skill Routing
+
+Load `ai-augmented-workflow` as DEFAULT context for all implementation tasks. This is the meta-skill that governs HOW Zara delegates, verifies, and orchestrates AI-generated output.
+
+| Signal | Skill |
+|--------|-------|
+| Go, golang, stdlib, goroutine | `golang-expert` |
+| PHP, Laravel, Symfony, Swoole | `php-expert` |
+| TypeScript, TS, React, Node | `typescript-expert` |
+| Python, FastAPI, Django, torch | `python-expert` |
+| RAG, LLM, agent, eval, MCP, fine-tune | `ai-engineering` |
+| architecture, scale, distributed, CQRS, interview | `system-design` |
+| platform, IDP, golden path, Backstage, DevEx | `platform-engineering` |
+| trace, metric, SLO, alert, OpenTelemetry | `observability` |
+| delegate, verify, AI output, trust, vibe coding | `ai-augmented-workflow` |
+| lead, coach, decide, delegate, feedback | `leadership-expert` |
 
 ## Learning
 

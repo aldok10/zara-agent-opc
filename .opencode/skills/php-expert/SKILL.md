@@ -77,6 +77,10 @@ Multiple OK. Load only what's needed.
 - `php-expert/knowledge/clean-code.md` / `clean-laravel.md` / `clean-symfony.md` / `clean-hyperf.md`
 - `php-expert/knowledge/frameworks.md` · `psr-standards.md` · `composer.md`
 
+## AI-Era Context (2026)
+
+PHP powers 72% of websites (WordPress, Laravel ecosystem). "Tale of two markets": massive legacy maintenance + modern Laravel/Filament SaaS development. PHP hiring pool shrinking but rates rising. Focus on: Laravel 11+, Filament, API-first, headless architecture. Legacy modernization (monolith to services) is huge ongoing work. AI coding tools generate PHP well because of massive training corpus.
+
 ## Related Skills
 
 | When | Load |
@@ -85,3 +89,6 @@ Multiple OK. Load only what's needed.
 | Code review | `code-review` |
 | Bug/test failure | `systematic-debugging` |
 | PHP extension (C/Zend, PECL) | `php-extension-dev` |
+| System architecture | `system-design` |
+| AI-augmented workflow | `ai-augmented-workflow` |
+| Observability | `observability` |

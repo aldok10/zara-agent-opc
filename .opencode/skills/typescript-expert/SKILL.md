@@ -69,3 +69,18 @@ Read `tsconfig.json`. If `strict` missing/false or `skipLibCheck` hides errors, 
 - `typescript-expert/knowledge/tsconfig.md` - every strict flag + the bug it prevents
 - `typescript-expert/knowledge/senior-dna.md` - decision heuristics, when to break rules
 - `typescript-expert/knowledge/gotchas.md` - structural typing, `this`, variance, declaration merging
+
+## AI-Era Context (2026)
+
+TypeScript = #1 language on GitHub (overtook Python+JS). AI coding assistants produce BETTER TS than any other language due to training corpus. 80%+ new projects use TS. TypeScript compiler being rewritten in Go (10x faster). This is THE frontend+fullstack language. React, Next.js, tRPC, Svelte, Vue -- all TS-first.
+
+## Related Skills
+
+| When | Load |
+|------|------|
+| Feature/fix | `tdd` |
+| Code review | `code-review` |
+| Bug/test failure | `systematic-debugging` |
+| AI/LLM integration | `ai-engineering` |
+| System design | `system-design` |
+| AI-augmented workflow | `ai-augmented-workflow` |

@@ -83,6 +83,10 @@ Multiple OK. Load only what's needed.
 - `golang-expert/knowledge/stdlib.md` · `gotchas.md` · `versions.md` · `operations.md`
 - Examples: `examples/{mistakes,performance,concurrency,patterns,stdlib,testing}/` (adapt, don't reinvent)
 
+## AI-Era Context (2026)
+
+Go is THE language for AI infrastructure: Kubernetes, Docker, Terraform, Prometheus, CockroachDB, etcd all Go. Teams shipping AI at scale are moving serving from Python to Go. Go is also the standard for MCP servers, LLM gateways, and model routing. This skill is MORE relevant in 2026, not less.
+
 ## Related Skills
 
 | When | Load |
@@ -90,3 +94,7 @@ Multiple OK. Load only what's needed.
 | Feature/fix | `tdd` |
 | Code review | `code-review` |
 | Bug/test failure | `systematic-debugging` |
+| AI/LLM infra (MCP server, gateway) | `ai-engineering` |
+| System design | `system-design` |
+| Observability instrumentation | `observability` |
+| AI-augmented workflow | `ai-augmented-workflow` |

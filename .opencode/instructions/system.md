@@ -12,6 +12,10 @@ Errors: Same action 2x = stuck, diagnose root cause, switch approach. 3 distinct
 
 Push back: stdlib>dep, tests skipped, knowledge contradicted, 3+agrees, unnamed failure, anti-pattern. 2x mistake=pitfall.
 
+## Completion Balance
+
+Don't gold-plate, but don't leave half-done. Complete the task fully. No unnecessary abstractions, no premature optimization, no extra features. But also no half-finished state left for user to clean up.
+
 ## Truth Discipline (all agents inherit)
 
 - Tool-proof only. Never invent APIs. Explicit>observed>inferred.

@@ -103,13 +103,13 @@ describe('empty states', () => {
   describe('thread tools (empty)', () => {
     it('zara_thread_list returns "No open threads." for status=all', async () => {
       const rel = freshRel();
-      const result = await rel.tools.zara_thread_list.execute({ status: 'all' });
+      const result = await rel.tools.zara_relationship.execute({ action: 'thread_list', status: 'all' });
       assert.equal(result.output, 'No open threads.');
     });
 
     it('zara_thread_close returns "No matching thread." with no threads', async () => {
       const rel = freshRel();
-      const result = await rel.tools.zara_thread_close.execute({});
+      const result = await rel.tools.zara_relationship.execute({ action: 'thread_close' });
       assert.equal(result.output, 'No matching thread.');
     });
   });
@@ -120,9 +120,10 @@ describe('empty states', () => {
 describe('thread operations', () => {
   it('creates a thread and lists it', async () => {
     const rel = freshRel();
-    const add = await rel.tools.zara_thread_add.execute({
+    const add = await rel.tools.zara_relationship.execute({
+      action: 'thread_track',
       context: 'User mentioned wanting to learn Go',
-      action: 'Ask how Go learning is going',
+      followUpAction: 'Ask how Go learning is going',
       followUpAfter: 'tomorrow',
       type: 'plan_followup',
       priority: 'high',
@@ -130,15 +131,16 @@ describe('thread operations', () => {
     assert.ok(add.output.includes('Thread tracked'));
     assert.ok(add.output.includes('User mentioned wanting to learn Go'));
 
-    const list = await rel.tools.zara_thread_list.execute({ status: 'pending' });
+    const list = await rel.tools.zara_relationship.execute({ action: 'thread_list', status: 'pending' });
     assert.ok(list.output.includes('User mentioned wanting to learn Go'));
   });
 
   it('marks a thread as done via id', async () => {
     const rel = freshRel();
-    await rel.tools.zara_thread_add.execute({
+    await rel.tools.zara_relationship.execute({
+      action: 'thread_track',
       context: 'Review PR',
-      action: 'Check if PR was merged',
+      followUpAction: 'Check if PR was merged',
       followUpAfter: 'tomorrow',
     });
 
@@ -146,45 +148,49 @@ describe('thread operations', () => {
     const id = threads[0].id;
     assert.ok(id.startsWith('t_'));
 
-    const close = await rel.tools.zara_thread_close.execute({ id });
+    const close = await rel.tools.zara_relationship.execute({ action: 'thread_close', id });
     assert.ok(close.output.includes('Closed:'));
 
-    const listDone = await rel.tools.zara_thread_list.execute({ status: 'done' });
+    const listDone = await rel.tools.zara_relationship.execute({ action: 'thread_list', status: 'done' });
     assert.ok(listDone.output.includes('Review PR'));
   });
 
   it('marks a thread as done via context keyword', async () => {
     const rel = freshRel();
-    await rel.tools.zara_thread_add.execute({
+    await rel.tools.zara_relationship.execute({
+      action: 'thread_track',
       context: 'Fix the login bug',
-      action: 'Follow up on login fix',
+      followUpAction: 'Follow up on login fix',
       followUpAfter: 'tomorrow',
     });
-    const close = await rel.tools.zara_thread_close.execute({ context: 'login' });
+    const close = await rel.tools.zara_relationship.execute({ action: 'thread_close', context: 'login' });
     assert.ok(close.output.includes('Closed:'));
   });
 
   it('closes most recent pending thread when no id or context given', async () => {
     const rel = freshRel();
-    await rel.tools.zara_thread_add.execute({
+    await rel.tools.zara_relationship.execute({
+      action: 'thread_track',
       context: 'Thread A',
-      action: 'Do A',
+      followUpAction: 'Do A',
       followUpAfter: 'tomorrow',
     });
-    await rel.tools.zara_thread_add.execute({
+    await rel.tools.zara_relationship.execute({
+      action: 'thread_track',
       context: 'Thread B',
-      action: 'Do B',
+      followUpAction: 'Do B',
       followUpAfter: 'tomorrow',
     });
-    const close = await rel.tools.zara_thread_close.execute({});
+    const close = await rel.tools.zara_relationship.execute({ action: 'thread_close' });
     assert.ok(close.output.includes('Thread B'));
   });
 
   it('zara_thread_add resolves "tomorrow" to ISO date (no time)', async () => {
     const rel = freshRel();
-    await rel.tools.zara_thread_add.execute({
+    await rel.tools.zara_relationship.execute({
+      action: 'thread_track',
       context: 'Test',
-      action: 'Test',
+      followUpAction: 'Test',
       followUpAfter: 'tomorrow',
     });
     const threads = JSON.parse(fs.readFileSync(path.join(REL_DIR, 'threads.json'), 'utf-8'));
@@ -194,9 +200,10 @@ describe('thread operations', () => {
 
   it('zara_thread_add resolves "next_session" to ISO with time', async () => {
     const rel = freshRel();
-    await rel.tools.zara_thread_add.execute({
+    await rel.tools.zara_relationship.execute({
+      action: 'thread_track',
       context: 'Test',
-      action: 'Test',
+      followUpAction: 'Test',
       followUpAfter: 'next_session',
     });
     const threads = JSON.parse(fs.readFileSync(path.join(REL_DIR, 'threads.json'), 'utf-8'));
@@ -205,9 +212,10 @@ describe('thread operations', () => {
 
   it('zara_thread_add resolves "3d" pattern to ISO date', async () => {
     const rel = freshRel();
-    await rel.tools.zara_thread_add.execute({
+    await rel.tools.zara_relationship.execute({
+      action: 'thread_track',
       context: 'Test',
-      action: 'Test',
+      followUpAction: 'Test',
       followUpAfter: '3d',
     });
     const threads = JSON.parse(fs.readFileSync(path.join(REL_DIR, 'threads.json'), 'utf-8'));
@@ -248,13 +256,14 @@ describe('thread operations', () => {
   it('zara_thread_list limits to last 15 threads', async () => {
     const rel = freshRel();
     for (let i = 0; i < 20; i++) {
-      await rel.tools.zara_thread_add.execute({
+      await rel.tools.zara_relationship.execute({
+        action: 'thread_track',
         context: `Thread ${i}`,
-        action: `Action ${i}`,
+        followUpAction: `Action ${i}`,
         followUpAfter: 'tomorrow',
       });
     }
-    const list = await rel.tools.zara_thread_list.execute({ status: 'all' });
+    const list = await rel.tools.zara_relationship.execute({ action: 'thread_list', status: 'all' });
     const lines = list.output.split('\n');
     assert.ok(lines.length <= 16);
   });
@@ -265,7 +274,8 @@ describe('thread operations', () => {
 describe('stance operations', () => {
   it('records a new stance', async () => {
     const rel = freshRel();
-    const result = await rel.tools.zara_stance_record.execute({
+    const result = await rel.tools.zara_relationship.execute({
+      action: 'stance_record',
       topic: 'Go vs Rust',
       position: 'Go for CLIs, Rust for systems',
       confidence: 0.8,
@@ -277,8 +287,8 @@ describe('stance operations', () => {
 
   it('updates an existing stance on same topic (case insensitive)', async () => {
     const rel = freshRel();
-    await rel.tools.zara_stance_record.execute({ topic: 'Code review', position: 'Review within 24h' });
-    const update = await rel.tools.zara_stance_record.execute({ topic: 'CODE REVIEW', position: 'Review within 12h' });
+    await rel.tools.zara_relationship.execute({ action: 'stance_record', topic: 'Code review', position: 'Review within 24h' });
+    const update = await rel.tools.zara_relationship.execute({ action: 'stance_record', topic: 'CODE REVIEW', position: 'Review within 12h' });
     assert.ok(update.output.includes('updated'));
 
     const stances = JSON.parse(fs.readFileSync(path.join(REL_DIR, 'stances.json'), 'utf-8'));
@@ -288,11 +298,11 @@ describe('stance operations', () => {
 
   it('preserves formed date and challengeCount on update', async () => {
     const rel = freshRel();
-    await rel.tools.zara_stance_record.execute({ topic: 'AI safety', position: 'Important but pragmatic' });
+    await rel.tools.zara_relationship.execute({ action: 'stance_record', topic: 'AI safety', position: 'Important but pragmatic' });
     const stancesBefore = JSON.parse(fs.readFileSync(path.join(REL_DIR, 'stances.json'), 'utf-8'));
     const formed = stancesBefore[0].formed;
 
-    await rel.tools.zara_stance_record.execute({ topic: 'AI safety', position: 'Critical priority' });
+    await rel.tools.zara_relationship.execute({ action: 'stance_record', topic: 'AI safety', position: 'Critical priority' });
     const stancesAfter = JSON.parse(fs.readFileSync(path.join(REL_DIR, 'stances.json'), 'utf-8'));
     assert.equal(stancesAfter[0].formed, formed);
     assert.equal(stancesAfter[0].challengeCount, 0);
@@ -300,7 +310,7 @@ describe('stance operations', () => {
 
   it('defaults confidence to 0.7 when not provided', async () => {
     const rel = freshRel();
-    const result = await rel.tools.zara_stance_record.execute({ topic: 'Testing strategy', position: 'Integration tests > unit tests' });
+    const result = await rel.tools.zara_relationship.execute({ action: 'stance_record', topic: 'Testing strategy', position: 'Integration tests > unit tests' });
     assert.ok(result.output.includes('70%'));
     const stances = JSON.parse(fs.readFileSync(path.join(REL_DIR, 'stances.json'), 'utf-8'));
     assert.equal(stances[0].confidence, 0.7);
@@ -375,15 +385,15 @@ describe('onEvent behavior', () => {
 describe('zara_relationship_status', () => {
   it('returns interaction count', async () => {
     const rel = freshRel();
-    const result = await rel.tools.zara_relationship_status.execute({});
+    const result = await rel.tools.zara_relationship.execute({ action: 'overview' });
     assert.ok(result.output.includes('Interactions'));
   });
 
   it('reflects created data', async () => {
     const rel = freshRel();
-    await rel.tools.zara_thread_add.execute({ context: 'Test thread', action: 'Do it', followUpAfter: 'tomorrow' });
-    await rel.tools.zara_stance_record.execute({ topic: 'Test stance', position: 'Test' });
-    const result = await rel.tools.zara_relationship_status.execute({});
+    await rel.tools.zara_relationship.execute({ action: 'thread_track', context: 'Test thread', followUpAction: 'Do it', followUpAfter: 'tomorrow' });
+    await rel.tools.zara_relationship.execute({ action: 'stance_record', topic: 'Test stance', position: 'Test' });
+    const result = await rel.tools.zara_relationship.execute({ action: 'overview' });
     assert.ok(result.output.includes('Open threads'));
     assert.ok(result.output.includes('Stances'));
   });
@@ -413,9 +423,10 @@ describe('edge cases', () => {
 
   it('zara_thread_add handles unknown followUpAfter pattern literally', async () => {
     const rel = freshRel();
-    await rel.tools.zara_thread_add.execute({
+    await rel.tools.zara_relationship.execute({
+      action: 'thread_track',
       context: 'Custom date',
-      action: 'Do thing',
+      followUpAction: 'Do thing',
       followUpAfter: '2026-01-15',
     });
     const threads = JSON.parse(fs.readFileSync(path.join(REL_DIR, 'threads.json'), 'utf-8'));
@@ -428,7 +439,7 @@ describe('edge cases', () => {
       { id: 't_done', context: 'Done item', action: 'Done', status: 'done', followUpAfter: isoTomorrow(), created: new Date().toISOString(), type: 'general', priority: 'medium', closedAt: new Date().toISOString() },
       { id: 't_pending', context: 'Pending item', action: 'Do it', status: 'pending', followUpAfter: isoTomorrow(), created: new Date().toISOString(), type: 'general', priority: 'medium' },
     ]);
-    const result = await rel.tools.zara_thread_close.execute({ context: 'item' });
+    const result = await rel.tools.zara_relationship.execute({ action: 'thread_close', context: 'item' });
     assert.ok(result.output.includes('Pending item'));
   });
 });

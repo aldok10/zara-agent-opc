@@ -58,7 +58,7 @@ const tools = {
       type: 'object',
       properties: {
         action: { type: 'string', enum: ['recall', 'learn', 'episode', 'procedure', 'manage', 'session', 'system'] },
-        op: { type: 'string', description: 'Sub-operation for manage/session/system/episode/learn' },
+        op: { type: 'string', description: 'Sub-operation for manage(consolidate|delete|update|contradictions|seed|index)/session/system/episode/learn' },
         query: { type: 'string' },
         key: { type: 'string' },
         value: { type: 'string' },
@@ -394,10 +394,11 @@ async function manage(args) {
   switch (args.op) {
     case 'consolidate': return manageConsolidate();
     case 'delete': return manageDelete(args);
+    case 'update': return manageUpdate(args);
     case 'contradictions': return manageContradictions(args);
     case 'seed': return knowledgeLoadInit(args);
     case 'index': return knowledgeIndex(args);
-    default: return `Unknown manage op: ${args.op}. Use consolidate|delete|contradictions|seed|index.`;
+    default: return `Unknown manage op: ${args.op}. Use consolidate|delete|update|contradictions|seed|index.`;
   }
 }
 
@@ -437,6 +438,32 @@ async function manageDelete(args) {
   const result = await deleteByPattern(pattern);
   if (result.error) return `Refused: ${result.error} (${result.semantic} semantic match). Use a more specific pattern.`;
   return `Deleted: ${result.semantic} semantic, ${result.episodic} episodic, ${result.procedural} procedural entries matching "${pattern}"`;
+}
+
+async function manageUpdate(args) {
+  const pattern = args.pattern_match || args.pattern;
+  if (!pattern || pattern.length < 3) return 'Pattern must be at least 3 characters.';
+  const update = args.update || {};
+  if (!update.value && !update.type && !update.source && !update.scope) {
+    return 'Error: update requires at least one field in update object: {value, type, source, scope}.';
+  }
+  const db = getDb();
+  const like = `%${pattern.replace(/[%_]/g, c => `\\${c}`)}%`;
+  const matches = db.prepare("SELECT key, value, type, source, scope FROM semantic WHERE key LIKE ? ESCAPE '\\' OR value LIKE ? ESCAPE '\\'").all(like, like);
+  if (!matches.length) return `No entries found matching "${pattern}".`;
+  if (matches.length > 5 && !args.confirm) {
+    return `⚠️ Update blocked: ${matches.length} entries match "${pattern}". Pass confirm: true or use a more specific pattern.`;
+  }
+  const results = [];
+  for (const row of matches) {
+    const newValue = update.value || row.value;
+    const newType = update.type || row.type;
+    const newSource = update.source || row.source;
+    const newScope = update.scope !== undefined ? update.scope : (row.scope || '');
+    const result = await semanticLearn(row.key, newValue, newSource, newType, newScope, { agent: args.agent || '' });
+    results.push(result.key);
+  }
+  return `Updated ${results.length} entry(s) matching "${pattern}": ${results.join(', ')}`;
 }
 
 // ─────────────────────────────────────────────────────────────────────────

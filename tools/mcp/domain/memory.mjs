@@ -111,7 +111,10 @@ const tools = {
 async function route(args) {
   switch (args.action) {
     case 'recall': return recall(args);
-    case 'learn': return args.op === 'project' ? projectLearn(args) : learn(args);
+    case 'learn':
+      if (args.op === 'project') return projectLearn(args);
+      if (args.op === 'pitfall') return learnPitfall(args);
+      return learn(args);
     case 'episode':
       if (args.op === 'reflect') return reflect(args);
       if (args.op === 'blindspot') return blindspotLog(args);
@@ -131,6 +134,9 @@ async function route(args) {
 // ─────────────────────────────────────────────────────────────────────────
 
 async function recall(args) {
+  if (!args.query) {
+    return `Error: recall requires a 'query' parameter. Example: { action: "recall", query: "user preferences" }`;
+  }
   const layer = args.layer || 'all';
 
   if (layer === 'knowledge') return knowledgePassage(args);
@@ -203,7 +209,21 @@ async function recall(args) {
 // LEARN
 // ─────────────────────────────────────────────────────────────────────────
 
+async function learnPitfall(args) {
+  const situation = args.situation || args.context || 'unknown';
+  const observation = args.observation || args.failed || '';
+  const suggestion = args.suggestion || args.worked || '';
+  if (!observation && !suggestion) return 'Error: pitfall requires at least observation or suggestion.';
+  const key = `pitfall:${situation.replace(/\s+/g, '-').toLowerCase().slice(0, 60)}`;
+  const value = `Situation: ${situation}. Problem: ${observation}${suggestion ? '. Fix: ' + suggestion : ''}`;
+  const result = await semanticLearn(key, value, 'observed', 'pitfall', '', { agent: args.agent || '' });
+  return `Pitfall stored: ${result.key} = ${result.value} [${result.type}]`;
+}
+
 async function learn(args) {
+  if (!args.key || !args.value) {
+    return `Error: learn requires 'key' and 'value' parameters. Got key=${JSON.stringify(args.key)}, value=${JSON.stringify(args.value)}. For pitfalls use op='pitfall' with situation/observation/suggestion.`;
+  }
   const memType = args.type || 'fact';
   const source = args.source || 'observed';
   const agent = args.agent || '';

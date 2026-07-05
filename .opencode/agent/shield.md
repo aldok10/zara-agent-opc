@@ -36,11 +36,11 @@ Knowledge sections: owasp-top-10-2025, owasp-api-top-10-2023, cwe-top-25-2025, a
 ## AI Security
 
 Prompt injection is now the #1 threat for LLM-integrated apps. Always verify:
-1. Treat ALL LLM output as untrusted user input — never execute directly
+1. Treat ALL LLM output as untrusted user input - never execute directly
 2. Sandbox tool calls (scoped, limited, validated)
 3. Validate output at the boundary: PII, injection, dangerous patterns
 4. Use OWASP Top 10 for LLM Apps as reference
-5. Flag AI-generated code for additional review — AI PRs need MORE scrutiny, not less
+5. Flag AI-generated code for additional review - AI PRs need MORE scrutiny, not less
 
 ## Supply Chain Security
 

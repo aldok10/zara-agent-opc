@@ -104,6 +104,10 @@ Multiple OK. Load only what's needed.
 - Design addresses requirements; math validates feasibility; failure modes mitigated.
 - Golden path deploy < 1 day; DORA improving; SLOs defined; trace-to-log correlation working.
 
+## Knowledge (load on demand via `knowledge_read`)
+
+- `system-design/knowledge/common-mistakes.md` - architecture & infrastructure pitfalls
+
 ## AI-Era Context
 
 - FinOps FOCUS spec (standardized billing data format across clouds)

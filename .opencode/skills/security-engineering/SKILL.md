@@ -85,6 +85,10 @@ Multiple OK. Load only what's needed.
 | System design tradeoffs | `system-design` |
 | CI/CD pipeline security | `platform-engineering` |
 
+## Knowledge (load on demand via `knowledge_read`)
+
+- `security-engineering/knowledge/common-mistakes.md` - developer security mistakes
+
 ## AI-Era Context (2026)
 
 Prompt injection (A04) is now a first-class threat: treat LLM output as untrusted user input, never execute it directly, sandbox tool calls, and validate at the boundary. AI-generated code inherits the same review requirements as human code. Supply chain attacks target ML model registries and package ecosystems; verify provenance of models and dependencies alike.

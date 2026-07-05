@@ -101,6 +101,10 @@ Multiple OK. Load only what's needed.
 | Code review depth | `code-review` |
 | Testing strategy | `tdd` |
 
+## Knowledge (load on demand via `knowledge_read`)
+
+- `ai-engineering/knowledge/common-mistakes.md` - LLM/RAG/agent production pitfalls
+
 ## AI-Era Context
 
 - Frontier model context windows (200K+ tokens) change RAG strategy: stuff more, chunk less

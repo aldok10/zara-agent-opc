@@ -18,7 +18,7 @@ This is the complete engineering philosophy shared by `golang-expert` and `php-e
 | **Gall's Law** | Complex systems evolve from simple ones that work | Start with simplest implementation. Iterate when pain appears. Never design "the final architecture" upfront. |
 | **Conway's Law** | Systems mirror team communication | Bounded contexts = team boundaries. Monorepo with modules if one team. Microservices only if separate teams own them. |
 | **Amdahl's Law** | Speedup bounded by serial fraction | Profile BEFORE parallelizing. 80% parallel + 20% serial = max 5x speedup regardless of CPU count. |
-| **Law of Demeter** | Talk only to immediate friends | `$order->getShippingCity()` NOT `$order->getCustomer()->getAddress()->getCity()`. One dot, not three. |
+| **Law of Demeter** | Talk only to immediate friends | `order.ShippingCity()` NOT `order.Customer().Address().City()`. One dot, not three. |
 | **Hofstadter's Law** | Everything takes longer than you expect | Plan for the unexpected. Buffer estimates. "It's just a small change" is usually 3x the expected effort. |
 | **Goodhart's Law** | Metric as target → useless metric | 100% code coverage doesn't mean quality tests. Lines of code doesn't mean productivity. Measure outcomes, not outputs. |
 | **Brooks' Law** | Adding people to late project = later | Ship smaller scope. Cut features. Don't add headcount as a deadline fix. |
@@ -88,7 +88,7 @@ This is the complete engineering philosophy shared by `golang-expert` and `php-e
 | **Vertical Slices** | Deliver complete features (controller→service→repo→DB) not horizontal layers separately. |
 | **Boy Scout Rule** | Leave code better than you found it. One small improvement per commit compounds. |
 | **Fail Fast** | Validate at boundaries. Type declarations. Guard clauses. Never let bad data propagate inward. |
-| **Tell Don't Ask** | `$account->withdraw($amount)` NOT `if ($account->balance >= $amount) { $account->balance -= $amount; }` |
+| **Tell Don't Ask** | `account.Withdraw(amount)` NOT `if account.Balance >= amount { account.Balance -= amount }` |
 | **Parse Don't Validate** | Parse input into constrained types at boundary. Type = proof of validity. Never re-check what type guarantees. |
 | **Defensive Programming** | Assume inputs are hostile. Validate, sanitize, type-cast. Assert invariants. |
 | **Continuous Integration** | Build + test after every commit. Green = deployable. Red = fix immediately. Never "fix later." |

@@ -71,7 +71,7 @@ Identify the language, framework, and existing security patterns in the codebase
 ## Knowledge
 
 - OWASP Secure Coding Practices Quick Reference
-- CWE Top 25 (2024)
+- CWE Top 25 (2025)
 - Language-specific guides (Go: golang.org/security, Rust: RustSec, Node: Snyk best practices)
 - NIST Secure Software Development Framework (SSDF)
 - Supply chain: SLSA framework, Sigstore, in-toto

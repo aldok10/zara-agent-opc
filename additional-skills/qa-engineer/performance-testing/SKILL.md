@@ -159,6 +159,10 @@ Reuse k6 scripts as Grafana Cloud Synthetic checks:
 - Open model on browser flows (spawns infinite VUs)
 - Ignoring connection pool metrics during DB load tests
 
+## Version Notes
+
+k6 0.52+: browser module GA, native Prometheus remote write, OpenTelemetry output.
+
 ## AI-Era Context (2026)
 
 AI generates realistic load profiles from production traffic patterns -- replay actual request distributions, user journeys, and time-based peaks. k6 scenarios are auto-tuned based on SLO targets and historical baselines. AI identifies performance regressions from trace data before users notice. However, AI-generated load tests often miss correlation between VUs (shared session state, unique data per VU) and produce unrealistic uniform distributions instead of bursty traffic patterns. Human review ensures load models match real-world access patterns.

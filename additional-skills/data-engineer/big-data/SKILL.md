@@ -68,7 +68,7 @@ Determine data volume, velocity, and variety. Check existing infrastructure (Spa
 
 ## AI-Era Context (2026)
 
-Spark Connect is the standard remote execution model. Photon (Databricks) and Velox (Meta) accelerate execution via native engines. Apache XTable enables interoperability between Iceberg/Delta/Hudi. Streaming has converged -- Spark Structured Streaming, Flink, and Kafka Streams cover most use cases. Data lakehouse is the dominant architecture, replacing separate warehouse + lake. Embedding generation at scale is a common Spark workload for RAG pipelines.
+Spark Connect is the standard remote execution model. Photon (Databricks) and Velox (Meta) accelerate execution via native engines. Apache XTable enables interoperability between Iceberg/Delta/Hudi. Streaming has converged -- Spark Structured Streaming, Flink, and Kafka Streams cover most use cases. Data lakehouse is the dominant architecture, replacing separate warehouse + lake. Embedding generation at scale is a common Spark workload for RAG pipelines. Spark 4.x: ANSI mode default, Spark Connect GA, Hadoop shim removed, Scala 2.13 only.
 
 ## Related Skills
 

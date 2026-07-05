@@ -27,6 +27,7 @@ Modern CSS architecture and implementation. Native CSS features over JS solution
 8. Prefer Tailwind or native CSS over runtime CSS-in-JS.
 9. `@scope` for component-scoped styles without BEM or CSS Modules.
 10. Tailwind CSS v4: CSS-first config (`@theme`), Rust engine, native `@layer`, OKLCH colors.
+11. Anchor positioning (`anchor-name`, `position-anchor`, `anchor()`) for tooltips/popovers - replaces JS positioning libraries.
 
 ## DO NOT
 

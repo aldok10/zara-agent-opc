@@ -27,7 +27,7 @@ When loaded: verify TLS posture (`testssl.sh` against primary endpoints), check 
 8. DDoS protection at edge -- CDN + WAF + rate limiting before traffic hits origin
 9. Health checks at LB layer must use application-level probes, not TCP connect alone
 10. Private connectivity (PrivateLink/PSC) for all internal cross-service communication
-11. Gateway API (v1.2+) replaces Ingress; no new Ingress resources
+11. Gateway API (v1.3+) replaces Ingress; no new Ingress resources
 12. Cert rotation: mesh certs every 24h (SPIFFE identity), edge certs via ACME auto-renewal
 13. Multi-region DNS failover with active health checks (Route53 failover or Cloud DNS)
 14. Egress traffic filtered through FQDN-based policies; no unrestricted outbound
@@ -81,7 +81,7 @@ When loaded: verify TLS posture (`testssl.sh` against primary endpoints), check 
 
 ## AI-Era Context (2026)
 
-- Gateway API v1.2 is GA; Ingress deprecated in Kubernetes 1.32
+- Gateway API v1.3 is GA; Ingress deprecated in Kubernetes 1.32
 - Cilium 1.16+ replaces kube-proxy entirely; eBPF handles all service routing
 - cert-manager 1.15+ supports Gateway API TLS listeners natively
 - Cloudflare/CloudFront push QUIC (HTTP/3) as default for edge termination

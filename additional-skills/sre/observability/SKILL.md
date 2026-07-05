@@ -31,6 +31,7 @@ When loaded: check OTel Collector deployment (`kubectl get pods -l app=otel-coll
 12. Metric retention: raw 15 days, 5m downsampled 90 days, 1h downsampled 1 year
 13. Exemplars link metrics to traces; every latency histogram must have exemplars
 14. Alert routing: page (PagerDuty) for SLO burn, ticket (Jira) for anomaly, silent for info
+15. Continuous profiling (Grafana Pyroscope, OTel profiling signal) as 4th observability pillar
 
 ## DO NOT
 
@@ -80,7 +81,7 @@ When loaded: check OTel Collector deployment (`kubectl get pods -l app=otel-coll
 - OTel Collector supports profiling signal (logs/metrics/traces/profiles unified)
 - Mimir + Tempo correlation enables metrics-to-traces without exemplar gaps
 - AI/ML inference workloads require GPU utilization metrics via DCGM exporter
-- Adaptive sampling algorithms replace static rate configs in OTel Collector 0.110+
+- Adaptive sampling algorithms replace static rate configs in OTel Collector 1.0+
 - SLO-as-code tools (sloth, pyrra) generate multi-window alerts from YAML specs
 
 ## Related Skills

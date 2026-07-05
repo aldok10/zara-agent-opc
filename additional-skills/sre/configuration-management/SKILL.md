@@ -70,7 +70,11 @@ Identify the CM tool in use (check for `ansible.cfg`, `Puppetfile`, `Berksfile`,
 
 ## AI-Era Context (2026)
 
-LLM-assisted playbook generation requires careful review -- models often produce non-idempotent shell tasks or miss handler chains. Use structured prompts that specify the target module and expected state. AI-generated inventory should be validated against actual infrastructure via dynamic inventory plugins. Drift detection increasingly integrates with observability platforms for auto-remediation pipelines.
+- LLM-assisted playbook generation requires careful review -- models often produce non-idempotent shell tasks or miss handler chains.
+- Use structured prompts that specify the target module and expected state.
+- AI-generated inventory should be validated against actual infrastructure via dynamic inventory plugins.
+- Drift detection increasingly integrates with observability platforms for auto-remediation pipelines.
+- Ansible-core 2.17+, ansible-lint 25.x, Molecule 25.x with Podman.
 
 ## Related Skills
 

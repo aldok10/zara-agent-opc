@@ -92,6 +92,7 @@ Identify the application type (web, API, mobile, serverless) and current securit
 - DAST tools now support GraphQL and gRPC natively
 - SBOM (CycloneDX/SPDX) required by regulation in US and EU
 - Runtime application self-protection (RASP) integrated in eBPF-based agents
+- Supply chain verification: SLSA L2+ provenance for dependencies, artifact attestation for releases
 
 ## Related Skills
 

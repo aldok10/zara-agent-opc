@@ -77,7 +77,7 @@ When loaded: identify the concern type (performance issue, service management, h
 
 - Linux 6.x kernels ship eBPF CO-RE (Compile Once Run Everywhere) -- portable tracing across kernel versions
 - systemd 256+ includes `ImportCredential=` for secure secret injection without environment variables
-- io_uring is the standard for high-performance async IO -- replacing epoll in many network/storage workloads
+- io_uring is the standard for high-performance async IO -- replacing epoll in many network/storage workloads. io_uring applications require kernel 6.1+ and appropriate seccomp profiles.
 - cgroups v2 PSI (Pressure Stall Information) provides accurate resource contention metrics for autoscaling
 - BPF LSM (Linux Security Module) enables dynamic security policies without kernel module compilation
 - Confidential computing (AMD SEV-SNP, Intel TDX) protects workloads from hypervisor-level access

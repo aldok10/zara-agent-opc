@@ -18,6 +18,7 @@ Load when task involves data pipelines, SQL optimization, data modeling, warehou
 3. Schema as contract (validate at boundaries)
 4. ELT over ETL (transform in warehouse, not in transit)
 5. Measure data quality (freshness, completeness, accuracy)
+6. Open table formats (Iceberg, Delta) as default lakehouse architecture
 
 ## Route to Expert
 
@@ -46,6 +47,7 @@ Load when task involves data pipelines, SQL optimization, data modeling, warehou
 - Text-to-SQL tools produce syntactically correct but semantically wrong queries
 - Data quality monitoring AI-powered (anomaly detection, drift)
 - LLM-generated pipelines need idempotency verification
+- Lakehouse with open table formats (Iceberg, Delta) is the default storage architecture for new builds
 
 ## Verify
 

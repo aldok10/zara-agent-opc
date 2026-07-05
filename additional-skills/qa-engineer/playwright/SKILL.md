@@ -279,6 +279,10 @@ test('renders with label', async ({ mount }) => {
 - Giant page objects with business logic -- POM = locators + simple actions only
 - `test.beforeAll` for data that needs isolation -- use per-test fixtures
 
+## Version Notes
+
+Playwright 1.50+: ARIA snapshots, Clock API stable, box model assertions.
+
 ## AI-Era Context (2026)
 
 AI generates locators and full test flows from page descriptions or user stories, and Playwright MCP enables AI agents to browse and interact with pages programmatically. Self-healing selectors reduce maintenance when DOM changes. However, AI-generated assertions often test presence (toBeVisible) without validating correctness (specific text, state, data). Human review validates that assertions match acceptance criteria, not just DOM existence. Playwright's trace viewer becomes essential for reviewing AI-generated test behavior.

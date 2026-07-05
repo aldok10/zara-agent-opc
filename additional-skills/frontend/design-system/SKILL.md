@@ -10,7 +10,7 @@ Build scalable, consistent component libraries with tokens, variants, and docume
 ## Scope
 
 - Design tokens (W3C format, CSS custom properties, multi-platform)
-- Storybook 8 development and documentation
+- Storybook 8/9 development and documentation
 - Component API design (props, slots, compound patterns)
 - Theming (dark mode, multi-brand, runtime switching)
 - Variant composition (CVA)
@@ -23,7 +23,7 @@ Identify the token layer first. Check for existing tokens file, CSS variables, o
 ## Constraints
 
 1. Tokens are single source of truth (W3C Design Tokens format).
-2. Storybook 8 for development, documentation, visual testing.
+2. Storybook 8/9 for development, documentation, visual testing. Storybook 9: native RSC support, improved test runner.
 3. Component API: minimal props, compound pattern for complex components.
 4. Semantic versioning for component library releases.
 5. Theme via CSS custom properties (tokens) - runtime switchable.
@@ -70,7 +70,7 @@ Identify the token layer first. Check for existing tokens file, CSS variables, o
 ## AI-Era Context (2026)
 
 - W3C Design Tokens spec is the standard format; AI generates ad-hoc token structures
-- Storybook 8 visual testing catches UI regressions that unit tests miss entirely
+- Storybook 8/9 visual testing catches UI regressions that unit tests miss entirely
 - AI generates components that hardcode values instead of consuming design tokens
 - CVA (class-variance-authority) is the standard for type-safe variants; AI uses conditional classnames
 - AI often misses compound component patterns and generates prop-heavy monolithic components

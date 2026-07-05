@@ -30,6 +30,7 @@ Load when task involves security architecture, vulnerability assessment, auth/au
 | Pentest, vulnerability, PTES | `penetration-testing/` |
 | SOC 2, ISO 27001, GDPR, PCI | `compliance/` |
 | Input validation, XSS, SQLi | `secure-code/` |
+| AES, encryption, KMS, PKI, PQC | `cryptography/` |
 | Incident, forensics, IOC | `incident-forensics/` |
 
 ## DO NOT

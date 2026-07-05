@@ -31,6 +31,7 @@ Frontend TypeScript: component props, state machines, API types, form handling, 
 10. No enums  -  use `const` objects with `as const` + value union type.
 11. Type predicates (`x is T`) for reusable narrowing.
 12. Zod/Valibot for runtime validation matching TS types at boundaries.
+13. tsc-go (TS 7.0) is 10x faster - enables full type-check in CI without caching, pre-commit hooks viable.
 
 ## DO NOT
 

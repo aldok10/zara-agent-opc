@@ -30,6 +30,7 @@ Identify the web server in use (check for `nginx.conf`, `Caddyfile`, `haproxy.cf
 13. Certificate auto-renewal (Let's Encrypt via Caddy or certbot)
 14. Error pages customized (502/503/504 with retry guidance)
 15. Compression enabled for text responses (gzip/brotli)
+16. HTTP/3 (QUIC) enabled on edge/CDN listeners (Caddy native, Nginx quic module)
 
 ## DO NOT
 
@@ -73,7 +74,11 @@ Identify the web server in use (check for `nginx.conf`, `Caddyfile`, `haproxy.cf
 
 ## AI-Era Context (2026)
 
-Caddy has become the default choice for new deployments due to automatic HTTPS and simpler configuration. Nginx remains dominant in existing infrastructure. HAProxy excels at pure TCP/HTTP load balancing. HTTP/3 (QUIC) is production-ready in both Nginx and Caddy. Edge computing pushes configuration toward CDN-level (Cloudflare Workers, Fastly Compute) for request routing. Zero-trust networking reduces reliance on network-level isolation.
+- Caddy is the default for new deployments (automatic HTTPS, simpler config). Nginx remains dominant in existing infrastructure.
+- HAProxy excels at pure TCP/HTTP load balancing with advanced health checking.
+- HTTP/3 (QUIC) is production-ready in both Nginx and Caddy.
+- Edge computing pushes configuration toward CDN-level (Cloudflare Workers, Fastly Compute) for request routing.
+- Zero-trust networking reduces reliance on network-level isolation.
 
 ## Related Skills
 

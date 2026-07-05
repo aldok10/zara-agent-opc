@@ -68,7 +68,11 @@ Identify the Azure service tier and region constraints. Check if Bicep or ARM is
 
 ## AI-Era Context (2026)
 
-Azure OpenAI Service is the primary enterprise AI endpoint. Use API Management for AI gateway patterns. Azure AI Foundry replaces ML Studio. Confidential computing (SEV-SNP) for sensitive AI workloads. Azure Container Apps with GPU support for inference. Bicep extensibility (providers) now GA for third-party resources.
+- Azure OpenAI Service is the primary enterprise AI endpoint. Use API Management for AI gateway patterns.
+- Azure AI Foundry replaces ML Studio. Confidential computing (SEV-SNP) for sensitive AI workloads.
+- Azure Container Apps with GPU support for inference.
+- Bicep extensibility (providers) now GA for third-party resources.
+- Azure Verified Modules (AVM) as standard for Bicep.
 
 ## Related Skills
 

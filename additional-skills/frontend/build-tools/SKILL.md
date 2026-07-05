@@ -11,17 +11,17 @@ Frontend build tooling decisions, configuration, optimization, migration. Vite, 
 
 ## First Action
 
-Identify the project type: greenfield (Vite 6), Next.js (Turbopack), legacy Webpack (Rspack migration), or monorepo (Turborepo + pnpm).
+Identify the project type: greenfield (Vite 7), Next.js (Turbopack), legacy Webpack (Rspack migration), or monorepo (Turborepo + pnpm).
 
 ## Constraints
 
-1. Vite 6 is default for new projects (non-Next.js).
+1. Vite 7 is default for new projects (non-Next.js). Rolldown (Rust bundler) replaces Rollup as Vite's production bundler in Vite 7+.
 2. Turbopack for Next.js dev. Rspack for Webpack migration path.
 3. pnpm for package management. Strict mode. No phantom deps.
 4. Turborepo for monorepo orchestration. Remote caching in CI.
 5. Tree-shaking requires ESM. Mark `sideEffects: false` in package.json.
 6. Bundle analysis on every major change (`rollup-plugin-visualizer` or `webpack-bundle-analyzer`).
-7. Environment-specific config via Vite 6 Environment API (replaces `--mode`).
+7. Environment-specific config via Vite 7 Environment API (replaces `--mode`).
 
 ## DO NOT
 
@@ -57,7 +57,7 @@ Identify the project type: greenfield (Vite 6), Next.js (Turbopack), legacy Webp
 
 ## AI-Era Context (2026)
 
-- Vite 6 Environment API replaces `--mode` for multi-environment builds; AI generates outdated config
+- Vite 7 Environment API replaces `--mode` for multi-environment builds; AI generates outdated config
 - Rspack/Rsbuild is the Webpack successor for projects that cannot migrate to Vite directly
 - Module federation enables micro-frontend architecture with shared dependencies at runtime
 - Turbopack is default in Next.js 16 -- separate Webpack config for Next.js is obsolete

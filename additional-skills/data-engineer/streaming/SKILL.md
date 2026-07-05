@@ -82,7 +82,7 @@ Real-time data processing. Kafka for messaging, Flink for computation, Debezium 
 ## AI-Era Context (2026)
 
 - Kafka 4.0 removes ZooKeeper entirely (KRaft-only); all new deployments are KRaft
-- Flink 2.x unifies batch and streaming APIs; same job handles both modes
+- Flink 2.0: unified batch/stream API (DataStream v2), removed legacy DataSet API
 - Redpanda as Kafka-compatible alternative with lower operational overhead; evaluate for new clusters
 - Real-time ML feature stores (Tecton, Feast) consume directly from Kafka topics
 - CDC pipelines increasingly replace batch ETL for operational analytics (sub-minute freshness)

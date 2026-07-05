@@ -87,6 +87,7 @@ Analytical data modeling. dbt for transformations, dimensional modeling for ware
 - Data contracts (schema + SLA) between producers and consumers are becoming standard practice
 - dbt Cloud supports CI with slim builds (state:modified); essential for large projects
 - Column-level lineage tools (dbt Explorer, Atlan, DataHub) make impact analysis automatic
+- dbt 1.9+: native microbatch incremental, unit testing built-in, YAML contracts with access modifiers for mesh
 
 ## Related Skills
 

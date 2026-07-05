@@ -74,6 +74,7 @@ When loaded: read the existing Dockerfile (or identify where one should be creat
 
 ## AI-Era Context (2026)
 
+- Docker Engine 27+, BuildKit default, Compose V2 only (v1 removed). Testcontainers for integration testing.
 - Chainguard images have replaced distroless for many teams -- actively maintained, daily rebuilds, zero CVEs
 - BuildKit is the default builder in Docker Engine 24+ -- legacy builder fully removed
 - Docker Scout provides SBOM + CVE analysis integrated into `docker build` output

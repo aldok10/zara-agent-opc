@@ -82,6 +82,7 @@ When loaded: identify the IaC concern (new infra, refactoring, state issue, modu
 - Stacks (Terraform Stacks / OpenTofu) are emerging for orchestrating multiple state files with dependencies
 - `checkov` 3.x supports custom Python policies and auto-fix for common misconfigurations
 - HCP Terraform (formerly Terraform Cloud) added ephemeral workspaces for testing modules
+- Terragrunt 0.70+ for DRY multi-environment orchestration when native workspaces insufficient
 
 ## Related Skills
 

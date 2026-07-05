@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Spark Job Optimization Review Prompt"
+---
+
 # Spark Job Optimization Review Prompt
 
 Use this prompt to review and optimize Spark job performance.

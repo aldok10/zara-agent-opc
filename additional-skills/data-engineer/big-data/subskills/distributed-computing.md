@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Distributed Computing Fundamentals"
+---
+
 # Distributed Computing Fundamentals
 
 MapReduce concepts, data locality, fault tolerance, and distributed system patterns for data processing.

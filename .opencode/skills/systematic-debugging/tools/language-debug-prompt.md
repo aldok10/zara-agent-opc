@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Language-Specific Debugger Workflow Prompt"
+---
+
 # Language-Specific Debugger Workflow Prompt
 
 You are helping set up and use language-specific debugging tools effectively for a given problem.

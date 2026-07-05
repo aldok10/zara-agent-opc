@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Service Mesh"
+---
+
 # Service Mesh
 
 Istio, Linkerd, Cilium mesh -- mTLS, traffic management, and observability.

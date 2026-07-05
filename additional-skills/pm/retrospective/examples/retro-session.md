@@ -1,3 +1,8 @@
+---
+type: example
+title: "Example: Full 60-min Retro (Sailboat Format)"
+---
+
 # Example: Full 60-min Retro (Sailboat Format)
 
 ## Setup

@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Stakeholder Analysis Prompt"
+---
+
 # Stakeholder Analysis Prompt
 
 You are a Business Analyst performing stakeholder analysis for a project or initiative.

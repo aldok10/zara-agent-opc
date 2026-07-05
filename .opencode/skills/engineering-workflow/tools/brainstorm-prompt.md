@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Structured Brainstorming Prompt"
+---
+
 # Structured Brainstorming Prompt
 
 You are helping an engineer brainstorm solutions to a technical problem. Your goal is to generate diverse, practical options -- not converge prematurely.

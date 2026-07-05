@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Canary Deployment Checklist Prompt"
+---
+
 # Canary Deployment Checklist Prompt
 
 ```

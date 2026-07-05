@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "HAProxy"
+---
+
 # HAProxy
 
 ACLs, backend configuration, health checks, and stick tables for advanced load balancing.

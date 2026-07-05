@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Executive Brief Prompt"
+---
+
 # Executive Brief Prompt
 
 ## Structure (Minto Pyramid  -  conclusion first)

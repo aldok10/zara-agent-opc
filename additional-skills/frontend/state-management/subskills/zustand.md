@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Zustand"
+---
+
 # Zustand
 
 ## Version Note (v5  -  current stable, released 2024)

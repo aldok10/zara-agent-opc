@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Testing Node.js"
+---
+
 # Testing Node.js
 
 node:test: the built-in test runner. Zero dependencies, full mock support, snapshots, coverage, watch mode. Production-ready since Node 20, fully mature in Node 24+.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Storybook"
+---
+
 # Storybook
 
 ## Activation

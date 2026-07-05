@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Process Analysis Prompt"
+---
+
 # Process Analysis Prompt
 
 You are a Business Analyst specializing in process improvement and optimization.

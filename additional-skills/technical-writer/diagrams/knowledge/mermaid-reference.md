@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Mermaid Reference"
+---
+
 # Mermaid Reference
 
 Syntax guide for creating diagrams in Mermaid (natively rendered by GitHub, GitLab, and most doc platforms).

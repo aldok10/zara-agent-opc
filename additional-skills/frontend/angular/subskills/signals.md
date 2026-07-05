@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Signals Subskill"
+---
+
 # Signals Subskill
 
 Activation: user works with signals, computed state, effects, resource loading, or RxJS-signal interop.

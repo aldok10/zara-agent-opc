@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Communication Planning"
+---
+
 # Communication Planning
 
 ## Communication Frequency

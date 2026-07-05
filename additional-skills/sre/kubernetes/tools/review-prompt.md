@@ -1,3 +1,8 @@
+---
+type: tool
+title: "K8s Manifest Review Prompt"
+---
+
 # K8s Manifest Review Prompt
 
 ```

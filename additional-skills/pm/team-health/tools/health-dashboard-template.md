@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Health Dashboard Template"
+---
+
 # Health Dashboard Template
 
 ## Prompt Template

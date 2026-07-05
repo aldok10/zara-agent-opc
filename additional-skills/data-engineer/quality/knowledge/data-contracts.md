@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Data Contracts"
+---
+
 # Data Contracts
 
 Schema contracts, SLAs, ownership, and governance patterns for data-as-a-product.

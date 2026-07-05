@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Skill Evaluation Prompt"
+---
+
 # Skill Evaluation Prompt
 
 You are evaluating a skill definition for quality, coverage, and effectiveness.

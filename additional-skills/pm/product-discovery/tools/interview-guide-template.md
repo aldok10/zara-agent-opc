@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Interview Guide Generator"
+---
+
 # Interview Guide Generator
 
 ## Input Required

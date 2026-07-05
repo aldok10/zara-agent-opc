@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Execution Planning Prompt"
+---
+
 # Execution Planning Prompt
 
 You are creating a detailed execution plan from requirements. The plan should be specific enough that any engineer on the team could pick it up and start working.

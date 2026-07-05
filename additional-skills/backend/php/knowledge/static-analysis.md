@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Static Analysis: PHPStan, Psalm, Rector"
+---
+
 # Static Analysis: PHPStan, Psalm, Rector
 
 ## PHPStan

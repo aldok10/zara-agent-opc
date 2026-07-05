@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Spark Patterns"
+---
+
 # Spark Patterns
 
 ## DataFrame API Best Practices

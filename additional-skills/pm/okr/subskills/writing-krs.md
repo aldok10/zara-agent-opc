@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Writing Key Results"
+---
+
 # Writing Key Results
 
 ## KR Formula

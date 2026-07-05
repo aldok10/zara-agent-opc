@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "AI-Friendly Documentation Subskill"
+---
+
 # AI-Friendly Documentation Subskill
 
 ## When to Load

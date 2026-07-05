@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Kafka"
+---
+
 # Kafka
 
 Apache Kafka deep-dive. Distributed commit log, partitioned topics, consumer groups, exactly-once semantics (transactional), KRaft consensus, tiered storage, Kafka Streams, and Connect.

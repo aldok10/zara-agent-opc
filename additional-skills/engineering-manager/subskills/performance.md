@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Performance Management"
+---
+
 # Performance Management
 
 Review cycles, expectations setting, performance improvement plans, and promotion criteria.

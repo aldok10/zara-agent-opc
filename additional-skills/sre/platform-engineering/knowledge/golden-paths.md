@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Golden Paths"
+---
+
 # Golden Paths
 
 Internal developer platform golden paths: paved roads that encode best practices without constraining innovation.

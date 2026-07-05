@@ -1,3 +1,8 @@
+---
+type: example
+title: "Order Service: Database Connection Pool Exhaustion"
+---
+
 # Order Service: Database Connection Pool Exhaustion
 
 **Owner:** Backend Platform Team

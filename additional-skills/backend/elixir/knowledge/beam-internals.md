@@ -1,3 +1,8 @@
+---
+type: fact
+title: "BEAM VM Internals"
+---
+
 # BEAM VM Internals
 
 ## Schedulers

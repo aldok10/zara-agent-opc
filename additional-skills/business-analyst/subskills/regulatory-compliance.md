@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Regulatory Compliance Subskill"
+---
+
 # Regulatory Compliance Subskill
 
 ## When to Load

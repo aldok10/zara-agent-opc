@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Log Analysis for Incident Response"
+---
+
 # Log Analysis for Incident Response
 
 Timeline reconstruction, indicator of compromise identification, log correlation, and SIEM techniques.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Cognitive Load"
+---
+
 # Cognitive Load
 
 ## Scope

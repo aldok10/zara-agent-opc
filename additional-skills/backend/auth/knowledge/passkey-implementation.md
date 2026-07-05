@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Passkey Implementation Guide"
+---
+
 # Passkey Implementation Guide
 
 ## WebAuthn API Overview

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Versioning Strategies"
+---
+
 # Versioning Strategies
 
 ## When to Load

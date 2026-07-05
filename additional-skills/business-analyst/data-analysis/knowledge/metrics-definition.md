@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Metrics Definition"
+---
+
 # Metrics Definition
 
 ## Types of Metrics

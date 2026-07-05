@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Resilience Patterns"
+---
+
 # Resilience Patterns
 
 Patterns for handling failure in distributed systems. Assume everything will fail; design for graceful degradation.

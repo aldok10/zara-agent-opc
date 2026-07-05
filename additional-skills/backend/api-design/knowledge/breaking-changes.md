@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Breaking Changes"
+---
+
 # Breaking Changes
 
 ## What Constitutes a Breaking Change

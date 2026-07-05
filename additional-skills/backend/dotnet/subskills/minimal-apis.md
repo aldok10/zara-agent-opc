@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Minimal APIs"
+---
+
 # Minimal APIs
 
 ASP.NET Core Minimal API patterns for .NET 10+.

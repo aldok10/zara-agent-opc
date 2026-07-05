@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Performance Test Reporting"
+---
+
 # Performance Test Reporting
 
 ## Grafana Dashboard Setup

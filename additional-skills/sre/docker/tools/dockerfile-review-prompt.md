@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Dockerfile Review Prompt"
+---
+
 # Dockerfile Review Prompt
 
 Use this prompt when reviewing Dockerfiles for production readiness, security, and performance.

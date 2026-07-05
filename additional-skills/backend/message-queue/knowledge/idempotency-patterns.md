@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Idempotency Patterns"
+---
+
 # Idempotency Patterns
 
 Strategies to ensure processing a message multiple times produces the same result as processing it once. Required because all message brokers deliver at-least-once under failure scenarios.

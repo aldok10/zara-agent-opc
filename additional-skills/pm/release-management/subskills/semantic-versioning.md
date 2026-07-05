@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Semantic Versioning"
+---
+
 # Semantic Versioning
 
 ## Rules

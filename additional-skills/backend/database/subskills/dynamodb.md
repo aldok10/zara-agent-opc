@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "DynamoDB"
+---
+
 # DynamoDB
 
 Single-table design, GSI overloading, streams, cost optimization, and access pattern modeling.

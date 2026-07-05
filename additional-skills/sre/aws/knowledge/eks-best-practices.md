@@ -1,3 +1,8 @@
+---
+type: fact
+title: "EKS Best Practices"
+---
+
 # EKS Best Practices
 
 ## Cluster Configuration

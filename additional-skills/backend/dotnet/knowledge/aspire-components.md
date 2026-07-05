@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Aspire Components Catalog"
+---
+
 # Aspire Components Catalog
 
 ## Database

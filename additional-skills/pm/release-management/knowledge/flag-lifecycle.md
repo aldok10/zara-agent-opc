@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Flag Lifecycle"
+---
+
 # Flag Lifecycle
 
 ## Stages

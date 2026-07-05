@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Native to Cross-Platform Migration Checklist"
+---
+
 # Native to Cross-Platform Migration Checklist
 
 ## Pre-Migration Assessment

@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Go Code Review Prompt"
+---
+
 # Go Code Review Prompt
 
 Use this prompt when reviewing Go code for quality and correctness.

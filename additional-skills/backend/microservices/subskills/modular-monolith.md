@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Modular Monolith"
+---
+
 # Modular Monolith
 
 A well-structured monolith with clear module boundaries. Each module owns its domain, data, and behavior. Modules communicate via defined internal APIs. Designed for extraction readiness  -  can become microservices when evidence demands it.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Ecto Patterns"
+---
+
 # Ecto Patterns
 
 Ecto: multi-tenancy, composable queries, custom types, migrations, Repo patterns.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Linux Performance Tuning"
+---
+
 # Linux Performance Tuning
 
 sysctl, scheduler, NUMA, IRQ balancing, and benchmarking for production workloads.

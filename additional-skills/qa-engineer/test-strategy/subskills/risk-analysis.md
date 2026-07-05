@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Risk-Based Testing"
+---
+
 # Risk-Based Testing
 
 ## Risk Matrix

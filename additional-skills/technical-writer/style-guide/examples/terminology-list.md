@@ -1,3 +1,8 @@
+---
+type: example
+title: "Terminology List"
+---
+
 # Terminology List
 
 Consistent terminology for the Task Management Platform documentation.

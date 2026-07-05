@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Vue Performance"
+---
+
 # Subskill: Vue Performance
 
 Activate when: optimizing render performance, reducing bundle size, Vapor Mode, lazy loading, virtualization.

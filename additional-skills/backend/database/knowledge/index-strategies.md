@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Index Strategies"
+---
+
 # Index Strategies
 
 When to use each index type, design principles, and common mistakes.

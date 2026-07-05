@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Go Performance Analysis Prompt"
+---
+
 # Go Performance Analysis Prompt
 
 Use this prompt when analyzing Go code for performance issues.

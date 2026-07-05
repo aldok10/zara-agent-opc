@@ -1,3 +1,8 @@
+---
+type: fact
+title: "ESM Patterns"
+---
+
 # ESM Patterns
 
 ECMAScript Modules in Node.js: the module system for all new projects. No CommonJS, no require().

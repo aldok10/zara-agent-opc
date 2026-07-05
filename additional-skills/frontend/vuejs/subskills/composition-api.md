@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Composition API (Vue 3.5+)"
+---
+
 # Subskill: Composition API (Vue 3.5+)
 
 Activate when: building components, extracting composables, managing reactivity, lifecycle hooks, provide/inject patterns.

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Nginx Patterns"
+---
+
 # Nginx Patterns
 
 ## Server Block Structure

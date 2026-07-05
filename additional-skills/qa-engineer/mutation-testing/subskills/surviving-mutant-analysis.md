@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Surviving Mutant Analysis"
+---
+
 # Surviving Mutant Analysis
 
 ## Reading the HTML Report

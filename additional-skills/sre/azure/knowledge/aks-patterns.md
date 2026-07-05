@@ -1,3 +1,8 @@
+---
+type: fact
+title: "AKS Patterns (2026)"
+---
+
 # AKS Patterns (2026)
 
 ## Workload Identity

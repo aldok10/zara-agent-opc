@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Android Testing"
+---
+
 # Android Testing
 
 ## UiAutomator2 Driver

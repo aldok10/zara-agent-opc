@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Changelog Automation"
+---
+
 # Changelog Automation
 
 Conventional commits, release-please, semantic-release -- automating version bumps and changelog generation.

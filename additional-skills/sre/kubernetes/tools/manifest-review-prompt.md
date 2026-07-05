@@ -1,3 +1,8 @@
+---
+type: tool
+title: "K8s Manifest Review Prompt (Extended)"
+---
+
 # K8s Manifest Review Prompt (Extended)
 
 Use this prompt template when reviewing Kubernetes manifests for production readiness with an LLM.

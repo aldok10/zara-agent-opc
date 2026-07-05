@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Monte Carlo Simulation Prompt Template"
+---
+
 # Monte Carlo Simulation Prompt Template
 
 ## Input Format

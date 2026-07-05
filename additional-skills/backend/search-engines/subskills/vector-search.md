@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Vector Search"
+---
+
 # Vector Search
 
 Embedding-based similarity search -- approximate nearest neighbor algorithms, indexing strategies, and hybrid scoring.

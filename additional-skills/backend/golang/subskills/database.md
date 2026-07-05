@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Database"
+---
+
 # Database
 
 Go + SQL patterns. Type-safe queries, proper transactions, production-ready connection management.

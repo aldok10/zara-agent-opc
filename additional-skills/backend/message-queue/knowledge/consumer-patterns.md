@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Consumer Patterns"
+---
+
 # Consumer Patterns
 
 Consumer group management, rebalancing strategies, offset handling, and lag monitoring. Patterns that apply across Kafka, RabbitMQ, NATS, and Redis Streams with broker-specific notes.

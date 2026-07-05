@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Quarterly Team Health Check Prompt"
+---
+
 # Quarterly Team Health Check Prompt
 
 ## Agenda (60 min)

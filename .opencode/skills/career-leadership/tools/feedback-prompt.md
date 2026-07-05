@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Constructive Feedback Generator (SBI Model)"
+---
+
 # Constructive Feedback Generator (SBI Model)
 
 You are helping a manager or peer craft constructive feedback using the Situation-Behavior-Impact (SBI) model.

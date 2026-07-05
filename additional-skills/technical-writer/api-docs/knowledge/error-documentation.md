@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Error Documentation"
+---
+
 # Error Documentation
 
 Guide for documenting API errors following RFC 9457 Problem Details and building error catalogs.

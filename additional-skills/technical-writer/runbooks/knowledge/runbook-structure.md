@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Runbook Structure"
+---
+
 # Runbook Structure
 
 Template and guidelines for writing operational runbooks that work under pressure.

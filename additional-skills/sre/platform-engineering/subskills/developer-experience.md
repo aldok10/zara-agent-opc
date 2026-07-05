@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Developer Experience"
+---
+
 # Developer Experience
 
 DX metrics, friction reduction, and tooling for developer productivity.

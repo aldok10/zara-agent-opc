@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Component Testing"
+---
+
 # Component Testing
 
 ## Setup

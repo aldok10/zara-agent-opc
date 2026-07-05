@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Debt Measurement Metrics Reference"
+---
+
 # Debt Measurement Metrics Reference
 
 | Metric | How to Measure | Healthy Range | Warning Threshold | Tool Source |

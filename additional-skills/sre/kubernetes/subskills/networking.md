@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Kubernetes Networking"
+---
+
 # Kubernetes Networking
 
 ## Gateway API (replaces Ingress)

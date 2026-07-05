@@ -1,3 +1,8 @@
+---
+type: fact
+title: "cgroups v2"
+---
+
 # cgroups v2
 
 ## Overview

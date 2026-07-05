@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "OpenAPI Spec Authoring"
+---
+
 # OpenAPI Spec Authoring
 
 ## When to Load

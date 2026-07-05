@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Query Complexity Analysis"
+---
+
 # Query Complexity Analysis
 
 Cost analysis for GraphQL queries. Static analysis, field-level costs, depth limiting, dynamic multipliers, implementation approaches.

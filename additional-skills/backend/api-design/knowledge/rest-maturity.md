@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Richardson Maturity Model"
+---
+
 # Richardson Maturity Model
 
 ## Level 0  -  The Swamp of POX

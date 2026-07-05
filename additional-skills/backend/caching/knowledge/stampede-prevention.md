@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Stampede Prevention"
+---
+
 # Stampede Prevention
 
 Cache stampede (thundering herd) prevention techniques. Probabilistic early expiry, locking, request coalescing, circuit breaker.

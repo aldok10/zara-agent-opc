@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Data Modeling Prompt"
+---
+
 # Data Modeling Prompt
 
 You are a senior data architect evaluating a database schema design.

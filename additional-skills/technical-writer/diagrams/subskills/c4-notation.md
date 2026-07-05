@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "C4 Notation"
+---
+
 # C4 Notation
 
 Context, Container, Component, and Code diagrams for software architecture visualization.

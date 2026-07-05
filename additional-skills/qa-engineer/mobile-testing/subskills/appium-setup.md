@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Appium Setup"
+---
+
 # Appium Setup
 
 ## Installation (Appium 2)

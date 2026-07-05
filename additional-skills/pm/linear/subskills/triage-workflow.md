@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Triage Workflow"
+---
+
 # Triage Workflow
 
 ## Purpose

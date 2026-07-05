@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Kubernetes Workloads"
+---
+
 # Kubernetes Workloads
 
 ## Deployment

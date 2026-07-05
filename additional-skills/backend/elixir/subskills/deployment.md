@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Deployment"
+---
+
 # Deployment
 
 BEAM deployment: releases, hot upgrades, clustering (libcluster), Fly.io, observability.

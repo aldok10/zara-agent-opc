@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Serverless Patterns"
+---
+
 # Serverless Patterns
 
 Architecture patterns for serverless -- fan-out, saga, circuit breaker, DLQ, and idempotency.

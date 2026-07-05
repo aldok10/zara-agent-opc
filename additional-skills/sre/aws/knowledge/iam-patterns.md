@@ -1,3 +1,8 @@
+---
+type: fact
+title: "IAM Patterns"
+---
+
 # IAM Patterns
 
 ## Least Privilege Principles

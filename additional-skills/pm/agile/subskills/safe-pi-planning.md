@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "SAFe PI Planning"
+---
+
 # SAFe PI Planning
 
 ## When to Use

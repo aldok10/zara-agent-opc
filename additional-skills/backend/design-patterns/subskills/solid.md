@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "SOLID Principles"
+---
+
 # SOLID Principles
 
 Five principles for writing maintainable, extensible object-oriented code that resists rigidity and fragility.

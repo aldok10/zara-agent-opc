@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "API Development in PHP"
+---
+
 # API Development in PHP
 
 ## When to Load

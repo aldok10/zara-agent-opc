@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Server Actions"
+---
+
 # Server Actions
 
 Activate when: server action, form, mutation, useActionState, useFormStatus, 'use server', data mutation.

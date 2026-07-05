@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Deployment"
+---
+
 # Deployment
 
 Activate when: deploy, Docker, standalone, Vercel, self-host, CI/CD, build output, environment variables.

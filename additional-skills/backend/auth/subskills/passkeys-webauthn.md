@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Passkeys & WebAuthn"
+---
+
 # Passkeys & WebAuthn
 
 ## Context

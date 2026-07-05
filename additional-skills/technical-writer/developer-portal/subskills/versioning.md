@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Documentation Versioning"
+---
+
 # Documentation Versioning
 
 Multi-version docs, end-of-life policies, and migration between doc versions.

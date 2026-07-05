@@ -1,4 +1,5 @@
 ---
+type: subskill
 name: runtime
 trigger: "Long tasks, main thread, scheduler.yield, Web Worker, performance profiling, jank"
 ---

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Azure Entra ID (formerly Azure AD)"
+---
+
 # Azure Entra ID (formerly Azure AD)
 
 ## Core Concepts

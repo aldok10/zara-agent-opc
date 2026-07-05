@@ -1,3 +1,8 @@
+---
+type: example
+title: "Example: Sprint Health Dashboard"
+---
+
 # Example: Sprint Health Dashboard
 
 ## Question Answered

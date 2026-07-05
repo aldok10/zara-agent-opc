@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Elixir Patterns"
+---
+
 # Elixir Patterns
 
 ## with/else (Happy Path Pipelines)

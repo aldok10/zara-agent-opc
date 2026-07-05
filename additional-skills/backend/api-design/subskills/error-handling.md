@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Error Handling"
+---
+
 # Error Handling
 
 ## When to Load

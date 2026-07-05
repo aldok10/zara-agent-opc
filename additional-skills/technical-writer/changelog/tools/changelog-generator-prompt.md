@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Changelog Generator"
+---
+
 # Changelog Generator
 
 You are generating a changelog entry from a list of commits or pull requests.

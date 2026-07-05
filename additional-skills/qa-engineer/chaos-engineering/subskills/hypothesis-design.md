@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Hypothesis Design"
+---
+
 # Hypothesis Design
 
 ## Hypothesis Template

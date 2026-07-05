@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Edge Cases and Boundary Analysis"
+---
+
 # Edge Cases and Boundary Analysis
 
 ## What Are Edge Cases?

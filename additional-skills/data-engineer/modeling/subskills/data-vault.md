@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Data Vault Modeling"
+---
+
 # Data Vault Modeling
 
 Hubs, links, satellites, point-in-time tables, and Data Vault 2.0 patterns.

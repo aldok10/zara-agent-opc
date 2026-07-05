@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Fine-Tuning Decision Framework"
+---
+
 # Fine-Tuning Decision Framework
 
 You are a senior AI engineer evaluating the best approach for a custom AI capability.

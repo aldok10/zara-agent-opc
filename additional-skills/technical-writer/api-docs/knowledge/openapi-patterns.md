@@ -1,3 +1,8 @@
+---
+type: fact
+title: "OpenAPI 3.1 Patterns"
+---
+
 # OpenAPI 3.1 Patterns
 
 Reference for writing well-structured OpenAPI specifications.

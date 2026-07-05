@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Karpenter NodePools (v1.0+)"
+---
+
 # Karpenter NodePools (v1.0+)
 
 Just-in-time node provisioning that responds to pending pods in under 30 seconds. Replaces Cluster Autoscaler for most workloads by directly selecting instance types to match pod requirements without ASG intermediaries.

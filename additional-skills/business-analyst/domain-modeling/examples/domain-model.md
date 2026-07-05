@@ -1,3 +1,8 @@
+---
+type: example
+title: "Example: Domain Model -- Food Delivery Platform"
+---
+
 # Example: Domain Model -- Food Delivery Platform
 
 ## Bounded Contexts

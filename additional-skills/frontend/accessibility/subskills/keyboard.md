@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Keyboard Navigation & Focus Management"
+---
+
 # Keyboard Navigation & Focus Management
 
 ## Activation

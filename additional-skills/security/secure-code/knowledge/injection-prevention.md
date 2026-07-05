@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Injection Prevention"
+---
+
 # Injection Prevention
 
 Comprehensive guide to preventing SQL, XSS, command, and template injection vulnerabilities.

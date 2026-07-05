@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Connection Pooling"
+---
+
 # Connection Pooling
 
 PgBouncer, ProxySQL, HikariCP, and pgx pool: sizing, modes, and operational guidance.

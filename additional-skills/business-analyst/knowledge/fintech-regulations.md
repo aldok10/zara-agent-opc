@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Fintech Regulations Knowledge Base"
+---
+
 # Fintech Regulations Knowledge Base
 
 Reference for regulatory requirements when designing fintech features. Not legal advice -- always confirm with compliance/legal teams.

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Project Structure"
+---
+
 # Project Structure
 
 Go project layout for backend services. Pragmatic, not dogmatic.

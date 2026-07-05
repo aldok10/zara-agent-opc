@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Discovery Frameworks Quick Reference"
+---
+
 # Discovery Frameworks Quick Reference
 
 | Framework | Core Loop | When to Use | Key Artifacts |

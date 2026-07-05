@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Facilitation Tips"
+---
+
 # Facilitation Tips
 
 ## Core Techniques

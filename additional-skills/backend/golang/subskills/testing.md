@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Testing"
+---
+
 # Testing
 
 Go testing patterns for backend services. Fast, reliable, comprehensive.

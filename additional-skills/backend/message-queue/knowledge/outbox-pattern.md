@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Outbox Pattern"
+---
+
 # Outbox Pattern
 
 Transactional outbox ensures atomicity between database write and event publication. Business data + event stored in same transaction; a separate process delivers events to the broker.

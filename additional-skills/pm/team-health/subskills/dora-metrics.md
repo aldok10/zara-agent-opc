@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "DORA Metrics"
+---
+
 # DORA Metrics
 
 ## Scope

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "DDD Tactical Patterns"
+---
+
 # DDD Tactical Patterns
 
 ## Entity

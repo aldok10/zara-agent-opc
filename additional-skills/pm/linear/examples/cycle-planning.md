@@ -1,3 +1,8 @@
+---
+type: example
+title: "Cycle Planning Example"
+---
+
 # Cycle Planning Example
 
 ## Context

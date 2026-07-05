@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Mutation Testing CI Integration"
+---
+
 # Mutation Testing CI Integration
 
 ## Incremental Mode

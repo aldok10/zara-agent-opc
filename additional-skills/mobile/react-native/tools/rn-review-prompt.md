@@ -1,3 +1,8 @@
+---
+type: tool
+title: "React Native Code Review Prompt"
+---
+
 # React Native Code Review Prompt
 
 You are reviewing React Native (TypeScript) code. Evaluate against these criteria:

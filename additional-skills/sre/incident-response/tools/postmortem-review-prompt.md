@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Postmortem Review Prompt"
+---
+
 # Postmortem Review Prompt
 
 You are reviewing a postmortem document for quality and completeness. Evaluate whether it meets the standard for a blameless, actionable, and thorough incident retrospective.

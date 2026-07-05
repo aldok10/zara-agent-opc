@@ -1,3 +1,8 @@
+---
+type: fact
+title: "SLSA Provenance"
+---
+
 # SLSA Provenance
 
 SLSA (Supply-chain Levels for Software Artifacts) is a framework for ensuring the integrity of build artifacts. It defines levels of assurance that an artifact was built from the expected source by the expected process without tampering.

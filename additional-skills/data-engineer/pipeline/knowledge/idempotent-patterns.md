@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Idempotent Patterns"
+---
+
 # Idempotent Patterns
 
 Exactly-once semantics, deduplication strategies, and merge patterns for reliable data pipelines.

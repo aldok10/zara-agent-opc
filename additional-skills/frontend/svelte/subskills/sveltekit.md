@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: SvelteKit"
+---
+
 # Subskill: SvelteKit
 
 ## Activation

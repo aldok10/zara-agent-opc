@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Stakeholder Mapping"
+---
+
 # Stakeholder Mapping
 
 ## Power/Interest Matrix

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Migrations"
+---
+
 # Migrations
 
 Zero-downtime DDL, expand-contract pattern, and tooling for safe schema evolution.

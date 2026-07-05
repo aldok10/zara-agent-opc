@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Encryption Patterns"
+---
+
 # Encryption Patterns
 
 ## Symmetric Encryption

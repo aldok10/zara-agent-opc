@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Linux Storage"
+---
+
 # Linux Storage
 
 LVM, filesystems, NVMe, io_uring, and storage benchmarking with fio.

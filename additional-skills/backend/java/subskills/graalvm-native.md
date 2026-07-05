@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: GraalVM Native Image"
+---
+
 # Subskill: GraalVM Native Image
 
 > Activate when: building native executables, configuring AOT metadata, debugging native image compilation issues, or optimizing startup/memory for cloud deployment.

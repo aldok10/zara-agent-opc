@@ -1,3 +1,8 @@
+---
+type: example
+title: "Assumption Map Example: Team Collaboration Feature"
+---
+
 # Assumption Map Example: Team Collaboration Feature
 
 ## Context

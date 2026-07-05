@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Azure Networking"
+---
+
 # Azure Networking
 
 VNet design, Private Endpoints, Front Door, and Application Gateway patterns.

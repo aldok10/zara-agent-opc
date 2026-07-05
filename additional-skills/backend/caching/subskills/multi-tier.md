@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Multi-Tier Caching"
+---
+
 # Multi-Tier Caching
 
 L1/L2/L3 cache design. Promotion, demotion, consistency between tiers, local cache integration.

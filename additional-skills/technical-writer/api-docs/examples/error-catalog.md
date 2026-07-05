@@ -1,3 +1,8 @@
+---
+type: example
+title: "Error Catalog"
+---
+
 # Error Catalog
 
 Reference for all error codes returned by the Task Management API.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Facilitation Formats"
+---
+
 # Facilitation Formats
 
 ## Universal Pattern

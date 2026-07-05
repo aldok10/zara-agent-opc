@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Python Migration Prompt"
+---
+
 # Python Migration Prompt
 
 You are helping migrate Python code from one pattern/library to another while preserving behavior.

@@ -1,3 +1,8 @@
+---
+type: tool
+title: "PHP Legacy Code Refactoring Prompt"
+---
+
 # PHP Legacy Code Refactoring Prompt
 
 You are helping refactor legacy PHP code toward modern PHP 8.3+ patterns while preserving existing behavior.

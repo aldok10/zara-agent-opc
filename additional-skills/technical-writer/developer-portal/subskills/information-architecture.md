@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Information Architecture"
+---
+
 # Information Architecture
 
 Navigation, content types, and search design for developer portals.

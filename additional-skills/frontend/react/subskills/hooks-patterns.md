@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Hooks Patterns"
+---
+
 # Subskill: Hooks Patterns
 
 > Activate when: building custom hooks, composing hooks, debugging hook rules violations, or choosing between hooks.

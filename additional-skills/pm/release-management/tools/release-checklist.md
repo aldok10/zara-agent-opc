@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Release Checklist Generator"
+---
+
 # Release Checklist Generator
 
 ## Prompt Template

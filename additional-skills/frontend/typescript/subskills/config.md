@@ -1,4 +1,5 @@
 ---
+type: subskill
 name: config
 trigger: tsconfig, module resolution, path aliases, project references, strict flags, compilation
 ---

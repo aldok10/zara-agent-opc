@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Writing Principles"
+---
+
 # Writing Principles
 
 Core rules for clear, concise technical writing that serves global audiences.

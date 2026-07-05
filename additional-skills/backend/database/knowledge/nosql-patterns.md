@@ -1,3 +1,8 @@
+---
+type: fact
+title: "NoSQL Patterns"
+---
+
 # NoSQL Patterns
 
 Document embedding vs referencing, wide-column design, and key-value access patterns.

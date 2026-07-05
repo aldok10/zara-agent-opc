@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Secrets Detection"
+---
+
 # Secrets Detection
 
 ## gitleaks

@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Security-Focused Code Review Prompt"
+---
+
 # Security-Focused Code Review Prompt
 
 You are a senior security engineer reviewing code for vulnerabilities.

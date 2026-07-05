@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Subagent Dispatch Prompt Template"
+---
+
 # Subagent Dispatch Prompt Template
 
 You are dispatching a task to a specialized subagent. Structure the dispatch for maximum clarity and minimum ambiguity.

@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Threat Modeling Prompt"
+---
+
 # Threat Modeling Prompt
 
 Use this prompt template when performing LLM-assisted threat modeling of a system.

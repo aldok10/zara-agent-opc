@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Runtime Security"
+---
+
 # Runtime Security
 
 Falco, KubeArmor, and eBPF-based runtime threat detection.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "AWS Cost Management"
+---
+
 # AWS Cost Management
 
 Cost Explorer, Savings Plans, right-sizing, and tagging strategies for FinOps.

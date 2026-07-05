@@ -1,3 +1,8 @@
+---
+type: tool
+title: "TypeScript Migration Prompt"
+---
+
 # TypeScript Migration Prompt
 
 You are helping migrate a TypeScript project: either upgrading TS versions or converting from CJS to ESM.

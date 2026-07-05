@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Reactive (WebFlux)"
+---
+
 # Subskill: Reactive (WebFlux)
 
 > Activate when: using Spring WebFlux, Project Reactor, R2DBC, handling backpressure, or deciding between reactive and virtual threads.

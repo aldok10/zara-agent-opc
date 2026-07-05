@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Retro Format Selector Prompt"
+---
+
 # Retro Format Selector Prompt
 
 ## Template

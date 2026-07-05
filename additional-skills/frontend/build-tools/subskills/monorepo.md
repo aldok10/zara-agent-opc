@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Monorepo"
+---
+
 # Monorepo
 
 ## Activation

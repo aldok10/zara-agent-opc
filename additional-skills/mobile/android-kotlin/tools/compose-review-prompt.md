@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Compose Code Review Prompt"
+---
+
 # Compose Code Review Prompt
 
 You are reviewing Jetpack Compose (Kotlin) code. Evaluate against these criteria:

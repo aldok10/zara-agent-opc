@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Streams"
+---
+
 # Streams
 
 Node.js stream processing: Transform streams, pipeline API, backpressure handling, web streams interop, and async iterators for memory-efficient data processing.

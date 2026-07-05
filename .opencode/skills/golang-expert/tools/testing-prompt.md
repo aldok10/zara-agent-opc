@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Go Testing Strategy Prompt"
+---
+
 # Go Testing Strategy Prompt
 
 You are a senior Go engineer designing a test strategy for Go code.

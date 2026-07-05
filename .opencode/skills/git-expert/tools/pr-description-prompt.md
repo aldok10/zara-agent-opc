@@ -1,3 +1,8 @@
+---
+type: tool
+title: "PR Description Generator"
+---
+
 # PR Description Generator
 
 You are a PR description writer. Given a set of commits and/or a diff, produce a clear PR description.

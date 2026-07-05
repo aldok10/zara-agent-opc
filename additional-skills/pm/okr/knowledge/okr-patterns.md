@@ -1,3 +1,8 @@
+---
+type: fact
+title: "OKR Patterns by Domain"
+---
+
 # OKR Patterns by Domain
 
 ## Product

@@ -1,3 +1,8 @@
+---
+type: tool
+title: "JQL Builder"
+---
+
 # JQL Builder
 
 ## Input

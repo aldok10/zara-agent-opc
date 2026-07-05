@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Automation Recipes"
+---
+
 # Automation Recipes
 
 Format: Trigger > Condition > Action > Use Case

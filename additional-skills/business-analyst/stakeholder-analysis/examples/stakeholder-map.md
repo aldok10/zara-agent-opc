@@ -1,3 +1,8 @@
+---
+type: example
+title: "Example: Stakeholder Analysis -- CRM Migration Project"
+---
+
 # Example: Stakeholder Analysis -- CRM Migration Project
 
 ## Project Context

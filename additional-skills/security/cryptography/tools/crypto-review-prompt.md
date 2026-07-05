@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Cryptographic Design Review Prompt"
+---
+
 # Cryptographic Design Review Prompt
 
 Use this prompt to review cryptographic implementation decisions.

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Versioning Rules"
+---
+
 # Versioning Rules
 
 ## Decision Table

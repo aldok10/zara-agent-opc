@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Worker Threads"
+---
+
 # Worker Threads
 
 CPU-bound parallelism in Node.js without forking processes. Worker threads share memory via SharedArrayBuffer, communicate via message passing, and maintain isolated V8 instances.

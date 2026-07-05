@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Golden Paths"
+---
+
 # Golden Paths
 
 Templates, guardrails, and self-service patterns for developer platforms.

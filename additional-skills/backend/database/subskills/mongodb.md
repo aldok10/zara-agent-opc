@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "MongoDB"
+---
+
 # MongoDB
 
 Schema design by access pattern, aggregation pipeline mastery, sharding strategy, and change streams.

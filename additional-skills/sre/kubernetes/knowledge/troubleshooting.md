@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Kubernetes Troubleshooting"
+---
+
 # Kubernetes Troubleshooting
 
 ## CrashLoopBackOff

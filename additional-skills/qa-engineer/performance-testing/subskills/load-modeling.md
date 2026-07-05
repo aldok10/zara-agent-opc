@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Load Modeling"
+---
+
 # Load Modeling
 
 ## Open vs Closed Model

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Runes"
+---
+
 # Subskill: Runes
 
 ## Activation

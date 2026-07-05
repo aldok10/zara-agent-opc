@@ -1,3 +1,8 @@
+---
+type: fact
+title: "IAM and Workload Identity Federation"
+---
+
 # IAM and Workload Identity Federation
 
 ## Principles

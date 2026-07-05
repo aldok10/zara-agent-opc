@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Accessibility Testing"
+---
+
 # Accessibility Testing
 
 ## Activation

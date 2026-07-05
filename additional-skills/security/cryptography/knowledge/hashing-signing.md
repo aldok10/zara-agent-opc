@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Hashing and Signing"
+---
+
 # Hashing and Signing
 
 ## Password Hashing

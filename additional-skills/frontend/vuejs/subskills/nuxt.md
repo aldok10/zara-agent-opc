@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Nuxt 3"
+---
+
 # Subskill: Nuxt 3
 
 Activate when: building with Nuxt 3, server routes, SSR/ISR/SPA hybrid rendering, middleware, auto-imports, SEO.

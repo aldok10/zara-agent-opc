@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Broker Comparison"
+---
+
 # Broker Comparison
 
 Decision matrix for Apache Kafka, RabbitMQ, NATS JetStream, and Redis Streams.

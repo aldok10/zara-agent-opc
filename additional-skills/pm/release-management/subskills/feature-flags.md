@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Feature Flags"
+---
+
 # Feature Flags
 
 ## Flag Types

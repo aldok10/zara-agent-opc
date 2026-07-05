@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Task Execution Checklist Prompt"
+---
+
 # Task Execution Checklist Prompt
 
 You are executing a planned task. Follow this checklist to ensure nothing is missed.

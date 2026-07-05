@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Performance"
+---
+
 # Performance
 
 Node.js performance optimization: V8 internals, profiling, memory management, and production monitoring.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "PostgreSQL"
+---
+
 # PostgreSQL
 
 Advanced PostgreSQL: extensions, JSONB, partitioning, replication, monitoring, vacuum, and WAL management.

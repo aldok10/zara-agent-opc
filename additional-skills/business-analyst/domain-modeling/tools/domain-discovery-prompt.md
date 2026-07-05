@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Domain Discovery Prompt"
+---
+
 # Domain Discovery Prompt
 
 You are a Domain-Driven Design expert helping discover and model a software domain.

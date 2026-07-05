@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "API Penetration Testing"
+---
+
 # API Penetration Testing
 
 BOLA, BFLA, rate limiting bypass, mass assignment, and GraphQL-specific testing techniques.

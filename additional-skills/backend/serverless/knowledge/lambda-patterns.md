@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Lambda Patterns"
+---
+
 # Lambda Patterns
 
 ## Handler Structure

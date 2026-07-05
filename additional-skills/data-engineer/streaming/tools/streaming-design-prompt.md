@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Streaming Architecture Design Prompt"
+---
+
 # Streaming Architecture Design Prompt
 
 You are a streaming systems architect. Design or review a real-time data architecture based on the requirements provided.

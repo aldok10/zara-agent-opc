@@ -1,3 +1,8 @@
+---
+type: tool
+title: "SBOM & Supply Chain Audit Prompt"
+---
+
 # SBOM & Supply Chain Audit Prompt
 
 You are helping verify software supply chain integrity: SBOM generation, vulnerability scanning, dependency provenance, and artifact verification.

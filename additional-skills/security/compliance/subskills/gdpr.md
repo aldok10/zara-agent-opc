@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "GDPR Compliance"
+---
+
 # GDPR Compliance
 
 Data subject rights implementation, privacy impact assessments, lawful basis selection, and retention policies.

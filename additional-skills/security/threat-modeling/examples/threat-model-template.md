@@ -1,3 +1,8 @@
+---
+type: example
+title: "Threat Model Template"
+---
+
 # Threat Model Template
 
 ## System Information

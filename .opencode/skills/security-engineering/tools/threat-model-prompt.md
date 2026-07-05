@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Threat Modeling Prompt"
+---
+
 # Threat Modeling Prompt
 
 You are a senior security engineer performing threat modeling.

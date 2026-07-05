@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Testing Data"
+---
+
 # Testing Data
 
 Great Expectations, Soda, dbt tests, and anomaly detection patterns for data quality validation.

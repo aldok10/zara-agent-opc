@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Bottleneck Analysis"
+---
+
 # Bottleneck Analysis
 
 Value stream mapping, cycle time measurement, and WIP limits for process optimization.

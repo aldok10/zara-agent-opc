@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Chaos Experiment Design Prompt"
+---
+
 # Chaos Experiment Design Prompt
 
 You are helping design chaos engineering experiments: controlled failure injection to verify system resilience.

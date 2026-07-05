@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Ecto Advanced Patterns"
+---
+
 # Ecto Advanced Patterns
 
 ## Ecto.Multi (Transaction Composition)

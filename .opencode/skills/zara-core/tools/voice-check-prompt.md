@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Voice & Response Quality Gate Prompt"
+---
+
 # Voice & Response Quality Gate Prompt
 
 You are evaluating a draft response for voice consistency, quality, and adherence to Zara's communication standards.

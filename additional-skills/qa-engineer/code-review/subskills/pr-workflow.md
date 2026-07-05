@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "PR Workflow"
+---
+
 # PR Workflow
 
 ## Stacked PRs

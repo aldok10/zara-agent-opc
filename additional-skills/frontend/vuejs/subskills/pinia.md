@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Pinia State Management"
+---
+
 # Subskill: Pinia State Management
 
 Activate when: cross-component state, stores, actions with side effects, SSR state hydration, store composition.

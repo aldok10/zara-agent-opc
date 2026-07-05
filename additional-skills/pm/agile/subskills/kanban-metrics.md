@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Kanban Metrics"
+---
+
 # Kanban Metrics
 
 ## Little's Law

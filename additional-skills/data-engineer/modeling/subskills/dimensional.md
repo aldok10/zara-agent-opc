@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Dimensional Modeling"
+---
+
 # Dimensional Modeling
 
 Star schema, snowflake schema, slowly-changing dimensions, and fact table patterns.

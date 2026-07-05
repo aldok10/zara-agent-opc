@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Redis Patterns"
+---
+
 # Redis Patterns
 
 Redis-specific implementation patterns. Data structures, Lua scripting, pub/sub, Streams, cluster mode.

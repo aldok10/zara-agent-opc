@@ -1,3 +1,8 @@
+---
+type: fact
+title: "API Security Testing"
+---
+
 # API Security Testing
 
 Testing methodology for BOLA, BFLA, injection, rate limiting, and API-specific vulnerabilities.

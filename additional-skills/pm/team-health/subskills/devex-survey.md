@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "DevEx Survey"
+---
+
 # DevEx Survey
 
 ## Scope

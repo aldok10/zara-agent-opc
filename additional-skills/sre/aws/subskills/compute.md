@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "AWS Compute"
+---
+
 # AWS Compute
 
 EC2, EKS, ECS, and compute optimization strategies including Graviton and spot instances.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Shared UI Strategy"
+---
+
 # Shared UI Strategy
 
 When to share UI across platforms, trade-offs of shared vs native UI, and implementation patterns.

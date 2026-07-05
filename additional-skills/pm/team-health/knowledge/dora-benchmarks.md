@@ -1,3 +1,8 @@
+---
+type: fact
+title: "DORA Benchmarks (2024)"
+---
+
 # DORA Benchmarks (2024)
 
 ## Metric Grouping (2024 Structure)

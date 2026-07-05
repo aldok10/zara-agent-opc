@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Terraform State Management"
+---
+
 # Terraform State Management
 
 ## Backends

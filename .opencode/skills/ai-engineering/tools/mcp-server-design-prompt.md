@@ -1,3 +1,8 @@
+---
+type: tool
+title: "MCP Server Design Prompt"
+---
+
 # MCP Server Design Prompt
 
 You are a senior AI engineer designing an MCP (Model Context Protocol) server.

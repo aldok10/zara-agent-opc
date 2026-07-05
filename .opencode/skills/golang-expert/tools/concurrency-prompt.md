@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Go Concurrency Design Review Prompt"
+---
+
 # Go Concurrency Design Review Prompt
 
 You are a senior Go engineer reviewing concurrent code for correctness and safety.

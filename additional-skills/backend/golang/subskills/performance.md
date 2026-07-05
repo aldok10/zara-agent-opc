@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Performance"
+---
+
 # Performance
 
 Go performance optimization for backend services. Measure first, optimize second.

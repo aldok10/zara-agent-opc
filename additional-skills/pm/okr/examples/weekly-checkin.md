@@ -1,3 +1,8 @@
+---
+type: example
+title: "Example: Weekly OKR Check-In"
+---
+
 # Example: Weekly OKR Check-In
 
 ## Product Team - Week 6/13

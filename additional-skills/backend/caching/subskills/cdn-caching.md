@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "CDN Caching"
+---
+
 # CDN Caching
 
 CDN and edge caching strategies. Cache-Control headers, Vary, stale-while-revalidate, purging, edge compute.

@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Ingress to Gateway API Migration Checklist"
+---
+
 # Ingress to Gateway API Migration Checklist
 
 Structured checklist for migrating from Ingress resources to Gateway API v1.3+.

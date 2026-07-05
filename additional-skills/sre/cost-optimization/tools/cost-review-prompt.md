@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Cloud Cost Optimization Review Prompt"
+---
+
 # Cloud Cost Optimization Review Prompt
 
 You are reviewing cloud infrastructure for cost optimization opportunities. Identify savings without compromising reliability or performance.

@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Initiative Template"
+---
+
 # Initiative Template
 
 Structure Linear Initiatives for clarity and trackability.

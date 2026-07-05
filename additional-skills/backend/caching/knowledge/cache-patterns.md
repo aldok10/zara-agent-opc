@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Cache Patterns"
+---
+
 # Cache Patterns
 
 Core caching patterns: when to use each, tradeoffs, implementation notes.

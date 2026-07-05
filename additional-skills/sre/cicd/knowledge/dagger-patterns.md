@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Dagger Patterns"
+---
+
 # Dagger Patterns
 
 Dagger provides portable, containerized CI pipelines defined as code. Same pipeline runs locally (`dagger call`) and in any CI system. Version 0.13+ uses Dagger Functions (typed, composable) and the Daggerverse for module sharing.

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Hilt Dependency Injection (2026)"
+---
+
 # Hilt Dependency Injection (2026)
 
 ## Core Concepts

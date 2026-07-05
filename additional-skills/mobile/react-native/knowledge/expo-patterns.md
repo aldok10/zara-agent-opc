@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Expo Patterns (2026)"
+---
+
 # Expo Patterns (2026)
 
 ## Expo Router

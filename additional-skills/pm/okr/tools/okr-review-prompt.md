@@ -1,3 +1,8 @@
+---
+type: tool
+title: "OKR Quarterly Review Prompt"
+---
+
 # OKR Quarterly Review Prompt
 
 ## Pre-Review (async, before meeting)

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Key Management"
+---
+
 # Key Management
 
 ## Principles

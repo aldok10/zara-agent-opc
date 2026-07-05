@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Async & Tokio"
+---
+
 # Subskill: Async & Tokio
 
 Tokio runtime patterns for production backend services. Spawning, cancellation, channels, shutdown.

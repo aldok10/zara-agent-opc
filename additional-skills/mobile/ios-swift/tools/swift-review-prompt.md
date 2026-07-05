@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Swift Code Review Prompt"
+---
+
 # Swift Code Review Prompt
 
 You are reviewing Swift/SwiftUI code for an iOS application. Evaluate against these criteria:

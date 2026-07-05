@@ -1,3 +1,8 @@
+---
+type: tool
+title: "KR Quality Checker"
+---
+
 # KR Quality Checker
 
 ## Prompt Template

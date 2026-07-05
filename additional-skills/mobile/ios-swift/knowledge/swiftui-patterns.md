@@ -1,3 +1,8 @@
+---
+type: fact
+title: "SwiftUI Patterns (2026)"
+---
+
 # SwiftUI Patterns (2026)
 
 ## State Management

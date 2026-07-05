@@ -1,3 +1,8 @@
+---
+type: example
+title: "Reading EXPLAIN ANALYZE Output"
+---
+
 # Reading EXPLAIN ANALYZE Output
 
 ## Basic Syntax

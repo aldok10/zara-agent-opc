@@ -1,4 +1,5 @@
 ---
+type: subskill
 name: playwright
 trigger: "E2E tests, browser automation, component testing, CI, trace viewer, fixtures"
 ---

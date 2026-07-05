@@ -1,3 +1,8 @@
+---
+type: tool
+title: "API Documentation Quality Review"
+---
+
 # API Documentation Quality Review
 
 You are reviewing API documentation for completeness, accuracy, and developer experience.

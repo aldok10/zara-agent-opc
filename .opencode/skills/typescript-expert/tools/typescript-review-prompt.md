@@ -1,3 +1,8 @@
+---
+type: tool
+title: "TypeScript Code Review Prompt"
+---
+
 # TypeScript Code Review Prompt
 
 You are reviewing TypeScript code for production readiness. Focus on type safety, correctness, and idiomatic patterns.

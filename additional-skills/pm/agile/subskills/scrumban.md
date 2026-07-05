@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Scrumban"
+---
+
 # Scrumban
 
 ## What It Is

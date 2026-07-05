@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Hiring Scorecard Generation Prompt"
+---
+
 # Hiring Scorecard Generation Prompt
 
 Use this prompt to create structured interview scorecards.

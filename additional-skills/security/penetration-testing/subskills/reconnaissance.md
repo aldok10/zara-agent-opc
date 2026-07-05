@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Reconnaissance"
+---
+
 # Reconnaissance
 
 OSINT techniques, subdomain enumeration, technology fingerprinting, and attack surface mapping.

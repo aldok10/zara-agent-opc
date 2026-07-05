@@ -1,3 +1,8 @@
+---
+type: tool
+title: "CI Optimization Checklist"
+---
+
 # CI Optimization Checklist
 
 Systematic checklist for reducing CI execution time and cost. Apply top-down -- each item has diminishing returns below it.

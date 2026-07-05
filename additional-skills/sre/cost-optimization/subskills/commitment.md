@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Commitment Discounts"
+---
+
 # Commitment Discounts
 
 Savings Plans, Reserved Instances, Committed Use Discounts, and purchasing strategy.

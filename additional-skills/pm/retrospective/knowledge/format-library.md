@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Format Library"
+---
+
 # Format Library
 
 ## Quick Reference

@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Flutter Code Review Prompt"
+---
+
 # Flutter Code Review Prompt
 
 You are reviewing Flutter/Dart code. Evaluate against these criteria:

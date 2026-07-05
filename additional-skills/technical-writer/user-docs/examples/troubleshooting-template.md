@@ -1,3 +1,8 @@
+---
+type: example
+title: "Troubleshooting: Task API"
+---
+
 # Troubleshooting: Task API
 
 Solutions for common issues when working with the Task API.

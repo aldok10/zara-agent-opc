@@ -1,3 +1,8 @@
+---
+type: fact
+title: "PSR Standards Reference"
+---
+
 # PSR Standards Reference
 
 ## PSR-4: Autoloading

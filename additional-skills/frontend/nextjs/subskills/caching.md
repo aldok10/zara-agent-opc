@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Caching"
+---
+
 # Caching
 
 Activate when: cache, revalidate, ISR, stale data, fetch options, use cache, cacheTag, cacheLife, unstable_cache.

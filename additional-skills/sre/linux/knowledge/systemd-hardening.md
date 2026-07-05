@@ -1,3 +1,8 @@
+---
+type: fact
+title: "systemd Hardening"
+---
+
 # systemd Hardening
 
 ## Security Directives Overview

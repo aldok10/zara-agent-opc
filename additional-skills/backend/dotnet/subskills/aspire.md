@@ -1,3 +1,8 @@
+---
+type: subskill
+title: ".NET Aspire"
+---
+
 # .NET Aspire
 
 .NET Aspire orchestration, service defaults, components, and observability.

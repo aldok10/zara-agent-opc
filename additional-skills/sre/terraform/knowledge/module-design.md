@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Terraform Module Design"
+---
+
 # Terraform Module Design
 
 ## Module Interfaces

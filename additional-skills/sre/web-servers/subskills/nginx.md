@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Nginx"
+---
+
 # Nginx
 
 Location blocks, upstream configuration, caching, rate limiting, and security headers.

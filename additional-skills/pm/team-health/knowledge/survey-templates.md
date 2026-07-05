@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Survey Templates"
+---
+
 # Survey Templates
 
 ## DevEx Quarterly Survey (Core)

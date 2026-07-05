@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Digital Evidence Collection"
+---
+
 # Digital Evidence Collection
 
 Chain of custody, disk imaging, volatile data capture, and forensic preservation best practices.

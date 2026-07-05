@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Azure Identity"
+---
+
 # Azure Identity
 
 Entra ID, managed identities, RBAC, and conditional access for secure identity management.

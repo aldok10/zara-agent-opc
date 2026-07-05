@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Test Strategy Design Prompt"
+---
+
 # Test Strategy Design Prompt
 
 You are a senior QA engineer designing a test strategy.

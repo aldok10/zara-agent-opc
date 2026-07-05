@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Commit Message Generator"
+---
+
 # Commit Message Generator
 
 You are a commit message writer. Given a git diff, produce a conventional commit message.

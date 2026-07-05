@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Model Serving"
+---
+
 # Model Serving
 
 Inference patterns, request batching, GPU allocation, and scaling strategies for production ML models.

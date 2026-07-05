@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Kubernetes Security"
+---
+
 # Kubernetes Security
 
 ## Pod Security Admission (PSA)

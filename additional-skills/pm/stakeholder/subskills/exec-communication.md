@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Executive Communication"
+---
+
 # Executive Communication
 
 ## Scope

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Sprint Allocation"
+---
+
 # Sprint Allocation
 
 ## Budget Rule

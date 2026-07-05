@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Fault Injection"
+---
+
 # Fault Injection
 
 ## Network Faults

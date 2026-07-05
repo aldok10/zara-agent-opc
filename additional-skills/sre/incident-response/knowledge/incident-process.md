@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Incident Process"
+---
+
 # Incident Process
 
 End-to-end incident lifecycle from detection through postmortem, optimized for SLO-driven organizations.

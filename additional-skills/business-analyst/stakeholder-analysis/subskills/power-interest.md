@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Power-Interest Matrix"
+---
+
 # Power-Interest Matrix
 
 Stakeholder classification by power and interest level, engagement strategies, and prioritization.

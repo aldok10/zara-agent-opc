@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Backstage"
+---
+
 # Backstage
 
 Software catalog, templates, plugins, and TechDocs for internal developer portals.

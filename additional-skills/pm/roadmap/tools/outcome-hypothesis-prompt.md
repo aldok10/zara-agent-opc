@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Outcome Hypothesis Prompt"
+---
+
 # Outcome Hypothesis Prompt
 
 ## Template

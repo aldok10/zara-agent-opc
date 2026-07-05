@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Debt Impact Analysis Prompt"
+---
+
 # Debt Impact Analysis Prompt
 
 ## Template

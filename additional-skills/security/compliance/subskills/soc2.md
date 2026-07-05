@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "SOC 2 Compliance"
+---
+
 # SOC 2 Compliance
 
 Trust Service Criteria implementation, evidence collection, and continuous compliance monitoring.

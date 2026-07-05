@@ -1,3 +1,8 @@
+---
+type: example
+title: "OST Example: New User Activation"
+---
+
 # OST Example: New User Activation
 
 ## Desired Outcome

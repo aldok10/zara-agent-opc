@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Security"
+---
+
 # Security
 
 GraphQL security hardening. Depth limiting, complexity analysis, persisted queries, authorization directives, rate limiting, introspection control.

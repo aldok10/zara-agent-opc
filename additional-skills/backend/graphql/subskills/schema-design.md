@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Schema Design"
+---
+
 # Schema Design
 
 Schema architecture patterns. Naming conventions, nullability strategy, type hierarchy, pagination, input types, error handling, evolution.

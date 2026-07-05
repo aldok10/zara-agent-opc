@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Stakeholder Map Builder"
+---
+
 # Stakeholder Map Builder
 
 ## Prompt Template

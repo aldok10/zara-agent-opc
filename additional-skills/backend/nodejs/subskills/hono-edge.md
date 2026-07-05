@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Hono Edge"
+---
+
 # Hono Edge
 
 Hono: ultralight web framework for multi-runtime deployment. Same code runs on Cloudflare Workers, Deno, Bun, Node.js, AWS Lambda. Middleware-centric, type-safe RPC mode.

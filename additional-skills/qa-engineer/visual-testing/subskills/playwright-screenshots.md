@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Playwright Visual Comparisons (Screenshots)"
+---
+
 # Playwright Visual Comparisons (Screenshots)
 
 ## toHaveScreenshot API

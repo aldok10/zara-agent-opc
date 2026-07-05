@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Apache Flink"
+---
+
 # Apache Flink
 
 Windowing, state management, checkpointing, and Flink SQL for stream processing.

@@ -1,3 +1,8 @@
+---
+type: tool
+title: "API Design Review Prompt"
+---
+
 # API Design Review Prompt
 
 You are a senior API architect reviewing an API design for consistency and correctness.

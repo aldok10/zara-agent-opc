@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "REST Patterns"
+---
+
 # REST Patterns
 
 ## When to Load

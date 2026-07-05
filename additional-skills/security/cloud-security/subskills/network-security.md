@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Cloud Network Security"
+---
+
 # Cloud Network Security
 
 VPC isolation, traffic filtering, DDoS mitigation, and microsegmentation in cloud environments.

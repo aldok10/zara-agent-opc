@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Status Reporting"
+---
+
 # Status Reporting
 
 ## Scope

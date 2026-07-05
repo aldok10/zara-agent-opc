@@ -1,3 +1,8 @@
+---
+type: fact
+title: "CDN Cache Headers"
+---
+
 # CDN Cache Headers
 
 HTTP caching headers reference. Cache-Control directives, Vary, ETag, conditional requests.

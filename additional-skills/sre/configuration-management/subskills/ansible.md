@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Ansible"
+---
+
 # Ansible
 
 Playbooks, roles, collections, vault, and operational best practices.

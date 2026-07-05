@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Developer Experience Audit"
+---
+
 # Developer Experience Audit
 
 You are conducting a developer experience (DX) audit of a developer portal or documentation site.

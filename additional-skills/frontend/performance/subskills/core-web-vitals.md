@@ -1,4 +1,5 @@
 ---
+type: subskill
 name: core-web-vitals
 trigger: "LCP optimization, INP fix, CLS issue, Core Web Vitals, Lighthouse, CrUX"
 ---

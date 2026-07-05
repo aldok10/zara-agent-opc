@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Behavioral Patterns"
+---
+
 # Behavioral Patterns
 
 Patterns that define how objects communicate, assign responsibilities, and encapsulate algorithms.

@@ -1,3 +1,8 @@
+---
+type: example
+title: "Getting Started with the Task API"
+---
+
 # Getting Started with the Task API
 
 Build a simple task tracker in under 5 minutes.

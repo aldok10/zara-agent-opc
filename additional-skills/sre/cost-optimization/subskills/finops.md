@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "FinOps"
+---
+
 # FinOps
 
 Showback, chargeback, unit economics, and budget management for cloud costs.

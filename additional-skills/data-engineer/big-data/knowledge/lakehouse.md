@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Lakehouse Table Formats"
+---
+
 # Lakehouse Table Formats
 
 ## Why Table Formats

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Chromatic Workflow"
+---
+
 # Chromatic Workflow
 
 ## Setup with Storybook

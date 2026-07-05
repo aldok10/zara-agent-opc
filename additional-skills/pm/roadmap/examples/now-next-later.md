@@ -1,3 +1,8 @@
+---
+type: example
+title: "Example: Now/Next/Later Roadmap"
+---
+
 # Example: Now/Next/Later Roadmap
 
 ## Theme: Improve Activation (OKR: 40% → 60% activation rate)

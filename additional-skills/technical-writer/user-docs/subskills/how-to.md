@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "How-To Guides"
+---
+
 # How-To Guides
 
 Task-oriented documentation -- assumes knowledge, focused on achieving a specific goal.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Zero Trust Networking"
+---
+
 # Zero Trust Networking
 
 BeyondCorp, Tailscale, Cloudflare Access -- identity-based access without VPN.

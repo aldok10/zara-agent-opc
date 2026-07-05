@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Passkeys and WebAuthn"
+---
+
 # Passkeys and WebAuthn
 
 WebAuthn-based passwordless authentication with passkeys, conditional UI, and cross-device flows.

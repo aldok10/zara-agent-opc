@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Cross-Platform Decision Matrix (2026)"
+---
+
 # Cross-Platform Decision Matrix (2026)
 
 ## When to Choose Each Approach

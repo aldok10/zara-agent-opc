@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "CI Integration"
+---
+
 # CI Integration
 
 ## Docker Image Selection

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Lakehouse Architecture"
+---
+
 # Lakehouse Architecture
 
 Apache Iceberg, Delta Lake, Apache Hudi -- table formats for reliable data lakes.

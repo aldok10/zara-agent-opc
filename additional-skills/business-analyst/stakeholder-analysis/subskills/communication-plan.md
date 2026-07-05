@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Communication Plan"
+---
+
 # Communication Plan
 
 Frequency, channels, escalation paths, and RACI for stakeholder communication.

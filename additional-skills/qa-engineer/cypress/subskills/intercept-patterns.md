@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Intercept Patterns"
+---
+
 # Intercept Patterns
 
 ## cy.intercept Modes

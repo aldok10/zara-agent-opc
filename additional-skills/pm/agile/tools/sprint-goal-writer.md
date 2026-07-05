@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Sprint Goal Writer"
+---
+
 # Sprint Goal Writer
 
 ## Format

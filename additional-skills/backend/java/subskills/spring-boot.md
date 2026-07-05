@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Spring Boot 3.5+"
+---
+
 # Subskill: Spring Boot 3.5+
 
 > Activate when: configuring Spring Boot, working with starters, profiles, actuator, Modulith, or `@ConfigurationProperties`.

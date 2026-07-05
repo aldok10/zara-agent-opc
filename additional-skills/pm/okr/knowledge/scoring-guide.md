@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Scoring Rubric"
+---
+
 # Scoring Rubric
 
 ## Score Levels with Examples

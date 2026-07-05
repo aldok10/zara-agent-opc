@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Kubernetes Resource Guide"
+---
+
 # Kubernetes Resource Guide
 
 ## Units

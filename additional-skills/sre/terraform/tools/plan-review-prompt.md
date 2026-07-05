@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Terraform Plan Review Prompt"
+---
+
 # Terraform Plan Review Prompt
 
 You are reviewing a `terraform plan` output. Analyze it for safety, correctness, and operational risk.

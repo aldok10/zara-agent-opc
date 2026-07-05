@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Native AOT"
+---
+
 # Native AOT
 
 .NET Native AOT: trimming, source generators, reflection-free patterns, AOT analyzers.

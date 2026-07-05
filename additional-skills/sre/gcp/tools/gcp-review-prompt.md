@@ -1,3 +1,8 @@
+---
+type: tool
+title: "GCP Architecture Review Prompt"
+---
+
 # GCP Architecture Review Prompt
 
 You are performing an architecture review of a Google Cloud Platform deployment. Analyze the provided Terraform, YAML configs, IAM policies, and architecture diagrams to identify issues, risks, and improvement opportunities.

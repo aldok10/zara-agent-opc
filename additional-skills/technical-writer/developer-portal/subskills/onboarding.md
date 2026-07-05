@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Developer Onboarding"
+---
+
 # Developer Onboarding
 
 Getting-started guides, quickstarts, and optimizing time-to-first-call for developer platforms.

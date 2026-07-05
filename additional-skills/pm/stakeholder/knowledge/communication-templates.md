@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Communication Templates"
+---
+
 # Communication Templates
 
 ## Weekly Update

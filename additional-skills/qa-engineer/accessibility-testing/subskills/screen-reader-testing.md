@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Screen Reader Testing"
+---
+
 # Screen Reader Testing
 
 ## VoiceOver (macOS)

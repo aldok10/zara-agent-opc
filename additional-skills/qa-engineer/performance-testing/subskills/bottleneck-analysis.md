@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Bottleneck Analysis"
+---
+
 # Bottleneck Analysis
 
 ## Resource Saturation Signals

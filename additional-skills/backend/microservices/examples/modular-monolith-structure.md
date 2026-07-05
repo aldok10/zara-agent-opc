@@ -1,3 +1,8 @@
+---
+type: example
+title: "Modular Monolith Structure"
+---
+
 # Modular Monolith Structure
 
 Project layout showing clear module boundaries with internal APIs and persistence isolation.

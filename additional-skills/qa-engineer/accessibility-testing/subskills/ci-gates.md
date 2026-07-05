@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "CI Accessibility Gates"
+---
+
 # CI Accessibility Gates
 
 ## Threshold Configuration

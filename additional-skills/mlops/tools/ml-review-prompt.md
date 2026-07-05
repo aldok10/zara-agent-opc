@@ -1,3 +1,8 @@
+---
+type: tool
+title: "ML System Design Review Prompt"
+---
+
 # ML System Design Review Prompt
 
 Use this prompt to review ML system architecture decisions.

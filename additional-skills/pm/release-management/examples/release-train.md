@@ -1,3 +1,8 @@
+---
+type: example
+title: "Example: Bi-Weekly Release Train  -  4 Teams"
+---
+
 # Example: Bi-Weekly Release Train  -  4 Teams
 
 ## Schedule (2-week cycle)

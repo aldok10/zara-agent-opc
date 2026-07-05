@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Event Sourcing"
+---
+
 # Event Sourcing
 
 Store state as immutable sequence of events. Current state = replay all events from beginning. Enables full audit trail, temporal queries, and independent read model projections.

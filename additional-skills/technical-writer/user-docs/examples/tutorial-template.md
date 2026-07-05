@@ -1,3 +1,8 @@
+---
+type: example
+title: "Tutorial: Build a Task Dashboard"
+---
+
 # Tutorial: Build a Task Dashboard
 
 Learn how to fetch, display, and update tasks by building a real-time dashboard.

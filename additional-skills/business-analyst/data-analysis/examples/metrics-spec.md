@@ -1,3 +1,8 @@
+---
+type: example
+title: "Example: Metrics Specification -- E-commerce Platform"
+---
+
 # Example: Metrics Specification -- E-commerce Platform
 
 ## Product: Online Marketplace

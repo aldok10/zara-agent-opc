@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Tutorials"
+---
+
 # Tutorials
 
 Learning-oriented documentation -- step-by-step guides that teach through building a working example.

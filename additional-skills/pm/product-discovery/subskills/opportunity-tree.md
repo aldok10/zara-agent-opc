@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Opportunity Solution Tree"
+---
+
 # Opportunity Solution Tree
 
 ## Structure

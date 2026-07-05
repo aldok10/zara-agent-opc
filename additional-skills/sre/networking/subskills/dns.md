@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "DNS"
+---
+
 # DNS
 
 CoreDNS, Route53, Cloud DNS, DNSSEC, and split-horizon patterns.

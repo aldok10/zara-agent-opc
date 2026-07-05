@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Secure Code Review Prompt"
+---
+
 # Secure Code Review Prompt
 
 Use this prompt template when performing LLM-assisted security reviews of application code.

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Swift Concurrency (2026)"
+---
+
 # Swift Concurrency (2026)
 
 ## Actors

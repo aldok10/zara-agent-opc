@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "JWT Patterns"
+---
+
 # JWT Patterns
 
 ## Context

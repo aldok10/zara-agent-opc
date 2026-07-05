@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Diagram Generation"
+---
+
 # Diagram Generation
 
 You are generating technical diagrams from system descriptions. Produce diagram-as-code output that is clear, well-structured, and follows complexity limits.

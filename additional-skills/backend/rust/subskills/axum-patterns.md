@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Axum Patterns"
+---
+
 # Subskill: Axum Patterns
 
 Axum-specific design patterns. Extractors, state, routing, custom responses, middleware layers.

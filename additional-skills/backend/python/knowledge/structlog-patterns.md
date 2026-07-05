@@ -1,3 +1,8 @@
+---
+type: fact
+title: "structlog Patterns"
+---
+
 # structlog Patterns
 
 Processor chain, contextvars binding, stdlib integration, JSON output, FastAPI integration.

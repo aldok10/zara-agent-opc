@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Changelog Format"
+---
+
 # Changelog Format
 
 Keep a Changelog principles, semantic versioning alignment, and writing effective release notes.

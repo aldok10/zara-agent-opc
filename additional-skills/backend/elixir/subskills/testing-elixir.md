@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Testing Elixir"
+---
+
 # Testing Elixir
 
 ExUnit, Mox, async tests, property-based testing (StreamData), Wallaby, test isolation.

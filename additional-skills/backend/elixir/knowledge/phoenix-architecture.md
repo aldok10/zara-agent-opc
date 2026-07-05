@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Phoenix Architecture"
+---
+
 # Phoenix Architecture
 
 ## Request Flow

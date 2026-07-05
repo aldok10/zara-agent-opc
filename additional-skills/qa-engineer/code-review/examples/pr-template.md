@@ -1,3 +1,8 @@
+---
+type: example
+title: "PR Review Template"
+---
+
 # PR Review Template
 
 ## Description

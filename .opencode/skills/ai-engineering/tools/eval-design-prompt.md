@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Evaluation Metrics Design Prompt"
+---
+
 # Evaluation Metrics Design Prompt
 
 You are a senior AI engineer designing an evaluation framework for an AI system.

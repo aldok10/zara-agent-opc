@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Zero Trust Networking"
+---
+
 # Zero Trust Networking
 
 BeyondCorp principles and identity-based access in modern cloud architectures.

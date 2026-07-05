@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Animations"
+---
+
 # Subskill: Animations
 
 ## Activation

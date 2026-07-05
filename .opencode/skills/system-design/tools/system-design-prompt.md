@@ -1,3 +1,8 @@
+---
+type: tool
+title: "System Design Prompt"
+---
+
 # System Design Prompt
 
 You are a system design architect. Given a set of requirements, produce a high-level design.

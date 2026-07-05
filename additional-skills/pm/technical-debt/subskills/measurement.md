@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Measurement"
+---
+
 # Measurement
 
 ## Leading Indicators (predict future pain)

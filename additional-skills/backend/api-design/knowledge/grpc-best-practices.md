@@ -1,3 +1,8 @@
+---
+type: fact
+title: "gRPC Best Practices"
+---
+
 # gRPC Best Practices
 
 ## Protobuf Schema Design

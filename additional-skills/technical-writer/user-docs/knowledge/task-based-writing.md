@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Task-Based Writing"
+---
+
 # Task-Based Writing
 
 Write documentation structured around user tasks, not product features.

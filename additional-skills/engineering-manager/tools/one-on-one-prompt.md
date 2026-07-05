@@ -1,3 +1,8 @@
+---
+type: tool
+title: "1:1 Agenda Preparation Prompt"
+---
+
 # 1:1 Agenda Preparation Prompt
 
 Use this prompt to prepare for upcoming 1:1 meetings.

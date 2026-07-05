@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Scrum Ceremonies"
+---
+
 # Scrum Ceremonies
 
 ## Sprint Planning

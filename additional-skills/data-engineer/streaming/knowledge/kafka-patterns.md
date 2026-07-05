@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Kafka Patterns"
+---
+
 # Kafka Patterns
 
 Producers, consumers, partitioning, replication, and exactly-once semantics for Apache Kafka 4.0+ (KRaft).

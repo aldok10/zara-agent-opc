@@ -1,3 +1,8 @@
+---
+type: fact
+title: "STRIDE Methodology"
+---
+
 # STRIDE Methodology
 
 Per-element threat analysis using data flow diagrams with trust boundaries.

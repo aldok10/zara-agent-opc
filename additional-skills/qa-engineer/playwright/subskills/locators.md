@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Locators"
+---
+
 # Locators
 
 ## Priority Hierarchy (highest to lowest)

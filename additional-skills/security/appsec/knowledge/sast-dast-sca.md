@@ -1,3 +1,8 @@
+---
+type: fact
+title: "SAST, DAST, and SCA Integration"
+---
+
 # SAST, DAST, and SCA Integration
 
 Comparison of static, dynamic, and composition analysis tools with CI/CD integration patterns.

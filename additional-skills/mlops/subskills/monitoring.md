@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "ML Monitoring"
+---
+
 # ML Monitoring
 
 Data drift, concept drift, performance degradation detection, and alerting for production ML systems.

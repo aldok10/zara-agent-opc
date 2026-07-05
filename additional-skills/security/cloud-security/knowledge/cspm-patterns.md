@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Cloud Security Posture Management (CSPM) Patterns"
+---
+
 # Cloud Security Posture Management (CSPM) Patterns
 
 Detection and remediation of cloud infrastructure misconfigurations across AWS, GCP, and Azure.

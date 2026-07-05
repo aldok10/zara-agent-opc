@@ -1,3 +1,8 @@
+---
+type: example
+title: "Example: Safety Check with Low Score"
+---
+
 # Example: Safety Check with Low Score
 
 ## Context

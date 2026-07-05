@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "User Interviews"
+---
+
 # User Interviews
 
 ## The Mom Test (Rob Fitzpatrick)  -  Three Rules

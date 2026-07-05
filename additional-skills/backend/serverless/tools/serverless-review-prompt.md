@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Serverless Architecture Review Prompt"
+---
+
 # Serverless Architecture Review Prompt
 
 ## Usage

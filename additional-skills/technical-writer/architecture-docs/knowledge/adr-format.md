@@ -1,3 +1,8 @@
+---
+type: fact
+title: "ADR Format"
+---
+
 # ADR Format
 
 Architecture Decision Records document significant technical decisions with their context and consequences.

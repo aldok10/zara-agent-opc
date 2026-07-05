@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Executive Status Update Generator"
+---
+
 # Executive Status Update Generator
 
 You are writing a status update for leadership/stakeholders. Transform technical progress into business-relevant communication.

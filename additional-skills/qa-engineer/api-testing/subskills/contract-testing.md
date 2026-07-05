@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Contract Testing"
+---
+
 # Contract Testing
 
 ## Pact V4 Workflow

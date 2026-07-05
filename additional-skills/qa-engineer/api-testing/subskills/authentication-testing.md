@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Authentication Testing"
+---
+
 # Authentication Testing
 
 ## Token Lifecycle Testing

@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Secure Code Review Prompt"
+---
+
 # Secure Code Review Prompt
 
 Use this prompt template when performing focused secure coding reviews on implementation patterns.

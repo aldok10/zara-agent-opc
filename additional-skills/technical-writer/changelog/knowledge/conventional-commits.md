@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Conventional Commits"
+---
+
 # Conventional Commits
 
 Structured commit message format that enables automated changelog generation.

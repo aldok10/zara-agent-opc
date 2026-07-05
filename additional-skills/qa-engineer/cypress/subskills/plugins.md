@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Plugins and Custom Commands"
+---
+
 # Plugins and Custom Commands
 
 ## Custom Commands

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Secrets Management"
+---
+
 # Secrets Management
 
 Vault, SOPS, parameter stores, and secret rotation strategies.

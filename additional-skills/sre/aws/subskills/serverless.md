@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "AWS Serverless"
+---
+
 # AWS Serverless
 
 Lambda, API Gateway, Step Functions, and EventBridge for event-driven architectures.

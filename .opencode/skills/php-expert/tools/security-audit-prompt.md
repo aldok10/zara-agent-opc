@@ -1,3 +1,8 @@
+---
+type: tool
+title: "PHP Security Audit Prompt"
+---
+
 # PHP Security Audit Prompt
 
 You are conducting a security audit of a PHP application. Systematically check for vulnerabilities using OWASP Top 10 and PHP-specific attack vectors.

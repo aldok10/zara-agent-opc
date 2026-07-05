@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Refactoring Prompt"
+---
+
 # Refactoring Prompt
 
 ## Usage

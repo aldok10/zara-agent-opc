@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "k6 Script Patterns"
+---
+
 # k6 Script Patterns
 
 ## Executors

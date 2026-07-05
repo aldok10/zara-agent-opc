@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Dependency Scanning"
+---
+
 # Dependency Scanning
 
 ## Trivy (Unified Scanner)

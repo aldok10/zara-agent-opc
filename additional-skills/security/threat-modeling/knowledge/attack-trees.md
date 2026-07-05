@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Attack Trees"
+---
+
 # Attack Trees
 
 Construction methodology for attack trees: AND/OR decomposition, annotations, and examples.

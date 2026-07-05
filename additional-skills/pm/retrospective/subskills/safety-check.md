@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Safety Check"
+---
+
 # Safety Check
 
 ## The Safety Check (run at retro start)

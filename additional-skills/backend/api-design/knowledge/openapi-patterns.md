@@ -1,3 +1,8 @@
+---
+type: fact
+title: "OpenAPI 3.1 Schema Patterns"
+---
+
 # OpenAPI 3.1 Schema Patterns
 
 ## Schema Composition

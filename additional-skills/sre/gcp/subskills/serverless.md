@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "GCP Serverless"
+---
+
 # GCP Serverless
 
 Cloud Run, Cloud Functions, and Eventarc for serverless compute and eventing.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "GCP Data Services"
+---
+
 # GCP Data Services
 
 BigQuery, Cloud SQL, Spanner, and Dataflow for data storage and processing.

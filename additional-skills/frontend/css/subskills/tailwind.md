@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Tailwind CSS"
+---
+
 # Tailwind CSS
 
 ## Activation

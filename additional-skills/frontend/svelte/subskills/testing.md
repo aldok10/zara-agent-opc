@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Testing"
+---
+
 # Subskill: Testing
 
 ## Activation

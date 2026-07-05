@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Security Incident Analysis Prompt"
+---
+
 # Security Incident Analysis Prompt
 
 Use this prompt template when performing LLM-assisted analysis of security incidents.

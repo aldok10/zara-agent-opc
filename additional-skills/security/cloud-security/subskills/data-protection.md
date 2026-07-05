@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Cloud Data Protection"
+---
+
 # Cloud Data Protection
 
 Encryption at rest and in transit, key management, data loss prevention, and key rotation strategies.

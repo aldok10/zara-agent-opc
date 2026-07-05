@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Impeller Renderer (2026)"
+---
+
 # Impeller Renderer (2026)
 
 ## Impeller vs Skia

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Serverless Observability"
+---
+
 # Serverless Observability
 
 Monitoring, tracing, and debugging serverless applications -- X-Ray, Powertools, structured logging, custom metrics.

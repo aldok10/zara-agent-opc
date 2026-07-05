@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "FastAPI Patterns"
+---
+
 # FastAPI Patterns
 
 Production FastAPI: routers, dependencies, middleware, OpenAPI customization, background tasks, lifespan events.

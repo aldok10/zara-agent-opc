@@ -1,3 +1,8 @@
+---
+type: example
+title: "OAuth 2.1 PKCE Flow  -  Step by Step"
+---
+
 # OAuth 2.1 PKCE Flow  -  Step by Step
 
 ## Prerequisites

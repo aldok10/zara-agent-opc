@@ -1,3 +1,8 @@
+---
+type: fact
+title: "RACI Guide"
+---
+
 # RACI Guide
 
 ## Definitions

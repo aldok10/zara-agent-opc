@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Scoring OKRs"
+---
+
 # Scoring OKRs
 
 ## Scale: 0.0 - 1.0

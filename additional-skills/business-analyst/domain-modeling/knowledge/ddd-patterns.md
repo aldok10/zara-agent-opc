@@ -1,3 +1,8 @@
+---
+type: fact
+title: "DDD Patterns"
+---
+
 # DDD Patterns
 
 ## Core Concepts

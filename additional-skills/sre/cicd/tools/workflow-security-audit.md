@@ -1,3 +1,8 @@
+---
+type: tool
+title: "GitHub Actions Workflow Security Audit"
+---
+
 # GitHub Actions Workflow Security Audit
 
 Use this prompt to review GitHub Actions workflows for security vulnerabilities, misconfigurations, and supply chain risks.

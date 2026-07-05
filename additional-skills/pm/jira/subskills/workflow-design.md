@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Workflow Design"
+---
+
 # Workflow Design
 
 ## Scope

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Image Security"
+---
+
 # Image Security
 
 Production container images must minimize attack surface, ship with zero known critical CVEs, and provide verifiable provenance. This covers base image selection, vulnerability scanning, image signing, and CVE triage workflows.

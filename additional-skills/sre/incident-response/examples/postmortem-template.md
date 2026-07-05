@@ -1,3 +1,8 @@
+---
+type: example
+title: "Postmortem: [Incident Title]"
+---
+
 # Postmortem: [Incident Title]
 
 **Incident ID**: INC-XXXX  

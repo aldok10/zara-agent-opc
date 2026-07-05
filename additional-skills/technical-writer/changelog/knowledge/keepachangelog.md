@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Keep a Changelog"
+---
+
 # Keep a Changelog
 
 Standard format for maintaining human-readable changelogs.

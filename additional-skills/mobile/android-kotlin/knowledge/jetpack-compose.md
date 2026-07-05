@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Jetpack Compose (2026)"
+---
+
 # Jetpack Compose (2026)
 
 ## Compose Compiler

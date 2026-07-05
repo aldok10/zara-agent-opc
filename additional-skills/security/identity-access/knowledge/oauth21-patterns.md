@@ -1,3 +1,8 @@
+---
+type: fact
+title: "OAuth 2.1 Patterns"
+---
+
 # OAuth 2.1 Patterns
 
 Modern authorization patterns including PKCE, DPoP, and token binding for secure token flows.

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Service Mesh Patterns"
+---
+
 # Service Mesh Patterns
 
 Comparison of service mesh architectures, mTLS implementations, and traffic management patterns for 2026 Kubernetes environments.

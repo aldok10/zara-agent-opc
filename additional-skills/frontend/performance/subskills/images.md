@@ -1,4 +1,5 @@
 ---
+type: subskill
 name: images
 trigger: "Image optimization, responsive images, srcset, WebP, AVIF, next/image, lazy loading"
 ---

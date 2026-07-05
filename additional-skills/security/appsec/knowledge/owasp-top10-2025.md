@@ -1,3 +1,8 @@
+---
+type: fact
+title: "OWASP Top 10 2025"
+---
+
 # OWASP Top 10 2025
 
 Reference for the 2025 revision of OWASP's most critical web application security risks.

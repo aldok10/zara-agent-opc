@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "NgRx Subskill"
+---
+
 # NgRx Subskill
 
 Activation: user works with NgRx SignalStore, global state management, or NgRx effects.

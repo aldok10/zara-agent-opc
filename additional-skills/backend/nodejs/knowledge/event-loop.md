@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Event Loop"
+---
+
 # Event Loop
 
 Understanding the Node.js event loop: phases, microtasks, macrotasks, and how to avoid blocking.

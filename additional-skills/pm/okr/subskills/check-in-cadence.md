@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Check-In Cadence"
+---
+
 # Check-In Cadence
 
 ## Why Weekly

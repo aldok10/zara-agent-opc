@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Assumption Testing"
+---
+
 # Assumption Testing
 
 ## Assumption Categories (Teresa Torres)

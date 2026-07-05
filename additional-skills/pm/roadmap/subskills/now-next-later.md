@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Now/Next/Later Structure"
+---
+
 # Now/Next/Later Structure
 
 ## Column Definitions

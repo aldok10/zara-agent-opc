@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "dbt Project Patterns"
+---
+
 # dbt Project Patterns
 
 Project structure, staging/marts layers, macros, testing patterns, and incremental models.

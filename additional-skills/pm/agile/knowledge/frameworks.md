@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Agile Frameworks Reference"
+---
+
 # Agile Frameworks Reference
 
 ## Scrum Guide 2020 Key Points

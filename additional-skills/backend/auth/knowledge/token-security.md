@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Token Security"
+---
+
 # Token Security
 
 ## Threat Model

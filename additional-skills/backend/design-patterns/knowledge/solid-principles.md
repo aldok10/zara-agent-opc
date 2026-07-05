@@ -1,3 +1,8 @@
+---
+type: fact
+title: "SOLID Principles"
+---
+
 # SOLID Principles
 
 ## Single Responsibility Principle (SRP)

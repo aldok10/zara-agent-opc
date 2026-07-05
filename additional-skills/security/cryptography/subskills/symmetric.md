@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Symmetric Cryptography"
+---
+
 # Symmetric Cryptography
 
 AES-GCM, ChaCha20-Poly1305, key derivation functions, nonce management, and authenticated encryption.

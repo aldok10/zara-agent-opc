@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Release Trains"
+---
+
 # Release Trains
 
 ## When to Use

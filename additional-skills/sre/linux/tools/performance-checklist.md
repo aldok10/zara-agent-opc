@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Performance Checklist (USE Method)"
+---
+
 # Performance Checklist (USE Method)
 
 Systematic approach to performance analysis using Brendan Gregg's USE Method: for every resource, check Utilization, Saturation, and Errors.

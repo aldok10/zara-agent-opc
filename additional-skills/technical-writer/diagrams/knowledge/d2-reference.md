@@ -1,3 +1,8 @@
+---
+type: fact
+title: "D2 Reference"
+---
+
 # D2 Reference
 
 Syntax guide for D2 -- a modern diagram-as-code language with advanced layout and styling.

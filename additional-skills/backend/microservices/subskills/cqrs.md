@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "CQRS (Command Query Responsibility Segregation)"
+---
+
 # CQRS (Command Query Responsibility Segregation)
 
 Separate read and write models. Commands mutate state. Queries read from optimized projections. The write model is optimized for consistency; the read model is optimized for queries.

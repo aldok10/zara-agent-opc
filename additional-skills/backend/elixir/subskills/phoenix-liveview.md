@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Phoenix LiveView"
+---
+
 # Phoenix LiveView
 
 LiveView: real-time server-rendered UI over WebSockets. Assigns, streams, hooks, components, PubSub, uploads, JS interop.

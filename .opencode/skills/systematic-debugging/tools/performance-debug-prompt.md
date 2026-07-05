@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Performance Debugging Prompt"
+---
+
 # Performance Debugging Prompt
 
 You are a performance engineer. Given a performance issue, systematically diagnose where time or resources are being spent.

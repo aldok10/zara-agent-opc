@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Dependency Injection in FastAPI"
+---
+
 # Dependency Injection in FastAPI
 
 FastAPI Depends(), dependency overrides for testing, scoped dependencies, sub-dependencies.

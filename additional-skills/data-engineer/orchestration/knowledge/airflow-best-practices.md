@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Airflow Best Practices"
+---
+
 # Airflow Best Practices
 
 DAG design patterns, TaskFlow API, XCom, and operational patterns for Apache Airflow 2.8+.

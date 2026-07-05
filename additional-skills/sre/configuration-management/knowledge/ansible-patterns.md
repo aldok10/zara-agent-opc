@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Ansible Patterns"
+---
+
 # Ansible Patterns
 
 ## Playbook Structure

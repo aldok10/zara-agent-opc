@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "gRPC"
+---
+
 # gRPC
 
 Go gRPC services. Protobuf-first, interceptors, streaming, production-ready.

@@ -1,3 +1,8 @@
+---
+type: tool
+title: "User Documentation Review"
+---
+
 # User Documentation Review
 
 You are reviewing user-facing documentation for task-orientation, clarity, and usability.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Steady State"
+---
+
 # Steady State
 
 ## Defining Steady State

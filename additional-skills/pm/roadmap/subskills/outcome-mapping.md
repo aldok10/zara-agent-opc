@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Outcome Mapping"
+---
+
 # Outcome Mapping
 
 ## Purpose

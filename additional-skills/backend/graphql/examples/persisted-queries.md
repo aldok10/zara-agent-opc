@@ -1,3 +1,8 @@
+---
+type: example
+title: "Persisted Query Allowlist Workflow"
+---
+
 # Persisted Query Allowlist Workflow
 
 Production workflow for persisted queries. Extract, register, deploy, enforce.

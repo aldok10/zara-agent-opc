@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Audit & Compliance"
+---
+
 # Audit & Compliance
 
 Audit logging, policy enforcement, and CIS benchmark compliance.

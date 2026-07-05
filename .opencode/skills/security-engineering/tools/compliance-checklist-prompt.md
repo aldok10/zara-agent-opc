@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Compliance Mapping Checklist Prompt"
+---
+
 # Compliance Mapping Checklist Prompt
 
 You are helping a tech team map their systems to compliance requirements (SOC 2, GDPR, PCI DSS). Focus on actionable technical controls, not legal interpretation.

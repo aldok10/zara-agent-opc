@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Test Pyramid"
+---
+
 # Test Pyramid
 
 ## Pyramid vs Trophy: Decision Framework

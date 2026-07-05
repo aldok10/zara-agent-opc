@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Automation Rules"
+---
+
 # Automation Rules
 
 ## Scope

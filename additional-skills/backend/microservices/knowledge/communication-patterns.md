@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Communication Patterns"
+---
+
 # Communication Patterns
 
 How services talk to each other. Choice between sync and async shapes the entire architecture.

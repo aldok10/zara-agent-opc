@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Vale Rules"
+---
+
 # Vale Rules
 
 Guide for configuring Vale linter to enforce writing standards in CI pipelines.

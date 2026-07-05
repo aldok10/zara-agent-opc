@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Saga Patterns"
+---
+
 # Saga Patterns
 
 Distributed transactions without 2PC. Coordinate multi-service operations through sequences of local transactions with compensation on failure. Two approaches: choreography (event-driven) and orchestration (central coordinator).

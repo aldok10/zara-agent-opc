@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Data Testing"
+---
+
 # Data Testing
 
 Great Expectations, Soda, dbt tests, and assertion patterns for data pipeline validation.

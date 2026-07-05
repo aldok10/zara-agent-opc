@@ -1,3 +1,8 @@
+---
+type: fact
+title: "CDC with Debezium"
+---
+
 # CDC with Debezium
 
 Change Data Capture setup, outbox pattern, Single Message Transforms, and schema evolution.

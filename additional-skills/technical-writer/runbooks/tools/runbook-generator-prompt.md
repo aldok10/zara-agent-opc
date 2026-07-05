@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Runbook Generator"
+---
+
 # Runbook Generator
 
 You are creating operational runbooks from system architecture descriptions. Produce runbooks that an on-call engineer can follow at 3am under stress.

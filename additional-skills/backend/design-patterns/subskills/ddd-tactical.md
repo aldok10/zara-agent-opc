@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "DDD Tactical Patterns"
+---
+
 # DDD Tactical Patterns
 
 Building blocks for expressing domain models in code -- the "how" of Domain-Driven Design inside a bounded context.

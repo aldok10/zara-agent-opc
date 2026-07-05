@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "TanStack Query"
+---
+
 # TanStack Query
 
 ## Activation

@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Debt Register Template"
+---
+
 # Debt Register Template
 
 ## Prompt

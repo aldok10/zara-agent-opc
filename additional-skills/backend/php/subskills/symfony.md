@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Symfony 7"
+---
+
 # Symfony 7
 
 ## When to Load

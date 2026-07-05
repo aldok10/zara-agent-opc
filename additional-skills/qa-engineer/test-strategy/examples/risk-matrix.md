@@ -1,3 +1,8 @@
+---
+type: example
+title: "Risk-Based Test Strategy Matrix"
+---
+
 # Risk-Based Test Strategy Matrix
 
 ## Scoring Method

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Reanimated Patterns (2026)"
+---
+
 # Reanimated Patterns (2026)
 
 ## Core Concepts

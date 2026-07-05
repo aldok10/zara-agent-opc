@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Global State Patterns"
+---
+
 # Global State Patterns
 
 ## Activation

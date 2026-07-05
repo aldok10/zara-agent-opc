@@ -1,3 +1,8 @@
+---
+type: tool
+title: "History Rewrite Safety Prompt"
+---
+
 # History Rewrite Safety Prompt
 
 You are guiding a git history rewrite operation. These are destructive  --  proceed with caution.

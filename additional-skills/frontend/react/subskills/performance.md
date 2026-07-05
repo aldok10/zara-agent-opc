@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Performance"
+---
+
 # Subskill: Performance
 
 > Activate when: optimizing render performance, configuring React Compiler, code splitting, or diagnosing unnecessary re-renders.

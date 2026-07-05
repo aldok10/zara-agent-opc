@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Estimation Games"
+---
+
 # Estimation Games
 
 ## Planning Poker

@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Skill Creation Prompt"
+---
+
 # Skill Creation Prompt
 
 Use this prompt template to generate a complete new skill from a topic description.

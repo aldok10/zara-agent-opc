@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Kotlin Coroutines & Flow (2026)"
+---
+
 # Kotlin Coroutines & Flow (2026)
 
 ## Structured Concurrency

@@ -1,3 +1,8 @@
+---
+type: tool
+title: "JTBD Interview Prompt Template"
+---
+
 # JTBD Interview Prompt Template
 
 ## Setup

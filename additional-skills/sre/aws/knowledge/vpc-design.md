@@ -1,3 +1,8 @@
+---
+type: fact
+title: "VPC Design"
+---
+
 # VPC Design
 
 ## Multi-AZ Architecture

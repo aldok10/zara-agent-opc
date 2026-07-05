@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Asymmetric Cryptography"
+---
+
 # Asymmetric Cryptography
 
 RSA, ECDSA, Ed25519, key exchange protocols, and Public Key Infrastructure.

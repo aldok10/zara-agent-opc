@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Keyboard Testing"
+---
+
 # Keyboard Testing
 
 ## Tab Order Verification

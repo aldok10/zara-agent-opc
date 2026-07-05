@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Developer Experience Principles"
+---
+
 # Developer Experience Principles
 
 Core principles for designing developer portals that minimize friction and maximize productivity.

@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Python Complex Type Design Prompt"
+---
+
 # Python Complex Type Design Prompt
 
 You are helping design advanced type annotations for Python code. Focus on correctness, expressiveness, and compatibility with mypy/pyright.

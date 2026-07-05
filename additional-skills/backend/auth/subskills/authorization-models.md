@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Authorization Models"
+---
+
 # Authorization Models
 
 ## Context

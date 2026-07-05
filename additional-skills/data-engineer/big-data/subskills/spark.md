@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Apache Spark"
+---
+
 # Apache Spark
 
 DataFrame API, Catalyst optimizer, partitioning strategies, caching, and shuffle optimization.

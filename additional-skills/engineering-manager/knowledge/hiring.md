@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Hiring"
+---
+
 # Hiring
 
 ## Pipeline Design

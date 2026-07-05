@@ -1,3 +1,8 @@
+---
+type: fact
+title: "The Composable Architecture (TCA) Patterns (2026)"
+---
+
 # The Composable Architecture (TCA) Patterns (2026)
 
 ## Core Concepts

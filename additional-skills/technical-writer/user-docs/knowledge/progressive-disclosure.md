@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Progressive Disclosure"
+---
+
 # Progressive Disclosure
 
 Layer information so readers get what they need at their skill level without being overwhelmed.

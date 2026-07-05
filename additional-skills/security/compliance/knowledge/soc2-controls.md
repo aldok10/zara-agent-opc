@@ -1,3 +1,8 @@
+---
+type: fact
+title: "SOC 2 Controls"
+---
+
 # SOC 2 Controls
 
 Trust Service Criteria mapping, control implementation, and evidence collection for SOC 2 Type II audits.

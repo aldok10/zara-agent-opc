@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Mermaid Diagrams"
+---
+
 # Mermaid Diagrams
 
 Flowcharts, sequence diagrams, class diagrams, state machines, ER diagrams, and Gantt charts using Mermaid.

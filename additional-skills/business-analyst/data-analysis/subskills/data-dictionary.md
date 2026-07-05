@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Data Dictionary"
+---
+
 # Data Dictionary
 
 Field specifications, data types, constraints, and lineage documentation.

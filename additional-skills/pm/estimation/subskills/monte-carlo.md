@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Monte Carlo Simulation"
+---
+
 # Monte Carlo Simulation
 
 ## Purpose

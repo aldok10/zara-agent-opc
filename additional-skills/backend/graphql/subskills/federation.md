@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Federation"
+---
+
 # Federation
 
 Apollo Federation 2 architecture. Subgraph design, entity resolution, router configuration, composition rules, progressive migration.

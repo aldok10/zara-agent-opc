@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "RabbitMQ"
+---
+
 # RabbitMQ
 
 AMQP 0-9-1 broker. Exchange-based routing, acknowledgments, quorum queues for replication, publisher confirms for reliability. Best for complex routing, moderate throughput, and request-reply patterns.

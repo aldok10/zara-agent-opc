@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Schema Validation"
+---
+
 # Schema Validation
 
 ## OpenAPI Spec as Source of Truth

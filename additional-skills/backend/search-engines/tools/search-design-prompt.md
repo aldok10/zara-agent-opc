@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Search Design Prompt"
+---
+
 # Search Design Prompt
 
 ## Usage

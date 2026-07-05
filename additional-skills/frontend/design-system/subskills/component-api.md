@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Component API Design"
+---
+
 # Component API Design
 
 ## Activation

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "BuildKit Features"
+---
+
 # BuildKit Features
 
 BuildKit is the default builder in Docker Engine 24+ (legacy builder removed). It provides cache mounts, secret mounts, SSH forwarding, multi-platform builds, and advanced Dockerfile frontend capabilities.

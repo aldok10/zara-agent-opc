@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Fastify Patterns"
+---
+
 # Fastify Patterns
 
 Fastify 5 architecture: plugins as units of encapsulation, lifecycle hooks for cross-cutting concerns, type providers for schema-driven development.

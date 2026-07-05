@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Baseline Management"
+---
+
 # Baseline Management
 
 ## Git-Based Baselines

@@ -1,3 +1,8 @@
+---
+type: example
+title: "Example: Team Topology Assessment"
+---
+
 # Example: Team Topology Assessment
 
 ## Context

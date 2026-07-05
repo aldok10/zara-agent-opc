@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Index Strategies"
+---
+
 # Index Strategies
 
 PostgreSQL index types, selection criteria, and design patterns for query optimization.

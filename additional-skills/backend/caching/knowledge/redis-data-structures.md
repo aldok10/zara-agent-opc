@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Redis Data Structures"
+---
+
 # Redis Data Structures
 
 When to use each Redis data structure. Selection by access pattern, not data shape.

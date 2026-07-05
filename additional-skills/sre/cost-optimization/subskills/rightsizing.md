@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Rightsizing"
+---
+
 # Rightsizing
 
 Instance selection, scaling policies, and cloud provider recommendations for cost optimization.

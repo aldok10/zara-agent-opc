@@ -1,3 +1,8 @@
+---
+type: fact
+title: "C# 12–14 Modern Features"
+---
+
 # C# 12–14 Modern Features
 
 ## C# 12 (.NET 8)

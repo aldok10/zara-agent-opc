@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "AWS Networking & VPC"
+---
+
 # AWS Networking & VPC
 
 VPC architecture, connectivity patterns, and network security for production workloads.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Web Application Penetration Testing"
+---
+
 # Web Application Penetration Testing
 
 OWASP Testing Guide methodology, injection attacks, authentication bypass, and session management flaws.

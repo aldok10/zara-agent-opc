@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Async PHP: Swoole & Hyperf"
+---
+
 # Async PHP: Swoole & Hyperf
 
 ## When to Load

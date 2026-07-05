@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Testing Subskill"
+---
+
 # Testing Subskill
 
 Activation: user writes or fixes tests for Angular components, services, signals, or integration.

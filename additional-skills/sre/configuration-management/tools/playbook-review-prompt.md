@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Playbook Review Prompt"
+---
+
 # Playbook Review Prompt
 
 ## Usage

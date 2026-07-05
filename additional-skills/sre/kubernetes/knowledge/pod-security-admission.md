@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Pod Security Admission (PSA)"
+---
+
 # Pod Security Admission (PSA)
 
 Built-in admission controller (GA since 1.25) that enforces Pod Security Standards at the namespace level. Replaces PodSecurityPolicy with a simpler, label-based mechanism. Three security levels: privileged, baseline, restricted.

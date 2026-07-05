@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "OTP Patterns"
+---
+
 # OTP Patterns
 
 OTP design: supervision trees, GenServer, Registry, DynamicSupervisor, Task.Supervisor, Agent.

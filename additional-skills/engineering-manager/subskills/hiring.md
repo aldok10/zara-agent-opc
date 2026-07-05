@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Hiring"
+---
+
 # Hiring
 
 Pipeline management, scorecards, structured interviews, and calibration for engineering hiring.

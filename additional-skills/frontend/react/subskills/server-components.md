@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Server Components"
+---
+
 # Subskill: Server Components
 
 > Activate when: deciding Server vs Client boundaries, passing data from server to client, streaming, or using `use()` for async data.

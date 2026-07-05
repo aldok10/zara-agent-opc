@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Azure Architecture Review Prompt"
+---
+
 # Azure Architecture Review Prompt
 
 Use this prompt to review Azure architecture decisions.

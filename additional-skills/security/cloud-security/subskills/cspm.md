@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Cloud Security Posture Management"
+---
+
 # Cloud Security Posture Management
 
 Continuous monitoring, assessment, and remediation of cloud infrastructure misconfigurations.

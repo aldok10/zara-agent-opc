@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Apache Kafka"
+---
+
 # Apache Kafka
 
 Producers, consumers, exactly-once semantics, consumer groups, and operational patterns.

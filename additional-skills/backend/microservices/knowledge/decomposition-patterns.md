@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Decomposition Patterns"
+---
+
 # Decomposition Patterns
 
 How to break a monolith into services. Multiple strategies; choose based on context.

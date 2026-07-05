@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Drift Detection"
+---
+
 # Drift Detection
 
 Desired state enforcement, remediation strategies, and configuration drift reporting.

@@ -1,3 +1,8 @@
+---
+type: example
+title: "Saga Orchestrator Pattern"
+---
+
 # Saga Orchestrator Pattern
 
 Order fulfillment saga with compensation. Central orchestrator manages step execution, tracks state, and triggers rollback on failure.

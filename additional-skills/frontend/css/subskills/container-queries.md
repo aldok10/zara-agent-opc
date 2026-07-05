@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Container Queries"
+---
+
 # Container Queries
 
 ## Activation

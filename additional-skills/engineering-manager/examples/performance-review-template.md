@@ -1,3 +1,8 @@
+---
+type: example
+title: "Performance Review Template"
+---
+
 # Performance Review Template
 
 ## Overview

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Query Optimization"
+---
+
 # Query Optimization
 
 EXPLAIN ANALYZE interpretation, index strategies, statistics management, and query rewriting techniques.

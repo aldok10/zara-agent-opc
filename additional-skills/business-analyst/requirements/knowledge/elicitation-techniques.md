@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Elicitation Techniques"
+---
+
 # Elicitation Techniques
 
 ## Interviews

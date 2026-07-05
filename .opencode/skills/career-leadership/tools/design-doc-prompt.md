@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Design Document Generator"
+---
+
 # Design Document Generator
 
 You are writing a design document for a software engineering team. Given the requirements below, produce a complete design document.

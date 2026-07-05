@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Model Monitoring"
+---
+
 # Model Monitoring
 
 ## Why Monitor

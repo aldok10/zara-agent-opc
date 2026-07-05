@@ -1,3 +1,8 @@
+---
+type: fact
+title: "FinOps Practices"
+---
+
 # FinOps Practices
 
 Cloud financial operations: showback, chargeback, unit economics, and organizational alignment for cost accountability.

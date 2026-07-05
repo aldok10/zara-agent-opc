@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Retro Planner"
+---
+
 # Retro Planner
 
 ## Prompt Template

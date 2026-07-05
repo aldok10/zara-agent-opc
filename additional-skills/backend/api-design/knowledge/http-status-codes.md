@@ -1,3 +1,8 @@
+---
+type: fact
+title: "HTTP Status Codes Reference"
+---
+
 # HTTP Status Codes Reference
 
 ## 2xx  -  Success

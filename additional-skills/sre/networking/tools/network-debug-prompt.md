@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Network Debug Prompt"
+---
+
 # Network Debug Prompt
 
 You are debugging a network connectivity issue in a Kubernetes cluster running Cilium as the CNI. Follow a systematic approach from symptoms to root cause.

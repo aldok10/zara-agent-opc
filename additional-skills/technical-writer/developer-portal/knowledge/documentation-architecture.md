@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Documentation Architecture"
+---
+
 # Documentation Architecture
 
 Information architecture patterns for developer portals and documentation sites.

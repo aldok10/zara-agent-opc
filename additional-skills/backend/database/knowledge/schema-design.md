@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Schema Design"
+---
+
 # Schema Design
 
 Normalization, denormalization decisions, primary key strategies, soft deletes, and audit trails.

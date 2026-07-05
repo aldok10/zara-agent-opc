@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Python Performance Profiling & Optimization Prompt"
+---
+
 # Python Performance Profiling & Optimization Prompt
 
 You are helping identify and resolve Python performance bottlenecks. Follow a data-driven approach: measure first, optimize second.

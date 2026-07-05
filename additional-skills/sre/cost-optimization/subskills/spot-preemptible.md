@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Spot & Preemptible Instances"
+---
+
 # Spot & Preemptible Instances
 
 Interruption handling, instance diversification, and Karpenter spot strategies.

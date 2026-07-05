@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Error Handling"
+---
+
 # Error Handling
 
 Structured error patterns for Node.js: custom error classes, error codes, async boundaries, and production-grade error management.

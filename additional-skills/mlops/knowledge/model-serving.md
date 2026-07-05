@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Model Serving Patterns"
+---
+
 # Model Serving Patterns
 
 ## Inference Architectures

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Gherkin Patterns"
+---
+
 # Gherkin Patterns
 
 ## Structure

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "GCP GKE"
+---
+
 # GCP GKE
 
 Autopilot, Standard clusters, Gateway API, and Config Sync for Kubernetes on GCP.

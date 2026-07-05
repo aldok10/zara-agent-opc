@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Minimal Reproduction Case Builder Prompt"
+---
+
 # Minimal Reproduction Case Builder Prompt
 
 You are helping construct a minimal reproduction case for a bug: isolating variables, reducing input, and building the smallest failing example.

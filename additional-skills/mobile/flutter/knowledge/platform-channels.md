@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Platform Channels (2026)"
+---
+
 # Platform Channels (2026)
 
 ## Overview

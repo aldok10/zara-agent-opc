@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Alignment & Cascade"
+---
+
 # Alignment & Cascade
 
 ## Principle

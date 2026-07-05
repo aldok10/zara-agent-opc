@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Data Anomaly Detection"
+---
+
 # Data Anomaly Detection
 
 Statistical methods, ML-based detection, alerting strategies, and baseline management.

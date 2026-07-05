@@ -1,3 +1,8 @@
+---
+type: fact
+title: ".NET Dependency Injection"
+---
+
 # .NET Dependency Injection
 
 ## Lifetimes

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Data Contracts"
+---
+
 # Data Contracts
 
 Schema contracts, SLAs, data ownership, and enforcement mechanisms between producers and consumers.

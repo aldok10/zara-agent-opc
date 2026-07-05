@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Property-Based Testing Prompt"
+---
+
 # Property-Based Testing Prompt
 
 You are helping design property-based tests: discovering invariants, building generators, and writing shrinkable test cases.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Testing Java"
+---
+
 # Subskill: Testing Java
 
 > Activate when: writing JUnit 5 tests, configuring Testcontainers, using MockMvc, ArchUnit, WireMock, or designing test strategy for Spring Boot applications.

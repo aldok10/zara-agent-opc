@@ -1,3 +1,8 @@
+---
+type: fact
+title: "DuckDB Analytics"
+---
+
 # DuckDB Analytics
 
 In-process OLAP database for analytical queries. SQL on local files without a server.

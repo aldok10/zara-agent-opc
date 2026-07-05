@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Query Plans"
+---
+
 # Query Plans
 
 Reading PostgreSQL EXPLAIN output, understanding join strategies, and interpreting cost models.

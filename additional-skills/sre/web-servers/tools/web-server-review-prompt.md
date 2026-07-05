@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Web Server Configuration Review Prompt"
+---
+
 # Web Server Configuration Review Prompt
 
 ## Usage

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "A/B Testing"
+---
+
 # A/B Testing
 
 ## Experiment Design

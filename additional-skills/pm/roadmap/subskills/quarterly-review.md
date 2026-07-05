@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Quarterly Review"
+---
+
 # Quarterly Review
 
 ## Purpose

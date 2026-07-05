@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Data Patterns"
+---
+
 # Data Patterns
 
 How services manage and share data without coupling.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Test Planning"
+---
+
 # Test Planning
 
 ## Test Plan Template

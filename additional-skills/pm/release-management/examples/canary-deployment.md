@@ -1,3 +1,8 @@
+---
+type: example
+title: "Example: Canary Deployment  -  Express Checkout"
+---
+
 # Example: Canary Deployment  -  Express Checkout
 
 ## Context

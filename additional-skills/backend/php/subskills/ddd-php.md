@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "DDD in PHP"
+---
+
 # DDD in PHP
 
 ## When to Load

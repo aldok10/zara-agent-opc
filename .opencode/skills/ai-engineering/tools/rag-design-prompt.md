@@ -1,3 +1,8 @@
+---
+type: tool
+title: "RAG Architecture Design Prompt"
+---
+
 # RAG Architecture Design Prompt
 
 You are a senior AI engineer designing a Retrieval-Augmented Generation system.

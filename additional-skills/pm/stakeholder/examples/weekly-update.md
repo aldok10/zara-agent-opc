@@ -1,3 +1,8 @@
+---
+type: example
+title: "Example: Weekly Stakeholder Update"
+---
+
 # Example: Weekly Stakeholder Update
 
 ```

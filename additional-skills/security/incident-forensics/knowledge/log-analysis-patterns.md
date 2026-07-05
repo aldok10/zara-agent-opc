@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Log Analysis Patterns"
+---
+
 # Log Analysis Patterns
 
 Threat hunting, IOC detection, and timeline reconstruction from security logs.

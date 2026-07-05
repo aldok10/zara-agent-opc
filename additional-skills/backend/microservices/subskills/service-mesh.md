@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Service Mesh"
+---
+
 # Service Mesh
 
 Infrastructure layer handling service-to-service communication. Moves networking concerns (mTLS, retries, circuit breaking, observability) from application code to infrastructure.

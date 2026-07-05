@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Linux eBPF"
+---
+
 # Linux eBPF
 
 bpftrace, bcc-tools, Cilium, XDP, and production tracing with eBPF.

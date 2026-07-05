@@ -1,3 +1,8 @@
+---
+type: example
+title: "Example: Monte Carlo Forecast"
+---
+
 # Example: Monte Carlo Forecast
 
 ## Input

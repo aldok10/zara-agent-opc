@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Policy as Code"
+---
+
 # Policy as Code
 
 Automated policy enforcement using OPA, Sentinel, Checkov, and other tools for compliance-at-deploy.

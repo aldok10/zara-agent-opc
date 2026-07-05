@@ -1,3 +1,8 @@
+---
+type: tool
+title: "GitOps PR Review Prompt"
+---
+
 # GitOps PR Review Prompt
 
 You are reviewing a pull request that modifies GitOps manifests (Kubernetes YAML, Helm values, ArgoCD Applications, Kustomize overlays). Evaluate for correctness, safety, and operational risk.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Event Sourcing"
+---
+
 # Event Sourcing
 
 Store state as a sequence of events, not current state. Every state change is an immutable event appended to a log. Current state is derived by replaying events.

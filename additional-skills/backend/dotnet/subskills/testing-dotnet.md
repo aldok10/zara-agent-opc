@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Testing .NET"
+---
+
 # Testing .NET
 
 xUnit, WebApplicationFactory, Testcontainers, Verify, architecture tests.

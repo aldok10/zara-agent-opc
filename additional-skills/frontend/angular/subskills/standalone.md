@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Standalone Components Subskill"
+---
+
 # Standalone Components Subskill
 
 Activation: user works with component architecture, DI, routing, lazy loading, or standalone migration.

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Dagster Patterns"
+---
+
 # Dagster Patterns
 
 Software-defined assets, resources, schedules, and sensors for modern data orchestration.

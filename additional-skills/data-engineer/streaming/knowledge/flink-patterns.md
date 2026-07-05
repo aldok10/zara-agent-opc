@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Flink Patterns"
+---
+
 # Flink Patterns
 
 Apache Flink 2.x: unified batch/stream processing, windowing, state management, and checkpointing.

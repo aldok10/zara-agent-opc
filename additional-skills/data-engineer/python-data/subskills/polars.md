@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Polars"
+---
+
 # Polars
 
 Lazy frames, expressions, performance advantages over pandas, and idiomatic patterns.

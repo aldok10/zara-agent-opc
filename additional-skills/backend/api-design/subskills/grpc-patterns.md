@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "gRPC Patterns"
+---
+
 # gRPC Patterns
 
 ## When to Load

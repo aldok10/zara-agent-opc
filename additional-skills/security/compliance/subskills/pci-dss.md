@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "PCI DSS Compliance"
+---
+
 # PCI DSS Compliance
 
 Scope reduction, Self-Assessment Questionnaires, compensating controls, and payment security.

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "ASP.NET Core Middleware Pipeline"
+---
+
 # ASP.NET Core Middleware Pipeline
 
 ## Pipeline Order (critical  -  order matters)

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Team Topologies"
+---
+
 # Team Topologies
 
 Based on the Team Topologies framework (Skelton & Pais). Four fundamental team types that map to modern software organizations.

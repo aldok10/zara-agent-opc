@@ -1,3 +1,8 @@
+---
+type: fact
+title: "AI Documentation Formats Reference"
+---
+
 # AI Documentation Formats Reference
 
 Specifications for documentation consumed by AI agents, LLMs, and coding assistants.

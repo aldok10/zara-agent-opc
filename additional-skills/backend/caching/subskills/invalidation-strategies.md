@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Invalidation Strategies"
+---
+
 # Invalidation Strategies
 
 Cache invalidation patterns. Event-driven, tag-based, versioned keys, write-through, write-behind.

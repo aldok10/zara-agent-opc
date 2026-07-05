@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Bundler Migration"
+---
+
 # Bundler Migration
 
 ## Activation

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "OpenTelemetry Collector Architecture"
+---
+
 # OpenTelemetry Collector Architecture
 
 Production-grade OTel Collector deployment patterns for unified telemetry pipelines.

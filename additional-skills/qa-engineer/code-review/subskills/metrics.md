@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Code Review Metrics"
+---
+
 # Code Review Metrics
 
 ## Time Metrics

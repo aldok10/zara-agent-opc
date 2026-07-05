@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Cilium and eBPF Networking"
+---
+
 # Cilium and eBPF Networking
 
 Production Kubernetes networking with Cilium as CNI, eBPF dataplane, and Hubble observability.

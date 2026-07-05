@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Auth Architecture Design Review Prompt"
+---
+
 # Auth Architecture Design Review Prompt
 
 Use this prompt template when performing LLM-assisted reviews of authentication and authorization architectures.

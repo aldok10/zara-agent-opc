@@ -1,3 +1,8 @@
+---
+type: fact
+title: "DataLoader Internals"
+---
+
 # DataLoader Internals
 
 Batching mechanics, request-level lifecycle, promise coalescing, cache invalidation, error handling, implementation details.

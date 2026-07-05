@@ -1,3 +1,8 @@
+---
+type: fact
+title: "ArgoCD Patterns"
+---
+
 # ArgoCD Patterns
 
 ## ApplicationSets

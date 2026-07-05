@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "BPMN"
+---
+
 # BPMN
 
 Business Process Model and Notation -- gateways, events, subprocesses, pools, and lanes for process documentation.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "HTTP Frameworks"
+---
+
 # HTTP Frameworks
 
 Go HTTP framework comparison and patterns. Choose based on measured needs, not hype.

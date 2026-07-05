@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Policy as Code"
+---
+
 # Policy as Code
 
 Defining, enforcing, and auditing organizational policies through code using OPA, Sentinel, and Checkov.

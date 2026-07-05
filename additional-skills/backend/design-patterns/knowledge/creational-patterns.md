@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Creational Patterns"
+---
+
 # Creational Patterns
 
 ## Factory Method

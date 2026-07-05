@@ -1,3 +1,8 @@
+---
+type: fact
+title: "KEDA Scalers (2.15+)"
+---
+
 # KEDA Scalers (2.15+)
 
 Event-driven autoscaling for Kubernetes workloads based on external metrics -- queue depth, stream lag, cron schedules, Prometheus queries, and 60+ other sources. Scales Deployments, StatefulSets, and Jobs from 0 to N.

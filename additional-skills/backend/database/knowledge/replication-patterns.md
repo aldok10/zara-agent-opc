@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Replication Patterns"
+---
+
 # Replication Patterns
 
 Topologies, trade-offs, and operational guidance for database replication.

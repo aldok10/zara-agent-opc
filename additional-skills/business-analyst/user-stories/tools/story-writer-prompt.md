@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Story Writer Prompt"
+---
+
 # Story Writer Prompt
 
 You are an expert Business Analyst writing user stories from requirements or feature descriptions.

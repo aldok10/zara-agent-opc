@@ -1,4 +1,5 @@
 ---
+type: subskill
 name: branded-types
 trigger: Domain IDs, validated strings, nominal types, newtype pattern, type-safe identifiers
 ---

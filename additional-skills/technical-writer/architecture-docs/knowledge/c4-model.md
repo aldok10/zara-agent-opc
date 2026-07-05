@@ -1,3 +1,8 @@
+---
+type: fact
+title: "C4 Model"
+---
+
 # C4 Model
 
 Framework for visualizing software architecture at four levels of abstraction.

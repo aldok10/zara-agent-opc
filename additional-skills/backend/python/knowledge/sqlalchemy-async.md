@@ -1,3 +1,8 @@
+---
+type: fact
+title: "SQLAlchemy Async"
+---
+
 # SQLAlchemy Async
 
 SQLAlchemy 2.0 async: session management, eager loading, relationship patterns, Alembic integration.

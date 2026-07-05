@@ -1,4 +1,5 @@
 ---
+type: subskill
 name: code-splitting
 trigger: "Bundle size, lazy loading, dynamic import, tree-shaking, route splitting"
 ---

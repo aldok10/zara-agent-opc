@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Crossplane"
+---
+
 # Crossplane
 
 Compositions, XRDs, provider configurations for infrastructure as code via Kubernetes API.

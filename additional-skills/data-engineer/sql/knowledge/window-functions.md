@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Window Functions"
+---
+
 # Window Functions
 
 PostgreSQL window functions compute values across sets of rows related to the current row without collapsing them into a single output row.

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Incremental Processing"
+---
+
 # Incremental Processing
 
 Watermarks, late data handling, partitioning, and incremental load patterns.

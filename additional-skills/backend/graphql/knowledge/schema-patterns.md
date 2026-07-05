@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Schema Patterns"
+---
+
 # Schema Patterns
 
 Common GraphQL schema patterns. Polymorphism, error handling, input validation, computed fields, versioning.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Query Patterns"
+---
+
 # Query Patterns
 
 Advanced query construction -- boolean logic, aggregations, suggesters, and highlighting for search engines.

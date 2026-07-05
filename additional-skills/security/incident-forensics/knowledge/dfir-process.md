@@ -1,3 +1,8 @@
+---
+type: fact
+title: "DFIR Process"
+---
+
 # DFIR Process
 
 Digital forensics and incident response methodology: evidence collection, chain of custody, and investigation workflow.

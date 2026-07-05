@@ -1,3 +1,8 @@
+---
+type: example
+title: "Example: 5-State Dev Workflow"
+---
+
 # Example: 5-State Dev Workflow
 
 ## Statuses

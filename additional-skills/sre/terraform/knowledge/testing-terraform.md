@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Testing Terraform"
+---
+
 # Testing Terraform
 
 ## terraform test (Native, 1.6+)

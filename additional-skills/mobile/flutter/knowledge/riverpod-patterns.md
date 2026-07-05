@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Riverpod Patterns (2026)"
+---
+
 # Riverpod Patterns (2026)
 
 ## Provider Types

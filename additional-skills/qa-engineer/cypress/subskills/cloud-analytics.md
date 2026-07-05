@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Cloud & Analytics"
+---
+
 # Cloud & Analytics
 
 ## Cypress Cloud

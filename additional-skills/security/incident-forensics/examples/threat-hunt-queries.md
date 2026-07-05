@@ -1,3 +1,8 @@
+---
+type: example
+title: "Threat Hunt Queries"
+---
+
 # Threat Hunt Queries
 
 KQL and SPL queries for detecting common threat patterns. Organized by MITRE ATT&CK tactic.

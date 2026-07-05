@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Compliance Gap Analysis Prompt"
+---
+
 # Compliance Gap Analysis Prompt
 
 Use this prompt template when performing LLM-assisted compliance gap assessments.

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Incident Playbook"
+---
+
 # Incident Playbook
 
 Step-by-step framework for handling production incidents from detection to resolution.

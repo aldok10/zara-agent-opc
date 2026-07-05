@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Federation 2 Directives & Composition"
+---
+
 # Federation 2 Directives & Composition
 
 Apollo Federation 2 reference. Directives, entity resolution, composition rules, migration from v1, WunderGraph Cosmo compatibility.

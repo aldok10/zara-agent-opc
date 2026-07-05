@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Cycle Time Calculator"
+---
+
 # Cycle Time Calculator
 
 ## Formula

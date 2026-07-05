@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Design Tokens"
+---
+
 # Design Tokens
 
 ## Activation

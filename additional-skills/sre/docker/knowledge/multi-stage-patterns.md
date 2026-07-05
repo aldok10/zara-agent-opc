@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Multi-Stage Build Patterns"
+---
+
 # Multi-Stage Build Patterns
 
 Multi-stage builds separate build-time dependencies from runtime, producing minimal production images. Each language has specific patterns for optimal layer caching and minimal final image size.

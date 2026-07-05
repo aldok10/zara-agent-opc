@@ -1,3 +1,8 @@
+---
+type: fact
+title: "net/http Since 1.22"
+---
+
 # net/http Since 1.22
 
 Enhanced stdlib HTTP routing that eliminates most framework needs.

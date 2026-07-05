@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Linux Security Hardening"
+---
+
 # Linux Security Hardening
 
 SELinux, AppArmor, capabilities, seccomp profiles, and CIS benchmark compliance.

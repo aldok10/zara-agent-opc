@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Architecture Documentation Generator"
+---
+
 # Architecture Documentation Generator
 
 You are creating architecture documentation for a software system. Produce clear, structured documentation that helps teams understand, evolve, and onboard to the system.

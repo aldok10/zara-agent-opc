@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Entity-Relationship Diagrams"
+---
+
 # Entity-Relationship Diagrams
 
 Crow's foot notation, entity modeling, relationships, and cardinality for data analysis.

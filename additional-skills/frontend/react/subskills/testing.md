@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Testing"
+---
+
 # Subskill: Testing
 
 > Activate when: writing component tests, testing hooks, integration tests, or setting up test infrastructure for React.

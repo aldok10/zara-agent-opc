@@ -1,3 +1,8 @@
+---
+type: example
+title: "Triage Session Example"
+---
+
 # Triage Session Example
 
 Processing 10 inbox items. Decision time target: <2 min total.

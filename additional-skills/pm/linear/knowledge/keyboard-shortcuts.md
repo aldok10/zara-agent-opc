@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Keyboard Shortcuts"
+---
+
 # Keyboard Shortcuts
 
 Essential Linear shortcuts. Memorize top 10, reference rest.

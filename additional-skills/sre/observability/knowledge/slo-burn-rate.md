@@ -1,3 +1,8 @@
+---
+type: fact
+title: "SLO Burn Rate Alerting"
+---
+
 # SLO Burn Rate Alerting
 
 Multi-window burn-rate alerting that replaces static threshold alerts with error-budget-aware signals.

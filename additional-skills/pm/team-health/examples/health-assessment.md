@@ -1,3 +1,8 @@
+---
+type: example
+title: "Example: Quarterly Team Health Assessment"
+---
+
 # Example: Quarterly Team Health Assessment
 
 ## Team: Payments (Stream-Aligned, 6 engineers)

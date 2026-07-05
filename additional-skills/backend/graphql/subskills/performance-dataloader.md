@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Performance & DataLoader"
+---
+
 # Performance & DataLoader
 
 DataLoader batching, per-request lifecycle, cache priming, nested resolver optimization, N+1 prevention, response caching.

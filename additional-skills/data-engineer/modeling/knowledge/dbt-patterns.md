@@ -1,3 +1,8 @@
+---
+type: fact
+title: "dbt Patterns"
+---
+
 # dbt Patterns
 
 Staging, intermediate, and mart layer design, macros, testing, and project structure for dbt Core/Cloud.

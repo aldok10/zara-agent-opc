@@ -1,3 +1,8 @@
+---
+type: example
+title: "Example: Epic Breakdown -- Multi-Tenant Billing System"
+---
+
 # Example: Epic Breakdown -- Multi-Tenant Billing System
 
 ## Epic

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Snowflake Patterns"
+---
+
 # Snowflake Patterns
 
 Compute, caching, time travel, and cost optimization patterns for Snowflake.

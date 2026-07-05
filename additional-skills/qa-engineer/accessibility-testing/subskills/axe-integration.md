@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Axe Integration"
+---
+
 # Axe Integration
 
 ## @axe-core/playwright

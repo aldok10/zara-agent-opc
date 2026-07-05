@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Cross-Platform Decision Framework"
+---
+
 # Cross-Platform Decision Framework
 
 Criteria for choosing between Flutter, React Native, native, and KMP for mobile development.

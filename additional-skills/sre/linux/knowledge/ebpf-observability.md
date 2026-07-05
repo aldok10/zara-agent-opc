@@ -1,3 +1,8 @@
+---
+type: fact
+title: "eBPF Observability"
+---
+
 # eBPF Observability
 
 ## Overview

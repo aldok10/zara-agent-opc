@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "One-on-Ones"
+---
+
 # One-on-Ones
 
 Structure, coaching techniques, career conversations, and feedback delivery for engineering managers.

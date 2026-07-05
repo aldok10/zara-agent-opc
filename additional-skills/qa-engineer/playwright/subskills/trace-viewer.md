@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Trace Viewer"
+---
+
 # Trace Viewer
 
 ## Trace Configuration

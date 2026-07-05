@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Workload Protection"
+---
+
 # Workload Protection
 
 Runtime security for containers, VMs, and serverless -- detecting and preventing threats at execution time.

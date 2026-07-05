@@ -1,3 +1,8 @@
+---
+type: tool
+title: "SLO Design Prompt"
+---
+
 # SLO Design Prompt
 
 You are an SRE consultant. Given business requirements, define appropriate Service Level Objectives.

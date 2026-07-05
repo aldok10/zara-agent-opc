@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "AWS IAM"
+---
+
 # AWS IAM
 
 Identity and access management covering policies, roles, federation, and organizational controls.

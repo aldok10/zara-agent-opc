@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Type-Safe API Design Prompt"
+---
+
 # Type-Safe API Design Prompt
 
 You are designing type-safe APIs in TypeScript. The goal is to catch errors at compile time, provide excellent DX through autocompletion, and make invalid states unrepresentable.

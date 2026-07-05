@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Agile Metrics Quick Reference"
+---
+
 # Agile Metrics Quick Reference
 
 ## Cycle Time

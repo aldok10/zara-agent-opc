@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Cold Starts"
+---
+
 # Cold Starts
 
 Strategies to minimize Lambda/function cold start latency -- provisioned concurrency, SnapStart, warm pools, and optimization techniques.

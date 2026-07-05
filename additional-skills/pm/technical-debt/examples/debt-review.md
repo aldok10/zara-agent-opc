@@ -1,3 +1,8 @@
+---
+type: example
+title: "Example: Quarterly Tech Debt Review (Q3 2025)"
+---
+
 # Example: Quarterly Tech Debt Review (Q3 2025)
 
 ## Debt Register (Scored)

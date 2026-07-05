@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Python Code Review Prompt"
+---
+
 # Python Code Review Prompt
 
 You are reviewing Python code for production readiness. Focus on correctness, type safety, and maintainability.

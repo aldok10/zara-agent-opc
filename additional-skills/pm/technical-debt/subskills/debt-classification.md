@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Debt Classification"
+---
+
 # Debt Classification
 
 ## Fowler's Quadrant Model

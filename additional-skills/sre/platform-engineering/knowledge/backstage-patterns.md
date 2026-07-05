@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Backstage Patterns"
+---
+
 # Backstage Patterns
 
 Backstage software catalog, scaffolding, and plugin patterns for internal developer portals.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Concurrency"
+---
+
 # Concurrency
 
 Go concurrency patterns for backend services. Safe, structured, observable.

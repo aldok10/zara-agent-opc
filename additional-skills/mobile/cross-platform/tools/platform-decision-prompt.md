@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Platform Decision Prompt"
+---
+
 # Platform Decision Prompt
 
 You are helping a team decide on a mobile development approach. Ask the following questions and provide a recommendation based on the answers.

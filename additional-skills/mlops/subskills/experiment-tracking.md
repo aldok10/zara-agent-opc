@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Experiment Tracking"
+---
+
 # Experiment Tracking
 
 MLflow, Weights & Biases, reproducibility, and model registry for ML experimentation.

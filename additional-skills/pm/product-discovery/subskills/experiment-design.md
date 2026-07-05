@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Experiment Design"
+---
+
 # Experiment Design
 
 ## Method Selection Matrix

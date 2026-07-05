@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "JQL Advanced"
+---
+
 # JQL Advanced
 
 ## Scope

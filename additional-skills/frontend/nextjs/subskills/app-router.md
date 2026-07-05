@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "App Router"
+---
+
 # App Router
 
 Activate when: route structure, layouts, parallel routes, intercepting routes, route groups, segments, metadata.

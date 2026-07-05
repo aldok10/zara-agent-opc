@@ -1,3 +1,8 @@
+---
+type: fact
+title: "GKE Patterns"
+---
+
 # GKE Patterns
 
 ## Autopilot vs Standard

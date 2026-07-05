@@ -1,3 +1,8 @@
+---
+type: example
+title: "Example: Company OKR Set with Cascade"
+---
+
 # Example: Company OKR Set with Cascade
 
 ## Company OKRs (Q3)

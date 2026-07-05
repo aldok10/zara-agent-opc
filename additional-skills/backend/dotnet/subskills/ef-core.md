@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "EF Core"
+---
+
 # EF Core
 
 Entity Framework Core 10 patterns: migrations, query optimization, interceptors.

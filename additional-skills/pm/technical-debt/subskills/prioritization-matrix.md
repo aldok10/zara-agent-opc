@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Prioritization Matrix"
+---
+
 # Prioritization Matrix
 
 ## Scoring Formula

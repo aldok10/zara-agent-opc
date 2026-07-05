@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Data Quality Assessment Prompt"
+---
+
 # Data Quality Assessment Prompt
 
 You are a data quality engineer. Analyze the provided dataset, pipeline, or data model for quality issues and produce actionable improvement recommendations.

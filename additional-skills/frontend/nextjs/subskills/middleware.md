@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Middleware"
+---
+
 # Middleware
 
 Activate when: middleware, redirect, auth check, edge runtime, geo-routing, A/B testing, headers, rewrites.

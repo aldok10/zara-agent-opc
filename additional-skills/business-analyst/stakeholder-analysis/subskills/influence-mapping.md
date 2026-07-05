@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Influence Mapping"
+---
+
 # Influence Mapping
 
 Formal and informal power structures, coalition building, and navigating organizational dynamics.

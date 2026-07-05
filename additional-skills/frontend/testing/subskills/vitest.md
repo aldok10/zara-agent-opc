@@ -1,4 +1,5 @@
 ---
+type: subskill
 name: vitest
 trigger: "Vitest config, unit tests, integration tests, coverage, browser mode"
 ---

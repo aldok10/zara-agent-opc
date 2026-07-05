@@ -1,3 +1,8 @@
+---
+type: fact
+title: "BigQuery Patterns"
+---
+
 # BigQuery Patterns
 
 Cost-aware design patterns for Google BigQuery: partitioning, clustering, slot management, and cost control.

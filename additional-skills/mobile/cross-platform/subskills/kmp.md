@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Kotlin Multiplatform (KMP)"
+---
+
 # Kotlin Multiplatform (KMP)
 
 Shared logic architecture, expect/actual mechanism, and integration with native UI layers.

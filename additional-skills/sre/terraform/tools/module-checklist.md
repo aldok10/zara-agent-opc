@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Terraform Module Publishing Checklist"
+---
+
 # Terraform Module Publishing Checklist
 
 Before publishing or releasing a new version of a Terraform module, verify all items.

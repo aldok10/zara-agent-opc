@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Dimensional Modeling"
+---
+
 # Dimensional Modeling
 
 Star schema design, slowly changing dimensions, and fact table patterns for analytical workloads.

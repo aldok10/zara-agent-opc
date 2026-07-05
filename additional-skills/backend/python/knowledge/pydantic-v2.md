@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Pydantic v2"
+---
+
 # Pydantic v2
 
 Validators, model_config, computed fields, discriminated unions, serialization patterns.

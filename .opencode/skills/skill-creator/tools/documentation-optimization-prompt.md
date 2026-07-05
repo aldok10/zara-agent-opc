@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Documentation Optimization Prompt"
+---
+
 # Documentation Optimization Prompt
 
 You are optimizing documentation for consumption by LLMs (token efficiency + clarity).

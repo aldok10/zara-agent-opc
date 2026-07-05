@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subscriptions"
+---
+
 # Subscriptions
 
 Real-time GraphQL. WebSocket transport, event filtering, scaling patterns, PubSub backends, SSE alternative, connection lifecycle.

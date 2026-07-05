@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Platform Design Review Prompt"
+---
+
 # Platform Design Review Prompt
 
 You are reviewing an internal developer platform design or feature proposal. Evaluate whether it serves developer productivity while maintaining production standards.

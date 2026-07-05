@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Data Flow Diagrams"
+---
+
 # Data Flow Diagrams
 
 Context diagrams, level 0/1 decomposition, data stores, and process modeling.

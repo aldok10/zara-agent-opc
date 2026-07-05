@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Integrations"
+---
+
 # Integrations
 
 ## Purpose

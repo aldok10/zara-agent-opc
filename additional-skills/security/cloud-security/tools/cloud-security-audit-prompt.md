@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Cloud Security Audit Prompt"
+---
+
 # Cloud Security Audit Prompt
 
 Use this prompt template when performing LLM-assisted cloud security posture reviews.

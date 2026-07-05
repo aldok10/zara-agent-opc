@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Interview Preparation Prompt"
+---
+
 # Interview Preparation Prompt
 
 You are a senior engineering leader helping someone prepare for technical interviews.

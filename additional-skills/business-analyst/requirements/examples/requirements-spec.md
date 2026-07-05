@@ -1,3 +1,8 @@
+---
+type: example
+title: "Example: Requirements Specification -- Team Notification System"
+---
+
 # Example: Requirements Specification -- Team Notification System
 
 ## Document Info

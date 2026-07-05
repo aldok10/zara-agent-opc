@@ -1,3 +1,8 @@
+---
+type: example
+title: "Example: Planning Poker Session"
+---
+
 # Example: Planning Poker Session
 
 ## Setup

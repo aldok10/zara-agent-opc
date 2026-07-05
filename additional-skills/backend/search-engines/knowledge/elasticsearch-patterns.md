@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Elasticsearch Patterns"
+---
+
 # Elasticsearch Patterns
 
 ## Index Mapping Design

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Caddy"
+---
+
 # Caddy
 
 Caddyfile configuration, automatic HTTPS, reverse proxy, and plugins.

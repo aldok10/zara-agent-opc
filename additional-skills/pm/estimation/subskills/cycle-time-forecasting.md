@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Cycle Time Forecasting"
+---
+
 # Cycle Time Forecasting
 
 ## Purpose

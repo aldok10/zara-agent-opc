@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Triage Decision Template"
+---
+
 # Triage Decision Template
 
 Use for each inbox item. Target: <10 seconds per decision.

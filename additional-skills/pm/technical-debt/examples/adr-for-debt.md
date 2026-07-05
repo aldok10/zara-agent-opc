@@ -1,3 +1,8 @@
+---
+type: example
+title: "Example: ADR for Deliberate Technical Debt"
+---
+
 # Example: ADR for Deliberate Technical Debt
 
 ## ADR-027: Accept Synchronous Payment Processing

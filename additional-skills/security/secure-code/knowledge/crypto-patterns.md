@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Cryptographic Patterns"
+---
+
 # Cryptographic Patterns
 
 Modern cryptographic primitives, key management, and common implementation patterns.

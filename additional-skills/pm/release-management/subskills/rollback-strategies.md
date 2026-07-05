@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Rollback Strategies"
+---
+
 # Rollback Strategies
 
 ## Decision Tree

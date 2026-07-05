@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Module Federation"
+---
+
 # Module Federation
 
 ## Activation

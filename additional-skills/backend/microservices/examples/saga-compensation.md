@@ -1,3 +1,8 @@
+---
+type: example
+title: "Saga Compensation Example: Order Fulfillment"
+---
+
 # Saga Compensation Example: Order Fulfillment
 
 An orchestrated saga for placing an order. Each step has a compensating action that undoes its effect on failure.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Packaging with uv"
+---
+
 # Packaging with uv
 
 uv workspaces, pyproject.toml, lockfiles, virtual environments, publishing, scripts.

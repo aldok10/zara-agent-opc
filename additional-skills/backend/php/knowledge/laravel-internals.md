@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Laravel Internals"
+---
+
 # Laravel Internals
 
 ## Service Container

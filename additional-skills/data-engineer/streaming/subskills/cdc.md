@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Change Data Capture"
+---
+
 # Change Data Capture
 
 Debezium connectors, schema evolution, ordering guarantees, and CDC pipeline patterns.

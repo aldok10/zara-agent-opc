@@ -1,3 +1,8 @@
+---
+type: fact
+title: "React Native New Architecture (2026)"
+---
+
 # React Native New Architecture (2026)
 
 ## Overview

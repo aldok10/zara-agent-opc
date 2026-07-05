@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Breaking Changes"
+---
+
 # Breaking Changes
 
 Migration guides, deprecation notices, and sunset policies for managing breaking changes responsibly.

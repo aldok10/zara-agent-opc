@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Data Vault"
+---
+
 # Data Vault
 
 Hubs, links, satellites, and the Data Vault 2.0 methodology for scalable raw data warehousing.

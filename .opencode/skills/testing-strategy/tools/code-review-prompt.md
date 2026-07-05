@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Test Quality Code Review Prompt"
+---
+
 # Test Quality Code Review Prompt
 
 You are a senior engineer reviewing test code quality.

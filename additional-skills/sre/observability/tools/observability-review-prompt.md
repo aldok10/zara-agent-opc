@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Observability Review Prompt"
+---
+
 # Observability Review Prompt
 
 You are reviewing the telemetry and observability setup for a production service or platform. Evaluate the implementation against SRE best practices.

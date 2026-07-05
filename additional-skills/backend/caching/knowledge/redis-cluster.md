@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Redis Cluster"
+---
+
 # Redis Cluster
 
 Redis Cluster topology, hash slots, resharding, failover, and client routing.

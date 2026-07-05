@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Event-Driven Patterns"
+---
+
 # Event-Driven Patterns
 
 ## Fan-Out

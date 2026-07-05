@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Team Design"
+---
+
 # Team Design
 
 Team topologies, cognitive load management, boundaries, and scaling engineering organizations.

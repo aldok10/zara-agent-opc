@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Acceptance Criteria Writer Prompt"
+---
+
 # Acceptance Criteria Writer Prompt
 
 You are an expert Business Analyst writing acceptance criteria for a software feature.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Remote Retros"
+---
+
 # Remote Retros
 
 ## Two-Phase Structure

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Testing Python"
+---
+
 # Testing Python
 
 pytest: fixtures, parametrize, mocking, async tests, hypothesis, coverage, conftest patterns.

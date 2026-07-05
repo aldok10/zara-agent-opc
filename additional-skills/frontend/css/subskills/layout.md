@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Layout"
+---
+
 # Layout
 
 ## Activation

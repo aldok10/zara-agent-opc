@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Observability in Distributed Systems"
+---
+
 # Observability in Distributed Systems
 
 You can't debug a distributed system with `print` statements. Observability = traces + metrics + logs, correlated.

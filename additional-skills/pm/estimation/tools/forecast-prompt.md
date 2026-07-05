@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Delivery Forecast Prompt"
+---
+
 # Delivery Forecast Prompt
 
 ## Input Required

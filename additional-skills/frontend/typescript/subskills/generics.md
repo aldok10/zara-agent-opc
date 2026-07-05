@@ -1,4 +1,5 @@
 ---
+type: subskill
 name: generics
 trigger: Generic function, class, conditional types, mapped types, infer keyword, template literals
 ---

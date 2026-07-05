@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Stryker Configuration Reference"
+---
+
 # Stryker Configuration Reference
 
 ## stryker.config.json Structure

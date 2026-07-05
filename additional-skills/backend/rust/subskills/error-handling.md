@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Error Handling"
+---
+
 # Subskill: Error Handling
 
 Rust error design for web services. thiserror for structure, IntoResponse for HTTP, context for debugging.

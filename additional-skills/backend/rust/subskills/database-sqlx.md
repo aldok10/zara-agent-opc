@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Database with sqlx"
+---
+
 # Subskill: Database with sqlx
 
 sqlx patterns for Rust backends. Compile-time checked queries, migrations, transactions, pooling.

@@ -1,3 +1,8 @@
+---
+type: example
+title: "Kanban Board Example"
+---
+
 # Kanban Board Example
 
 ## Board Layout

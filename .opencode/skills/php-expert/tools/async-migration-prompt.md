@@ -1,3 +1,8 @@
+---
+type: tool
+title: "PHP Async Migration Prompt"
+---
+
 # PHP Async Migration Prompt
 
 You are helping migrate a traditional PHP application (Apache/mod_php, PHP-FPM) to an async runtime (Swoole, FrankenPHP, or RoadRunner).

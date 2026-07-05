@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Prioritization Frameworks Reference"
+---
+
 # Prioritization Frameworks Reference
 
 ## RICE

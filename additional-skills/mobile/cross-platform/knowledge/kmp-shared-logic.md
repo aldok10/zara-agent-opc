@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Kotlin Multiplatform Shared Logic (2026)"
+---
+
 # Kotlin Multiplatform Shared Logic (2026)
 
 ## Architecture

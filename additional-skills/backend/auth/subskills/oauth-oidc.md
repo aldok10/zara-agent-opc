@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "OAuth 2.1 & OpenID Connect"
+---
+
 # OAuth 2.1 & OpenID Connect
 
 ## Context

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Secrets in GitOps"
+---
+
 # Secrets in GitOps
 
 Managing secrets in a GitOps workflow requires keeping encrypted or referenced secrets in git while actual secret values remain external.

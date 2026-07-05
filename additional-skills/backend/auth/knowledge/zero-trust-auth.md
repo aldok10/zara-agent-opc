@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Zero Trust Authentication"
+---
+
 # Zero Trust Authentication
 
 ## Core Principles

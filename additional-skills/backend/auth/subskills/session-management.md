@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Session Management"
+---
+
 # Session Management
 
 ## Context

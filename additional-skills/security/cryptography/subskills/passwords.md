@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Password Hashing"
+---
+
 # Password Hashing
 
 Argon2id, bcrypt, scrypt, pepper strategies, and migration between hashing algorithms.

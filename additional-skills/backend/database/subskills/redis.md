@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Redis"
+---
+
 # Redis
 
 Beyond caching: data structures, Lua scripting, cluster mode, persistence, Streams, and modules.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Structural Patterns"
+---
+
 # Structural Patterns
 
 Patterns that compose classes and objects into larger structures while keeping them flexible and efficient.

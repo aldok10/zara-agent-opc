@@ -1,3 +1,8 @@
+---
+type: example
+title: "Example: Escalating a Delayed Release"
+---
+
 # Example: Escalating a Delayed Release
 
 ```

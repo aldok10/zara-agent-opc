@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Journey Mapping"
+---
+
 # Journey Mapping
 
 ## What Is a User Journey Map?

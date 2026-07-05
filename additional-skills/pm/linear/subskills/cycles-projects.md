@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Cycles & Projects"
+---
+
 # Cycles & Projects
 
 ## Purpose

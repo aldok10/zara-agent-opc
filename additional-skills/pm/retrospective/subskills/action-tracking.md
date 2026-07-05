@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Action Tracking"
+---
+
 # Action Tracking
 
 ## Action Item Format

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Distributed Cache"
+---
+
 # Distributed Cache
 
 Distributed cache topology and operations. Consistent hashing, replication, partition tolerance, Redis Cluster vs alternatives.

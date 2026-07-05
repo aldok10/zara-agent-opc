@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "X.509 Certificates"
+---
+
 # X.509 Certificates
 
 Certificate lifecycle, chain of trust, Certificate Transparency, OCSP, and CRL management.

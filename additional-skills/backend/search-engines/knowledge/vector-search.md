@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Vector Search"
+---
+
 # Vector Search
 
 ## Embedding Fundamentals

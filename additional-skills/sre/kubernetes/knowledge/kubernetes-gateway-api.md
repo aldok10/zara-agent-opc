@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Gateway API (v1.3+)"
+---
+
 # Gateway API (v1.3+)
 
 The successor to Ingress, providing expressive, role-oriented routing for HTTP, gRPC, TCP, and TLS traffic in Kubernetes 1.29+. GA since v1.0, with v1.3 adding session persistence, backend TLS policy, and retry budgets.

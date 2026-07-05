@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Skill Audit Prompt"
+---
+
 # Skill Audit Prompt
 
 Use this prompt template to audit an existing skill against project standards.

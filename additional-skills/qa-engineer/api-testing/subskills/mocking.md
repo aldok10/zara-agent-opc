@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Mocking & Service Virtualization"
+---
+
 # Mocking & Service Virtualization
 
 ## MSW (Mock Service Worker)

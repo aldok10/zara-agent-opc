@@ -1,3 +1,8 @@
+---
+type: fact
+title: "BPMN 2.0 Notation"
+---
+
 # BPMN 2.0 Notation
 
 ## Core Elements

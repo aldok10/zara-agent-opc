@@ -1,3 +1,8 @@
+---
+type: tool
+title: "TypeScript Monorepo Setup Prompt"
+---
+
 # TypeScript Monorepo Setup Prompt
 
 You are helping set up or restructure a TypeScript monorepo with proper project references, shared configs, and build orchestration.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "RBAC"
+---
+
 # RBAC
 
 Kubernetes RBAC, cloud IAM, and principle of least privilege implementation.

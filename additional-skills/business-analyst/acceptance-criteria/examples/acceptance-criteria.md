@@ -1,3 +1,8 @@
+---
+type: example
+title: "Example: Acceptance Criteria for Shopping Cart Checkout"
+---
+
 # Example: Acceptance Criteria for Shopping Cart Checkout
 
 ## Feature: Shopping Cart Checkout

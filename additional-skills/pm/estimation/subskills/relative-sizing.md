@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Relative Sizing"
+---
+
 # Relative Sizing
 
 ## Purpose

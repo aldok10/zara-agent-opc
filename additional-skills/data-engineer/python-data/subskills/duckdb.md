@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "DuckDB"
+---
+
 # DuckDB
 
 Local OLAP queries, SQL on files, Python integration, and embedded analytical database patterns.

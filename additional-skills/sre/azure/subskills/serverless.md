@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Azure Serverless"
+---
+
 # Azure Serverless
 
 Azure Functions, Container Apps, and Logic Apps for event-driven workloads.

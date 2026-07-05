@@ -1,3 +1,8 @@
+---
+type: example
+title: "Example: Q2 Quarterly Review Output"
+---
+
 # Example: Q2 Quarterly Review Output
 
 ## Results (Q1 Bets)

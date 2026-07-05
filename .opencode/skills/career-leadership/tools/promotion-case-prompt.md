@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Promotion Case Builder Prompt"
+---
+
 # Promotion Case Builder Prompt
 
 You are a senior engineering leader helping someone build their promotion packet.

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Story Writing"
+---
+
 # Story Writing
 
 ## User Story Format

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Full-Text Search"
+---
+
 # Full-Text Search
 
 Core concepts for building text search systems -- analyzers, tokenizers, filters, and relevance tuning.

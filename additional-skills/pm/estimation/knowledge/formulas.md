@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Estimation Formulas Reference"
+---
+
 # Estimation Formulas Reference
 
 ## Monte Carlo Setup

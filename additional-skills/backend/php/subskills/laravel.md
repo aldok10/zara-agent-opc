@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Laravel 12"
+---
+
 # Laravel 12
 
 ## When to Load

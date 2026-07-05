@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Apache Arrow"
+---
+
 # Apache Arrow
 
 Zero-copy data sharing, IPC format, Flight protocol, and columnar memory layout.

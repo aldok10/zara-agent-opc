@@ -1,3 +1,8 @@
+---
+type: fact
+title: "OAuth 2.1 Specification Summary"
+---
+
 # OAuth 2.1 Specification Summary
 
 ## Key Differences from OAuth 2.0

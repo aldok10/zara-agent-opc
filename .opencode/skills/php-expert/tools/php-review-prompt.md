@@ -1,3 +1,8 @@
+---
+type: tool
+title: "PHP Code Review Prompt"
+---
+
 # PHP Code Review Prompt
 
 You are reviewing PHP code for production readiness. Focus on PSR compliance, type safety, security, and architectural patterns.

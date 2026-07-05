@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Penetration Test Reporting"
+---
+
 # Penetration Test Reporting
 
 Findings documentation, severity classification, remediation guidance, and retesting procedures.

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Concurrency Patterns"
+---
+
 # Concurrency Patterns
 
 Reference patterns for Go backend concurrency. Copy, adapt, combine.

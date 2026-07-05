@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Error Patterns"
+---
+
 # Error Patterns
 
 Go error handling: wrapping, sentinel, custom types, and boundary strategies.

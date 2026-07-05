@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Severity Levels"
+---
+
 # Severity Levels
 
 SLO-driven severity classification that removes subjectivity from incident triage.

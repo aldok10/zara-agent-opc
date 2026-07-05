@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Change Data Capture (CDC)"
+---
+
 # Change Data Capture (CDC)
 
 Capture database changes as events. Stream row-level inserts, updates, deletes from database transaction log to message broker. Enables event-driven architecture without modifying application code.

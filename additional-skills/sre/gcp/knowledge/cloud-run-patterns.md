@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Cloud Run Patterns"
+---
+
 # Cloud Run Patterns
 
 ## Scaling Behavior

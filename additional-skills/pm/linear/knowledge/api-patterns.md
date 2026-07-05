@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Linear API Patterns"
+---
+
 # Linear API Patterns
 
 Endpoint: `https://api.linear.app/graphql`

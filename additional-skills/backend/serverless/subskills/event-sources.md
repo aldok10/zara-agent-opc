@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Event Sources"
+---
+
 # Event Sources
 
 Lambda triggers and integration patterns -- API Gateway, SQS, EventBridge, S3, DynamoDB Streams.

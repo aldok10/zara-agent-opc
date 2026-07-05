@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Root Cause Investigation Prompt"
+---
+
 # Root Cause Investigation Prompt
 
 You are a debugging expert. Given a bug report or unexpected behavior, systematically investigate the root cause.

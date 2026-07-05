@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Performance"
+---
+
 # Performance
 
 Activate when: performance, PPR, streaming, bundle size, Core Web Vitals, LCP, CLS, INP, loading, Suspense.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Influence Without Authority"
+---
+
 # Influence Without Authority
 
 ## Scope

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Stakeholder Views"
+---
+
 # Stakeholder Views
 
 ## Principle

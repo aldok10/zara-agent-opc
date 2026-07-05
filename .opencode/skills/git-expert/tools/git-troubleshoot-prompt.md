@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Git Troubleshooting Prompt"
+---
+
 # Git Troubleshooting Prompt
 
 You are a git troubleshooting expert. Given a problem description, error message, or unexpected git behavior, diagnose the issue and provide a fix.

@@ -1,3 +1,8 @@
+---
+type: example
+title: "CDN Cache Headers Examples"
+---
+
 # CDN Cache Headers Examples
 
 HTTP response header configurations for common caching scenarios.

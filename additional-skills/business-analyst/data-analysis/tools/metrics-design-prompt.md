@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Metrics Design Prompt"
+---
+
 # Metrics Design Prompt
 
 You are a data-driven Business Analyst designing metrics for a product feature or initiative.

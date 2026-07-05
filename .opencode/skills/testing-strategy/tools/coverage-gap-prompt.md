@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Coverage Gap Analysis Prompt"
+---
+
 # Coverage Gap Analysis Prompt
 
 You are a senior QA engineer identifying test coverage gaps.

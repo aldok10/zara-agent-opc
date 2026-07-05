@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Fowler's Technical Debt Quadrant"
+---
+
 # Fowler's Technical Debt Quadrant
 
 ```

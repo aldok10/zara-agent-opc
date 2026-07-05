@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "MySQL / MariaDB"
+---
+
 # MySQL / MariaDB
 
 InnoDB internals, replication topologies, ProxySQL, Percona Toolkit, and online DDL strategies.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Incident Communication"
+---
+
 # Incident Communication
 
 Stakeholder updates, regulatory notification, public relations, and internal communication during incidents.

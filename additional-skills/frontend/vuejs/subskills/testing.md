@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Vue Testing"
+---
+
 # Subskill: Vue Testing
 
 Activate when: writing component tests, composable tests, e2e tests, or setting up test infrastructure for Vue/Nuxt.

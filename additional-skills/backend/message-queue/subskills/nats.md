@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "NATS JetStream"
+---
+
 # NATS JetStream
 
 Subject-based messaging with persistent stream storage. Single binary, zero-config clustering, low-latency. JetStream adds durability, exactly-once dedup window, KV store, and object store on top of core NATS.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Search Engine Operations"
+---
+
 # Search Engine Operations
 
 Cluster management, sharding, replication, and monitoring for production search infrastructure.

@@ -1,3 +1,8 @@
+---
+type: tool
+title: "AI JQL Prompt Template"
+---
+
 # AI JQL Prompt Template
 
 Convert natural language to JQL. Use project context when available.

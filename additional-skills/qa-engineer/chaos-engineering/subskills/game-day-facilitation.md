@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Game Day Facilitation"
+---
+
 # Game Day Facilitation
 
 ## Planning Timeline

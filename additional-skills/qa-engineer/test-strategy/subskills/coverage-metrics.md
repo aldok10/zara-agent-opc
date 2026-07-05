@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Coverage Metrics"
+---
+
 # Coverage Metrics
 
 ## Coverage Types: What Actually Matters

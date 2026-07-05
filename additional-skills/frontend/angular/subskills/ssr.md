@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "SSR Subskill"
+---
+
 # SSR Subskill
 
 Activation: user works with Angular SSR, hydration, prerendering, or server-side rendering setup.

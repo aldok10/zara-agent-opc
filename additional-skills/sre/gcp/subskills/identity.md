@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "GCP Identity"
+---
+
 # GCP Identity
 
 Workload Identity Federation, service accounts, IAM, and organization policies.

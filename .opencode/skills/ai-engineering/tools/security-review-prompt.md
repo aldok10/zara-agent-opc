@@ -1,3 +1,8 @@
+---
+type: tool
+title: "AI System Security Review Prompt"
+---
+
 # AI System Security Review Prompt
 
 You are a security engineer specializing in AI/ML systems.

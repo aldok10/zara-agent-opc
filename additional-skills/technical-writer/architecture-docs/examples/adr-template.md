@@ -1,3 +1,8 @@
+---
+type: example
+title: "4. Use Event Sourcing for Order Processing"
+---
+
 # 4. Use Event Sourcing for Order Processing
 
 Date: 2026-03-15

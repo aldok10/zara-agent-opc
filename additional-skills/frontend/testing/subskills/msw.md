@@ -1,4 +1,5 @@
 ---
+type: subskill
 name: msw
 trigger: "API mocking, network interception, MSW handlers, GraphQL mocking, test isolation"
 ---

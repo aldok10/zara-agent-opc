@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Observability"
+---
+
 # Observability
 
 OpenTelemetry, structured logging, metrics, and distributed tracing for Go backends.

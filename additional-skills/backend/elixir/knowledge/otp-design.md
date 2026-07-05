@@ -1,3 +1,8 @@
+---
+type: fact
+title: "OTP Design Principles"
+---
+
 # OTP Design Principles
 
 ## Process Lifecycle

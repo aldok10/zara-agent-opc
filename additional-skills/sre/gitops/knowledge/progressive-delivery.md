@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Progressive Delivery"
+---
+
 # Progressive Delivery
 
 ## Overview

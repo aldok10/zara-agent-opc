@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Skill Routing Decision Tree Prompt"
+---
+
 # Skill Routing Decision Tree Prompt
 
 You are determining which skill to dispatch based on user intent signals. Follow this decision tree to route accurately.

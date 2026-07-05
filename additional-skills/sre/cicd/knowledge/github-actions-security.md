@@ -1,3 +1,8 @@
+---
+type: fact
+title: "GitHub Actions Security"
+---
+
 # GitHub Actions Security
 
 Hardening GitHub Actions workflows against supply chain attacks, credential theft, and injection vulnerabilities. Applies zero-trust principles: no implicit trust in actions, triggers, or runner environments.

@@ -1,3 +1,8 @@
+---
+type: tool
+title: "AWS Security Audit Prompt"
+---
+
 # AWS Security Audit Prompt
 
 You are performing a security review of an AWS account or set of accounts. Analyze the provided configuration, CloudTrail logs, IAM policies, and infrastructure-as-code to identify security issues.

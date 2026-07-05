@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Caddy Patterns"
+---
+
 # Caddy Patterns
 
 ## Automatic HTTPS

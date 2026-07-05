@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Evidence Levels"
+---
+
 # Evidence Levels
 
 ## Hierarchy (weakest to strongest)

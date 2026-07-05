@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Saga Patterns"
+---
+
 # Saga Patterns
 
 Distributed transactions without 2PC. Each step has a compensating action. If step N fails, execute compensations for steps N-1 through 1 in reverse order.

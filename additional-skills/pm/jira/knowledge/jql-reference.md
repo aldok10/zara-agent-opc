@@ -1,3 +1,8 @@
+---
+type: fact
+title: "JQL Reference"
+---
+
 # JQL Reference
 
 ## Operators

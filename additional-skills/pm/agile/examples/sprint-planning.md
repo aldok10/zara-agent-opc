@@ -1,3 +1,8 @@
+---
+type: example
+title: "Sprint Planning Example"
+---
+
 # Sprint Planning Example
 
 ## Context

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "PHP 8.4 Features"
+---
+
 # PHP 8.4 Features
 
 ## Property Hooks

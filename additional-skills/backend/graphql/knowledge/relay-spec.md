@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Relay Connection Specification"
+---
+
 # Relay Connection Specification
 
 Cursor-based pagination standard. Edges, nodes, pageInfo, cursor encoding, global object identification.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Azure AKS"
+---
+
 # Azure AKS
 
 AKS configuration, Workload Identity, KEDA autoscaling, and virtual nodes.

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Requirements Types"
+---
+
 # Requirements Types
 
 ## Functional Requirements

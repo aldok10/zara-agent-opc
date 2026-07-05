@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Release Workflow Prompt"
+---
+
 # Release Workflow Prompt
 
 You are managing a software release. Follow this process for consistent, safe releases.

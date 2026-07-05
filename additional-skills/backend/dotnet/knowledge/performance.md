@@ -1,3 +1,8 @@
+---
+type: fact
+title: ".NET Performance Patterns"
+---
+
 # .NET Performance Patterns
 
 ## Span<T> and Memory<T>

@@ -1,3 +1,8 @@
+---
+type: tool
+title: "Agent System Design Prompt"
+---
+
 # Agent System Design Prompt
 
 You are a senior AI engineer designing an agentic system.

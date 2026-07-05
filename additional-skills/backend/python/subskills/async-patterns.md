@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Async Patterns"
+---
+
 # Async Patterns
 
 Advanced async Python: TaskGroup, asyncio internals, cancellation, event loops, semaphores, structured concurrency.

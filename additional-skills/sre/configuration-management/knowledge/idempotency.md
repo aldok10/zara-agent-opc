@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Idempotency and Convergent Configuration"
+---
+
 # Idempotency and Convergent Configuration
 
 ## Core Principle

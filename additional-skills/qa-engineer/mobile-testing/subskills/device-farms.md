@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Device Farms"
+---
+
 # Device Farms
 
 ## BrowserStack App Automate

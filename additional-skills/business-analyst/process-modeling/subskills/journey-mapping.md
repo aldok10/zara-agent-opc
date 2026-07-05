@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Journey Mapping"
+---
+
 # Journey Mapping
 
 Touchpoints, pain points, opportunities, and emotions in customer experience documentation.

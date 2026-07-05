@@ -1,4 +1,5 @@
 ---
+type: subskill
 name: visual-regression
 trigger: "Screenshot testing, visual comparison, design system QA, Chromatic, Percy"
 ---

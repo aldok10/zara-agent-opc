@@ -1,4 +1,5 @@
 ---
+type: subskill
 name: utility-types
 trigger: Pick, Omit, Record, Partial, Required, satisfies, mapped types, key remapping
 ---

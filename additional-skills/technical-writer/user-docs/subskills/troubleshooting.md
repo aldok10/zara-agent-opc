@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Troubleshooting Documentation"
+---
+
 # Troubleshooting Documentation
 
 Symptom-cause-fix guides, decision trees, and error code reference for debugging support.

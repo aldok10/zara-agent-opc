@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Advanced Typing"
+---
+
 # Advanced Typing
 
 Complex type annotations: Generics, Protocols, TypeVar, overloads, TypeGuard, ParamSpec, Unpack, TypeVarTuple.

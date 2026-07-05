@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Rightsizing"
+---
+
 # Rightsizing
 
 Instance and resource right-sizing: data-driven selection, spot strategies, and commitment discount planning.

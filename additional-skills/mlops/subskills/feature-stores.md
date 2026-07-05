@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Feature Stores"
+---
+
 # Feature Stores
 
 Online/offline serving, data freshness, point-in-time correctness, and feature engineering infrastructure.

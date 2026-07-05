@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "DAST Automation"
+---
+
 # DAST Automation
 
 ## ZAP Automation

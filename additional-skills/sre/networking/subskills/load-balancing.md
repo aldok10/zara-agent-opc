@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Load Balancing"
+---
+
 # Load Balancing
 
 L4/L7 load balancing, algorithms, health checks, and connection draining.

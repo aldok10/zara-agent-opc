@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Virtual Threads"
+---
+
 # Subskill: Virtual Threads
 
 > Activate when: using Project Loom, virtual threads, structured concurrency, dealing with pinning, or configuring Spring Boot for virtual thread execution.

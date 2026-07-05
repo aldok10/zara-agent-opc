@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Incremental Mutation Testing"
+---
+
 # Incremental Mutation Testing
 
 ## Incremental Mode

@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Schema Evolution"
+---
+
 # Schema Evolution
 
 Managing message schema changes across producers and consumers without breaking compatibility. Schema Registry enforces rules, serialization formats (Avro, Protobuf) enable evolution.

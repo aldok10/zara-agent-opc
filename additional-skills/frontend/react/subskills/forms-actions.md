@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Forms & Actions"
+---
+
 # Subskill: Forms & Actions
 
 > Activate when: building forms, handling mutations, implementing optimistic UI, or working with `useActionState`/`useFormStatus`/`useOptimistic`.

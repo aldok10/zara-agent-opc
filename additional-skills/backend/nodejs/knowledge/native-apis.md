@@ -1,3 +1,8 @@
+---
+type: fact
+title: "Native APIs"
+---
+
 # Native APIs
 
 Node.js 22+ native APIs that replace common dependencies. Use these first before reaching for npm packages.

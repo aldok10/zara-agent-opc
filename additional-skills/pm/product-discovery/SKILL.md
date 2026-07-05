@@ -72,10 +72,11 @@ Continuous discovery practices: identify opportunities, validate assumptions, de
 - [ ] Kill criteria defined for any experiment/test
 - [ ] Discovery output actionable by product trio without further clarification
 
-## References
+## AI-Era Context (2026)
 
-- `knowledge/discovery-frameworks.md` — framework quick-reference
-- `knowledge/evidence-levels.md` — evidence hierarchy and thresholds
-- `examples/ost-example.md` — concrete OST walkthrough
-- `examples/assumption-map.md` — assumption mapping example
-- `tools/interview-guide-template.md` — interview guide generator
+AI synthesizes interview transcripts into opportunity statements, generates assumption maps from PRDs, and identifies patterns across user research sessions at scale. It dramatically reduces the time from raw research to structured insights. However, AI cannot replace user empathy -- it summarizes what was said but misses tone, hesitation, and unspoken needs. The risk: teams skip actual user contact because AI synthesis "feels" sufficient. Discovery still requires direct observation and conversation; AI accelerates analysis, not understanding.
+
+## Knowledge
+
+- `knowledge/discovery-frameworks.md` -- framework quick-reference
+- `knowledge/evidence-levels.md` -- evidence hierarchy and thresholds

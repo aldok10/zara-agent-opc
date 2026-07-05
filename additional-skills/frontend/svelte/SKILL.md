@@ -62,6 +62,14 @@ Svelte 5 components, SvelteKit applications, runes reactivity, form actions, loa
 - `knowledge/svelte5-migration.md` — Svelte 4 → 5 migration patterns
 - `knowledge/common-mistakes.md` — Anti-patterns and fixes
 
+## AI-Era Context (2026)
+
+- Runes (`$state`, `$derived`, `$effect`) fully replace stores -- AI generating `writable()` is wrong
+- SvelteKit 2 uses universal load functions; AI often generates server-only patterns incorrectly
+- Svelte 5 compiles to smallest bundles of any framework -- less AI-generated bloat matters here
+- Snippets replace slots (`{@render children()}`); AI still generates `<slot>` syntax
+- Event handlers use `onclick={fn}` not `on:click={fn}` -- AI generates the old Svelte 4 syntax
+
 ## Related Skills
 
 - `typescript-expert` — Type-safe component interfaces

@@ -65,6 +65,14 @@ Frontend TypeScript: component props, state machines, API types, form handling, 
 - `knowledge/type-patterns.md` — 15 essential type patterns with code
 - `knowledge/common-mistakes.md` — 12 common mistakes with fixes
 
+## AI-Era Context (2026)
+
+- TypeScript 7.0 native Go compiler is 10x faster -- `tsc --noEmit` is now viable in pre-commit hooks
+- AI generates types that are often too loose (`string` where branded type is needed, `any` at boundaries)
+- Branded types (UserId, Email) prevent cross-domain mixing -- AI rarely generates these unprompted
+- `satisfies` operator is preferred over `as` assertions; AI defaults to type assertions
+- AI often generates enums which are discouraged -- use `as const` objects with union types instead
+
 ## Related Skills
 
 - `react` — React-specific component typing

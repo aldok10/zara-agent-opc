@@ -67,6 +67,14 @@ Audit the component/page: run axe-core, check keyboard flow, verify semantic str
 - `knowledge/aria-reference.md` - Roles, states, properties quick reference
 - `knowledge/common-mistakes.md` - Top 12 mistakes with fixes
 
+## AI-Era Context (2026)
+
+- AI-generated UI frequently fails WCAG -- divs with onClick instead of buttons, missing labels, no focus management
+- Automated axe-core catches only 30-40% of accessibility issues; manual keyboard + screen reader testing is required
+- AI adds redundant ARIA (role="button" on button, aria-label duplicating visible text) -- strip it
+- WCAG 2.2 additions (target size, focus-not-obscured, dragging alternatives) are often missed by AI
+- The `inert` attribute is widely supported now -- AI still generates complex focus-trap JS libraries
+
 ## Related Skills
 
 - `frontend/design-system` - Component-level accessibility patterns

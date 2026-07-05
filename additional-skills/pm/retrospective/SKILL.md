@@ -73,3 +73,12 @@ Facilitate team retrospectives that produce actionable improvements. Cover forma
 - [ ] Session stayed within timebox
 - [ ] Format differs from last 2 retros
 - [ ] Wins/positives explicitly discussed
+
+## AI-Era Context (2026)
+
+AI summarizes action items from retro notes, tracks completion across sprints, and detects recurring themes that indicate systemic issues. It pre-generates retro boards from sprint activity (PRs merged, incidents, deploys, Slack sentiment). AI can suggest format rotation based on team patterns. However, facilitation must stay human -- psychological safety, reading the room, and creating space for vulnerability cannot be automated. The retro's value is in the conversation, not the artifact.
+
+## Knowledge
+
+- `knowledge/facilitation-tips.md` -- facilitation techniques and safety practices
+- `knowledge/format-library.md` -- retro format catalog with context guidance

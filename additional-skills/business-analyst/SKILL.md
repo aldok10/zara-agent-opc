@@ -39,6 +39,17 @@ Load when task involves requirements gathering, user story writing, process docu
 - Assume silence is agreement (explicitly confirm)
 - Gold-plate requirements (YAGNI applies to specs too)
 
+## AI-Era Context (2026)
+
+- AI synthesizes requirements from interview transcripts and documents
+- Domain modeling assisted by AI but bounded contexts need human judgment
+- Regulatory compliance analysis partially automated (pattern matching)
+- AI generates acceptance criteria but edge cases still human-discovered
+
+## Knowledge
+
+- `knowledge/fintech-regulations.md` -- Fintech regulatory compliance reference
+
 ## Verify
 
 - Every requirement traceable to business objective

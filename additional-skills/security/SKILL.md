@@ -40,6 +40,13 @@ Load when task involves security architecture, vulnerability assessment, auth/au
 - Skip threat modeling for "simple" features
 - Store secrets in code, env vars visible to runtime, or logs
 
+## AI-Era Context (2026)
+
+- AI-powered SAST reduces false positives (Semgrep Pro, CodeQL AI)
+- LLM threat modeling from architecture diagrams
+- Supply chain attacks increasingly sophisticated (xz-utils lesson)
+- AI red teaming for prompt injection detection
+
 ## Verify
 
 - Threat model exists for features with data flow

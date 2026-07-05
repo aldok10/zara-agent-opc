@@ -59,6 +59,14 @@ Measure first. Run Lighthouse or check CrUX data before proposing optimizations.
 - `knowledge/cwv-optimization.md` — Core Web Vitals optimization checklist
 - `knowledge/common-mistakes.md` — 12 performance mistakes with fixes
 
+## AI-Era Context (2026)
+
+- INP (Interaction to Next Paint) replaced FID as a Core Web Vital in March 2024 -- AI still references FID
+- AI-generated code often ignores code splitting and creates single large bundles
+- Streaming SSR with Suspense boundaries is the standard pattern; AI generates blocking renders
+- `scheduler.yield()` is the standard way to break long tasks; AI generates setTimeout hacks
+- AI often adds loading="lazy" to LCP images which hurts performance
+
 ## Related Skills
 
 - `typescript-expert` — tree-shaking and module boundaries

@@ -130,6 +130,16 @@ await page.evaluate(() => {
 - Snapshotting every page (focus on design system components)
 - No viewport variation (missing responsive regressions)
 
+## AI-Era Context (2026)
+
+AI-powered baseline comparison (Chromatic, Percy) goes beyond pixel diffing -- it understands component boundaries, auto-approves safe changes (copy updates, data refreshes), and flags layout shifts that affect usability. AI distinguishes intentional design changes from regressions, reducing review burden. However, subjective quality (spacing feels wrong, alignment is off but not broken) still needs human eyes. Auto-approval should be limited to changes within defined tolerance bands; structural layout changes always require human sign-off.
+
+## Knowledge
+
+- `subskills/baseline-management.md` -- baseline update workflow and strategies
+- `subskills/chromatic-workflow.md` -- Chromatic setup and review process
+- `subskills/playwright-screenshots.md` -- Playwright visual comparison patterns
+
 ## Delegates To
 
 - **playwright** for locator strategy and test structure

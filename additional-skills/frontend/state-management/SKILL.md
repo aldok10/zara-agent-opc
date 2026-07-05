@@ -55,6 +55,14 @@ Classify the state: Is it server state (fetched/async) or client state (UI/sync)
 - `knowledge/state-decision-matrix.md` - Which tool for which scenario
 - `knowledge/common-mistakes.md` - Top 10 state mistakes
 
+## AI-Era Context (2026)
+
+- Signals (Angular, Preact, Solid) and fine-grained reactivity are the direction -- AI defaults to hooks
+- TanStack Query is the standard for server state; AI puts fetched data in Zustand/Redux stores
+- URL as state (searchParams) for shareable UI state is underused; AI creates local state instead
+- AI generates useEffect-based sync between stores -- derive state instead of syncing
+- Server Components (React/Next.js) eliminate client state for server-fetched data entirely
+
 ## Related Skills
 
 - `frontend/build-tools` - Tree-shaking affects state library bundle size

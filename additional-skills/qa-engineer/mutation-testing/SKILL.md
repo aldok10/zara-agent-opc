@@ -97,6 +97,17 @@ Mutants that produce identical behavior (can't be killed):
 - Ignoring equivalent mutants in scoring
 - No timeout configuration (mutants can cause infinite loops)
 
+## AI-Era Context (2026)
+
+Mutation testing is essential for verifying AI-generated tests. AI produces tests that compile and pass but contain hollow assertions (assert true, assert not-null) -- mutation testing exposes these by checking whether mutants survive. Incremental mutation in CI (only mutate changed code) makes it practical for every PR. AI-generated tests with <60% mutation score should be rejected and regenerated with explicit assertion guidance. Mutation score is the quality gate that distinguishes real test coverage from theater.
+
+## Knowledge
+
+- `subskills/stryker-config.md` -- Stryker configuration and tuning
+- `subskills/ci-integration.md` -- incremental mutation in CI pipelines
+- `subskills/incremental.md` -- diff-based mutation strategies
+- `subskills/surviving-mutant-analysis.md` -- analyzing and fixing surviving mutants
+
 ## Delegates To
 
 - **test-strategy** for overall coverage decisions

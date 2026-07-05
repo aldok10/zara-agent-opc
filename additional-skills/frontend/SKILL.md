@@ -76,6 +76,15 @@ Multiple OK. Load the most specific match first, add cross-cutting concerns as n
 - Accessibility: axe-core 0 violations + keyboard navigation works
 - Performance: Lighthouse >90, no CWV regressions
 
+## AI-Era Context (2026)
+
+- AI-generated components frequently fail accessibility audits -- always run axe-core on generated markup
+- Copilot/AI writes syntactically correct JSX but misses semantic HTML and ARIA patterns
+- AI tools default to client-side patterns; verify server-first rendering is preserved
+- Generated CSS often uses outdated patterns (media queries, px units) -- review against modern CSS
+- AI struggles with component composition; watch for prop-drilling and god-component anti-patterns
+- Validate AI output against framework-specific best practices (signals, runes, RSC) not just syntax
+
 ## Related Skills
 
 | When | Load |

@@ -78,6 +78,17 @@
 - No integration tests ("unit tests pass but system breaks")
 - Single metric for quality (coverage alone means nothing)
 
+## AI-Era Context (2026)
+
+Risk-based testing is essential since AI generates most code -- the question shifts from "do we have tests?" to "do our tests catch real defects?" Mutation score as a quality gate validates that AI-generated test suites actually detect faults, not just achieve line coverage. AI helps with test impact analysis (mapping code changes to affected tests) and test prioritization (run highest-risk tests first in CI). The strategy layer must account for AI-generated code having different defect profiles than human-written code: more pattern errors, fewer typos, more subtle logic gaps.
+
+## Knowledge
+
+- `subskills/coverage-metrics.md` -- coverage types and threshold guidance
+- `subskills/risk-analysis.md` -- risk-based test allocation
+- `subskills/test-planning.md` -- test plan structure and review
+- `subskills/test-pyramid.md` -- pyramid vs trophy, layer allocation
+
 ## Delegates To
 
 - **mutation-testing** when validating test quality

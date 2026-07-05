@@ -94,6 +94,14 @@ Multiple OK. Load only what's needed.
 - `examples/caching/revalidation.ts` — tag-based + time-based revalidation (v15 + v16 patterns)
 - `examples/middleware/auth-middleware.ts` — session check + redirect
 
+## AI-Era Context (2026)
+
+- PPR (Partial Prerendering) is production-ready in v16 -- static shell + dynamic Suspense holes
+- `'use cache'` directive replaces all prior caching APIs; AI still generates `unstable_cache` or fetch options
+- Server Actions replace dedicated API routes for mutations; AI streaming via Vercel AI SDK is standard
+- `proxy.ts` replaced `middleware.ts` in v16 -- AI generates the old filename
+- AI often generates Pages Router patterns (getServerSideProps) which are incompatible with App Router
+
 ## Related Skills
 
 | When | Load |

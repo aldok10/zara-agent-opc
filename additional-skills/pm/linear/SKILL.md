@@ -60,3 +60,12 @@ Manage engineering work in Linear: triage, cycles, projects, roadmaps, integrati
 - No issue in "In Progress" >5 days without update
 - Cycle carry-over <20%
 - Projects have target date + confidence level
+
+## AI-Era Context (2026)
+
+Linear's built-in AI handles triage (auto-labeling, priority suggestion, duplicate detection), generates project insights from cycle data, and drafts issue descriptions from Slack threads or PR context. Auto-labeling reduces manual grooming overhead significantly. Project health dashboards surface bottlenecks and scope creep signals automatically. However, human prioritization remains essential -- AI suggests priority based on patterns, but strategic alignment, team context, and stakeholder commitments require human decision-making.
+
+## Knowledge
+
+- `knowledge/api-patterns.md` -- Linear API and integration patterns
+- `knowledge/keyboard-shortcuts.md` -- productivity shortcuts reference

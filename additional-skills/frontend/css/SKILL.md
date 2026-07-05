@@ -62,6 +62,14 @@ Modern CSS architecture and implementation. Native CSS features over JS solution
 - `knowledge/layout-patterns.md` — 10 modern layout patterns
 - `knowledge/common-mistakes.md` — 12 common CSS mistakes
 
+## AI-Era Context (2026)
+
+- Container queries replace media queries for component-level responsiveness; AI still generates `@media`
+- `@layer` controls cascade specificity -- AI-generated CSS often fights specificity without layers
+- AI struggles with modern CSS (`:has()`, `color-mix()`, subgrid) and falls back to JS solutions
+- Tailwind CSS v4 uses CSS-first config (`@theme`) and Rust engine -- AI generates v3 config syntax
+- Logical properties (`inline-start`/`block-end`) are standard; AI generates physical `left`/`right`
+
 ## Related Skills
 
 - `typescript-expert` — For type-safe design token generation

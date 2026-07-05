@@ -83,6 +83,17 @@ describe('Button', () => {
 - Storing values in variables across commands -- use aliases
 - Testing across origins without `cy.origin()`
 
+## AI-Era Context (2026)
+
+Cypress Cloud AI analytics detect flaky tests, identify slow commands, and surface test health trends automatically. AI generates test scaffolds from page structure, but AI-generated Cypress tests often miss edge cases: empty states, error boundaries, and async race conditions. Cypress-specific patterns (command queue, no async/await) confuse AI models trained on general JS -- review generated code for anti-patterns like raw Promise usage or variable storage across command chains.
+
+## Knowledge
+
+- `subskills/intercept-patterns.md` -- network interception and stubbing
+- `subskills/component-testing.md` -- Cypress component testing setup
+- `subskills/cloud-analytics.md` -- Cypress Cloud metrics and flaky detection
+- `subskills/plugins.md` -- plugin ecosystem and custom commands
+
 ## Delegates To
 
 - **visual-testing** for cypress-image-snapshot setup

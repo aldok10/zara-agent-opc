@@ -179,6 +179,17 @@ adb shell settings put secure enabled_accessibility_services \
 - Ignoring prefers-reduced-motion
 - Contrast checking individual colors instead of token pairs
 
+## AI-Era Context (2026)
+
+axe-core in CI catches approximately 30% of accessibility issues (DOM-level rule violations). AI-assisted tools (axe DevTools Pro, AccessLint) expand coverage with intelligent guided testing. However, AI cannot test keyboard navigation flow, screen reader reading order, or cognitive load -- these require manual testing with actual assistive technology. The gap between automated detection and real user experience remains wide. AI helps prioritize: surface the highest-impact violations first based on usage patterns and WCAG level.
+
+## Knowledge
+
+- `subskills/axe-integration.md` -- axe-core CI setup and configuration
+- `subskills/keyboard-testing.md` -- keyboard navigation testing checklist
+- `subskills/screen-reader-testing.md` -- VoiceOver and NVDA testing procedures
+- `subskills/ci-gates.md` -- accessibility CI gate configuration
+
 ## Delegates To
 
 - **mobile-testing** for native TalkBack/VoiceOver device testing

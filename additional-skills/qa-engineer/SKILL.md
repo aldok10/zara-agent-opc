@@ -137,13 +137,13 @@ AI writes most tests. The failure mode shifted: tests compile and pass but asser
 
 ## Knowledge (load on demand)
 
-- `knowledge/test-pyramid.md` - layer decisions and tradeoffs
-- `knowledge/flaky-tests.md` - detection, quarantine, root cause taxonomy
-- `knowledge/ai-test-verification.md` - verifying AI-generated test quality
-- `knowledge/tooling-matrix.md` - tool selection by context
-- `knowledge/test-data-management.md` - factories, synthetic data, environments
-- `knowledge/exploratory-testing.md` - SBTM, charters, session techniques
-- `knowledge/observability-testing.md` - trace-based testing, synthetic monitoring
+- `knowledge/test-pyramid.md` -- layer decisions and tradeoffs
+- `knowledge/flaky-tests.md` -- detection, quarantine, root cause taxonomy
+- `knowledge/ai-test-verification.md` -- verifying AI-generated test quality
+- `knowledge/tooling-matrix.md` -- tool selection by context
+- `knowledge/test-data-management.md` -- factories, synthetic data, environments
+- `knowledge/exploratory-testing.md` -- SBTM, charters, session techniques
+- `knowledge/observability-testing.md` -- trace-based testing, synthetic monitoring
 
 ## Related Skills
 

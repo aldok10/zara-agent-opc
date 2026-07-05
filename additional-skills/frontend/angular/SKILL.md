@@ -80,6 +80,15 @@ Senior Angular engineer, Angular 19/20/21/22 era. Signals are the primary state 
 - `examples/resource/data-loading.component.ts` — resource()/httpResource() data fetching.
 - `examples/standalone/bootstrap.ts` — standalone app bootstrap with providers.
 
+## AI-Era Context (2026)
+
+- Signal-based reactivity is stable (Angular 20+); AI must use `signal()` not `BehaviorSubject` for sync state
+- Standalone components are the only pattern -- AI generating NgModules is always wrong
+- `input()` / `output()` functions replace `@Input()` / `@Output()` decorators in new code
+- Zoneless change detection (stable Angular 21+) means zone.js patterns break silently
+- AI code gen must use `@if`/`@for` control flow, not `*ngIf`/`*ngFor` structural directives
+- `httpResource()` (stable Angular 22) replaces manual subscribe patterns for data fetching
+
 ## Related Skills
 
 | When | Load |

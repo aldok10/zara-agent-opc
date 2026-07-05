@@ -39,6 +39,13 @@ Load when task involves server-side code, API design, database operations, cachi
 | Service boundaries, CQRS, sagas | `microservices/` |
 | GraphQL, Federation | `graphql/` |
 
+## AI-Era Context (2026)
+
+- AI generates boilerplate but architectural decisions remain human
+- Stdlib-first principle more important with AI (AI defaults to adding deps)
+- Type safety at boundaries catches AI hallucinated code
+- API-first design: AI can generate from OpenAPI spec
+
 ## Decision Pattern
 
 - New project with unclear scale: modular monolith

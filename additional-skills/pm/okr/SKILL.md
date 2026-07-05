@@ -61,11 +61,11 @@ Draft, review, align, track, and score OKRs. Quarterly planning through retrospe
 - Check-in cadence defined before quarter starts
 - Scoring uses data, not vibes
 
-## Knowledge References
+## AI-Era Context (2026)
 
-- knowledge/okr-patterns.md - OKR structures by domain with examples
-- knowledge/scoring-guide.md - Scoring rubric with level examples
-- examples/company-okr-set.md - Company OKR with cascading team OKRs
-- examples/weekly-checkin.md - Weekly check-in format example
-- tools/kr-quality-checker.md - KR quality evaluation checklist
-- tools/okr-review-prompt.md - Quarterly review facilitation
+AI helps generate Key Result options from Objectives -- given an objective, it produces candidate KRs with suggested metrics and baselines. The risk: vanity metrics. AI optimizes for measurability over meaningfulness, producing KRs that are easy to track but disconnected from actual outcomes. Human validates that each KR is genuinely measurable, outcome-oriented (not output-oriented), and within team influence. AI also drafts check-in summaries and progress narratives, but scoring decisions remain human-owned.
+
+## Knowledge
+
+- `knowledge/okr-patterns.md` -- OKR structures by domain with examples
+- `knowledge/scoring-guide.md` -- Scoring rubric with level examples

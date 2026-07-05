@@ -40,6 +40,13 @@ Load when task involves data pipelines, SQL optimization, data modeling, warehou
 - Store PII without encryption + access controls
 - Optimize queries without profiling first (EXPLAIN)
 
+## AI-Era Context (2026)
+
+- AI generates SQL/dbt models but needs human validation of business logic
+- Text-to-SQL tools produce syntactically correct but semantically wrong queries
+- Data quality monitoring AI-powered (anomaly detection, drift)
+- LLM-generated pipelines need idempotency verification
+
 ## Verify
 
 - Pipelines re-runnable (same input = same output)

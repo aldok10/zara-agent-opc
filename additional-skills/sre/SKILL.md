@@ -46,6 +46,13 @@ Load when task involves infrastructure, containers, orchestration, deployment pi
 | Developer platform, golden paths, Backstage | `platform-engineering/` |
 | FinOps, right-sizing, spot, cost alerts | `cost-optimization/` |
 
+## AI-Era Context (2026)
+
+- AI assists incident response (log correlation, runbook lookup)
+- IaC generation from AI needs plan review before apply
+- SLO-based alerting: AI monitors but humans own error budget decisions
+- Platform engineering: AI generates golden path templates
+
 ## Decision Framework
 
 | Signal | Action |

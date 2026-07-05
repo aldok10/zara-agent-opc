@@ -59,6 +59,10 @@ Have 8+ sprints throughput data?
 - Buffer explicitly stated and justified
 - No single-point date without confidence qualifier
 
+## AI-Era Context (2026)
+
+Monte Carlo simulations are trivial with AI -- any team can generate probabilistic forecasts from cycle time data in seconds. Historical cycle time analysis replaces story point debates as the default estimation approach. AI forecasts complement human judgment but do not replace it: they miss context like team changes, holiday periods, or architecture shifts that invalidate historical patterns. The risk is false precision -- AI-generated forecasts look authoritative but garbage-in remains garbage-out.
+
 ## Terminal State
 
 This skill's job is done when:
@@ -66,3 +70,8 @@ This skill's job is done when:
 - Stakeholder understands it's a RANGE not a date
 - Calibration plan established (compare predicted vs actual quarterly)
 - No single-point estimates presented as commitments
+
+## Knowledge
+
+- `knowledge/calibration.md` -- calibration techniques and review cadence
+- `knowledge/formulas.md` -- estimation formulas and statistical methods

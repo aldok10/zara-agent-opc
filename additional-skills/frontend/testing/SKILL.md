@@ -58,7 +58,15 @@ Read existing test config (vitest.config.*, playwright.config.*, package.json te
 - `knowledge/testing-patterns.md` — 15 proven frontend testing patterns
 - `knowledge/common-mistakes.md` — 12 common mistakes with fixes
 
+## AI-Era Context (2026)
+
+- Vitest 3 browser mode enables real-browser component testing without Playwright overhead
+- Playwright component testing bridges unit and e2e -- test components in real browser context
+- AI test generation produces tests that pass trivially; verify with mutation testing (Stryker)
+- AI often generates implementation-detail tests (checking state/hooks) instead of behavior tests
+- MSW v2 is the standard for network mocking; AI generates outdated v1 `rest.get` syntax
+
 ## Related Skills
 
 - `typescript-expert` — type-safe test utilities
-- `frontend/performance` — performance testing integration
+- `frontend/performance` — performance regression testing

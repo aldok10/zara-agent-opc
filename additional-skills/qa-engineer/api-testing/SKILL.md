@@ -186,6 +186,17 @@ test('504 on upstream timeout', async () => {
 - Ignoring Content-Type and cache headers
 - One giant integration test instead of focused contract + schema tests
 
+## AI-Era Context (2026)
+
+AI generates contract tests directly from OpenAPI specs, produces property-based fuzzing scenarios automatically, and detects schema drift between spec and implementation. Schemathesis + AI identifies stateful test sequences that expose business logic flaws. However, AI-generated API tests often assert only status codes without validating response bodies, headers, or side effects. Schema drift detection is automated but interpreting whether drift is intentional (feature) or accidental (bug) requires human judgment.
+
+## Knowledge
+
+- `subskills/contract-testing.md` -- Pact and Specmatic patterns
+- `subskills/schema-validation.md` -- OpenAPI validation and Spectral linting
+- `subskills/authentication-testing.md` -- auth flow testing patterns
+- `subskills/mocking.md` -- service virtualization and stubbing
+
 ## Delegates To
 
 - **security-testing** for auth vulnerability testing

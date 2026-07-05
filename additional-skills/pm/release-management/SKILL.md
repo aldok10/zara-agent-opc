@@ -58,3 +58,12 @@ Progressive delivery, feature flags, versioning, rollback, release trains. From 
 - [ ] Release notes generated from commits since last release
 - [ ] Flag cleanup ticket created with sprint target
 - [ ] No permanent flags without explicit exception approval
+
+## AI-Era Context (2026)
+
+Semantic-release is fully automated -- versioning, changelogs, and release notes generated from conventional commits without human intervention. Feature flag lifecycle is AI-managed: stale flags auto-detected, cleanup tickets auto-created, and gradual rollout percentages suggested from canary metrics. AI monitors error budgets during rollout and recommends halt/proceed. Rollback decisions remain human-owned due to business impact assessment that requires judgment beyond metrics.
+
+## Knowledge
+
+- `knowledge/flag-lifecycle.md` -- feature flag states and cleanup policy
+- `knowledge/versioning-rules.md` -- semantic versioning and release cadence

@@ -171,6 +171,17 @@ fossa test     # fail CI on policy violations
 - "Internal only" as excuse to skip security testing
 - Ignoring license risk in transitive dependencies
 
+## AI-Era Context (2026)
+
+AI-powered SAST (Semgrep Pro rules, CodeQL AI queries) finds vulnerability patterns that rule-based scanners miss. Automated CVE exploit verification confirms whether a detected vulnerability is actually exploitable in context. Reachability analysis (Endor Labs, Snyk) reduces false positives 60-80% by tracing call graphs to vulnerable functions. However, false positive triage remains human-owned -- context about intentional exposure, compensating controls, and business risk tolerance requires judgment beyond what automated tools provide.
+
+## Knowledge
+
+- `subskills/sast-tools.md` -- SAST tool configuration and rules
+- `subskills/dast-automation.md` -- DAST pipeline integration
+- `subskills/dependency-scanning.md` -- SCA and reachability analysis
+- `subskills/secrets-detection.md` -- secrets scanning and rotation
+
 ## Delegates To
 
 - **security-engineering** for threat modeling and architecture review

@@ -55,6 +55,14 @@ Identify the project type: greenfield (Vite 6), Next.js (Turbopack), legacy Webp
 - `knowledge/vite6-features.md` - Vite 6 Environment API, new capabilities
 - `knowledge/common-mistakes.md` - Top 10 build tool mistakes
 
+## AI-Era Context (2026)
+
+- Vite 6 Environment API replaces `--mode` for multi-environment builds; AI generates outdated config
+- Rspack/Rsbuild is the Webpack successor for projects that cannot migrate to Vite directly
+- Module federation enables micro-frontend architecture with shared dependencies at runtime
+- Turbopack is default in Next.js 16 -- separate Webpack config for Next.js is obsolete
+- AI generates CJS patterns (require, module.exports) which break tree-shaking in modern bundlers
+
 ## Related Skills
 
 - `frontend/state-management` - Bundle size impacts from state libraries

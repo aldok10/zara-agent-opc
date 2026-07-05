@@ -78,6 +78,15 @@ Senior React engineer, React 19 era. Components are functions that describe UI. 
 - `examples/forms-actions/form-with-action.tsx` — full Actions-based form.
 - `examples/testing/component-test.tsx` — RTL test with accessibility assertions.
 
+## AI-Era Context (2026)
+
+- React Compiler (stable since Oct 2025) auto-memoizes -- AI adding useMemo/useCallback is incorrect
+- Server Components are the default; AI often generates `'use client'` unnecessarily
+- RSC + AI streaming (Vercel AI SDK) enables token-by-token UI updates via Suspense boundaries
+- `use()` replaces useEffect-based fetching -- AI still generates the old pattern frequently
+- AI generates `forwardRef` which is deprecated in React 19 -- ref is now a regular prop
+- Generated components often violate Rules of React (side effects in render) that Compiler enforces
+
 ## Related Skills
 
 | When | Load |

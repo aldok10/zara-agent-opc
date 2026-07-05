@@ -50,6 +50,10 @@ Build, maintain, and communicate product roadmaps. Translate strategy into actio
 | New discovery insight | Evaluate for Next/Later placement |
 | Item stalled 2+ sprints | Escalate or kill — check kill criteria |
 
+## AI-Era Context (2026)
+
+AI-generated roadmaps look polished but lack strategic context -- they miss political dynamics, unspoken constraints, and cross-team dependency risks. The NOW/NEXT/LATER framework remains human-driven because prioritization requires judgment that AI cannot replicate: stakeholder trust, team appetite, and market timing. AI helps with scenario modeling (what-if analysis across different prioritizations) and confidence interval generation. Use AI to draft, human to validate alignment and strategic coherence.
+
 ## Verification
 
 - [ ] Every Now item has owner + success metric
@@ -59,3 +63,8 @@ Build, maintain, and communicate product roadmaps. Translate strategy into actio
 - [ ] Capacity check passes (Now fits in bandwidth)
 - [ ] Customer-facing view has zero dates
 - [ ] Kill criteria defined for medium/low confidence items
+
+## Knowledge
+
+- `knowledge/prioritization-frameworks.md` -- RICE, ICE, WSJF, Kano comparisons
+- `knowledge/roadmap-types.md` -- NOW/NEXT/LATER, timeline, and theme-based formats

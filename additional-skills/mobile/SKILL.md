@@ -37,6 +37,13 @@ Load when task involves mobile app development, React Native, Flutter, SwiftUI, 
 - Block main/UI thread (stutters, ANR on Android)
 - Hardcode dimensions (multiple screen sizes/orientations)
 
+## AI-Era Context (2026)
+
+- AI generates UI components but misses platform conventions (HIG/Material)
+- Cross-platform decision increasingly complex with KMP maturity
+- On-device AI (Core ML, ML Kit) for privacy-sensitive features
+- AI test generation for mobile needs real device validation
+
 ## Verify
 
 - 60fps on mid-range devices

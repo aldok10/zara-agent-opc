@@ -66,6 +66,14 @@ Read `package.json` for Vue version, Nuxt presence, and key deps (pinia, vue-rou
 - `frontend-vue/knowledge/composable-patterns.md` — extraction patterns, async composables, shared state
 - `frontend-vue/knowledge/common-mistakes.md` — reactivity loss, watcher abuse, prop mutation, ref unwrapping
 
+## AI-Era Context (2026)
+
+- Vapor Mode (Vue 3.6+) compiles to DOM operations with no virtual DOM -- opt-in for perf-critical paths
+- Reactive props destructuring (3.5+) changes how props flow; AI generates old `toRefs(props)` pattern
+- AI component generation must use Composition API (`<script setup>`) -- Options API is legacy
+- `defineModel()` replaces manual v-model emit patterns; AI often generates the verbose version
+- Nuxt 3 auto-imports mean AI adding manual `import { ref }` creates lint warnings
+
 ## Related Skills
 
 | When | Load |

@@ -78,11 +78,11 @@ Measure, diagnose, and improve engineering team effectiveness. Track delivery pe
 - Actions are concrete, time-bound, assignable
 - Trend comparison against previous quarter included
 
-## Knowledge References
+## AI-Era Context (2026)
 
-- knowledge/dora-benchmarks.md - DORA benchmark table and improvement levers
-- knowledge/survey-templates.md - DevEx survey questions and templates
-- examples/health-assessment.md - Quarterly health assessment example
-- examples/topology-assessment.md - Team structure assessment
-- tools/health-check-prompt.md - Quarterly health check facilitation
-- tools/health-dashboard-template.md - Dashboard metrics template
+DORA metrics are auto-collected from CI/CD pipelines -- deploy frequency, lead time, change failure rate, and recovery time stream in real-time. DevEx surveys are AI-analyzed for sentiment, trend detection, and theme extraction across teams. AI surfaces correlations (e.g., cognitive load spike after reorg, flow state drop during on-call). However, action items remain human-owned: AI identifies the signal, humans decide the intervention. Risk: over-indexing on metrics without understanding lived team experience.
+
+## Knowledge
+
+- `knowledge/dora-benchmarks.md` -- DORA benchmark table and improvement levers
+- `knowledge/survey-templates.md` -- DevEx survey questions and templates

@@ -58,3 +58,12 @@ Manage stakeholder relationships, communication cadence, escalation paths, and t
 - Stakeholder map exists for active initiatives
 - No Red status without prior Amber communication
 - Action items tracked with owner + date
+
+## AI-Era Context (2026)
+
+AI drafts status updates, exec summaries, and decision records from ticket activity and PR data. It generates first drafts of RACI matrices and stakeholder maps from org charts and communication patterns. However, tone calibration, political context, and relationship management need human review. AI cannot sense when a stakeholder is losing confidence or when an update needs to be delivered in person rather than async. Use AI to draft, human to finalize and deliver.
+
+## Knowledge
+
+- `knowledge/communication-templates.md` -- status update and escalation templates
+- `knowledge/raci-guide.md` -- RACI matrix construction and anti-patterns

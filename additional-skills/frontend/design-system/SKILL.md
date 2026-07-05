@@ -67,6 +67,14 @@ Identify the token layer first. Check for existing tokens file, CSS variables, o
 - `knowledge/component-api-patterns.md` - 8 component API patterns
 - `knowledge/common-mistakes.md` - 10 design system mistakes with fixes
 
+## AI-Era Context (2026)
+
+- W3C Design Tokens spec is the standard format; AI generates ad-hoc token structures
+- Storybook 8 visual testing catches UI regressions that unit tests miss entirely
+- AI generates components that hardcode values instead of consuming design tokens
+- CVA (class-variance-authority) is the standard for type-safe variants; AI uses conditional classnames
+- AI often misses compound component patterns and generates prop-heavy monolithic components
+
 ## Related Skills
 
 - `frontend/accessibility` - Component accessibility requirements

@@ -171,6 +171,17 @@ histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) < 0.5
 - No observers/monitors during experiment
 - Ignoring error budget impact (chaos shouldn't exhaust error budget)
 
+## AI-Era Context (2026)
+
+AI suggests chaos experiments by analyzing architecture diagrams, dependency graphs, and historical incident data -- identifying single points of failure and untested failure modes. Game day automation is emerging: AI generates experiment plans, predicts blast radius, and recommends abort conditions from SLO data. However, experiment hypothesis design still requires domain knowledge about system behavior under failure. AI cannot judge organizational readiness or team confidence for production experiments.
+
+## Knowledge
+
+- `subskills/hypothesis-design.md` -- experiment hypothesis formulation
+- `subskills/fault-injection.md` -- injection techniques by platform
+- `subskills/game-day-facilitation.md` -- game day planning and execution
+- `subskills/steady-state.md` -- steady state definition and verification
+
 ## Delegates To
 
 - **system-design** for architecture fixes from findings

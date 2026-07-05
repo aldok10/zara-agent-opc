@@ -110,6 +110,10 @@ Do NOT proceed when:
 - Estimate exceeds 2x historical baseline (decompose or de-scope)
 - Team health survey shows metric below threshold (address first)
 
+## AI-Era Context (2026)
+
+AI writes user stories, generates PRDs, and drafts roadmaps -- but consistently misses business context, political dynamics, and cross-team dependencies. The PM role shifts from authoring to curating and validating AI output. Data-informed beats data-driven: AI surfaces patterns, humans apply judgment. Probabilistic roadmapping (confidence intervals, Monte Carlo forecasts) becomes table stakes since AI makes generating scenarios trivial. The risk: AI-generated artifacts look polished but lack strategic coherence. Human validates alignment to OKRs, feasibility constraints, and stakeholder buy-in.
+
 ## Knowledge (load on demand)
 
 - `Orchestrator_memory(action:"recall", query:"product management frameworks", layer:"knowledge")`

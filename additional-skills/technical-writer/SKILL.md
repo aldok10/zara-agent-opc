@@ -49,6 +49,17 @@ Load when task involves writing documentation, API references, architecture deci
 - Code examples tested and runnable
 - Doc is findable (linked, indexed, searchable)
 
+## AI-Era Context (2026)
+
+- AI-friendly documentation formats (OKF, llms.txt, AGENTS.md) essential
+- AI generates docs but needs human review for accuracy and audience fit
+- Docs-as-code: AI consumers (agents) now primary audience alongside humans
+- Progressive disclosure optimized for both token budget and readability
+
+## Knowledge
+
+- `knowledge/ai-doc-formats.md` -- AI-friendly documentation formats and conventions
+
 ## References
 
 - [Diataxis](https://diataxis.fr/)

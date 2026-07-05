@@ -99,6 +99,17 @@ main
 - Reviewing >400 lines in one sitting (diminishing attention)
 - Gatekeeping instead of coaching
 
+## AI-Era Context (2026)
+
+AI automates style, lint, and formatting comments -- freeing human reviewers to focus on logic, architecture, and intent. Conventional comments (suggestion/issue/nitpick labels) provide structured feedback that AI can also generate. AI detects common patterns: missing error handling, untested branches, and security anti-patterns. However, architectural coherence, naming quality, and design trade-off evaluation remain human responsibilities. The risk: reviewers rubber-stamp because "AI already checked it" -- AI catches patterns, not design flaws.
+
+## Knowledge
+
+- `subskills/review-checklist.md` -- review checklist by concern area
+- `subskills/pr-workflow.md` -- PR lifecycle and stacked PRs
+- `subskills/automation-tools.md` -- review automation tooling
+- `subskills/metrics.md` -- review cycle metrics and targets
+
 ## Delegates To
 
 - **security-testing** for security-focused review

@@ -57,3 +57,12 @@ Classify, prioritize, budget, track, and retire technical debt. Treat debt as in
 - [ ] Quarterly review completed with leadership sign-off
 - [ ] Metrics tracked: cycle time, incident rate, friction score
 - [ ] ADR exists for every deliberate debt decision >1 sprint of work
+
+## AI-Era Context (2026)
+
+AI identifies code smells at scale -- SonarQube + AI-powered analysis surfaces debt patterns across the entire codebase continuously. Debt registers can be auto-updated from static analysis output, with severity scoring informed by change frequency and incident correlation. AI generates refactoring proposals and impact estimates. The risk: AI suggests refactoring that is locally optimal but architecturally misaligned. Human validates that debt repayment aligns with product direction and team capacity. Debt scoring still needs business context (cost of delay, customer impact) that only humans provide.
+
+## Knowledge
+
+- `knowledge/debt-quadrant.md` -- deliberate/inadvertent, reckless/prudent classification
+- `knowledge/measurement-metrics.md` -- tracking metrics and scoring models

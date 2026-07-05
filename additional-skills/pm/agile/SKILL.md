@@ -57,6 +57,10 @@ Guide teams through agile framework selection, ceremony facilitation, flow optim
 - WIP limits suggested with rationale (not arbitrary)
 - Sprint goals are outcome-focused, testable
 
+## AI-Era Context (2026)
+
+AI automates ceremony preparation: generates retro summaries from Slack/PR activity, drafts sprint reports from completed tickets, and pre-fills refinement notes from specs. Sprint planning benefits from AI-suggested capacity allocation based on historical velocity. However, prioritization, trade-off decisions, and team morale assessment still require human judgment. Risk: teams over-rely on AI-generated metrics without questioning underlying data quality or context shifts.
+
 ## Knowledge References
 
 - knowledge/frameworks.md - Framework comparison reference

@@ -221,6 +221,17 @@ await driver.setNetworkConnection(4);  // data only, no wifi
 - Skip install/upgrade path testing
 - Using Appium for simple flows where Maestro suffices
 
+## AI-Era Context (2026)
+
+Maestro provides AI-friendly mobile test flows with natural language commands -- enabling AI agents to generate and maintain mobile tests without framework-specific boilerplate. Device farm selection is AI-optimized: picks device/OS combinations based on crash analytics and user demographics. Visual regression across devices catches rendering inconsistencies automatically. However, gesture interactions (swipe precision, long-press timing), hardware-specific behavior (biometric quirks, camera integration), and offline-first flows still need explicit human-designed test scenarios.
+
+## Knowledge
+
+- `subskills/appium-setup.md` -- Appium 2 configuration and capabilities
+- `subskills/device-farms.md` -- farm provider comparison and selection
+- `subskills/android-testing.md` -- Android-specific testing patterns
+- `subskills/ios-testing.md` -- iOS-specific testing patterns
+
 ## Delegates To
 
 - **performance-testing** for app startup time, memory profiling

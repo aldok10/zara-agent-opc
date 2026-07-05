@@ -64,6 +64,8 @@ Senior Katalon automation engineer. Knows both codeless (manual mode) and script
 - `knowledge/architecture.md` - platform components and connections
 - `knowledge/keywords-reference.md` - built-in keyword categories
 - `knowledge/groovy-patterns.md` - Groovy scripting patterns
+- `knowledge/common-mistakes.md` - 26 gotchas, anti-patterns, and fixes
+- `knowledge/references.md` - official docs, repos, Docker, community links
 
 ## Related Skills
 

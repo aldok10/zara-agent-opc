@@ -98,6 +98,6 @@ FROM funnel;
 | P3 | Double down on referral program | +20% referral volume | 2 sprints |
 
 ## Key Points
-- Always measure both absolute drop-off (volume) and relative drop-off (rate). The biggest volume loss may not be the highest-leverage fix.
+- Always measure both absolute drop-off (volume) and relative drop-off (rate). The biggest volume loss may not be the highest-impact fix.
 - Segment funnels by acquisition channel  -  aggregate numbers hide that referral converts at 2.5x the rate of paid ads.
 - Attach a revenue estimate to each improvement: "15pp improvement at step X = Y additional paid conversions at $Z ARR each."

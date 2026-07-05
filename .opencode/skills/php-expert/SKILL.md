@@ -64,6 +64,9 @@ Read `composer.json` PHP version constraint. If EOL or missing CVE patches, WARN
 | DDD, hexagonal, CQRS, clean arch, repository, VO | `subskills/architecture.md` |
 | SQLi, XSS, CSRF, auth, crypto, session, upload | `subskills/security.md` |
 | review, smell, refactor, SOLID, PSR | `subskills/code-review.md` |
+| zval, refcount, COW, type system, request lifecycle, Zend Engine | `knowledge/zend-engine-internals.md` |
+| GC, memory leak, ZMM, garbage collection, cycle collector | `knowledge/memory-gc.md` |
+| generator, yield, closure, attribute, enum, variance, SPL, pipe | `knowledge/advanced-mechanisms.md` |
 
 Multiple OK. Load only what's needed.
 
@@ -76,6 +79,9 @@ Multiple OK. Load only what's needed.
 
 - `php-expert/knowledge/modern-php.md` - PHP 8.4+ patterns
 - `php-expert/knowledge/senior-dna.md` - senior engineering DNA
+- `php-expert/knowledge/zend-engine-internals.md` - zval, COW, request lifecycle, type system
+- `php-expert/knowledge/memory-gc.md` - ZMM, GC cycle collector, memory tuning
+- `php-expert/knowledge/advanced-mechanisms.md` - generators, closures, attributes, variance, SPL, enums
 - `php-expert/knowledge/clean-code.md` / `clean-laravel.md` / `clean-symfony.md` / `clean-hyperf.md`
 - `php-expert/knowledge/frameworks.md` · `psr-standards.md` · `composer.md`
 

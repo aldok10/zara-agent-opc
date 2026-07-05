@@ -62,7 +62,9 @@ Senior Go engineer, Go 1.26. Stdlib-first, context-driven, simplicity as a featu
 | Signal | Load |
 |--------|------|
 | latency, memory, GC, pprof, pool, benchmark | `subskills/performance.md` |
-| goroutine, channel, mutex, race, atomic, context | `subskills/concurrency.md` |
+| goroutine, channel, mutex, race, atomic, context, deadlock, leak | `subskills/concurrency.md` |
+| scheduler, GMP, stack, preemption, runtime, netpoller | `knowledge/runtime-internals.md` |
+| happens-before, memory model, data race, ordering | `knowledge/memory-model.md` |
 | test, fuzz, bench, mock, coverage | `subskills/testing.md` |
 | structure, interface, pattern, DI, package | `subskills/architecture.md` |
 | auth, crypto, TLS, injection, secret | `subskills/security.md` |
@@ -83,6 +85,8 @@ Multiple OK. Load only what's needed.
 - `golang-expert/knowledge/modern-go.md` - features by version
 - `golang-expert/knowledge/senior-dna.md` · `uber-style.md` (40 rules) · `100-mistakes.md`
 - `golang-expert/knowledge/stdlib.md` · `gotchas.md` · `versions.md` · `operations.md`
+- `golang-expert/knowledge/runtime-internals.md` - GMP scheduler, stack growth, preemption, netpoller
+- `golang-expert/knowledge/memory-model.md` - happens-before, sync guarantees, data race semantics
 - Examples: `examples/{mistakes,performance,concurrency,patterns,stdlib,testing}/` (adapt, don't reinvent)
 
 ## AI-Era Context (2026)

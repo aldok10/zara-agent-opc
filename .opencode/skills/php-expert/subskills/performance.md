@@ -30,6 +30,68 @@ Deploy strategy: restart PHP-FPM or call `opcache_reset()` via deploy hook.
 
 `validate_timestamps=0` means file changes are invisible until restart. This is correct for production.
 
+### OPcache Internals
+
+```
+How OPcache works:
+
+Without OPcache:
+  Request → Lexer → Parser → Compiler → Execute → Discard opcodes
+
+With OPcache:
+  First request: Lexer → Parser → Compiler → Store in SHM → Execute
+  Subsequent:    Lookup in SHM → Execute (skip compile entirely)
+
+Shared Memory (SHM) structure:
+┌────────────────────────────────────────────────┐
+│ OPcache SHM (opcache.memory_consumption MB)     │
+├────────────────────────────────────────────────┤
+│ Script entries (hash table: path → op_array)    │
+│ Op arrays (compiled functions/methods)          │
+│ Class entries (compiled class definitions)      │
+│ Interned strings (deduplicated string literals) │
+│ File cache index                                │
+└────────────────────────────────────────────────┘
+
+All FPM workers share the SAME SHM segment (mmap).
+Result: 50-100 workers share one copy of compiled code.
+Without OPcache: each worker compiles independently (waste).
+```
+
+### OPcache Key Behaviors
+
+| Behavior | Detail |
+|----------|--------|
+| File identity | Keyed by realpath (symlinks resolved) |
+| Invalidation | `validate_timestamps=1`: check mtime per `revalidate_freq` seconds |
+| SHM full | New scripts not cached; `opcache_reset()` or restart needed |
+| Restart types | Graceful (OOM), forced (hash table full), scheduled (via API) |
+| Interned strings | String literals shared across all scripts in SHM |
+| File cache | `opcache.file_cache=/tmp/opcache` secondary disk cache (cold start) |
+| Preloading | Classes/functions loaded into SHM at startup, can't be modified |
+| Huge pages | `opcache.huge_code_pages=1` uses 2MB pages (less TLB misses) |
+
+### OPcache Monitoring
+
+```php
+// Production monitoring
+$status = opcache_get_status(false); // false = don't include per-script data
+$stats = $status['opcache_statistics'];
+
+// Key metrics to monitor:
+$stats['num_cached_scripts'];     // scripts in cache
+$stats['opcache_hit_rate'];       // should be >99% in production
+$stats['oom_restarts'];           // OOM → increase memory_consumption
+$stats['hash_restarts'];          // hash full → increase max_accelerated_files
+$stats['manual_restarts'];        // opcache_reset() calls
+
+$memory = $status['memory_usage'];
+$memory['used_memory'];           // current SHM used
+$memory['free_memory'];           // available SHM
+$memory['wasted_memory'];         // invalidated but not freed (needs restart)
+// If wasted > 10%: too many deploys without restart, or max_wasted_percentage too high
+```
+
 ---
 
 ## JIT Compiler (PHP 8.0+)
@@ -45,6 +107,61 @@ Mode breakdown: `1255` = use AVX, tracing JIT, optimize all functions, full opti
 **When JIT doesn't help**: Typical web apps (I/O-bound - waiting on DB/Redis/HTTP).
 
 Rule: If your app spends 90% waiting on I/O, JIT gives <5% improvement. Don't bother.
+
+### JIT Internals
+
+```
+JIT compilation pipeline:
+
+1. OPcache compiles PHP to opcodes (bytecode)
+2. JIT observes execution (tracing mode counts loop iterations + call frequency)
+3. Hot code detected → JIT compiles opcodes to native machine code (x86-64/ARM64)
+4. Subsequent executions of hot path: run native code directly (bypass VM)
+
+JIT uses DynASM (LuaJIT's assembler) - NOT LLVM.
+Result: fast compilation (< 1ms per function), decent optimization.
+
+JIT modes (opcache.jit CRTO format):
+  C = CPU-specific optimizations (0=none, 1=AVX)
+  R = register allocation (0=none, 1=local, 2=root/global)
+  T = trigger (0=VM handler, 1=function entry, 2=loop entry, 3=return, 4=hot counter, 5=tracing)
+  O = optimization level (0=none, 1=minimal, 2=optimized, 3=inline, 4=inline+type inference, 5=full)
+
+Common configs:
+  1255 = tracing (best general - profiles then compiles hot traces)
+  1235 = function (compiles whole functions, not traces)
+  disable = 0 or opcache.jit_buffer_size=0
+```
+
+### JIT vs OPcache Performance
+
+```
+Without OPcache: 1x (baseline - compile every request)
+With OPcache:    5-10x (skip compilation)
+With OPcache+JIT: 5-15x for CPU-bound, 5-10x for I/O-bound
+
+For typical web apps: OPcache is 95% of the win.
+JIT adds 1-5% for web (maybe 2x-4x for CPU-bound like mandelbrot).
+```
+
+### JIT Debugging
+
+```php
+// Check JIT status
+$status = opcache_get_status();
+$jit = $status['jit'];
+$jit['enabled'];          // JIT active?
+$jit['on'];               // JIT producing code?
+$jit['opt_level'];        // optimization level
+$jit['buffer_size'];      // allocated buffer
+$jit['buffer_free'];      // free buffer space
+
+// If buffer_free is low: increase jit_buffer_size or hot code is too large
+// JIT disabled on OOM: check opcache.jit_buffer_size
+
+// Debug: dump JIT output
+opcache.jit_debug=0x01    // output generated assembly (dev only)
+```
 
 ---
 

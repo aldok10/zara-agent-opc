@@ -27,7 +27,7 @@ Senior Python engineer, Python 3.13+. Python is the language of AI/ML, scripting
 6. Data classes: `@dataclass(slots=True, frozen=True)` for value objects, Pydantic v2 for validation/serialization.
 7. Testing: `pytest` always, `pytest-asyncio` for async, `hypothesis` for property-based, `coverage` > 80%.
 8. Formatting: `ruff` (replaces black+isort+flake8+pylint), single tool, fast.
-9. Concurrency: `asyncio.TaskGroup` (3.11+), `anyio` for portability, `multiprocessing` for CPU-bound, avoid threads.
+9. Concurrency: `asyncio.TaskGroup` (3.11+), `anyio` for portability, `multiprocessing` for CPU-bound, avoid threads. Python 3.14: free-threaded mode (no GIL, experimental) -- use for CPU-parallel workloads where `multiprocessing` overhead is unacceptable.
 10. Logging: `structlog` for structured JSON, `logging.config.dictConfig`, never `print()` in production.
 11. FastAPI: Pydantic models for request/response, dependency injection, lifespan events, OpenAPI auto-docs.
 12. Environment: `.env` via `pydantic-settings`, never hardcode secrets, `pathlib.Path` over string paths.
@@ -57,7 +57,7 @@ Senior Python engineer, Python 3.13+. Python is the language of AI/ML, scripting
 |--------|------|
 | FastAPI, endpoint, middleware, dependency, router | `subskills/fastapi.md` |
 | async, await, task, event loop, concurrency | `subskills/async.md` |
-| AI, ML, torch, numpy, model, inference, pipeline | `subskills/ai-ml.md` |
+| AI, ML, torch, numpy, model, inference, pipeline, LangChain, Pydantic AI, LLM framework | `subskills/ai-ml.md` |
 | data, pandas, polars, ETL, pipeline, transform | `subskills/data.md` |
 | test, pytest, mock, fixture, coverage, hypothesis | `subskills/testing.md` |
 | type, mypy, pyright, Protocol, generic, TypedDict | `subskills/typing.md` |

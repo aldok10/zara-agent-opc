@@ -21,11 +21,9 @@ Create production-quality agent skills that follow project standards. A skill te
 
 ## Standard Folder Structure
 
-Every skill MUST follow this layout:
-
 ```
 {skill-name}/
-  SKILL.md            # Required: main agent instructions (80-100 lines target)
+  SKILL.md            # Required: main instructions (80-100 lines target)
   subskills/          # Required: 3-5 focused topic files (60-100 lines each)
   knowledge/          # Required: deep reference material (100-150 lines each)
   examples/           # Required: working code/config/templates
@@ -36,19 +34,15 @@ Minimum viable skill: SKILL.md + 3 subskills + 1 knowledge file.
 
 ## SKILL.md Format
 
-Frontmatter + these sections (in order): Title, Scope (HANDLES/DEFERS), First Action, Constraints, DO NOT, Route to Subskill (table), Verification, Knowledge, AI-Era Context, Related Skills.
-
-See `subskills/skill-format.md` for the section-by-section guide and `examples/skill-template/SKILL.md` for a working template with placeholders.
+Frontmatter + sections (in order): Title, Scope (HANDLES/DEFERS), First Action, Constraints, DO NOT, Route to Subskill (table), Verification, Knowledge, AI-Era Context, Related Skills. See `subskills/skill-format.md` for details and `examples/skill-template/SKILL.md` for a working template.
 
 ## OKF Spec Rules
 
-- `name` MUST match the directory name exactly.
-- `name`: lowercase, hyphens only, max 64 characters.
-- `description`: max 1024 characters. Format: "{what}: {details}. {when to use}."
-- Body MUST be under 500 lines (target 80-100 for SKILL.md).
-- Subskills: 60-100 lines each. ONE topic per file.
-- Knowledge: 100-150 lines each. Deep reference, not instructions.
-- No frontmatter in subskill files (only SKILL.md and knowledge files use it).
+- `name`: must match directory, lowercase, hyphens only, max 64 chars.
+- `description`: max 1024 chars. Format: "{what}: {details}. {when to use}."
+- Body under 500 lines (target 80-100 for SKILL.md).
+- Subskills: 60-100 lines, ONE topic per file. Knowledge: 100-150 lines, reference only.
+- No frontmatter in subskill files (only SKILL.md and knowledge files).
 
 ## Constraints
 
@@ -60,11 +54,7 @@ See `subskills/skill-format.md` for the section-by-section guide and `examples/s
 6. Examples dir contains working templates the agent can copy/adapt.
 7. Write for an LLM reader: be direct, use structure, avoid ambiguity.
 8. Every claim should be actionable. No filler paragraphs.
-9. Before finalizing any skill, benchmark against public skill registries: skills.sh, ClawHub (OpenClaw marketplace), agentskills.io catalog, Anthropic skills (github.com/anthropics/skills), obra/superpowers. Identify gaps and incorporate best patterns.
-10. Apply loop engineering: skill creation follows Gather > Draft > Verify > Refine cycle. Never one-shot a skill.
-11. Apply context engineering: structure content for progressive disclosure -- metadata (100 tokens), instructions (<5000 tokens), references (on-demand).
-12. Apply harness engineering: every skill must have a verification checklist that can be mechanically checked.
-13. Integrate multi-agent workflow: use @scout for requirements, @atlas for architecture patterns, @probe for test coverage, @lens for quality review, @refiner for final validation.
+9. See `subskills/benchmarking.md` and `subskills/engineering-loops.md` for advanced patterns.
 
 ## DO NOT
 
@@ -92,21 +82,18 @@ See `subskills/skill-format.md` for the section-by-section guide and `examples/s
 ## Verification
 
 Before marking a skill complete:
-1. All required directories exist with at least minimum content.
+1. All required directories exist with minimum content.
 2. `name` in frontmatter matches directory name.
-3. Description follows "{what}: {details}. {when to use}." format.
-4. SKILL.md is 80-100 lines (hard max 150).
-5. No banned words anywhere.
-6. No em dashes in prose.
-7. Routing table covers all subskills.
-8. Knowledge files have frontmatter with `type` and `title`.
-9. At least 3 subskills, 1 knowledge file, 1 example.
-10. `cat {file} | wc -l` confirms line counts within budget.
+3. Description format: "{what}: {details}. {when to use}."
+4. SKILL.md is 80-100 lines (hard max 150). No banned words. No em dashes.
+5. Routing table covers all subskills.
+6. Knowledge files have frontmatter with `type` and `title`.
+7. At least 3 subskills, 1 knowledge file, 1 example.
+8. `cat {file} | wc -l` confirms line counts within budget.
 
 ## Knowledge (load on demand)
 
-- `knowledge/folder-standards.md` - complete folder structure with rationale
-- `knowledge/okf-spec.md` - Agent Skills specification rules
+`knowledge/folder-standards.md` · `knowledge/okf-spec.md`
 
 ## AI-Era Context
 

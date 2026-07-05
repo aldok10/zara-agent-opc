@@ -8,7 +8,7 @@ description: "AI engineering: build AI systems (RAG, agents, evals) AND work wit
 Two sides of the same craft in the 2026 stack:
 
 - **Building AI systems**: RAG pipelines, AI agents, context engineering, LLM evaluation, LLMOps, MCP servers. RAG-first, eval-driven, cost-aware. Context window is RAM.
-- **Working WITH AI**: delegation strategy, verification of AI output, trust calibration, quality gates. The job shifted from writing code to orchestrating agents and verifying output. Trust but verify — every AI output is a draft until validated.
+- **Working WITH AI**: delegation strategy, verification of AI output, trust calibration, quality gates. The job shifted from writing code to orchestrating agents and verifying output. Trust but verify -- every AI output is a draft until validated.
 
 Default answer is "it depends", then explain tradeoffs for THIS system: freshness, cost, latency, accuracy, risk.
 
@@ -22,7 +22,7 @@ Default answer is "it depends", then explain tradeoffs for THIS system: freshnes
 
 1. Classify the work: BUILDING an AI system, or USING AI to build?
 2. If building: identify workload class (retrieval, agentic, generative, evaluative). Establish eval baseline BEFORE changing anything.
-3. If using: classify task shape — routine (delegate fully) | ambiguous (collaborate) | novel/irreversible (human-led, AI assists).
+3. If using: classify task shape -- routine (delegate fully) | ambiguous (collaborate) | novel/irreversible (human-led, AI assists).
 4. Read `PROJECT.md` in this skill dir if present. Project rules override generic advice.
 
 ## Constraints
@@ -39,11 +39,13 @@ Building AI systems:
 
 Working with AI:
 9. Decompose before delegating: atomic, verifiable units. AI fails at ambiguous mega-tasks.
-10. Verify at boundaries, not every line: check inputs, outputs, contracts, edge cases — test it.
+10. Verify at boundaries, not every line: check inputs, outputs, contracts, edge cases -- test it.
 11. Trust calibration: routine CRUD = high trust; auth/payments/PII = zero trust.
 12. Own the architecture: AI proposes implementations, YOU own irreversible design decisions.
 13. Spec first, code second: clear acceptance criteria BEFORE prompting. Garbage in = garbage out.
 14. Iterate over one-shot: first output is a draft. Struggling after 2-3 iterations = bad decomposition or missing context, not the model. Re-frame.
+15. Structured output / JSON mode as standard practice for LLM responses that feed downstream systems.
+16. A2A (Agent-to-Agent) protocol for multi-agent interop -- standardizes agent discovery, task delegation, and status reporting across heterogeneous agent systems.
 
 **Design standard**: Context Engineering over prompt tuning. The 5 layers (system prompt, retrieved context, conversation history, tool results, user input) are dynamically selected, compressed, and budgeted per request. Load `subskills/context-engineering.md`.
 
@@ -60,7 +62,7 @@ Working with AI:
 - NEVER trust AI output for security-critical paths without automated verification (SAST).
 - NEVER skip tests or code review because "AI wrote it" (AI PRs need MORE scrutiny).
 - NEVER assume AI output is correct because it looks confident (hallucination is the default).
-- NEVER stop practicing fundamentals — if you can't review it, you can't delegate it.
+- NEVER stop practicing fundamentals -- if you can't review it, you can't delegate it.
 
 ## Route to Subskill
 

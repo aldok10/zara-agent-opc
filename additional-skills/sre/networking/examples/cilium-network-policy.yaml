@@ -1,0 +1,124 @@
+# L7-aware Cilium Network Policy
+# Restricts payment service to specific HTTP methods and paths
+# while allowing health checks and denying everything else
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: payment-api-l7
+  namespace: production
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: payment-api
+
+  ingress:
+    # Allow frontend to call specific payment endpoints
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: checkout-frontend
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+          rules:
+            http:
+              - method: POST
+                path: "/v1/payments"
+              - method: GET
+                path: "/v1/payments/[a-f0-9-]+"
+              - method: POST
+                path: "/v1/payments/[a-f0-9-]+/refund"
+
+    # Allow order service to query payment status
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: order-service
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+          rules:
+            http:
+              - method: GET
+                path: "/v1/payments/[a-f0-9-]+"
+
+    # Allow Kubernetes probes from any source
+    - fromEntities:
+        - health
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+          rules:
+            http:
+              - method: GET
+                path: "/healthz"
+              - method: GET
+                path: "/readyz"
+
+    # Allow Prometheus scraping from monitoring namespace
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: monitoring
+            app.kubernetes.io/name: prometheus
+      toPorts:
+        - ports:
+            - port: "9090"
+              protocol: TCP
+          rules:
+            http:
+              - method: GET
+                path: "/metrics"
+
+  egress:
+    # Allow DNS resolution
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+          rules:
+            dns:
+              - matchPattern: "*.production.svc.cluster.local"
+              - matchPattern: "*.monitoring.svc.cluster.local"
+
+    # Allow connection to PostgreSQL
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: payment-db
+            app.kubernetes.io/component: primary
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
+
+    # Allow connection to Redis for idempotency cache
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: payment-redis
+      toPorts:
+        - ports:
+            - port: "6379"
+              protocol: TCP
+
+    # Allow HTTPS to payment processor (FQDN-based)
+    - toFQDNs:
+        - matchName: "api.stripe.com"
+        - matchName: "api.adyen.com"
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+
+    # Allow OTel Collector for telemetry export
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: monitoring
+            app.kubernetes.io/name: otel-collector
+      toPorts:
+        - ports:
+            - port: "4317"
+              protocol: TCP

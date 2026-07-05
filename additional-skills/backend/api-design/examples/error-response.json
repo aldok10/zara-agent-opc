@@ -1,0 +1,64 @@
+[
+  {
+    "_comment": "Standard RFC 9457 error — resource not found",
+    "type": "https://api.example.com/errors/order-not-found",
+    "title": "Order Not Found",
+    "status": 404,
+    "detail": "No order exists with ID 'ord_abc123'",
+    "instance": "/v1/orders/ord_abc123"
+  },
+  {
+    "_comment": "Validation error with field-level details",
+    "type": "https://api.example.com/errors/validation",
+    "title": "Validation Failed",
+    "status": 422,
+    "detail": "2 field(s) failed validation",
+    "instance": "/v1/orders",
+    "errors": [
+      {
+        "field": "items[0].quantity",
+        "code": "OUT_OF_RANGE",
+        "message": "Must be between 1 and 999",
+        "rejected_value": 0
+      },
+      {
+        "field": "shipping_address.postal_code",
+        "code": "INVALID_FORMAT",
+        "message": "Must match pattern: ^[0-9]{5}(-[0-9]{4})?$",
+        "rejected_value": "ABCDE"
+      }
+    ]
+  },
+  {
+    "_comment": "Rate limiting with retry guidance",
+    "type": "https://api.example.com/errors/rate-limited",
+    "title": "Too Many Requests",
+    "status": 429,
+    "detail": "Rate limit of 100 requests per minute exceeded",
+    "instance": "/v1/orders",
+    "retryAfter": 32,
+    "limit": 100,
+    "window": "1m"
+  },
+  {
+    "_comment": "Business logic error with domain context",
+    "type": "https://api.example.com/errors/insufficient-funds",
+    "title": "Insufficient Funds",
+    "status": 422,
+    "detail": "Account balance ($10.00) is below order total ($45.99)",
+    "instance": "/v1/orders/ord_xyz789/payment",
+    "balance": "10.00",
+    "required": "45.99",
+    "currency": "USD"
+  },
+  {
+    "_comment": "Conflict error — state transition not allowed",
+    "type": "https://api.example.com/errors/invalid-state-transition",
+    "title": "Invalid State Transition",
+    "status": 409,
+    "detail": "Cannot cancel order in 'SHIPPED' state",
+    "instance": "/v1/orders/ord_shipped1/cancel",
+    "currentState": "SHIPPED",
+    "allowedTransitions": ["DELIVER", "RETURN"]
+  }
+]

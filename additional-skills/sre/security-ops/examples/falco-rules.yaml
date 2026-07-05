@@ -1,0 +1,173 @@
+# Custom Falco Rules for Container Runtime Security
+# Focused on Kubernetes-specific threats and container escape patterns
+# Compatible with Falco 0.38+ (eBPF driver)
+
+- rule: Detect Cryptocurrency Mining Process
+  desc: Identifies known cryptocurrency mining binaries executing in containers
+  condition: >
+    spawned_process and container and
+    (proc.name in (xmrig, minerd, minergate, ccminer, cpuminer, ethminer, cgminer, bfgminer, t-rex, phoenix) or
+     proc.args contains "stratum+tcp" or
+     proc.args contains "stratum+ssl" or
+     proc.args contains "--coin" or
+     proc.args contains "--algo=randomx")
+  output: >
+    Cryptocurrency miner detected
+    (container_id=%container.id container_name=%container.name
+     image=%container.image.repository
+     proc=%proc.name args=%proc.args
+     namespace=%k8s.ns.name pod=%k8s.pod.name)
+  priority: CRITICAL
+  tags: [cryptomining, mitre_execution, T1496]
+
+- rule: Container Escape via Mount Namespace
+  desc: Detects attempts to escape container via namespace manipulation
+  condition: >
+    spawned_process and container and
+    (proc.name in (nsenter, unshare) or
+     (syscall.type = setns and not proc.name in (containerd-shim, runc, crun)) or
+     (syscall.type = unshare and not proc.name in (containerd-shim, runc, crun, pause)))
+  output: >
+    Namespace manipulation detected (possible container escape)
+    (container_id=%container.id image=%container.image.repository
+     proc=%proc.name args=%proc.args user=%user.name
+     namespace=%k8s.ns.name pod=%k8s.pod.name)
+  priority: CRITICAL
+  tags: [container_escape, mitre_privilege_escalation, T1611]
+
+- rule: Reverse Shell Detected
+  desc: Process with network connection spawning a shell
+  condition: >
+    spawned_process and container and
+    proc.name in (bash, sh, dash, zsh, csh, fish) and
+    proc.pname in (nc, ncat, netcat, socat, python, python3, perl, ruby, php, node) and
+    fd.type = ipv4
+  output: >
+    Reverse shell detected
+    (container_id=%container.id image=%container.image.repository
+     shell=%proc.name parent=%proc.pname connection=%fd.name
+     namespace=%k8s.ns.name pod=%k8s.pod.name)
+  priority: CRITICAL
+  tags: [reverse_shell, mitre_execution, T1059]
+
+- rule: Sensitive File Read in Container
+  desc: Reading sensitive files that containers should not access
+  condition: >
+    open_read and container and
+    (fd.name startswith /etc/shadow or
+     fd.name startswith /etc/kubernetes/ or
+     fd.name startswith /root/.ssh/ or
+     fd.name startswith /root/.kube/config or
+     fd.name = /proc/1/environ) and
+    not proc.name in (sshd, systemd, login)
+  output: >
+    Sensitive file read in container
+    (container_id=%container.id image=%container.image.repository
+     file=%fd.name proc=%proc.name user=%user.name
+     namespace=%k8s.ns.name pod=%k8s.pod.name)
+  priority: HIGH
+  tags: [sensitive_data, mitre_credential_access, T1552]
+
+- rule: Kubernetes Service Account Token Access by Non-Standard Process
+  desc: Detects unexpected access to Kubernetes service account tokens
+  condition: >
+    open_read and container and
+    fd.name startswith /var/run/secrets/kubernetes.io/ and
+    not proc.name in (coredns, kube-proxy, kubelet, containerd, vault-agent, 
+                      otel-collector, envoy, pilot-agent, istio-proxy)
+  output: >
+    Service account token accessed by unexpected process
+    (container_id=%container.id image=%container.image.repository
+     file=%fd.name proc=%proc.name user=%user.name
+     namespace=%k8s.ns.name pod=%k8s.pod.name)
+  priority: HIGH
+  tags: [credential_access, mitre_credential_access, T1528]
+
+- rule: Cloud Metadata Service Access
+  desc: Container accessing cloud provider metadata endpoint
+  condition: >
+    outbound and container and
+    fd.sip = 169.254.169.254 and
+    not k8s.ns.name in (kube-system, gke-managed-system)
+  output: >
+    Cloud metadata service access from container
+    (container_id=%container.id image=%container.image.repository
+     proc=%proc.name connection=%fd.name
+     namespace=%k8s.ns.name pod=%k8s.pod.name)
+  priority: HIGH
+  tags: [cloud_metadata, mitre_credential_access, T1552.005]
+
+- rule: Unexpected Outbound Connection on Non-Standard Port
+  desc: Container making outbound connections on suspicious ports
+  condition: >
+    outbound and container and
+    fd.sport in (4444, 5555, 6666, 1337, 31337, 8888, 9999) and
+    not k8s.ns.name in (kube-system, monitoring, istio-system)
+  output: >
+    Suspicious outbound connection on non-standard port
+    (container_id=%container.id image=%container.image.repository
+     proc=%proc.name connection=%fd.name port=%fd.sport
+     namespace=%k8s.ns.name pod=%k8s.pod.name)
+  priority: WARNING
+  tags: [suspicious_network, mitre_command_and_control, T1571]
+
+- rule: Binary Dropped and Executed in Container
+  desc: File written to /tmp or writable location then immediately executed
+  condition: >
+    spawned_process and container and
+    (proc.name startswith /tmp/ or
+     proc.name startswith /dev/shm/ or
+     proc.name startswith /var/tmp/ or
+     proc.name startswith /run/) and
+    not proc.name in (apt-get, dpkg, yum, rpm, pip, npm)
+  output: >
+    Dropped binary executed in container
+    (container_id=%container.id image=%container.image.repository
+     binary=%proc.name args=%proc.args user=%user.name
+     namespace=%k8s.ns.name pod=%k8s.pod.name)
+  priority: HIGH
+  tags: [malware, mitre_execution, T1204]
+
+- rule: Privilege Escalation via setuid
+  desc: Process gaining elevated privileges through setuid binary execution
+  condition: >
+    spawned_process and container and
+    proc.is_exe_upper_layer = true and
+    user.uid != 0 and thread.cap_effective contains CAP_SETUID
+  output: >
+    Potential privilege escalation via setuid
+    (container_id=%container.id image=%container.image.repository
+     proc=%proc.name user=%user.name uid=%user.uid
+     caps=%thread.cap_effective
+     namespace=%k8s.ns.name pod=%k8s.pod.name)
+  priority: HIGH
+  tags: [privilege_escalation, mitre_privilege_escalation, T1548]
+
+- rule: Kernel Module Load Attempt in Container
+  desc: Container attempting to load kernel module (container escape vector)
+  condition: >
+    (syscall.type in (init_module, finit_module) or
+     proc.name in (insmod, modprobe)) and
+    container
+  output: >
+    Kernel module load attempt from container
+    (container_id=%container.id image=%container.image.repository
+     proc=%proc.name args=%proc.args user=%user.name
+     namespace=%k8s.ns.name pod=%k8s.pod.name)
+  priority: CRITICAL
+  tags: [container_escape, mitre_persistence, T1547.006]
+
+- rule: Docker Socket Access from Container
+  desc: Container accessing Docker/containerd socket (escape vector)
+  condition: >
+    (open_read or open_write) and container and
+    (fd.name = /var/run/docker.sock or
+     fd.name = /run/containerd/containerd.sock or
+     fd.name = /var/run/crio/crio.sock)
+  output: >
+    Container runtime socket accessed
+    (container_id=%container.id image=%container.image.repository
+     socket=%fd.name proc=%proc.name user=%user.name
+     namespace=%k8s.ns.name pod=%k8s.pod.name)
+  priority: CRITICAL
+  tags: [container_escape, mitre_privilege_escalation, T1611]

@@ -1,0 +1,120 @@
+syntax = "proto3";
+
+package store.order.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/field_mask.proto";
+
+option go_package = "github.com/example/store/order/v1;orderv1";
+
+// OrderService manages order lifecycle.
+service OrderService {
+  // Creates a new order. Returns ALREADY_EXISTS if idempotency key was seen.
+  rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
+
+  // Retrieves a single order by ID. Returns NOT_FOUND if missing.
+  rpc GetOrder(GetOrderRequest) returns (GetOrderResponse);
+
+  // Lists orders with cursor-based pagination.
+  rpc ListOrders(ListOrdersRequest) returns (ListOrdersResponse);
+
+  // Updates order fields specified in field_mask.
+  rpc UpdateOrder(UpdateOrderRequest) returns (UpdateOrderResponse);
+
+  // Streams real-time order status changes.
+  rpc WatchOrderStatus(WatchOrderStatusRequest) returns (stream OrderStatusEvent);
+}
+
+message CreateOrderRequest {
+  string idempotency_key = 1; // Client-provided, server-enforced dedup
+  string customer_id = 2;
+  repeated OrderItem items = 3;
+  Address shipping_address = 4;
+}
+
+message CreateOrderResponse {
+  Order order = 1;
+}
+
+message GetOrderRequest {
+  string order_id = 1;
+}
+
+message GetOrderResponse {
+  Order order = 1;
+}
+
+message ListOrdersRequest {
+  int32 page_size = 1;   // Max 1000, default 50
+  string page_token = 2; // Opaque cursor from previous response
+  string customer_id = 3; // Filter by customer
+}
+
+message ListOrdersResponse {
+  repeated Order orders = 1;
+  string next_page_token = 2; // Empty when no more results
+}
+
+message UpdateOrderRequest {
+  Order order = 1;
+  google.protobuf.FieldMask update_mask = 2; // Which fields to update
+}
+
+message UpdateOrderResponse {
+  Order order = 1;
+}
+
+message WatchOrderStatusRequest {
+  string order_id = 1;
+}
+
+message OrderStatusEvent {
+  string order_id = 1;
+  OrderStatus previous_status = 2;
+  OrderStatus new_status = 3;
+  google.protobuf.Timestamp changed_at = 4;
+}
+
+// Domain models
+
+message Order {
+  string id = 1;
+  string customer_id = 2;
+  OrderStatus status = 3;
+  repeated OrderItem items = 4;
+  Address shipping_address = 5;
+  Money total = 6;
+  google.protobuf.Timestamp created_at = 14;
+  google.protobuf.Timestamp updated_at = 15;
+  string notes = 16; // Rarely set — higher field number
+}
+
+message OrderItem {
+  string product_id = 1;
+  int32 quantity = 2;
+  Money unit_price = 3;
+}
+
+message Address {
+  string line1 = 1;
+  string line2 = 2;
+  string city = 3;
+  string state = 4;
+  string postal_code = 5;
+  string country_code = 6; // ISO 3166-1 alpha-2
+}
+
+message Money {
+  string amount = 1;       // Decimal string: "49.99"
+  string currency_code = 2; // ISO 4217: "USD"
+}
+
+enum OrderStatus {
+  ORDER_STATUS_UNSPECIFIED = 0;
+  ORDER_STATUS_PENDING = 1;
+  ORDER_STATUS_CONFIRMED = 2;
+  ORDER_STATUS_PROCESSING = 3;
+  ORDER_STATUS_SHIPPED = 4;
+  ORDER_STATUS_DELIVERED = 5;
+  ORDER_STATUS_CANCELLED = 6;
+}

@@ -1,0 +1,198 @@
+# Production OTel Collector Configuration
+# Two-tier: Agent (DaemonSet) forwards to Gateway (Deployment)
+# Gateway handles sampling, enrichment, and routing
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+        max_recv_msg_size_mib: 16
+      http:
+        endpoint: 0.0.0.0:4318
+        cors:
+          allowed_origins: ["*"]
+
+  prometheus:
+    config:
+      scrape_configs:
+        - job_name: 'kubernetes-pods'
+          kubernetes_sd_configs:
+            - role: pod
+          relabel_configs:
+            - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+              action: keep
+              regex: true
+            - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+              action: replace
+              target_label: __metrics_path__
+              regex: (.+)
+
+  k8s_events:
+    auth_type: serviceAccount
+    namespaces: []
+
+processors:
+  memory_limiter:
+    check_interval: 1s
+    limit_mib: 3200
+    spike_limit_mib: 800
+
+  k8sattributes:
+    auth_type: "serviceAccount"
+    passthrough: false
+    extract:
+      metadata:
+        - k8s.namespace.name
+        - k8s.deployment.name
+        - k8s.pod.name
+        - k8s.node.name
+        - k8s.container.name
+      labels:
+        - tag_name: app
+          key: app.kubernetes.io/name
+        - tag_name: team
+          key: team
+        - tag_name: environment
+          key: env
+
+  resource:
+    attributes:
+      - key: cluster.name
+        value: "production-us-central1"
+        action: upsert
+      - key: deployment.environment
+        value: "production"
+        action: upsert
+
+  transform/logs:
+    log_statements:
+      - context: log
+        statements:
+          - set(severity_text, "INFO") where severity_text == ""
+          - set(attributes["service.name"], resource.attributes["service.name"])
+
+  filter/health:
+    traces:
+      span:
+        - 'attributes["http.route"] == "/healthz"'
+        - 'attributes["http.route"] == "/readyz"'
+        - 'attributes["http.route"] == "/livez"'
+    metrics:
+      metric:
+        - 'name == "up" and resource.attributes["job"] == "kubernetes-pods"'
+
+  tail_sampling:
+    decision_wait: 30s
+    num_traces: 50000
+    expected_new_traces_per_sec: 1000
+    policies:
+      - name: errors-always
+        type: status_code
+        status_code:
+          status_codes: [ERROR]
+      - name: slow-requests
+        type: latency
+        latency:
+          threshold_ms: 2000
+      - name: baseline-sample
+        type: probabilistic
+        probabilistic:
+          sampling_percentage: 5
+
+  batch:
+    send_batch_size: 8192
+    send_batch_max_size: 16384
+    timeout: 200ms
+
+connectors:
+  spanmetrics:
+    histogram:
+      explicit:
+        buckets: [5ms, 10ms, 25ms, 50ms, 100ms, 250ms, 500ms, 1s, 2.5s, 5s, 10s]
+    dimensions:
+      - name: http.method
+      - name: http.status_code
+      - name: http.route
+      - name: rpc.method
+    exemplars:
+      enabled: true
+    metrics_flush_interval: 15s
+
+exporters:
+  otlphttp/mimir:
+    endpoint: http://mimir-gateway.monitoring:8080/otlp
+    headers:
+      X-Scope-OrgID: "production"
+    sending_queue:
+      enabled: true
+      num_consumers: 10
+      queue_size: 5000
+    retry_on_failure:
+      enabled: true
+      initial_interval: 5s
+      max_interval: 30s
+      max_elapsed_time: 300s
+
+  otlp/tempo:
+    endpoint: tempo-gateway.monitoring:4317
+    tls:
+      insecure: false
+      ca_file: /etc/ssl/certs/ca-certificates.crt
+    sending_queue:
+      enabled: true
+      num_consumers: 10
+      queue_size: 5000
+    retry_on_failure:
+      enabled: true
+      initial_interval: 5s
+      max_interval: 30s
+
+  otlphttp/loki:
+    endpoint: http://loki-gateway.monitoring:3100/otlp
+    headers:
+      X-Scope-OrgID: "production"
+    sending_queue:
+      enabled: true
+      queue_size: 5000
+
+  debug:
+    verbosity: basic
+
+extensions:
+  health_check:
+    endpoint: 0.0.0.0:13133
+  zpages:
+    endpoint: 0.0.0.0:55679
+  pprof:
+    endpoint: 0.0.0.0:1888
+
+service:
+  extensions: [health_check, zpages, pprof]
+  telemetry:
+    metrics:
+      address: 0.0.0.0:8888
+      level: normal
+    logs:
+      level: info
+
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [memory_limiter, k8sattributes, resource, filter/health, tail_sampling, batch]
+      exporters: [otlp/tempo]
+
+    metrics:
+      receivers: [otlp, prometheus, spanmetrics]
+      processors: [memory_limiter, k8sattributes, resource, batch]
+      exporters: [otlphttp/mimir]
+
+    logs:
+      receivers: [otlp, k8s_events]
+      processors: [memory_limiter, k8sattributes, resource, transform/logs, batch]
+      exporters: [otlphttp/loki]
+
+    traces/spanmetrics:
+      receivers: [otlp]
+      processors: [memory_limiter, filter/health]
+      exporters: [spanmetrics]

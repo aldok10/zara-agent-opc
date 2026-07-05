@@ -1,0 +1,217 @@
+/* ==========================================================================
+   Cascade Layer Setup
+   Full @layer architecture for a modern project
+   ========================================================================== */
+
+/* 1. Declare layer order (lowest → highest priority) */
+@layer reset, base, tokens, layouts, components, utilities, overrides;
+
+/* 2. Reset layer — normalize browser defaults */
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+  }
+
+  body {
+    min-block-size: 100dvh;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img, picture, video, canvas, svg {
+    display: block;
+    max-inline-size: 100%;
+    block-size: auto;
+  }
+
+  input, button, textarea, select {
+    font: inherit;
+    color: inherit;
+  }
+
+  p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: inherit;
+  }
+
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+}
+
+/* 3. Tokens layer — design tokens as custom properties */
+@layer tokens {
+  :root {
+    /* Colors (OKLCH) */
+    --color-primary: oklch(0.55 0.15 250);
+    --color-primary-light: color-mix(in oklch, var(--color-primary) 30%, white);
+    --color-primary-dark: color-mix(in oklch, var(--color-primary) 80%, black);
+
+    --color-surface: light-dark(#ffffff, #0a0a0a);
+    --color-surface-raised: light-dark(#f9fafb, #141414);
+    --color-text: light-dark(#111827, #f3f4f6);
+    --color-text-muted: light-dark(#6b7280, #9ca3af);
+    --color-border: light-dark(#e5e7eb, #2d2d2d);
+
+    --color-success: oklch(0.55 0.15 145);
+    --color-warning: oklch(0.65 0.15 80);
+    --color-error: oklch(0.55 0.18 25);
+
+    /* Spacing */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
+
+    /* Typography */
+    --font-sans: system-ui, -apple-system, sans-serif;
+    --font-mono: ui-monospace, "Cascadia Code", monospace;
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.5rem;
+    --text-3xl: 2rem;
+
+    /* Radius */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-full: 9999px;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px oklch(0 0 0 / 0.07);
+    --shadow-lg: 0 10px 15px oklch(0 0 0 / 0.1);
+
+    /* Z-index scale */
+    --layer-base: 0;
+    --layer-dropdown: 100;
+    --layer-sticky: 200;
+    --layer-modal: 300;
+    --layer-toast: 400;
+    --layer-tooltip: 500;
+
+    /* Motion */
+    --duration-fast: 150ms;
+    --duration-normal: 250ms;
+    --duration-slow: 400ms;
+    --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-in: cubic-bezier(0.4, 0, 1, 1);
+    --ease-out: cubic-bezier(0, 0, 0.2, 1);
+
+    /* Color scheme */
+    color-scheme: light dark;
+  }
+}
+
+/* 4. Base layer — element defaults */
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    color: var(--color-text);
+    background: var(--color-surface);
+  }
+
+  h1 { font-size: var(--text-3xl); }
+  h2 { font-size: var(--text-2xl); }
+  h3 { font-size: var(--text-xl); }
+
+  h1, h2, h3, h4 {
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+    max-inline-size: 65ch;
+  }
+
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+/* 5. Layouts layer — structural patterns */
+@layer layouts {
+  .container {
+    inline-size: min(100% - 2rem, var(--max-width, 1200px));
+    margin-inline: auto;
+  }
+
+  .stack {
+    display: grid;
+    gap: var(--stack-gap, var(--space-md));
+  }
+
+  .cluster {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--cluster-gap, var(--space-md));
+    align-items: center;
+  }
+}
+
+/* 6. Components layer — UI components */
+@layer components {
+  /* Components go here (buttons, cards, forms, etc.) */
+}
+
+/* 7. Utilities layer — single-purpose overrides */
+@layer utilities {
+  .visually-hidden {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+}
+
+/* 8. Overrides layer — third-party fixes (use sparingly) */
+@layer overrides {
+  /* Fix third-party library styles here */
+}
+
+/* Accessibility: reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

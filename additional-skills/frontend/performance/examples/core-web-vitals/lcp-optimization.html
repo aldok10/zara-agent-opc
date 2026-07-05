@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LCP Optimization Example</title>
+
+  <!--
+    PRELOAD: Tells browser about the LCP image early.
+    Use when image URL isn't in the initial HTML (e.g., from CSS or JS).
+    Format negotiation with type attribute.
+  -->
+  <link
+    rel="preload"
+    as="image"
+    href="/images/hero-1200.avif"
+    type="image/avif"
+    imagesrcset="/images/hero-400.avif 400w, /images/hero-800.avif 800w, /images/hero-1200.avif 1200w"
+    imagesizes="100vw"
+  />
+
+  <!-- Critical CSS inlined (only above-fold styles) -->
+  <style>
+    * { margin: 0; box-sizing: border-box; }
+    .hero {
+      position: relative;
+      width: 100%;
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero__image {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+    .hero__content {
+      position: absolute;
+      text-align: center;
+      color: white;
+    }
+  </style>
+
+  <!-- Non-critical CSS loaded async -->
+  <link
+    rel="stylesheet"
+    href="/styles/main.css"
+    media="print"
+    onload="this.media='all'"
+  />
+</head>
+<body>
+  <section class="hero">
+    <!--
+      LCP IMAGE BEST PRACTICES:
+      1. fetchpriority="high" — tells browser this is the most important image
+      2. NO loading="lazy" — LCP content must load eagerly
+      3. decoding="async" — non-blocking decode
+      4. Explicit width/height — prevents CLS
+      5. srcset + sizes — browser picks optimal resolution
+    -->
+    <picture>
+      <source
+        type="image/avif"
+        srcset="
+          /images/hero-400.avif   400w,
+          /images/hero-800.avif   800w,
+          /images/hero-1200.avif 1200w,
+          /images/hero-1600.avif 1600w
+        "
+        sizes="100vw"
+      />
+      <source
+        type="image/webp"
+        srcset="
+          /images/hero-400.webp   400w,
+          /images/hero-800.webp   800w,
+          /images/hero-1200.webp 1200w,
+          /images/hero-1600.webp 1600w
+        "
+        sizes="100vw"
+      />
+      <img
+        class="hero__image"
+        src="/images/hero-1200.jpg"
+        alt="Product showcase — modern laptop on minimalist desk"
+        width="1600"
+        height="900"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </picture>
+
+    <div class="hero__content">
+      <h1>Build Something Great</h1>
+      <p>Start your project today</p>
+    </div>
+  </section>
+
+  <!-- Below-fold content: lazy-loaded, lower priority -->
+  <section class="features">
+    <img
+      src="/images/feature-1.webp"
+      alt="Feature one description"
+      width="800"
+      height="450"
+      loading="lazy"
+      decoding="async"
+    />
+  </section>
+
+  <!-- Third-party scripts: deferred, never block rendering -->
+  <script defer src="/scripts/app.js"></script>
+</body>
+</html>

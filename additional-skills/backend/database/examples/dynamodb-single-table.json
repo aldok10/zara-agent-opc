@@ -1,0 +1,141 @@
+{
+  "_comment": "DynamoDB Single-Table Design: E-commerce (Users, Orders, Products)",
+  "_access_patterns": [
+    "Get user by ID",
+    "Get user by email",
+    "Get orders for user (sorted by date)",
+    "Get order by ID with line items",
+    "Get products by category (sorted by price)",
+    "Get recent orders by status (for admin)"
+  ],
+
+  "TableName": "EcommerceTable",
+  "KeySchema": {
+    "PartitionKey": "PK (String)",
+    "SortKey": "SK (String)"
+  },
+  "GlobalSecondaryIndexes": [
+    {
+      "IndexName": "GSI1",
+      "KeySchema": { "PartitionKey": "GSI1PK", "SortKey": "GSI1SK" },
+      "Projection": "ALL",
+      "_purpose": "Inverted lookups: email->user, category->products, status->orders"
+    },
+    {
+      "IndexName": "GSI2",
+      "KeySchema": { "PartitionKey": "GSI2PK", "SortKey": "GSI2SK" },
+      "Projection": "KEYS_ONLY",
+      "_purpose": "Admin queries: orders by status+date"
+    }
+  ],
+
+  "Items": [
+    {
+      "_entity": "User",
+      "_access": "Get user by ID: Query PK=USER#123, SK=PROFILE",
+      "PK": "USER#123",
+      "SK": "PROFILE",
+      "GSI1PK": "EMAIL#alice@example.com",
+      "GSI1SK": "USER#123",
+      "entityType": "User",
+      "name": "Alice Johnson",
+      "email": "alice@example.com",
+      "plan": "premium",
+      "createdAt": "2025-03-15T10:00:00Z"
+    },
+    {
+      "_entity": "Order (in user partition for user's orders query)",
+      "_access": "Get user orders: Query PK=USER#123, SK=begins_with(ORDER#)",
+      "PK": "USER#123",
+      "SK": "ORDER#2026-01-15T14:30:00Z#ord-789",
+      "GSI1PK": "ORDER#ord-789",
+      "GSI1SK": "METADATA",
+      "GSI2PK": "STATUS#shipped",
+      "GSI2SK": "2026-01-15T14:30:00Z#ord-789",
+      "entityType": "Order",
+      "orderId": "ord-789",
+      "status": "shipped",
+      "total": 8999,
+      "currency": "USD",
+      "itemCount": 2,
+      "createdAt": "2026-01-15T14:30:00Z"
+    },
+    {
+      "_entity": "Order Line Item (in order partition)",
+      "_access": "Get order items: Query GSI1PK=ORDER#ord-789, GSI1SK=begins_with(ITEM#)",
+      "PK": "USER#123",
+      "SK": "ORDER#2026-01-15T14:30:00Z#ord-789#ITEM#1",
+      "GSI1PK": "ORDER#ord-789",
+      "GSI1SK": "ITEM#001",
+      "entityType": "OrderItem",
+      "productId": "prod-456",
+      "productName": "Wireless Keyboard",
+      "quantity": 1,
+      "unitPrice": 4999
+    },
+    {
+      "_entity": "Order Line Item 2",
+      "PK": "USER#123",
+      "SK": "ORDER#2026-01-15T14:30:00Z#ord-789#ITEM#2",
+      "GSI1PK": "ORDER#ord-789",
+      "GSI1SK": "ITEM#002",
+      "entityType": "OrderItem",
+      "productId": "prod-101",
+      "productName": "USB-C Cable",
+      "quantity": 2,
+      "unitPrice": 2000
+    },
+    {
+      "_entity": "Product",
+      "_access": "Get products by category: Query GSI1PK=CAT#electronics, GSI1SK sort by price",
+      "PK": "PROD#prod-456",
+      "SK": "METADATA",
+      "GSI1PK": "CAT#electronics",
+      "GSI1SK": "PRICE#004999#prod-456",
+      "entityType": "Product",
+      "name": "Wireless Keyboard",
+      "category": "electronics",
+      "price": 4999,
+      "stock": 142,
+      "createdAt": "2025-06-01T00:00:00Z"
+    }
+  ],
+
+  "QueryExamples": {
+    "getUserByEmail": {
+      "index": "GSI1",
+      "keyCondition": "GSI1PK = 'EMAIL#alice@example.com'",
+      "result": "Returns user profile item"
+    },
+    "getUserOrders": {
+      "index": "Table",
+      "keyCondition": "PK = 'USER#123' AND begins_with(SK, 'ORDER#')",
+      "scanDirection": "DESC (newest first via ScanIndexForward=false)",
+      "result": "Returns all orders for user, sorted by date"
+    },
+    "getOrderWithItems": {
+      "index": "GSI1",
+      "keyCondition": "GSI1PK = 'ORDER#ord-789'",
+      "result": "Returns order metadata + all line items"
+    },
+    "getProductsByCategory": {
+      "index": "GSI1",
+      "keyCondition": "GSI1PK = 'CAT#electronics' AND begins_with(GSI1SK, 'PRICE#')",
+      "result": "Returns products sorted by price (ascending)"
+    },
+    "getOrdersByStatus": {
+      "index": "GSI2",
+      "keyCondition": "GSI2PK = 'STATUS#shipped' AND GSI2SK BETWEEN '2026-01-01' AND '2026-02-01'",
+      "result": "Admin: all shipped orders in date range"
+    }
+  },
+
+  "_designNotes": {
+    "pkDesign": "Entity type prefix + ID enables partition isolation",
+    "skDesign": "Timestamp in SK enables range queries and natural sort",
+    "gsi1Overloading": "Same GSI serves email lookup, order detail, and category browse",
+    "gsi2Purpose": "Dedicated to admin/operational queries by status",
+    "costOptimization": "GSI2 is KEYS_ONLY projection (cheapest); fetch full item from base table if needed",
+    "hotPartition": "If one user has millions of orders, consider sharding: PK=USER#123#SHARD#N"
+  }
+}

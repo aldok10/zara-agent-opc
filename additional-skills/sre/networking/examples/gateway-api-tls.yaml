@@ -1,0 +1,188 @@
+# Gateway API with TLS termination via cert-manager
+# Uses Gateway API v1.2+ (GA) replacing legacy Ingress
+# Cilium GatewayClass with automated certificate management
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: cilium
+spec:
+  controllerName: io.cilium/gateway-controller
+  description: "Cilium Gateway API controller with eBPF dataplane"
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: production-gateway
+  namespace: gateway-system
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  gatewayClassName: cilium
+  listeners:
+    # HTTPS listener with automatic cert provisioning
+    - name: https
+      protocol: HTTPS
+      port: 443
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: wildcard-production-tls
+            kind: Secret
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              gateway-access: "production"
+
+    # HTTP listener that redirects to HTTPS
+    - name: http-redirect
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: Same
+
+    # gRPC listener for internal services
+    - name: grpc
+      protocol: HTTPS
+      port: 8443
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: grpc-production-tls
+            kind: Secret
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              gateway-access: "production"
+        kinds:
+          - kind: GRPCRoute
+
+  infrastructure:
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
+      service.beta.kubernetes.io/aws-load-balancer-type: "external"
+      service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "ip"
+---
+# cert-manager Certificate for wildcard domain
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-production-tls
+  namespace: gateway-system
+spec:
+  secretName: wildcard-production-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+    - "*.example.com"
+    - "example.com"
+  duration: 2160h    # 90 days
+  renewBefore: 720h  # Renew 30 days before expiry
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+---
+# HTTP to HTTPS redirect
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: http-redirect
+  namespace: gateway-system
+spec:
+  parentRefs:
+    - name: production-gateway
+      sectionName: http-redirect
+  rules:
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: 301
+---
+# Application HTTPRoute with advanced routing
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: payment-api
+  namespace: production
+spec:
+  parentRefs:
+    - name: production-gateway
+      namespace: gateway-system
+      sectionName: https
+  hostnames:
+    - "api.example.com"
+  rules:
+    # Payment endpoints with timeout and retry
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /v1/payments
+      backendRefs:
+        - name: payment-api
+          port: 8080
+          weight: 100
+      timeouts:
+        request: 30s
+        backendRequest: 25s
+      filters:
+        - type: RequestHeaderModifier
+          requestHeaderModifier:
+            set:
+              - name: X-Request-Start
+                value: "t=${msec}"
+
+    # Canary: 5% traffic to new version
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /v2/payments
+      backendRefs:
+        - name: payment-api-v2-stable
+          port: 8080
+          weight: 95
+        - name: payment-api-v2-canary
+          port: 8080
+          weight: 5
+---
+# gRPC route for internal services
+apiVersion: gateway.networking.k8s.io/v1
+kind: GRPCRoute
+metadata:
+  name: order-grpc
+  namespace: production
+spec:
+  parentRefs:
+    - name: production-gateway
+      namespace: gateway-system
+      sectionName: grpc
+  hostnames:
+    - "grpc.example.com"
+  rules:
+    - matches:
+        - method:
+            service: order.v1.OrderService
+      backendRefs:
+        - name: order-service
+          port: 9090
+---
+# ReferenceGrant allows cross-namespace backend references
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: allow-gateway-to-production
+  namespace: production
+spec:
+  from:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      namespace: gateway-system
+  to:
+    - group: ""
+      kind: Service

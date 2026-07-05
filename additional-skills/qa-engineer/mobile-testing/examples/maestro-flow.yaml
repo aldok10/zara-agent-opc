@@ -1,0 +1,70 @@
+# Maestro Flow: Login + Navigation + Deep Link
+# Run: maestro test maestro-flow.yaml
+
+appId: com.example.myapp
+
+---
+
+# Launch the app fresh
+- launchApp:
+    clearState: true
+
+# Wait for splash/loading to complete
+- waitForAnimationToEnd
+
+# --- LOGIN FLOW ---
+
+# Enter credentials on login screen
+- tapOn: "Email"
+- inputText: "test@example.com"
+- tapOn: "Password"
+- inputText: "SecurePass123"
+
+# Submit login form
+- tapOn: "Sign In"
+
+# Assert successful login by checking dashboard element
+- assertVisible: "Welcome back"
+- takeScreenshot: "login-success"
+
+# --- SWIPE NAVIGATION ---
+
+# Swipe through onboarding cards if present
+- runFlow:
+    when:
+      visible: "Get Started"
+    commands:
+      - swipe:
+          direction: LEFT
+          duration: 500
+      - swipe:
+          direction: LEFT
+          duration: 500
+      - tapOn: "Done"
+
+# --- DEEP LINK TESTING ---
+
+# Open a specific screen via deep link
+- openLink: "myapp://profile/settings"
+
+# Verify deep link navigated correctly
+- assertVisible: "Account Settings"
+- takeScreenshot: "deep-link-settings"
+
+# --- CONDITIONAL CHECKS ---
+
+# Dismiss notification permission dialog if it appears
+- runFlow:
+    when:
+      visible: "Allow Notifications"
+    commands:
+      - tapOn: "Not Now"
+
+# Verify main navigation is accessible
+- tapOn: "Home"
+- assertVisible: "Your Feed"
+
+# Navigate to profile tab
+- tapOn: "Profile"
+- assertVisible: "test@example.com"
+- takeScreenshot: "profile-screen"

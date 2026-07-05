@@ -1,0 +1,82 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: platform-services
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - matrix:
+        generators:
+          - git:
+              repoURL: https://github.com/org/platform-apps.git
+              revision: HEAD
+              directories:
+                - path: "apps/*"
+          - list:
+              elements:
+                - cluster: us-east-prod
+                  url: https://us-east-prod.k8s.internal
+                  environment: prod
+                  values_file: values-prod.yaml
+                - cluster: eu-west-prod
+                  url: https://eu-west-prod.k8s.internal
+                  environment: prod
+                  values_file: values-prod-eu.yaml
+                - cluster: us-east-staging
+                  url: https://us-east-staging.k8s.internal
+                  environment: staging
+                  values_file: values-staging.yaml
+  template:
+    metadata:
+      name: "{{.path.basename}}-{{.cluster}}"
+      labels:
+        app.kubernetes.io/managed-by: applicationset
+        environment: "{{.environment}}"
+    spec:
+      project: platform
+      source:
+        repoURL: https://github.com/org/platform-apps.git
+        targetRevision: HEAD
+        path: "{{.path.path}}"
+        helm:
+          valueFiles:
+            - "{{.values_file}}"
+          parameters:
+            - name: global.cluster
+              value: "{{.cluster}}"
+            - name: global.environment
+              value: "{{.environment}}"
+      destination:
+        server: "{{.url}}"
+        namespace: "{{.path.basename}}"
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - PrunePropagationPolicy=foreground
+          - ServerSideApply=true
+        retry:
+          limit: 3
+          backoff:
+            duration: 10s
+            factor: 2
+            maxDuration: 2m
+  strategy:
+    type: RollingSync
+    rollingSync:
+      steps:
+        - matchExpressions:
+            - key: environment
+              operator: In
+              values:
+                - staging
+        - matchExpressions:
+            - key: environment
+              operator: In
+              values:
+                - prod
+  preserveResourcesOnDeletion: true

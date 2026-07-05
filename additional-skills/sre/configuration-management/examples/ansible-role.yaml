@@ -1,0 +1,179 @@
+# roles/webapp/meta/main.yml
+---
+galaxy_info:
+  role_name: webapp
+  author: platform-team
+  description: Deploy and configure web application service
+  min_ansible_version: "2.17"
+  platforms:
+    - name: Ubuntu
+      versions: [noble]
+    - name: Debian
+      versions: [bookworm]
+dependencies:
+  - role: common
+  - role: nginx
+
+# roles/webapp/defaults/main.yml
+---
+webapp_name: myapp
+webapp_user: app
+webapp_group: app
+webapp_port: 8080
+webapp_workers: "{{ ansible_processor_vcpus * 2 }}"
+webapp_version: "1.0.0"
+webapp_artifact_url: "https://artifacts.internal/{{ webapp_name }}/{{ webapp_version }}.tar.gz"
+webapp_install_dir: "/opt/{{ webapp_name }}"
+webapp_config_dir: "/etc/{{ webapp_name }}"
+webapp_log_dir: "/var/log/{{ webapp_name }}"
+webapp_env: production
+webapp_health_check_path: /health
+webapp_health_check_timeout: 30
+
+# roles/webapp/tasks/main.yml
+---
+- name: Include preflight checks
+  ansible.builtin.include_tasks: preflight.yml
+  tags: [webapp, preflight]
+
+- name: Include user setup
+  ansible.builtin.include_tasks: user.yml
+  tags: [webapp, user]
+
+- name: Include install tasks
+  ansible.builtin.include_tasks: install.yml
+  tags: [webapp, install]
+
+- name: Include configuration tasks
+  ansible.builtin.include_tasks: configure.yml
+  tags: [webapp, config]
+
+- name: Include service tasks
+  ansible.builtin.include_tasks: service.yml
+  tags: [webapp, service]
+
+# roles/webapp/tasks/preflight.yml
+---
+- name: Verify target OS
+  ansible.builtin.assert:
+    that:
+      - ansible_os_family == "Debian"
+      - ansible_distribution_major_version | int >= 22
+    fail_msg: "Unsupported OS: {{ ansible_distribution }} {{ ansible_distribution_version }}"
+
+- name: Verify required variables
+  ansible.builtin.assert:
+    that:
+      - webapp_version is defined
+      - webapp_version | length > 0
+    fail_msg: "webapp_version must be defined"
+
+# roles/webapp/tasks/user.yml
+---
+- name: Create application group
+  ansible.builtin.group:
+    name: "{{ webapp_group }}"
+    system: true
+    state: present
+
+- name: Create application user
+  ansible.builtin.user:
+    name: "{{ webapp_user }}"
+    group: "{{ webapp_group }}"
+    system: true
+    shell: /usr/sbin/nologin
+    home: "{{ webapp_install_dir }}"
+    create_home: false
+
+# roles/webapp/tasks/install.yml
+---
+- name: Create directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ webapp_user }}"
+    group: "{{ webapp_group }}"
+    mode: "0755"
+  loop:
+    - "{{ webapp_install_dir }}"
+    - "{{ webapp_config_dir }}"
+    - "{{ webapp_log_dir }}"
+
+- name: Download application artifact
+  ansible.builtin.get_url:
+    url: "{{ webapp_artifact_url }}"
+    dest: "/tmp/{{ webapp_name }}-{{ webapp_version }}.tar.gz"
+    checksum: "sha256:{{ webapp_artifact_checksum }}"
+    mode: "0644"
+  register: webapp_download
+
+- name: Extract application
+  ansible.builtin.unarchive:
+    src: "/tmp/{{ webapp_name }}-{{ webapp_version }}.tar.gz"
+    dest: "{{ webapp_install_dir }}"
+    remote_src: true
+    owner: "{{ webapp_user }}"
+    group: "{{ webapp_group }}"
+  when: webapp_download.changed
+  notify: Restart webapp
+
+# roles/webapp/tasks/configure.yml
+---
+- name: Deploy application config
+  ansible.builtin.template:
+    src: config.yml.j2
+    dest: "{{ webapp_config_dir }}/config.yml"
+    owner: "{{ webapp_user }}"
+    group: "{{ webapp_group }}"
+    mode: "0640"
+    validate: "{{ webapp_install_dir }}/bin/{{ webapp_name }} validate-config %s"
+  notify: Restart webapp
+
+- name: Deploy environment file
+  ansible.builtin.template:
+    src: env.j2
+    dest: "{{ webapp_config_dir }}/environment"
+    owner: root
+    group: "{{ webapp_group }}"
+    mode: "0640"
+  notify: Restart webapp
+
+# roles/webapp/tasks/service.yml
+---
+- name: Deploy systemd unit
+  ansible.builtin.template:
+    src: webapp.service.j2
+    dest: "/etc/systemd/system/{{ webapp_name }}.service"
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - Reload systemd
+    - Restart webapp
+
+- name: Enable and start service
+  ansible.builtin.systemd:
+    name: "{{ webapp_name }}"
+    state: started
+    enabled: true
+    daemon_reload: true
+
+- name: Wait for health check
+  ansible.builtin.uri:
+    url: "http://127.0.0.1:{{ webapp_port }}{{ webapp_health_check_path }}"
+    status_code: 200
+  register: health_result
+  until: health_result.status == 200
+  retries: "{{ (webapp_health_check_timeout / 5) | int }}"
+  delay: 5
+
+# roles/webapp/handlers/main.yml
+---
+- name: Reload systemd
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+- name: Restart webapp
+  ansible.builtin.systemd:
+    name: "{{ webapp_name }}"
+    state: restarted

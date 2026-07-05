@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accessible Tabs with Roving Tabindex</title>
+  <style>
+    .tabs {
+      max-width: 600px;
+      margin: 2rem auto;
+      font-family: system-ui, sans-serif;
+    }
+
+    [role="tablist"] {
+      display: flex;
+      border-bottom: 2px solid #e0e0e0;
+      gap: 0;
+    }
+
+    [role="tab"] {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      font-size: 1rem;
+      min-height: 44px;
+      color: #555;
+    }
+
+    [role="tab"][aria-selected="true"] {
+      border-bottom-color: #0055cc;
+      color: #0055cc;
+      font-weight: 600;
+    }
+
+    [role="tab"]:hover {
+      background: #f5f5f5;
+    }
+
+    [role="tab"]:focus-visible {
+      outline: 2px solid #0055cc;
+      outline-offset: -2px;
+      border-radius: 4px 4px 0 0;
+    }
+
+    [role="tabpanel"] {
+      padding: 1.5rem;
+      border: 1px solid #e0e0e0;
+      border-top: none;
+    }
+
+    [role="tabpanel"][hidden] {
+      display: none;
+    }
+
+    [role="tabpanel"]:focus-visible {
+      outline: 2px solid #0055cc;
+      outline-offset: -2px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Accessible Tabs</h1>
+    <p>Arrow Left/Right to navigate tabs. Tab key moves into panel. Home/End for first/last tab.</p>
+
+    <div class="tabs">
+      <div role="tablist" aria-label="Account settings">
+        <button role="tab" id="tab-general" aria-selected="true" aria-controls="panel-general" tabindex="0">
+          General
+        </button>
+        <button role="tab" id="tab-security" aria-selected="false" aria-controls="panel-security" tabindex="-1">
+          Security
+        </button>
+        <button role="tab" id="tab-notifications" aria-selected="false" aria-controls="panel-notifications" tabindex="-1">
+          Notifications
+        </button>
+      </div>
+
+      <div role="tabpanel" id="panel-general" aria-labelledby="tab-general" tabindex="0">
+        <h2>General Settings</h2>
+        <p>Manage your profile information, display name, and preferences.</p>
+      </div>
+
+      <div role="tabpanel" id="panel-security" aria-labelledby="tab-security" tabindex="0" hidden>
+        <h2>Security Settings</h2>
+        <p>Update your password, enable two-factor authentication.</p>
+      </div>
+
+      <div role="tabpanel" id="panel-notifications" aria-labelledby="tab-notifications" tabindex="0" hidden>
+        <h2>Notification Settings</h2>
+        <p>Choose which notifications you receive and how.</p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const tablist = document.querySelector('[role="tablist"]');
+    const tabs = [...tablist.querySelectorAll('[role="tab"]')];
+    const panels = tabs.map(tab =>
+      document.getElementById(tab.getAttribute('aria-controls'))
+    );
+
+    function activateTab(tab) {
+      // Deactivate all
+      tabs.forEach((t, i) => {
+        t.setAttribute('aria-selected', 'false');
+        t.setAttribute('tabindex', '-1');
+        panels[i].hidden = true;
+      });
+
+      // Activate selected
+      const index = tabs.indexOf(tab);
+      tab.setAttribute('aria-selected', 'true');
+      tab.setAttribute('tabindex', '0');
+      panels[index].hidden = false;
+      tab.focus();
+    }
+
+    tablist.addEventListener('keydown', (e) => {
+      const currentIndex = tabs.indexOf(document.activeElement);
+      if (currentIndex === -1) return;
+
+      let newIndex;
+      switch (e.key) {
+        case 'ArrowRight':
+          newIndex = (currentIndex + 1) % tabs.length;
+          break;
+        case 'ArrowLeft':
+          newIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+          break;
+        case 'Home':
+          newIndex = 0;
+          break;
+        case 'End':
+          newIndex = tabs.length - 1;
+          break;
+        default:
+          return;
+      }
+
+      e.preventDefault();
+      activateTab(tabs[newIndex]);
+    });
+
+    // Click activation
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => activateTab(tab));
+    });
+  </script>
+</body>
+</html>

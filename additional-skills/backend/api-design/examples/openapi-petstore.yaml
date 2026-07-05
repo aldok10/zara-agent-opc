@@ -1,0 +1,107 @@
+openapi: "3.1.0"
+info:
+  title: Pet Store API
+  version: "1.0.0"
+  description: Demonstrates OpenAPI 3.1 best practices
+paths:
+  /pets:
+    get:
+      operationId: listPets
+      summary: List all pets
+      parameters:
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/PageToken'
+      responses:
+        '200':
+          description: Paginated list of pets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetList'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+    post:
+      operationId: createPet
+      summary: Create a pet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePetRequest'
+      responses:
+        '201':
+          description: Pet created
+          headers:
+            Location:
+              schema: { type: string, format: uri }
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+components:
+  parameters:
+    PageSize:
+      name: page_size
+      in: query
+      schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
+    PageToken:
+      name: page_token
+      in: query
+      schema: { type: string }
+  schemas:
+    Pet:
+      type: object
+      required: [id, name, status]
+      properties:
+        id: { type: string, format: uuid, readOnly: true }
+        name: { type: string, minLength: 1, maxLength: 100 }
+        status: { $ref: '#/components/schemas/PetStatus' }
+        tag: { type: ["string", "null"] }
+    PetStatus:
+      type: string
+      enum: [AVAILABLE, PENDING, ADOPTED]
+    CreatePetRequest:
+      type: object
+      required: [name]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 100 }
+        tag: { type: ["string", "null"] }
+    PetList:
+      type: object
+      required: [data]
+      properties:
+        data:
+          type: array
+          items: { $ref: '#/components/schemas/Pet' }
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+    Pagination:
+      type: object
+      properties:
+        next_token: { type: ["string", "null"] }
+        has_more: { type: boolean }
+    ProblemDetail:
+      type: object
+      required: [type, title, status]
+      properties:
+        type: { type: string, format: uri }
+        title: { type: string }
+        status: { type: integer }
+        detail: { type: string }
+        instance: { type: string }
+  responses:
+    RateLimited:
+      description: Rate limit exceeded
+      headers:
+        Retry-After: { schema: { type: integer } }
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/ProblemDetail' }
+    ValidationError:
+      description: Validation failed
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/ProblemDetail' }

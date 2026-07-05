@@ -1,0 +1,75 @@
+name: Security Scan (Trivy)
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 6 * * 1" # Weekly Monday 6am
+
+env:
+  IMAGE_NAME: ghcr.io/${{ github.repository }}:${{ github.sha }}
+  TRIVY_VERSION: "0.58.0"
+
+jobs:
+  trivy-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Trivy
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v${{ env.TRIVY_VERSION }}
+
+      - name: Filesystem vulnerability scan (SCA)
+        run: |
+          trivy fs . \
+            --severity HIGH,CRITICAL \
+            --exit-code 1 \
+            --format sarif \
+            --output trivy-fs.sarif
+
+      - name: IaC misconfiguration scan
+        run: |
+          trivy fs --scanners misconfig . \
+            --severity HIGH,CRITICAL \
+            --exit-code 1 \
+            --format sarif \
+            --output trivy-config.sarif
+
+      - name: Build container image
+        run: docker build -t ${{ env.IMAGE_NAME }} .
+
+      - name: Container image scan
+        run: |
+          trivy image ${{ env.IMAGE_NAME }} \
+            --severity HIGH,CRITICAL \
+            --exit-code 1 \
+            --format sarif \
+            --output trivy-image.sarif
+
+      - name: Generate SBOM (CycloneDX)
+        run: |
+          trivy fs . \
+            --format cyclonedx \
+            --output sbom-cyclonedx.json
+
+      - name: Upload SARIF results
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: trivy-fs.sarif
+          category: trivy-filesystem
+
+      - name: Upload SBOM artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom-cyclonedx.json
+          retention-days: 90

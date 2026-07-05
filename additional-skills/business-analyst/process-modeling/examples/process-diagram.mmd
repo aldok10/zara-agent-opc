@@ -1,0 +1,50 @@
+flowchart TD
+    %% Employee Leave Request Process
+
+    Start([Employee submits leave request]) --> ValidateDates{Dates valid?}
+
+    ValidateDates -->|No| NotifyInvalid[Notify employee: invalid dates]
+    NotifyInvalid --> End1([End])
+
+    ValidateDates -->|Yes| CheckBalance{Sufficient balance?}
+
+    CheckBalance -->|No| NotifyInsufficient[Notify employee: insufficient balance]
+    NotifyInsufficient --> End2([End])
+
+    CheckBalance -->|Yes| CheckOverlap{Team conflict?}
+
+    CheckOverlap -->|Yes| NotifyConflict[Notify employee: team overlap]
+    NotifyConflict --> ModifyOrCancel{Employee modifies?}
+    ModifyOrCancel -->|Yes| Start
+    ModifyOrCancel -->|No| End3([End])
+
+    CheckOverlap -->|No| RouteApproval{Duration > 5 days?}
+
+    RouteApproval -->|Yes| ManagerReview[Manager reviews request]
+    RouteApproval -->|No| AutoApprove[Auto-approve]
+
+    ManagerReview --> ManagerDecision{Approved?}
+    ManagerDecision -->|Rejected| NotifyRejected[Notify employee: rejected with reason]
+    NotifyRejected --> End4([End])
+
+    ManagerDecision -->|Approved| ApproveRequest[Approve request]
+    AutoApprove --> ApproveRequest
+
+    ApproveRequest --> UpdateBalance[Deduct from leave balance]
+    UpdateBalance --> NotifyTeam[Notify team calendar]
+    NotifyTeam --> NotifyEmployee[Notify employee: confirmed]
+    NotifyEmployee --> UpdatePayroll[Update payroll system]
+    UpdatePayroll --> End5([End])
+
+    %% Cancellation subprocess
+    CancelStart([Employee cancels approved leave]) --> CancelCheck{Within cancellation window?}
+    CancelCheck -->|Yes| RestoreBalance[Restore leave balance]
+    RestoreBalance --> NotifyTeamCancel[Update team calendar]
+    NotifyTeamCancel --> ConfirmCancel[Confirm cancellation]
+    ConfirmCancel --> CancelEnd([End])
+
+    CancelCheck -->|No| ManagerCancelReview[Manager reviews cancellation]
+    ManagerCancelReview --> CancelDecision{Cancellation approved?}
+    CancelDecision -->|Yes| RestoreBalance
+    CancelDecision -->|No| DenyCancellation[Deny: leave stands]
+    DenyCancellation --> CancelEnd

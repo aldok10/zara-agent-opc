@@ -1,0 +1,140 @@
+/* ==========================================================================
+   Cross-Document View Transitions
+   Multi-page application (MPA) page transition setup
+   ========================================================================== */
+
+/* ==========================================================================
+   1. Global opt-in (include on EVERY page)
+   ========================================================================== */
+
+@view-transition {
+  navigation: auto;
+}
+
+/* ==========================================================================
+   2. Default page transition (crossfade)
+   ========================================================================== */
+
+::view-transition-old(root) {
+  animation: fade-out 0.25s ease-out;
+}
+
+::view-transition-new(root) {
+  animation: fade-in 0.25s ease-in;
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ==========================================================================
+   3. Shared element transitions (hero images, headers, etc.)
+   ========================================================================== */
+
+/* List page: product card image */
+.product-card-image {
+  view-transition-name: product-hero;
+}
+
+/* Detail page: full product image */
+.product-hero-image {
+  view-transition-name: product-hero;
+}
+
+/* Smooth morph between list card and detail hero */
+::view-transition-group(product-hero) {
+  animation-duration: 0.4s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   4. Navigation header (persists across pages)
+   ========================================================================== */
+
+.site-header {
+  view-transition-name: header;
+}
+
+/* Header stays in place — no animation */
+::view-transition-group(header) {
+  animation: none;
+}
+
+/* ==========================================================================
+   5. Directional slide (forward/backward navigation)
+   ========================================================================== */
+
+/* Forward navigation: new page slides in from right */
+@keyframes slide-in-from-right {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+@keyframes slide-out-to-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+
+/* Backward navigation: new page slides in from left */
+@keyframes slide-in-from-left {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+
+@keyframes slide-out-to-right {
+  from { transform: translateX(0); }
+  to   { transform: translateX(100%); }
+}
+
+/* Apply via view-transition-types or JS-controlled classes */
+.page-content {
+  view-transition-name: page;
+}
+
+/* Default: forward */
+::view-transition-old(page) {
+  animation: slide-out-to-left 0.3s ease-in both;
+}
+
+::view-transition-new(page) {
+  animation: slide-in-from-right 0.3s ease-out both;
+}
+
+/* Back navigation (set via view-transition-type or [data-direction="back"]) */
+[data-direction="back"]::view-transition-old(page) {
+  animation: slide-out-to-right 0.3s ease-in both;
+}
+
+[data-direction="back"]::view-transition-new(page) {
+  animation: slide-in-from-left 0.3s ease-out both;
+}
+
+/* ==========================================================================
+   6. Accessibility: respect reduced motion
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================================================
+   7. Unique names for dynamic content (use inline style in HTML)
+   ========================================================================== */
+
+/*
+  For dynamic lists, set view-transition-name inline:
+  <article style="view-transition-name: post-${id}">
+
+  CSS cannot generate unique names — use inline styles or JS
+  to assign per-element view-transition-name values.
+*/

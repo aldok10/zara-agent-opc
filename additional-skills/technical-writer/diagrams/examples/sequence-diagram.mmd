@@ -1,0 +1,45 @@
+sequenceDiagram
+    participant Client
+    participant Gateway as API Gateway
+    participant Auth as Auth Service
+    participant Orders as Order Service
+    participant DB as Database
+    participant Queue as Event Bus
+
+    %% Authentication Phase
+    rect rgb(240, 248, 255)
+        Note over Client,Auth: Authentication
+        Client->>Gateway: POST /orders (Bearer token)
+        Gateway->>Auth: ValidateToken(jwt)
+        Auth-->>Gateway: TokenClaims{user_id, scopes}
+    end
+
+    %% Validation Phase
+    rect rgb(240, 255, 240)
+        Note over Gateway,Orders: Request Processing
+        Gateway->>Orders: CreateOrder(user_id, payload)
+        Orders->>Orders: Validate request schema
+        Orders->>DB: Check inventory availability
+        DB-->>Orders: stock_count
+    end
+
+    %% Happy Path
+    alt Sufficient inventory
+        Orders->>DB: INSERT order + UPDATE inventory
+        DB-->>Orders: order_id
+        Orders->>Queue: OrderCreated{order_id, items}
+        Queue-->>Orders: ack
+        Orders-->>Gateway: Order{id, status: "confirmed"}
+        Gateway-->>Client: 201 Created + Location header
+
+    %% Insufficient Inventory
+    else Insufficient inventory
+        Orders-->>Gateway: ProblemDetail{422, "insufficient-stock"}
+        Gateway-->>Client: 422 Unprocessable Entity
+
+    %% Database Failure
+    else Database error
+        Orders-->>Gateway: ProblemDetail{503, "service-unavailable"}
+        Gateway-->>Client: 503 Service Unavailable
+        Note over Client: Retry with exponential backoff
+    end

@@ -1,0 +1,148 @@
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: kafka-credentials
+  namespace: streaming
+spec:
+  secretTargetRef:
+    - parameter: sasl
+      name: kafka-credentials
+      key: sasl
+    - parameter: username
+      name: kafka-credentials
+      key: username
+    - parameter: password
+      name: kafka-credentials
+      key: password
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: kafka-consumer
+  namespace: streaming
+spec:
+  scaleTargetRef:
+    name: kafka-consumer
+  pollingInterval: 15
+  cooldownPeriod: 60
+  idleReplicaCount: 0
+  minReplicaCount: 2
+  maxReplicaCount: 30
+  fallback:
+    failureThreshold: 3
+    replicas: 4
+  advanced:
+    horizontalPodAutoscalerConfig:
+      behavior:
+        scaleUp:
+          stabilizationWindowSeconds: 30
+          policies:
+            - type: Percent
+              value: 100
+              periodSeconds: 30
+        scaleDown:
+          stabilizationWindowSeconds: 300
+          policies:
+            - type: Pods
+              value: 2
+              periodSeconds: 60
+  triggers:
+    - type: kafka
+      authenticationRef:
+        name: kafka-credentials
+      metadata:
+        bootstrapServers: kafka-bootstrap.kafka.svc.cluster.local:9092
+        consumerGroup: kafka-consumer-group
+        topic: order-events
+        lagThreshold: "50"
+        activationLagThreshold: "5"
+        offsetResetPolicy: earliest
+        allowIdleConsumers: "true"
+        sasl: scram_sha512
+---
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: aws-sqs-auth
+  namespace: app-prod
+spec:
+  podIdentity:
+    provider: aws
+    identityId: arn:aws:iam::123456789012:role/keda-sqs-reader
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: sqs-processor
+  namespace: app-prod
+spec:
+  scaleTargetRef:
+    name: sqs-processor
+  pollingInterval: 10
+  cooldownPeriod: 300
+  idleReplicaCount: 0
+  minReplicaCount: 1
+  maxReplicaCount: 50
+  fallback:
+    failureThreshold: 5
+    replicas: 3
+  advanced:
+    horizontalPodAutoscalerConfig:
+      behavior:
+        scaleUp:
+          stabilizationWindowSeconds: 0
+          policies:
+            - type: Percent
+              value: 200
+              periodSeconds: 15
+        scaleDown:
+          stabilizationWindowSeconds: 600
+          policies:
+            - type: Percent
+              value: 25
+              periodSeconds: 60
+  triggers:
+    - type: aws-sqs-queue
+      authenticationRef:
+        name: aws-sqs-auth
+      metadata:
+        queueURL: https://sqs.us-east-1.amazonaws.com/123456789012/order-processing
+        queueLength: "5"
+        awsRegion: us-east-1
+        identityOwner: operator
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: composite-worker
+  namespace: app-prod
+  annotations:
+    scaledobject.keda.sh/transfer-hpa-ownership: "true"
+spec:
+  scaleTargetRef:
+    name: composite-worker
+  pollingInterval: 15
+  cooldownPeriod: 120
+  minReplicaCount: 2
+  maxReplicaCount: 40
+  triggers:
+    - type: aws-sqs-queue
+      authenticationRef:
+        name: aws-sqs-auth
+      metadata:
+        queueURL: https://sqs.us-east-1.amazonaws.com/123456789012/batch-jobs
+        queueLength: "10"
+        awsRegion: us-east-1
+        identityOwner: operator
+    - type: cron
+      metadata:
+        timezone: America/New_York
+        start: "0 8 * * 1-5"
+        end: "0 18 * * 1-5"
+        desiredReplicas: "10"
+    - type: prometheus
+      metadata:
+        serverAddress: http://prometheus.monitoring.svc.cluster.local:9090
+        query: sum(rate(http_requests_total{service="composite-worker"}[2m]))
+        threshold: "100"
+        activationThreshold: "10"

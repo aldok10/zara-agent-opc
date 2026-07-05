@@ -1,0 +1,124 @@
+/* ==========================================================================
+   Responsive Card with Container Queries
+   ========================================================================== */
+
+/* Container setup */
+.card-container {
+  container-type: inline-size;
+  container-name: card;
+}
+
+/* Base card: vertical stack (mobile-first) */
+.card {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: var(--radius-md, 0.5rem);
+  background: var(--color-surface, #fff);
+  border: 1px solid var(--color-border, #e5e7eb);
+}
+
+.card-image {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  inline-size: 100%;
+  border-radius: var(--radius-sm, 0.25rem);
+}
+
+.card-body {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.card-title {
+  font-size: clamp(1rem, 3cqi, 1.25rem);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.card-description {
+  font-size: 0.875rem;
+  color: var(--color-text-muted, #6b7280);
+  line-height: 1.5;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-block-start: 0.5rem;
+  border-block-start: 1px solid var(--color-border, #e5e7eb);
+}
+
+/* Medium: horizontal layout */
+@container card (min-inline-size: 400px) {
+  .card {
+    grid-template-columns: 200px 1fr;
+    grid-template-rows: 1fr auto;
+    grid-template-areas:
+      "image body"
+      "image footer";
+  }
+
+  .card-image {
+    grid-area: image;
+    aspect-ratio: 1;
+    block-size: 100%;
+  }
+
+  .card-body {
+    grid-area: body;
+  }
+
+  .card-footer {
+    grid-area: footer;
+    border-block-start: none;
+    padding-block-start: 0;
+  }
+}
+
+/* Large: featured card */
+@container card (min-inline-size: 700px) {
+  .card {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr auto;
+    grid-template-areas:
+      "image body"
+      "image footer";
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+
+  .card-image {
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-md, 0.5rem);
+  }
+
+  .card-title {
+    font-size: clamp(1.25rem, 4cqi, 1.75rem);
+  }
+
+  .card-description {
+    font-size: 1rem;
+  }
+}
+
+/* Style query: compact variant */
+@container card style(--variant: compact) {
+  .card {
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
+
+  .card-image {
+    display: none;
+  }
+
+  .card-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accessible Modal Dialog</title>
+  <style>
+    .dialog-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .dialog-backdrop[hidden] { display: none; }
+
+    .dialog {
+      background: white;
+      border-radius: 8px;
+      padding: 2rem;
+      max-width: 480px;
+      width: 90%;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .dialog h2 { margin-top: 0; }
+
+    .dialog-actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: flex-end;
+      margin-top: 1.5rem;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      min-width: 44px;
+      min-height: 44px;
+    }
+
+    button.primary {
+      background: #0055cc;
+      color: white;
+      border-color: #0055cc;
+    }
+
+    :focus-visible {
+      outline: 2px solid #0055cc;
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+  <main id="main-content">
+    <h1>Accessible Dialog Example</h1>
+    <p>This demonstrates a modal dialog using the <code>inert</code> attribute.</p>
+    <button id="open-dialog" type="button">Delete account</button>
+  </main>
+
+  <div class="dialog-backdrop" id="dialog-backdrop" hidden>
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title" aria-describedby="dialog-desc" id="dialog">
+      <h2 id="dialog-title">Delete account?</h2>
+      <p id="dialog-desc">This action is permanent. All your data will be removed and cannot be recovered.</p>
+      <div class="dialog-actions">
+        <button type="button" id="dialog-cancel">Cancel</button>
+        <button type="button" class="primary" id="dialog-confirm" autofocus>Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const openBtn = document.getElementById('open-dialog');
+    const backdrop = document.getElementById('dialog-backdrop');
+    const dialog = document.getElementById('dialog');
+    const cancelBtn = document.getElementById('dialog-cancel');
+    const confirmBtn = document.getElementById('dialog-confirm');
+    let triggerElement = null;
+
+    function openDialog() {
+      triggerElement = document.activeElement;
+
+      // Make background inert
+      document.getElementById('main-content').inert = true;
+
+      // Show dialog
+      backdrop.hidden = false;
+
+      // Focus first actionable element
+      confirmBtn.focus();
+    }
+
+    function closeDialog() {
+      // Remove inert
+      document.getElementById('main-content').inert = false;
+
+      // Hide dialog
+      backdrop.hidden = true;
+
+      // Restore focus to trigger
+      if (triggerElement) {
+        triggerElement.focus();
+      }
+    }
+
+    openBtn.addEventListener('click', openDialog);
+    cancelBtn.addEventListener('click', closeDialog);
+    confirmBtn.addEventListener('click', () => {
+      // Perform action
+      alert('Account deleted (demo)');
+      closeDialog();
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !backdrop.hidden) {
+        closeDialog();
+      }
+    });
+
+    // Close on backdrop click (not dialog itself)
+    backdrop.addEventListener('click', (e) => {
+      if (e.target === backdrop) {
+        closeDialog();
+      }
+    });
+  </script>
+</body>
+</html>

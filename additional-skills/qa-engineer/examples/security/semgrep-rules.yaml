@@ -1,0 +1,56 @@
+# Custom Semgrep rules for common security issues
+# Usage: semgrep --config=./semgrep-rules.yaml src/
+
+rules:
+  - id: sql-injection-string-concat
+    patterns:
+      - pattern: |
+          $DB.query(`... ${$USER_INPUT} ...`)
+      - pattern-not: |
+          $DB.query(`... $$$SAFE ...`, [...])
+    message: >
+      SQL injection risk: user input concatenated into query.
+      Use parameterized queries instead.
+    severity: ERROR
+    languages: [typescript, javascript]
+    metadata:
+      owasp: A03:2021 Injection
+      cwe: CWE-89
+
+  - id: hardcoded-jwt-secret
+    pattern: |
+      jwt.sign($PAYLOAD, "...")
+    message: >
+      Hardcoded JWT secret detected. Use environment variable
+      or secrets manager instead.
+    severity: ERROR
+    languages: [typescript, javascript]
+    metadata:
+      owasp: A02:2021 Cryptographic Failures
+      cwe: CWE-798
+
+  - id: missing-rate-limit
+    patterns:
+      - pattern: |
+          app.$METHOD($PATH, $HANDLER)
+      - pattern-not-inside: |
+          app.$METHOD($PATH, rateLimit(...), $HANDLER)
+    message: >
+      Endpoint without rate limiting. Apply rateLimit() middleware
+      to prevent abuse.
+    severity: WARNING
+    languages: [typescript, javascript]
+    metadata:
+      owasp: A04:2021 Insecure Design
+
+  - id: unvalidated-redirect
+    pattern: |
+      res.redirect($USER_INPUT)
+    message: >
+      Open redirect vulnerability. Validate redirect URL against
+      allowlist before redirecting.
+    severity: ERROR
+    languages: [typescript, javascript]
+    metadata:
+      owasp: A01:2021 Broken Access Control
+      cwe: CWE-601

@@ -1,0 +1,67 @@
+# Chaos Experiment: Validate order service resilience under pod and network failures
+# Framework: Chaos Mesh (Kubernetes-native)
+
+---
+# Hypothesis: Order service continues processing with degraded latency
+# when 1 of 3 replicas is killed and network delay is injected.
+# Success criteria: p99 latency < 2s, error rate < 1%, no data loss.
+
+# --- Steady State Definition ---
+# Measure baseline before injection:
+#   - p99 latency: ~200ms
+#   - Error rate: 0%
+#   - Orders processed/min: ~500
+
+# --- Experiment 1: Pod Failure ---
+apiVersion: chaos-mesh.org/v1alpha1
+kind: PodChaos
+metadata:
+  name: order-service-pod-kill
+  namespace: chaos-testing
+spec:
+  action: pod-kill
+  mode: one                          # Kill exactly one pod
+  selector:
+    namespaces: [production]
+    labelSelectors:
+      app: order-service
+  duration: "60s"                    # Pod stays dead for 60s before restart
+  gracePeriod: 0                     # Immediate kill (no graceful shutdown)
+
+---
+# --- Experiment 2: Network Latency ---
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: order-service-network-delay
+  namespace: chaos-testing
+spec:
+  action: delay
+  mode: all                          # Affect all matching pods
+  selector:
+    namespaces: [production]
+    labelSelectors:
+      app: order-service
+  delay:
+    latency: "500ms"                 # Inject 500ms delay
+    jitter: "100ms"                  # +/- 100ms variance
+    correlation: "50"                # 50% correlation between consecutive packets
+  direction: to                      # Only outbound traffic
+  target:
+    selector:
+      labelSelectors:
+        app: payment-gateway         # Delay only to payment service
+    mode: all
+  duration: "120s"
+
+# --- Abort Conditions ---
+# Automatically halt experiment if:
+#   - Error rate exceeds 5%
+#   - p99 latency exceeds 5s
+#   - Any 5xx response on health endpoint
+#   - Data inconsistency detected (order count mismatch)
+
+# --- Rollback ---
+# Chaos Mesh auto-recovers after duration expires.
+# Manual rollback: kubectl delete -f experiment.yaml
+# Verify: check pod count, network policies restored, metrics normalized.

@@ -1,0 +1,514 @@
+openapi: "3.1.0"
+info:
+  title: Task Management API
+  version: "1.0.0"
+  description: |
+    API for managing tasks and projects. Supports creating, updating, and
+    organizing tasks with labels, due dates, and assignees.
+  contact:
+    name: API Support
+    email: api-support@example.com
+    url: https://developer.example.com/support
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://api.example.com/v1
+    description: Production
+  - url: https://sandbox.api.example.com/v1
+    description: Sandbox (test data, rate limits relaxed)
+
+security:
+  - BearerAuth: []
+
+tags:
+  - name: Tasks
+    description: Task CRUD operations
+  - name: Projects
+    description: Project management
+  - name: Webhooks
+    description: Event notification management
+
+paths:
+  /tasks:
+    get:
+      operationId: listTasks
+      tags: [Tasks]
+      summary: List tasks with filtering and pagination
+      parameters:
+        - $ref: '#/components/parameters/CursorParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [open, in_progress, done, cancelled]
+          description: Filter by task status
+        - name: project_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+          description: Filter by parent project
+      responses:
+        '200':
+          description: Paginated list of tasks
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/RateLimitLimit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/RateLimitRemaining'
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, pagination]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Task'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+              example:
+                data:
+                  - id: "550e8400-e29b-41d4-a716-446655440000"
+                    title: "Implement OAuth2 flow"
+                    status: "in_progress"
+                    priority: "high"
+                    assignee_id: "user_abc123"
+                    project_id: "proj_xyz789"
+                    created_at: "2026-01-15T09:30:00Z"
+                    due_at: "2026-02-01T17:00:00Z"
+                pagination:
+                  cursor: "eyJpZCI6IjU1MGU4NDAw..."
+                  has_more: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+
+    post:
+      operationId: createTask
+      tags: [Tasks]
+      summary: Create a new task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskCreate'
+            example:
+              title: "Review pull request #42"
+              project_id: "proj_xyz789"
+              priority: "medium"
+              due_at: "2026-02-15T17:00:00Z"
+              labels: ["review", "backend"]
+      responses:
+        '201':
+          description: Task created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/BusinessError'
+
+  /tasks/{task_id}:
+    parameters:
+      - name: task_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Unique task identifier
+
+    get:
+      operationId: getTask
+      tags: [Tasks]
+      summary: Get a task by ID
+      responses:
+        '200':
+          description: Task details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    patch:
+      operationId: updateTask
+      tags: [Tasks]
+      summary: Update task fields
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskUpdate'
+      responses:
+        '200':
+          description: Updated task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: Conflict -- task was modified concurrently
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+
+    delete:
+      operationId: deleteTask
+      tags: [Tasks]
+      summary: Delete a task
+      responses:
+        '204':
+          description: Task deleted
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /webhooks:
+    post:
+      operationId: registerWebhook
+      tags: [Webhooks]
+      summary: Register a webhook endpoint
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookCreate'
+      responses:
+        '201':
+          description: Webhook registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+      callbacks:
+        taskCompleted:
+          '{$request.body#/url}':
+            post:
+              summary: Task completion event
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/TaskEvent'
+              responses:
+                '200':
+                  description: Event acknowledged
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        Obtain a token from POST /auth/token. Include as:
+        `Authorization: Bearer <token>`
+
+  parameters:
+    CursorParam:
+      name: cursor
+      in: query
+      schema:
+        type: string
+      description: Opaque cursor from previous response's `pagination.cursor`
+    LimitParam:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+      description: Number of items per page (1-100)
+
+  headers:
+    RateLimitLimit:
+      description: Maximum requests allowed per minute
+      schema:
+        type: integer
+    RateLimitRemaining:
+      description: Requests remaining in current window
+      schema:
+        type: integer
+
+  schemas:
+    Task:
+      type: object
+      required: [id, title, status, priority, created_at]
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 5000
+        status:
+          type: string
+          enum: [open, in_progress, done, cancelled]
+        priority:
+          type: string
+          enum: [low, medium, high, critical]
+        assignee_id:
+          type: string
+        project_id:
+          type: string
+          format: uuid
+        labels:
+          type: array
+          items:
+            type: string
+          maxItems: 10
+        due_at:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+
+    TaskCreate:
+      type: object
+      required: [title]
+      properties:
+        title:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 5000
+        project_id:
+          type: string
+          format: uuid
+        priority:
+          type: string
+          enum: [low, medium, high, critical]
+          default: medium
+        assignee_id:
+          type: string
+        labels:
+          type: array
+          items:
+            type: string
+          maxItems: 10
+        due_at:
+          type: string
+          format: date-time
+
+    TaskUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 5000
+        status:
+          type: string
+          enum: [open, in_progress, done, cancelled]
+        priority:
+          type: string
+          enum: [low, medium, high, critical]
+        assignee_id:
+          type: string
+          nullable: true
+        labels:
+          type: array
+          items:
+            type: string
+          maxItems: 10
+        due_at:
+          type: string
+          format: date-time
+          nullable: true
+
+    Pagination:
+      type: object
+      required: [has_more]
+      properties:
+        cursor:
+          type: string
+          description: Pass to next request to fetch subsequent page
+        has_more:
+          type: boolean
+          description: Whether more results exist beyond this page
+
+    ProblemDetail:
+      type: object
+      required: [type, title, status]
+      properties:
+        type:
+          type: string
+          format: uri
+          description: URI identifying the error type
+        title:
+          type: string
+          description: Short human-readable summary
+        status:
+          type: integer
+          description: HTTP status code
+        detail:
+          type: string
+          description: Explanation specific to this occurrence
+        instance:
+          type: string
+          format: uri
+          description: URI identifying this specific occurrence
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+          description: Field-level validation errors (for 400 responses)
+
+    WebhookCreate:
+      type: object
+      required: [url, events]
+      properties:
+        url:
+          type: string
+          format: uri
+          description: HTTPS endpoint to receive events
+        events:
+          type: array
+          items:
+            type: string
+            enum: [task.created, task.completed, task.deleted]
+          minItems: 1
+        secret:
+          type: string
+          description: Shared secret for HMAC signature verification
+
+    Webhook:
+      type: object
+      required: [id, url, events, created_at]
+      properties:
+        id:
+          type: string
+          format: uuid
+        url:
+          type: string
+          format: uri
+        events:
+          type: array
+          items:
+            type: string
+        active:
+          type: boolean
+          default: true
+        created_at:
+          type: string
+          format: date-time
+
+    TaskEvent:
+      type: object
+      required: [event, task, timestamp]
+      properties:
+        event:
+          type: string
+          enum: [task.created, task.completed, task.deleted]
+        task:
+          $ref: '#/components/schemas/Task'
+        timestamp:
+          type: string
+          format: date-time
+
+  responses:
+    ValidationError:
+      description: Request validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetail'
+          example:
+            type: "https://api.example.com/errors/validation-failed"
+            title: "Validation Failed"
+            status: 400
+            detail: "Request body contains 1 validation error"
+            errors:
+              - field: "title"
+                message: "Required field missing"
+
+    Unauthorized:
+      description: Authentication required or token invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetail'
+          example:
+            type: "https://api.example.com/errors/unauthorized"
+            title: "Unauthorized"
+            status: 401
+            detail: "Bearer token is expired"
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetail'
+          example:
+            type: "https://api.example.com/errors/not-found"
+            title: "Not Found"
+            status: 404
+            detail: "Task with ID 550e8400-e29b-41d4-a716-446655440000 not found"
+
+    BusinessError:
+      description: Business rule violation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetail'
+          example:
+            type: "https://api.example.com/errors/project-archived"
+            title: "Project Archived"
+            status: 422
+            detail: "Cannot create tasks in archived project proj_xyz789"
+
+    RateLimited:
+      description: Rate limit exceeded
+      headers:
+        Retry-After:
+          schema:
+            type: integer
+          description: Seconds until rate limit resets
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetail'
+          example:
+            type: "https://api.example.com/errors/rate-limit-exceeded"
+            title: "Rate Limit Exceeded"
+            status: 429
+            detail: "100 requests per minute exceeded. Retry after 32 seconds"

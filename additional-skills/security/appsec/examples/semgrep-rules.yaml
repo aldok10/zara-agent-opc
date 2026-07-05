@@ -1,0 +1,187 @@
+rules:
+  - id: sql-injection-string-concat
+    patterns:
+      - pattern: |
+          $QUERY = "..." + $INPUT + "..."
+      - pattern-not: |
+          $QUERY = "..." + $CONST + "..."
+      - metavariable-pattern:
+          metavariable: $INPUT
+          patterns:
+            - pattern-not: |
+                "..."
+    message: >
+      String concatenation in SQL query detected. Use parameterized queries
+      to prevent SQL injection.
+    languages: [typescript, javascript]
+    severity: ERROR
+    metadata:
+      cwe: CWE-89
+      owasp: A03:2025
+      confidence: HIGH
+
+  - id: hardcoded-secret-in-source
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $VAR = "AKIA..."
+          - pattern: |
+              $VAR = "sk-..."
+          - pattern: |
+              $VAR = "ghp_..."
+          - pattern: |
+              $VAR = "glpat-..."
+    message: >
+      Hardcoded credential detected. Use environment variables or a secrets
+      manager (AWS Secrets Manager, Vault, etc).
+    languages: [typescript, javascript, python, go]
+    severity: ERROR
+    metadata:
+      cwe: CWE-798
+      owasp: A02:2025
+      confidence: HIGH
+
+  - id: ssrf-unvalidated-url
+    patterns:
+      - pattern-either:
+          - pattern: |
+              fetch($URL, ...)
+          - pattern: |
+              axios.get($URL, ...)
+          - pattern: |
+              http.get($URL, ...)
+      - pattern-not-inside: |
+          if (isAllowedUrl($URL)) { ... }
+      - metavariable-pattern:
+          metavariable: $URL
+          patterns:
+            - pattern-not: |
+                "..."
+    message: >
+      URL from variable passed to HTTP client without validation.
+      Validate against allowlist to prevent SSRF.
+    languages: [typescript, javascript]
+    severity: WARNING
+    metadata:
+      cwe: CWE-918
+      owasp: A10:2025
+      confidence: MEDIUM
+
+  - id: xss-dangerouslysetinnerhtml
+    pattern: |
+      <$EL dangerouslySetInnerHTML={{__html: $INPUT}} />
+    message: >
+      dangerouslySetInnerHTML used with dynamic content. Sanitize with
+      DOMPurify or use a safe rendering approach.
+    languages: [typescript, javascript]
+    severity: WARNING
+    metadata:
+      cwe: CWE-79
+      owasp: A03:2025
+      confidence: MEDIUM
+
+  - id: insecure-deserialization
+    patterns:
+      - pattern-either:
+          - pattern: |
+              pickle.loads($DATA)
+          - pattern: |
+              yaml.load($DATA)
+          - pattern: |
+              yaml.unsafe_load($DATA)
+    message: >
+      Unsafe deserialization of untrusted data. Use yaml.safe_load() or
+      avoid pickle for external input.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      cwe: CWE-502
+      owasp: A08:2025
+      confidence: HIGH
+
+  - id: missing-rate-limit-endpoint
+    patterns:
+      - pattern: |
+          app.$METHOD($PATH, ..., $HANDLER)
+      - pattern-not-inside: |
+          app.$METHOD($PATH, ..., rateLimit(...), ..., $HANDLER)
+      - metavariable-regex:
+          metavariable: $METHOD
+          regex: (post|put|patch|delete)
+      - metavariable-regex:
+          metavariable: $PATH
+          regex: .*(login|register|reset|verify|token|payment).*
+    message: >
+      Sensitive endpoint without rate limiting middleware. Add rate limiting
+      to prevent brute force and abuse.
+    languages: [typescript, javascript]
+    severity: WARNING
+    metadata:
+      cwe: CWE-770
+      owasp: A04:2025
+      confidence: MEDIUM
+
+  - id: eval-with-user-input
+    patterns:
+      - pattern-either:
+          - pattern: |
+              eval($INPUT)
+          - pattern: |
+              new Function($INPUT)
+          - pattern: |
+              vm.runInNewContext($INPUT, ...)
+      - metavariable-pattern:
+          metavariable: $INPUT
+          patterns:
+            - pattern-not: |
+                "..."
+    message: >
+      Dynamic code execution with non-constant input. This enables remote
+      code execution if input is user-controlled.
+    languages: [typescript, javascript]
+    severity: ERROR
+    metadata:
+      cwe: CWE-95
+      owasp: A03:2025
+      confidence: HIGH
+
+  - id: jwt-none-algorithm
+    patterns:
+      - pattern-either:
+          - pattern: |
+              jwt.verify($TOKEN, ..., {algorithms: [..., "none", ...]})
+          - pattern: |
+              jwt.decode($TOKEN, ...)
+    message: >
+      JWT verified with 'none' algorithm allowed, or decoded without
+      verification. Always specify allowed algorithms explicitly.
+    languages: [typescript, javascript]
+    severity: ERROR
+    metadata:
+      cwe: CWE-327
+      owasp: A02:2025
+      confidence: HIGH
+
+  - id: command-injection-exec
+    patterns:
+      - pattern-either:
+          - pattern: |
+              exec($CMD)
+          - pattern: |
+              execSync($CMD)
+          - pattern: |
+              child_process.exec($CMD)
+      - metavariable-pattern:
+          metavariable: $CMD
+          patterns:
+            - pattern-not: |
+                "..."
+    message: >
+      Shell command constructed from variable. Use execFile with argument
+      array to prevent command injection.
+    languages: [typescript, javascript]
+    severity: ERROR
+    metadata:
+      cwe: CWE-78
+      owasp: A03:2025
+      confidence: HIGH

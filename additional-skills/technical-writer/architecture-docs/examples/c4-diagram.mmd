@@ -1,0 +1,21 @@
+C4Context
+  title System Context - Order Management Platform
+
+  Person(customer, "Customer", "Places and tracks orders via web or mobile")
+  Person(ops, "Operations Team", "Manages fulfillment and handles escalations")
+
+  System(orderPlatform, "Order Management Platform", "Handles order lifecycle from placement to delivery")
+
+  System_Ext(paymentGateway, "Payment Gateway", "Processes credit card and bank transactions")
+  System_Ext(warehouse, "Warehouse System", "Manages inventory and picking/packing")
+  System_Ext(shipping, "Shipping Provider", "Handles last-mile delivery and tracking")
+  System_Ext(notification, "Notification Service", "Sends email, SMS, and push notifications")
+
+  Rel(customer, orderPlatform, "Places orders, checks status", "HTTPS")
+  Rel(ops, orderPlatform, "Manages orders, handles returns", "HTTPS")
+  Rel(orderPlatform, paymentGateway, "Authorizes and captures payments", "HTTPS/REST")
+  Rel(orderPlatform, warehouse, "Sends pick lists, receives confirmations", "AMQP")
+  Rel(orderPlatform, shipping, "Creates shipments, receives tracking updates", "HTTPS/REST + Webhooks")
+  Rel(orderPlatform, notification, "Triggers customer notifications", "gRPC")
+
+  UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="1")

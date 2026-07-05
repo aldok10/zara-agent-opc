@@ -1,0 +1,229 @@
+# Backstage Software Template: New Go Service
+# Scaffolds a production-ready Go microservice with OTel, CI/CD, and K8s manifests
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: go-microservice
+  title: Go Microservice
+  description: |
+    Creates a production-ready Go microservice with gRPC/HTTP, 
+    OpenTelemetry instrumentation, health checks, CI/CD pipeline, 
+    and Kubernetes deployment manifests.
+  tags:
+    - go
+    - recommended
+    - grpc
+    - production-ready
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+spec:
+  owner: group:platform-team
+  type: service
+
+  parameters:
+    - title: Service Configuration
+      required:
+        - name
+        - owner
+        - description
+      properties:
+        name:
+          title: Service Name
+          type: string
+          description: "Lowercase with hyphens (e.g., payment-processor)"
+          pattern: "^[a-z][a-z0-9-]{2,38}$"
+          ui:autofocus: true
+        owner:
+          title: Owning Team
+          type: string
+          ui:field: OwnerPicker
+          ui:options:
+            catalogFilter:
+              kind: Group
+        description:
+          title: Description
+          type: string
+          maxLength: 200
+        system:
+          title: System
+          type: string
+          ui:field: EntityPicker
+          ui:options:
+            catalogFilter:
+              kind: System
+
+    - title: Service Type & Dependencies
+      properties:
+        serviceType:
+          title: Service Type
+          type: string
+          description: "API serves HTTP/gRPC; Worker processes async; Scheduled runs on cron"
+          enum:
+            - api
+            - worker
+            - scheduled
+          enumNames:
+            - "API (HTTP + gRPC)"
+            - "Worker (Queue Consumer)"
+            - "Scheduled Job (Cron)"
+          default: api
+
+        transport:
+          title: Transport Protocol
+          type: array
+          items:
+            type: string
+            enum:
+              - grpc
+              - http
+          uniqueItems: true
+          default:
+            - grpc
+            - http
+          ui:widget: checkboxes
+
+        database:
+          title: Database
+          type: string
+          enum:
+            - none
+            - postgresql
+            - redis
+            - postgresql-and-redis
+          default: none
+
+        queue:
+          title: Message Queue
+          type: string
+          enum:
+            - none
+            - pubsub
+            - kafka
+          default: none
+
+    - title: Deployment Configuration
+      properties:
+        tier:
+          title: Service Tier
+          type: string
+          description: "Tier 1: customer-facing critical. Tier 2: internal but important. Tier 3: best-effort."
+          enum:
+            - tier-1
+            - tier-2
+            - tier-3
+          default: tier-2
+
+        environment:
+          title: Initial Environments
+          type: array
+          items:
+            type: string
+            enum:
+              - staging
+              - production
+          uniqueItems: true
+          default:
+            - staging
+            - production
+
+        resourceProfile:
+          title: Resource Profile
+          type: string
+          enum:
+            - small
+            - medium
+            - large
+          enumNames:
+            - "Small (100m CPU, 256Mi RAM, 2-4 replicas)"
+            - "Medium (500m CPU, 1Gi RAM, 2-6 replicas)"
+            - "Large (2 CPU, 4Gi RAM, 3-8 replicas)"
+          default: small
+
+  steps:
+    - id: fetch-skeleton
+      name: Generate service code
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          name: ${{ parameters.name }}
+          owner: ${{ parameters.owner }}
+          description: ${{ parameters.description }}
+          system: ${{ parameters.system }}
+          serviceType: ${{ parameters.serviceType }}
+          transport: ${{ parameters.transport }}
+          database: ${{ parameters.database }}
+          queue: ${{ parameters.queue }}
+          tier: ${{ parameters.tier }}
+          resourceProfile: ${{ parameters.resourceProfile }}
+
+    - id: publish-repo
+      name: Create GitHub repository
+      action: publish:github
+      input:
+        repoUrl: "github.com?owner=myorg&repo=${{ parameters.name }}"
+        defaultBranch: main
+        protectDefaultBranch: true
+        requireCodeOwnerReviews: true
+        description: ${{ parameters.description }}
+        topics:
+          - go
+          - microservice
+          - ${{ parameters.tier }}
+        repoVisibility: internal
+
+    - id: setup-branch-protection
+      name: Configure branch protection
+      action: github:branch-protection
+      input:
+        repoUrl: "github.com?owner=myorg&repo=${{ parameters.name }}"
+        branch: main
+        requireApprovals: true
+        requiredApprovingReviewCount: 1
+        requireCodeOwnerReviews: true
+        requiredStatusChecks:
+          - "build"
+          - "test"
+          - "security-scan"
+
+    - id: provision-infrastructure
+      name: Provision cloud resources
+      action: http:backstage:request
+      input:
+        method: POST
+        path: /api/crossplane/claims
+        body:
+          serviceName: ${{ parameters.name }}
+          team: ${{ parameters.owner }}
+          database: ${{ parameters.database }}
+          queue: ${{ parameters.queue }}
+          environments: ${{ parameters.environment }}
+
+    - id: configure-monitoring
+      name: Setup monitoring
+      action: http:backstage:request
+      input:
+        method: POST
+        path: /api/monitoring/setup
+        body:
+          serviceName: ${{ parameters.name }}
+          tier: ${{ parameters.tier }}
+          sloTarget: ${{ parameters.tier == 'tier-1' and '99.9' or '99.5' }}
+          dashboardTemplate: go-service-red
+
+    - id: register-catalog
+      name: Register in Backstage catalog
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps['publish-repo'].output.repoContentsUrl }}
+        catalogInfoPath: /catalog-info.yaml
+
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps['publish-repo'].output.remoteUrl }}
+      - title: Service in Catalog
+        icon: catalog
+        entityRef: ${{ steps['register-catalog'].output.entityRef }}
+      - title: CI/CD Pipeline
+        url: "https://github.com/myorg/${{ parameters.name }}/actions"

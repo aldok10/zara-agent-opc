@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accessible Form Validation</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; max-width: 500px; margin: 2rem auto; padding: 0 1rem; }
+
+    .form-group { margin-bottom: 1.5rem; }
+
+    label {
+      display: block;
+      margin-bottom: 0.25rem;
+      font-weight: 500;
+    }
+
+    .required::after {
+      content: " *";
+      color: #c00;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+      min-height: 44px;
+    }
+
+    input[aria-invalid="true"],
+    textarea[aria-invalid="true"] {
+      border-color: #c00;
+      border-width: 2px;
+    }
+
+    .help-text {
+      font-size: 0.875rem;
+      color: #666;
+      margin-top: 0.25rem;
+    }
+
+    .error-message {
+      font-size: 0.875rem;
+      color: #c00;
+      margin-top: 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .error-message:empty { display: none; }
+
+    .error-summary {
+      border: 2px solid #c00;
+      border-radius: 4px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      background: #fff5f5;
+    }
+
+    .error-summary[hidden] { display: none; }
+
+    .error-summary h2 {
+      color: #c00;
+      margin-top: 0;
+      font-size: 1rem;
+    }
+
+    .error-summary ul { margin: 0; padding-left: 1.25rem; }
+    .error-summary a { color: #c00; }
+
+    button[type="submit"] {
+      background: #0055cc;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      min-height: 44px;
+      min-width: 44px;
+    }
+
+    :focus-visible {
+      outline: 2px solid #0055cc;
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Create Account</h1>
+  <p>Fields marked with <span aria-hidden="true">*</span><span class="sr-only">asterisk</span> are required.</p>
+
+  <div id="error-summary" class="error-summary" role="alert" aria-labelledby="error-heading" hidden tabindex="-1">
+    <h2 id="error-heading">Please fix the following errors:</h2>
+    <ul id="error-list"></ul>
+  </div>
+
+  <form id="signup-form" novalidate>
+    <div class="form-group">
+      <label for="fullname" class="required">Full name</label>
+      <input type="text" id="fullname" name="fullname" required autocomplete="name" aria-describedby="fullname-error">
+      <p id="fullname-error" class="error-message"></p>
+    </div>
+
+    <div class="form-group">
+      <label for="email" class="required">Email address</label>
+      <input type="email" id="email" name="email" required autocomplete="email" aria-describedby="email-error">
+      <p id="email-error" class="error-message"></p>
+    </div>
+
+    <div class="form-group">
+      <label for="password" class="required">Password</label>
+      <input type="password" id="password" name="password" required autocomplete="new-password"
+             aria-describedby="password-help password-error" minlength="8">
+      <p id="password-help" class="help-text">Must be at least 8 characters.</p>
+      <p id="password-error" class="error-message"></p>
+    </div>
+
+    <div class="form-group">
+      <label for="bio">Bio (optional)</label>
+      <textarea id="bio" name="bio" rows="3" aria-describedby="bio-help"></textarea>
+      <p id="bio-help" class="help-text">Tell us about yourself. Max 200 characters.</p>
+    </div>
+
+    <button type="submit">Create account</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('signup-form');
+    const errorSummary = document.getElementById('error-summary');
+    const errorList = document.getElementById('error-list');
+
+    const validationRules = {
+      fullname: {
+        validate: (value) => value.trim().length > 0,
+        message: 'Full name is required',
+      },
+      email: {
+        validate: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
+        message: 'Enter a valid email address',
+      },
+      password: {
+        validate: (value) => value.length >= 8,
+        message: 'Password must be at least 8 characters',
+      },
+    };
+
+    function showError(input, message) {
+      const errorEl = document.getElementById(`${input.id}-error`);
+      input.setAttribute('aria-invalid', 'true');
+      errorEl.textContent = message;
+    }
+
+    function clearError(input) {
+      const errorEl = document.getElementById(`${input.id}-error`);
+      input.removeAttribute('aria-invalid');
+      errorEl.textContent = '';
+    }
+
+    function validateForm() {
+      const errors = [];
+
+      Object.entries(validationRules).forEach(([name, rule]) => {
+        const input = form.elements[name];
+        if (!rule.validate(input.value)) {
+          showError(input, rule.message);
+          errors.push({ input, message: rule.message });
+        } else {
+          clearError(input);
+        }
+      });
+
+      return errors;
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const errors = validateForm();
+
+      if (errors.length > 0) {
+        // Show error summary
+        errorList.innerHTML = errors
+          .map(({ input, message }) =>
+            `<li><a href="#${input.id}">${message}</a></li>`
+          )
+          .join('');
+        errorSummary.hidden = false;
+        errorSummary.focus();
+      } else {
+        errorSummary.hidden = true;
+        alert('Form submitted successfully (demo)');
+      }
+    });
+
+    // Inline validation on blur
+    form.querySelectorAll('input[required]').forEach(input => {
+      input.addEventListener('blur', () => {
+        const rule = validationRules[input.name];
+        if (rule && input.value && !rule.validate(input.value)) {
+          showError(input, rule.message);
+        } else if (rule && rule.validate(input.value)) {
+          clearError(input);
+        }
+      });
+    });
+  </script>
+
+  <style>
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</body>
+</html>

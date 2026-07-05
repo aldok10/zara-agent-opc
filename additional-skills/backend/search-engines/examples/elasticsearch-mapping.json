@@ -1,0 +1,138 @@
+{
+  "settings": {
+    "number_of_shards": 3,
+    "number_of_replicas": 1,
+    "refresh_interval": "5s",
+    "analysis": {
+      "filter": {
+        "english_stop": {
+          "type": "stop",
+          "stopwords": "_english_"
+        },
+        "english_stemmer": {
+          "type": "stemmer",
+          "language": "english"
+        },
+        "edge_ngram_filter": {
+          "type": "edge_ngram",
+          "min_gram": 2,
+          "max_gram": 15
+        },
+        "synonym_filter": {
+          "type": "synonym_graph",
+          "synonyms_path": "analysis/synonyms.txt",
+          "updateable": true
+        }
+      },
+      "analyzer": {
+        "english_full": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": ["lowercase", "english_stop", "english_stemmer"]
+        },
+        "autocomplete_index": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": ["lowercase", "edge_ngram_filter"]
+        },
+        "autocomplete_search": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": ["lowercase"]
+        },
+        "search_with_synonyms": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": ["lowercase", "synonym_filter", "english_stemmer"]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "dynamic": "strict",
+    "properties": {
+      "id": {
+        "type": "keyword"
+      },
+      "title": {
+        "type": "text",
+        "analyzer": "english_full",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "autocomplete": {
+            "type": "text",
+            "analyzer": "autocomplete_index",
+            "search_analyzer": "autocomplete_search"
+          }
+        }
+      },
+      "description": {
+        "type": "text",
+        "analyzer": "english_full"
+      },
+      "content": {
+        "type": "text",
+        "analyzer": "search_with_synonyms"
+      },
+      "category": {
+        "type": "keyword"
+      },
+      "tags": {
+        "type": "keyword"
+      },
+      "status": {
+        "type": "keyword"
+      },
+      "author": {
+        "properties": {
+          "id": { "type": "keyword" },
+          "name": {
+            "type": "text",
+            "fields": {
+              "keyword": { "type": "keyword" }
+            }
+          }
+        }
+      },
+      "price": {
+        "type": "scaled_float",
+        "scaling_factor": 100
+      },
+      "rating": {
+        "type": "half_float"
+      },
+      "popularity_score": {
+        "type": "rank_feature"
+      },
+      "location": {
+        "type": "geo_point"
+      },
+      "created_at": {
+        "type": "date",
+        "format": "strict_date_optional_time||epoch_millis"
+      },
+      "updated_at": {
+        "type": "date",
+        "format": "strict_date_optional_time||epoch_millis"
+      },
+      "embedding": {
+        "type": "dense_vector",
+        "dims": 1024,
+        "index": true,
+        "similarity": "cosine",
+        "index_options": {
+          "type": "hnsw",
+          "m": 32,
+          "ef_construction": 200
+        }
+      },
+      "metadata": {
+        "type": "object",
+        "enabled": false
+      }
+    }
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "scenarios": {
+    "user_access_token": {
+      "description": "Standard user-facing API access token — minimal claims for authorization",
+      "token": {
+        "header": {
+          "alg": "ES256",
+          "typ": "at+jwt",
+          "kid": "sig-2026-q1"
+        },
+        "payload": {
+          "iss": "https://auth.example.com",
+          "sub": "user_7kQ9mPx2",
+          "aud": "https://api.example.com",
+          "exp": 1720000900,
+          "iat": 1720000000,
+          "jti": "tok_a1b2c3d4e5",
+          "scope": "read:orders write:orders",
+          "org_id": "org_acme",
+          "roles": ["order_manager"]
+        }
+      },
+      "notes": [
+        "typ: at+jwt per RFC 9068 (JWT access token profile)",
+        "sub: opaque user ID, not email/username",
+        "aud: specific API audience, not wildcard",
+        "exp: 15 minutes from iat (900 seconds)",
+        "jti: unique token ID for revocation checks",
+        "No PII in claims — use userinfo endpoint for profile data"
+      ]
+    },
+    "service_to_service": {
+      "description": "Machine-to-machine token via client credentials grant",
+      "token": {
+        "header": {
+          "alg": "ES256",
+          "typ": "at+jwt",
+          "kid": "sig-2026-q1"
+        },
+        "payload": {
+          "iss": "https://auth.example.com",
+          "sub": "svc_payment-processor",
+          "aud": "https://billing.internal.example.com",
+          "exp": 1720000300,
+          "iat": 1720000000,
+          "jti": "tok_f6g7h8i9j0",
+          "scope": "billing:charge billing:refund",
+          "client_id": "svc_payment-processor"
+        }
+      },
+      "notes": [
+        "sub matches client_id for service identity",
+        "Shorter expiry (5 min) — services can refresh easily",
+        "Narrow scope — only what this service needs",
+        "No user context (no act claim) — pure service call"
+      ]
+    },
+    "delegated_token": {
+      "description": "Token exchange result — service acting on behalf of user",
+      "token": {
+        "header": {
+          "alg": "ES256",
+          "typ": "at+jwt",
+          "kid": "sig-2026-q1"
+        },
+        "payload": {
+          "iss": "https://auth.example.com",
+          "sub": "user_7kQ9mPx2",
+          "aud": "https://shipping.internal.example.com",
+          "exp": 1720000300,
+          "iat": 1720000000,
+          "jti": "tok_k1l2m3n4o5",
+          "scope": "shipping:create",
+          "act": {
+            "sub": "svc_order-service",
+            "client_id": "svc_order-service"
+          },
+          "org_id": "org_acme"
+        }
+      },
+      "notes": [
+        "sub: original user (resource owner)",
+        "act: the service performing the action (delegation chain)",
+        "Scope narrowed from original token",
+        "Audience changed to downstream service",
+        "Enables audit trail: who did what, on whose behalf"
+      ]
+    },
+    "dpop_bound_token": {
+      "description": "Access token with DPoP sender-constraining",
+      "token": {
+        "header": {
+          "alg": "ES256",
+          "typ": "at+jwt",
+          "kid": "sig-2026-q1"
+        },
+        "payload": {
+          "iss": "https://auth.example.com",
+          "sub": "user_7kQ9mPx2",
+          "aud": "https://api.example.com",
+          "exp": 1720000900,
+          "iat": 1720000000,
+          "jti": "tok_p6q7r8s9t0",
+          "scope": "read:accounts write:transfers",
+          "cnf": {
+            "jkt": "0ZcOCORZNYy-DWpqq30jZyJGHTN0d2HglBV3uiguA4I"
+          },
+          "token_type": "DPoP"
+        }
+      },
+      "notes": [
+        "cnf.jkt: SHA-256 thumbprint of client's DPoP public key",
+        "token_type: DPoP (not Bearer) — RS must verify proof",
+        "Stolen token is useless without client's private key",
+        "Use for high-value APIs (banking, admin, data export)"
+      ]
+    },
+    "multi_tenant_token": {
+      "description": "Token for multi-tenant SaaS with organization context",
+      "token": {
+        "header": {
+          "alg": "ES256",
+          "typ": "at+jwt",
+          "kid": "sig-2026-q1"
+        },
+        "payload": {
+          "iss": "https://auth.example.com",
+          "sub": "user_7kQ9mPx2",
+          "aud": "https://api.example.com",
+          "exp": 1720000900,
+          "iat": 1720000000,
+          "jti": "tok_u1v2w3x4y5",
+          "scope": "read:projects write:projects",
+          "org_id": "org_acme",
+          "org_role": "admin",
+          "permissions": ["projects.create", "projects.delete", "members.invite"]
+        }
+      },
+      "notes": [
+        "org_id: tenant isolation — enforce at API AND database layer",
+        "org_role: role within the organization context",
+        "permissions: pre-computed at token issuance for fast checks",
+        "User may have different roles in different orgs — token is org-scoped",
+        "RLS policy: WHERE org_id = token.org_id on all queries"
+      ]
+    }
+  }
+}

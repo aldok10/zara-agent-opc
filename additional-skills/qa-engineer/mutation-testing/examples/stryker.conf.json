@@ -1,0 +1,39 @@
+{
+  "$schema": "https://raw.githubusercontent.com/stryker-mutator/stryker/master/packages/core/schema/stryker-core.schema.json",
+  "mutate": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "!src/**/*.spec.ts",
+    "!src/**/*.test.ts",
+    "!src/**/*.d.ts",
+    "!src/**/index.ts",
+    "!src/**/*.config.ts",
+    "!src/**/__mocks__/**"
+  ],
+  "testRunner": "vitest",
+  "vitest": {
+    "configFile": "vitest.config.ts"
+  },
+  "coverageAnalysis": "perTest",
+  "incremental": true,
+  "incrementalFile": ".stryker-cache/incremental.json",
+  "reporters": ["html", "progress", "dashboard"],
+  "htmlReporter": {
+    "fileName": "reports/mutation/index.html"
+  },
+  "dashboard": {
+    "reportType": "full"
+  },
+  "thresholds": {
+    "high": 80,
+    "low": 60,
+    "break": 50
+  },
+  "concurrency": 4,
+  "timeoutMS": 10000,
+  "timeoutFactor": 1.5,
+  "tempDirName": ".stryker-tmp",
+  "cleanTempDir": "always",
+  "ignorePatterns": ["node_modules", "dist", "coverage", ".stryker-cache"],
+  "disableTypeChecks": "**/*.{ts,tsx}"
+}

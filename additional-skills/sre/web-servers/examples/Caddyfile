@@ -1,0 +1,84 @@
+{
+	email admin@example.com
+
+	servers {
+		protocols h1 h2 h3
+	}
+}
+
+app.example.com {
+	header {
+		Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+		X-Frame-Options "SAMEORIGIN"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		-Server
+	}
+
+	encode gzip zstd
+
+	log {
+		output file /var/log/caddy/app.log {
+			roll_size 100mb
+			roll_keep 10
+			roll_keep_for 720h
+		}
+		format json
+	}
+
+	@health path /health
+	respond @health 200 {
+		body "ok"
+		close
+	}
+
+	@api path /api/*
+	reverse_proxy @api {
+		to 10.0.1.10:8080 10.0.1.11:8080
+
+		lb_policy least_conn
+		health_uri /health
+		health_interval 10s
+		health_timeout 5s
+		health_status 200
+
+		header_up Host {host}
+		header_up X-Real-IP {remote_host}
+		header_up X-Forwarded-For {remote_host}
+		header_up X-Request-ID {http.request.uuid}
+
+		transport http {
+			keepalive 30s
+			keepalive_idle_conns 20
+		}
+
+		fail_duration 30s
+		max_fails 3
+		unhealthy_status 502 503
+	}
+
+	@static path /static/*
+	handle @static {
+		root * /var/www/app
+		header Cache-Control "public, max-age=31536000, immutable"
+		file_server
+	}
+
+	reverse_proxy {
+		to 10.0.1.10:8080 10.0.1.11:8080
+
+		lb_policy least_conn
+		health_uri /health
+		health_interval 10s
+
+		header_up Host {host}
+		header_up X-Real-IP {remote_host}
+		header_up X-Forwarded-For {remote_host}
+
+		transport http {
+			keepalive 30s
+			keepalive_idle_conns 10
+		}
+	}
+}

@@ -1,0 +1,183 @@
+# Federation 2 Subgraph Example
+
+extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.5",
+        import: ["@key", "@shareable", "@override", "@external",
+                 "@requires", "@provides", "@inaccessible", "@tag"])
+
+# ─── Entity: Product (this subgraph is the owner) ────────────────────────────
+
+"""
+A product available in the catalog.
+Owned by the catalog subgraph. Other subgraphs extend via @key.
+"""
+type Product @key(fields: "id") @key(fields: "sku") {
+  id: ID!
+  sku: String!
+  name: String!
+  description: String
+  price: Money!
+  category: Category!
+  tags: [String!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+
+  """Computed: average from reviews subgraph. Nullable if no reviews exist."""
+  averageRating: Float @external
+
+  """Requires averageRating from reviews subgraph to compute."""
+  displayBadge: String @requires(fields: "averageRating")
+}
+
+# ─── Entity: Category ────────────────────────────────────────────────────────
+
+type Category @key(fields: "id") {
+  id: ID!
+  name: String!
+  slug: String!
+  parent: Category
+  products(first: Int = 20, after: String): ProductConnection!
+}
+
+# ─── Value Types ─────────────────────────────────────────────────────────────
+
+type Money @shareable {
+  amount: Int!
+  currency: Currency!
+}
+
+enum Currency @shareable {
+  USD
+  EUR
+  GBP
+}
+
+scalar DateTime
+
+# ─── Pagination (Relay Connection Spec) ──────────────────────────────────────
+
+type ProductConnection {
+  edges: [ProductEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+type ProductEdge {
+  node: Product!
+  cursor: String!
+}
+
+type PageInfo @shareable {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+# ─── Queries ─────────────────────────────────────────────────────────────────
+
+type Query {
+  """Fetch a single product by ID."""
+  product(id: ID!): Product
+
+  """Fetch a single product by SKU."""
+  productBySku(sku: String!): Product
+
+  """Search products with cursor-based pagination."""
+  products(
+    first: Int = 20
+    after: String
+    filter: ProductFilter
+    sort: ProductSort = RELEVANCE
+  ): ProductConnection!
+
+  """Browse categories tree."""
+  categories(parentId: ID): [Category!]!
+}
+
+# ─── Inputs ──────────────────────────────────────────────────────────────────
+
+input ProductFilter {
+  categoryId: ID
+  minPrice: Int
+  maxPrice: Int
+  tags: [String!]
+  searchQuery: String
+}
+
+enum ProductSort {
+  RELEVANCE
+  PRICE_ASC
+  PRICE_DESC
+  NEWEST
+  RATING
+}
+
+input CreateProductInput {
+  name: String!
+  description: String
+  sku: String!
+  priceAmount: Int!
+  priceCurrency: Currency!
+  categoryId: ID!
+  tags: [String!]
+}
+
+input UpdateProductInput {
+  name: String
+  description: String
+  priceAmount: Int
+  priceCurrency: Currency
+  categoryId: ID
+  tags: [String!]
+}
+
+# ─── Mutations ───────────────────────────────────────────────────────────────
+
+type Mutation {
+  createProduct(input: CreateProductInput!): CreateProductPayload!
+  updateProduct(id: ID!, input: UpdateProductInput!): UpdateProductPayload!
+  deleteProduct(id: ID!): DeleteProductPayload!
+}
+
+# ─── Mutation Payloads (Error Union Pattern) ─────────────────────────────────
+
+union CreateProductPayload = CreateProductSuccess | ValidationError | SkuTakenError
+union UpdateProductPayload = UpdateProductSuccess | ValidationError | NotFoundError
+union DeleteProductPayload = DeleteProductSuccess | NotFoundError
+
+type CreateProductSuccess {
+  product: Product!
+}
+
+type UpdateProductSuccess {
+  product: Product!
+}
+
+type DeleteProductSuccess {
+  deletedProductId: ID!
+}
+
+type SkuTakenError {
+  sku: String!
+  message: String!
+}
+
+type ValidationError @shareable {
+  field: String!
+  message: String!
+  code: String!
+}
+
+type NotFoundError @shareable {
+  id: ID!
+  entityType: String!
+  message: String!
+}
+
+# ─── Internal field (hidden from public API) ─────────────────────────────────
+
+type Product @key(fields: "id") {
+  """Internal warehouse ID, used by fulfillment subgraph only."""
+  warehouseId: String @inaccessible @tag(name: "internal")
+}

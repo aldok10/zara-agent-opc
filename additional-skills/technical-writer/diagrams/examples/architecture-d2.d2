@@ -1,0 +1,84 @@
+direction: right
+
+title: Order Management Platform {
+  near: top-center
+  style.font-size: 24
+}
+
+classes: {
+  internal: {
+    style.fill: "#4a90d9"
+    style.font-color: "#ffffff"
+    style.stroke: "#2c5f8a"
+    style.border-radius: 8
+  }
+  external: {
+    style.fill: "#95a5a6"
+    style.font-color: "#ffffff"
+    style.stroke: "#7f8c8d"
+    style.border-radius: 8
+  }
+  storage: {
+    shape: cylinder
+    style.fill: "#27ae60"
+    style.font-color: "#ffffff"
+    style.stroke: "#1e8449"
+  }
+  queue: {
+    shape: queue
+    style.fill: "#e67e22"
+    style.font-color: "#ffffff"
+    style.stroke: "#d35400"
+  }
+  person: {
+    shape: person
+    style.fill: "#ffffff"
+    style.stroke: "#333333"
+  }
+}
+
+# Actors
+customer: Customer {class: person}
+ops: Operations Team {class: person}
+
+# Internal Services
+platform: Order Platform {
+  api: API Gateway {class: internal}
+  orders: Order Service {class: internal}
+  inventory: Inventory Service {class: internal}
+  notifications: Notification Worker {class: internal}
+
+  events: Event Bus {class: queue}
+  db: PostgreSQL {class: storage}
+  cache: Redis {class: storage}
+
+  api -> orders: gRPC
+  api -> inventory: gRPC
+  orders -> db: SQL
+  orders -> events: publish
+  inventory -> cache: read/write
+  inventory -> db: SQL
+  events -> notifications: consume
+}
+
+# External Systems
+payment: Payment Gateway {class: external}
+warehouse: Warehouse System {class: external}
+shipping: Shipping Provider {class: external}
+
+# Connections
+customer -> platform.api: HTTPS/REST {
+  style.stroke: "#333"
+}
+ops -> platform.api: HTTPS/REST {
+  style.stroke: "#333"
+}
+platform.orders -> payment: HTTPS/REST (authorize + capture)
+platform.orders -> warehouse: AMQP (pick lists)
+platform.orders -> shipping: HTTPS/REST (create shipment)
+shipping -> platform.api: Webhooks (tracking updates) {
+  style.stroke-dash: 3
+}
+platform.notifications -> customer: Email/SMS/Push {
+  style.stroke-dash: 3
+}

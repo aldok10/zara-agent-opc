@@ -1,0 +1,142 @@
+version: 2
+
+models:
+  - name: fct_orders
+    description: "Completed order transactions with revenue metrics"
+    config:
+      contract:
+        enforced: true
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: "net_amount >= 0"
+      - dbt_utils.expression_is_true:
+          expression: "gross_amount >= net_amount"
+      - dbt_utils.recency:
+          datepart: hour
+          field: created_at
+          interval: 6
+    columns:
+      - name: order_id
+        description: "Unique order identifier"
+        data_type: string
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: "FK to dim_customers"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customers')
+              field: customer_id
+      - name: order_date
+        description: "Date the order was placed (UTC)"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: "'2020-01-01'"
+              max_value: "CURRENT_DATE()"
+      - name: status
+        description: "Order fulfillment status"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['completed', 'shipped', 'refunded', 'partial_refund']
+      - name: gross_amount
+        description: "Order total before discounts"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+      - name: net_amount
+        description: "Order total after discounts"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+      - name: discount_amount
+        description: "Total discount applied"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+      - name: currency
+        description: "ISO 4217 currency code"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['USD', 'EUR', 'GBP', 'CAD', 'AUD']
+      - name: payment_method
+        description: "Payment instrument used"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['credit_card', 'debit_card', 'bank_transfer', 'paypal', 'apple_pay']
+      - name: region
+        description: "Customer region at time of order"
+        tests:
+          - not_null
+      - name: created_at
+        description: "When this record was created in the warehouse"
+        tests:
+          - not_null
+
+  - name: dim_customers
+    description: "Customer dimension with current attributes"
+    columns:
+      - name: customer_id
+        description: "Unique customer identifier"
+        tests:
+          - unique
+          - not_null
+      - name: email
+        description: "Customer email address"
+        tests:
+          - unique
+          - not_null
+      - name: segment
+        description: "Customer value segment"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['enterprise', 'mid_market', 'smb', 'consumer']
+      - name: signup_date
+        description: "Account creation date"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: "'2015-01-01'"
+              max_value: "CURRENT_DATE()"
+      - name: region
+        tests:
+          - not_null
+      - name: is_active
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+
+sources:
+  - name: shopify
+    schema: raw_shopify
+    freshness:
+      warn_after: {count: 6, period: hour}
+      error_after: {count: 12, period: hour}
+    loaded_at_field: _loaded_at
+    tables:
+      - name: orders
+      - name: customers
+      - name: products
+
+  - name: stripe
+    schema: raw_stripe
+    freshness:
+      warn_after: {count: 3, period: hour}
+      error_after: {count: 6, period: hour}
+    loaded_at_field: _loaded_at
+    tables:
+      - name: payments
+      - name: refunds

@@ -1,0 +1,153 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: payment-service
+  labels:
+    app: payment-service
+spec:
+  replicas: 5
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: payment-service
+  template:
+    metadata:
+      labels:
+        app: payment-service
+    spec:
+      containers:
+        - name: payment-service
+          image: registry.internal/payment-service:v2.4.0
+          ports:
+            - containerPort: 8080
+              name: http
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              memory: 512Mi
+  strategy:
+    canary:
+      maxSurge: "20%"
+      maxUnavailable: 0
+      canaryService: payment-service-canary
+      stableService: payment-service-stable
+      trafficRouting:
+        istio:
+          virtualServices:
+            - name: payment-service-vsvc
+              routes:
+                - primary
+      steps:
+        - setWeight: 5
+        - pause: { duration: 2m }
+        - analysis:
+            templates:
+              - templateName: request-success-rate
+            args:
+              - name: service-name
+                value: payment-service
+              - name: namespace
+                valueFrom:
+                  fieldRef:
+                    fieldPath: metadata.namespace
+        - setWeight: 20
+        - pause: { duration: 5m }
+        - analysis:
+            templates:
+              - templateName: request-success-rate
+              - templateName: latency-p99
+            args:
+              - name: service-name
+                value: payment-service
+              - name: namespace
+                valueFrom:
+                  fieldRef:
+                    fieldPath: metadata.namespace
+        - setWeight: 50
+        - pause: { duration: 5m }
+        - analysis:
+            templates:
+              - templateName: request-success-rate
+              - templateName: latency-p99
+        - setWeight: 80
+        - pause: { duration: 3m }
+        - setWeight: 100
+      analysis:
+        templates:
+          - templateName: request-success-rate
+        startingStep: 2
+        args:
+          - name: service-name
+            value: payment-service
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: request-success-rate
+spec:
+  args:
+    - name: service-name
+    - name: namespace
+      value: default
+  metrics:
+    - name: success-rate
+      interval: 30s
+      count: 10
+      successCondition: result[0] >= 0.995
+      failureCondition: result[0] < 0.98
+      failureLimit: 3
+      inconclusiveLimit: 2
+      provider:
+        prometheus:
+          address: http://prometheus.monitoring.svc:9090
+          query: |
+            sum(rate(
+              istio_requests_total{
+                destination_service_name="{{args.service-name}}",
+                destination_service_namespace="{{args.namespace}}",
+                response_code!~"5.*"
+              }[2m]
+            )) /
+            sum(rate(
+              istio_requests_total{
+                destination_service_name="{{args.service-name}}",
+                destination_service_namespace="{{args.namespace}}"
+              }[2m]
+            ))
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: latency-p99
+spec:
+  args:
+    - name: service-name
+    - name: namespace
+      value: default
+  metrics:
+    - name: latency-p99
+      interval: 30s
+      count: 10
+      successCondition: result[0] < 500
+      failureCondition: result[0] > 1000
+      failureLimit: 3
+      provider:
+        prometheus:
+          address: http://prometheus.monitoring.svc:9090
+          query: |
+            histogram_quantile(0.99,
+              sum(rate(
+                istio_request_duration_milliseconds_bucket{
+                  destination_service_name="{{args.service-name}}",
+                  destination_service_namespace="{{args.namespace}}"
+                }[2m]
+              )) by (le)
+            )

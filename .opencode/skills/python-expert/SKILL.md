@@ -63,6 +63,7 @@ Senior Python engineer, Python 3.13+. Python is the language of AI/ML, scripting
 | type, mypy, pyright, Protocol, generic, TypedDict | `subskills/typing.md` |
 | deploy, Docker, uv, package, wheel, CI | `subskills/packaging.md` |
 | Django, ORM, migration, admin, DRF | `subskills/django.md` |
+| mistake, pitfall, gotcha, anti-pattern, production lesson | `knowledge/common-mistakes.md` |
 
 Multiple OK. Load only what's needed.
 
@@ -72,6 +73,10 @@ Multiple OK. Load only what's needed.
 - `mypy --strict` (or `pyright`) passes.
 - `pytest --cov` exit 0, coverage > 80%.
 - No security warnings from `bandit`.
+
+## Knowledge (load on demand via `knowledge_read`)
+
+- `python-expert/knowledge/common-mistakes.md` - production pitfalls (async, typing, packaging, security)
 
 ## Related Skills
 

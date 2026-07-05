@@ -84,6 +84,7 @@ Multiple OK. Load only what's needed.
 - `php-expert/knowledge/advanced-mechanisms.md` - generators, closures, attributes, variance, SPL, enums
 - `php-expert/knowledge/clean-code.md` / `clean-laravel.md` / `clean-symfony.md` / `clean-hyperf.md`
 - `php-expert/knowledge/frameworks.md` · `psr-standards.md` · `composer.md`
+- `php-expert/knowledge/common-mistakes.md` - PHP & Swoole production pitfalls
 
 ## AI-Era Context (2026)
 

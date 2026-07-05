@@ -69,6 +69,7 @@ Read `tsconfig.json`. If `strict` missing/false or `skipLibCheck` hides errors, 
 - `typescript-expert/knowledge/tsconfig.md` - every strict flag + the bug it prevents
 - `typescript-expert/knowledge/senior-dna.md` - decision heuristics, when to break rules
 - `typescript-expert/knowledge/gotchas.md` - structural typing, `this`, variance, declaration merging
+- `typescript-expert/knowledge/common-mistakes.md` - production pitfalls (Node.js, React, ESM, security)
 
 ## AI-Era Context (2026)
 

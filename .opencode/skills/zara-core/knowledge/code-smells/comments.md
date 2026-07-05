@@ -9,7 +9,7 @@ description: The Comments code smell occurs when comments are used to explain un
 weight: 70
 ---
 
-The Comments code smell does not mean that all comments are bad — it means that comments are being used as a substitute for clear code. When a comment is needed to explain *what* code does or *why* it works the way it does, that is often a signal that the code itself is not expressive enough. Well-written code typically does not require comments to explain its mechanics; the names of methods, variables, and types carry that meaning.
+The Comments code smell does not mean that all comments are bad  --  it means that comments are being used as a substitute for clear code. When a comment is needed to explain *what* code does or *why* it works the way it does, that is often a signal that the code itself is not expressive enough. Well-written code typically does not require comments to explain its mechanics; the names of methods, variables, and types carry that meaning.
 
 This does not apply to documentation comments (such as XML doc comments or JSDoc) that describe public APIs, or to comments explaining non-obvious business rules or external constraints that cannot be expressed in code. Those serve a legitimate purpose. The smell arises specifically when comments are used to compensate for code that is hard to understand.
 
@@ -63,7 +63,7 @@ public bool IsEligibleToLogin(User user)
 }
 ```
 
-No comments needed — the code expresses its own intent.
+No comments needed  --  the code expresses its own intent.
 
 ## Legitimate Uses of Comments
 
@@ -81,25 +81,25 @@ The test is simple: if removing the comment would leave the code just as underst
 
 A recurring theme across prominent software development literature is that comments are a symptom of failure, not a best practice: As you're about to add a comment, ask yourself, 'How can I improve the code so that this comment isn't needed?' Improve the code and then document it to make it even clearer."
 >
-> — Steve McConnell, *Code Complete*
+>  --  Steve McConnell, *Code Complete*
 
 > "If the code is so complicated that it needs to be explained, it's nearly always better to improve the code than it is to add comments."
 >
-> — Steve McConnell, *Code Complete*
+>  --  Steve McConnell, *Code Complete*
 
 > "When you feel the need to write a comment, first try to refactor the code so that any comment becomes superfluous."
 >
-> — Martin Fowler, *Refactoring: Improving the Design of Existing Code*
+>  --  Martin Fowler, *Refactoring: Improving the Design of Existing Code*
 
 > "What of comments that are not technically wrong, but add no value to the code? Such comments are noise. A prevalence of noisy comments and incorrect comments in a code base encourage programmers to ignore all comments… Comment what the code cannot say, not simply what it does not say."
 >
-> — Kevlin Henney, *97 Things Every Programmer Should Know*
+>  --  Kevlin Henney, *97 Things Every Programmer Should Know*
 
 > "A comment is of zero (or negative) value if it is wrong."
 >
-> — Kernighan and Plauger, *The Elements of Programming Style*
+>  --  Kernighan and Plauger, *The Elements of Programming Style*
 
-The last point is worth emphasizing: comments can be — and frequently are — wrong. Unlike code, comments are not executed or tested. When code changes and the surrounding comment is not updated, the comment silently diverges from reality. The only way to verify a comment is to read and understand the code, at which point the comment was likely unnecessary anyway.
+The last point is worth emphasizing: comments can be  --  and frequently are  --  wrong. Unlike code, comments are not executed or tested. When code changes and the surrounding comment is not updated, the comment silently diverges from reality. The only way to verify a comment is to read and understand the code, at which point the comment was likely unnecessary anyway.
 
 ## Refactoring
 

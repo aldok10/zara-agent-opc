@@ -9,7 +9,7 @@ description: The Switch Statements code smell occurs when switch or if-else chai
 weight: 360
 ---
 
-The Switch Statements code smell occurs when `switch` statements (or equivalent `if-else` chains) are used to branch on an object's type, kind, or status to determine which behavior to execute. While a single switch is not inherently problematic, the smell arises when the same type-based dispatch is duplicated in multiple places across the codebase — or when adding a new type requires hunting down every switch and modifying it.
+The Switch Statements code smell occurs when `switch` statements (or equivalent `if-else` chains) are used to branch on an object's type, kind, or status to determine which behavior to execute. While a single switch is not inherently problematic, the smell arises when the same type-based dispatch is duplicated in multiple places across the codebase  --  or when adding a new type requires hunting down every switch and modifying it.
 
 Object-oriented design is well-suited to this problem: instead of asking "what type is this?" and branching, the behavior can be pushed into the objects themselves via polymorphism. Each type knows how to perform the relevant operation, and the caller simply invokes it without needing to know which concrete type it has.
 
@@ -19,11 +19,11 @@ This smell is related to [Primitive Obsession](/code-smells/primitive-obsession-
 
 ### Violated Open/Closed Principle
 
-Every switch that dispatches on a type is a place that must change when a new type is added. Adding a new `OrderType`, `PaymentMethod`, or `ShapeKind` requires finding and modifying every switch in the codebase — a violation of the [Open/Closed Principle](/principles/open-closed-principle/). With polymorphism, adding a new type means adding a new class; no existing switch needs to change.
+Every switch that dispatches on a type is a place that must change when a new type is added. Adding a new `OrderType`, `PaymentMethod`, or `ShapeKind` requires finding and modifying every switch in the codebase  --  a violation of the [Open/Closed Principle](/principles/open-closed-principle/). With polymorphism, adding a new type means adding a new class; no existing switch needs to change.
 
 ### Shotgun Surgery
 
-Because the same type enumeration tends to appear in multiple switches across the codebase, adding a new variant requires modifying many files simultaneously — a classic case of [Shotgun Surgery](/code-smells/shotgun-surgery/).
+Because the same type enumeration tends to appear in multiple switches across the codebase, adding a new variant requires modifying many files simultaneously  --  a classic case of [Shotgun Surgery](/code-smells/shotgun-surgery/).
 
 ### Poor Encapsulation
 
@@ -69,7 +69,7 @@ public string GetShippingLabel(Order order)
 }
 ```
 
-Adding a new `OrderType.VIP` requires updating both methods — and any other switch on `OrderType` elsewhere in the codebase. With polymorphism, each order type carries its own behavior:
+Adding a new `OrderType.VIP` requires updating both methods  --  and any other switch on `OrderType` elsewhere in the codebase. With polymorphism, each order type carries its own behavior:
 
 ```csharp
 public abstract class Order

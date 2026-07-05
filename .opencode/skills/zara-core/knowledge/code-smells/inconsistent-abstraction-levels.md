@@ -9,7 +9,7 @@ description: Inconsistent Abstraction Levels is a code smell where a function or
 weight: 190
 ---
 
-Inconsistent Abstraction Levels occurs when a single function or class operates at multiple levels of abstraction simultaneously. High-level steps — what the system is doing — are interleaved with low-level details — how a single step is carried out. A reader must mentally context-switch between the "what" and the "how" within the same block, which obscures intent and makes the code harder to change safely.
+Inconsistent Abstraction Levels occurs when a single function or class operates at multiple levels of abstraction simultaneously. High-level steps  --  what the system is doing  --  are interleaved with low-level details  --  how a single step is carried out. A reader must mentally context-switch between the "what" and the "how" within the same block, which obscures intent and makes the code harder to change safely.
 
 A well-written method should tell a story at one level of detail. If the method is high-level ("validate the order, then persist it, then notify the customer"), every statement should read at the same altitude. Dropping mid-story into raw SQL, byte manipulation, or string concatenation logic violates that contract.
 
@@ -25,7 +25,7 @@ Low-level details embedded in a high-level method become obstacles when either l
 
 ### Difficult to Test
 
-High-level logic that is tangled with low-level infrastructure — database connections, file I/O, HTTP calls — is hard to test without the infrastructure. Separating abstraction levels naturally separates testable logic from infrastructure, enabling focused unit tests.
+High-level logic that is tangled with low-level infrastructure  --  database connections, file I/O, HTTP calls  --  is hard to test without the infrastructure. Separating abstraction levels naturally separates testable logic from infrastructure, enabling focused unit tests.
 
 ### Violation of the Single Responsibility Principle
 
@@ -83,7 +83,7 @@ The method now reads as a clear, high-level sequence of steps. Each step is a si
 
 ## Addressing Inconsistent Abstraction Levels
 
-- **Extract Method** — pull low-level details into a private method with a well-chosen name. The call site reads at the higher level; the extracted method encapsulates the detail.
-- **Extract Class** — when the low-level logic is substantial or reusable, give it its own class (a repository, a formatter, a logger) rather than a private method.
-- **Apply the Step-Down Rule** — structure code so that each function calls functions one level of abstraction below it. Reading top-to-bottom reveals the design at a decreasing level of detail, but each function stays internally consistent.
-- **Separate infrastructure from domain logic** — use repositories, adapters, and services to keep low-level infrastructure (SQL, HTTP, file I/O) out of domain or application logic. See [Clean Architecture](/architecture/clean-architecture/) and [Domain-Driven Design](/domain-driven-design/).
+- **Extract Method**  --  pull low-level details into a private method with a well-chosen name. The call site reads at the higher level; the extracted method encapsulates the detail.
+- **Extract Class**  --  when the low-level logic is substantial or reusable, give it its own class (a repository, a formatter, a logger) rather than a private method.
+- **Apply the Step-Down Rule**  --  structure code so that each function calls functions one level of abstraction below it. Reading top-to-bottom reveals the design at a decreasing level of detail, but each function stays internally consistent.
+- **Separate infrastructure from domain logic**  --  use repositories, adapters, and services to keep low-level infrastructure (SQL, HTTP, file I/O) out of domain or application logic. See [Clean Architecture](/architecture/clean-architecture/) and [Domain-Driven Design](/domain-driven-design/).

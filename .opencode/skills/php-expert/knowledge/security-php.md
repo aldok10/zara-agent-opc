@@ -255,7 +255,7 @@ if (password_needs_rehash($storedHash, PASSWORD_ARGON2ID)) {
 }
 ```
 
-Never truncate passwords before hashing. bcrypt silently truncates at 72 bytes—Argon2id does not.
+Never truncate passwords before hashing. bcrypt silently truncates at 72 bytes -- Argon2id does not.
 
 ## File Upload Security
 
@@ -351,4 +351,4 @@ sp.disable_function.function("mail").param("to").value_r(".*@evil\.com").drop();
 sp.readonly_exec.enable();
 ```
 
-Snuffleupagus operates at the opcode level—zero performance overhead for most rules. Deploy in simulation mode first (`log` instead of `drop`) to catch false positives.
+Snuffleupagus operates at the opcode level -- zero performance overhead for most rules. Deploy in simulation mode first (`log` instead of `drop`) to catch false positives.

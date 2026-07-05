@@ -9,9 +9,9 @@ description: The Alternative Class with Different Interfaces code smell occurs w
 weight: 10
 ---
 
-The Alternative Class with Different Interfaces code smell occurs when two or more classes perform the same or very similar roles but expose their functionality through different method names, parameter orders, or signatures. Because their interfaces differ, calling code cannot treat them interchangeably — even though conceptually they are alternatives for the same purpose.
+The Alternative Class with Different Interfaces code smell occurs when two or more classes perform the same or very similar roles but expose their functionality through different method names, parameter orders, or signatures. Because their interfaces differ, calling code cannot treat them interchangeably  --  even though conceptually they are alternatives for the same purpose.
 
-This smell is common when two developers independently implement similar functionality without awareness of each other's work, or when a class is duplicated and adapted rather than extracted behind a shared interface. It is closely related to the [Oddball Solution](/code-smells/oddball-solution/) smell and the [Inconsistency](/code-smells/inconsistency/) smell — all three represent the absence of a unified vocabulary or contract for a concept that deserves one.
+This smell is common when two developers independently implement similar functionality without awareness of each other's work, or when a class is duplicated and adapted rather than extracted behind a shared interface. It is closely related to the [Oddball Solution](/code-smells/oddball-solution/) smell and the [Inconsistency](/code-smells/inconsistency/) smell  --  all three represent the absence of a unified vocabulary or contract for a concept that deserves one.
 
 ## Problems Caused by Alternative Classes with Different Interfaces
 
@@ -25,7 +25,7 @@ When implementations differ at the interface level, it is easy to miss that they
 
 ### Forces Parallel Changes
 
-If both classes need the same bug fix or enhancement — for example, both need to handle a new retry policy — the change must be made in two places with no compile-time enforcement that both were updated. This is [Shotgun Surgery](/code-smells/shotgun-surgery/) caused by the absence of a shared interface.
+If both classes need the same bug fix or enhancement  --  for example, both need to handle a new retry policy  --  the change must be made in two places with no compile-time enforcement that both were updated. This is [Shotgun Surgery](/code-smells/shotgun-surgery/) caused by the absence of a shared interface.
 
 ### Complicates Testing
 
@@ -70,7 +70,7 @@ Calling code depends on `INotifier` and is unaware of which implementation it re
 
 ## Distinguishing from Legitimate Variation
 
-Not every pair of dissimilar classes is this smell. The smell applies specifically when two classes are *alternatives for the same role* — they can be sensibly substituted for one another — but their interfaces prevent that substitution. If two classes genuinely represent different concepts that happen to share some superficial similarity, forcing them into a shared interface would be premature abstraction.
+Not every pair of dissimilar classes is this smell. The smell applies specifically when two classes are *alternatives for the same role*  --  they can be sensibly substituted for one another  --  but their interfaces prevent that substitution. If two classes genuinely represent different concepts that happen to share some superficial similarity, forcing them into a shared interface would be premature abstraction.
 
 The key question is: **"Would a caller ever want to choose between these two classes for the same purpose?"** If yes, a shared interface is warranted.
 

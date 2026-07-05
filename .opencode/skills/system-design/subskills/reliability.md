@@ -8,7 +8,7 @@ States: **closed** (normal) → **open** (fail fast after failure threshold) →
 
 ## Retry with Exponential Backoff
 
-`delay = base * 2^attempt + jitter`. Cap max retries and max delay. **Jitter is essential** — without it, all clients retry in sync and create a thundering herd. **Only retry idempotent operations** (or use idempotency keys). Never retry on 4xx client errors.
+`delay = base * 2^attempt + jitter`. Cap max retries and max delay. **Jitter is essential**  --  without it, all clients retry in sync and create a thundering herd. **Only retry idempotent operations** (or use idempotency keys). Never retry on 4xx client errors.
 
 ## Timeout Budget
 
@@ -27,19 +27,19 @@ Return a degraded-but-functional response when a dependency fails: cached/stale 
 - **Liveness**: is the process alive? Fail → restart the container.
 - **Readiness**: can it serve traffic right now (deps connected, warmed up)? Fail → remove from load balancer, don't restart.
 
-K8s uses both. Don't conflate them — a readiness blip shouldn't trigger a restart.
+K8s uses both. Don't conflate them  --  a readiness blip shouldn't trigger a restart.
 
 ## Graceful Degradation
 
-Shed non-critical features under load — turn off recommendations, disable expensive analytics, serve cached results. Drive with **feature flags + load shedding** (reject low-priority requests first).
+Shed non-critical features under load  --  turn off recommendations, disable expensive analytics, serve cached results. Drive with **feature flags + load shedding** (reject low-priority requests first).
 
 ## Chaos Engineering
 
-Deliberately inject failures (kill instances, add latency, drop packets) to find weaknesses before they find you. **Start small** — one service in staging — then expand to prod with guardrails. Tools: Chaos Monkey, Gremlin, Litmus.
+Deliberately inject failures (kill instances, add latency, drop packets) to find weaknesses before they find you. **Start small**  --  one service in staging  --  then expand to prod with guardrails. Tools: Chaos Monkey, Gremlin, Litmus.
 
 ## Idempotency
 
-Every operation should be safe to retry. Naturally idempotent: GET, PUT, DELETE. For non-idempotent ops (payments, order creation) use **idempotency keys** — client sends a unique key, server dedups.
+Every operation should be safe to retry. Naturally idempotent: GET, PUT, DELETE. For non-idempotent ops (payments, order creation) use **idempotency keys**  --  client sends a unique key, server dedups.
 
 ## Blast Radius Containment
 

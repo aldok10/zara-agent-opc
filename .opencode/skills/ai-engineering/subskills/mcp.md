@@ -22,7 +22,7 @@ MCP = **"USB-C for AI."** A universal open standard for connecting AI models to 
 
 ## Building an MCP server
 - Define tools with clear names, descriptions, and JSON-schema parameters
-- **Tool descriptions ARE the documentation** — the model reads them to decide when/how to call
+- **Tool descriptions ARE the documentation**  --  the model reads them to decide when/how to call
 - Return structured data (JSON preferred); return errors as structured responses too
 - Make operations **idempotent** where possible (models retry)
 

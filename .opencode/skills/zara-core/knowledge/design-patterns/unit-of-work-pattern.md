@@ -10,7 +10,7 @@ weight: 380
 
 ## What is the Unit of Work Pattern?
 
-The Unit of Work Pattern tracks all changes made to domain objects during a business transaction — new objects, modified objects, and deleted objects — and coordinates persisting those changes to the database as a single atomic operation. This ensures that related changes either all succeed or all fail together, preserving data consistency.
+The Unit of Work Pattern tracks all changes made to domain objects during a business transaction  --  new objects, modified objects, and deleted objects  --  and coordinates persisting those changes to the database as a single atomic operation. This ensures that related changes either all succeed or all fail together, preserving data consistency.
 
 Without a Unit of Work, you would need to call the database once per repository operation. A Unit of Work batches these writes, reducing round-trips and allowing the work to be wrapped in a transaction.
 

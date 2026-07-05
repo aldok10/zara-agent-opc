@@ -11,13 +11,13 @@ weight: 350
 
 Speculative Generality is the code smell of building abstractions, hooks, or flexibility into code for hypothetical future requirements that may never materialize. It is the technical expression of "just in case": an extra parameter added to support a use case that is not yet needed, an interface created for a single implementation in case a second one is added someday, a configuration option introduced to allow behavior that is never actually varied. The code is more complex than the current problem requires, and that complexity serves no one today.
 
-The [You Aren't Gonna Need It (YAGNI) principle](/principles/yagni/) is the direct remedy: do not add capability until there is a concrete, immediate need for it. Speculative code has a real cost — it must be read, understood, tested, and maintained — while its speculative benefit is uncertain and often never realized.
+The [You Aren't Gonna Need It (YAGNI) principle](/principles/yagni/) is the direct remedy: do not add capability until there is a concrete, immediate need for it. Speculative code has a real cost  --  it must be read, understood, tested, and maintained  --  while its speculative benefit is uncertain and often never realized.
 
 ## Common Manifestations
 
 ### Unused Abstract Classes and Interfaces
 
-An abstract base class or interface with only one concrete implementation — where no second implementation is planned or in progress — is often speculative. The abstraction adds a layer of indirection without supporting any actual variation.
+An abstract base class or interface with only one concrete implementation  --  where no second implementation is planned or in progress  --  is often speculative. The abstraction adds a layer of indirection without supporting any actual variation.
 
 ```csharp
 public interface IGreetingFormatter
@@ -56,7 +56,7 @@ Framework code, base classes, or service layers that expose overridable methods,
 
 ### Overly Generic Names and Structures
 
-Names like `Manager`, `Processor`, `Handler`, `Helper`, or `Utility` are sometimes signals of speculative generality — structures built to absorb any future requirement rather than to solve a specific, named problem.
+Names like `Manager`, `Processor`, `Handler`, `Helper`, or `Utility` are sometimes signals of speculative generality  --  structures built to absorb any future requirement rather than to solve a specific, named problem.
 
 ### [Dead Code](/code-smells/dead-code/) from Abandoned Speculation
 

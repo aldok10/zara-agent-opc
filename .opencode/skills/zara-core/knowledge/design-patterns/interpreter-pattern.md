@@ -10,7 +10,7 @@ weight: 160
 
 ## What is the Interpreter Design Pattern?
 
-The Interpreter Design Pattern is a behavioral pattern that defines a representation for a grammar along with an interpreter that uses that representation to evaluate sentences in the language. Each rule in the grammar maps to a class, and a sentence in the language is represented as a tree of those objects — called an *abstract syntax tree* (AST).
+The Interpreter Design Pattern is a behavioral pattern that defines a representation for a grammar along with an interpreter that uses that representation to evaluate sentences in the language. Each rule in the grammar maps to a class, and a sentence in the language is represented as a tree of those objects  --  called an *abstract syntax tree* (AST).
 
 This pattern is well suited to problems where:
 
@@ -20,21 +20,21 @@ This pattern is well suited to problems where:
 
 Common real-world applications include:
 
-- **Rule or permission engines** — evaluating conditions like `"Admin AND Active"` against a runtime context
-- **Configuration DSLs** — processing simple domain-specific query or filter syntax
-- **Mathematical expression evaluators** — parsing and computing formulas at runtime
-- **Template engines** — interpreting placeholder expressions in text templates
+- **Rule or permission engines**  --  evaluating conditions like `"Admin AND Active"` against a runtime context
+- **Configuration DSLs**  --  processing simple domain-specific query or filter syntax
+- **Mathematical expression evaluators**  --  parsing and computing formulas at runtime
+- **Template engines**  --  interpreting placeholder expressions in text templates
 
 The pattern defines four roles:
 
-- **AbstractExpression** — declares the `Interpret` operation that all grammar elements must implement.
-- **TerminalExpression** — handles the base cases of the grammar (variables, literals). It has no children.
-- **NonterminalExpression** — handles composite grammar rules (AND, OR, NOT). It holds references to child expressions and recursively delegates to them.
-- **Context** — carries the global state needed during interpretation (e.g., variable values).
+- **AbstractExpression**  --  declares the `Interpret` operation that all grammar elements must implement.
+- **TerminalExpression**  --  handles the base cases of the grammar (variables, literals). It has no children.
+- **NonterminalExpression**  --  handles composite grammar rules (AND, OR, NOT). It holds references to child expressions and recursively delegates to them.
+- **Context**  --  carries the global state needed during interpretation (e.g., variable values).
 
 ## Relationship to Other Patterns
 
-The AST produced by the Interpreter pattern is structurally a [Composite](/design-patterns/composite-pattern/): terminal expressions are the leaves and nonterminal expressions are the composites. If you need to add new *operations* over an existing AST — such as pretty-printing, optimization, or type-checking — without modifying the expression classes, the [Visitor](/design-patterns/visitor-pattern/) pattern is a natural companion. The [Iterator](/design-patterns/iterator-pattern/) pattern is commonly used to traverse the nodes of the AST in a specific order (for example, walking a token stream during parsing).
+The AST produced by the Interpreter pattern is structurally a [Composite](/design-patterns/composite-pattern/): terminal expressions are the leaves and nonterminal expressions are the composites. If you need to add new *operations* over an existing AST  --  such as pretty-printing, optimization, or type-checking  --  without modifying the expression classes, the [Visitor](/design-patterns/visitor-pattern/) pattern is a natural companion. The [Iterator](/design-patterns/iterator-pattern/) pattern is commonly used to traverse the nodes of the AST in a specific order (for example, walking a token stream during parsing).
 
 Because each grammar rule is a separate class, Interpreter follows the [Single Responsibility Principle](/principles/single-responsibility-principle/) and the [Open-Closed Principle](/principles/open-closed-principle/): new grammar rules can be added by introducing new expression classes rather than by modifying existing ones.
 
@@ -183,7 +183,7 @@ VIP (inactive):   False
 Regular (active): False
 ```
 
-The same AST is evaluated against different contexts without rebuilding or recompiling anything. New grammar elements — such as an `XorExpression` or a `LiteralExpression` for constants — can be added by implementing `IBooleanExpression` with no changes to existing code.
+The same AST is evaluated against different contexts without rebuilding or recompiling anything. New grammar elements  --  such as an `XorExpression` or a `LiteralExpression` for constants  --  can be added by implementing `IBooleanExpression` with no changes to existing code.
 
 ## When to Use the Interpreter Pattern
 
@@ -191,7 +191,7 @@ The Interpreter pattern is most appropriate when:
 
 - The grammar is **simple**. Each rule becomes a class, so a large grammar produces a large number of classes that can become difficult to manage and maintain.
 - **Efficiency is not the primary concern**. Recursive AST traversal is convenient but not optimized. For performance-sensitive parsing, consider a dedicated parser library or code generation approach.
-- **Composability matters**. If you need to construct, combine, and reuse expressions programmatically — such as building access rules from configuration — the object-per-rule structure is a natural fit.
+- **Composability matters**. If you need to construct, combine, and reuse expressions programmatically  --  such as building access rules from configuration  --  the object-per-rule structure is a natural fit.
 
 For complex grammars, tools such as ANTLR or parser combinators are generally a better choice than hand-writing an Interpreter implementation.
 

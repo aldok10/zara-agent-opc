@@ -4,12 +4,12 @@ title: Poor Names Code Smell
 
 date: 2026-03-08
 
-description: The Poor Names code smell occurs when identifiers — variables, methods, classes, and parameters — are named in ways that obscure their purpose, making code harder to read and understand.
+description: The Poor Names code smell occurs when identifiers  --  variables, methods, classes, and parameters  --  are named in ways that obscure their purpose, making code harder to read and understand.
 
 weight: 290
 ---
 
-The Poor Names code smell occurs when the identifiers in code — variables, methods, classes, parameters, and properties — are named in ways that obscure what they represent or what they do. Names are the primary way code communicates intent; a poor name forces the reader to work harder to understand the code, or worse, leads them to a wrong understanding. Good naming is one of the highest-leverage practices in software development, and its absence is a pervasive source of confusion and bugs.
+The Poor Names code smell occurs when the identifiers in code  --  variables, methods, classes, parameters, and properties  --  are named in ways that obscure what they represent or what they do. Names are the primary way code communicates intent; a poor name forces the reader to work harder to understand the code, or worse, leads them to a wrong understanding. Good naming is one of the highest-leverage practices in software development, and its absence is a pervasive source of confusion and bugs.
 
 Poor names often arise incrementally. A variable named `x` is acceptable as a loop counter in a tight math expression, but becomes a smell when used to represent a domain concept. A method named `Process` or `Handle` may have been clear at the time it was written but accumulates responsibility over time until the name no longer reflects what the method does.
 
@@ -33,7 +33,7 @@ A name that implies something different from what the code actually does is wors
 
 ### Names That Lie About Type
 
-Using a name that implies a type different from the actual type — for example, `userList` for a dictionary, or `isProcessed` for an integer status code — causes confusion. Names should reflect the nature and type of the value they identify.
+Using a name that implies a type different from the actual type  --  for example, `userList` for a dictionary, or `isProcessed` for an integer status code  --  causes confusion. Names should reflect the nature and type of the value they identify.
 
 ### Inconsistent Naming
 

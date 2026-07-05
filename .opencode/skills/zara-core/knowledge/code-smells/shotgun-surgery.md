@@ -9,7 +9,7 @@ description: Shotgun Surgery is a code smell where making a single logical chang
 weight: 340
 ---
 
-Shotgun Surgery is a code smell where a single logical change — fixing a business rule, updating a data format, changing a configuration value — forces you to make small edits scattered across many different classes or files at the same time. The name evokes the buckshot pattern: one trigger pull, holes everywhere.
+Shotgun Surgery is a code smell where a single logical change  --  fixing a business rule, updating a data format, changing a configuration value  --  forces you to make small edits scattered across many different classes or files at the same time. The name evokes the buckshot pattern: one trigger pull, holes everywhere.
 
 Shotgun Surgery is the inverse of [Divergent Change](./divergent-change): where Divergent Change means one class changes for many reasons, Shotgun Surgery means one reason to change affects many classes. Both indicate a poor distribution of responsibility, but in **opposite directions**.
 
@@ -17,7 +17,7 @@ Shotgun Surgery is the inverse of [Divergent Change](./divergent-change): where 
 
 ### High Risk of Missed Edits
 
-Because the change is spread across the codebase, it is easy to overlook one location. A missed update introduces an inconsistency — and often a subtle bug that is hard to trace back to its cause.
+Because the change is spread across the codebase, it is easy to overlook one location. A missed update introduces an inconsistency  --  and often a subtle bug that is hard to trace back to its cause.
 
 ### Violation of the Single Responsibility Principle
 
@@ -37,10 +37,10 @@ The more locations a single concept occupies, the more places there are for that
 
 ## Common Causes
 
-- **Cross-cutting concerns implemented inline** — logging, validation, caching, or error handling duplicated in every method or class rather than centralized.
-- **No abstraction for a shared concept** — a business rule (e.g., a tax rate, a discount formula, an access control check) is written out wherever it is needed rather than encapsulated in a single authoritative location.
-- **Missing domain types** — related data and behavior spread across multiple classes because no dedicated type owns them (see [Data Clumps](./data-clumps) and [Primitive Obsession](./primitive-obsession-code-smell)).
-- **[Combinatorial Explosion](./combinatorial-explosion)** — logic duplicated across a large number of near-identical methods or classes.
+- **Cross-cutting concerns implemented inline**  --  logging, validation, caching, or error handling duplicated in every method or class rather than centralized.
+- **No abstraction for a shared concept**  --  a business rule (e.g., a tax rate, a discount formula, an access control check) is written out wherever it is needed rather than encapsulated in a single authoritative location.
+- **Missing domain types**  --  related data and behavior spread across multiple classes because no dedicated type owns them (see [Data Clumps](./data-clumps) and [Primitive Obsession](./primitive-obsession-code-smell)).
+- **[Combinatorial Explosion](./combinatorial-explosion)**  --  logic duplicated across a large number of near-identical methods or classes.
 
 ## Example
 
@@ -57,7 +57,7 @@ decimal tax = invoice.Amount * 0.08m;
 decimal tax = quote.Total * 0.08m;
 ```
 
-Changing the tax rate — or the tax calculation logic — requires updating three files. Miss one, and the system is inconsistent.
+Changing the tax rate  --  or the tax calculation logic  --  requires updating three files. Miss one, and the system is inconsistent.
 
 After consolidating:
 
@@ -74,11 +74,11 @@ Now every service depends on `TaxCalculator`. Changing the rate or the formula i
 
 ## Addressing Shotgun Surgery
 
-- **Move Method / Move Field** — relocate scattered logic to the class that owns the relevant data or concept.
-- **Extract Class** — gather related fields and methods from multiple classes into a single new class that owns the concept.
-- **Inline Class** — if a concept is spread across too many tiny classes without [cohesion](/terms/cohesion/), consolidate them.
-- **Introduce a Service or Policy object** — encapsulate a cross-cutting rule (pricing, tax, access control) in a dedicated class so there is one authoritative source.
-- **Apply the [Single Responsibility Principle](/principles/single-responsibility-principle/)** — ensure each class has one reason to change, so changes to a concept require touching only one place.
+- **Move Method / Move Field**  --  relocate scattered logic to the class that owns the relevant data or concept.
+- **Extract Class**  --  gather related fields and methods from multiple classes into a single new class that owns the concept.
+- **Inline Class**  --  if a concept is spread across too many tiny classes without [cohesion](/terms/cohesion/), consolidate them.
+- **Introduce a Service or Policy object**  --  encapsulate a cross-cutting rule (pricing, tax, access control) in a dedicated class so there is one authoritative source.
+- **Apply the [Single Responsibility Principle](/principles/single-responsibility-principle/)**  --  ensure each class has one reason to change, so changes to a concept require touching only one place.
 
 ## References
 

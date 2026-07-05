@@ -18,7 +18,7 @@ Code that works today but nobody understands tomorrow. AI generates it faster th
 
 - **Test coverage**: maintain it; don't let AI code drag it down
 - **Cyclomatic complexity**: AI sometimes generates over-complex solutions
-- **Dependency count**: AI adds libraries freely — review each addition
+- **Dependency count**: AI adds libraries freely  --  review each addition
 - **PR size**: 1000+ line AI PR → decompose into smaller reviewable chunks
 
 ## Mutation testing

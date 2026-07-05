@@ -17,7 +17,7 @@ SLOs turn reliability into a measurable, negotiable target. They align engineeri
 Base targets on user tolerance, NOT engineering aspiration. Start conservative, tighten later.
 - **99%** = 7.3 hours downtime/month (reasonable for internal tools).
 - **99.9%** = 43.2 min/month (most production services).
-- **99.99%** = 4.3 min/month (payments, auth — very expensive to maintain).
+- **99.99%** = 4.3 min/month (payments, auth  --  very expensive to maintain).
 
 ## Error budget policy (what happens as budget burns)
 - **50% consumed**: review, no action needed.

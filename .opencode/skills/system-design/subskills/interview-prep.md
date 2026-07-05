@@ -4,7 +4,7 @@ Deep-dive reference for structuring a 45–60 min system design interview.
 
 ## The Framework
 
-**Phase 1 — Clarify requirements (5 min).** Don't assume; ask:
+**Phase 1  --  Clarify requirements (5 min).** Don't assume; ask:
 - Who/how many users? DAU/MAU?
 - QPS (read vs write ratio)?
 - Data size / growth?
@@ -12,17 +12,17 @@ Deep-dive reference for structuring a 45–60 min system design interview.
 - Consistency needs (strong vs eventual)?
 - Which features are in scope? Nail functional + non-functional requirements first.
 
-**Phase 2 — API design + data model (10 min).**
+**Phase 2  --  API design + data model (10 min).**
 - Define core endpoints, request/response shapes.
 - Sketch schema + relationships.
 - Identify **access patterns** (they drive DB and index choices).
 
-**Phase 3 — High-level architecture (15 min).**
+**Phase 3  --  High-level architecture (15 min).**
 - Draw the boxes: client, LB, services, cache, DB, queue.
 - Walk the data flow end to end.
 - Make **2–3 key decisions and explain WHY** (SQL vs NoSQL, sync vs async, etc.).
 
-**Phase 4 — Deep dive (15 min).**
+**Phase 4  --  Deep dive (15 min).**
 - Interviewer picks a bottleneck. Scale it.
 - Handle failure modes.
 - Add monitoring/alerting. Discuss trade-offs.
@@ -38,11 +38,11 @@ Deep-dive reference for structuring a 45–60 min system design interview.
 
 ## What Interviewers Look For
 
-- **Structured thinking** — don't jump straight to a solution.
-- **Trade-off articulation** — not "we could use X" but "X gives Y at the cost of Z."
-- **Operational awareness** — monitoring, what breaks, how you deploy.
-- **Depth when probed** — can drill into any component.
-- **Communication** — clear, collaborative, asks good questions.
+- **Structured thinking**  --  don't jump straight to a solution.
+- **Trade-off articulation**  --  not "we could use X" but "X gives Y at the cost of Z."
+- **Operational awareness**  --  monitoring, what breaks, how you deploy.
+- **Depth when probed**  --  can drill into any component.
+- **Communication**  --  clear, collaborative, asks good questions.
 
 ## Common Questions
 
@@ -55,4 +55,4 @@ URL shortener · Twitter/news feed · chat system · rate limiter · notificatio
 - Over-engineering (multi-region, microservices for a toy).
 - Forgetting failure modes.
 - No monitoring/alerting discussion.
-- Going silent — think out loud, it's collaborative.
+- Going silent  --  think out loud, it's collaborative.

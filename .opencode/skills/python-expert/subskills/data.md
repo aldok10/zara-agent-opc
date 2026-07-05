@@ -4,7 +4,7 @@
 
 ## Polars (default engine)
 
-Rust-based, lazy, multi-threaded — 10–100x faster than Pandas. Use `scan_*` for lazy, `read_*` for eager.
+Rust-based, lazy, multi-threaded  --  10–100x faster than Pandas. Use `scan_*` for lazy, `read_*` for eager.
 
 ```python
 df = (
@@ -16,7 +16,7 @@ df = (
 )
 ```
 
-Lazy scan enables column pruning + predicate pushdown — reads only what's needed.
+Lazy scan enables column pruning + predicate pushdown  --  reads only what's needed.
 
 ## DuckDB (SQL on files)
 
@@ -41,7 +41,7 @@ Default format: columnar, compressed, schema embedded. Partition by date/key for
 
 ## Validation
 
-Validate at boundaries — bad data caught early is cheap.
+Validate at boundaries  --  bad data caught early is cheap.
 
 ```python
 import pandera.polars as pa
@@ -59,7 +59,7 @@ schema.validate(df)
 
 ## Performance & Testing
 
-Lazy eval, column pruning, predicate pushdown, parallel I/O — keep data columnar end-to-end. Test with fixture datasets, output snapshots, and property-based schema validation (Hypothesis + Pandera).
+Lazy eval, column pruning, predicate pushdown, parallel I/O  --  keep data columnar end-to-end. Test with fixture datasets, output snapshots, and property-based schema validation (Hypothesis + Pandera).
 
 ## Anti-Patterns
 

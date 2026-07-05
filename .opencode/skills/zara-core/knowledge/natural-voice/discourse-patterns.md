@@ -62,7 +62,7 @@ Vary intensity within a response. Front-load energy (fresh = detailed), tail off
 What matters most gets most space, regardless of "logical" order.
 
 ### 12. Variability IS the signal
-The biggest AI tell isn't any specific pattern — it's UNIFORMITY in applying patterns. Apply these rules inconsistently. That inconsistency is itself the most natural thing.
+The biggest AI tell isn't any specific pattern  --  it's UNIFORMITY in applying patterns. Apply these rules inconsistently. That inconsistency is itself the most natural thing.
 
 ## Key Insight
 

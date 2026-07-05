@@ -9,7 +9,7 @@ description: The Class Doesn't Do Much code smell, also called a Lazy Class, des
 weight: 50
 ---
 
-The Class Doesn't Do Much code smell — also known as a **Lazy Class** — describes a class that exists in the codebase but contributes so little behavior or responsibility that it does not justify its own existence. These classes often hold a single field, wrap a single method call, or contain only trivial pass-through logic. They add indirection without adding value, and they fragment the design without clarifying it.
+The Class Doesn't Do Much code smell  --  also known as a **Lazy Class**  --  describes a class that exists in the codebase but contributes so little behavior or responsibility that it does not justify its own existence. These classes often hold a single field, wrap a single method call, or contain only trivial pass-through logic. They add indirection without adding value, and they fragment the design without clarifying it.
 
 Lazy classes often appear when a planned abstraction never fully materialized, when a refactoring extracted a class that turned out to need very little of its own behavior, or when a class gradually had its responsibilities moved elsewhere and was never removed.
 
@@ -17,7 +17,7 @@ Lazy classes often appear when a planned abstraction never fully materialized, w
 
 ### Unnecessary Indirection
 
-Every class in a codebase represents a concept that a developer must understand. A class with little purpose adds a navigation step — a reader follows references to `AddressFormatter` only to find a single method that calls `string.Format`. That indirection costs time without providing clarity.
+Every class in a codebase represents a concept that a developer must understand. A class with little purpose adds a navigation step  --  a reader follows references to `AddressFormatter` only to find a single method that calls `string.Format`. That indirection costs time without providing clarity.
 
 ### Fragmented Responsibility
 
@@ -25,11 +25,11 @@ When behavior is spread across too many small classes, it can be difficult to fi
 
 ### Maintenance Overhead
 
-Every class is a unit that must be kept up to date — imports, namespaces, test coverage, and documentation all apply. Classes that do little amplify this overhead without a proportional benefit.
+Every class is a unit that must be kept up to date  --  imports, namespaces, test coverage, and documentation all apply. Classes that do little amplify this overhead without a proportional benefit.
 
 ### Test Noise
 
-A lazy class typically requires its own test file, test setup, and mocks. Writing tests for pass-through wrappers creates test noise — tests that are difficult to name, provide little confidence, and must be maintained as the code evolves.
+A lazy class typically requires its own test file, test setup, and mocks. Writing tests for pass-through wrappers creates test noise  --  tests that are difficult to name, provide little confidence, and must be maintained as the code evolves.
 
 ## Example
 

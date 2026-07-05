@@ -12,9 +12,9 @@ weight: 230
 
 Model-View-ViewModel (MVVM) is an architectural pattern that separates an application into three components:
 
-- **Model** — the application's data, business logic, and rules. The model is entirely independent of the UI.
-- **View** — the UI layer. In MVVM the view declares *data bindings* to the ViewModel rather than containing imperative update code. The view reacts automatically when the ViewModel's state changes.
-- **ViewModel** — adapts the model for presentation and exposes it as observable properties and commands. The ViewModel has **no reference to the View** — it knows nothing about how it is rendered.
+- **Model**  --  the application's data, business logic, and rules. The model is entirely independent of the UI.
+- **View**  --  the UI layer. In MVVM the view declares *data bindings* to the ViewModel rather than containing imperative update code. The view reacts automatically when the ViewModel's state changes.
+- **ViewModel**  --  adapts the model for presentation and exposes it as observable properties and commands. The ViewModel has **no reference to the View**  --  it knows nothing about how it is rendered.
 
 The crucial difference from [MVC](/design-patterns/mvc-pattern/) and [MVP](/design-patterns/mvp-pattern/) is the **data-binding contract**: the platform's binding engine keeps the view in sync with the ViewModel automatically, so the ViewModel never needs to push updates to the view imperatively.
 
@@ -38,9 +38,9 @@ Domain entities, services, and repositories. The model owns business logic; it h
 
 The ViewModel is the heart of MVVM. It:
 
-1. **Exposes observable properties** — implements `INotifyPropertyChanged` (or uses a source generator / toolkit) so the binding engine can react when values change.
-2. **Exposes commands** — wraps actions the user can invoke (button clicks, menu selections) as `ICommand` implementations so the View can bind to them without code-behind.
-3. **Is fully unit-testable** — because the ViewModel has no dependency on any view type, its entire logic can be exercised in plain unit tests.
+1. **Exposes observable properties**  --  implements `INotifyPropertyChanged` (or uses a source generator / toolkit) so the binding engine can react when values change.
+2. **Exposes commands**  --  wraps actions the user can invoke (button clicks, menu selections) as `ICommand` implementations so the View can bind to them without code-behind.
+3. **Is fully unit-testable**  --  because the ViewModel has no dependency on any view type, its entire logic can be exercised in plain unit tests.
 
 ### View
 
@@ -207,15 +207,15 @@ public async Task LoadProductsCommand_PopulatesProducts()
 }
 ```
 
-No UI framework required — pure in-process test.
+No UI framework required  --  pure in-process test.
 
 ## MVVM in Web Frameworks
 
 MVVM is not limited to XAML platforms:
 
-- **Blazor** — a `@code` block in a `.razor` component acts as the ViewModel; properties trigger re-renders automatically.
-- **Angular** — the component class is the ViewModel; templates bind with `{{ }}` and `[(ngModel)]`.
-- **Vue** — the Options API object or Composition API `reactive`/`ref` values are the ViewModel; the template binds declaratively.
+- **Blazor**  --  a `@code` block in a `.razor` component acts as the ViewModel; properties trigger re-renders automatically.
+- **Angular**  --  the component class is the ViewModel; templates bind with `{{ }}` and `[(ngModel)]`.
+- **Vue**  --  the Options API object or Composition API `reactive`/`ref` values are the ViewModel; the template binds declaratively.
 
 ## MVVM vs. MVC vs. MVP
 

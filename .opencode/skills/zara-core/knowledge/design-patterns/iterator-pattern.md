@@ -10,27 +10,27 @@ weight: 170
 
 ## What is the Iterator Design Pattern?
 
-The Iterator Design Pattern is a behavioral pattern that provides a standard way to traverse the elements of a collection without exposing the collection's internal structure. The client never needs to know whether it's walking an array, a linked list, a tree, or a lazily-generated sequence — it just calls `MoveNext()` and reads `Current`.
+The Iterator Design Pattern is a behavioral pattern that provides a standard way to traverse the elements of a collection without exposing the collection's internal structure. The client never needs to know whether it's walking an array, a linked list, a tree, or a lazily-generated sequence  --  it just calls `MoveNext()` and reads `Current`.
 
 This separation matters in several situations:
 
-- **Different traversal strategies** — the same collection might need to be traversed forward, backward, in sorted order, or via breadth-first or depth-first search. Each strategy can be encapsulated in its own iterator.
-- **Lazy evaluation** — an iterator can produce items on demand rather than materializing the entire collection upfront, which is critical for large or infinite sequences.
-- **Multiple simultaneous traversals** — because each iterator maintains its own position, several callers can iterate the same collection independently at the same time.
+- **Different traversal strategies**  --  the same collection might need to be traversed forward, backward, in sorted order, or via breadth-first or depth-first search. Each strategy can be encapsulated in its own iterator.
+- **Lazy evaluation**  --  an iterator can produce items on demand rather than materializing the entire collection upfront, which is critical for large or infinite sequences.
+- **Multiple simultaneous traversals**  --  because each iterator maintains its own position, several callers can iterate the same collection independently at the same time.
 
 The pattern defines four participants:
 
-- **Iterator** — the interface for traversing elements (`MoveNext()`, `Current`, `Reset()`).
-- **ConcreteIterator** — implements the Iterator interface and tracks the current position in the traversal.
-- **Aggregate** — the interface for creating an iterator (`GetEnumerator()`).
-- **ConcreteAggregate** — the collection that creates a ConcreteIterator for its contents.
+- **Iterator**  --  the interface for traversing elements (`MoveNext()`, `Current`, `Reset()`).
+- **ConcreteIterator**  --  implements the Iterator interface and tracks the current position in the traversal.
+- **Aggregate**  --  the interface for creating an iterator (`GetEnumerator()`).
+- **ConcreteAggregate**  --  the collection that creates a ConcreteIterator for its contents.
 
 ## Iterator in .NET
 
 The Iterator pattern is built directly into C#. The framework provides two interfaces that map exactly to the GoF roles:
 
-- `IEnumerable<T>` is the **Aggregate** — it exposes `GetEnumerator()`.
-- `IEnumerator<T>` is the **Iterator** — it exposes `MoveNext()`, `Current`, and `Reset()`.
+- `IEnumerable<T>` is the **Aggregate**  --  it exposes `GetEnumerator()`.
+- `IEnumerator<T>` is the **Iterator**  --  it exposes `MoveNext()`, `Current`, and `Reset()`.
 
 The `foreach` keyword is syntactic sugar for calling `GetEnumerator()` and looping via `MoveNext()` / `Current`. LINQ is built entirely on top of `IEnumerable<T>`, which means every LINQ operator (`Where`, `Select`, `OrderBy`, etc.) produces a lazy iterator over the source sequence. Because of this pervasive language support, you will often implement the Iterator pattern in C# without consciously thinking of it as such.
 
@@ -233,7 +233,7 @@ In-order:      1 2 3 4 5 6 7
 Breadth-first: 4 2 6 1 3 5 7
 ```
 
-Client code only sees `IEnumerable<int>` — it has no knowledge of the tree's node structure or how the traversal is implemented.
+Client code only sees `IEnumerable<int>`  --  it has no knowledge of the tree's node structure or how the traversal is implemented.
 
 ## Relationship to Other Patterns
 

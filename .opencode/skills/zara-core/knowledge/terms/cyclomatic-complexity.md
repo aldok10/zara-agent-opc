@@ -29,8 +29,8 @@ Where **E** is the number of edges, **N** is the number of nodes, and **P** is t
 |-------|---------------|
 | 1–5   | Simple, easy to test |
 | 6–10  | Moderate complexity, manageable |
-| 11–20 | High complexity — consider refactoring |
-| 21+   | Very high — difficult to test and maintain |
+| 11–20 | High complexity  --  consider refactoring |
+| 21+   | Very high  --  difficult to test and maintain |
 
 These thresholds are guidelines, not hard rules. A score of 10 in a well-structured parser may be entirely acceptable; a score of 6 in a domain service might signal a design problem.
 
@@ -50,7 +50,7 @@ A developer reading a method with many branches must hold all the branching cond
 
 ## Cyclomatic vs. Cognitive Complexity
 
-Cyclomatic complexity counts **paths** — it is a structural, mathematical measure. [Cognitive complexity](/terms/cognitive-complexity/) measures **mental effort** — it penalizes nesting and non-linear control flow more heavily than flat chains of conditions. A method can have high cyclomatic complexity without being especially hard to read (a long but flat `switch` statement), or moderate cyclomatic complexity while being very hard to follow (deeply nested conditions).
+Cyclomatic complexity counts **paths**  --  it is a structural, mathematical measure. [Cognitive complexity](/terms/cognitive-complexity/) measures **mental effort**  --  it penalizes nesting and non-linear control flow more heavily than flat chains of conditions. A method can have high cyclomatic complexity without being especially hard to read (a long but flat `switch` statement), or moderate cyclomatic complexity while being very hard to follow (deeply nested conditions).
 
 Both metrics are useful. Cyclomatic complexity is a strong predictor of testing effort; cognitive complexity is a better predictor of readability difficulty. Together they provide a more complete picture of the [Conditional Complexity](../code-smells/conditional-complexity) code smell.
 
@@ -58,10 +58,10 @@ Both metrics are useful. Cyclomatic complexity is a strong predictor of testing 
 
 The primary goal is to reduce the number of decision points in a single method:
 
-- **Extract Method** — break a complex method into smaller, focused methods, each with its own lower complexity score.
-- **Replace Conditional with Polymorphism** — move branches into separate classes (Strategy, State) so each class has a simple, single-path implementation.
-- **[Guard Clauses](/design-patterns/guard-clause/)** — handle edge cases early and return, flattening nested conditions and reducing nesting depth.
-- **Replace nested conditionals with table-driven logic** — map inputs to outputs using a dictionary or data structure instead of branching code.
+- **Extract Method**  --  break a complex method into smaller, focused methods, each with its own lower complexity score.
+- **Replace Conditional with Polymorphism**  --  move branches into separate classes (Strategy, State) so each class has a simple, single-path implementation.
+- **[Guard Clauses](/design-patterns/guard-clause/)**  --  handle edge cases early and return, flattening nested conditions and reducing nesting depth.
+- **Replace nested conditionals with table-driven logic**  --  map inputs to outputs using a dictionary or data structure instead of branching code.
 
 ## Tooling
 
@@ -74,9 +74,9 @@ Cyclomatic complexity can be measured automatically:
 
 ## References
 
-- *Structured Testing: A Testing Methodology Using the Cyclomatic Complexity Metric* — Thomas J. McCabe (1976)
-- *Code Complete* — Steve McConnell (2nd ed. 2004). Discusses complexity metrics and their role in measuring and controlling software quality.
-- [nmbls `cc` — Cyclomatic Complexity command](https://nmbl.dev/docs/commands/cc-cyclomatic-complexity/)
+- *Structured Testing: A Testing Methodology Using the Cyclomatic Complexity Metric*  --  Thomas J. McCabe (1976)
+- *Code Complete*  --  Steve McConnell (2nd ed. 2004). Discusses complexity metrics and their role in measuring and controlling software quality.
+- [nmbls `cc`  --  Cyclomatic Complexity command](https://nmbl.dev/docs/commands/cc-cyclomatic-complexity/)
 - [Cognitive Complexity](/terms/cognitive-complexity/)
 - [Aggregate Complexity](/terms/aggregate-complexity/)
 - [Conditional Complexity Code Smell](../code-smells/conditional-complexity)

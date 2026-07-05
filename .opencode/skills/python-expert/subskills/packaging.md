@@ -2,7 +2,7 @@
 
 ## pyproject.toml
 
-Single source of config (PEP 621) — metadata, deps, tool config all in one file. No `setup.py`.
+Single source of config (PEP 621)  --  metadata, deps, tool config all in one file. No `setup.py`.
 
 ```toml
 [project]
@@ -16,7 +16,7 @@ dependencies = ["httpx>=0.27", "pydantic>=2.7"]
 
 - Fastest resolver/installer; replaces pip + poetry + virtualenv + pyenv.
 - `uv sync` installs from lockfile; `uv add <pkg>` adds + updates lock; `uv run` runs in env.
-- `uv lock` regenerates the lockfile — commit `uv.lock` ALWAYS.
+- `uv lock` regenerates the lockfile  --  commit `uv.lock` ALWAYS.
 
 ## Layout
 
@@ -55,7 +55,7 @@ CMD ["python", "-m", "myapp"]
 ## Config
 
 - `pydantic-settings` for typed env config; `.env` for dev, Vault/secrets-manager for prod.
-- Never hardcode secrets — read from env at startup, validate presence.
+- Never hardcode secrets  --  read from env at startup, validate presence.
 
 ## CI pipeline
 
@@ -73,7 +73,7 @@ uv build
 
 ## Anti-patterns
 
-- No lockfile — non-reproducible builds.
-- Global `pip install` — pollutes system, version conflicts.
-- `requirements.txt` without pins — silent breakage on rebuild.
+- No lockfile  --  non-reproducible builds.
+- Global `pip install`  --  pollutes system, version conflicts.
+- `requirements.txt` without pins  --  silent breakage on rebuild.
 - Fat Docker images (full base, build tools in runtime, source + deps in one layer).

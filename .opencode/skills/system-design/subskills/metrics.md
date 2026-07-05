@@ -1,6 +1,6 @@
 # Metrics & Instrumentation
 
-Metrics are cheap, aggregatable time series. Use them for trends, SLIs, and alerting — not for per-request debugging (that's traces).
+Metrics are cheap, aggregatable time series. Use them for trends, SLIs, and alerting  --  not for per-request debugging (that's traces).
 
 ## Methodologies
 - **RED** (request-driven services): **R**ate (requests/sec), **E**rrors (error rate), **D**uration (latency histogram).
@@ -14,12 +14,12 @@ Metrics are cheap, aggregatable time series. Use them for trends, SLIs, and aler
 ## Histograms
 - Default OTel buckets fit most cases.
 - Custom buckets for specific SLIs, e.g. `[0.01, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]` seconds.
-- Percentiles (p95/p99) require histograms — averages hide tail latency.
+- Percentiles (p95/p99) require histograms  --  averages hide tail latency.
 
 ## Cardinality management
 Labels multiply time series. 5 labels × 100 values each = 10 billion series = **cost explosion**.
 - **Safe labels** (bounded): `method`, `status_code`, `endpoint`.
-- **DANGEROUS labels** (unbounded): `user_id`, `request_id`, `trace_id` — NEVER on metrics.
+- **DANGEROUS labels** (unbounded): `user_id`, `request_id`, `trace_id`  --  NEVER on metrics.
 - **Rule**: if label values are unbounded, use traces instead.
 
 ## Tools

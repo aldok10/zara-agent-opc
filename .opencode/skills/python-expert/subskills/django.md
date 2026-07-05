@@ -9,12 +9,12 @@ Batteries-included: ORM, admin, auth, migrations, forms. Best for full-stack web
 
 ## Structure
 
-Apps as bounded contexts, not layers: `users/`, `orders/`, `payments/` — each with own models, views, serializers.
+Apps as bounded contexts, not layers: `users/`, `orders/`, `payments/`  --  each with own models, views, serializers.
 
 ## Models
 
 - Explicit fields; `db_index=True` on columns you filter/order by.
-- Avoid `null=True` on `CharField`/`TextField` — use `default=""` (two empty states is a bug).
+- Avoid `null=True` on `CharField`/`TextField`  --  use `default=""` (two empty states is a bug).
 - `related_name` on FKs for reverse queries; `on_delete` always explicit.
 
 ```python
@@ -61,6 +61,6 @@ class Order(models.Model):
 
 ## Anti-patterns
 
-- Fat views (business logic in views) — push to services/model methods.
+- Fat views (business logic in views)  --  push to services/model methods.
 - N+1 queries from missing `select_related`/`prefetch_related`.
 - Raw SQL where ORM suffices; missing indexes on filtered fields.

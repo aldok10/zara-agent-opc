@@ -12,11 +12,11 @@ weight: 220
 
 Model-View-Presenter (MVP) is an architectural pattern derived from [MVC](/design-patterns/mvc-pattern/) that separates an application into three components:
 
-- **Model** — represents data, business logic, and rules. The model is entirely independent of the UI.
-- **View** — displays data and forwards user input to the Presenter. In MVP the view is intentionally *passive* — it contains no logic of its own, only rendering and delegation.
-- **Presenter** — mediates between Model and View. It retrieves data from the model, formats it for display, and pushes it to the view. It also handles all user input events forwarded by the view.
+- **Model**  --  represents data, business logic, and rules. The model is entirely independent of the UI.
+- **View**  --  displays data and forwards user input to the Presenter. In MVP the view is intentionally *passive*  --  it contains no logic of its own, only rendering and delegation.
+- **Presenter**  --  mediates between Model and View. It retrieves data from the model, formats it for display, and pushes it to the view. It also handles all user input events forwarded by the view.
 
-The defining structural difference from MVC is that **the Presenter holds a direct reference to the View through an interface**. This makes the entire presenter — including all presentation logic that in MVC would be scattered across controllers and views — fully testable without a UI framework.
+The defining structural difference from MVC is that **the Presenter holds a direct reference to the View through an interface**. This makes the entire presenter  --  including all presentation logic that in MVC would be scattered across controllers and views  --  fully testable without a UI framework.
 
 ```
 User Input ──▶ View ──▶ Presenter ──▶ Model
@@ -39,7 +39,7 @@ The view in MVP is deliberately kept dumb. It exposes only:
 - Properties for each piece of data it displays (the presenter sets them).
 - Events or method calls that notify the presenter of user actions.
 
-The view implements an `IView` interface that the presenter depends on. This is what enables the presenter to be tested in isolation — a test can supply a fake view.
+The view implements an `IView` interface that the presenter depends on. This is what enables the presenter to be tested in isolation  --  a test can supply a fake view.
 
 ```csharp
 public interface IOrderListView
@@ -123,11 +123,11 @@ Martin Fowler identified two flavours of MVP:
 
 ### Passive View
 
-The view is completely inert — all logic lives in the presenter. The view exposes only primitive setters and events. The presenter reads from the model and writes every individual property of the view. This maximises testability: you can test *all* presentation behaviour through the presenter alone.
+The view is completely inert  --  all logic lives in the presenter. The view exposes only primitive setters and events. The presenter reads from the model and writes every individual property of the view. This maximises testability: you can test *all* presentation behaviour through the presenter alone.
 
 ### Supervising Controller
 
-The view retains simple data-binding to the model for straightforward display tasks, while the presenter handles only complex logic that plain binding cannot express. This reduces boilerplate at the cost of some testability — some behaviour lives in the binding and is harder to test independently.
+The view retains simple data-binding to the model for straightforward display tasks, while the presenter handles only complex logic that plain binding cannot express. This reduces boilerplate at the cost of some testability  --  some behaviour lives in the binding and is harder to test independently.
 
 Most modern guidance favours Passive View because it draws a clean line: the presenter is fully testable, the view is a thin rendering shell.
 
@@ -154,7 +154,7 @@ public async Task Initialize_LoadsOrdersIntoView()
 }
 ```
 
-No UI framework, no browser, no form — pure in-process unit test with full coverage of presentation logic.
+No UI framework, no browser, no form  --  pure in-process unit test with full coverage of presentation logic.
 
 ## MVP vs. MVC vs. MVVM
 
@@ -166,7 +166,7 @@ No UI framework, no browser, no form — pure in-process unit test with full cov
 | Testability of UI logic | Medium | High (mock `IView`) | High (ViewModel has no UI deps) |
 | Best suited for | Server-rendered web, REST APIs | WinForms, WebForms, Razor Pages, Android (classic) | WPF, WinUI, MAUI, Blazor, Angular, Vue |
 
-**ASP.NET Core Razor Pages** is structurally close to MVP: the Page Model (code-behind) acts as a Presenter, the `.cshtml` file is the view, and the two are tightly paired — unlike MVC where any controller can render any view.
+**ASP.NET Core Razor Pages** is structurally close to MVP: the Page Model (code-behind) acts as a Presenter, the `.cshtml` file is the view, and the two are tightly paired  --  unlike MVC where any controller can render any view.
 
 ## Intent
 

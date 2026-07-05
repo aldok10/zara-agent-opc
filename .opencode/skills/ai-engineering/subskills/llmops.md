@@ -23,7 +23,7 @@ Split traffic between model versions; measure quality + cost + latency. Reach st
 New version -> 1% traffic -> monitor quality -> expand. Roll back on quality drop.
 
 ## Observability (MANDATORY)
-Trace every LLM call with: `model_id`, `prompt_hash` (NOT full prompt — PII), `input_tokens`, `output_tokens`, `latency_ms`, `cost_usd`, `quality_score` (if eval'd).
+Trace every LLM call with: `model_id`, `prompt_hash` (NOT full prompt  --  PII), `input_tokens`, `output_tokens`, `latency_ms`, `cost_usd`, `quality_score` (if eval'd).
 - Tools: **LangSmith**, **Langfuse** (open-source), **Phoenix** (Arize), **Helicone**, custom OTel spans.
 
 ## Caching

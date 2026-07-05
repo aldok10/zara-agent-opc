@@ -107,23 +107,23 @@ From `zara-privacy-mcp` and system prompt:
 When Zara generates code, these OWASP-aligned rules apply:
 
 ### For ALL Languages
-1. **Never hardcode secrets** — use environment variables or secret managers
-2. **Parameterized queries always** — never string concatenation for SQL/commands
-3. **Input validation at boundary** — parse, type-check, reject invalid before processing
-4. **Output encoding per context** — HTML, URL, SQL, shell — each has specific encoding
-5. **Set timeouts on all I/O** — HTTP clients, DB connections, external calls
-6. **Least privilege** — request minimum permissions, scope tokens narrowly
-7. **Fail closed** — on error, deny access (don't fail open)
-8. **Log security events** — auth failures, permission denials, anomalies
-9. **Pin dependency versions** — exact or patch-only ranges, audit regularly
-10. **Never trust client-side validation** — always re-validate server-side
+1. **Never hardcode secrets**  --  use environment variables or secret managers
+2. **Parameterized queries always**  --  never string concatenation for SQL/commands
+3. **Input validation at boundary**  --  parse, type-check, reject invalid before processing
+4. **Output encoding per context**  --  HTML, URL, SQL, shell  --  each has specific encoding
+5. **Set timeouts on all I/O**  --  HTTP clients, DB connections, external calls
+6. **Least privilege**  --  request minimum permissions, scope tokens narrowly
+7. **Fail closed**  --  on error, deny access (don't fail open)
+8. **Log security events**  --  auth failures, permission denials, anomalies
+9. **Pin dependency versions**  --  exact or patch-only ranges, audit regularly
+10. **Never trust client-side validation**  --  always re-validate server-side
 
 ### For Agent/AI Code Specifically
-11. **Treat all model output as untrusted** — validate, sanitize, schema-check before acting on it
-12. **Bound execution** — timeouts, recursion limits, token budgets on all AI calls
-13. **Human-in-the-loop for irreversible actions** — gate destructive operations behind confirmation
-14. **Separate data plane from control plane** — user data cannot become instructions
-15. **Rate limit tool invocations** — prevent runaway agent from exhausting resources
+11. **Treat all model output as untrusted**  --  validate, sanitize, schema-check before acting on it
+12. **Bound execution**  --  timeouts, recursion limits, token budgets on all AI calls
+13. **Human-in-the-loop for irreversible actions**  --  gate destructive operations behind confirmation
+14. **Separate data plane from control plane**  --  user data cannot become instructions
+15. **Rate limit tool invocations**  --  prevent runaway agent from exhausting resources
 
 ---
 
@@ -135,7 +135,7 @@ When Zara generates code, these OWASP-aligned rules apply:
 | AISVS C10 (MCP Security) | Level 2 | 9/12 controls met |
 | AISVS C7 (Output Control) | Level 2 | Data boundary, masking |
 | AISVS C12 (Monitoring) | Level 1 | Execution logging via tool outputs |
-| OWASP Top 10 Agentic 2026 | — | HITL, bounded execution, tool isolation |
+| OWASP Top 10 Agentic 2026 |  --  | HITL, bounded execution, tool isolation |
 
 ### Level 3 Controls (Future Enhancement)
 

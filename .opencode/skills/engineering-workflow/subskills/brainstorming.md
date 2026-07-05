@@ -35,18 +35,18 @@ Classify complexity, then explore existing context (files, docs, recent commits)
 
 ## Workflow
 
-1. Explore context — existing patterns, conventions, dependencies, related code.
-2. Clarify intent — one question at a time, multiple choice.
-3. Propose approaches — 2-3 options: description, tradeoffs, effort, recommendation.
+1. Explore context  --  existing patterns, conventions, dependencies, related code.
+2. Clarify intent  --  one question at a time, multiple choice.
+3. Propose approaches  --  2-3 options: description, tradeoffs, effort, recommendation.
 4. Design sections (scale to complexity):
    - Simple: what it does, where it lives, interface shape.
    - Medium: + data flow, error handling, testing strategy.
    - Complex: + component boundaries, integration points, rollout plan, failure modes.
-5. Pre-mortem (complex only) — "2 weeks out, this failed. Why?" List 2-3 failure modes, state prevention or flag as risk.
+5. Pre-mortem (complex only)  --  "2 weeks out, this failed. Why?" List 2-3 failure modes, state prevention or flag as risk.
 6. Write spec to `docs/specs/YYYY-MM-DD-<topic>-design.md`: problem, chosen approach + rationale, design details, open questions, acceptance criteria.
-7. Self-review — no placeholders, no contradictions, no ambiguity, testable criteria, YAGNI applied.
-8. User review — "Anything feel off, missing, or over-built?" Iterate until approved.
-9. Transition — proceed to planning phase.
+7. Self-review  --  no placeholders, no contradictions, no ambiguity, testable criteria, YAGNI applied.
+8. User review  --  "Anything feel off, missing, or over-built?" Iterate until approved.
+9. Transition  --  proceed to planning phase.
 
 ## Verification
 

@@ -63,7 +63,7 @@ Store data as it's accessed. Embed related data in a single document when read t
 
 ### Document size limits
 
-MongoDB: 16MB per document. DynamoDB: 400KB per item. Design with these ceilings in mind — if an array can grow unboundedly, it will hit the limit.
+MongoDB: 16MB per document. DynamoDB: 400KB per item. Design with these ceilings in mind  --  if an array can grow unboundedly, it will hit the limit.
 
 ## Graph Databases (Neo4j, Neptune, JanusGraph)
 
@@ -138,7 +138,7 @@ Metrics, IoT sensor data, financial ticks, event logs where time is the primary 
 1. Model from queries backward (not from entities).
 2. One table per query pattern. Denormalization is expected.
 3. Keep partitions under 100MB (Cassandra) or 1GB (ScyllaDB).
-4. Avoid tombstone accumulation — deletes create invisible markers that slow reads.
+4. Avoid tombstone accumulation  --  deletes create invisible markers that slow reads.
 
 ### When to use
 
@@ -162,7 +162,7 @@ Single key lookup. O(1) read/write. No queries beyond "get by key."
 
 - Data structures: sorted sets (leaderboards), streams (event log), HyperLogLog (cardinality estimation), Bitmaps (feature flags).
 - Lua scripting: atomic multi-step operations.
-- Pub/Sub: simple event distribution (not durable — use Kafka for durability).
+- Pub/Sub: simple event distribution (not durable  --  use Kafka for durability).
 - Cluster mode: hash slots distributed across nodes. Max ~1000 nodes.
 
 ### DynamoDB

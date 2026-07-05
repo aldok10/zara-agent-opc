@@ -27,7 +27,7 @@ Apply STRIDE to each element in the data flow diagram (processes, data stores, d
 
 ## DREAD (prioritize discovered threats)
 
-Score each 1-10, average to rank: **D**amage, **R**eproducibility, **E**xploitability, **A**ffected users, **D**iscoverability. Use to triage which STRIDE findings to fix first. Keep scoring lightweight — relative ranking matters more than absolute numbers.
+Score each 1-10, average to rank: **D**amage, **R**eproducibility, **E**xploitability, **A**ffected users, **D**iscoverability. Use to triage which STRIDE findings to fix first. Keep scoring lightweight  --  relative ranking matters more than absolute numbers.
 
 ## Data Flow Diagram (DFD)
 
@@ -38,7 +38,7 @@ Score each 1-10, average to rank: **D**amage, **R**eproducibility, **E**xploitab
 ## Trust Boundaries
 
 - Internet ↔ edge (untrusted → semi-trusted).
-- Service ↔ service (verify even internal — see `zero-trust.md`).
+- Service ↔ service (verify even internal  --  see `zero-trust.md`).
 - App ↔ data store (parameterize, least-privilege DB creds).
 - App ↔ AI/LLM (treat model output as untrusted).
 
@@ -56,6 +56,6 @@ Data flows: <list crossing trust boundaries>
 
 ## Delegates To
 
-- **authentication** — spoofing/EoP mitigations.
-- **zero-trust** — trust boundary enforcement.
-- **@shield** — validating the model against real attack scenarios.
+- **authentication**  --  spoofing/EoP mitigations.
+- **zero-trust**  --  trust boundary enforcement.
+- **@shield**  --  validating the model against real attack scenarios.

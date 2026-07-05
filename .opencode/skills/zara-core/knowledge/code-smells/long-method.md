@@ -11,7 +11,7 @@ weight: 220
 
 The Long Method code smell refers to methods or functions that have grown too large, taking on too many responsibilities. Long methods are difficult to read at a glance, hard to name expressively, and challenging to reuse or test in isolation. They often arise incrementally as developers add logic to an existing method rather than extracting new, well-named methods.
 
-As a rule of thumb, a method that doesn't fit on a single screen, requires scrolling to read in full, or needs to be parsed carefully to understand its purpose is a candidate for [refactoring](/practices/refactoring/). The exact threshold varies by team and language, but many practitioners aim for methods that are 10–20 lines or fewer. More important than line count, though, is whether the method does *one thing* — that is, whether it operates at a single level of abstraction and can be summarized with a single, clear name.
+As a rule of thumb, a method that doesn't fit on a single screen, requires scrolling to read in full, or needs to be parsed carefully to understand its purpose is a candidate for [refactoring](/practices/refactoring/). The exact threshold varies by team and language, but many practitioners aim for methods that are 10–20 lines or fewer. More important than line count, though, is whether the method does *one thing*  --  that is, whether it operates at a single level of abstraction and can be summarized with a single, clear name.
 
 ## Problems Caused by Long Methods
 
@@ -78,7 +78,7 @@ public void ProcessOrder(Order order)
 }
 ```
 
-This method validates input, calculates totals, applies discounts, persists data, and sends email — five distinct concerns in one method.
+This method validates input, calculates totals, applies discounts, persists data, and sends email  --  five distinct concerns in one method.
 
 ## Addressing Long Methods
 
@@ -101,11 +101,11 @@ Each extracted method is now small, named, and independently testable.
 
 ### Other Techniques
 
-- **Replace Temp with Query** — replace local variables that compute a value with a method call.
-- **Decompose Conditional** — extract the condition and each branch of a complex `if`/`else` into separate methods.
-- **Introduce Parameter Object** — when a long method has a long parameter list, group related parameters into a class.
-- **Move Method** — if extracted logic naturally belongs to another class, move it there.
-- **Apply the [Single Responsibility Principle](/principles/single-responsibility-principle/)** — each method should have one reason to change.
+- **Replace Temp with Query**  --  replace local variables that compute a value with a method call.
+- **Decompose Conditional**  --  extract the condition and each branch of a complex `if`/`else` into separate methods.
+- **Introduce Parameter Object**  --  when a long method has a long parameter list, group related parameters into a class.
+- **Move Method**  --  if extracted logic naturally belongs to another class, move it there.
+- **Apply the [Single Responsibility Principle](/principles/single-responsibility-principle/)**  --  each method should have one reason to change.
 
 ## References
 

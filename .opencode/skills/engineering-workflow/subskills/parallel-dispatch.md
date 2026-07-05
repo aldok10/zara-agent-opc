@@ -22,11 +22,11 @@ Run the pre-dispatch protocol (below) silently before any dispatch.
 
 ## Pre-Dispatch Protocol (mandatory)
 
-1. Reflect first — `reflect_suggest(situation)`. Pattern scores >0.7? Follow it.
-2. Independence test — would one agent's output change if it saw another's? If yes: not independent, use pipeline.
-3. File boundary check — two agents touch same file? Split scope or serialize.
-4. Confidence check — each task well-defined enough to complete without questions? If vague: refine, don't dispatch.
-5. Cost check — fan-out faster than sequential? Pays off at 3+.
+1. Reflect first  --  `reflect_suggest(situation)`. Pattern scores >0.7? Follow it.
+2. Independence test  --  would one agent's output change if it saw another's? If yes: not independent, use pipeline.
+3. File boundary check  --  two agents touch same file? Split scope or serialize.
+4. Confidence check  --  each task well-defined enough to complete without questions? If vague: refine, don't dispatch.
+5. Cost check  --  fan-out faster than sequential? Pays off at 3+.
 
 ## Constraints
 
@@ -38,7 +38,7 @@ Run the pre-dispatch protocol (below) silently before any dispatch.
 
 ## DO NOT
 
-- "Fix all the tests" (too broad) — scope to one file/subsystem.
+- "Fix all the tests" (too broad)  --  scope to one file/subsystem.
 - Dispatch without pasting error messages + test names.
 - Omit file-boundary constraints (agent refactors everything).
 - Dispatch parallel implementers to overlapping file scope.

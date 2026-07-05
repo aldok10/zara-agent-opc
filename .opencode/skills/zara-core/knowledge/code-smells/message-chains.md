@@ -17,7 +17,7 @@ Message Chains are the visible symptom of [Law of Demeter Violations](./law-of-d
 
 ### Coupling to Internal Structure
 
-The caller must understand the object model deeply enough to navigate the chain. If any intermediate type changes — `Customer` no longer returns `Address` directly, or `Address` gains a level of indirection — the caller breaks. Each link in the chain is a fragile dependency.
+The caller must understand the object model deeply enough to navigate the chain. If any intermediate type changes  --  `Customer` no longer returns `Address` directly, or `Address` gains a level of indirection  --  the caller breaks. Each link in the chain is a fragile dependency.
 
 ### Brittle Code
 
@@ -44,12 +44,12 @@ public class OrderSummaryBuilder
         string country = order.GetCustomer().GetPrimaryAddress().GetCountry();
         decimal tax = order.GetCustomer().GetPrimaryAddress().GetTaxRate();
 
-        return $"Shipping to {city}, {country} — Tax rate: {tax:P}";
+        return $"Shipping to {city}, {country}  --  Tax rate: {tax:P}";
     }
 }
 ```
 
-`OrderSummaryBuilder` knows about `Order`, `Customer`, `Address`, and their structural relationships — all to build a simple summary.
+`OrderSummaryBuilder` knows about `Order`, `Customer`, `Address`, and their structural relationships  --  all to build a simple summary.
 
 After hiding the chain behind a meaningful method:
 
@@ -68,7 +68,7 @@ public class OrderSummaryBuilder
     public string Build(Order order)
     {
         return $"Shipping to {order.GetShippingCity()}, {order.GetShippingCountry()} "
-             + $"— Tax rate: {order.GetShippingTaxRate():P}";
+             + $" --  Tax rate: {order.GetShippingTaxRate():P}";
     }
 }
 ```
@@ -84,7 +84,7 @@ Look for:
 - Tests that require deep object graph construction to test a simple behavior.
 - Long member access expressions getting assigned to intermediate variables just to make them readable.
 
-Be careful not to confuse Message Chains with fluent APIs. A builder or LINQ statement like `orders.Where(...).OrderBy(...).Select(...)` is not a Message Chain — each step is part of a deliberately designed query or construction API and returns the same logical type. Message Chains involve traversing across different object responsibilities.
+Be careful not to confuse Message Chains with fluent APIs. A builder or LINQ statement like `orders.Where(...).OrderBy(...).Select(...)` is not a Message Chain  --  each step is part of a deliberately designed query or construction API and returns the same logical type. Message Chains involve traversing across different object responsibilities.
 
 ## When Chaining Is Appropriate
 
@@ -103,7 +103,7 @@ var request = new HttpRequestBuilder()
     .Build();
 ```
 
-Every method returns `HttpRequestBuilder`. The caller is not navigating through different object boundaries — it is accumulating configuration on a single builder. This is cohesive, intentional, and readable.
+Every method returns `HttpRequestBuilder`. The caller is not navigating through different object boundaries  --  it is accumulating configuration on a single builder. This is cohesive, intentional, and readable.
 
 ### Fluent Interfaces
 
@@ -117,7 +117,7 @@ var result = orders
     .ToList();
 ```
 
-Each method returns `IEnumerable<T>` — the same abstraction — and the chain expresses a single pipeline of transformations. There is no traversal of object boundaries and no coupling to internal structure.
+Each method returns `IEnumerable<T>`  --  the same abstraction  --  and the chain expresses a single pipeline of transformations. There is no traversal of object boundaries and no coupling to internal structure.
 
 Other examples include assertion libraries, query builders, and configuration APIs:
 
@@ -139,16 +139,16 @@ The practical test is: *does each step in the chain return the same type (or a d
 
 | Chain type | Each step returns | Verdict |
 |---|---|---|
-| `order.GetCustomer().GetAddress().GetCity()` | A different object each time | Message Chain — smell |
-| `builder.WithName("x").WithTimeout(30).Build()` | The same builder type | Fluent Builder — intentional |
-| `list.Where(...).Select(...).ToList()` | `IEnumerable<T>` throughout | Fluent Query — intentional |
+| `order.GetCustomer().GetAddress().GetCity()` | A different object each time | Message Chain  --  smell |
+| `builder.WithName("x").WithTimeout(30).Build()` | The same builder type | Fluent Builder  --  intentional |
+| `list.Where(...).Select(...).ToList()` | `IEnumerable<T>` throughout | Fluent Query  --  intentional |
 
 A chain that crosses object responsibility boundaries is a smell. A chain that stays within a single designed abstraction is idiomatic.
 
 ## Refactoring
 
-- **Hide Delegate** — introduce a method on the near-side object that encapsulates the navigation and returns the needed result directly.
-- **Extract Method** — if the chain appears repeatedly, extract it to a method with a name that communicates intent.
-- **Move Method** — if the chain is always traversed for the same purpose, consider whether the method performing the traversal belongs on an intermediate class.
+- **Hide Delegate**  --  introduce a method on the near-side object that encapsulates the navigation and returns the needed result directly.
+- **Extract Method**  --  if the chain appears repeatedly, extract it to a method with a name that communicates intent.
+- **Move Method**  --  if the chain is always traversed for the same purpose, consider whether the method performing the traversal belongs on an intermediate class.
 
 See also: [Law of Demeter Violations](./law-of-demeter-violations), [Inappropriate Intimacy](./inappropriate-intimacy).

@@ -5,7 +5,7 @@ title: "Reliability Engineering - SLOs, Error Budgets, Fault Tolerance"
 
 # Reliability Patterns
 
-Reliability is not uptime. It's the probability that a system performs its intended function under stated conditions for a specified period. Design for failure — it's when, not if.
+Reliability is not uptime. It's the probability that a system performs its intended function under stated conditions for a specified period. Design for failure  --  it's when, not if.
 
 ## SLIs, SLOs, SLAs
 
@@ -159,7 +159,7 @@ Both regions serve traffic simultaneously. Data replicated bidirectionally.
 
 ### Concept
 
-Isolate components so failure in one doesn't cascade to others. Named after ship compartments — flooding one doesn't sink the ship.
+Isolate components so failure in one doesn't cascade to others. Named after ship compartments  --  flooding one doesn't sink the ship.
 
 ### Implementation
 

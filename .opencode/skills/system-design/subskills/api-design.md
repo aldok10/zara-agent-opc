@@ -5,9 +5,9 @@ Deep-dive reference for designing APIs that scale and stay maintainable.
 ## Protocol Choice
 
 - **REST** (~83% of public APIs): resource-oriented, HTTP verbs (GET/POST/PUT/PATCH/DELETE), status codes, cacheable via HTTP, universal tooling, HATEOAS optional. Default for public/external APIs.
-- **GraphQL**: single endpoint, client picks fields. Great BFF for complex frontends — kills over/under-fetching. Costs: **N+1 at resolver level** (use DataLoader), needs query complexity/depth limits, caching is harder.
+- **GraphQL**: single endpoint, client picks fields. Great BFF for complex frontends  --  kills over/under-fetching. Costs: **N+1 at resolver level** (use DataLoader), needs query complexity/depth limits, caching is harder.
 - **gRPC**: service-to-service. Protobuf (**~10x smaller than JSON**), HTTP/2 streaming, codegen for many langs. Not browser-friendly without a proxy (grpc-web/Envoy).
-- **tRPC**: end-to-end TypeScript type safety in a monorepo, zero schema/codegen overhead. TS-only — not for polyglot.
+- **tRPC**: end-to-end TypeScript type safety in a monorepo, zero schema/codegen overhead. TS-only  --  not for polyglot.
 
 **Decision**: Public API = REST. Complex frontend = GraphQL/tRPC. Internal microservice = gRPC. Real systems often use several.
 
@@ -48,7 +48,7 @@ Consistent, machine-readable, extensible.
 
 ## API Gateway
 
-Centralizes rate limiting, auth, routing, request/response transformation, observability. Options: **Kong, Envoy, AWS API Gateway**. Keep it thin — don't put business logic there.
+Centralizes rate limiting, auth, routing, request/response transformation, observability. Options: **Kong, Envoy, AWS API Gateway**. Keep it thin  --  don't put business logic there.
 
 ## Anti-Patterns
 

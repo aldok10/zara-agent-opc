@@ -10,7 +10,7 @@ weight: 390
 
 ## What is the Visitor Design Pattern?
 
-The Visitor Design Pattern is a behavioral pattern that lets you **separate an algorithm from the object structure it operates on**. You define a *visitor* object that implements an operation for each concrete type in the structure. The elements of the structure then "accept" a visitor, delegating the call to the visitor method that matches their type — a technique called *double dispatch*.
+The Visitor Design Pattern is a behavioral pattern that lets you **separate an algorithm from the object structure it operates on**. You define a *visitor* object that implements an operation for each concrete type in the structure. The elements of the structure then "accept" a visitor, delegating the call to the visitor method that matches their type  --  a technique called *double dispatch*.
 
 This is useful when:
 
@@ -112,7 +112,7 @@ Console.WriteLine(expression.Accept(printer));    // ((1 + 2) + 3)
 Console.WriteLine(expression.Accept(evaluator));  // 6
 ```
 
-A new operation — such as a `TypeCheckerVisitor` or an `OptimizerVisitor` — can be added by creating a new class that implements `IExpressionVisitor<T>`, with no changes to the element classes. When you need to control *which elements* are visited rather than *what operation* is performed, pair Visitor with the [Iterator](/design-patterns/iterator-pattern/) pattern.
+A new operation  --  such as a `TypeCheckerVisitor` or an `OptimizerVisitor`  --  can be added by creating a new class that implements `IExpressionVisitor<T>`, with no changes to the element classes. When you need to control *which elements* are visited rather than *what operation* is performed, pair Visitor with the [Iterator](/design-patterns/iterator-pattern/) pattern.
 
 ## Visitor and the Parallel Inheritance Hierarchies Smell
 

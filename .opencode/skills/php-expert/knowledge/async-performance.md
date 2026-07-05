@@ -35,7 +35,7 @@ Coroutine\run(function () {
 });
 ```
 
-Coroutines yield at I/O boundaries automatically—no manual `await`. Context switching costs ~200ns vs ~2μs for threads.
+Coroutines yield at I/O boundaries automatically -- no manual `await`. Context switching costs ~200ns vs ~2μs for threads.
 
 ### Channels
 
@@ -236,7 +236,7 @@ React\Promise\all($promises)->then(function (array $responses) {
 });
 ```
 
-Amp uses fibers (PHP 8.1+) for synchronous-looking async code—no callbacks or promise chains.
+Amp uses fibers (PHP 8.1+) for synchronous-looking async code -- no callbacks or promise chains.
 
 ## OPcache Tuning
 
@@ -264,7 +264,7 @@ opcache.jit_hot_loop=64                 ; iterations before loop JIT
 
 PHP 8.4 JIT improvements: better register allocation, improved type inference for property hooks, reduced memory for JIT'd code (~15% smaller buffers needed).
 
-**When JIT helps**: CPU-bound (math, image processing, serialization). **When it doesn't**: IO-bound (most web apps)—overhead of compilation > benefit.
+**When JIT helps**: CPU-bound (math, image processing, serialization). **When it doesn't**: IO-bound (most web apps) -- overhead of compilation > benefit.
 
 ### Preloading
 
@@ -293,7 +293,7 @@ $ffi = FFI::cdef("
 $distance = $ffi->calculate_distance(40.7128, -74.0060, 51.5074, -0.1278);
 ```
 
-Use cases: image processing, crypto operations, scientific computation. FFI call overhead is ~1μs—only worth it for operations that save >10μs vs pure PHP.
+Use cases: image processing, crypto operations, scientific computation. FFI call overhead is ~1μs -- only worth it for operations that save >10μs vs pure PHP.
 
 ## Memory Management in Long-Running Processes
 
@@ -338,7 +338,7 @@ if ($requestCount % 100 === 0) {
 }
 ```
 
-Worker supervisors (Swoole, RoadRunner, FrankenPHP) support `max_requests` to auto-restart workers after N requests—crude but effective leak prevention.
+Worker supervisors (Swoole, RoadRunner, FrankenPHP) support `max_requests` to auto-restart workers after N requests -- crude but effective leak prevention.
 
 ## Performance Comparison Summary
 

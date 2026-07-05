@@ -6,7 +6,7 @@
 
 ## Injection Prevention (OWASP A04)
 
-The universal rule: **keep untrusted data out of the interpreter's control plane.** Parameterize, escape, or sandbox — never concatenate.
+The universal rule: **keep untrusted data out of the interpreter's control plane.** Parameterize, escape, or sandbox  --  never concatenate.
 
 ### SQL Injection
 - Always parameterized queries / prepared statements. Never string-concat user input into SQL.
@@ -65,5 +65,5 @@ The universal rule: **keep untrusted data out of the interpreter's control plane
 
 ## Delegates To
 
-- **api-security** — boundary validation, encoding at the edge.
-- **language expert skill** — idiomatic implementation.
+- **api-security**  --  boundary validation, encoding at the edge.
+- **language expert skill**  --  idiomatic implementation.

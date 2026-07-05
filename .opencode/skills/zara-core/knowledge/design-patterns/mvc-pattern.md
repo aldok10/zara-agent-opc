@@ -4,7 +4,7 @@ title: Model-View-Controller (MVC) Design Pattern
 
 date: 2026-03-09
 
-description: The Model-View-Controller (MVC) pattern separates an application into three components — Model, View, and Controller — to decouple business logic from presentation. Learn how MVC works, how it compares to MVP and MVVM, and why ViewModels often appear inside MVC applications.
+description: The Model-View-Controller (MVC) pattern separates an application into three components  --  Model, View, and Controller  --  to decouple business logic from presentation. Learn how MVC works, how it compares to MVP and MVVM, and why ViewModels often appear inside MVC applications.
 weight: 210
 ---
 
@@ -12,9 +12,9 @@ weight: 210
 
 Model-View-Controller (MVC) is an architectural pattern that separates an application into three interconnected components:
 
-- **Model** — represents the application's data, business logic, and rules. The model is independent of the UI; it knows nothing about how it is displayed.
-- **View** — renders the model's data to the user. In a web application the view is typically an HTML template; in a desktop application it is a window or form. The view should contain minimal logic — only enough to display data.
-- **Controller** — handles user input, manipulates the model in response, and selects which view to render. In a web framework the controller maps HTTP requests to actions.
+- **Model**  --  represents the application's data, business logic, and rules. The model is independent of the UI; it knows nothing about how it is displayed.
+- **View**  --  renders the model's data to the user. In a web application the view is typically an HTML template; in a desktop application it is a window or form. The view should contain minimal logic  --  only enough to display data.
+- **Controller**  --  handles user input, manipulates the model in response, and selects which view to render. In a web framework the controller maps HTTP requests to actions.
 
 The core benefit is **separation of concerns**: UI rendering logic, business logic, and input handling each live in their own layer and can change independently.
 
@@ -36,11 +36,11 @@ See [Kinds of Models](/terms/kinds-of-models/) for a breakdown of the different 
 
 ### View
 
-The view receives a model (or view model — see below) and renders it. In ASP.NET Core MVC this is a Razor `.cshtml` file. The view does not manipulate the model directly; it just displays what it is given.
+The view receives a model (or view model  --  see below) and renders it. In ASP.NET Core MVC this is a Razor `.cshtml` file. The view does not manipulate the model directly; it just displays what it is given.
 
 ### Controller
 
-The controller receives an HTTP request, calls the appropriate model/service layer, and returns a view result. A healthy controller is thin — it orchestrates, it does not contain business logic.
+The controller receives an HTTP request, calls the appropriate model/service layer, and returns a view result. A healthy controller is thin  --  it orchestrates, it does not contain business logic.
 
 ```csharp
 public class OrdersController : Controller
@@ -72,7 +72,7 @@ public class OrdersController : Controller
 
 The original MVC pattern passes domain model objects directly to the view. In practice this rarely scales well: views often need data aggregated from multiple models, display-only computed properties, or formatting that doesn't belong on a domain entity.
 
-The solution is to introduce a **ViewModel** — a class shaped precisely to what a specific view needs:
+The solution is to introduce a **ViewModel**  --  a class shaped precisely to what a specific view needs:
 
 ```csharp
 public class OrderSummaryViewModel
@@ -87,7 +87,7 @@ public class OrderSummaryViewModel
 
 The controller maps from the domain model to the view model before passing it to the view. This keeps the domain model clean, prevents views from depending on persistence-level concerns, and gives each view exactly the shape of data it needs.
 
-This is sometimes called the **MVC + ViewModel** approach. It is so common — especially in ASP.NET MVC / ASP.NET Core — that ViewModels are virtually always present in production MVC web applications. See the [REPR Design Pattern](/design-patterns/repr-design-pattern/) for discussion of how even this adaptation struggles for API-only scenarios.
+This is sometimes called the **MVC + ViewModel** approach. It is so common  --  especially in ASP.NET MVC / ASP.NET Core  --  that ViewModels are virtually always present in production MVC web applications. See the [REPR Design Pattern](/design-patterns/repr-design-pattern/) for discussion of how even this adaptation struggles for API-only scenarios.
 
 ## MVC vs. MVP vs. MVVM
 
@@ -111,7 +111,7 @@ MVVM replaces the controller with a **ViewModel** that exposes observable proper
 
 | Aspect | MVC | MVVM |
 |---|---|---|
-| View update mechanism | Controller explicitly selects/renders the view | Data binding — view automatically reflects ViewModel state |
+| View update mechanism | Controller explicitly selects/renders the view | Data binding  --  view automatically reflects ViewModel state |
 | ViewModel role | Optional presentation-shaping DTO | Core participant; exposes commands and observable state |
 | Typical platforms | Web (server-rendered), REST APIs | WPF, WinUI, MAUI, Blazor, Angular, Vue |
 
@@ -126,7 +126,7 @@ MVVM is the dominant pattern on data-binding-rich platforms. The ViewModel knows
 | Testability of UI logic | Medium | High (via view interface mocks) | High (ViewModel has no UI deps) |
 | Best suited for | Server-rendered web, REST | Traditional desktop/mobile | Data-binding platforms |
 
-In practice the lines blur — many real-world ASP.NET Core applications use MVC structure with ViewModels almost to the point of [MVVM](/design-patterns/mvvm-pattern/) on the front end, and Razor Pages in ASP.NET Core is closer to [MVP](/design-patterns/mvp-pattern/) than MVC.
+In practice the lines blur  --  many real-world ASP.NET Core applications use MVC structure with ViewModels almost to the point of [MVVM](/design-patterns/mvvm-pattern/) on the front end, and Razor Pages in ASP.NET Core is closer to [MVP](/design-patterns/mvp-pattern/) than MVC.
 
 ## Intent
 

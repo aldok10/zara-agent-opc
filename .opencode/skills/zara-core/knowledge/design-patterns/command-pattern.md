@@ -20,10 +20,10 @@ The Command Design Pattern is a behavioral pattern that turns a request into a s
 
 The pattern involves four participants:
 
-- **Command** — an interface (or abstract class) that declares an `Execute` method (and optionally an `Undo` method).
-- **ConcreteCommand** — implements the `Command` interface and holds a reference to a *Receiver*.
-- **Receiver** — the object that knows how to carry out the actual work.
-- **Invoker** — asks the command to execute the request; it does not need to know anything about the concrete command or receiver.
+- **Command**  --  an interface (or abstract class) that declares an `Execute` method (and optionally an `Undo` method).
+- **ConcreteCommand**  --  implements the `Command` interface and holds a reference to a *Receiver*.
+- **Receiver**  --  the object that knows how to carry out the actual work.
+- **Invoker**  --  asks the command to execute the request; it does not need to know anything about the concrete command or receiver.
 
 The Command pattern is commonly used alongside the [Mediator](/design-patterns/mediator-pattern/) pattern and is central to the [CQRS](/design-patterns/cqrs-pattern/) (Command Query Responsibility Segregation) pattern.
 
@@ -121,16 +121,16 @@ history.Undo();
 Console.WriteLine(editor.GetContent()); // (empty)
 ```
 
-The `CommandHistory` invoker knows nothing about what a command does — it simply calls `Execute` and `Undo`. New commands (e.g., `BoldTextCommand`, `DeleteWordCommand`) can be added without changing the invoker or the editor.
+The `CommandHistory` invoker knows nothing about what a command does  --  it simply calls `Execute` and `Undo`. New commands (e.g., `BoldTextCommand`, `DeleteWordCommand`) can be added without changing the invoker or the editor.
 
 ## Traditional vs. Modern Command Approaches
 
-In the traditional GoF formulation, the **command object itself contains the execution logic** — the `Execute` method lives on the command, and the command holds a reference to the receiver that carries out the work.
+In the traditional GoF formulation, the **command object itself contains the execution logic**  --  the `Execute` method lives on the command, and the command holds a reference to the receiver that carries out the work.
 
 Many modern message-passing and application frameworks take a different approach: the command is a **plain data-transfer object (DTO)** that carries only the data describing the request (no behavior), and a separate **`CommandHandler`** is responsible for executing the logic. This separates *what to do* (the command DTO) from *how to do it* (the handler), which makes commands easy to serialize, queue, and transmit across process or service boundaries.
 
 ```csharp
-// Command as a DTO — no Execute() method, just data
+// Command as a DTO  --  no Execute() method, just data
 public record PlaceOrderCommand(Guid CustomerId, IReadOnlyList<OrderLine> Lines);
 
 // Handler owns all the execution logic
@@ -153,7 +153,7 @@ public class PlaceOrderCommandHandler
 
 Frameworks like [MediatR](https://github.com/jbogard/MediatR) and [Wolverine](https://wolverine.netlify.app/) use this handler-based approach. The dispatcher (often built on the [Mediator](/design-patterns/mediator-pattern/) pattern) receives a command DTO and routes it to the appropriate handler. Cross-cutting concerns such as logging, validation, authorization, and retry logic are typically layered around handlers using the [Chain of Responsibility](/design-patterns/chain-of-responsibility-pattern/) pattern (pipeline behaviors or middleware), rather than being embedded in the command itself.
 
-Both approaches honor the core intent of the Command pattern — encapsulating a request as an object — but the DTO approach prioritizes loose coupling and infrastructure flexibility over the self-contained command objects of the original GoF definition.
+Both approaches honor the core intent of the Command pattern  --  encapsulating a request as an object  --  but the DTO approach prioritizes loose coupling and infrastructure flexibility over the self-contained command objects of the original GoF definition.
 
 ## Intent
 

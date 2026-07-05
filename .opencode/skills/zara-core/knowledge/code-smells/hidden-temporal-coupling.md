@@ -9,7 +9,7 @@ description: Hidden Temporal Coupling is a code smell where methods must be call
 weight: 160
 ---
 
-Hidden Temporal Coupling is a code smell where methods on an object must be called in a particular sequence to produce correct behavior, but the code provides no mechanism to detect or prevent incorrect ordering. The temporal dependency — the fact that one method must precede another — is hidden. Callers can call the methods in any order, and the error may not surface immediately, making the resulting bugs difficult to trace.
+Hidden Temporal Coupling is a code smell where methods on an object must be called in a particular sequence to produce correct behavior, but the code provides no mechanism to detect or prevent incorrect ordering. The temporal dependency  --  the fact that one method must precede another  --  is hidden. Callers can call the methods in any order, and the error may not surface immediately, making the resulting bugs difficult to trace.
 
 The word "temporal" here refers to time and ordering: the correctness of the operation depends not just on what is called, but on when, relative to other calls.
 
@@ -103,12 +103,12 @@ Look for:
 
 - An `Initialize()`, `Setup()`, `Open()`, or `Connect()` method that must be called before other methods work correctly.
 - Fields that start as null and are assigned by a method rather than in a constructor.
-- `if (_state == null) throw new InvalidOperationException(...)` guards in multiple methods — these are signs that the class knows about the ordering requirement but doesn't enforce it structurally.
+- `if (_state == null) throw new InvalidOperationException(...)` guards in multiple methods  --  these are signs that the class knows about the ordering requirement but doesn't enforce it structurally.
 - Unit tests that follow a rigid setup pattern across all test cases where the same methods are always called first.
 
 ## Refactoring
 
-- **Introduce Constructor Initialization** — move required setup into the constructor or a factory method, so the object is always in a valid state from creation.
-- **Replace Two-Phase Construction** — eliminate the pattern of constructing an object and then calling an initialization method separately; do all setup in the constructor.
-- **Combine Methods** — if two methods are always called together in the same order, consider combining them into a single method with a meaningful name.
-- **Use a Builder** — if construction is genuinely complex or optional, use the [Builder pattern](/design-patterns/builder-pattern/) to accumulate configuration before construction, rather than exposing an uninitialized object.
+- **Introduce Constructor Initialization**  --  move required setup into the constructor or a factory method, so the object is always in a valid state from creation.
+- **Replace Two-Phase Construction**  --  eliminate the pattern of constructing an object and then calling an initialization method separately; do all setup in the constructor.
+- **Combine Methods**  --  if two methods are always called together in the same order, consider combining them into a single method with a meaningful name.
+- **Use a Builder**  --  if construction is genuinely complex or optional, use the [Builder pattern](/design-patterns/builder-pattern/) to accumulate configuration before construction, rather than exposing an uninitialized object.

@@ -10,7 +10,7 @@ weight: 270
 
 ## What is the Prototype Design Pattern?
 
-The Prototype Design Pattern is a creational pattern that creates new objects by **cloning an existing instance** — the *prototype* — rather than constructing a new one from scratch. The clone may be a *shallow copy* (sharing references to nested objects) or a *deep copy* (duplicating the entire object graph).
+The Prototype Design Pattern is a creational pattern that creates new objects by **cloning an existing instance**  --  the *prototype*  --  rather than constructing a new one from scratch. The clone may be a *shallow copy* (sharing references to nested objects) or a *deep copy* (duplicating the entire object graph).
 
 This is useful when:
 
@@ -23,7 +23,7 @@ The pattern is built into .NET through the `ICloneable` interface, though using 
 
 ## Shallow vs. Deep Copy
 
-A **shallow copy** duplicates the object's value-type fields but copies only the *references* to any reference-type fields. Both the original and the clone then point to the same nested objects — a mutation through one will be visible through the other.
+A **shallow copy** duplicates the object's value-type fields but copies only the *references* to any reference-type fields. Both the original and the clone then point to the same nested objects  --  a mutation through one will be visible through the other.
 
 A **deep copy** recursively duplicates every referenced object, producing a completely independent copy.
 
@@ -47,7 +47,7 @@ public class Employee : ICloneable
     public string Name { get; set; } = "";
     public Address Address { get; set; } = new();
 
-    // Shallow copy — Address reference is shared with the clone.
+    // Shallow copy  --  Address reference is shared with the clone.
     public object Clone() => MemberwiseClone();
 }
 
@@ -56,7 +56,7 @@ var original = new Employee { Name = "Alice", Address = new Address { Street = "
 var shallow = (Employee)original.Clone();
 
 shallow.Name = "Bob";              // Does not affect original
-shallow.Address.City = "Shelbyville"; // DOES affect original — shared reference!
+shallow.Address.City = "Shelbyville"; // DOES affect original  --  shared reference!
 ```
 
 ### Deep Copy Using a Copy Constructor
@@ -112,13 +112,13 @@ var original = new Employee("Alice", new Address("1 Main St", "Springfield"));
 // Shallow clone with one property changed
 var clone = original with { Name = "Bob" };
 
-// Deep clone — replace the nested record too
+// Deep clone  --  replace the nested record too
 var deepClone = original with { Address = original.Address with { City = "Shelbyville" } };
 ```
 
 ## Caveats with `ICloneable`
 
-The .NET `ICloneable` interface does not specify whether `Clone()` returns a shallow or deep copy — the contract is ambiguous. For this reason many style guides (including the .NET Framework Design Guidelines) recommend avoiding `ICloneable` in public APIs and instead providing an explicitly named method such as `DeepClone()` or a copy constructor.
+The .NET `ICloneable` interface does not specify whether `Clone()` returns a shallow or deep copy  --  the contract is ambiguous. For this reason many style guides (including the .NET Framework Design Guidelines) recommend avoiding `ICloneable` in public APIs and instead providing an explicitly named method such as `DeepClone()` or a copy constructor.
 
 ## Prototype Registry
 

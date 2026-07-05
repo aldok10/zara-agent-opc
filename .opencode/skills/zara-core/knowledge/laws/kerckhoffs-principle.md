@@ -18,7 +18,7 @@ In the world of software engineering, security is always a critical concern. Sys
 
 ## What is Kerckhoffs's Principle?
 
-**Kerckhoffs's Principle**, named after the 19th-century Dutch cryptographer Auguste Kerckhoffs, states that a security system should remain secure even if **everything about the system is public knowledge** — except for the secret key. In other words, the system's security should not depend on the secrecy of the system itself but only on the secrecy of sensitive data like keys or passwords.
+**Kerckhoffs's Principle**, named after the 19th-century Dutch cryptographer Auguste Kerckhoffs, states that a security system should remain secure even if **everything about the system is public knowledge**  --  except for the secret key. In other words, the system's security should not depend on the secrecy of the system itself but only on the secrecy of sensitive data like keys or passwords.
 
 For cryptographic systems, this means that even if an attacker knows the encryption algorithm, the system should still be secure as long as they don't have access to the key.
 
@@ -56,7 +56,7 @@ Here are some common scenarios where Kerckhoffs's Principle can be seen in actio
 
 ## Conclusion
 
-Kerckhoffs's Principle offers a robust framework for designing secure systems. By assuming that system details could be known by potential attackers, developers are encouraged to build security mechanisms that focus on protecting sensitive data—like encryption keys, authentication tokens, and passwords—rather than hiding implementation details.
+Kerckhoffs's Principle offers a robust framework for designing secure systems. By assuming that system details could be known by potential attackers, developers are encouraged to build security mechanisms that focus on protecting sensitive data -- like encryption keys, authentication tokens, and passwords -- rather than hiding implementation details.
 
 While **security by obscurity** might seem appealing, it creates significant risks, as hidden system details can be exposed or reverse-engineered. Kerckhoffs's Principle, on the other hand, encourages transparency, auditability, and stronger defenses, making it a cornerstone of modern software security practices.
 

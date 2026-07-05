@@ -62,7 +62,7 @@ Most production APIs target Level 2. Level 3 (HATEOAS) adds discoverability but 
 
 ### Protobuf best practices
 
-- Never reuse field numbers (even after deleting a field — use `reserved`).
+- Never reuse field numbers (even after deleting a field  --  use `reserved`).
 - Use `optional` for fields that might not be set (explicit presence).
 - Wrap primitive types (`google.protobuf.Int32Value`) when null vs zero matters.
 - Keep messages focused. Avoid god-messages with 50+ fields.
@@ -104,7 +104,7 @@ A query requesting `users { posts { comments } }` naively fires: 1 query for use
 2. Execute single batch query (WHERE id IN (...)).
 3. Map results back to individual resolvers.
 
-DataLoader is per-request scoped (never shared across requests — stale cache).
+DataLoader is per-request scoped (never shared across requests  --  stale cache).
 
 ### Federation (Apollo Federation)
 

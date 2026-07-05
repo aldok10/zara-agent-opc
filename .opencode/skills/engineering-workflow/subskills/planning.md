@@ -31,7 +31,7 @@ Read the spec/requirements. Identify inputs, outputs, constraints, feature depen
 ## Workflow
 
 1. Analyze requirements.
-2. Map file structure — list ALL files under Create / Modify / Test with purpose.
+2. Map file structure  --  list ALL files under Create / Modify / Test with purpose.
 3. Write plan doc:
    - Header: Goal, Architecture, Tech Stack, Global Constraints, Non-Goals, Estimated Tasks.
    - Per task: Files (create/modify/test), Interfaces (consumes/produces), Steps (write test with exact code → implement with exact code → run+verify with expected output → commit with message).

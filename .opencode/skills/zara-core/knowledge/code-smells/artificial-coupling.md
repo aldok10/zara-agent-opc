@@ -9,7 +9,7 @@ description: Artificial Coupling is a code smell where unrelated concepts are co
 weight: 20
 ---
 
-Artificial Coupling is a code smell where two or more unrelated concepts are forced into a relationship they do not naturally have. The coupling is artificial — not derived from the problem domain, but from a convenience decision or structural shortcut. Common forms include placing unrelated methods in the same class, deriving from a base class to gain access to a few shared utilities, or using shared mutable state to pass data between unrelated operations.
+Artificial Coupling is a code smell where two or more unrelated concepts are forced into a relationship they do not naturally have. The coupling is artificial  --  not derived from the problem domain, but from a convenience decision or structural shortcut. Common forms include placing unrelated methods in the same class, deriving from a base class to gain access to a few shared utilities, or using shared mutable state to pass data between unrelated operations.
 
 The result is that changing one concept risks breaking another, even though they have nothing logically in common.
 
@@ -29,7 +29,7 @@ Artificial coupling tends to produce large classes or modules that accumulate mo
 
 ### Reuse Obstacles
 
-Reusing one of the artificially coupled concepts requires taking the other along for the ride — as a dependency, a base class, or a shared module. If concept A is only needed in one context but is coupled to concept B, referencing A in a new project brings B along unnecessarily.
+Reusing one of the artificially coupled concepts requires taking the other along for the ride  --  as a dependency, a base class, or a shared module. If concept A is only needed in one context but is coupled to concept B, referencing A in a new project brings B along unnecessarily.
 
 ## Example
 
@@ -102,6 +102,6 @@ Watch for:
 
 ## Refactoring
 
-- **Extract Class** — separate unrelated methods or fields into classes organized by their actual domain or purpose.
-- **Replace Inheritance with Composition** — if a class derives from a base solely to reuse unrelated utilities, inject those utilities instead.
-- **Move Method / Move Field** — relocate each member to the class that genuinely owns the concept it represents.
+- **Extract Class**  --  separate unrelated methods or fields into classes organized by their actual domain or purpose.
+- **Replace Inheritance with Composition**  --  if a class derives from a base solely to reuse unrelated utilities, inject those utilities instead.
+- **Move Method / Move Field**  --  relocate each member to the class that genuinely owns the concept it represents.

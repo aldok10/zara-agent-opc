@@ -71,7 +71,7 @@ For each, justify why it's a resource vs tool vs prompt.
 [Choice with justification]
 
 ### Resource URIs
-- `scheme://path` — [description]
+- `scheme://path`  --  [description]
 
 ### Tool Schemas
 [JSON Schema for each tool's input]

@@ -10,7 +10,7 @@ Mental model: **LLM is the CPU, context window is RAM, you are the OS** deciding
 ## The 5 context layers (manage each independently)
 1. **System prompt**: persona, constraints, output format, guardrails. Stable, rarely changes.
 2. **Retrieved context**: RAG results, tool outputs, file contents. Dynamic, task-specific.
-3. **Conversation history**: prior messages, summarized or full. Grows — needs active management.
+3. **Conversation history**: prior messages, summarized or full. Grows  --  needs active management.
 4. **Tool results**: structured data from function calls. Ephemeral, task-specific.
 5. **User input**: the actual request. Variable, often ambiguous.
 
@@ -31,7 +31,7 @@ Not all context is equal. **Relevance-rank before including.** Stale context = n
 - Drop low-relevance retrieved chunks
 
 ## Dynamic context
-Different tasks need different context — **route by task type**. A code review needs different context than creative writing. Don't ship one static mega-prompt for everything.
+Different tasks need different context  --  **route by task type**. A code review needs different context than creative writing. Don't ship one static mega-prompt for everything.
 
 ## Anti-patterns
 - Context overflow (stuffing everything in)
@@ -41,4 +41,4 @@ Different tasks need different context — **route by task type**. A code review
 - No summarization of history
 
 ## Key insight
-The gap between a good and a great AI application is almost always **context engineering** — not model selection or prompt wording.
+The gap between a good and a great AI application is almost always **context engineering**  --  not model selection or prompt wording.

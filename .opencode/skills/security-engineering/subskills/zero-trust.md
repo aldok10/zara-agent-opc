@@ -6,9 +6,9 @@
 
 ## Core Principles
 
-1. **Verify explicitly** — authenticate and authorize every request on identity + context, not IP.
-2. **Least privilege** — grant the minimum access, just-in-time, time-boxed.
-3. **Assume breach** — segment, encrypt, log, and limit blast radius as if the attacker is already inside.
+1. **Verify explicitly**  --  authenticate and authorize every request on identity + context, not IP.
+2. **Least privilege**  --  grant the minimum access, just-in-time, time-boxed.
+3. **Assume breach**  --  segment, encrypt, log, and limit blast radius as if the attacker is already inside.
 
 ## BeyondCorp Model
 
@@ -17,19 +17,19 @@ Google's zero-trust implementation: access decisions move from the network perim
 ## Never Trust Network Location
 
 - A request from the internal subnet is not more trusted than one from the internet.
-- Kill the "hard shell, soft center" model — flat internal networks let one breach spread laterally.
+- Kill the "hard shell, soft center" model  --  flat internal networks let one breach spread laterally.
 - Remove implicit trust from VPNs; VPN grants network reachability, not application access.
 
 ## Microsegmentation
 
 - Divide the network into small zones; default-deny between them. Only explicitly allowed flows pass.
-- Segment by workload identity, not IP/VLAN. Limits lateral movement — a compromised service reaches only what policy permits.
+- Segment by workload identity, not IP/VLAN. Limits lateral movement  --  a compromised service reaches only what policy permits.
 - Enforce with network policies (Kubernetes NetworkPolicy, Cilium) + host firewalls.
 
 ## Service Mesh mTLS
 
 - Mesh (Istio, Linkerd) issues short-lived workload identities (SPIFFE SVIDs) and enforces **mTLS** on all service-to-service traffic automatically.
-- Both encrypts in transit and authenticates the calling workload — spoofing an internal service requires a valid cert.
+- Both encrypts in transit and authenticates the calling workload  --  spoofing an internal service requires a valid cert.
 - Layer authorization policies (AuthorizationPolicy) on top: which identity may call which service/method.
 
 ## Identity-Aware Proxy (IAP)
@@ -50,7 +50,7 @@ Google's zero-trust implementation: access decisions move from the network perim
 ## Least Privilege Access
 
 - Deny by default; grant specific, scoped permissions. Use just-in-time elevation (request → approve → time-boxed grant).
-- Policy-as-code (OPA/Rego, Cedar) — version, test, and audit authorization rules. Regularly review and revoke unused access.
+- Policy-as-code (OPA/Rego, Cedar)  --  version, test, and audit authorization rules. Regularly review and revoke unused access.
 
 ## Verification
 
@@ -60,6 +60,6 @@ Google's zero-trust implementation: access decisions move from the network perim
 
 ## Delegates To
 
-- **authentication** — identity + token mechanics.
-- **api-security** — mTLS, request-level enforcement.
-- **platform-engineering** — mesh/network policy rollout.
+- **authentication**  --  identity + token mechanics.
+- **api-security**  --  mTLS, request-level enforcement.
+- **platform-engineering**  --  mesh/network policy rollout.

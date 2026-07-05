@@ -2,11 +2,11 @@
 type: architecture
 title: N-Tier Architecture
 date: 2026-03-01
-description: N-Tier Architecture organizes applications into multiple layers—commonly UI, Business Logic, and Data Access—each with distinct responsibilities, and can be deployed across separate physical tiers.
+description: N-Tier Architecture organizes applications into multiple layers -- commonly UI, Business Logic, and Data Access -- each with distinct responsibilities, and can be deployed across separate physical tiers.
 weight: 50
 ---
 
-N-Tier Architecture is a well-established approach to organizing software applications into a set of logical layers (tiers), each responsible for a specific concern. It is an example of, and near synonym for, [Layered Architecture](/architecture/layered-architecture/). The "N" in N-Tier refers to the variable number of layers—most commonly three, but sometimes more.
+N-Tier Architecture is a well-established approach to organizing software applications into a set of logical layers (tiers), each responsible for a specific concern. It is an example of, and near synonym for, [Layered Architecture](/architecture/layered-architecture/). The "N" in N-Tier refers to the variable number of layers -- most commonly three, but sometimes more.
 
 ## Logical Layers vs. Physical Tiers
 
@@ -21,7 +21,7 @@ A three-layer application may be deployed as a two-tier system (client + server)
 
 The most common layers in N-Tier Architecture are:
 
-- **Presentation Layer (UI)**: Handles user interaction and display. This is what the user sees and interacts with—web pages, desktop forms, mobile screens, or API controllers.
+- **Presentation Layer (UI)**: Handles user interaction and display. This is what the user sees and interacts with -- web pages, desktop forms, mobile screens, or API controllers.
 - **Business Logic Layer (BLL)**: Contains the application's core rules and logic. It processes requests from the presentation layer and applies domain-specific rules before passing data to or from the data access layer.
 - **Data Access Layer (DAL)**: Manages communication with data storage, such as a relational database, file system, or external service. It abstracts the details of data persistence from the rest of the application.
 

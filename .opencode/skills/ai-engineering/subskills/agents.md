@@ -17,20 +17,20 @@
 
 ## Tool design
 Tools MUST be:
-- **Idempotent** — agents retry, so repeated calls must be safe
-- **Clearly described** — the description is what the LLM reads to decide when/how to call
-- **Structured output** — return JSON, not prose
-- **Fail gracefully** — informative errors the model can act on
+- **Idempotent**  --  agents retry, so repeated calls must be safe
+- **Clearly described**  --  the description is what the LLM reads to decide when/how to call
+- **Structured output**  --  return JSON, not prose
+- **Fail gracefully**  --  informative errors the model can act on
 
 ## Memory layers
 - **Short-term**: context window, last N messages
 - **Long-term**: vector DB, semantic search over past interactions
 - **Entity**: knowledge graph, structured facts about entities
 
-## Exit conditions (MANDATORY — all three)
-- `max_iterations` — prevent infinite loops
-- `cost_ceiling` — prevent runaway spend
-- `timeout` — wall-clock limit
+## Exit conditions (MANDATORY  --  all three)
+- `max_iterations`  --  prevent infinite loops
+- `cost_ceiling`  --  prevent runaway spend
+- `timeout`  --  wall-clock limit
 
 ## Guardrails
 - Input validation (reject prompt injection)
@@ -42,7 +42,7 @@ Tools MUST be:
 - **LangGraph**: graph-based orchestration
 - **CrewAI**: role-based
 - **AutoGen**: multi-agent conversation
-- **Custom**: often better in production — less abstraction overhead, full control of loop
+- **Custom**: often better in production  --  less abstraction overhead, full control of loop
 
 ## Anti-patterns
 - No exit conditions / unbounded tool calling

@@ -28,7 +28,7 @@ Every dashboard answers a specific question. No question → delete the dashboar
 ## Query optimization
 - Avoid expensive regex.
 - Use recording rules for complex Prometheus queries.
-- Set reasonable default time ranges — don't query 90 days by default.
+- Set reasonable default time ranges  --  don't query 90 days by default.
 
 ## Anti-patterns
 - 50+ panels on one dashboard → cognitive overload.

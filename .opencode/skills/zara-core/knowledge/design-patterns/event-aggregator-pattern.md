@@ -212,5 +212,5 @@ Not every interaction benefits from indirection. Using the Event Aggregator for 
 ## References
 
 - [Martin Fowler - Event Aggregator](https://martinfowler.com/eaaDev/EventAggregator.html)
-- [Patterns of Enterprise Application Architecture](https://amzn.to/3ELqAYn) — Martin Fowler
+- [Patterns of Enterprise Application Architecture](https://amzn.to/3ELqAYn)  --  Martin Fowler
 - [Prism IEventAggregator (WPF / MAUI)](https://prismlibrary.com/docs/event-aggregator.html)

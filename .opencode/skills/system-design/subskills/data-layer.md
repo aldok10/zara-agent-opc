@@ -17,9 +17,9 @@ Rule of thumb: **structured + ACID = SQL. Flexible schema + scale = NoSQL. Time-
 - **B-tree** (default): range queries, sorting, equality. `WHERE age > 30 ORDER BY created_at`.
 - **Hash**: equality only, faster than B-tree for exact match. Rarely worth it vs B-tree.
 - **GIN**: full-text search, JSONB containment, array membership. `WHERE tags @> '{urgent}'`.
-- **Partial index**: index a subset. `CREATE INDEX ... WHERE status = 'active'` — smaller, faster.
+- **Partial index**: index a subset. `CREATE INDEX ... WHERE status = 'active'`  --  smaller, faster.
 - **Covering index** (INCLUDE): satisfy a query entirely from the index, no table lookup.
-- **Composite index**: order matters — `(a, b)` serves `WHERE a=?` and `WHERE a=? AND b=?`, NOT `WHERE b=?`.
+- **Composite index**: order matters  --  `(a, b)` serves `WHERE a=?` and `WHERE a=? AND b=?`, NOT `WHERE b=?`.
 
 ## Sharding
 
@@ -32,14 +32,14 @@ Rule of thumb: **structured + ACID = SQL. Flexible schema + scale = NoSQL. Time-
 
 - **Sync replication**: primary waits for replica ack. Strong consistency, higher write latency, safer failover.
 - **Async replication**: primary doesn't wait. Fast writes, risk of data loss on failover, replication lag.
-- **Read replicas**: offload reads. Watch for **replication lag** — read-after-write may see stale data. Route critical reads to primary or use "read your writes" tokens.
+- **Read replicas**: offload reads. Watch for **replication lag**  --  read-after-write may see stale data. Route critical reads to primary or use "read your writes" tokens.
 - **Failover**: automatic promotion (Patroni, RDS Multi-AZ). Test it; split-brain is the danger.
 
 ## Data Modeling
 
 - **Normalize for writes**: no duplication, updates touch one place, enforces integrity. Cost: joins.
 - **Denormalize for reads**: duplicate data to avoid joins, faster reads. Cost: update complexity, consistency risk.
-- **Materialized views**: middle ground — precomputed joins/aggregates, refreshed periodically. Great for dashboards/reporting.
+- **Materialized views**: middle ground  --  precomputed joins/aggregates, refreshed periodically. Great for dashboards/reporting.
 
 ## Engine Decision Matrix
 

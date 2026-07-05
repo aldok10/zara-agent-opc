@@ -11,7 +11,7 @@ weight: 140
 
 Feature Envy is a code smell where a method seems more interested in another class than in the class it belongs to. The method constantly reaches into another object to access its data, call its helpers, or perform calculations that are really about that other object's domain. The name is apt: the method envies the features of a neighbor.
 
-Feature Envy is closely associated with [Data Classes](./data-class) — a passive data class that attracts envious methods from other classes is a common combination. When logic that should live on an object is displaced to a service or manager, both smells appear at once.
+Feature Envy is closely associated with [Data Classes](./data-class)  --  a passive data class that attracts envious methods from other classes is a common combination. When logic that should live on an object is displaced to a service or manager, both smells appear at once.
 
 ## Problems Caused by Feature Envy
 
@@ -59,7 +59,7 @@ public class InvoicePrinter
 }
 ```
 
-`Format` is not really about printing — it is about calculating the invoice's financial totals. That logic belongs on `Invoice`.
+`Format` is not really about printing  --  it is about calculating the invoice's financial totals. That logic belongs on `Invoice`.
 
 After moving the behavior to where the data lives:
 
@@ -101,8 +101,8 @@ A useful heuristic: if renaming the method to `SomethingAboutX()` makes it feel 
 
 ## Refactoring
 
-- **Move Method** — relocate the envious method to the class it cares about.
-- **Extract Method then Move Method** — if only part of a long method is envious, extract that part first, then move it.
-- **Move Field** — if data has followed the method to the wrong class, consider whether the field also belongs in the target class.
+- **Move Method**  --  relocate the envious method to the class it cares about.
+- **Extract Method then Move Method**  --  if only part of a long method is envious, extract that part first, then move it.
+- **Move Field**  --  if data has followed the method to the wrong class, consider whether the field also belongs in the target class.
 
-Occasionally Feature Envy is appropriate — for example, in a [Strategy](/design-patterns/strategy-pattern/) or [Visitor](/design-patterns/visitor-pattern/) that intentionally operates on data from another class. Context matters.
+Occasionally Feature Envy is appropriate  --  for example, in a [Strategy](/design-patterns/strategy-pattern/) or [Visitor](/design-patterns/visitor-pattern/) that intentionally operates on data from another class. Context matters.

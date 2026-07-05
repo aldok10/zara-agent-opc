@@ -12,16 +12,16 @@ weight: 140
 
 The Flyweight Design Pattern is a structural pattern that uses sharing to efficiently support large numbers of fine-grained objects. Instead of storing all data in every object instance, flyweights separate state into two categories:
 
-- **Intrinsic state** — data that is shared across many objects and does not change based on context (e.g., a tree's species, texture, or color). This is stored inside the flyweight object.
-- **Extrinsic state** — data that is unique per instance and depends on context (e.g., a tree's position or scale). This is passed in by the caller rather than stored in the flyweight.
+- **Intrinsic state**  --  data that is shared across many objects and does not change based on context (e.g., a tree's species, texture, or color). This is stored inside the flyweight object.
+- **Extrinsic state**  --  data that is unique per instance and depends on context (e.g., a tree's position or scale). This is passed in by the caller rather than stored in the flyweight.
 
 By storing only intrinsic state in shared flyweight objects and passing extrinsic state at call time, the pattern can dramatically reduce memory consumption when your application needs to work with thousands or millions of similar objects.
 
 Common real-world applications include:
 
-- **Game engines** — rendering thousands of trees, particles, or enemies that share the same mesh and texture but have different positions
-- **Text editors** — representing each character glyph as a shared object while tracking position and formatting externally
-- **UI frameworks** — reusing icon or style objects across many rendered controls
+- **Game engines**  --  rendering thousands of trees, particles, or enemies that share the same mesh and texture but have different positions
+- **Text editors**  --  representing each character glyph as a shared object while tracking position and formatting externally
+- **UI frameworks**  --  reusing icon or style objects across many rendered controls
 
 The Flyweight pattern is closely related to the [Proxy](/design-patterns/proxy-pattern/) pattern in that both involve an intermediary object, but Flyweight's purpose is sharing for memory efficiency rather than controlling access. It often works well alongside the [Factory Method](/design-patterns/factory-method-pattern/) or a dedicated factory that manages the cache of shared flyweight instances.
 
@@ -36,7 +36,7 @@ Getting the split right is the key design decision. Ask: "Would this data be ide
 | Mutable | No | Yes |
 | Example | Tree species, texture | Tree position, scale |
 
-Flyweight objects must be immutable with respect to their intrinsic state. If a shared flyweight's internal data could be changed, one caller's change would silently affect all callers sharing the same instance — a serious bug.
+Flyweight objects must be immutable with respect to their intrinsic state. If a shared flyweight's internal data could be changed, one caller's change would silently affect all callers sharing the same instance  --  a serious bug.
 
 ## C# Example
 
@@ -44,7 +44,7 @@ The following example models a forest renderer. A large forest might contain hun
 
 ### Flyweight
 
-The `TreeType` class holds all intrinsic state — the data that is the same for every oak, every pine, etc.
+The `TreeType` class holds all intrinsic state  --  the data that is the same for every oak, every pine, etc.
 
 ```csharp
 public class TreeType
@@ -98,7 +98,7 @@ public static class TreeTypeFactory
 
 ### Context
 
-The `Tree` class holds only extrinsic state — the data unique to this particular tree instance — and delegates rendering to the shared flyweight.
+The `Tree` class holds only extrinsic state  --  the data unique to this particular tree instance  --  and delegates rendering to the shared flyweight.
 
 ```csharp
 public class Tree

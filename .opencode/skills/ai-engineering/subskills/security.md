@@ -13,7 +13,7 @@ Attacker manipulates LLM behavior via input. Two types:
 5. **Monitoring**: log anomalies, detect unusual patterns, alert on policy violations
 
 ## PII handling
-- Never log full prompts containing PII — redact before logging
+- Never log full prompts containing PII  --  redact before logging
 - Use token IDs, not raw values
 - Comply with GDPR / CCPA
 

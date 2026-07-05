@@ -13,7 +13,7 @@ Branch strategy selection plus finishing completed work: merge, PR, keep, or dis
 - Git Flow: `main`/`develop`/`feature/*`/`release/*`/`hotfix/*`. Best for versioned releases.
 - GitHub Flow: branch from `main`, PR, merge after review. Simple default.
 
-## Finishing a Branch — First Action
+## Finishing a Branch  --  First Action
 
 Run the project's test suite (command from package.json/Makefile/conventions). Fail → STOP, report, fix. Pass → present options.
 

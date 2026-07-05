@@ -4,7 +4,7 @@ Type hints = documentation + bug prevention + IDE autocomplete. Not optional in 
 
 ## Collections
 
-- `list[int]`, `dict[str, int]`, `set[str]` — builtin generics, no `typing.List`.
+- `list[int]`, `dict[str, int]`, `set[str]`  --  builtin generics, no `typing.List`.
 - `tuple[int, str]` fixed-length; `tuple[int, ...]` variable-length homogeneous.
 - `Sequence`/`Mapping`/`Iterable` from `collections.abc` for read-only params (accept more).
 
@@ -45,7 +45,7 @@ class Box[T]:
 
 ## Narrowing helpers
 
-- `Literal["asc", "desc"]` for fixed string sets — catches typos at check time.
+- `Literal["asc", "desc"]` for fixed string sets  --  catches typos at check time.
 - `TypeGuard` / `TypeIs` (3.13) for custom narrowing functions.
 
 ## Domain patterns
@@ -55,12 +55,12 @@ class Box[T]:
 
 ## Checkers
 
-- `mypy --strict` or `pyright` — run in CI, fail the build on errors.
+- `mypy --strict` or `pyright`  --  run in CI, fail the build on errors.
 - Types are compile-time only. Use Pydantic for runtime validation at I/O boundaries.
 
 ## Anti-patterns
 
-- `Any` everywhere — disables all checking silently.
-- `# type: ignore` without a reason comment — hides real bugs.
-- No type checker in CI — hints drift out of sync with code.
-- Trusting hints for runtime safety — validate external data explicitly.
+- `Any` everywhere  --  disables all checking silently.
+- `# type: ignore` without a reason comment  --  hides real bugs.
+- No type checker in CI  --  hints drift out of sync with code.
+- Trusting hints for runtime safety  --  validate external data explicitly.

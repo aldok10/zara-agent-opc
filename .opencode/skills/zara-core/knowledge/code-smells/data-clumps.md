@@ -9,7 +9,7 @@ description: The Data Clumps code smell occurs when the same group of data items
 weight: 100
 ---
 
-The Data Clumps code smell occurs when the same group of data items repeatedly appears together — in field declarations, method parameters, or local variables — across multiple places in a codebase. If you find yourself always passing `street`, `city`, `state`, and `zip` together, or always seeing `startDate` and `endDate` side by side, those values are clumping because they belong together. The fix is to introduce a type that names and owns the concept they collectively represent.
+The Data Clumps code smell occurs when the same group of data items repeatedly appears together  --  in field declarations, method parameters, or local variables  --  across multiple places in a codebase. If you find yourself always passing `street`, `city`, `state`, and `zip` together, or always seeing `startDate` and `endDate` side by side, those values are clumping because they belong together. The fix is to introduce a type that names and owns the concept they collectively represent.
 
 Data Clumps are closely related to [Primitive Obsession](./primitive-obsession-code-smell) and [Long Parameter List](./long-parameter-list). In fact, a long parameter list is often made up of one or more data clumps in disguise.
 
@@ -21,11 +21,11 @@ When the same group of fields recurs, the code is telling you that an important 
 
 ### Duplication
 
-Logic that operates on the clump — validation, formatting, calculation — tends to be duplicated wherever the clump appears. There is no single home for the behavior because there is no single type to put it in. Introducing a type consolidates that logic in one place, in keeping with the [Don't Repeat Yourself (DRY)](/principles/dont-repeat-yourself/) principle.
+Logic that operates on the clump  --  validation, formatting, calculation  --  tends to be duplicated wherever the clump appears. There is no single home for the behavior because there is no single type to put it in. Introducing a type consolidates that logic in one place, in keeping with the [Don't Repeat Yourself (DRY)](/principles/dont-repeat-yourself/) principle.
 
 ### Fragility
 
-When a clump needs to change — say, an address gains a second address line — every method signature and class that carries the clump must be updated. A single type means a single change.
+When a clump needs to change  --  say, an address gains a second address line  --  every method signature and class that carries the clump must be updated. A single type means a single change.
 
 ### Reduced Readability
 
@@ -59,7 +59,7 @@ public class OrderService
 }
 ```
 
-The same five fields appear in two places. Adding a country-code format requirement means updating both — and any other clumps of the same data elsewhere.
+The same five fields appear in two places. Adding a country-code format requirement means updating both  --  and any other clumps of the same data elsewhere.
 
 After introducing an `Address` type:
 
@@ -94,13 +94,13 @@ Validation lives inside `Address`. Both `Customer` and `OrderService` share the 
 
 ## Identifying Data Clumps
 
-A useful test: if you removed one item from a group, would the rest still be meaningfully related? If not — if `city`, `state`, and `zip` do not make sense together without `street` — the group is a data clump and belongs in a type. Brian Foote and Joseph Yoder describe this intuition in the context of finding missing objects in a design.
+A useful test: if you removed one item from a group, would the rest still be meaningfully related? If not  --  if `city`, `state`, and `zip` do not make sense together without `street`  --  the group is a data clump and belongs in a type. Brian Foote and Joseph Yoder describe this intuition in the context of finding missing objects in a design.
 
 Look for clumps in:
 
-- **Field declarations** — multiple fields on a class that always appear and change together.
-- **Method parameters** — the same set of parameters appearing across several methods.
-- **Local variables** — a group of variables declared together and always passed together.
+- **Field declarations**  --  multiple fields on a class that always appear and change together.
+- **Method parameters**  --  the same set of parameters appearing across several methods.
+- **Local variables**  --  a group of variables declared together and always passed together.
 
 Another way you can often identify data clumps in class properties and fields is through the use of whitespace and/or comments. Developers know these things really belong together, so they'll often organize them that way through formatting if not through proper types. Some examples:
 
@@ -136,10 +136,10 @@ Obviously using a `DateTime` type instead of these primites makes a lot of sense
 
 ## Addressing Data Clumps
 
-- **Extract Class** — create a new class or record to hold the clumped fields and any behavior that belongs to them.
-- **Introduce Parameter Object** — replace a recurring group of parameters with a single object (see [Long Parameter List](./long-parameter-list)).
-- **Preserve Whole Object** — when pulling values out of an existing object to pass into a method, pass the object itself instead.
-- **Use Value Objects** — if the clump represents a domain concept with no identity (e.g., `Money`, `DateRange`, `Address`), model it as an immutable [Value Object](/domain-driven-design/value-object/) that encapsulates both data and behavior.
+- **Extract Class**  --  create a new class or record to hold the clumped fields and any behavior that belongs to them.
+- **Introduce Parameter Object**  --  replace a recurring group of parameters with a single object (see [Long Parameter List](./long-parameter-list)).
+- **Preserve Whole Object**  --  when pulling values out of an existing object to pass into a method, pass the object itself instead.
+- **Use Value Objects**  --  if the clump represents a domain concept with no identity (e.g., `Money`, `DateRange`, `Address`), model it as an immutable [Value Object](/domain-driven-design/value-object/) that encapsulates both data and behavior.
 
 ## References
 

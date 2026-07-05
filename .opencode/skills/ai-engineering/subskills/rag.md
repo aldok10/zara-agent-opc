@@ -17,7 +17,7 @@
 - Match embedding model dimensionality to your vector DB config; never mix models in one index.
 
 ## Vector databases
-- **Qdrant**: native hybrid search — recommended default
+- **Qdrant**: native hybrid search  --  recommended default
 - **Pinecone**: fully managed, low ops
 - **Weaviate**: multimodal
 - **pgvector**: use if already on Postgres (avoid new infra)
@@ -34,7 +34,7 @@ Retrieve **top-50** cheaply, rerank to **top-5** with a cross-encoder.
 - Skipping rerank = noisy context = worse generation.
 
 ## Incremental re-indexing
-- Process only **changed documents** via CDC or webhook triggers — never full re-index per update.
+- Process only **changed documents** via CDC or webhook triggers  --  never full re-index per update.
 - Full re-index only when embedding model or chunking schema changes.
 
 ## Metadata filtering

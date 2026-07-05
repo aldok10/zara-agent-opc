@@ -4,17 +4,17 @@ How to verify AI-generated code. "I approve this" = "I own this in production."
 
 ## Verification hierarchy (check in order)
 
-1. **Type-check / compile** — minimum bar, catches ~60% of nonsense
-2. **Existing tests pass** — regression gate
-3. **New tests for new code** — AI generates them, then YOU verify the tests
-4. **Security scan** — SAST: semgrep, gosec, bandit
-5. **Architecture fit** — does this pattern belong in this codebase?
-6. **Edge cases** — null, empty, max int, unicode, concurrent access
-7. **Performance** — benchmark if on a performance-sensitive path
+1. **Type-check / compile**  --  minimum bar, catches ~60% of nonsense
+2. **Existing tests pass**  --  regression gate
+3. **New tests for new code**  --  AI generates them, then YOU verify the tests
+4. **Security scan**  --  SAST: semgrep, gosec, bandit
+5. **Architecture fit**  --  does this pattern belong in this codebase?
+6. **Edge cases**  --  null, empty, max int, unicode, concurrent access
+7. **Performance**  --  benchmark if on a performance-sensitive path
 
 ## Don't read every line
 
-Use test-driven verification. If tests are comprehensive, implementation details matter less — the behavior is pinned.
+Use test-driven verification. If tests are comprehensive, implementation details matter less  --  the behavior is pinned.
 
 ## BUT verify the tests
 

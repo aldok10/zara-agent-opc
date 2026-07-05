@@ -11,7 +11,7 @@ weight: 250
 
 Middle Man is a code smell where a class has become a pass-through layer that adds no value of its own. Most of its methods do nothing but forward calls to another class or object. It is a middleman in the literal sense: an intermediary who takes messages and passes them along without contributing anything.
 
-Some delegation is appropriate — it supports encapsulation and hides details from callers. The smell arises when the delegation is so complete that the class has no logic of its own. It has become a redundant layer between the caller and the class that does the actual work.
+Some delegation is appropriate  --  it supports encapsulation and hides details from callers. The smell arises when the delegation is so complete that the class has no logic of its own. It has become a redundant layer between the caller and the class that does the actual work.
 
 ## Problems Caused by Middle Man
 
@@ -21,7 +21,7 @@ A class that only delegates forces callers to go through an extra layer without 
 
 ### Dead Abstraction
 
-A class exists to capture a concept and give it a name. A pure middleman doesn't represent a meaningful concept — it exists only because it was created and never filled in. This creates noise: developers reading the code encounter the class, expect it to have behavior, and discover it has none.
+A class exists to capture a concept and give it a name. A pure middleman doesn't represent a meaningful concept  --  it exists only because it was created and never filled in. This creates noise: developers reading the code encounter the class, expect it to have behavior, and discover it has none.
 
 ### Maintenance Burden
 
@@ -48,7 +48,7 @@ public class CustomerService
 }
 ```
 
-Every method on `CustomerService` is a one-line forward to `_repository`. There is no transformation, no validation, no business logic — only delegation.
+Every method on `CustomerService` is a one-line forward to `_repository`. There is no transformation, no validation, no business logic  --  only delegation.
 
 If callers need the repository, they can depend on it directly (or on an interface it implements):
 
@@ -62,18 +62,18 @@ public interface ICustomerRepository
 }
 ```
 
-When `CustomerService` genuinely adds behavior — validation, authorization checks, event publishing — it earns its place and is no longer a Middle Man.
+When `CustomerService` genuinely adds behavior  --  validation, authorization checks, event publishing  --  it earns its place and is no longer a Middle Man.
 
 ## When Delegation Is Appropriate
 
 Not all delegation is a problem. Delegation is healthy when:
 
 - A class **adds behavior** to the delegated calls (validation, caching, logging, orchestration).
-- Delegation is part of a **design pattern** — [Decorator](/design-patterns/decorator-pattern/), [Proxy](/design-patterns/proxy-pattern/), [Facade](/design-patterns/facade-pattern/), or [Adapter](/design-patterns/adapter-pattern/) all use delegation intentionally.
+- Delegation is part of a **design pattern**  --  [Decorator](/design-patterns/decorator-pattern/), [Proxy](/design-patterns/proxy-pattern/), [Facade](/design-patterns/facade-pattern/), or [Adapter](/design-patterns/adapter-pattern/) all use delegation intentionally.
 - A class provides a **stable interface** that hides an unstable or complex collaborator.
 - A class **coordinates** multiple collaborators, even if individual method implementations are simple.
 
-The distinction is whether the class adds value or merely relays messages. A Facade that wraps a complex subsystem does add value — it simplifies a complex interface. A Middle Man that wraps a simple interface and adds nothing does not.
+The distinction is whether the class adds value or merely relays messages. A Facade that wraps a complex subsystem does add value  --  it simplifies a complex interface. A Middle Man that wraps a simple interface and adds nothing does not.
 
 ## Identifying Middle Man
 
@@ -85,6 +85,6 @@ Look for:
 
 ## Refactoring
 
-- **Remove Middle Man** — have callers depend on the actual worker class directly. If the middleman exposes an interface, have the worker implement that interface instead.
-- **Inline Method** — inline the forwarding methods into their callers one at a time if the middleman is used in few places.
-- **Replace Delegation with Inheritance** — occasionally a middleman is better expressed as a subclass of the class it delegates to, though this should be used carefully and only when the relationship genuinely is "is-a."
+- **Remove Middle Man**  --  have callers depend on the actual worker class directly. If the middleman exposes an interface, have the worker implement that interface instead.
+- **Inline Method**  --  inline the forwarding methods into their callers one at a time if the middleman is used in few places.
+- **Replace Delegation with Inheritance**  --  occasionally a middleman is better expressed as a subclass of the class it delegates to, though this should be used carefully and only when the relationship genuinely is "is-a."

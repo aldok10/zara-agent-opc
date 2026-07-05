@@ -4,7 +4,7 @@ Deep-dive reference for adding caching without shooting yourself in the foot.
 
 ## Caching Patterns
 
-- **Cache-aside (lazy loading)** — most common. App checks cache; on miss, reads DB and populates cache. Only requested data is cached. Stale risk on updates → pair with invalidation. App owns cache logic.
+- **Cache-aside (lazy loading)**  --  most common. App checks cache; on miss, reads DB and populates cache. Only requested data is cached. Stale risk on updates → pair with invalidation. App owns cache logic.
 - **Write-through**: write to cache AND DB synchronously. Cache always fresh; writes slower. Good when reads dominate and staleness is unacceptable.
 - **Write-behind (write-back)**: write to cache, async flush to DB. Fast writes, absorbs bursts, but **risk of data loss** if cache dies before flush. Use for high write volume tolerant of small loss.
 - **Read-through**: cache library fetches from DB on miss (not the app). Simpler app code, cache is the abstraction. Needs cache that supports it.
@@ -16,7 +16,7 @@ Deep-dive reference for adding caching without shooting yourself in the foot.
 - **TTL**: simplest, eventual freshness. Pick TTL by tolerance for staleness.
 - **Event-based**: invalidate/update on write. Most accurate, more plumbing (pub/sub, hooks).
 - **Version keys**: embed version in key (`user:42:v7`). Bump version = instant logical invalidation, old entries expire naturally.
-- **Cache-aside + short TTL**: pragmatic default — bounded staleness without event wiring.
+- **Cache-aside + short TTL**: pragmatic default  --  bounded staleness without event wiring.
 
 ## Multi-Layer Caching
 

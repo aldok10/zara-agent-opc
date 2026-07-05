@@ -1,9 +1,9 @@
 ---
 type: fact
-title: Leadership Knowledge Base — Comprehensive Reference
+title: Leadership Knowledge Base  --  Comprehensive Reference
 ---
 
-# Leadership Knowledge Base — Comprehensive Reference
+# Leadership Knowledge Base  --  Comprehensive Reference
 
 > Load on demand via `knowledge_load(doc: "leadership")` or `knowledge_read(path: "leadership-frameworks.md")`
 
@@ -14,12 +14,12 @@ title: Leadership Knowledge Base — Comprehensive Reference
 ### GROW (Whitmore)
 Goal → Reality → Options → Will. Shifts from instructing to guiding. Under 15 minutes.
 
-### Coaching Habit (Bungay Stanier) — 7 Questions
+### Coaching Habit (Bungay Stanier)  --  7 Questions
 1. "What's on your mind?" (Kickstart)
-2. "And what else?" (AWE — prevents premature advice)
+2. "And what else?" (AWE  --  prevents premature advice)
 3. "What's the real challenge here for you?" (Focus)
 4. "What do you want?" (Foundation)
-5. "How can I help?" (Lazy — forces clarity)
+5. "How can I help?" (Lazy  --  forces clarity)
 6. "If you're saying yes to this, what are you saying no to?" (Strategic)
 7. "What was most useful for you?" (Learning)
 
@@ -77,7 +77,7 @@ Key practices: Talent Magnet, Liberator, Challenger, Debate Maker, Investor.
 5. Decide, enforce, reopen only on new information
 
 ### Consent Over Consensus
-Ask "can you live with it?" not "do you agree?" — faster, less political.
+Ask "can you live with it?" not "do you agree?"  --  faster, less political.
 
 ---
 
@@ -85,12 +85,12 @@ Ask "can you live with it?" not "do you agree?" — faster, less political.
 
 ### SBI (Situation-Behavior-Impact)
 "In yesterday's retro (S), you interrupted Sarah twice (B), which made her hesitant to share (I)."
-Extended: +I (Inquiry) — "What was happening for you?"
+Extended: +I (Inquiry)  --  "What was happening for you?"
 
 ### Radical Candor (Kim Scott)
 Care Personally + Challenge Directly. Avoid: Ruinous Empathy (care without challenge), Obnoxious Aggression (challenge without care).
 
-Delivery: CORE — Context, Observation, Result, nExt steps.
+Delivery: CORE  --  Context, Observation, Result, nExt steps.
 Order: Get feedback first → Give → Gauge → Encourage peer feedback.
 
 ### Difficult Conversations (5-Step)
@@ -203,7 +203,7 @@ Build for differentiation, buy for commodity. Real cost shows after launch. Scor
 - Speak business language, not jargon
 - Frame tech debt as velocity impact
 - Never surprise; deliver bad news with trust
-- Overcommunicate — silence breeds worst-case assumptions
+- Overcommunicate  --  silence breeds worst-case assumptions
 
 ---
 
@@ -218,7 +218,7 @@ Blameless postmortems. Async-first communication. DX as a priority.
 - Limit WIP per engineer
 - No-meeting days for deep focus
 - Recognize 5 faces: Ambiguity, Compression, Dual-ladder, Moral injury, Identity collapse
-- Burnout is systemic, not individual — fix organizational causes
+- Burnout is systemic, not individual  --  fix organizational causes
 
 ### Hiring
 - Hire slow, fire fast (70% success rate even world-class)

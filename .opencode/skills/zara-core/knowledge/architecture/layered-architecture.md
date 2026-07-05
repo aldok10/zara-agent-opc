@@ -32,7 +32,7 @@ Dependencies flow downward: the UI depends on the business logic layer, which de
 ## Drawbacks
 
 - **Performance Overhead**: Requests must pass through each layer even when not all layers add value for a particular operation, introducing unnecessary processing.
-- **Tight Coupling Between Layers**: Although layers are separated by interface, they are still vertically coupled—a change to the data model may ripple upward through every layer.
+- **Tight Coupling Between Layers**: Although layers are separated by interface, they are still vertically coupled -- a change to the data model may ripple upward through every layer.
 - **Anemic Domain Model**: Business logic can become thin and procedural when spread across a service layer and data layer, leading to an [anemic domain model](/domain-driven-design/anemic-model/).
 - **Monolithic Tendencies**: Layered architectures often grow into large, tightly-coupled monoliths over time, making them harder to scale or evolve.
 - **Scalability Challenges**: Scaling a single layer independently is difficult because layers share the same deployment unit in many implementations.

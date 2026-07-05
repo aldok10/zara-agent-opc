@@ -65,7 +65,7 @@ var report = service.GetReport(42);
 service.Shutdown();                   // easy to forget
 ```
 
-If `Initialize` or `Shutdown` is omitted, the service either fails with a null reference or leaks a connection. The caller must know — and remember — the required ceremony.
+If `Initialize` or `Shutdown` is omitted, the service either fails with a null reference or leaks a connection. The caller must know  --  and remember  --  the required ceremony.
 
 A better design moves connection management inside the class's constructor, a factory method, or a `using`-compatible `IDisposable` pattern:
 

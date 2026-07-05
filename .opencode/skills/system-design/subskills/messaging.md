@@ -5,9 +5,9 @@ Deep-dive reference for async communication between services.
 ## When to Use a Queue
 
 - **Decouple** producers from consumers (independent deploy/scale).
-- **Buffer spikes** — absorb bursts, consumers drain at their own pace.
-- **Async processing** — return fast, do slow work later (emails, thumbnails, exports).
-- **Cross-service communication** — event-driven microservices.
+- **Buffer spikes**  --  absorb bursts, consumers drain at their own pace.
+- **Async processing**  --  return fast, do slow work later (emails, thumbnails, exports).
+- **Cross-service communication**  --  event-driven microservices.
 
 If you need a synchronous answer right now, use an API, not a queue.
 
@@ -15,7 +15,7 @@ If you need a synchronous answer right now, use an API, not a queue.
 
 - **At-most-once**: fire-and-forget. May lose messages. Fine for metrics/telemetry.
 - **At-least-once**: retries until acked. May duplicate → **consumer must be idempotent**. The common default.
-- **Exactly-once**: no loss, no dupes. Kafka transactions / dedup. Expensive, limited scope — usually you fake it with at-least-once + idempotency.
+- **Exactly-once**: no loss, no dupes. Kafka transactions / dedup. Expensive, limited scope  --  usually you fake it with at-least-once + idempotency.
 
 ## Broker Comparison
 
@@ -45,11 +45,11 @@ If you need a synchronous answer right now, use an API, not a queue.
 
 ## Ordering
 
-- **Kafka**: ordered within a partition — use a partition key (e.g., `user_id`) to keep related events ordered.
+- **Kafka**: ordered within a partition  --  use a partition key (e.g., `user_id`) to keep related events ordered.
 - **SQS FIFO**: ordering + dedup via MessageGroupId.
 - **RabbitMQ**: order within a single queue/consumer only.
 
-Global total ordering kills parallelism — order only where it matters.
+Global total ordering kills parallelism  --  order only where it matters.
 
 ## Idempotency (required for at-least-once)
 

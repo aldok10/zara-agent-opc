@@ -24,7 +24,7 @@ Rough 2026 pricing:
 - **Retention tiers**: hot (7d, fast query), warm (30d, slower), cold (90d, archive, rare access).
 - **Aggregation**: pre-aggregate metrics at the collector, drop raw after.
 - **Filtering**: drop health-check spans, debug logs, and known-noisy sources at the collector.
-- **Compression**: OTLP uses gzip — enable compression on all exporters.
+- **Compression**: OTLP uses gzip  --  enable compression on all exporters.
 
 ## Right-sizing approach
 Start with full collection for 1 week → measure actual volume → then apply sampling/filtering. Measure before optimizing.

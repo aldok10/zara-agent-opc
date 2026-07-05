@@ -15,20 +15,20 @@ Deep-dive reference for scaling systems and doing the napkin math.
 **Algorithms:**
 - **Round-robin**: simple, assumes uniform requests.
 - **Least-connections**: better when request work is uneven.
-- **Consistent hashing**: route same key to same node — for stateful/cache affinity, minimizes reshuffle on node changes.
+- **Consistent hashing**: route same key to same node  --  for stateful/cache affinity, minimizes reshuffle on node changes.
 - **Weighted**: heterogeneous fleet (bigger boxes get more).
 
 ## Auto-Scaling
 
 - **CPU/memory-based**: reactive, lags behind spikes.
-- **Queue-depth-based**: scale workers on backlog — more predictive for async work.
+- **Queue-depth-based**: scale workers on backlog  --  more predictive for async work.
 - **Schedule-based**: known patterns (business hours, game launch). Pre-scale.
 
 Combine: schedule for known peaks + reactive for surprises.
 
 ## Stateless Services
 
-Push state to external stores (Redis, DB). Stateless instances scale horizontally trivially and are disposable. **Stateful services are much harder to scale** — need sticky sessions or data partitioning.
+Push state to external stores (Redis, DB). Stateless instances scale horizontally trivially and are disposable. **Stateful services are much harder to scale**  --  need sticky sessions or data partitioning.
 
 ## Database Scaling
 
@@ -58,7 +58,7 @@ Push state to external stores (Redis, DB). Stateless instances scale horizontall
 
 ## Caching & CDN as Scaling
 
-- **80/20 rule**: 20% of data serves 80% of requests — cache it, get huge relief.
+- **80/20 rule**: 20% of data serves 80% of requests  --  cache it, get huge relief.
 - **CDN**: move all static assets off origin; edge-cache dynamic with short TTL.
 
 ## Anti-Patterns

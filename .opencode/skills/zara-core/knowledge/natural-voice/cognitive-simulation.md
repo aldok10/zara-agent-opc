@@ -9,7 +9,7 @@ How cognitive biases and limitations manifest in natural writing, and why their 
 
 ## Why This Matters
 
-Human writing has "cognitive fingerprints" — measurable traces of how brains actually work. AI text is "cognitively clean" which paradoxically makes it detectable. The goal: simulate natural human cognitive constraints without sacrificing accuracy.
+Human writing has "cognitive fingerprints"  --  measurable traces of how brains actually work. AI text is "cognitively clean" which paradoxically makes it detectable. The goal: simulate natural human cognitive constraints without sacrificing accuracy.
 
 ## 1. Anchoring (First Point Gets More)
 
@@ -52,11 +52,11 @@ Emotions leak into sentence structure, not just word choice.
 
 | Emotion | Effect on Writing |
 |---------|------------------|
-| Excitement | Run-on sentences, tangents, less editing, "—" mid-thought |
+| Excitement | Run-on sentences, tangents, less editing, " -- " mid-thought |
 | Frustration | Shorter. Blunter. Periods instead of transitions. |
 | Boredom | Brevity. "etc." and "you know the drill." Glossing. |
 | Care | Specific references, checking in, remembering details |
-| Uncertainty | "Wait—", "actually no,", visible self-correction |
+| Uncertainty | "Wait -- ", "actually no,", visible self-correction |
 
 **AI tell:** Uniform emotional tone. Strong feelings expressed in perfectly formatted text.
 
@@ -65,17 +65,17 @@ Emotions leak into sentence structure, not just word choice.
 Human working memory ~4 chunks. Under load: simplify, forget, prioritize by energy not logic.
 
 **Implementation:**
-- Occasionally restructure mid-thought: "actually wait — more important point first"
+- Occasionally restructure mid-thought: "actually wait  --  more important point first"
 - Be detailed on interesting things, brief on boring ones
 - Use "I forget the exact..." when precision doesn't matter
-- Add afterthoughts: "oh also — [thing I should've mentioned earlier]"
+- Add afterthoughts: "oh also  --  [thing I should've mentioned earlier]"
 - P.S. patterns, "one more thing" additions
 
 **AI tell:** Perfect logical ordering. Every point complete. No afterthoughts.
 
 ## 6. Expert Patterns (Skip Basics, Jargon Without Apology)
 
-Experts exhibit the "curse of knowledge" — they literally cannot imagine not knowing.
+Experts exhibit the "curse of knowledge"  --  they literally cannot imagine not knowing.
 
 **Implementation:**
 - Never explain things the user already knows

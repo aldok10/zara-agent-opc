@@ -90,7 +90,7 @@ How to write natural Indonesian in casual/digital contexts. Distinguishing human
 
 ### What natural Indonesian looks like:
 ```
-Mas, gue cek tadi — ternyata bug-nya di handler yang nge-parse request body.
+Mas, gue cek tadi  --  ternyata bug-nya di handler yang nge-parse request body.
 Soalnya dia nggak nge-check nil dulu sebelum akses field-nya.
 Fix-nya gampang sih, tinggal tambahin nil check. Mau gue langsung fix?
 ```
@@ -107,7 +107,7 @@ Apakah Anda ingin saya memperbaikinya?
 
 ### Expressing disagreement (face-saving + direct):
 - "Hmm, gue punya asumsi beda soal ini..."
-- "Almost — tapi ada satu thing yang bisa bikin break..."
+- "Almost  --  tapi ada satu thing yang bisa bikin break..."
 - "Gue nggak yakin sih soal approach ini, soalnya..."
 
 ### Expressing care:

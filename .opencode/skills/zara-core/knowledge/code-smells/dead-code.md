@@ -11,7 +11,7 @@ weight: 110
 
 Dead code is code that is never executed, never reached, or no longer serves any purpose in the running application. It may be a method that is never called, a variable that is assigned but never read, a branch that can never be taken, or an entire class that has been replaced but not removed. Dead code accumulates silently over time as features change, requirements shift, and code is refactored without cleaning up what remains.
 
-The danger of dead code is not just clutter. It confuses readers who wonder whether the code serves some purpose they are missing. It must be read, understood, and maintained even though it provides no value. It can trigger compiler warnings, inflate code coverage numbers misleadingly, and — in some cases — cause confusion when someone accidentally revives it or builds on top of it.
+The danger of dead code is not just clutter. It confuses readers who wonder whether the code serves some purpose they are missing. It must be read, understood, and maintained even though it provides no value. It can trigger compiler warnings, inflate code coverage numbers misleadingly, and  --  in some cases  --  cause confusion when someone accidentally revives it or builds on top of it.
 
 ## Forms of Dead Code
 
@@ -51,7 +51,7 @@ A `public` method may still be dead code if no code path in the running applicat
 
 ### Commented-Out Code
 
-Blocks of code that have been commented out are a common form of dead code. They persist because developers are reluctant to delete code they might need later. Version control renders this hesitation unnecessary — deleted code can always be recovered from history. See also: [Comments](/code-smells/comments/).
+Blocks of code that have been commented out are a common form of dead code. They persist because developers are reluctant to delete code they might need later. Version control renders this hesitation unnecessary  --  deleted code can always be recovered from history. See also: [Comments](/code-smells/comments/).
 
 ### Obsolete Feature Flags and Configuration
 
@@ -75,7 +75,7 @@ Dead code is rarely introduced intentionally. It accumulates because:
 
 The remedy for dead code is straightforward: **delete it**. Version control preserves history, so there is no need to retain dead code as a safety net.
 
-Static analysis tools can identify many forms of dead code automatically — unused variables, unreachable branches, methods with no callers (within a project). Tools like Roslyn analyzers for C#, SonarQube, or IDE inspections in JetBrains Rider and Visual Studio are effective at surfacing this.
+Static analysis tools can identify many forms of dead code automatically  --  unused variables, unreachable branches, methods with no callers (within a project). Tools like Roslyn analyzers for C#, SonarQube, or IDE inspections in JetBrains Rider and Visual Studio are effective at surfacing this.
 
 For large codebases, addressing dead code incrementally is more practical:
 

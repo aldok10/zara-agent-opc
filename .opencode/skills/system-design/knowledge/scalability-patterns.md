@@ -278,7 +278,7 @@ When system is overloaded, shed in order:
 1. Health checks from monitoring (they'll retry).
 2. Internal batch jobs (reschedule).
 3. Low-priority API requests (free tier).
-4. High-priority API requests (paid users) — last resort.
+4. High-priority API requests (paid users)  --  last resort.
 
 Never shed: shutdown signals, circuit breaker checks, failover coordination.
 
@@ -327,4 +327,4 @@ Reference points for capacity planning:
 | S3 | 5,500 GET/sec per prefix, 3,500 PUT/sec | Partition prefixes |
 | DynamoDB | Unlimited with proper partition key | On-demand or provisioned |
 
-These vary heavily with hardware, data size, query complexity, and configuration. Benchmark your specific workload — never use generic numbers for capacity planning.
+These vary heavily with hardware, data size, query complexity, and configuration. Benchmark your specific workload  --  never use generic numbers for capacity planning.

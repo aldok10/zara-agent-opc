@@ -4,12 +4,12 @@ title: Class Depends on Subclass Code Smell
 
 date: 2026-03-08
 
-description: The Class Depends on Subclass code smell occurs when a base class contains references to, or knowledge of, one or more of its own subclasses — inverting the expected dependency direction in an inheritance hierarchy.
+description: The Class Depends on Subclass code smell occurs when a base class contains references to, or knowledge of, one or more of its own subclasses  --  inverting the expected dependency direction in an inheritance hierarchy.
 
 weight: 40
 ---
 
-The Class Depends on Subclass code smell occurs when a base class has direct knowledge of its subclasses — referencing them by name, using `typeof` checks, casting to them, or modeling behavior based on their existence. This inverts the intended relationship of inheritance: base classes should define contracts that subclasses fulfill, not be aware of who fulfills them. When the base knows about its children, the hierarchy can no longer be extended without modifying the base, and the [Liskov Substitution Principle](/principles/liskov-substitution-principle/) is undermined.
+The Class Depends on Subclass code smell occurs when a base class has direct knowledge of its subclasses  --  referencing them by name, using `typeof` checks, casting to them, or modeling behavior based on their existence. This inverts the intended relationship of inheritance: base classes should define contracts that subclasses fulfill, not be aware of who fulfills them. When the base knows about its children, the hierarchy can no longer be extended without modifying the base, and the [Liskov Substitution Principle](/principles/liskov-substitution-principle/) is undermined.
 
 ## How It Arises
 
@@ -19,11 +19,11 @@ This smell often appears as a class hierarchy ages and special-case behavior acc
 
 ### Broken Extensibility
 
-The purpose of inheritance is to allow new subclasses to extend behavior without changing existing code — the [Open/Closed Principle](/principles/open-closed-principle/). When a base class knows about its subclasses, adding a new subclass often requires modifying the base. Exactly the modification the design was supposed to prevent.
+The purpose of inheritance is to allow new subclasses to extend behavior without changing existing code  --  the [Open/Closed Principle](/principles/open-closed-principle/). When a base class knows about its subclasses, adding a new subclass often requires modifying the base. Exactly the modification the design was supposed to prevent.
 
 ### Circular Conceptual Dependency
 
-Base classes are supposed to be more abstract and stable than subclasses. When a base references a subclass, it becomes dependent on something more specific than itself. The dependency direction runs in both directions — the subclass depends on the base (through inheritance) and the base depends on the subclass (through the reference). This circular dependency makes the hierarchy fragile and difficult to reason about.
+Base classes are supposed to be more abstract and stable than subclasses. When a base references a subclass, it becomes dependent on something more specific than itself. The dependency direction runs in both directions  --  the subclass depends on the base (through inheritance) and the base depends on the subclass (through the reference). This circular dependency makes the hierarchy fragile and difficult to reason about.
 
 ### Tight Coupling
 
@@ -42,7 +42,7 @@ public abstract class Order
 {
     public virtual decimal CalculateShipping()
     {
-        // Base class knows about its subclasses — this is the smell
+        // Base class knows about its subclasses  --  this is the smell
         if (this is ExpressOrder expressOrder)
         {
             return expressOrder.ExpressFee + 5.00m;

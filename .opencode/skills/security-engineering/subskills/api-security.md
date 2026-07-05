@@ -13,7 +13,7 @@
 ## Input Validation
 
 - Validate at every boundary: type, length, range, format, allowlist. Reject unknown fields (fail closed).
-- Schema-validate request bodies (JSON Schema, Zod, Pydantic, OpenAPI). Validate deeply — nested objects and arrays too.
+- Schema-validate request bodies (JSON Schema, Zod, Pydantic, OpenAPI). Validate deeply  --  nested objects and arrays too.
 - Treat AI/LLM-produced input as untrusted (prompt injection, A04).
 
 ## Output Encoding
@@ -23,7 +23,7 @@
 
 ## CORS
 
-- Explicit origin allowlist — never `Access-Control-Allow-Origin: *` with credentials.
+- Explicit origin allowlist  --  never `Access-Control-Allow-Origin: *` with credentials.
 - Restrict methods/headers; short `Access-Control-Max-Age`. Validate the `Origin` header server-side.
 
 ## Security Headers / CSP
@@ -55,7 +55,7 @@ Prefer nonce/hash-based CSP over `unsafe-inline`. `frame-ancestors` replaces `X-
 - **Depth limiting**: cap nested query depth to stop recursive abuse.
 - **Complexity analysis**: assign cost per field, reject over budget.
 - Disable introspection in production. Rate-limit by query cost, not request count.
-- Enforce field-level authorization — a single deep query can bypass naive endpoint auth.
+- Enforce field-level authorization  --  a single deep query can bypass naive endpoint auth.
 
 ## Verification
 
@@ -65,6 +65,6 @@ Prefer nonce/hash-based CSP over `unsafe-inline`. `frame-ancestors` replaces `X-
 
 ## Delegates To
 
-- **authentication** — OAuth/JWT flows.
-- **zero-trust** — mTLS, per-request verification.
-- **secure-coding** — injection/encoding details.
+- **authentication**  --  OAuth/JWT flows.
+- **zero-trust**  --  mTLS, per-request verification.
+- **secure-coding**  --  injection/encoding details.

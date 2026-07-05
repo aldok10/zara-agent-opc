@@ -9,9 +9,9 @@ description: The Temporary Field code smell occurs when an object has instance f
 weight: 370
 ---
 
-The Temporary Field code smell occurs when a class has instance fields that are only populated and meaningful in some circumstances — typically within a single method or a specific execution path — and are otherwise null, zero, or irrelevant. The field exists on the class not because it represents a stable property of the object, but because it was added as a convenient way to pass data between methods without changing signatures.
+The Temporary Field code smell occurs when a class has instance fields that are only populated and meaningful in some circumstances  --  typically within a single method or a specific execution path  --  and are otherwise null, zero, or irrelevant. The field exists on the class not because it represents a stable property of the object, but because it was added as a convenient way to pass data between methods without changing signatures.
 
-This is a violation of the implicit contract of a class: users of the class expect all fields to represent meaningful state of the object at all times. When some fields are "sometimes relevant," the class becomes harder to reason about, and the risk of using a field in a context where it hasn't been set — producing null reference errors or silent incorrect results — increases.
+This is a violation of the implicit contract of a class: users of the class expect all fields to represent meaningful state of the object at all times. When some fields are "sometimes relevant," the class becomes harder to reason about, and the risk of using a field in a context where it hasn't been set  --  producing null reference errors or silent incorrect results  --  increases.
 
 ## How It Arises
 
@@ -31,7 +31,7 @@ Fields that are only set in some paths are prime candidates for `NullReferenceEx
 
 ### Hidden Coupling Between Methods
 
-When methods communicate through fields instead of parameters, their execution order becomes an implicit dependency. Method B only works correctly if Method A was called first. This hidden coupling is a form of the [Bump Road](/code-smells/bump-road/) smell — the class is harder to use correctly than it looks.
+When methods communicate through fields instead of parameters, their execution order becomes an implicit dependency. Method B only works correctly if Method A was called first. This hidden coupling is a form of the [Bump Road](/code-smells/bump-road/) smell  --  the class is harder to use correctly than it looks.
 
 ### Misleading State
 
@@ -66,7 +66,7 @@ public class ReportGenerator
 }
 ```
 
-`_orders`, `_total`, and `_formattedResult` are all temporary fields — they only exist to thread state through a single call to `Generate`. Outside that call, they are meaningless. The fix is either to pass them as parameters or to extract a dedicated computation object:
+`_orders`, `_total`, and `_formattedResult` are all temporary fields  --  they only exist to thread state through a single call to `Generate`. Outside that call, they are meaningless. The fix is either to pass them as parameters or to extract a dedicated computation object:
 
 ```csharp
 public class ReportGenerator
@@ -85,7 +85,7 @@ public class ReportGenerator
 }
 ```
 
-No fields are needed at all — the data flows through method parameters and return values, making the execution flow explicit.
+No fields are needed at all  --  the data flows through method parameters and return values, making the execution flow explicit.
 
 ## Refactoring
 

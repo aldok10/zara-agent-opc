@@ -5,7 +5,7 @@ title: "Chaos Engineering - Principles, Tools, Gamedays"
 
 # Chaos Engineering
 
-> Chaos engineering is the discipline of experimenting on a system to build confidence in its ability to withstand turbulent conditions in production. It's not breaking things—it's proving resilience through controlled experiments.
+> Chaos engineering is the discipline of experimenting on a system to build confidence in its ability to withstand turbulent conditions in production. It's not breaking things -- it's proving resilience through controlled experiments.
 
 ## Principles of Chaos Engineering
 
@@ -13,7 +13,7 @@ From Netflix and the Principles of Chaos manifesto:
 
 1. **Start with a steady-state hypothesis**: define what "working" looks like in measurable terms (latency p99, error rate, throughput)
 2. **Vary real-world events**: inject failures that actually happen (network partitions, disk full, clock skew, dependency outage)
-3. **Run experiments in production**: staging doesn't reproduce production behavior—run against real traffic with blast radius controls
+3. **Run experiments in production**: staging doesn't reproduce production behavior -- run against real traffic with blast radius controls
 4. **Automate experiments to run continuously**: one-off tests prove nothing about ongoing resilience
 5. **Minimize blast radius**: start small, expand gradually, have kill switches
 
@@ -47,7 +47,7 @@ The original chaos tools:
 - **Conformity Monkey**: finds instances not adhering to best practices
 - **Chaos Kong**: simulates entire region failures
 
-Modern equivalent: Netflix moved to **ChAP** (Chaos Automation Platform)—experiments defined as code, integrated with deployment pipeline, automatic rollback.
+Modern equivalent: Netflix moved to **ChAP** (Chaos Automation Platform) -- experiments defined as code, integrated with deployment pipeline, automatic rollback.
 
 Key insight from Netflix: chaos experiments should run continuously in production, not as one-off events. Resilience is a property that degrades without constant verification.
 
@@ -192,7 +192,7 @@ FIS supports: EC2, ECS, EKS, RDS, network (route disruption, DNS), SSM actions, 
 
 ## Toxiproxy (Network Fault Injection)
 
-For local/integration testing—simulates network conditions between services:
+For local/integration testing -- simulates network conditions between services:
 
 ```go
 // Go client
@@ -275,7 +275,7 @@ Controls:
 What to watch during experiments:
 
 - **Error rates**: 4xx/5xx by service, by endpoint
-- **Latency**: p50, p95, p99—look for distribution shifts, not just averages
+- **Latency**: p50, p95, p99 -- look for distribution shifts, not just averages
 - **Saturation**: CPU, memory, connection pools, queue depth
 - **Downstream impact**: are failures cascading? Check dependency graph
 - **Business metrics**: revenue/min, conversion rate, checkout completions
@@ -312,6 +312,6 @@ Month 4+: Continuous chaos
 - Running chaos without monitoring ("let's see what happens" isn't engineering)
 - No rollback plan (chaos without control is just breaking things)
 - Testing only in staging (production has different traffic, data, and configuration)
-- One-and-done experiments (resilience degrades—verify continuously)
-- Blaming teams for failures found (chaos is blameless—findings are gifts)
+- One-and-done experiments (resilience degrades -- verify continuously)
+- Blaming teams for failures found (chaos is blameless -- findings are gifts)
 - Starting too big (kill an entire region on day one = career risk)

@@ -9,7 +9,7 @@ description: Tramp Data is a code smell where data is passed through a chain of 
 weight: 380
 ---
 
-Tramp Data is a code smell where a piece of data travels through several method calls as a parameter, but intermediate methods neither use nor care about it — they only pass it along to the next method in the chain. The data is a tramp: it keeps moving from place to place without ever finding a home.
+Tramp Data is a code smell where a piece of data travels through several method calls as a parameter, but intermediate methods neither use nor care about it  --  they only pass it along to the next method in the chain. The data is a tramp: it keeps moving from place to place without ever finding a home.
 
 The smell indicates a mismatch between where data is introduced and where it is needed. The path it travels through the codebase is a clue that either the data belongs somewhere it is not carried, or the methods passing it belong closer to where the data originates.
 
@@ -25,7 +25,7 @@ A method signature is a contract: it declares what the method needs to do its jo
 
 ### Tight Coupling Across Layers
 
-Tramp data creates a dependency chain. If the data type changes — for example, a parameter changes from `string` to a `UserId` value type — every method in the chain must be updated, even those that never interact with the data directly.
+Tramp data creates a dependency chain. If the data type changes  --  for example, a parameter changes from `string` to a `UserId` value type  --  every method in the chain must be updated, even those that never interact with the data directly.
 
 ### Obscured Design
 
@@ -114,9 +114,9 @@ Look for:
 
 ## Refactoring
 
-- **Store context in a field** — if the data is logically part of the object's state for the duration of an operation, store it on the instance.
-- **Introduce a parameter object** — if several pieces of data are traveling together, group them into a context object that can be carried as a unit.
-- **Introduce method on the owning class** — if the data belongs to a particular class, give that class a method that uses it, eliminating the need to pass it explicitly.
-- **Move the consumer closer** — if only one method deep in a chain uses the data, consider whether that method could be restructured to receive the data directly from its true source.
+- **Store context in a field**  --  if the data is logically part of the object's state for the duration of an operation, store it on the instance.
+- **Introduce a parameter object**  --  if several pieces of data are traveling together, group them into a context object that can be carried as a unit.
+- **Introduce method on the owning class**  --  if the data belongs to a particular class, give that class a method that uses it, eliminating the need to pass it explicitly.
+- **Move the consumer closer**  --  if only one method deep in a chain uses the data, consider whether that method could be restructured to receive the data directly from its true source.
 
-Tramp Data is related to [Long Parameter List](./long-parameter-list) — a parameter list that includes data the method doesn't use is a long list for the wrong reasons.
+Tramp Data is related to [Long Parameter List](./long-parameter-list)  --  a parameter list that includes data the method doesn't use is a long list for the wrong reasons.

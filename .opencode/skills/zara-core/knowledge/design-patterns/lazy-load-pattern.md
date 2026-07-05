@@ -21,10 +21,10 @@ Lazy loading is useful when:
 
 There are several common approaches to implementing lazy loading:
 
-- **Virtual Proxy** — a lightweight stand-in that looks like the real object but defers its creation until a method is called.
-- **Value Holder** — a generic wrapper that holds a factory delegate; the delegate is invoked only when the value is first requested.
-- **.NET `Lazy<T>`** — a built-in thread-safe wrapper that initializes its wrapped value on first access.
-- **Ghost** — an empty shell loaded from persistence with only its identity; remaining fields are populated on first access.
+- **Virtual Proxy**  --  a lightweight stand-in that looks like the real object but defers its creation until a method is called.
+- **Value Holder**  --  a generic wrapper that holds a factory delegate; the delegate is invoked only when the value is first requested.
+- **.NET `Lazy<T>`**  --  a built-in thread-safe wrapper that initializes its wrapped value on first access.
+- **Ghost**  --  an empty shell loaded from persistence with only its identity; remaining fields are populated on first access.
 
 ORMs such as Entity Framework use virtual proxies (generated subclasses) to provide transparent lazy loading of navigation properties.
 
@@ -80,8 +80,8 @@ Both approaches ensure the expensive work is performed at most once and only if 
 
 The Lazy Load pattern frequently collaborates with:
 
-- **[Proxy](/design-patterns/proxy-pattern/)** — virtual proxies are a primary implementation mechanism for transparent lazy loading.
-- **[Repository](/design-patterns/repository-pattern/)** — repositories commonly use lazy loading to defer loading of child collections.
+- **[Proxy](/design-patterns/proxy-pattern/)**  --  virtual proxies are a primary implementation mechanism for transparent lazy loading.
+- **[Repository](/design-patterns/repository-pattern/)**  --  repositories commonly use lazy loading to defer loading of child collections.
 
 ## Intent
 

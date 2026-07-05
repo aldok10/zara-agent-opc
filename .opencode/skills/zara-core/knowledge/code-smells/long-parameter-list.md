@@ -30,7 +30,7 @@ When multiple parameters share the same type, swapping them is a compile-time-si
 
 ### Violation of the Single Responsibility Principle
 
-A method that requires many unrelated parameters is often doing several distinct jobs. Each group of related parameters hints at a missing abstraction — a class or record that should own those values and their associated behavior.
+A method that requires many unrelated parameters is often doing several distinct jobs. Each group of related parameters hints at a missing abstraction  --  a class or record that should own those values and their associated behavior.
 
 ### Harder to Extend
 
@@ -38,12 +38,12 @@ Adding a new requirement often means adding yet another parameter, forcing updat
 
 ### Increased Cognitive Load
 
-Every additional parameter is one more thing a caller must know, supply correctly, and keep in sync. The more parameters a method has, the more mental effort it takes to use it — both now and for every future developer who reads the code.
+Every additional parameter is one more thing a caller must know, supply correctly, and keep in sync. The more parameters a method has, the more mental effort it takes to use it  --  both now and for every future developer who reads the code.
 
 ## Example
 
 ```csharp
-// Long parameter list — hard to read and easy to misuse
+// Long parameter list  --  hard to read and easy to misuse
 public Order CreateOrder(
     int customerId,
     string customerEmail,

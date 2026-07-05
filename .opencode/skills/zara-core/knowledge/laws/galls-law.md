@@ -20,7 +20,7 @@ Gall's Law is an observation about the nature and evolution of complex systems. 
 
 ## A Parable: The Failed Digital City
 
-Once upon a time, in a burgeoning tech city named Digitopolis, the city council decided to create an all-encompassing digital platform that would integrate all public services — transportation, utilities, healthcare, education, and more. Envisioned to be the future of smart cities, they aimed to have everything interconnected from day one.
+Once upon a time, in a burgeoning tech city named Digitopolis, the city council decided to create an all-encompassing digital platform that would integrate all public services  --  transportation, utilities, healthcare, education, and more. Envisioned to be the future of smart cities, they aimed to have everything interconnected from day one.
 
 They hired the best engineers and poured millions into the project. The blueprint was intricate with a web of interdependencies. The team was excited but overwhelmed, as every module was dependent on another. Two years into development, with mounting costs and complex bugs cropping up from the interconnected nature of the services, it was clear that the project was on the brink of failure.
 

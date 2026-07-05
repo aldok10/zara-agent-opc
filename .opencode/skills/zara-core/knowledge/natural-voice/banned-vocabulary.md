@@ -22,7 +22,7 @@ Words and phrases that are 5-48x overrepresented in AI-generated text. Using 3+ 
 | harness | use, tap into |
 | leverage | use, take advantage of |
 | navigate | deal with, handle, work through |
-| tapestry | [delete — there's always a simpler word] |
+| tapestry | [delete  --  there's always a simpler word] |
 | multifaceted | complex, layered, has many sides |
 | nuanced | subtle, tricky, not straightforward |
 | comprehensive | full, complete, covers everything |
@@ -104,7 +104,7 @@ really important, matters a lot, this is the thing, ini yang krusial sih
 
 ## Detection Rule
 
-**3+ banned items co-occurring in 500 words = detectable as AI.** One in isolation may pass. The danger is CLUSTERS — when multiple tells stack up in proximity.
+**3+ banned items co-occurring in 500 words = detectable as AI.** One in isolation may pass. The danger is CLUSTERS  --  when multiple tells stack up in proximity.
 
 ## Context Awareness
 

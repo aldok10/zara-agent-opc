@@ -9,7 +9,7 @@ description: The Oddball Solution code smell occurs when a problem is solved in 
 weight: 270
 ---
 
-The Oddball Solution code smell occurs when a problem that has a single, good solution is solved in multiple different ways across a codebase. Rather than a consistent approach, you find a variety of ad-hoc implementations — some using a helper method, some inlining the logic, some using a library, and some copy-pasted from elsewhere. Each individual solution may work in isolation, but the inconsistency makes the code harder to understand, harder to change, and harder to reason about.
+The Oddball Solution code smell occurs when a problem that has a single, good solution is solved in multiple different ways across a codebase. Rather than a consistent approach, you find a variety of ad-hoc implementations  --  some using a helper method, some inlining the logic, some using a library, and some copy-pasted from elsewhere. Each individual solution may work in isolation, but the inconsistency makes the code harder to understand, harder to change, and harder to reason about.
 
 This smell often arises when a team grows, when code is written without awareness of existing utilities, or when a codebase evolves over time without deliberate [refactoring](/practices/refactoring/). It is a symptom that the codebase lacks a shared vocabulary or shared abstractions for common problems.
 
@@ -25,7 +25,7 @@ Different implementations of the same problem often have subtle behavioral diffe
 
 ### Maintenance Burden
 
-When the underlying problem changes — a new edge case, a security fix, a performance improvement — every oddball implementation must be found and updated. A single, canonical solution means a single place to change.
+When the underlying problem changes  --  a new edge case, a security fix, a performance improvement  --  every oddball implementation must be found and updated. A single, canonical solution means a single place to change.
 
 ### Violation of Don't Repeat Yourself
 
@@ -75,7 +75,7 @@ Now all callers use `DateParser.ParseIso8601(input)`. The behavior is consistent
 
 ## Identifying Oddball Solutions
 
-Look for Oddball Solutions by searching for places where the same kind of operation — parsing, formatting, validation, HTTP calls, error handling — is done in more than one way. Common signals include:
+Look for Oddball Solutions by searching for places where the same kind of operation  --  parsing, formatting, validation, HTTP calls, error handling  --  is done in more than one way. Common signals include:
 
 - Multiple utility methods that do nearly the same thing with slightly different names or implementations.
 - Inconsistent use of a library where some callers use the library and others roll their own.

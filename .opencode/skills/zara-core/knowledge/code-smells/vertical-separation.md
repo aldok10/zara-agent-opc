@@ -9,7 +9,7 @@ description: The Vertical Separation code smell occurs when related code element
 weight: 390
 ---
 
-The Vertical Separation code smell occurs when related pieces of code — a variable and its use, a method and its callers, or a helper and the logic it supports — are placed far apart from each other within a file. Reading and understanding code requires a reader to hold context in their head. When code that belongs together is separated by dozens or hundreds of lines, that context must either be memorized or rebuilt by scrolling back and forth, significantly increasing cognitive load.
+The Vertical Separation code smell occurs when related pieces of code  --  a variable and its use, a method and its callers, or a helper and the logic it supports  --  are placed far apart from each other within a file. Reading and understanding code requires a reader to hold context in their head. When code that belongs together is separated by dozens or hundreds of lines, that context must either be memorized or rebuilt by scrolling back and forth, significantly increasing cognitive load.
 
 This smell is especially common in large classes where convention or habit (such as alphabetical ordering, or grouping by access modifier) scatters related code across the file. It is a companion to the [Regions](./regions) smell: regions are often used specifically to manage the sprawl caused by vertical separation, but they treat the symptom rather than the cause.
 
@@ -25,7 +25,7 @@ Code reviews of large files with scattered related logic are harder to perform e
 
 ### Obscures Relationships
 
-When two methods are closely related — one builds data that the other consumes — placing them adjacent makes that relationship obvious. Separating them by a hundred lines of unrelated code hides the relationship entirely.
+When two methods are closely related  --  one builds data that the other consumes  --  placing them adjacent makes that relationship obvious. Separating them by a hundred lines of unrelated code hides the relationship entirely.
 
 ### Forces Unnecessary Scrolling
 
@@ -87,7 +87,7 @@ A reader can now follow the call chain from top to bottom without scrolling back
 
 - **Reorder members** so that methods appear near their callers and helpers follow the code that uses them.
 - **Declare variables close to their first use**, not at the top of a long method.
-- **Extract Class** — if related groups of methods naturally cluster, they may belong in a separate, focused class where they are naturally co-located.
+- **Extract Class**  --  if related groups of methods naturally cluster, they may belong in a separate, focused class where they are naturally co-located.
 - Remove [Regions](./regions) that enforce artificial groupings and instead order code by logical relationship.
 
 ## References

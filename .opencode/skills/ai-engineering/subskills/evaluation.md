@@ -8,13 +8,13 @@ You cannot improve what you cannot measure. No eval = shipping blind.
 - **Rubric-based**: score 1-5 on criteria (relevance, completeness, accuracy). Human or LLM judge.
 - **LLM-as-Judge**: a second LLM grades output against a rubric. Scales human-like judgment; needs calibration.
 - **Pairwise**: compare two outputs, pick the better. More reliable than absolute scoring; ideal for A/B.
-- **G-Eval**: chain-of-thought scoring — the judge explains reasoning before scoring. More accurate than direct scoring.
+- **G-Eval**: chain-of-thought scoring  --  the judge explains reasoning before scoring. More accurate than direct scoring.
 
 ## LLM-as-Judge calibration
 - Require **Cohen's kappa >= 0.7** vs a human baseline before trusting judge scores
 - **Position bias**: randomize order in pairwise comparisons
-- **Verbosity bias**: longer answers score unfairly high — penalize or normalize by length
-- **Self-enhancement bias**: models prefer their own style — use a *different* model as judge than generator
+- **Verbosity bias**: longer answers score unfairly high  --  penalize or normalize by length
+- **Self-enhancement bias**: models prefer their own style  --  use a *different* model as judge than generator
 
 ## Eval dataset
 - Minimum **100 test cases** for production, **500+** for enterprise

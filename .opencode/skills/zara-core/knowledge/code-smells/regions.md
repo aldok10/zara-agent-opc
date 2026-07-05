@@ -9,7 +9,7 @@ description: The Regions code smell occurs when code is hidden behind collapsibl
 weight: 320
 ---
 
-The Regions code smell occurs when developers use collapsible region directives — such as `#region` in C# or equivalent constructs in other languages — to organize or hide code within a file. Rather than addressing the underlying problem (a type or method that has grown too large), regions paper over it with a cosmetic folding mechanism. When you find yourself reaching for a region, it is almost always a sign that the code needs to be refactored rather than hidden.
+The Regions code smell occurs when developers use collapsible region directives  --  such as `#region` in C# or equivalent constructs in other languages  --  to organize or hide code within a file. Rather than addressing the underlying problem (a type or method that has grown too large), regions paper over it with a cosmetic folding mechanism. When you find yourself reaching for a region, it is almost always a sign that the code needs to be refactored rather than hidden.
 
 This smell is closely related to other obfuscators like [Poor Names](./poor-names) and [Comments](./comments), as all three tend to hide intent rather than resolve the root cause. Regions are particularly insidious because IDEs collapse them by default in some configurations, meaning important code can be hidden from view entirely, making the problem invisible without active effort.
 
@@ -102,8 +102,8 @@ No regions are needed when each class has a single, clear responsibility.
 
 Before refactoring, it helps to understand the scope of the problem. The [nmbl](https://nmbl.dev/) command-line tool provides two commands specifically for this:
 
-- [`nmbl regions <ProjectFileOrDirectory>`](https://nmbl.dev/docs/commands/regions-region-count/) — counts `#region` directives across C# files, showing which files have regions and how many.
-- [`nmbl endregions <ProjectFileOrDirectory> [-y]`](https://nmbl.dev/docs/commands/endregions-remove-region-directives/) — removes all `#region` and `#endregion` directives from C# files. The `-y` flag skips the confirmation prompt.
+- [`nmbl regions <ProjectFileOrDirectory>`](https://nmbl.dev/docs/commands/regions-region-count/)  --  counts `#region` directives across C# files, showing which files have regions and how many.
+- [`nmbl endregions <ProjectFileOrDirectory> [-y]`](https://nmbl.dev/docs/commands/endregions-remove-region-directives/)  --  removes all `#region` and `#endregion` directives from C# files. The `-y` flag skips the confirmation prompt.
 
 A typical workflow is to assess first, then remove:
 
@@ -115,7 +115,7 @@ nmbl regions src/
 nmbl endregions src/ -y
 ```
 
-Removing the directives is a safe, mechanical step — the code inside each region is preserved. The harder work of actually refactoring large classes into smaller ones follows separately.
+Removing the directives is a safe, mechanical step  --  the code inside each region is preserved. The harder work of actually refactoring large classes into smaller ones follows separately.
 
 ## Refactoring
 

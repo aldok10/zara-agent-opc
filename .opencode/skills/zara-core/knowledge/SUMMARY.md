@@ -49,7 +49,7 @@ Quick-reference condensed summaries of all 12 DevIQ sections.
 ## Testing (7 articles)
 **Core idea**: Systematic approaches to verifying software correctness.
 **Key articles**: Testing Pyramid, Unit Tests, Integration Tests, Functional Tests, Front-End Tests, Automated Tests, Arrange-Act-Attend
-**Key concept**: Pyramid shape — many unit tests, fewer integration tests, fewest end-to-end tests
+**Key concept**: Pyramid shape  --  many unit tests, fewer integration tests, fewest end-to-end tests
 
 ## Tools (2 articles)
 **Core idea**: Developer tools that enable engineering workflows.
@@ -58,9 +58,9 @@ Quick-reference condensed summaries of all 12 DevIQ sections.
 ## Values (5 articles)
 **Core idea**: Human values that underpin effective engineering teams.
 **Key values**: Communication, Courage, Feedback, Respect, Simplicity
-**Source**: XP values — these are the human foundation that makes practices work
+**Source**: XP values  --  these are the human foundation that makes practices work
 
 ## Leadership (1 article)
 **Core idea**: Leadership frameworks, emotional intelligence, and AI-augmented coaching.
-**Key article**: leadership-frameworks.md — 15 frameworks (Servant Leadership, Radical Candor, GROW, Situational Leadership, Multipliers, Systems Thinking, Psychological Safety, etc.) + AI intersection patterns
+**Key article**: leadership-frameworks.md  --  15 frameworks (Servant Leadership, Radical Candor, GROW, Situational Leadership, Multipliers, Systems Thinking, Psychological Safety, etc.) + AI intersection patterns
 **Central principle**: Lead through service, grow through questions, decide through classification

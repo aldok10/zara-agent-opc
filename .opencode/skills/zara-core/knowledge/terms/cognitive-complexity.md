@@ -9,15 +9,15 @@ description: Cognitive complexity is a code metric that measures how difficult a
 weight: 30
 ---
 
-Cognitive complexity is a code metric developed by G. Ann Campbell at SonarSource (published 2018) that attempts to measure how hard a piece of code is for a human to understand, rather than how structurally complex it is. Where [cyclomatic complexity](/terms/cyclomatic-complexity/) counts independent execution paths, cognitive complexity penalizes the patterns that actually make code hard to read — primarily nesting and flow-breaking constructs.
+Cognitive complexity is a code metric developed by G. Ann Campbell at SonarSource (published 2018) that attempts to measure how hard a piece of code is for a human to understand, rather than how structurally complex it is. Where [cyclomatic complexity](/terms/cyclomatic-complexity/) counts independent execution paths, cognitive complexity penalizes the patterns that actually make code hard to read  --  primarily nesting and flow-breaking constructs.
 
 ## How It Is Calculated
 
 Cognitive complexity assigns a score to a method based on three types of contributions:
 
-1. **Structural increments** — control flow structures (`if`, `else`, `for`, `while`, `switch`, `catch`, etc.) each add 1 to the score.
-2. **Nesting penalties** — each structure nested inside another adds an additional penalty equal to its nesting depth. A deeply nested `if` costs more than a top-level one.
-3. **Fundamental increments** — certain constructs that break linear flow (e.g., recursion, sequences of logical operators `&&` / `||`) add to the score without a nesting penalty.
+1. **Structural increments**  --  control flow structures (`if`, `else`, `for`, `while`, `switch`, `catch`, etc.) each add 1 to the score.
+2. **Nesting penalties**  --  each structure nested inside another adds an additional penalty equal to its nesting depth. A deeply nested `if` costs more than a top-level one.
+3. **Fundamental increments**  --  certain constructs that break linear flow (e.g., recursion, sequences of logical operators `&&` / `||`) add to the score without a nesting penalty.
 
 The result is a score that correlates more closely with the human experience of reading code than cyclomatic complexity does.
 
@@ -26,17 +26,17 @@ The result is a score that correlates more closely with the human experience of 
 | Aspect | Cyclomatic Complexity | Cognitive Complexity |
 |--------|----------------------|---------------------|
 | What it measures | Independent execution paths | Mental effort to understand |
-| Nesting sensitivity | None — all branches equal | Heavy — deeper nesting costs more |
+| Nesting sensitivity | None  --  all branches equal | Heavy  --  deeper nesting costs more |
 | Flat `switch` with many cases | High score | Low score |
 | Deeply nested `if` chains | Moderate score | High score |
 | Primary use | Estimating test effort | Evaluating readability |
 
-A method can have high cyclomatic complexity but low cognitive complexity — for example, a flat `switch` with twenty cases is easy to read despite having many paths. Conversely, a method with only a few branches can be very hard to read if they are deeply nested. Both metrics together give a more complete picture of the [Conditional Complexity](../code-smells/conditional-complexity) code smell.
+A method can have high cyclomatic complexity but low cognitive complexity  --  for example, a flat `switch` with twenty cases is easy to read despite having many paths. Conversely, a method with only a few branches can be very hard to read if they are deeply nested. Both metrics together give a more complete picture of the [Conditional Complexity](../code-smells/conditional-complexity) code smell.
 
 ## Example
 
 ```csharp
-// Low cyclomatic, low cognitive — flat and readable
+// Low cyclomatic, low cognitive  --  flat and readable
 public string Classify(int score) => score switch
 {
     >= 90 => "A",
@@ -46,7 +46,7 @@ public string Classify(int score) => score switch
     _     => "F",
 };
 
-// Moderate cyclomatic, HIGH cognitive — deeply nested
+// Moderate cyclomatic, HIGH cognitive  --  deeply nested
 public string Classify(int score)
 {
     if (score >= 60)           // +1
@@ -66,7 +66,7 @@ public string Classify(int score)
 }
 ```
 
-The nested version has a lower cyclomatic complexity score than a flat `switch` with the same cases, but a far higher cognitive complexity score — it is harder to read and understand.
+The nested version has a lower cyclomatic complexity score than a flat `switch` with the same cases, but a far higher cognitive complexity score  --  it is harder to read and understand.
 
 ## Why Cognitive Complexity Matters
 
@@ -84,11 +84,11 @@ Using both metrics together surfaces different kinds of problems. Cyclomatic com
 
 ## Reducing Cognitive Complexity
 
-- **[Guard Clauses](/design-patterns/guard-clause/)** — return or throw early for edge cases to avoid nesting the happy path inside conditions.
-- **Extract Method** — pull nested logic into a well-named helper method, replacing nesting with a descriptive call.
-- **Replace nested conditionals with polymorphism** — move type-based branches into separate classes, eliminating the nesting entirely.
-- **Invert conditions** — change `if (condition) { big block }` to `if (!condition) return;` followed by the block at a lower indent level.
-- **Simplify boolean expressions** — introduce named booleans or predicate methods to replace complex `&&`/`||` chains.
+- **[Guard Clauses](/design-patterns/guard-clause/)**  --  return or throw early for edge cases to avoid nesting the happy path inside conditions.
+- **Extract Method**  --  pull nested logic into a well-named helper method, replacing nesting with a descriptive call.
+- **Replace nested conditionals with polymorphism**  --  move type-based branches into separate classes, eliminating the nesting entirely.
+- **Invert conditions**  --  change `if (condition) { big block }` to `if (!condition) return;` followed by the block at a lower indent level.
+- **Simplify boolean expressions**  --  introduce named booleans or predicate methods to replace complex `&&`/`||` chains.
 
 ## Tooling
 
@@ -101,8 +101,8 @@ Cognitive complexity can be measured automatically:
 
 ## References
 
-- *Cognitive Complexity: A new way of measuring understandability* — G. Ann Campbell, SonarSource (2018). The original whitepaper defining the metric.
-- [nmbls `cogc` — Cognitive Complexity command](https://nmbl.dev/docs/commands/cogc-cognitive-complexity/)
+- *Cognitive Complexity: A new way of measuring understandability*  --  G. Ann Campbell, SonarSource (2018). The original whitepaper defining the metric.
+- [nmbls `cogc`  --  Cognitive Complexity command](https://nmbl.dev/docs/commands/cogc-cognitive-complexity/)
 - [Cyclomatic Complexity](/terms/cyclomatic-complexity/)
 - [Aggregate Complexity](/terms/aggregate-complexity/)
 - [Conditional Complexity Code Smell](../code-smells/conditional-complexity)

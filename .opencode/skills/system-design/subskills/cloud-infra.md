@@ -32,11 +32,11 @@ Managed = less ops (patching, backups, failover) at higher cost + less control.
 - **NAT gateway**: lets private subnets reach the internet outbound without being reachable inbound.
 - **Load balancer**: ALB (L7/HTTP) vs NLB (L4/TCP, ultra-fast).
 
-## Kubernetes — When (and When Not)
+## Kubernetes  --  When (and When Not)
 
-Use when: **5+ services**, need autoscaling, rolling deploys, self-healing, standardized deploy. **Not for <5 services** — the ops overhead (control plane, YAML, upgrades, networking) outweighs benefits. Managed control plane (EKS/GKE) reduces but doesn't eliminate the burden.
+Use when: **5+ services**, need autoscaling, rolling deploys, self-healing, standardized deploy. **Not for <5 services**  --  the ops overhead (control plane, YAML, upgrades, networking) outweighs benefits. Managed control plane (EKS/GKE) reduces but doesn't eliminate the burden.
 
-## Serverless — When
+## Serverless  --  When
 
 Spiky/unpredictable load, event-driven glue, no desire to manage servers, pay-per-use economics. Concern: **cold-start latency**, execution time limits, vendor lock-in, harder local dev.
 

@@ -25,7 +25,7 @@ When a class is changed for one reason, code written for a different reason is i
 
 ### Difficult to Test
 
-When a class mixes unrelated concerns, tests must set up the context for all of them — even when testing just one. This makes tests more brittle and harder to write. It also makes it harder to isolate failures to a specific concern.
+When a class mixes unrelated concerns, tests must set up the context for all of them  --  even when testing just one. This makes tests more brittle and harder to write. It also makes it harder to isolate failures to a specific concern.
 
 ### Poor [Cohesion](/terms/cohesion/)
 
@@ -91,7 +91,7 @@ Each class now has one reason to change, and changes to one concern cannot accid
 
 ## Addressing Divergent Change
 
-- **Extract Class** — identify each distinct reason the class changes and extract the corresponding methods and fields into a dedicated class.
-- **Apply the [Single Responsibility Principle](/principles/single-responsibility-principle/)** — ask "what is this class responsible for?" If the answer requires the word "and," there is likely more than one responsibility to separate.
-- **Separate layers explicitly** — persistence, business logic, and presentation each change for different reasons. Keeping them in dedicated classes or layers prevents them from interfering with one another.
-- **Apply [Domain-Driven Design](/domain-driven-design/)** — group behavior with the data it acts on, organized around domain concepts rather than technical concerns.
+- **Extract Class**  --  identify each distinct reason the class changes and extract the corresponding methods and fields into a dedicated class.
+- **Apply the [Single Responsibility Principle](/principles/single-responsibility-principle/)**  --  ask "what is this class responsible for?" If the answer requires the word "and," there is likely more than one responsibility to separate.
+- **Separate layers explicitly**  --  persistence, business logic, and presentation each change for different reasons. Keeping them in dedicated classes or layers prevents them from interfering with one another.
+- **Apply [Domain-Driven Design](/domain-driven-design/)**  --  group behavior with the data it acts on, organized around domain concepts rather than technical concerns.

@@ -9,9 +9,9 @@ description: The Data Class code smell describes a class that holds data but con
 weight: 90
 ---
 
-A Data Class is a class that holds data — fields or properties — but contains no meaningful behavior of its own. It exists only to carry values from one part of the code to another, while all the logic that operates on those values lives elsewhere. Data classes are characterized by long lists of getters and setters, no encapsulation, and no operations that enforce business rules or invariants.
+A Data Class is a class that holds data  --  fields or properties  --  but contains no meaningful behavior of its own. It exists only to carry values from one part of the code to another, while all the logic that operates on those values lives elsewhere. Data classes are characterized by long lists of getters and setters, no encapsulation, and no operations that enforce business rules or invariants.
 
-The smell does not apply to every class that holds data. Simple value objects, DTOs used at system boundaries, or records used for transferring data between layers can be legitimate. The smell arises when a class that should have behavior — because it represents a real domain concept — has had that behavior stripped out and placed in other classes, leaving behind a passive data container. This pattern is closely related to the [Anemic Domain Model](/domain-driven-design/anemic-model/) antipattern.
+The smell does not apply to every class that holds data. Simple value objects, DTOs used at system boundaries, or records used for transferring data between layers can be legitimate. The smell arises when a class that should have behavior  --  because it represents a real domain concept  --  has had that behavior stripped out and placed in other classes, leaving behind a passive data container. This pattern is closely related to the [Anemic Domain Model](/domain-driven-design/anemic-model/) antipattern.
 
 ## Problems with Data Classes
 
@@ -21,11 +21,11 @@ When a class has no behavior, the logic that should belong to it is distributed 
 
 ### No Encapsulation
 
-A data class cannot enforce invariants on the data it holds. Any code anywhere in the application can set any field to any value. A `Product` with public setters on `Price` and `Stock` cannot prevent price from being set to a negative value or stock from going below zero unless every caller is disciplined — a fragile arrangement.
+A data class cannot enforce invariants on the data it holds. Any code anywhere in the application can set any field to any value. A `Product` with public setters on `Price` and `Stock` cannot prevent price from being set to a negative value or stock from going below zero unless every caller is disciplined  --  a fragile arrangement.
 
 ### Violation of Object-Oriented Design
 
-Object-oriented design is founded on the idea that objects combine data and behavior. A class that does only one of those is, in a meaningful sense, not really an object — it is a record or struct pretending to be a class. The design loses the primary advantage that objects provide: the ability to hide complexity behind a well-defined interface.
+Object-oriented design is founded on the idea that objects combine data and behavior. A class that does only one of those is, in a meaningful sense, not really an object  --  it is a record or struct pretending to be a class. The design loses the primary advantage that objects provide: the ability to hide complexity behind a well-defined interface.
 
 ### Attracts [Feature Envy](./feature-envy)
 

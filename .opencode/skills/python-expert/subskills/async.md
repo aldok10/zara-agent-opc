@@ -12,7 +12,7 @@ async with asyncio.TaskGroup() as tg:
 results = [t1.result(), t2.result()]
 ```
 
-Prefer `TaskGroup` over bare `gather` — automatic cancellation and no orphaned tasks.
+Prefer `TaskGroup` over bare `gather`  --  automatic cancellation and no orphaned tasks.
 
 ## ExceptionGroup
 
@@ -58,7 +58,7 @@ async def bounded(url):
 
 - HTTP: `httpx` (async) over `requests` (sync-only)
 - Postgres: `asyncpg` over `psycopg2`
-- Portable: `anyio` — one codebase runs on asyncio AND trio
+- Portable: `anyio`  --  one codebase runs on asyncio AND trio
 
 ## Anti-Patterns
 

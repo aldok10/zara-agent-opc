@@ -28,7 +28,7 @@ Set ONCE at startup: `service.name`, `service.version`, `deployment.environment`
 Automatic in most frameworks. Manual for: queue messages (inject trace context into message headers), background jobs, cross-process communication.
 
 ## Baggage
-Key-value pairs propagated across ALL services in a request. Use for: A/B test variant, tenant ID, feature flags. **WARNING**: visible to every downstream service — never put secrets in baggage.
+Key-value pairs propagated across ALL services in a request. Use for: A/B test variant, tenant ID, feature flags. **WARNING**: visible to every downstream service  --  never put secrets in baggage.
 
 ## SDK configuration
 Via environment variables: `OTEL_SERVICE_NAME`, `OTEL_EXPORTER_OTLP_ENDPOINT`, `OTEL_TRACES_SAMPLER`.

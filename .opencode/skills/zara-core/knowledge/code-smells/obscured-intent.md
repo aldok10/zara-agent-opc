@@ -9,7 +9,7 @@ description: The Obscured Intent code smell occurs when code is written in a way
 weight: 260
 ---
 
-The Obscured Intent code smell occurs when code is written in a way that makes its purpose difficult to discern. The mechanics of the code may be technically correct, but the reader cannot quickly understand *what* it is trying to accomplish or *why* it is written the way it is. Intent should be immediately apparent from reading code; when it is not, every reader must invest extra effort to reconstruct the original author's meaning — and they may get it wrong.
+The Obscured Intent code smell occurs when code is written in a way that makes its purpose difficult to discern. The mechanics of the code may be technically correct, but the reader cannot quickly understand *what* it is trying to accomplish or *why* it is written the way it is. Intent should be immediately apparent from reading code; when it is not, every reader must invest extra effort to reconstruct the original author's meaning  --  and they may get it wrong.
 
 Obscured intent often results from a combination of other smells: [Poor Names](./poor-names), excessive cleverness, deeply nested logic, unexplained magic constants, or code that is optimized for brevity rather than clarity. It is the aggregate outcome when code prioritizes conciseness or performance at the expense of readability.
 

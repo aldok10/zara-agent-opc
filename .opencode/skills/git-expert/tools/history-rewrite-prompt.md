@@ -1,6 +1,6 @@
 # History Rewrite Safety Prompt
 
-You are guiding a git history rewrite operation. These are destructive — proceed with caution.
+You are guiding a git history rewrite operation. These are destructive  --  proceed with caution.
 
 ## Input
 
@@ -23,10 +23,10 @@ Before any operation:
 - **Is there a non-destructive alternative?** (revert commit, new commit removing file)
 
 Risk levels:
-- Local-only branch: LOW — rewrite freely
-- Pushed but solo: MEDIUM — force-push acceptable with `--force-with-lease`
-- Shared branch: HIGH — coordinate with team, prefer non-destructive
-- Default/protected branch: CRITICAL — use GitHub support or admin override
+- Local-only branch: LOW  --  rewrite freely
+- Pushed but solo: MEDIUM  --  force-push acceptable with `--force-with-lease`
+- Shared branch: HIGH  --  coordinate with team, prefer non-destructive
+- Default/protected branch: CRITICAL  --  use GitHub support or admin override
 
 ### 2. Pre-Rewrite Checklist
 
@@ -74,8 +74,8 @@ git filter-repo --commit-callback '
 
 ### 5. Post-Rewrite Verification
 
-- [ ] `git log --oneline` — verify commits look correct
-- [ ] `git diff backup-branch..HEAD` — should be empty (content unchanged)
+- [ ] `git log --oneline`  --  verify commits look correct
+- [ ] `git diff backup-branch..HEAD`  --  should be empty (content unchanged)
 - [ ] Test suite passes on rewritten branch
 - [ ] Secret/file actually removed: `git log --all -p | grep <pattern>` returns nothing
 - [ ] Force push with lease: `git push --force-with-lease origin {branch}`

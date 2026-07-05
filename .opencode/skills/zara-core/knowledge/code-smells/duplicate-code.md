@@ -11,7 +11,7 @@ weight: 130
 
 Duplicate code is the presence of identical or structurally similar code in more than one location. It is widely considered the most fundamental of code smells. Every instance of duplication means that a future change to that logic must be found, understood, and applied in multiple places. If any instance is missed, the system becomes inconsistent. If the logic is wrong, the bug is wrong in multiple places simultaneously.
 
-The [Don't Repeat Yourself (DRY) principle](/principles/dont-repeat-yourself/) directly addresses this smell: duplication in logic should be eliminated through abstraction. The cost of duplication compounds over time. What appears to be a shortcut — copying existing code rather than extracting a shared abstraction — becomes a maintenance burden and a source of bugs.
+The [Don't Repeat Yourself (DRY) principle](/principles/dont-repeat-yourself/) directly addresses this smell: duplication in logic should be eliminated through abstraction. The cost of duplication compounds over time. What appears to be a shortcut  --  copying existing code rather than extracting a shared abstraction  --  becomes a maintenance burden and a source of bugs.
 
 ## Common Forms of Duplicate Code
 
@@ -37,7 +37,7 @@ public decimal CalculateWholesaleTotal(IEnumerable<LineItem> items)
 }
 ```
 
-The subtotal calculation is duplicated. A change to how subtotal is calculated — to account for discounts or rounding — must be applied in both places.
+The subtotal calculation is duplicated. A change to how subtotal is calculated  --  to account for discounts or rounding  --  must be applied in both places.
 
 ### Similar Code in Sibling Classes
 
@@ -49,7 +49,7 @@ Two separate code paths implement the same algorithm with only minor structural 
 
 ### Test Code Duplication
 
-Duplicate setup code, repeated assertion patterns, or copy-pasted test methods. Test duplication is still duplication — it makes tests harder to maintain and hides the intent of what is actually being tested.
+Duplicate setup code, repeated assertion patterns, or copy-pasted test methods. Test duplication is still duplication  --  it makes tests harder to maintain and hides the intent of what is actually being tested.
 
 ## Consequences of Duplicate Code
 
@@ -89,7 +89,7 @@ When duplication spans multiple unrelated types, the duplicated logic may belong
 
 ## When Duplication Is Acceptable
 
-Not every apparent duplication should be eliminated. The [DRY principle](/principles/dont-repeat-yourself/) applies to *knowledge* and *intent*, not just surface-level textual similarity. Two pieces of code that look the same but represent different business concepts may legitimately evolve independently. Premature de-duplication can create inappropriate coupling — a change to one concept forces a change to the other because they share an abstraction that does not actually unify them.
+Not every apparent duplication should be eliminated. The [DRY principle](/principles/dont-repeat-yourself/) applies to *knowledge* and *intent*, not just surface-level textual similarity. Two pieces of code that look the same but represent different business concepts may legitimately evolve independently. Premature de-duplication can create inappropriate coupling  --  a change to one concept forces a change to the other because they share an abstraction that does not actually unify them.
 
 The test: if both copies would always change together, they represent the same knowledge and duplication is a problem. If they might change independently, the shared appearance is coincidental.
 

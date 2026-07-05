@@ -9,9 +9,9 @@ Measure the platform's impact on delivery speed, stability, and developer experi
 3. **Change Failure Rate**: % of deployments causing incidents. Elite: <5%. Low: >30%.
 4. **Mean Time to Recovery (MTTR)**: incident to resolution. Elite: <1 hour. Low: >1 week.
 
-**5th metric (added 2022): Reliability** — meeting SLO targets.
+**5th metric (added 2022): Reliability**  --  meeting SLO targets.
 
-## DevEx Measurement (DX Framework — Noda, Storey, Forsgren)
+## DevEx Measurement (DX Framework  --  Noda, Storey, Forsgren)
 
 - **Feedback loops**: how fast do developers get feedback on their work?
 - **Cognitive load**: how much complexity must developers hold in their heads?

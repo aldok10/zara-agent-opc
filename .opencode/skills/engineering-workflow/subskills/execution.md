@@ -23,7 +23,7 @@ Read the plan, review critically for gaps/ambiguities. Concerns → raise before
 
 - Maintain todos reflecting plan tasks; mark complete only after verification passes.
 - For larger runs, keep `.tasks/progress.md` updated after each task so state survives compaction.
-- After compaction: re-read `.tasks/progress.md` + `git log` — trust files, not memory.
+- After compaction: re-read `.tasks/progress.md` + `git log`  --  trust files, not memory.
 
 ## DO NOT
 

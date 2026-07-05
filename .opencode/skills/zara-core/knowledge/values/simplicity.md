@@ -28,7 +28,7 @@ The first of the Lean principles is Eliminate Waste.  One source of waste in so
 
 "In character, in manner, in style, in all things, the supreme excellence is simplicity." - Henry Wadsworth Longfellow
 
-"That’s been one of my mantras — focus and simplicity. Simple can be harder than complex: You have to work hard to get your thinking clean to make it simple. But it’s worth it in the end because once you get there, you can move mountains." - Steve Jobs
+"That’s been one of my mantras  --  focus and simplicity. Simple can be harder than complex: You have to work hard to get your thinking clean to make it simple. But it’s worth it in the end because once you get there, you can move mountains." - Steve Jobs
 
 "Perfection (in design) is achieved not when there is nothing more to add, but rather when there is nothing more to take away." - Antoine de Saint-Exupéry
 

@@ -25,11 +25,11 @@ Use property-based when:
 
 ## Invariant Discovery Methodology
 
-1. **Round-trip**: `decode(encode(x)) === x` — serialization, compression, encryption
-2. **Idempotence**: `f(f(x)) === f(x)` — formatting, normalization, deduplication
-3. **Commutativity**: `sort(a ++ b) === sort(b ++ a)` — order-independent operations
-4. **Monotonicity**: if `a > b` then `f(a) >= f(b)` — pricing, scoring
-5. **Preservation**: `length(map(f, xs)) === length(xs)` — structural invariants
+1. **Round-trip**: `decode(encode(x)) === x`  --  serialization, compression, encryption
+2. **Idempotence**: `f(f(x)) === f(x)`  --  formatting, normalization, deduplication
+3. **Commutativity**: `sort(a ++ b) === sort(b ++ a)`  --  order-independent operations
+4. **Monotonicity**: if `a > b` then `f(a) >= f(b)`  --  pricing, scoring
+5. **Preservation**: `length(map(f, xs)) === length(xs)`  --  structural invariants
 6. **Oracle**: compare your implementation against a known-correct (slower) reference
 7. **Hard to compute, easy to verify**: factoring is hard, multiplication is easy
 
@@ -211,7 +211,7 @@ When a test fails, the framework finds the minimal reproduction:
 
 Automatic shrinking (Hypothesis, rapid) derives shrinkers from generators. Manual shrinking (classic QuickCheck) requires explicit `shrink` function per type.
 
-Shrinking is what makes property-based testing practical for debugging—instead of a 500-char failing string, you get the 3-char minimal case.
+Shrinking is what makes property-based testing practical for debugging -- instead of a 500-char failing string, you get the 3-char minimal case.
 
 ## Stateful / Model-Based Testing
 

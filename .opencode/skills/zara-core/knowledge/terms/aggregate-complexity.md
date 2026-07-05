@@ -9,7 +9,7 @@ description: Aggregate complexity is a code metric introduced by Steve Smith (Ar
 weight: 10
 ---
 
-Aggregate complexity is a code metric introduced by Steve Smith (Ardalis) in 2018 that measures the overall complexity of a software application by aggregating the individual complexity scores — typically [cyclomatic complexity](/terms/cyclomatic-complexity/) or [cognitive complexity](/terms/cognitive-complexity/) — of every method in the codebase. Rather than flagging individual hotspot methods, aggregate complexity gives a single number representing the total complexity burden carried by the entire application.
+Aggregate complexity is a code metric introduced by Steve Smith (Ardalis) in 2018 that measures the overall complexity of a software application by aggregating the individual complexity scores  --  typically [cyclomatic complexity](/terms/cyclomatic-complexity/) or [cognitive complexity](/terms/cognitive-complexity/)  --  of every method in the codebase. Rather than flagging individual hotspot methods, aggregate complexity gives a single number representing the total complexity burden carried by the entire application.
 
 The concept is described in detail in [Measuring Aggregate Complexity in Software Applications](https://ardalis.com/measuring-aggregate-complexity-in-software-applications/).
 
@@ -38,9 +38,9 @@ Aggregate complexity makes this hidden burden visible. Even better, it's a metri
 
 Because aggregate complexity is a single number for a whole application, it is well-suited to tracking over time:
 
-- **Trending down** — the team is successfully simplifying the codebase through refactoring.
-- **Flat** — new complexity is being introduced at roughly the same rate as old complexity is removed.
-- **Trending up** — complexity is accumulating; the codebase is becoming progressively harder to maintain.
+- **Trending down**  --  the team is successfully simplifying the codebase through refactoring.
+- **Flat**  --  new complexity is being introduced at roughly the same rate as old complexity is removed.
+- **Trending up**  --  complexity is accumulating; the codebase is becoming progressively harder to maintain.
 
 Teams can set a budget: "we will not increase the aggregate complexity score in this sprint" or "each quarter we will reduce it by 5%." This makes complexity reduction a trackable, objective goal rather than a vague quality aspiration.
 
@@ -58,11 +58,11 @@ All three are complementary. Per-method metrics identify where to refactor next;
 
 Reducing aggregate complexity requires actually removing conditional logic, not just redistributing it:
 
-- **Eliminate unnecessary branches** — [dead code](/code-smells/dead-code/) paths, always-true conditions, and redundant checks add complexity without value.
-- **Simplify algorithms** — replace complex logic with simpler data structures, lookups, or well-understood patterns.
-- **Delete [dead code](/code-smells/dead-code/)** — unused methods, commented-out blocks, and obsolete feature flags all contribute to aggregate complexity without providing any benefit.
-- **Apply polymorphism** — convert type-switching conditionals into polymorphic dispatch, reducing the branch count in the methods that contained them.
-- **Refactor incrementally** — track aggregate complexity in CI and treat an increase as a signal, not just per-method threshold violations.
+- **Eliminate unnecessary branches**  --  [dead code](/code-smells/dead-code/) paths, always-true conditions, and redundant checks add complexity without value.
+- **Simplify algorithms**  --  replace complex logic with simpler data structures, lookups, or well-understood patterns.
+- **Delete [dead code](/code-smells/dead-code/)**  --  unused methods, commented-out blocks, and obsolete feature flags all contribute to aggregate complexity without providing any benefit.
+- **Apply polymorphism**  --  convert type-switching conditionals into polymorphic dispatch, reducing the branch count in the methods that contained them.
+- **Refactor incrementally**  --  track aggregate complexity in CI and treat an increase as a signal, not just per-method threshold violations.
 
 ## Tooling
 
@@ -73,9 +73,9 @@ Aggregate complexity requires tooling that can measure and sum per-method scores
 
 ## References
 
-- [Measuring Aggregate Complexity in Software Applications](https://ardalis.com/measuring-aggregate-complexity-in-software-applications/) — Steve Smith (Ardalis), 2018. The original article introducing the metric.
-- [nmbls `cc` — Cyclomatic Complexity command](https://nmbl.dev/docs/commands/cc-cyclomatic-complexity/)
-- [nmbls `cogc` — Cognitive Complexity command](https://nmbl.dev/docs/commands/cogc-cognitive-complexity/)
+- [Measuring Aggregate Complexity in Software Applications](https://ardalis.com/measuring-aggregate-complexity-in-software-applications/)  --  Steve Smith (Ardalis), 2018. The original article introducing the metric.
+- [nmbls `cc`  --  Cyclomatic Complexity command](https://nmbl.dev/docs/commands/cc-cyclomatic-complexity/)
+- [nmbls `cogc`  --  Cognitive Complexity command](https://nmbl.dev/docs/commands/cogc-cognitive-complexity/)
 - [Cyclomatic Complexity](/terms/cyclomatic-complexity/)
 - [Cognitive Complexity](/terms/cognitive-complexity/)
 - [Conditional Complexity Code Smell](../code-smells/conditional-complexity)

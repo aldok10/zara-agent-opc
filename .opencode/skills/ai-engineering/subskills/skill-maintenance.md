@@ -42,7 +42,7 @@ Focus on UNDERSTANDING over DOING. Read code more than you write. Study systems 
 
 ## The "can I review this?" test
 
-For any AI-generated code, ask: "could I have caught a bug in this?" If no, you have a skill gap — close it before you depend on it.
+For any AI-generated code, ask: "could I have caught a bug in this?" If no, you have a skill gap  --  close it before you depend on it.
 
 ## Anti-patterns
 

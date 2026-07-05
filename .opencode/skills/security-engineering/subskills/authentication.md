@@ -22,9 +22,9 @@ Defends against authorization code interception. Required even for confidential 
 ## JWT
 
 - **Claims**: set `iss`, `aud`, `sub`, `exp`, `iat`, `nbf`, `jti`. Validate all on every request.
-- **Signing**: asymmetric (RS256/ES256/EdDSA) so verifiers need only the public key. Reject `alg: none`. Pin allowed algorithms — never trust the header's `alg`.
+- **Signing**: asymmetric (RS256/ES256/EdDSA) so verifiers need only the public key. Reject `alg: none`. Pin allowed algorithms  --  never trust the header's `alg`.
 - **Rotation**: publish keys via JWKS endpoint with `kid`; rotate signing keys on a schedule and support overlap.
-- **Expiration**: access tokens 5-15 min. JWTs are hard to revoke — keep them short and pair with a revocation list for high-value sessions.
+- **Expiration**: access tokens 5-15 min. JWTs are hard to revoke  --  keep them short and pair with a revocation list for high-value sessions.
 
 ## Session Management
 
@@ -35,7 +35,7 @@ Defends against authorization code interception. Required even for confidential 
 ## Token Storage
 
 - Web: **httpOnly + Secure + SameSite=Strict cookies** for tokens. Prevents XSS theft.
-- Avoid `localStorage` for tokens — readable by any XSS. If unavoidable (SPA), keep access token in memory, refresh token in httpOnly cookie.
+- Avoid `localStorage` for tokens  --  readable by any XSS. If unavoidable (SPA), keep access token in memory, refresh token in httpOnly cookie.
 - Native/mobile: OS keychain/keystore, never plaintext.
 
 ## Refresh Token Rotation
@@ -61,6 +61,6 @@ Defends against authorization code interception. Required even for confidential 
 
 ## Delegates To
 
-- **zero-trust** — continuous verification, device trust.
-- **secure-coding** — CSRF protection for cookie-based sessions.
-- **@shield** — auth flow review.
+- **zero-trust**  --  continuous verification, device trust.
+- **secure-coding**  --  CSRF protection for cookie-based sessions.
+- **@shield**  --  auth flow review.

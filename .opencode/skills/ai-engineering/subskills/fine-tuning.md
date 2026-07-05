@@ -1,6 +1,6 @@
 # Fine-tuning vs RAG: Decision & Techniques
 
-## Decision framework — RAG first
+## Decision framework  --  RAG first
 Fine-tune ONLY when:
 - You need a specific output format/style **consistently**
 - Domain vocabulary is absent from the base model

@@ -4,20 +4,20 @@ title: Bump Road Code Smell
 
 date: 2026-03-08
 
-description: The Bump Road code smell occurs when code is unnecessarily difficult to work with due to accumulated friction — inconsistent patterns, unexpected side effects, and structural choices that make every change harder than it should be.
+description: The Bump Road code smell occurs when code is unnecessarily difficult to work with due to accumulated friction  --  inconsistent patterns, unexpected side effects, and structural choices that make every change harder than it should be.
 
 weight: 30
 ---
 
-The Bump Road code smell describes code that is difficult to work with in practice — not because of a single obvious flaw, but because of accumulated friction that makes every step harder than it should be. Like driving on a road full of bumps, progress is possible but uncomfortable, slow, and error-prone. Each individual bump may be small, but together they impose a significant tax on every developer who works with the code.
+The Bump Road code smell describes code that is difficult to work with in practice  --  not because of a single obvious flaw, but because of accumulated friction that makes every step harder than it should be. Like driving on a road full of bumps, progress is possible but uncomfortable, slow, and error-prone. Each individual bump may be small, but together they impose a significant tax on every developer who works with the code.
 
-The name comes from the idea that a clean codebase should be a smooth road: predictable, easy to navigate, and allowing developers to move quickly with confidence. A bump road codebase imposes constant small obstacles — surprising APIs, inconsistent behavior, unnecessary setup, unexpected side effects — that accumulate into a significant drag on productivity and quality.
+The name comes from the idea that a clean codebase should be a smooth road: predictable, easy to navigate, and allowing developers to move quickly with confidence. A bump road codebase imposes constant small obstacles  --  surprising APIs, inconsistent behavior, unnecessary setup, unexpected side effects  --  that accumulate into a significant drag on productivity and quality.
 
 ## What Creates Bump Roads
 
 ### Surprising Side Effects
 
-When calling a method has unexpected consequences — modifying state, sending notifications, triggering database writes — developers must approach every call with suspicion. Code with predictable behavior and minimal side effects is easy to work with; code with hidden side effects is a bump road. This is related to the principle of [Command Query Separation](/principles/command-query-separation/).
+When calling a method has unexpected consequences  --  modifying state, sending notifications, triggering database writes  --  developers must approach every call with suspicion. Code with predictable behavior and minimal side effects is easy to work with; code with hidden side effects is a bump road. This is related to the principle of [Command Query Separation](/principles/command-query-separation/).
 
 ### Required Setup and Teardown
 
@@ -25,7 +25,7 @@ When code requires non-obvious initialization or cleanup to function correctly, 
 
 ### Inconsistent Behavior
 
-When similar operations behave differently in subtle ways — one method returns `null` on failure, another throws, a third returns a default value — every usage requires consulting documentation or source code to understand the actual behavior. This is also the [Inconsistency](./inconsistency) smell applied to runtime behavior rather than naming.
+When similar operations behave differently in subtle ways  --  one method returns `null` on failure, another throws, a third returns a default value  --  every usage requires consulting documentation or source code to understand the actual behavior. This is also the [Inconsistency](./inconsistency) smell applied to runtime behavior rather than naming.
 
 ### Poor Error Signaling
 
@@ -37,7 +37,7 @@ An abstraction that requires callers to understand its internal implementation d
 
 ### Deep Knowledge Requirements
 
-Code that requires knowing a large amount of ambient context — the order methods must be called, valid ranges of inputs, assumed state from external systems — punishes developers who lack that context. Every new team member and every new integration becomes an exercise in learning undocumented prerequisites.
+Code that requires knowing a large amount of ambient context  --  the order methods must be called, valid ranges of inputs, assumed state from external systems  --  punishes developers who lack that context. Every new team member and every new integration becomes an exercise in learning undocumented prerequisites.
 
 ## Example
 

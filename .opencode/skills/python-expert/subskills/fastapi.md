@@ -23,7 +23,7 @@ class UserCreate(BaseModel):        # request: what client sends
 class UserResponse(BaseModel):      # response: what client sees
     id: int; email: EmailStr
     model_config = ConfigDict(from_attributes=True)
-# DB model (SQLAlchemy) stays internal — never returned directly.
+# DB model (SQLAlchemy) stays internal  --  never returned directly.
 ```
 
 ## Dependency Injection
@@ -51,7 +51,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 ```## Error Handling & Settings
 
-Raise `HTTPException(status_code=404, detail="User not found")`; register custom handlers for domain exceptions. Never leak stack traces — log them, return generic 500. Config via `BaseSettings` (env_file=".env"), validated at startup — fail fast on missing values.
+Raise `HTTPException(status_code=404, detail="User not found")`; register custom handlers for domain exceptions. Never leak stack traces  --  log them, return generic 500. Config via `BaseSettings` (env_file=".env"), validated at startup  --  fail fast on missing values.
 
 ## Background, Security, Testing
 
@@ -61,7 +61,7 @@ Raise `HTTPException(status_code=404, detail="User not found")`; register custom
 
 ## Anti-Patterns
 
-- Sync DB driver (psycopg2) in async endpoints — blocks the loop
+- Sync DB driver (psycopg2) in async endpoints  --  blocks the loop
 - Missing response_model / no validation
 - Fat routers with business logic (belongs in services/)
 - Bypassing DI (global db, manual config reads)

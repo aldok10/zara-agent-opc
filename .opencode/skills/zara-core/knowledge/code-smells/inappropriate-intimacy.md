@@ -17,7 +17,7 @@ The smell is named after the social analogy: healthy relationships have appropri
 
 ### High Coupling
 
-When class A knows the internal structure of class B, A is tightly coupled to B's implementation. Any refactoring of B's internals — renaming a field, changing a data structure, reorganizing private methods — is likely to break A. The classes cannot evolve independently.
+When class A knows the internal structure of class B, A is tightly coupled to B's implementation. Any refactoring of B's internals  --  renaming a field, changing a data structure, reorganizing private methods  --  is likely to break A. The classes cannot evolve independently.
 
 ### Violation of Encapsulation
 
@@ -93,16 +93,16 @@ Watch for:
 - Access to `internal` or `protected` members from outside a class's natural hierarchy.
 - Long chains of property access navigating into deeply nested private state.
 - Classes that need to be modified any time the other is refactored.
-- Circular dependencies between two classes — each importing or referencing the other.
+- Circular dependencies between two classes  --  each importing or referencing the other.
 - Test classes that rely heavily on reflection to access private state.
 
 ## Relationship to Other Smells
 
-Inappropriate Intimacy is closely related to [Message Chains](./message-chains) and [Law of Demeter Violations](./law-of-demeter-violations) — all involve accessing more of another object's internals than is healthy. The distinction is that Inappropriate Intimacy typically involves mutual or deeply nested access to private state, while Message Chains describe navigating through many objects in sequence.
+Inappropriate Intimacy is closely related to [Message Chains](./message-chains) and [Law of Demeter Violations](./law-of-demeter-violations)  --  all involve accessing more of another object's internals than is healthy. The distinction is that Inappropriate Intimacy typically involves mutual or deeply nested access to private state, while Message Chains describe navigating through many objects in sequence.
 
 ## Refactoring
 
-- **Move Method / Move Field** — if one class consistently needs data from another, that data (and its behavior) may belong in the first class.
-- **Extract Class** — shared behavior or state between two tightly coupled classes can sometimes be moved to a third class that both depend on.
-- **Hide Delegate** — instead of exposing internal objects, add a method on the owning class that performs the operation.
-- **Change Bidirectional Association to Unidirectional** — where possible, break the cycle so only one class depends on the other.
+- **Move Method / Move Field**  --  if one class consistently needs data from another, that data (and its behavior) may belong in the first class.
+- **Extract Class**  --  shared behavior or state between two tightly coupled classes can sometimes be moved to a third class that both depend on.
+- **Hide Delegate**  --  instead of exposing internal objects, add a method on the owning class that performs the operation.
+- **Change Bidirectional Association to Unidirectional**  --  where possible, break the cycle so only one class depends on the other.

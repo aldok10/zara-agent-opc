@@ -9,15 +9,15 @@ description: Law of Demeter Violations occur when code navigates deeply through 
 weight: 210
 ---
 
-Law of Demeter Violations occur when code accesses objects from distant parts of an object graph rather than limiting interactions to immediate collaborators. The [Law of Demeter](/laws/law-of-demeter/) — also called the Principle of Least Knowledge — states that a method should only talk to its immediate neighbors: the object it is called on, its own fields, objects received as parameters, and objects it creates itself. Any access that chains through another object's return value to reach a third party is a violation.
+Law of Demeter Violations occur when code accesses objects from distant parts of an object graph rather than limiting interactions to immediate collaborators. The [Law of Demeter](/laws/law-of-demeter/)  --  also called the Principle of Least Knowledge  --  states that a method should only talk to its immediate neighbors: the object it is called on, its own fields, objects received as parameters, and objects it creates itself. Any access that chains through another object's return value to reach a third party is a violation.
 
-The informal rule is: "talk to friends, not strangers." A method that calls `order.GetCustomer().GetAddress().GetCity()` has to know about `Order`, `Customer`, `Address`, and `City` — four types just to get one piece of information. The caller is coupled to the entire chain.
+The informal rule is: "talk to friends, not strangers." A method that calls `order.GetCustomer().GetAddress().GetCity()` has to know about `Order`, `Customer`, `Address`, and `City`  --  four types just to get one piece of information. The caller is coupled to the entire chain.
 
 ## Problems Caused by Law of Demeter Violations
 
 ### Tight Coupling to Intermediate Structure
 
-Each dot in a method chain is a dependency on an intermediate type. If `Order` stops returning a `Customer` directly — perhaps it now returns a `CustomerReference` — every chain that traverses `Order.GetCustomer()` must change. The caller knows more about the structure of the object graph than it should.
+Each dot in a method chain is a dependency on an intermediate type. If `Order` stops returning a `Customer` directly  --  perhaps it now returns a `CustomerReference`  --  every chain that traverses `Order.GetCustomer()` must change. The caller knows more about the structure of the object graph than it should.
 
 ### Fragile Code
 
@@ -73,7 +73,7 @@ public class OrderProcessor
 }
 ```
 
-`OrderProcessor` now speaks only to `Order`. The navigation is hidden behind `Order`'s interface. If `Customer` or `Address` is restructured, only `Order` needs to change — not every caller.
+`OrderProcessor` now speaks only to `Order`. The navigation is hidden behind `Order`'s interface. If `Customer` or `Address` is restructured, only `Order` needs to change  --  not every caller.
 
 ## Identifying Law of Demeter Violations
 
@@ -84,7 +84,7 @@ Look for:
 - Tests that require constructing a deep object graph just to test a small behavior.
 - Methods that receive one object but end up primarily working with objects retrieved from that object.
 
-Note that fluent interfaces — such as LINQ chains or builder patterns — are generally not Law of Demeter violations because every method in the chain returns the same type or a closely related type by design. The violation arises when navigating through unrelated object boundaries.
+Note that fluent interfaces  --  such as LINQ chains or builder patterns  --  are generally not Law of Demeter violations because every method in the chain returns the same type or a closely related type by design. The violation arises when navigating through unrelated object boundaries.
 
 ## Relationship to Other Smells
 
@@ -92,6 +92,6 @@ Law of Demeter Violations are the direct cause of [Message Chains](./message-cha
 
 ## Refactoring
 
-- **Hide Delegate** — add a method to the immediate collaborator that performs the navigation so callers only interact with one level.
-- **Move Method** — if a method navigates into another class's internals to do its work, consider moving it closer to the data it needs.
-- **Introduce Query Method** — give the intermediate class a method that answers the question being asked, so the caller doesn't have to navigate.
+- **Hide Delegate**  --  add a method to the immediate collaborator that performs the navigation so callers only interact with one level.
+- **Move Method**  --  if a method navigates into another class's internals to do its work, consider moving it closer to the data it needs.
+- **Introduce Query Method**  --  give the intermediate class a method that answers the question being asked, so the caller doesn't have to navigate.

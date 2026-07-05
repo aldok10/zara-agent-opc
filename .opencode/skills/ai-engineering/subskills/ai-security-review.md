@@ -4,7 +4,7 @@ Security review of AI-generated code. Treat every AI PR like code from a confide
 
 ## The core danger
 
-Stanford finding: developers using AI write LESS secure code AND feel MORE confident. Double danger — lower quality, higher trust.
+Stanford finding: developers using AI write LESS secure code AND feel MORE confident. Double danger  --  lower quality, higher trust.
 
 ## AI security blind spots
 

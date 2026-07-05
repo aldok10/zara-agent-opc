@@ -24,7 +24,7 @@ cosign sign   $IMAGE            # keyless, OIDC identity, logged to Rekor
 cosign verify $IMAGE --certificate-identity ... --certificate-oidc-issuer ...
 ```
 - Sigstore provides keyless signing + transparency log (Rekor). Verify signatures + provenance (SLSA attestations) before deploy.
-- Enforce with admission control (Kyverno/Gatekeeper/cosign policy) — reject unsigned images.
+- Enforce with admission control (Kyverno/Gatekeeper/cosign policy)  --  reject unsigned images.
 
 ## Typosquatting Detection
 
@@ -36,7 +36,7 @@ cosign verify $IMAGE --certificate-identity ... --certificate-oidc-issuer ...
 ## Transitive Dependency Auditing
 
 - Most risk hides in transitive deps. Audit the full tree: `npm audit`, `pnpm audit`, `govulncheck`, `pip-audit`, `composer audit`, `cargo audit`.
-- `govulncheck` is call-graph aware (only flags reachable vulns) — prefer it for Go.
+- `govulncheck` is call-graph aware (only flags reachable vulns)  --  prefer it for Go.
 - Dependency confusion: ensure private scopes cannot be shadowed by public registry packages.
 
 ## Automated Updates
@@ -58,5 +58,5 @@ cosign verify $IMAGE --certificate-identity ... --certificate-oidc-issuer ...
 
 ## Delegates To
 
-- **platform-engineering** — CI/CD enforcement, admission control.
-- **@shield** — reviewing dependency risk decisions.
+- **platform-engineering**  --  CI/CD enforcement, admission control.
+- **@shield**  --  reviewing dependency risk decisions.

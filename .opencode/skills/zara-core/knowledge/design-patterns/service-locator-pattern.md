@@ -10,10 +10,10 @@ weight: 320
 
 ## What is the Service Locator Pattern?
 
-The Service Locator pattern provides a central registry — the *locator* — from which objects request their dependencies at runtime instead of having those dependencies supplied explicitly. A class that needs an `IOrderRepository` calls `ServiceLocator.Get<IOrderRepository>()` rather than declaring it as a constructor parameter.
+The Service Locator pattern provides a central registry  --  the *locator*  --  from which objects request their dependencies at runtime instead of having those dependencies supplied explicitly. A class that needs an `IOrderRepository` calls `ServiceLocator.Get<IOrderRepository>()` rather than declaring it as a constructor parameter.
 
 ```csharp
-// Service Locator approach — generally avoid this
+// Service Locator approach  --  generally avoid this
 public class OrderService
 {
     public void PlaceOrder(Order order)
@@ -35,7 +35,7 @@ The most significant problem: dependencies become invisible. A constructor with 
 
 ### 2. Testability
 
-Unit testing requires the ability to substitute real dependencies with test doubles (mocks, stubs, fakes). With the Service Locator, tests must configure the global locator registry before each test and tear it down afterwards — or tests will interfere with each other. This introduces hidden test-order coupling and significantly increases test setup complexity.
+Unit testing requires the ability to substitute real dependencies with test doubles (mocks, stubs, fakes). With the Service Locator, tests must configure the global locator registry before each test and tear it down afterwards  --  or tests will interfere with each other. This introduces hidden test-order coupling and significantly increases test setup complexity.
 
 ```csharp
 // Test setup becomes brittle global state management
@@ -52,7 +52,7 @@ var service = new OrderService(new FakeOrderRepository()); // trivially testable
 
 ### 3. Runtime Failures Instead of Compile-Time Errors
 
-When a dependency is missing from the locator the failure occurs at runtime — typically deep inside a method call. With constructor injection the DI container fails loudly at startup and the compiler enforces that all required parameters are provided.
+When a dependency is missing from the locator the failure occurs at runtime  --  typically deep inside a method call. With constructor injection the DI container fails loudly at startup and the compiler enforces that all required parameters are provided.
 
 ### 4. Static Cling
 
@@ -96,7 +96,7 @@ Provide a centralized registry that supplies dependencies to requesting objects 
 
 ## See Also
 
-- [Service Locator Antipattern](/antipatterns/service-locator/) — a detailed examination of why the pattern is problematic in practice.
+- [Service Locator Antipattern](/antipatterns/service-locator/)  --  a detailed examination of why the pattern is problematic in practice.
 - [Dependency Injection](/practices/dependency-injection/)
 - [Explicit Dependencies Principle](/principles/explicit-dependencies-principle/)
 - [Static Cling Antipattern](/antipatterns/static-cling/)

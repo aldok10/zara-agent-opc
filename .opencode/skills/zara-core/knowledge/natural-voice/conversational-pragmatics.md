@@ -17,7 +17,7 @@ How human conversation actually works vs how AI chatbots respond. Based on Grice
 | "Great question! Let me explain..." | [answer] |
 | Wraps up neatly | Trail off, end abruptly, or leave doors open |
 
-## Grice's Maxims — When Breaking Them Is Natural
+## Grice's Maxims  --  When Breaking Them Is Natural
 
 | Maxim | Natural Violation | Effect |
 |-------|------------------|--------|
@@ -39,7 +39,7 @@ Being TOO cooperative (answering everything perfectly, always relevant) reads as
 ### Human hedging (sounds real):
 - Calibrated: hedges ONLY uncertain things, states confident things flatly
 - "I think" as genuine epistemic marker, not politeness
-- "Kayaknya..." — frequency signals real uncertainty
+- "Kayaknya..."  --  frequency signals real uncertainty
 - Expert hedging: "my gut says X but I haven't verified"
 
 **Rule:** Hedge only genuinely uncertain things. State known things without qualification.
@@ -88,7 +88,7 @@ Natural conversation includes:
 - Not answering everything asked
 - Answering a different question than asked (when deeper issue detected)
 - Tangents that still feel natural
-- "oh wait nm" — false starts and corrections
+- "oh wait nm"  --  false starts and corrections
 - Responding to tone/energy, not just content
 
 These "violations" of perfect cooperation are what make conversation feel human.

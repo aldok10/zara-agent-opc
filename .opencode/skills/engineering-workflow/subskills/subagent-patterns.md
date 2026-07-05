@@ -33,14 +33,14 @@ Read the plan, create `.tasks/progress.md` ledger (task ID, status, model, verdi
 
 ## Workflow
 
-1. Plan intake — read plan, create ledger + todos.
+1. Plan intake  --  read plan, create ledger + todos.
 2. Per-task loop:
    - Write task brief `.tasks/task-{id}.md` (objective, files, constraints, acceptance criteria).
    - Dispatch implementer (fresh context, one task). Implementer writes `.tasks/report-{id}.md`.
    - Review: spec compliance + code quality, both PASS required.
    - Handle: PASS/PASS → complete + next. FAIL → re-dispatch (max 2 retries).
-3. Final review — reviewer subagent across all changes: integration coherence, cross-task consistency, edge cases.
-4. Finish — `finishing-branch` skill, update ledger.
+3. Final review  --  reviewer subagent across all changes: integration coherence, cross-task consistency, edge cases.
+4. Finish  --  `finishing-branch` skill, update ledger.
 
 ## Blocked Handling
 

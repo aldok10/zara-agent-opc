@@ -77,7 +77,7 @@ After running all checks:
 | Documentation | pass/fail | [proof] |
 
 ### Issues Found
-- [Issue]: [Severity] — [Fix required]
+- [Issue]: [Severity]  --  [Fix required]
 
 ### Test Output
 [Actual command output]

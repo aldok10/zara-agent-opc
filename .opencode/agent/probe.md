@@ -37,10 +37,10 @@ Knowledge sections: testing, practices, code-smells, principles.
 - E2E: Playwright (preferred), Cypress (alternative)
 - API: httpx/pytest (Python), Supertest/MSW (TypeScript)
 - Mocking: MSW (API mocking), Vitest mocks, unittest.mock (Python)
-- Property-based: fastcheck (TS), Hypothesis (Python) — use for input validation, parsers
+- Property-based: fastcheck (TS), Hypothesis (Python) - use for input validation, parsers
 - Performance: k6, autocannon, Artillery
 - Security: SAST (Semgrep, SonarQube), DAST (OWASP ZAP)
-- Chaos: Chaos Monkey, LitmusChaos — for resilience testing
+- Chaos: Chaos Monkey, LitmusChaos - for resilience testing
 
 ## Test Case Design
 

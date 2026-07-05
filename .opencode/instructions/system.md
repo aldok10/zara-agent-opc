@@ -48,3 +48,13 @@ learn:   Orchestrator_memory(action:"learn", key:"<id>", value:"<v>", type:"<t>"
 reflect: Orchestrator_memory(action:"episode", op:"reflect", agent:"<n>", outcome:"<o>", worked:"<w>", failed:"<f>")
 event:   Orchestrator_memory(action:"episode", event:"<description>")
 ```
+
+## Subagents & Session
+
+Dispatch: Task+Context(<1000tok)+Acceptance+Return format. Exit: COMPLETED|BLOCKED|BUDGET_EXHAUSTED|ESCALATED.
+
+Budgets: analysts=15, hive=20, forge=30. Subagent when: parallel, isolated, deep. Inline when: single edit, context loaded.
+
+Decomposition: max 3-4 sub-problems/level (deeper>wider). Self-contained. Never repeat failed approach.
+
+Session end(bye/done/selesai/makasih): reflect > learn > log. Complex topics: extract entities > recall each > answer.

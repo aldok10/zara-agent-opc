@@ -1,0 +1,56 @@
+apiVersion: sloth.slok.dev/v1
+kind: PrometheusServiceLevel
+metadata:
+  name: order-service
+  namespace: platform
+spec:
+  service: order-service
+  labels:
+    team: commerce
+    tier: critical
+  slos:
+    - name: availability
+      objective: 99.9
+      description: Order API returns successful responses
+      sli:
+        events:
+          errorQuery: >
+            sum(rate(http_requests_total{service="order-service",code=~"5.."}[{{.window}}]))
+          totalQuery: >
+            sum(rate(http_requests_total{service="order-service"}[{{.window}}]))
+      alerting:
+        name: OrderServiceAvailability
+        labels:
+          severity: critical
+        annotations:
+          summary: "Order service error budget burn rate is too high"
+        pageAlert:
+          labels:
+            channel: pager
+        ticketAlert:
+          labels:
+            channel: slack-alerts
+
+    - name: latency
+      objective: 99.0
+      description: Order API responds within 500ms
+      sli:
+        events:
+          errorQuery: >
+            sum(rate(http_request_duration_seconds_bucket{service="order-service",le="0.5"}[{{.window}}]))
+              -
+            sum(rate(http_request_duration_seconds_count{service="order-service"}[{{.window}}]))
+          totalQuery: >
+            sum(rate(http_request_duration_seconds_count{service="order-service"}[{{.window}}]))
+      alerting:
+        name: OrderServiceLatency
+        labels:
+          severity: warning
+        pageAlert:
+          labels:
+            channel: pager
+          burnRateThreshold: 14.4
+        ticketAlert:
+          labels:
+            channel: slack-alerts
+          burnRateThreshold: 3

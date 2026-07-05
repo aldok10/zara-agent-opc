@@ -1,0 +1,53 @@
+graph LR
+    subgraph Producers
+        A[Order Service]
+        B[Payment Service]
+        C[Inventory Service]
+    end
+
+    subgraph Event Backbone
+        D[Event Bus / Kafka]
+    end
+
+    subgraph Consumers
+        E[Notification Service]
+        F[Analytics Service]
+        G[Search Indexer]
+        H[Audit Log]
+    end
+
+    subgraph Infrastructure
+        I[Schema Registry]
+        J[Dead Letter Queue]
+        K[Event Store]
+    end
+
+    A -->|order.created| D
+    A -->|order.cancelled| D
+    B -->|payment.completed| D
+    B -->|payment.failed| D
+    C -->|inventory.reserved| D
+    C -->|inventory.released| D
+
+    D -->|order.*| E
+    D -->|payment.*| E
+    D -->|order.created| F
+    D -->|payment.completed| F
+    D -->|order.*| G
+    D -->|*| H
+
+    D --> J
+    D --> K
+    I -.->|validates| D
+
+    subgraph Saga: Order Fulfillment
+        S1[1. order.created]
+        S2[2. inventory.reserved]
+        S3[3. payment.completed]
+        S4[4. order.confirmed]
+        S1 --> S2
+        S2 --> S3
+        S3 --> S4
+        S2 -.->|failure| S5[inventory.released]
+        S3 -.->|failure| S6[payment.refunded]
+    end

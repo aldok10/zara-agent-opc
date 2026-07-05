@@ -1,0 +1,45 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-added-large-files
+        args: ["--maxkb=500"]
+      - id: detect-private-key
+      - id: check-merge-conflict
+
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v3.4.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+        args:
+          - feat
+          - fix
+          - refactor
+          - docs
+          - chore
+          - ci
+          - test
+          - perf
+          - build
+          - revert
+
+  - repo: local
+    hooks:
+      - id: lint-staged
+        name: lint-staged
+        entry: npx lint-staged
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
+
+      - id: no-secrets
+        name: check for secrets
+        entry: npx secretlint
+        language: system
+        pass_filenames: true
+        stages: [pre-commit]

@@ -1,0 +1,143 @@
+openapi: "3.1.0"
+info:
+  title: Order Service API
+  version: "2.0.0"
+  description: Manages customer orders with idempotent creation and pagination.
+
+servers:
+  - url: https://api.example.com/v2
+
+paths:
+  /orders:
+    get:
+      operationId: listOrders
+      summary: List orders with cursor pagination
+      parameters:
+        - name: cursor
+          in: query
+          schema:
+            type: string
+          description: Opaque cursor from previous response
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: status
+          in: query
+          schema:
+            $ref: "#/components/schemas/OrderStatus"
+      responses:
+        "200":
+          description: Paginated list of orders
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderList"
+
+    post:
+      operationId: createOrder
+      summary: Create a new order (idempotent)
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOrderRequest"
+      responses:
+        "201":
+          description: Order created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        "409":
+          description: Idempotency conflict -- same key with different payload
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    OrderStatus:
+      type: string
+      enum: [pending, confirmed, shipped, delivered, cancelled]
+
+    Order:
+      type: object
+      required: [id, status, items, created_at]
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          $ref: "#/components/schemas/OrderStatus"
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrderItem"
+        total_cents:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+
+    OrderItem:
+      type: object
+      required: [product_id, quantity]
+      properties:
+        product_id:
+          type: string
+          format: uuid
+        quantity:
+          type: integer
+          minimum: 1
+        unit_price_cents:
+          type: integer
+
+    CreateOrderRequest:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/OrderItem"
+        shipping_address_id:
+          type: string
+          format: uuid
+
+    OrderList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Order"
+        next_cursor:
+          type: string
+          nullable: true
+        has_more:
+          type: boolean
+
+    Error:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object

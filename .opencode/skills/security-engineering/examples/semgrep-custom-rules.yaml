@@ -1,0 +1,79 @@
+rules:
+  - id: hardcoded-secret-in-source
+    patterns:
+      - pattern: |
+          $VAR = "..."
+      - metavariable-regex:
+          metavariable: $VAR
+          regex: (api_key|secret|password|token|private_key|auth_token)
+    message: Hardcoded secret detected in variable '$VAR'. Use environment variables or a secrets manager.
+    languages: [python, javascript, typescript]
+    severity: ERROR
+    metadata:
+      cwe: "CWE-798"
+      owasp: "A07:2021"
+
+  - id: sql-injection-raw-query
+    patterns:
+      - pattern: |
+          $DB.query(f"...", ...)
+      - pattern: |
+          $DB.execute(f"...", ...)
+      - pattern: |
+          $DB.query("..." + $USER_INPUT + "...", ...)
+    message: Potential SQL injection -- use parameterized queries instead of string interpolation.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      cwe: "CWE-89"
+      owasp: "A03:2021"
+
+  - id: missing-csrf-protection
+    patterns:
+      - pattern: |
+          app.post($ROUTE, ...)
+      - pattern-not-inside: |
+          app.use(csrf(...))
+    message: POST route without CSRF protection. Add CSRF middleware.
+    languages: [javascript, typescript]
+    severity: WARNING
+    metadata:
+      cwe: "CWE-352"
+      owasp: "A01:2021"
+
+  - id: insecure-cookie-config
+    patterns:
+      - pattern: |
+          { ..., httpOnly: false, ... }
+      - pattern: |
+          { ..., secure: false, ... }
+      - pattern: |
+          { ..., sameSite: "none", ... }
+    message: Insecure cookie configuration. Set httpOnly=true, secure=true, sameSite="strict".
+    languages: [javascript, typescript]
+    severity: WARNING
+    metadata:
+      cwe: "CWE-614"
+
+  - id: open-redirect
+    patterns:
+      - pattern: |
+          res.redirect($USER_INPUT)
+      - pattern: |
+          response.redirect($USER_INPUT)
+    message: Open redirect vulnerability. Validate redirect URL against an allowlist.
+    languages: [javascript, typescript, python]
+    severity: ERROR
+    metadata:
+      cwe: "CWE-601"
+      owasp: "A01:2021"
+
+  - id: eval-usage
+    patterns:
+      - pattern: eval(...)
+      - pattern: exec(...)
+    message: Use of eval/exec detected. This enables code injection attacks.
+    languages: [python, javascript]
+    severity: ERROR
+    metadata:
+      cwe: "CWE-95"

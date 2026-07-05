@@ -63,6 +63,8 @@ After context compaction: re-read `.tasks/progress.md` + `git log --oneline -10`
 
 `brainstorming → writing-plans → /code (or subagent-driven-dev) → finishing-branch`. Per task: `tdd`. Bug found: `systematic-debugging`. Before done: `verification-before-completion`. Complex entry: architecture → `task(architect)`; security → `task(security-reviewer)`; parallel 3+ → `/swarm`.
 
+Multi-agent coordination: subagent dispatch with context isolation (<1000 tokens per dispatch), result synthesis at the orchestrator level, and EXIT code handshake (COMPLETED/BLOCKED/BUDGET_EXHAUSTED/ESCALATED). Each subagent is stateless -- no shared memory between parallel workers.
+
 ## Knowledge
 
 The `knowledge/` directory contains software engineering reference material. Use when giving guidance on design, architecture, testing, or engineering practices. Available areas:

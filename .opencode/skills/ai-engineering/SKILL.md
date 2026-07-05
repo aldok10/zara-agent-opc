@@ -100,3 +100,8 @@ Multiple OK. Load only what's needed.
 | Security review | dispatch @shield |
 | Code review depth | `code-review` |
 | Testing strategy | `tdd` |
+
+## AI-Era Context
+
+- Frontier model context windows (200K+ tokens) change RAG strategy: stuff more, chunk less
+- Structured output (JSON mode, tool_use) is default for all agent-to-agent communication

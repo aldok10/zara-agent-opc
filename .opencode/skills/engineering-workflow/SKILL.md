@@ -94,7 +94,11 @@ Don't guess through blockers.
 | Implementation | forge |
 | Quality + validation | refiner |
 
-## Knowledge (load on demand)
+## Knowledge
 
-- `Orchestrator_memory(action:"recall", query:"vertical slice incremental development", layer:"knowledge")`
-- `knowledge_index(section:"architecture")` · `knowledge_index(section:"principles")` · `knowledge_index(section:"practices")`
+- knowledge/agentic-workflows.md
+- knowledge/planning-techniques.md
+- knowledge/delivery-patterns.md
+- knowledge/development-methodologies.md
+- knowledge/team-productivity.md
+- knowledge/references.md

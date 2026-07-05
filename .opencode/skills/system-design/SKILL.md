@@ -104,6 +104,11 @@ Multiple OK. Load only what's needed.
 - Design addresses requirements; math validates feasibility; failure modes mitigated.
 - Golden path deploy < 1 day; DORA improving; SLOs defined; trace-to-log correlation working.
 
+## AI-Era Context
+
+- FinOps FOCUS spec (standardized billing data format across clouds)
+- Platform maturity model (Level 1: scripts, Level 2: templates, Level 3: self-service, Level 4: optimized)
+
 ## Related Skills
 
 `golang-expert` (Go impl) · dispatch @shield (security) · dispatch @lens (review)

@@ -55,6 +55,8 @@ Frontmatter + sections (in order): Title, Scope (HANDLES/DEFERS), First Action, 
 7. Write for an LLM reader: be direct, use structure, avoid ambiguity.
 8. Every claim should be actionable. No filler paragraphs.
 9. See `subskills/benchmarking.md` and `subskills/engineering-loops.md` for advanced patterns.
+10. Compare against skills.sh leaderboard and agentskills.io catalog during creation to identify gaps and quality bar.
+11. Reference obra/superpowers (246K stars) as quality benchmark for skill structure and depth.
 
 ## DO NOT
 

@@ -90,6 +90,12 @@ If on a protected branch: STOP, create feature branch `git checkout -b <type>/<d
 - `git branch --show-current` confirms not on protected branch before commit.
 - `git status` clean or intended state before/after operations.
 
+## AI-Era Context
+
+- Git 2.46+: reftable backend (faster ref operations), pack-refs improvements
+- Jujutsu (jj): emerging Git-compatible VCS alternative gaining traction in 2026
+- GitHub Copilot Workspace: AI-driven planning from issue to PR (integrate with git workflows)
+
 ## Related Skills
 
 | When | Load |

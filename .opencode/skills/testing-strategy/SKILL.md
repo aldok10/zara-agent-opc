@@ -61,6 +61,9 @@ Multiple OK. Load only what's needed.
 
 AI writes most code and most tests. The bottleneck moved from writing code to verifying it. AI tests test implementation, miss edge cases, and are often tautological. The engineer's job is now designing the verification harness that makes AI output trustworthy: contract tests catch schema drift, property tests catch missed edge cases, mutation tests catch weak assertions, code review catches plausible-but-wrong logic. Testing is the primary quality signal, not an afterthought.
 
+- AI test generation tools: Qodo (formerly Codium), Diffblue Cover for Java, GitHub Copilot test generation
+- Vitest 3.x as default for frontend/Node.js, Playwright 1.50+ for E2E
+
 ## Verification
 
 - Test suite green before claiming done; show actual command output.
@@ -76,7 +79,14 @@ AI writes most code and most tests. The bottleneck moved from writing code to ve
 | Verified, ready to integrate/merge | `finishing-branch` |
 | Language-specific test APIs | language expert skill |
 
-## Knowledge (load on demand)
+## Knowledge
 
-- `Orchestrator_memory(action:"recall", query:"code smell catalog")` · `knowledge_index(section:"code-smells", layer:"knowledge")`
-- `Orchestrator_memory(action:"recall", query:"test driven development")` · `knowledge_index(section:"testing", layer:"knowledge")`
+- knowledge/tdd-workflow.md
+- knowledge/ai-era-testing.md
+- knowledge/contract-testing.md
+- knowledge/performance-testing.md
+- knowledge/automation-frameworks.md
+- knowledge/mutation-testing.md
+- knowledge/code-review-practices.md
+- knowledge/security-testing.md
+- knowledge/references.md

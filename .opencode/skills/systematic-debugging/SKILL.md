@@ -77,6 +77,12 @@ Read the error message completely: every word, line number, stack frame. Do not 
 | Writing regression test | `tdd` |
 | Code review after fix | `code-review` |
 
-## Knowledge (load on demand)
+## Knowledge
 
-- `Orchestrator_memory(action:"recall", query:query: "debugging antipattern root cause")` · `knowledge_index(section: "code-smells")` · `knowledge_index(section: "practices", layer:"knowledge")`
+- knowledge/four-phase-process.md
+- knowledge/distributed-debugging.md
+- knowledge/performance-debugging.md
+- knowledge/language-debugging.md
+- knowledge/cognitive-debugging.md
+- knowledge/ai-assisted-debugging.md
+- knowledge/references.md

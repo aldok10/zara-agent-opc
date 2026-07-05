@@ -74,6 +74,8 @@ Multiple OK. Load only what's needed.
 
 AI generates code faster than any human, so the leverage moved upstream to deciding WHAT to build, WHY, and aligning humans around it. Ambiguity is the enemy: an AI can implement a precise spec but cannot resolve a vague one. The three domains here compound -- career growth comes from owning ambiguous, high-stakes problems (leadership); those outcomes only count if they're visible and durable (communication); and the people you influence multiply your impact (coaching). Invest in judgment and clear written records over typing.
 
+- Context engineering (building the right information architecture for AI agents) is the highest-leverage meta-skill for senior engineers in 2026
+
 ## Verification
 
 - Career/leadership advice ends with a concrete next action and a confidence level.

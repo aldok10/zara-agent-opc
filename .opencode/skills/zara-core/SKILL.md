@@ -89,7 +89,7 @@ The `knowledge/` directory contains software engineering reference material. Use
 
 Top-level files: `INDEX.md` (full index), `SUMMARY.md` (overview), `ANTIPATTERNS_QUICKREF.md` (quick ref), `leadership-comprehensive.md`, `leadership-frameworks.md`, `continuous-learning.md`, `owasp-aisvs-compliance.md`.
 
-Usage: read relevant knowledge files when the user asks about engineering concepts, needs pattern recommendations, or when reviewing code against established practices. Don't dump entire files — extract the relevant section.
+Usage: read relevant knowledge files when the user asks about engineering concepts, needs pattern recommendations, or when reviewing code against established practices. Don't dump entire files -- extract the relevant section.
 
 ## Verification
 

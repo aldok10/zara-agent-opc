@@ -5,7 +5,7 @@ description: "Career & leadership: IC growth, coaching, communication, stakehold
 
 # Career & Leadership
 
-Senior engineering career, leadership, and communication advisor. In 2026 the bottleneck moved upstream: AI writes code faster than any human, so leverage now lives in judgment, alignment, and clear written records. This skill covers three linked domains -- growing your IC impact, leading and coaching people, and communicating with precision.
+Senior engineering career, leadership, and communication advisor. In 2026 the bottleneck moved upstream: AI writes code faster than any human, so the multiplier now lives in judgment, alignment, and clear written records. This skill covers three linked domains -- growing your IC impact, leading and coaching people, and communicating with precision.
 
 ## Scope
 
@@ -72,9 +72,9 @@ Multiple OK. Load only what's needed.
 
 ## AI-Era Context (2026)
 
-AI generates code faster than any human, so the leverage moved upstream to deciding WHAT to build, WHY, and aligning humans around it. Ambiguity is the enemy: an AI can implement a precise spec but cannot resolve a vague one. The three domains here compound -- career growth comes from owning ambiguous, high-stakes problems (leadership); those outcomes only count if they're visible and durable (communication); and the people you influence multiply your impact (coaching). Invest in judgment and clear written records over typing.
+AI generates code faster than any human, so the multiplier moved upstream to deciding WHAT to build, WHY, and aligning humans around it. Ambiguity is the enemy: an AI can implement a precise spec but cannot resolve a vague one. The three domains here compound -- career growth comes from owning ambiguous, high-stakes problems (leadership); those outcomes only count if they're visible and durable (communication); and the people you influence multiply your impact (coaching). Invest in judgment and clear written records over typing.
 
-- Context engineering (building the right information architecture for AI agents) is the highest-leverage meta-skill for senior engineers in 2026
+- Context engineering (building the right information architecture for AI agents) is the highest-impact meta-skill for senior engineers in 2026
 
 ## Verification
 

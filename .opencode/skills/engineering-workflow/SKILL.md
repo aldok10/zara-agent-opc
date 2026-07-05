@@ -17,11 +17,11 @@ Each phase is one testable sentence. Trivial tasks (1-2 files, clear pattern) ma
 
 ## Phases
 
-1. **Brainstorm** — explore intent + requirements before code. Design first, always. → `subskills/brainstorming.md`
-2. **Plan** — write implementation plan assuming zero codebase context: exact files, code, tests, verification. → `subskills/planning.md`
-3. **Execute** — implement task by task with review checkpoints. Inline or via subagents. → `subskills/execution.md`
-4. **Dispatch** — for 3+ independent concurrent tasks, fan out to isolated subagents. → `subskills/parallel-dispatch.md`
-5. **Subagent patterns** — fresh subagent per task, two-stage review gates, ledger tracking. → `subskills/subagent-patterns.md`
+1. **Brainstorm** - explore intent + requirements before code. Design first, always. → `subskills/brainstorming.md`
+2. **Plan** - write implementation plan assuming zero codebase context: exact files, code, tests, verification. → `subskills/planning.md`
+3. **Execute** - implement task by task with review checkpoints. Inline or via subagents. → `subskills/execution.md`
+4. **Dispatch** - for 3+ independent concurrent tasks, fan out to isolated subagents. → `subskills/parallel-dispatch.md`
+5. **Subagent patterns** - fresh subagent per task, two-stage review gates, ledger tracking. → `subskills/subagent-patterns.md`
 
 ## Execution Mode Selection
 

@@ -66,7 +66,7 @@ Ask deployment environment before assessing risk. Flag stale deps (12+ months) a
 
 ## Protocol
 
-Inherits system rules. See `system-extended.md`. Always end with:
+Inherits system rules. See `system-extended.md`. After task: reflect via `Orchestrator_memory(action:"episode", op:"reflect", ...)`. Always end with:
 
 ```
 EXIT: COMPLETED|BLOCKED|BUDGET_EXHAUSTED|ESCALATED

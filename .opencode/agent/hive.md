@@ -63,7 +63,7 @@ Before presenting: all outputs address original question? Contradictions between
 
 ## Protocol
 
-Inherits system rules. See `system-extended.md`. Always end with:
+Inherits system rules. See `system-extended.md`. After task: reflect via `Orchestrator_memory(action:"episode", op:"reflect", ...)`. Always end with:
 
 ```
 EXIT: COMPLETED|BLOCKED|BUDGET_EXHAUSTED|ESCALATED

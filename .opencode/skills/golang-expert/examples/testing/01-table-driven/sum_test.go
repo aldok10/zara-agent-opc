@@ -1,4 +1,4 @@
-// Table-driven tests — the idiomatic Go testing pattern.
+// Table-driven tests  -  the idiomatic Go testing pattern.
 //
 // Run: go test -v -race -count=1 .
 // Run benchmarks: go test -bench=. -benchmem .
@@ -70,7 +70,7 @@ func TestDivide(t *testing.T) {
 }
 
 // --- Parallel Table-Driven Test ---
-// Note the `tt := tt` capture — important for Go < 1.22, optional in 1.22+
+// Note the `tt := tt` capture  -  important for Go < 1.22, optional in 1.22+
 
 func TestSumSlice(t *testing.T) {
 	tests := []struct {

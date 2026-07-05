@@ -7,7 +7,7 @@ title: "Psychological Safety"
 
 ## The Edmondson Model
 
-Amy Edmondson's research (Harvard, 1999) established that psychological safety — the belief that one won't be punished for speaking up with ideas, questions, concerns, or mistakes — is the strongest predictor of team performance.
+Amy Edmondson's research (Harvard, 1999) established that psychological safety  -  the belief that one won't be punished for speaking up with ideas, questions, concerns, or mistakes  -  is the strongest predictor of team performance.
 
 ### Google's Project Aristotle Findings
 After studying 180+ teams, psychological safety was the #1 factor distinguishing high-performing teams. More important than:
@@ -94,7 +94,7 @@ Low safety signals:
 - Honest discussion of what's not working
 
 **Learning celebrations**:
-- "Failure Friday" — share what you learned from mistakes this week
+- "Failure Friday"  -  share what you learned from mistakes this week
 - Document learnings, not just successes
 - Reward speaking up about risks (even if nothing bad happened)
 
@@ -126,7 +126,7 @@ Low safety signals:
 
 ### Technical Disagreements
 - Encourage architecture discussions where junior voices count
-- "Strong opinions, loosely held" — easy to change mind with evidence
+- "Strong opinions, loosely held"  -  easy to change mind with evidence
 - Document decisions and reasoning (ADRs) so disagreement is constructive
 - Avoid HiPPO (Highest Paid Person's Opinion) deciding technical matters
 

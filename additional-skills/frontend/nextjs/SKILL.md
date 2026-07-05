@@ -80,19 +80,19 @@ Multiple OK. Load only what's needed.
 
 ## Knowledge (load on demand)
 
-- `knowledge/nextjs15-changes.md` — breaking changes from 14 to 15
-- `knowledge/nextjs16-changes.md` — breaking changes from 15 to 16 (use cache, proxy, Turbopack default)
-- `knowledge/caching-strategy.md` — decision matrix for cache/revalidation (both v15 and v16 patterns)
-- `knowledge/security-checklist.md` — Server Action + proxy security
-- `knowledge/architecture-patterns.md` — production folder structure and patterns
-- `knowledge/deployment-guide.md` — Vercel, Docker, self-hosted deployment
+- `knowledge/nextjs15-changes.md`  -  breaking changes from 14 to 15
+- `knowledge/nextjs16-changes.md`  -  breaking changes from 15 to 16 (use cache, proxy, Turbopack default)
+- `knowledge/caching-strategy.md`  -  decision matrix for cache/revalidation (both v15 and v16 patterns)
+- `knowledge/security-checklist.md`  -  Server Action + proxy security
+- `knowledge/architecture-patterns.md`  -  production folder structure and patterns
+- `knowledge/deployment-guide.md`  -  Vercel, Docker, self-hosted deployment
 
 ## Examples (reference patterns)
 
-- `examples/app-router/layout-pattern.tsx` — root layout with providers
-- `examples/server-actions/secure-action.ts` — validated, authorized action
-- `examples/caching/revalidation.ts` — tag-based + time-based revalidation (v15 + v16 patterns)
-- `examples/middleware/auth-middleware.ts` — session check + redirect
+- `examples/app-router/layout-pattern.tsx`  -  root layout with providers
+- `examples/server-actions/secure-action.ts`  -  validated, authorized action
+- `examples/caching/revalidation.ts`  -  tag-based + time-based revalidation (v15 + v16 patterns)
+- `examples/middleware/auth-middleware.ts`  -  session check + redirect
 
 ## AI-Era Context (2026)
 

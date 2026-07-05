@@ -6,15 +6,15 @@ Designing error responses, implementing RFC 9457 Problem Details, building error
 
 ## Rules
 
-1. All HTTP errors return RFC 9457 Problem Details body — no exceptions, no custom formats
-2. `type` field is a URI that resolves to documentation for that error — not a random string
-3. `title` is human-readable, stable (don't change wording) — clients may display it
-4. `detail` is instance-specific context — what went wrong THIS time
-5. `instance` is the request URI or a correlation ID URI — for support reference
+1. All HTTP errors return RFC 9457 Problem Details body  -  no exceptions, no custom formats
+2. `type` field is a URI that resolves to documentation for that error  -  not a random string
+3. `title` is human-readable, stable (don't change wording)  -  clients may display it
+4. `detail` is instance-specific context  -  what went wrong THIS time
+5. `instance` is the request URI or a correlation ID URI  -  for support reference
 6. Extend with custom fields for machine-readable data: `errors[]` for field-level, `retryAfter` for throttling
-7. Error codes are string constants (e.g., `ORDER_ALREADY_CANCELLED`) — never use integers that require lookup tables
+7. Error codes are string constants (e.g., `ORDER_ALREADY_CANCELLED`)  -  never use integers that require lookup tables
 8. Validation errors include field path, rejected value, and constraint violated
-9. 429 responses include `Retry-After` header (seconds) — clients must respect it
+9. 429 responses include `Retry-After` header (seconds)  -  clients must respect it
 10. Never expose internal details: no stack traces, no SQL, no internal service names in production errors
 
 ## RFC 9457 Structure
@@ -71,13 +71,13 @@ Designing error responses, implementing RFC 9457 Problem Details, building error
 
 ## Anti-Patterns
 
-- `{"error": "something went wrong"}` — no structure, no code, no guidance
-- Different error shapes per endpoint — clients can't write generic error handlers
-- Using HTTP 200 with error body — breaks client middleware, caching, monitoring
+- `{"error": "something went wrong"}`  -  no structure, no code, no guidance
+- Different error shapes per endpoint  -  clients can't write generic error handlers
+- Using HTTP 200 with error body  -  breaks client middleware, caching, monitoring
 - Leaking `SQLException: column 'user_id' not found` to clients
-- Error codes as integers (`1001`, `1002`) — meaningless without lookup table
+- Error codes as integers (`1001`, `1002`)  -  meaningless without lookup table
 - Localized messages without accept-language negotiation
-- `{"success": false, "message": "..."}` envelope pattern — use HTTP semantics
+- `{"success": false, "message": "..."}` envelope pattern  -  use HTTP semantics
 
 ## Retry Guidance
 

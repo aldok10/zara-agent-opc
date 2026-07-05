@@ -28,7 +28,7 @@
 ### Pattern 1: Server fetches, renders directly
 
 ```tsx
-// app/users/page.tsx (Server Component — no directive needed)
+// app/users/page.tsx (Server Component  -  no directive needed)
 import { db } from "@/lib/db";
 
 export default async function UsersPage() {
@@ -52,7 +52,7 @@ import { getMetrics } from "@/lib/api";
 import { MetricsChart } from "./metrics-chart";
 
 export default function DashboardPage() {
-  const metricsPromise = getMetrics(); // don't await — pass the promise
+  const metricsPromise = getMetrics(); // don't await  -  pass the promise
 
   return (
     <Suspense fallback={<ChartSkeleton />}>
@@ -74,7 +74,7 @@ export function MetricsChart({ dataPromise }: { dataPromise: Promise<Metrics[]> 
 }
 ```
 
-### Pattern 3: Composition — Server wraps Client
+### Pattern 3: Composition  -  Server wraps Client
 
 ```tsx
 // Server Component passes server-rendered content as children

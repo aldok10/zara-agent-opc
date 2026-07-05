@@ -4,18 +4,18 @@ xUnit, WebApplicationFactory, Testcontainers, Verify, architecture tests.
 
 ## Rules
 
-1. Use `WebApplicationFactory<Program>` for integration tests — real HTTP pipeline
+1. Use `WebApplicationFactory<Program>` for integration tests  -  real HTTP pipeline
 2. One assertion per test (or one logical assertion group for object equality)
-3. Use Testcontainers for database tests — no in-memory provider faking
+3. Use Testcontainers for database tests  -  no in-memory provider faking
 4. Use Respawn to reset database state between tests (faster than recreate)
 5. Name tests: `Method_Scenario_ExpectedResult` or Given/When/Then
 6. Use `IClassFixture<T>` for shared expensive setup (DB containers, factories)
 7. Use `Verify` for snapshot testing complex objects (JSON responses, error messages)
-8. Architecture tests via ArchUnitNET — enforce layer boundaries in CI
-9. Fake time with `FakeTimeProvider` — never `Thread.Sleep` in tests
+8. Architecture tests via ArchUnitNET  -  enforce layer boundaries in CI
+9. Fake time with `FakeTimeProvider`  -  never `Thread.Sleep` in tests
 10. Use `[Theory]` with `[InlineData]`/`[MemberData]` for parameterized tests
 11. Test filters/middleware in isolation AND through full pipeline
-12. Never test private methods — test behavior through public API
+12. Never test private methods  -  test behavior through public API
 
 ## Patterns
 
@@ -118,12 +118,12 @@ public async Task CreateProduct_InvalidRequest_ReturnsValidationProblem()
 - Using EF InMemory provider (different behavior from real DB)
 - Shared mutable state between tests without reset
 - Testing framework internals (middleware ordering) instead of behavior
-- `Thread.Sleep` for timing — use `FakeTimeProvider` or polling with timeout
+- `Thread.Sleep` for timing  -  use `FakeTimeProvider` or polling with timeout
 - Mocking DbContext (test against real database via Testcontainers)
 
 ## Verification
 
-1. `dotnet test --logger "console;verbosity=normal"` — all green
+1. `dotnet test --logger "console;verbosity=normal"`  -  all green
 2. Check coverage: `dotnet test --collect:"XPlat Code Coverage"`
 3. Architecture tests in CI prevent layer violations
 4. Integration tests run against real containers (not in-memory fakes)

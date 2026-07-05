@@ -62,7 +62,7 @@ Aggregate: [Order]
 - Long wall (6-10m) with butcher paper, standing only
 - Domain experts write first, developers ask questions
 - Time-box strictly (energy drops after 3h)
-- No laptops — sticky notes only
+- No laptops  -  sticky notes only
 - Photographer captures board for later digitization
 
 ## Common Failures

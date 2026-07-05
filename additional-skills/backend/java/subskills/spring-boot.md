@@ -5,7 +5,7 @@
 ## Core Principles
 
 1. **Convention over configuration.** Auto-config does the work. Only override what you need to change.
-2. **Starters are curated dependency sets.** Use `spring-boot-starter-*` — don't manually manage transitive dependencies.
+2. **Starters are curated dependency sets.** Use `spring-boot-starter-*`  -  don't manually manage transitive dependencies.
 3. **Profiles for environment-specific config.** `application-{profile}.yml` layering. Never hardcode environment-specific values.
 4. **Actuator for observability.** Health checks, metrics, info endpoints. Secure in production.
 5. **Modulith for bounded contexts.** Enforce module boundaries within a monolith before splitting to microservices.
@@ -15,7 +15,7 @@
 Spring Boot auto-configures beans based on classpath and properties:
 
 ```java
-// application.yml — virtual threads enabled (Spring Boot 3.2+)
+// application.yml  -  virtual threads enabled (Spring Boot 3.2+)
 spring:
   threads:
     virtual:
@@ -115,7 +115,7 @@ public class OrderService {
     }
 }
 
-// In inventory module — listens without direct dependency
+// In inventory module  -  listens without direct dependency
 @Service
 public class InventoryListener {
     @ApplicationModuleListener

@@ -96,7 +96,7 @@ function parseApiUser(raw: unknown) {
 | User input strings | Brand + format validation |
 | Numeric units | Brand + constructor |
 | Temporary/local IDs | Separate branded type (`TempId`) |
-| Optional brand | Union: `string \| Email` — force validation before use |
+| Optional brand | Union: `string \| Email`  -  force validation before use |
 
 ## Usage Patterns
 
@@ -106,8 +106,8 @@ function getUser(id: UserId): Promise<User> { ... }
 function sendEmail(to: Email, subject: string): void { ... }
 
 // Compiler prevents:
-// getUser(postId) — Error: PostId not assignable to UserId
-// sendEmail(rawString) — Error: string not assignable to Email
+// getUser(postId)  -  Error: PostId not assignable to UserId
+// sendEmail(rawString)  -  Error: string not assignable to Email
 ```
 
 ### Extracting the base type
@@ -142,5 +142,5 @@ function handleRequest(rawId: string) {
 
 ## Delegates To
 
-- `generics` — for the `Brand<T, TBrand>` utility type itself
-- `config` — for path alias setup to share brand types across packages
+- `generics`  -  for the `Brand<T, TBrand>` utility type itself
+- `config`  -  for path alias setup to share brand types across packages

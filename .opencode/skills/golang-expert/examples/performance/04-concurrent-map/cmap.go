@@ -1,4 +1,4 @@
-// concurrent-map — compares concurrent map strategies with benchmarks.
+// concurrent-map  -  compares concurrent map strategies with benchmarks.
 //
 // Run: go test -bench=. -benchmem -cpu=1,4,8
 //

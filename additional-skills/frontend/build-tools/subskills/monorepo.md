@@ -133,8 +133,8 @@ pnpm turbo test --filter=@repo/ui
 
 ## Anti-patterns
 
-- Publishing internal packages — they don't need versions or build steps.
-- Circular dependencies between packages — restructure.
-- `*` version ranges for workspace deps — use `workspace:*`.
-- Running all tasks sequentially in CI — Turborepo parallelizes.
-- Not using remote caching — wasted CI minutes.
+- Publishing internal packages  -  they don't need versions or build steps.
+- Circular dependencies between packages  -  restructure.
+- `*` version ranges for workspace deps  -  use `workspace:*`.
+- Running all tasks sequentially in CI  -  Turborepo parallelizes.
+- Not using remote caching  -  wasted CI minutes.

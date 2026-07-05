@@ -57,7 +57,7 @@ Context:
 | ...   | ...  | ...      | ...     |
 
 ### Issues Found
-- [problem] — [why it's a problem] — [fix]
+- [problem]  -  [why it's a problem]  -  [fix]
 
 ### Recommendations
 - [state to move/reclassify]

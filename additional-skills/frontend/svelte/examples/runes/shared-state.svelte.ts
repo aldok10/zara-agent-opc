@@ -1,5 +1,5 @@
 // Shared reactive state module
-// Import and use in any Svelte 5 component — state is shared across all consumers.
+// Import and use in any Svelte 5 component  -  state is shared across all consumers.
 
 interface Todo {
   id: string;

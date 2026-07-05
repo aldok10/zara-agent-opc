@@ -11,7 +11,7 @@ Learning from incidents without assigning individual blame. Focus: systemic caus
 
 People make decisions based on information available at the time. If a human made an error, the question is: what in the system allowed that error to have impact?
 
-**Blameless ≠ accountabilityless.** Teams own follow-through on action items. The distinction: blame asks "who did this?" — accountability asks "how do we prevent this class of failure?"
+**Blameless ≠ accountabilityless.** Teams own follow-through on action items. The distinction: blame asks "who did this?"  -  accountability asks "how do we prevent this class of failure?"
 
 ## Postmortem Structure
 
@@ -31,7 +31,7 @@ People make decisions based on information available at the time. If a human mad
    - Data loss or integrity issues
 
 4. **Root Cause Analysis**
-   - Contributing factors (plural — incidents rarely have single root cause)
+   - Contributing factors (plural  -  incidents rarely have single root cause)
    - Use "5 Whys" or causal factor tree
    - Distinguish: trigger (what started it) vs contributing factors (why it was bad)
 

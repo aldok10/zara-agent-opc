@@ -70,7 +70,7 @@ end
 For forms/APIs that don't map directly to a table:
 
 ```elixir
-# No schema needed — define types inline:
+# No schema needed  -  define types inline:
 types = %{email: :string, message: :string, priority: Ecto.Enum, values: [:low, :normal, :high]}
 data = %{}
 

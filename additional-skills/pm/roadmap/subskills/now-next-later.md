@@ -20,7 +20,7 @@
 - Pull from validated discovery that's solution-ready
 - Confirm capacity with engineering
 - Assign owner and success metric
-- Map dependencies — nothing blocked without mitigation plan
+- Map dependencies  -  nothing blocked without mitigation plan
 
 ### Next (from validated discovery)
 - Problems validated through research/data
@@ -31,7 +31,7 @@
 ### Later (from strategic bets)
 - Aligned to long-term OKRs or themes
 - Requires discovery before commitment
-- No capacity promise — directional only
+- No capacity promise  -  directional only
 - Kill criteria: what would make us abandon this
 
 ## Progressive Detail
@@ -45,15 +45,15 @@ Now → Done: Success metric met or kill criteria triggered
 ## Review Cadence
 
 - **Weekly**: Now column health check (on track/blocked/at risk)
-- **Monthly**: Shift check — should anything move between columns?
-- **Quarterly**: Full review — rebuild from current OKRs + learnings
+- **Monthly**: Shift check  -  should anything move between columns?
+- **Quarterly**: Full review  -  rebuild from current OKRs + learnings
 
 ## Movement Rules
 
 - Items move LEFT (Later→Next→Now) only with evidence
-- Items move RIGHT (Now→Next) if blocked or deprioritized — state why
-- Items EXIT if kill criteria met — document learning
-- No item stays in Now without progress for 2+ sprints — escalate or move
+- Items move RIGHT (Now→Next) if blocked or deprioritized  -  state why
+- Items EXIT if kill criteria met  -  document learning
+- No item stays in Now without progress for 2+ sprints  -  escalate or move
 
 ## Anti-patterns
 

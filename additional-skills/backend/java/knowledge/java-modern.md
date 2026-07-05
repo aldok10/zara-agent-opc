@@ -46,7 +46,7 @@ public record PaymentError(Exception cause) implements PaymentResult {}
 ## Pattern Matching for switch (Java 21+)
 
 ```java
-// Exhaustive — compiler enforces all cases handled
+// Exhaustive  -  compiler enforces all cases handled
 String describe(PaymentResult result) {
     return switch (result) {
         case PaymentSuccess s -> "Paid: " + s.transactionId();
@@ -111,7 +111,7 @@ var users = userRepository.findAll();         // List<User>
 var entry = Map.entry("key", "value");        // Map.Entry<String, String>
 var stream = items.stream().filter(i -> i.isActive());  // Stream<Item>
 
-// DON'T: var result = process(); — unclear what type `result` is
+// DON'T: var result = process();  -  unclear what type `result` is
 ```
 
 ## Helpful NullPointerExceptions (Java 14+)
@@ -128,7 +128,7 @@ java.lang.NullPointerException: Cannot invoke "String.length()"
 SequencedCollection<String> list = new ArrayList<>(List.of("a", "b", "c"));
 list.getFirst();   // "a"
 list.getLast();    // "c"
-list.reversed();   // ["c", "b", "a"] — reversed view
+list.reversed();   // ["c", "b", "a"]  -  reversed view
 ```
 
 ## String Enhancements
@@ -174,7 +174,7 @@ try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
 ## Structured Concurrency (Java 25, finalized)
 
 ```java
-// Scoped, structured task management — replaces ad-hoc executor patterns
+// Scoped, structured task management  -  replaces ad-hoc executor patterns
 try (var scope = StructuredTaskScope.open()) {
     Subtask<User> user = scope.fork(() -> fetchUser(id));
     Subtask<Order> order = scope.fork(() -> fetchOrder(id));
@@ -187,7 +187,7 @@ try (var scope = StructuredTaskScope.open()) {
 ## Scoped Values (Java 25, finalized)
 
 ```java
-// Replaces ThreadLocal for virtual threads — immutable, inheritable, bounded scope
+// Replaces ThreadLocal for virtual threads  -  immutable, inheritable, bounded scope
 static final ScopedValue<RequestContext> CTX = ScopedValue.newInstance();
 
 ScopedValue.runWhere(CTX, context, () -> {
@@ -198,7 +198,7 @@ ScopedValue.runWhere(CTX, context, () -> {
 ## Unnamed Patterns and Variables (Java 22+)
 
 ```java
-// Unnamed variable — explicitly unused
+// Unnamed variable  -  explicitly unused
 try { /* ... */ } catch (Exception _) { log.warn("failed"); }
 
 // In pattern matching

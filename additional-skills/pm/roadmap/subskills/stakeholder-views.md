@@ -60,9 +60,9 @@ One roadmap, multiple views. Same source of truth, different detail per audience
 **Exclude**: dates, internal codenames, confidence levels, killed items
 
 **Rules**:
-- Zero dates — use "soon/later/exploring"
+- Zero dates  -  use "soon/later/exploring"
 - Frame as value to customer, not work done by team
-- Never promise — use "we're investing in" language
+- Never promise  -  use "we're investing in" language
 
 ## Partner View
 

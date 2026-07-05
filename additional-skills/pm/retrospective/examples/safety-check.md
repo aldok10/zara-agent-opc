@@ -10,11 +10,11 @@
 
 ## Facilitator Response
 
-> "Our safety score is 2.7 — below 3. That tells me not everyone feels safe sharing openly today. That's OK and important information. Let's address this before we try a regular retro."
+> "Our safety score is 2.7  -  below 3. That tells me not everyone feels safe sharing openly today. That's OK and important information. Let's address this before we try a regular retro."
 
 ## Pivot: Trust-Building (25min)
 
-1. **Anonymous concerns** (5min): "Write one thing affecting your comfort — anonymous sticky, I'll read themes only."
+1. **Anonymous concerns** (5min): "Write one thing affecting your comfort  -  anonymous sticky, I'll read themes only."
    - Themes surfaced: blame culture in last post-mortem, fear of speaking up to lead
 2. **Norms review** (10min): revisited team agreements, added "critique process not people"
 3. **Appreciation round** (10min): each person names one thing they value about another team member

@@ -22,7 +22,7 @@ title: "Deployment Strategies"
 ## Common Mistakes
 - Running blue-green without database compatibility, causing state divergence
 - Canary deployments without sufficient traffic to generate statistically significant signals
-- Skipping rollback testing—first rollback attempt should not be during an incident
+- Skipping rollback testing - first rollback attempt should not be during an incident
 
 ## When to Apply
 - Choosing deployment approach for a new service or platform

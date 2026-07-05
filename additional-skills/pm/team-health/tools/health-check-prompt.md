@@ -38,7 +38,7 @@ Top concern from open responses: [theme]
 ### 4. Action Planning (15 min)
 ```
 Last quarter's actions: [completed / in-progress / dropped]
-This quarter — pick max 2:
-1. [action] — owner: [who] — success metric: [what]
-2. [action] — owner: [who] — success metric: [what]
+This quarter  -  pick max 2:
+1. [action]  -  owner: [who]  -  success metric: [what]
+2. [action]  -  owner: [who]  -  success metric: [what]
 ```

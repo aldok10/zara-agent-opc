@@ -113,15 +113,15 @@ Fix: Shared OKR or explicit dependency acknowledgment
 ## Other Anti-Patterns
 
 ### KRs Without Baseline
-"Increase customer satisfaction" — from what? To what? By when?
+"Increase customer satisfaction"  -  from what? To what? By when?
 Fix: Always include current state, target state, and measurement method.
 
 ### Binary KRs
-"Launch feature X" — either 0% or 100%, no gradient of progress.
+"Launch feature X"  -  either 0% or 100%, no gradient of progress.
 Fix: Break into measurable milestones or reframe as outcome.
 
 ### Vanity KRs
-"Reach 1M page views" — impressive number, no connection to value.
+"Reach 1M page views"  -  impressive number, no connection to value.
 Fix: "Reach 1M page views with >3 min avg session duration" (engagement matters).
 
 ### Orphan OKRs

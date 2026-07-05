@@ -12,23 +12,23 @@ Classify, prioritize, budget, track, and retire technical debt. Treat debt as in
 ## Core Principles
 
 1. Debt is a first-class backlog item with owner, cost, and repayment plan
-2. Reserve 15-20% sprint capacity for debt reduction (industry consensus, sources vary from 10-30%)—non-negotiable
+2. Reserve 15-20% sprint capacity for debt reduction (industry consensus, sources vary from 10-30%) - non-negotiable
 3. Classify via Fowler's quadrant: reckless/prudent × deliberate/inadvertent
 4. Prioritize: blast radius × frequency of pain / fix cost
-5. Pay interest (workarounds) or pay principal (fix root cause)—choose deliberately
+5. Pay interest (workarounds) or pay principal (fix root cause) - choose deliberately
 6. Record deliberate debt decisions in ADRs with trigger conditions for payoff
 7. Pair refactoring with feature work when paths overlap
 8. Measure: cycle time increase, incident frequency, developer friction
-9. Quarterly debt review with engineering leadership—mandatory
+9. Quarterly debt review with engineering leadership - mandatory
 10. Never accept reckless-inadvertent debt; fix immediately or invest in training
 
 ## DO NOT
 
-1. Hide debt work inside feature tickets—track separately for visibility
+1. Hide debt work inside feature tickets - track separately for visibility
 2. Raid debt allocation when feature work falls behind
 3. Gold-plate under the guise of debt reduction
 4. Accept "we'll fix it later" without a concrete repayment trigger
-5. Measure debt solely by static analysis—combine with human friction signals
+5. Measure debt solely by static analysis - combine with human friction signals
 
 ## Route to Subskill
 

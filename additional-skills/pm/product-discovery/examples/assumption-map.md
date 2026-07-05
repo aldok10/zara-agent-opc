@@ -20,19 +20,19 @@ Target: increase team engagement metric by 20%.
 ## Top 3 for Testing (high importance, low evidence)
 
 ### Test 1: Desirability (#1)
-- Method: Fake door — "Collaborate live" button in doc editor
+- Method: Fake door  -  "Collaborate live" button in doc editor
 - Success: >4% click rate (n=2000 active doc users)
 - Kill: <1% click rate
 - Duration: 1 week
 
 ### Test 2: Feasibility (#2)
-- Method: Technical spike — CRDT prototype, load test with 20 concurrent editors
+- Method: Technical spike  -  CRDT prototype, load test with 20 concurrent editors
 - Success: <500ms sync latency p95
 - Kill: >2s latency or data conflicts
 - Duration: 1 week
 
 ### Test 3: Usability (#3)
-- Method: Prototype test — 5 users attempt collaborative task in Figma prototype
+- Method: Prototype test  -  5 users attempt collaborative task in Figma prototype
 - Success: 4/5 complete without help
 - Kill: <3/5 complete task
 - Duration: 3 days

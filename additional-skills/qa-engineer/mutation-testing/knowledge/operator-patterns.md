@@ -7,7 +7,7 @@ title: "Mutation Operators and Equivalent Mutants"
 
 ## What is Mutation Testing?
 
-Mutation testing evaluates test quality by introducing small code changes (mutants) and checking if tests detect them. If a test fails when a mutant is introduced, the mutant is "killed." If tests still pass, the mutant "survived" — indicating a test gap.
+Mutation testing evaluates test quality by introducing small code changes (mutants) and checking if tests detect them. If a test fails when a mutant is introduced, the mutant is "killed." If tests still pass, the mutant "survived"  -  indicating a test gap.
 
 **Mutation Score** = Killed Mutants / Total Mutants × 100%
 

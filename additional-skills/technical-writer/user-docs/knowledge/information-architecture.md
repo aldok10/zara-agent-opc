@@ -25,7 +25,7 @@ Four modes of documentation, each serving a different user need:
 - Learning-oriented: takes the reader on a journey
 - Structured as a series of steps the reader follows
 - Guarantees success if followed correctly
-- Minimal explanation — just enough to proceed
+- Minimal explanation  -  just enough to proceed
 - Never assumes prior knowledge
 
 ### How-to Guide
@@ -41,7 +41,7 @@ Four modes of documentation, each serving a different user need:
 - Information-oriented: describes the machinery
 - Structured consistently (every endpoint, every parameter)
 - Accurate and complete (generated from code when possible)
-- No tutorials or opinions — just facts
+- No tutorials or opinions  -  just facts
 - Organized by structure of the codebase/API, not by user tasks
 
 ### Explanation

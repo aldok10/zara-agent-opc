@@ -9,11 +9,11 @@ Context:
 - Rollback mechanism: [automated/manual]
 
 Stage progression:
-1. 1% (15min) — Monitor: error rate, latency p99, CPU/memory
-2. 5% (30min) — Monitor: business metrics, downstream dependencies
-3. 25% (1h) — Monitor: resource saturation, queue depth, customer impact
-4. 50% (2h) — Monitor: full metric suite + cost impact
-5. 100% — Confirm: all SLOs met for 1h at 50% before promoting
+1. 1% (15min)  -  Monitor: error rate, latency p99, CPU/memory
+2. 5% (30min)  -  Monitor: business metrics, downstream dependencies
+3. 25% (1h)  -  Monitor: resource saturation, queue depth, customer impact
+4. 50% (2h)  -  Monitor: full metric suite + cost impact
+5. 100%  -  Confirm: all SLOs met for 1h at 50% before promoting
 
 Rollback triggers (any = immediate rollback):
 - Error rate >2x baseline

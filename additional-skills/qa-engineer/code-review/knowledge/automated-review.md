@@ -162,10 +162,10 @@ Track over time:
 
 ## Recommended Stack (Minimal)
 
-1. **Linter** (language-specific) — catches style + common errors
-2. **Type checker** — catches type errors before runtime
-3. **Semgrep** — catches security issues with custom rules
-4. **Danger.js** — enforces PR hygiene (size, description, tests)
-5. **Dependabot/Snyk** — keeps deps patched
+1. **Linter** (language-specific)  -  catches style + common errors
+2. **Type checker**  -  catches type errors before runtime
+3. **Semgrep**  -  catches security issues with custom rules
+4. **Danger.js**  -  enforces PR hygiene (size, description, tests)
+5. **Dependabot/Snyk**  -  keeps deps patched
 
 This stack catches ~60-70% of issues before human review, letting reviewers focus on logic, design, and business correctness.

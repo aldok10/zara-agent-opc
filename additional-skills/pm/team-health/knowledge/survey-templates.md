@@ -55,10 +55,10 @@ Scale: 1=Strongly Disagree, 2=Disagree, 3=Neutral, 4=Agree, 5=Strongly Agree
 Note: DX Core 4 shares primary authors with the ACM DevEx paper (Noda, Storey, Greiler). Forsgren is a full author on the DevEx paper and a contributor on Core 4. DX Core 4 explicitly encapsulates DORA + SPACE + DevEx into a unified measurement architecture. DX Core 4 dimensions: Speed, Effectiveness, Quality, Business Impact. ACM DevEx dimensions: Flow State, Cognitive Load, Feedback Loops.
 
 Four dimensions (supplement DevEx triad with organizational context):
-1. **Speed** — How fast can I ship?
-2. **Effectiveness** — Does the work produce the right outcomes?
-3. **Quality** — Is the output reliable and maintainable?
-4. **Impact** — Does my work matter to users/business?
+1. **Speed**  -  How fast can I ship?
+2. **Effectiveness**  -  Does the work produce the right outcomes?
+3. **Quality**  -  Is the output reliable and maintainable?
+4. **Impact**  -  Does my work matter to users/business?
 
 ### AI Tooling Questions
 

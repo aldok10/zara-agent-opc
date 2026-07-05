@@ -39,10 +39,10 @@ title: "State Management Decision Matrix"
 
 | Condition | Normalize? |
 |-----------|-----------|
-| Entity referenced in 3+ queries | Yes — prevent inconsistency |
-| Deeply nested response, only display | No — use as-is |
-| Editing entity shown in list + detail | Yes — single update point |
-| One-off report/aggregate data | No — not entity-based |
+| Entity referenced in 3+ queries | Yes  -  prevent inconsistency |
+| Deeply nested response, only display | No  -  use as-is |
+| Editing entity shown in list + detail | Yes  -  single update point |
+| One-off report/aggregate data | No  -  not entity-based |
 
 ## Re-render Optimization
 

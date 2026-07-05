@@ -96,7 +96,7 @@ Studies show it takes ~23 minutes to regain deep focus after interruption. Code 
 ```
 nit: Consider renaming `data` to `userProfile` for clarity
 
-blocking: This query is vulnerable to SQL injection — use parameterized query
+blocking: This query is vulnerable to SQL injection  -  use parameterized query
 
 question: What happens if `userId` is null here? I see no guard.
 

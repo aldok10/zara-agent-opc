@@ -45,7 +45,7 @@ Rules: prefix with enum name, UNSPECIFIED = 0, UPPER_SNAKE_CASE values.
 
 ## Streaming Patterns
 
-### Server Streaming — Backpressure
+### Server Streaming  -  Backpressure
 
 Client controls flow. Server sends until client stops reading or deadline expires.
 
@@ -58,7 +58,7 @@ Best practices:
 - Client reconnects with last-seen event ID
 - Server respects client cancellation immediately
 
-### Bidirectional — Ordering
+### Bidirectional  -  Ordering
 
 ```protobuf
 rpc Chat(stream ChatMessage) returns (stream ChatMessage);
@@ -75,7 +75,7 @@ Client (deadline: 5s) → Service A (remaining: 4.8s) → Service B (remaining: 
 Rules:
 1. Always propagate incoming deadline minus elapsed time
 2. If no incoming deadline, set a reasonable default (30s for reads, 60s for writes)
-3. Set shorter deadline than caller's — leave room for retries
+3. Set shorter deadline than caller's  -  leave room for retries
 4. Return DEADLINE_EXCEEDED immediately if incoming deadline already passed
 
 ## Error Details (google.rpc)
@@ -84,11 +84,11 @@ Rules:
 import "google/rpc/error_details.proto";
 
 // Attach to Status:
-// BadRequest.FieldViolation — input validation errors
-// RetryInfo — how long to wait before retry
-// ErrorInfo — stable error identifier + metadata
-// ResourceInfo — which resource was involved
-// PreconditionFailure — what precondition wasn't met
+// BadRequest.FieldViolation  -  input validation errors
+// RetryInfo  -  how long to wait before retry
+// ErrorInfo  -  stable error identifier + metadata
+// ResourceInfo  -  which resource was involved
+// PreconditionFailure  -  what precondition wasn't met
 ```
 
 ## Interceptor Chain Order

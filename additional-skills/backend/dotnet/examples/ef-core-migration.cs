@@ -64,7 +64,7 @@ public partial class MakeProductSlugRequired : Migration
 {
     protected override void Up(MigrationBuilder migrationBuilder)
     {
-        // Now safe to enforce NOT NULL — all rows have values
+        // Now safe to enforce NOT NULL  -  all rows have values
         migrationBuilder.AlterColumn<string>(
             name: "Slug",
             table: "Products",

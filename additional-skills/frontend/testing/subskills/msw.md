@@ -11,8 +11,8 @@ User needs API mocking for tests, development-time mocking, or network intercept
 
 ## Core Principles
 
-- Mock at network level, not at import level — tests hit real fetch/axios code
-- Handlers define API contract — reusable across tests and dev
+- Mock at network level, not at import level  -  tests hit real fetch/axios code
+- Handlers define API contract  -  reusable across tests and dev
 - Per-test overrides for error states and edge cases
 - Same handlers work in browser (service worker) and Node (interceptor)
 - MSW v2 uses `http.*` and `graphql.*` namespaces
@@ -31,7 +31,7 @@ User needs API mocking for tests, development-time mocking, or network intercept
 
 ## Patterns
 
-### Setup (Node — for Vitest/Jest)
+### Setup (Node  -  for Vitest/Jest)
 
 ```ts
 // src/test/server.ts

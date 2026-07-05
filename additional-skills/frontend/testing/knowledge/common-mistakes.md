@@ -8,7 +8,7 @@ title: "Frontend Testing Common Mistakes"
 ## 1. Testing Implementation Details
 
 **Wrong:** Asserting on internal state, hook calls, or component instances.
-**Fix:** Assert on what the user sees — rendered output, accessible elements, visible text.
+**Fix:** Assert on what the user sees  -  rendered output, accessible elements, visible text.
 
 ```ts
 // Bad: testing useState value
@@ -48,8 +48,8 @@ expect(await screen.findByText('Done')).toBeInTheDocument();
 
 ## 4. Using fireEvent Instead of userEvent
 
-**Wrong:** `fireEvent.change(input, { target: { value: 'x' } })` — skips focus, keyboard events.
-**Fix:** `await userEvent.type(input, 'x')` — simulates real user behavior.
+**Wrong:** `fireEvent.change(input, { target: { value: 'x' } })`  -  skips focus, keyboard events.
+**Fix:** `await userEvent.type(input, 'x')`  -  simulates real user behavior.
 
 ## 5. Hardcoded Timeouts
 
@@ -72,7 +72,7 @@ await expect(page.getByText('Dashboard')).toBeVisible();
 
 ## 7. Snapshot Overuse
 
-**Wrong:** Snapshot of entire component tree — breaks on any change, nobody reviews diffs.
+**Wrong:** Snapshot of entire component tree  -  breaks on any change, nobody reviews diffs.
 **Fix:** Use inline snapshots for small stable values. Use visual regression for UI appearance.
 
 ## 8. Not Isolating Tests
@@ -87,7 +87,7 @@ await expect(page.getByText('Dashboard')).toBeVisible();
 
 ## 10. Missing Error Path Tests
 
-**Wrong:** Only testing happy path — 500s, network failures, validation errors untested.
+**Wrong:** Only testing happy path  -  500s, network failures, validation errors untested.
 **Fix:** Every feature needs at least: happy path, error state, empty state, loading state tests.
 
 ## 11. Brittle Selectors in E2E
@@ -97,7 +97,7 @@ await expect(page.getByText('Dashboard')).toBeVisible();
 
 ## 12. Not Testing Accessibility
 
-**Wrong:** Zero accessibility assertions — WCAG violations ship to production.
+**Wrong:** Zero accessibility assertions  -  WCAG violations ship to production.
 **Fix:** Add axe-core checks to component tests. Test keyboard navigation in e2e.
 
 ```ts

@@ -1,4 +1,4 @@
-# Example: Canary Deployment — Express Checkout
+# Example: Canary Deployment  -  Express Checkout
 
 ## Context
 Payment team shipping express checkout flow. High-risk: touches payment processing.

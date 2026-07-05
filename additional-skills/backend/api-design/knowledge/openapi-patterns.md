@@ -49,7 +49,7 @@ Payment:
 ### Nullable Fields (3.1 style)
 
 ```yaml
-# OpenAPI 3.1 — no more nullable keyword
+# OpenAPI 3.1  -  no more nullable keyword
 middleName:
   type: ["string", "null"]
   description: "User's middle name, null if not provided"

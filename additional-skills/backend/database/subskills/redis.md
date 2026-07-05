@@ -19,7 +19,7 @@ Beyond caching: data structures, Lua scripting, cluster mode, persistence, Strea
 2. Use `SCAN` family (SSCAN, HSCAN, ZSCAN) for iteration; never full-key enumeration.
 3. Key naming: `{service}:{entity}:{id}:{field}` with consistent separator. Use `{}` hash tags for cluster slot co-location.
 4. TTL on every cache key; no TTL = memory leak. Use `EXPIREAT` for absolute deadlines.
-5. Distributed locks: single-instance `SET NX PX` with fencing tokens for most cases; Redlock for multi-node setups (note: Redlock is controversial — Martin Kleppmann's analysis shows it can fail under clock skew/GC pauses; for correctness-critical coordination prefer etcd or ZooKeeper). Never plain `SETNX`.
+5. Distributed locks: single-instance `SET NX PX` with fencing tokens for most cases; Redlock for multi-node setups (note: Redlock is controversial  -  Martin Kleppmann's analysis shows it can fail under clock skew/GC pauses; for correctness-critical coordination prefer etcd or ZooKeeper). Never plain `SETNX`.
 6. Lua scripts are atomic but block the event loop; keep them under 5ms execution time.
 7. Pipeline commands when possible (10x throughput vs sequential round-trips).
 8. Redis Streams consumer groups must handle `XACK`; unacknowledged messages are redelivered and cause duplicates.

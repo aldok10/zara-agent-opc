@@ -1,5 +1,5 @@
 /**
- * useMediaQuery — SSR-safe custom hook for responsive design.
+ * useMediaQuery  -  SSR-safe custom hook for responsive design.
  *
  * Returns `false` on the server, hydrates correctly on the client.
  * Listens for media query changes and re-renders when they occur.

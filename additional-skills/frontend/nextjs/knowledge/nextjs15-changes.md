@@ -14,7 +14,7 @@ title: Next.js 15 Breaking Changes from 14
 
 ### 2. Async Request APIs
 - **Before (14)**: `cookies()`, `headers()`, `params`, `searchParams` were synchronous.
-- **After (15)**: All are async — must `await` them.
+- **After (15)**: All are async  -  must `await` them.
 - **Migration**: Add `await` to all usages. TypeScript will catch these.
 
 ```tsx
@@ -57,7 +57,7 @@ const { slug } = await params
 ## Non-Breaking Notable Changes
 
 - **Instrumentation**: `instrumentation.ts` stable (not experimental)
-- **`<Form>` component**: from `next/form` — prefetches, progressively enhances
+- **`<Form>` component**: from `next/form`  -  prefetches, progressively enhances
 - **`next/after`**: run code after response is sent (logging, analytics)
 - **`forbidden()` / `unauthorized()`**: new error functions with corresponding error files
 - **Static indicator**: visual indicator in dev for static routes
@@ -65,11 +65,11 @@ const { slug } = await params
 ## Migration Checklist (14 → 15)
 
 1. Update `next`, `react`, `react-dom` to latest
-2. Search for `cookies()`, `headers()`, `params`, `searchParams` — add `await`
-3. Search for uncached fetches — decide caching strategy explicitly
+2. Search for `cookies()`, `headers()`, `params`, `searchParams`  -  add `await`
+3. Search for uncached fetches  -  decide caching strategy explicitly
 4. Replace `useFormState` with `useActionState`
 5. Remove `forwardRef` wrappers (ref is regular prop now)
 6. Update `next.config.js` to `.ts` (optional)
 7. Test with `next dev --turbopack`
-8. Run `next build` — fix any new type errors
-9. Review `generateMetadata` — params are now async too
+8. Run `next build`  -  fix any new type errors
+9. Review `generateMetadata`  -  params are now async too

@@ -8,16 +8,16 @@ title: "Query Optimization"
 ## Core Concepts
 
 - Query performance depends on: data volume, join strategy, index usage, and I/O patterns
-- The query planner chooses execution strategy based on statistics — stale stats cause bad plans
-- Seek vs scan: index seeks are O(log n), full scans are O(n) — know which your query does
+- The query planner chooses execution strategy based on statistics  -  stale stats cause bad plans
+- Seek vs scan: index seeks are O(log n), full scans are O(n)  -  know which your query does
 - Join order and join type (hash, merge, nested loop) dramatically affect performance
-- The fastest query is one that reads the least data — filter early, project only needed columns
+- The fastest query is one that reads the least data  -  filter early, project only needed columns
 
 ## Key Practices
 
-- Read the execution plan (EXPLAIN ANALYZE) before optimizing — measure, don't guess
-- Add indexes on columns used in WHERE, JOIN ON, and ORDER BY — composite indexes for multi-column filters
-- Avoid SELECT * — project only needed columns to reduce I/O
+- Read the execution plan (EXPLAIN ANALYZE) before optimizing  -  measure, don't guess
+- Add indexes on columns used in WHERE, JOIN ON, and ORDER BY  -  composite indexes for multi-column filters
+- Avoid SELECT *  -  project only needed columns to reduce I/O
 - Push predicates down: filter before joining when possible
 - Rewrite correlated subqueries as JOINs when the optimizer doesn't flatten them
 

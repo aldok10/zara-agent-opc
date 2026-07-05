@@ -1,4 +1,4 @@
-// fan-in-fan-out — demonstrates the Fan-Out / Fan-In pattern.
+// fan-in-fan-out  -  demonstrates the Fan-Out / Fan-In pattern.
 //
 // Fan-Out: distribute work across multiple goroutines.
 // Fan-In: merge multiple result channels into one.

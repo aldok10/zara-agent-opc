@@ -98,7 +98,7 @@ Azure Advisor provides automated recommendations across all five pillars:
 - Use PaaS over IaaS when requirements allow (less operational burden)
 - Test at production scale; validate assumptions with data
 - Automate everything repeatable; document everything manual
-- Design for evolution — workloads change, architecture must adapt
+- Design for evolution  -  workloads change, architecture must adapt
 
 ## Anti-Patterns
 

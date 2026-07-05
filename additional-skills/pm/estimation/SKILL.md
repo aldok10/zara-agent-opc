@@ -14,8 +14,8 @@ Probabilistic delivery forecasting, item-level prediction, relative sizing, team
 1. Monte Carlo simulation > story points for delivery date forecasting
 2. Cycle time percentiles (50th/70th/85th/95th) for item-level prediction
 3. T-shirt sizing for relative comparison, never commitment
-4. Estimate ranges, not single numbers — always state confidence
-5. Historical data > expert opinion — measure, don't guess
+4. Estimate ranges, not single numbers  -  always state confidence
+5. Historical data > expert opinion  -  measure, don't guess
 6. 3-point estimates (PERT): best/likely/worst when no historical data
 7. Reserve 20% buffer for unknowns (industry consensus, no single authoritative source)
 8. Re-estimate when scope changes >15% or new risk surfaces

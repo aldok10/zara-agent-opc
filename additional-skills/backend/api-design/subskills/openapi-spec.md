@@ -6,16 +6,16 @@ Writing or reviewing OpenAPI 3.1 specifications: component reuse, schema composi
 
 ## Rules
 
-1. OpenAPI 3.1 uses JSON Schema 2020-12 — `nullable` keyword removed, use `type: ["string", "null"]` instead
-2. Every reusable schema goes in `#/components/schemas` — inline schemas block codegen naming
+1. OpenAPI 3.1 uses JSON Schema 2020-12  -  `nullable` keyword removed, use `type: ["string", "null"]` instead
+2. Every reusable schema goes in `#/components/schemas`  -  inline schemas block codegen naming
 3. Use `$ref` for all shared types; never duplicate schema definitions
-4. Discriminators require `propertyName` + `mapping` — don't rely on implicit matching
-5. Every operation needs `operationId` in camelCase — this becomes the SDK method name
-6. Request bodies and responses include `example` or `examples` — these drive mock servers and docs
+4. Discriminators require `propertyName` + `mapping`  -  don't rely on implicit matching
+5. Every operation needs `operationId` in camelCase  -  this becomes the SDK method name
+6. Request bodies and responses include `example` or `examples`  -  these drive mock servers and docs
 7. Security schemes defined once in `components/securitySchemes`, applied globally or per-operation
-8. Path parameters validated with `pattern`, `minimum`, `maximum` — don't accept any string as an ID
+8. Path parameters validated with `pattern`, `minimum`, `maximum`  -  don't accept any string as an ID
 9. Use `readOnly`/`writeOnly` to distinguish create vs read shapes from single schema
-10. Webhooks section (`webhooks:`) for event payloads — separate from callback URLs
+10. Webhooks section (`webhooks:`) for event payloads  -  separate from callback URLs
 
 ## Schema Composition Patterns
 
@@ -42,11 +42,11 @@ components:
 
 ## Anti-Patterns
 
-- Inline schemas everywhere — generates `Anonymous1`, `Anonymous2` in SDKs
-- Missing `operationId` — codegen produces unusable method names
-- `additionalProperties: true` by default — allows any garbage through validation
-- Discriminator without mapping — breaks when schema names don't match type values
-- Using `allOf` when you mean `oneOf` — allOf requires ALL schemas valid simultaneously
+- Inline schemas everywhere  -  generates `Anonymous1`, `Anonymous2` in SDKs
+- Missing `operationId`  -  codegen produces unusable method names
+- `additionalProperties: true` by default  -  allows any garbage through validation
+- Discriminator without mapping  -  breaks when schema names don't match type values
+- Using `allOf` when you mean `oneOf`  -  allOf requires ALL schemas valid simultaneously
 - Putting examples only in description text instead of `example` field
 
 ## Code Generation Tips

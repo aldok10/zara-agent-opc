@@ -15,16 +15,16 @@ title: "Schema Evolution"
 
 ## Key Practices
 
-- Add new columns as nullable with defaults — this is always backward-compatible
+- Add new columns as nullable with defaults  -  this is always backward-compatible
 - Never remove or rename columns without a deprecation period and migration plan
 - Use schema registries (Avro, Protobuf) for streaming data to enforce evolution rules
-- Version your schemas explicitly: `v1`, `v2` — makes breaking changes intentional
+- Version your schemas explicitly: `v1`, `v2`  -  makes breaking changes intentional
 - Test schema changes against both historical data and downstream consumers before deploying
 
 ## Common Mistakes
 
 - Changing column types in place (string -> integer) without migrating existing data
-- Assuming all consumers will update simultaneously — they won't
+- Assuming all consumers will update simultaneously  -  they won't
 - Adding NOT NULL columns without defaults to existing tables with data
 
 ## When to Apply

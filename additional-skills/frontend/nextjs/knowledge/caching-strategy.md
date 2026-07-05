@@ -125,8 +125,8 @@ export const getProduct = unstable_cache(
 
 ## Anti-Patterns
 
-1. Caching user-specific data without user-scoped keys — data leak.
-2. Setting `revalidate: 0` thinking it disables cache — just don't add cache option.
-3. Caching without tags — can never invalidate precisely.
-4. Over-caching (everything cached) — stale bugs that are hard to diagnose.
-5. Under-caching (nothing cached) — unnecessary load on DB/APIs.
+1. Caching user-specific data without user-scoped keys  -  data leak.
+2. Setting `revalidate: 0` thinking it disables cache  -  just don't add cache option.
+3. Caching without tags  -  can never invalidate precisely.
+4. Over-caching (everything cached)  -  stale bugs that are hard to diagnose.
+5. Under-caching (nothing cached)  -  unnecessary load on DB/APIs.

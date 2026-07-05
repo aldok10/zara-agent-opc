@@ -4,7 +4,7 @@ ASP.NET Core Minimal API patterns for .NET 10+.
 
 ## Rules
 
-1. Group endpoints by feature using `MapGroup()` — one group per slice/domain
+1. Group endpoints by feature using `MapGroup()`  -  one group per slice/domain
 2. Return `TypedResults` (e.g., `Results<Ok<T>, NotFound, ValidationProblem>`) for compile-time OpenAPI
 3. Use endpoint filters for cross-cutting concerns (validation, logging, auth enrichment)
 4. Apply `.WithName()` and `.WithTags()` for OpenAPI operation metadata
@@ -13,7 +13,7 @@ ASP.NET Core Minimal API patterns for .NET 10+.
 7. Apply rate limiting per endpoint group with `.RequireRateLimiting("policy")`
 8. Use `.WithOpenApi()` to customize operation metadata inline
 9. Always add `.Produces<T>(statusCode)` for non-200 responses the type system can't infer
-10. Bind request body with `[FromBody]` only when ambiguous — Minimal APIs infer complex types from body
+10. Bind request body with `[FromBody]` only when ambiguous  -  Minimal APIs infer complex types from body
 
 ## Patterns
 
@@ -84,16 +84,16 @@ group.MapGet("/", ([AsParameters] GetProductsRequest request, AppDbContext db) =
 
 ## Anti-Patterns
 
-- Defining all endpoints in `Program.cs` — extract to extension methods per feature
-- Using `app.Map*` without groups — loses shared metadata and filters
-- Returning `IActionResult` — use `IResult`/`TypedResults` in Minimal APIs
+- Defining all endpoints in `Program.cs`  -  extract to extension methods per feature
+- Using `app.Map*` without groups  -  loses shared metadata and filters
+- Returning `IActionResult`  -  use `IResult`/`TypedResults` in Minimal APIs
 - String-based route parameters without constraints (`{id}` vs `{id:guid}`)
 - Missing `CancellationToken` on async handlers
 
 ## Verification
 
-1. Run `dotnet build` — no warnings
+1. Run `dotnet build`  -  no warnings
 2. Generate OpenAPI: verify all endpoints appear with correct schemas
-3. Test with `WebApplicationFactory` — HTTP integration tests per endpoint
+3. Test with `WebApplicationFactory`  -  HTTP integration tests per endpoint
 4. Verify auth policies applied: test 401/403 responses
 5. Check rate limiting: verify 429 responses under load

@@ -45,7 +45,7 @@ const bad = /(?<=a{2,1})/; // quantifier out of order
 
 ## Isolated Declarations (5.5)
 
-`isolatedDeclarations: true` in tsconfig — ensures `.d.ts` can be generated without type inference (parallel builds).
+`isolatedDeclarations: true` in tsconfig  -  ensures `.d.ts` can be generated without type inference (parallel builds).
 
 ```typescript
 // Error with isolatedDeclarations: must annotate return type
@@ -185,12 +185,12 @@ createFSM("idle", {
 
 ## TypeScript 6.0
 
-- **`--strict` now includes `noUncheckedIndexedAccess`** by default — indexed access returns `T | undefined`.
+- **`--strict` now includes `noUncheckedIndexedAccess`** by default  -  indexed access returns `T | undefined`.
 - Several previously deprecated options removed (`out`, `prepend`, legacy module modes).
 - Stricter `--module nodenext` resolution by default.
 
 ## TypeScript 7.0 RC (tsgo)
 
-- **Go-based rewrite**: `tsgo` — native compiler written in Go, ~10x faster compilation and editor startup.
-- Same TypeScript semantics and type system — drop-in replacement for `tsc`.
+- **Go-based rewrite**: `tsgo`  -  native compiler written in Go, ~10x faster compilation and editor startup.
+- Same TypeScript semantics and type system  -  drop-in replacement for `tsc`.
 - Available as `@typescript/native` on npm. Still RC as of mid-2025; `tsc` remains stable default.

@@ -28,10 +28,10 @@ Read existing test config (vitest.config.*, playwright.config.*, package.json te
 
 ## DO NOT
 
-- Use `container.querySelector` or `innerHTML` checks — use Testing Library queries
+- Use `container.querySelector` or `innerHTML` checks  -  use Testing Library queries
 - Mock implementation details (state, hooks, internal methods)
 - Write tests that pass when feature is broken (false positives)
-- Use arbitrary `waitFor` timeouts — rely on auto-waiting
+- Use arbitrary `waitFor` timeouts  -  rely on auto-waiting
 - Test library/framework internals (React rendering, Vue reactivity)
 - Skip accessibility assertions in component tests
 - Use snapshot tests as primary verification (supplement only)
@@ -55,8 +55,8 @@ Read existing test config (vitest.config.*, playwright.config.*, package.json te
 
 ## Knowledge
 
-- `knowledge/testing-patterns.md` — 15 proven frontend testing patterns
-- `knowledge/common-mistakes.md` — 12 common mistakes with fixes
+- `knowledge/testing-patterns.md`  -  15 proven frontend testing patterns
+- `knowledge/common-mistakes.md`  -  12 common mistakes with fixes
 
 ## AI-Era Context (2026)
 
@@ -68,5 +68,5 @@ Read existing test config (vitest.config.*, playwright.config.*, package.json te
 
 ## Related Skills
 
-- `typescript-expert` — type-safe test utilities
-- `frontend/performance` — performance regression testing
+- `typescript-expert`  -  type-safe test utilities
+- `frontend/performance`  -  performance regression testing

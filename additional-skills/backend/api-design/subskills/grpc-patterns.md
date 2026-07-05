@@ -6,14 +6,14 @@ Designing gRPC services: protobuf schema modeling, streaming patterns, intercept
 
 ## Rules
 
-1. Package naming: `company.service.v1` — version in package, not service name
+1. Package naming: `company.service.v1`  -  version in package, not service name
 2. Service names are PascalCase nouns: `OrderService`, not `OrderManager` or `Orders`
 3. RPC names are PascalCase verbs: `CreateOrder`, `ListOrders`, `GetOrder`
-4. Request/response messages are per-RPC: `CreateOrderRequest` / `CreateOrderResponse` — never share across RPCs
-5. Always set deadlines on client calls — no deadline = potential infinite hang
+4. Request/response messages are per-RPC: `CreateOrderRequest` / `CreateOrderResponse`  -  never share across RPCs
+5. Always set deadlines on client calls  -  no deadline = potential infinite hang
 6. Use `google.protobuf.FieldMask` for partial updates (equivalent to PATCH)
-7. Repeated fields for collections — never use maps for ordered data
-8. Reserve deleted field numbers forever — reuse causes wire-format corruption
+7. Repeated fields for collections  -  never use maps for ordered data
+8. Reserve deleted field numbers forever  -  reuse causes wire-format corruption
 9. Default page size 50, max 1000; use `page_token` (opaque string) for pagination
 10. Return `google.rpc.Status` with details for structured errors; attach `BadRequest`, `ErrorInfo`, `RetryInfo` as needed
 
@@ -39,12 +39,12 @@ Designing gRPC services: protobuf schema modeling, streaming patterns, intercept
 
 ## Anti-Patterns
 
-- Sharing `Request`/`Response` messages across RPCs — blocks independent evolution
-- Missing deadlines on internal service calls — cascading timeouts
-- Using `string` for enums — loses type safety and validation
+- Sharing `Request`/`Response` messages across RPCs  -  blocks independent evolution
+- Missing deadlines on internal service calls  -  cascading timeouts
+- Using `string` for enums  -  loses type safety and validation
 - Returning errors via response fields instead of gRPC status codes
 - Large payloads (>4MB default) without chunking or streaming
-- `import public` — creates fragile transitive dependencies
+- `import public`  -  creates fragile transitive dependencies
 
 ## Error Handling
 

@@ -99,7 +99,7 @@ const module = await runner.import('/src/entry-server.ts');
 
 ## Vite 8 (2025)
 
-- **Rolldown replaces Rollup** as the production bundler — written in Rust, significantly faster builds.
+- **Rolldown replaces Rollup** as the production bundler  -  written in Rust, significantly faster builds.
 - Backwards-compatible plugin API: most Rollup plugins work unchanged.
 - Unified dev/prod pipeline: Rolldown also powers dev transforms (replaces esbuild for transforms).
 - Tree-shaking and code-splitting improvements from Rolldown's architecture.

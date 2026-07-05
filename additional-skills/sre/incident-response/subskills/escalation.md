@@ -9,7 +9,7 @@ title: "Escalation"
 - Escalation transfers incident ownership to someone with more context, authority, or expertise
 - Escalation levels: L1 (first responder), L2 (domain expert), L3 (architect/vendor), management
 - Triggers: time-based (SLA clock), severity-based (impact threshold), expertise-based (unknown domain)
-- Escalation is not failure—it's efficient resource allocation under pressure
+- Escalation is not failure - it's efficient resource allocation under pressure
 - Clear ownership at every level prevents bystander effect during incidents
 
 ## Key Practices
@@ -22,7 +22,7 @@ title: "Escalation"
 ## Common Mistakes
 - Escalating without context, forcing the next responder to start from zero
 - Hero culture: refusing to escalate because it feels like admitting defeat
-- Unclear ownership after escalation—both parties assume the other is handling it
+- Unclear ownership after escalation - both parties assume the other is handling it
 
 ## When to Apply
 - Designing incident response procedures for a new organization or service

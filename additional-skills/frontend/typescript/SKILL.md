@@ -20,7 +20,7 @@ Frontend TypeScript: component props, state machines, API types, form handling, 
 ## Constraints
 
 1. `strict: true` always. Enable `noUncheckedIndexedAccess` and `exactOptionalPropertyTypes`.
-2. `satisfies` over type assertion — validates without widening.
+2. `satisfies` over type assertion  -  validates without widening.
 3. Discriminated unions for state machines and variant types.
 4. Branded types for domain primitives (UserId, Email, Slug).
 5. Template literal types for string patterns (routes, event names).
@@ -28,7 +28,7 @@ Frontend TypeScript: component props, state machines, API types, form handling, 
 7. Return types explicit on public APIs, inferred on internals.
 8. `unknown` over `any` at boundaries (API responses, JSON.parse).
 9. `const` assertions and `as const` for literal types.
-10. No enums — use `const` objects with `as const` + value union type.
+10. No enums  -  use `const` objects with `as const` + value union type.
 11. Type predicates (`x is T`) for reusable narrowing.
 12. Zod/Valibot for runtime validation matching TS types at boundaries.
 
@@ -61,9 +61,9 @@ Frontend TypeScript: component props, state machines, API types, form handling, 
 
 ## Knowledge
 
-- `knowledge/typescript55-features.md` — TS 5.5+ features and syntax
-- `knowledge/type-patterns.md` — 15 essential type patterns with code
-- `knowledge/common-mistakes.md` — 12 common mistakes with fixes
+- `knowledge/typescript55-features.md`  -  TS 5.5+ features and syntax
+- `knowledge/type-patterns.md`  -  15 essential type patterns with code
+- `knowledge/common-mistakes.md`  -  12 common mistakes with fixes
 
 ## AI-Era Context (2026)
 
@@ -75,6 +75,6 @@ Frontend TypeScript: component props, state machines, API types, form handling, 
 
 ## Related Skills
 
-- `react` — React-specific component typing
-- `testing-strategy` — Type-safe test patterns
-- `system-design` — API contract design
+- `react`  -  React-specific component typing
+- `testing-strategy`  -  Type-safe test patterns
+- `system-design`  -  API contract design

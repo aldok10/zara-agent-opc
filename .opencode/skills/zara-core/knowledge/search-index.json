@@ -616,7 +616,7 @@
     },
     {
       "title": "N-Tier Architecture",
-      "description": "N-Tier Architecture organizes applications into multiple layers—commonly UI, Business Logic, and Data Access—each with distinct responsibilities, and can be deployed across separate physical tiers.",
+      "description": "N-Tier Architecture organizes applications into multiple layers - commonly UI, Business Logic, and Data Access - each with distinct responsibilities, and can be deployed across separate physical tiers.",
       "section": "architecture",
       "slug": "n-tier-architecture",
       "path": "knowledge/architecture/n-tier-architecture.md",
@@ -756,7 +756,7 @@
     },
     {
       "title": "Bump Road Code Smell",
-      "description": "The Bump Road code smell occurs when code is unnecessarily difficult to work with due to accumulated friction — inconsistent patterns, unexpected side effects, and structural choices that make every change harder than it should be.",
+      "description": "The Bump Road code smell occurs when code is unnecessarily difficult to work with due to accumulated friction  -  inconsistent patterns, unexpected side effects, and structural choices that make every change harder than it should be.",
       "section": "code-smells",
       "slug": "bump-road",
       "path": "knowledge/code-smells/bump-road.md",
@@ -787,7 +787,7 @@
     },
     {
       "title": "Class Depends on Subclass Code Smell",
-      "description": "The Class Depends on Subclass code smell occurs when a base class contains references to, or knowledge of, one or more of its own subclasses — inverting the expected dependency direction in an inheritance hierarchy.",
+      "description": "The Class Depends on Subclass code smell occurs when a base class contains references to, or knowledge of, one or more of its own subclasses  -  inverting the expected dependency direction in an inheritance hierarchy.",
       "section": "code-smells",
       "slug": "class-depends-on-subclass",
       "path": "knowledge/code-smells/class-depends-on-subclass.md",
@@ -838,7 +838,7 @@
     },
     {
       "title": "Combinatorial Explosion Code Smell",
-      "description": "The Combinatorial Explosion code smell occurs when a small number of variations in behavior leads to a disproportionately large number of methods, classes, or code paths — growing multiplicatively rather than additively.",
+      "description": "The Combinatorial Explosion code smell occurs when a small number of variations in behavior leads to a disproportionately large number of methods, classes, or code paths  -  growing multiplicatively rather than additively.",
       "section": "code-smells",
       "slug": "combinatorial-explosion",
       "path": "knowledge/code-smells/combinatorial-explosion.md",
@@ -1423,7 +1423,7 @@
     },
     {
       "title": "Poor Names Code Smell",
-      "description": "The Poor Names code smell occurs when identifiers — variables, methods, classes, and parameters — are named in ways that obscure their purpose, making code harder to read and understand.",
+      "description": "The Poor Names code smell occurs when identifiers  -  variables, methods, classes, and parameters  -  are named in ways that obscure their purpose, making code harder to read and understand.",
       "section": "code-smells",
       "slug": "poor-names",
       "path": "knowledge/code-smells/poor-names.md",
@@ -1450,7 +1450,7 @@
     },
     {
       "title": "Poorly Written Tests Code Smell",
-      "description": "Poorly Written Tests is a code smell where the test suite fails to provide reliable feedback — tests are brittle, hard to understand, or actively misleading about the state of the software.",
+      "description": "Poorly Written Tests is a code smell where the test suite fails to provide reliable feedback  -  tests are brittle, hard to understand, or actively misleading about the state of the software.",
       "section": "code-smells",
       "slug": "poorly-written-tests",
       "path": "knowledge/code-smells/poorly-written-tests.md",
@@ -2104,7 +2104,7 @@
     },
     {
       "title": "Model-View-Controller (MVC) Design Pattern",
-      "description": "The Model-View-Controller (MVC) pattern separates an application into three components — Model, View, and Controller — to decouple business logic from presentation. Learn how MVC works, how it compares to MVP and MVVM, and why ViewModels often appear inside MVC applications.",
+      "description": "The Model-View-Controller (MVC) pattern separates an application into three components  -  Model, View, and Controller  -  to decouple business logic from presentation. Learn how MVC works, how it compares to MVP and MVVM, and why ViewModels often appear inside MVC applications.",
       "section": "design-patterns",
       "slug": "mvc-pattern",
       "path": "knowledge/design-patterns/mvc-pattern.md",
@@ -2960,7 +2960,7 @@
     },
     {
       "title": "Tesler's Law: The Law of Conservation of Complexity",
-      "description": "Every application has an inherent amount of irreducible complexity. The only question is who will have to deal with it — the user, the developer, or the system.",
+      "description": "Every application has an inherent amount of irreducible complexity. The only question is who will have to deal with it  -  the user, the developer, or the system.",
       "section": "laws",
       "slug": "teslers-law",
       "path": "knowledge/laws/teslers-law.md",

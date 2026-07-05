@@ -201,13 +201,13 @@ export const Secondary = story({ args: { variant: 'secondary', children: 'Submit
 ```
 
 - `config.meta()` infers args from component props automatically.
-- `story()` returns a fully typed story — no `StoryObj<typeof meta>` needed.
+- `story()` returns a fully typed story  -  no `StoryObj<typeof meta>` needed.
 - Play functions, decorators, and parameters work the same way.
 
 ### Storybook 10: ESM-Only + Lighter Install
 
 - **ESM-only**: drops CJS support, 29% smaller install size.
-- **CSF Factories is the primary pattern** — all docs and generators use it by default.
+- **CSF Factories is the primary pattern**  -  all docs and generators use it by default.
 - Performance improvements to dev server startup and HMR.
 - Addon API simplified with new lifecycle hooks.
 

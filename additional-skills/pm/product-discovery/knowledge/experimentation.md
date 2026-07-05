@@ -120,7 +120,7 @@ User thinks they're interacting with automated system, but human performs the wo
 
 ## Painted Door
 
-Similar to fake door but lighter — measures awareness and interest without any interaction path.
+Similar to fake door but lighter  -  measures awareness and interest without any interaction path.
 
 ### Examples
 - Navigation menu item that leads to explanation page

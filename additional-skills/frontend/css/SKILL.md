@@ -19,7 +19,7 @@ Modern CSS architecture and implementation. Native CSS features over JS solution
 
 1. Native CSS features over JS runtime solutions. Container Queries > JS resize observers.
 2. `@layer` for cascade management: reset, base, components, utilities.
-3. `:has()` for parent/sibling selection — replaces many JS-driven class toggles.
+3. `:has()` for parent/sibling selection  -  replaces many JS-driven class toggles.
 4. `color-mix()` for consistent color variations.
 5. Subgrid for nested grid alignment.
 6. View Transitions API for page/state transitions.
@@ -58,9 +58,9 @@ Modern CSS architecture and implementation. Native CSS features over JS solution
 
 ## Knowledge
 
-- `knowledge/modern-css-2025.md` — New features reference
-- `knowledge/layout-patterns.md` — 10 modern layout patterns
-- `knowledge/common-mistakes.md` — 12 common CSS mistakes
+- `knowledge/modern-css-2025.md`  -  New features reference
+- `knowledge/layout-patterns.md`  -  10 modern layout patterns
+- `knowledge/common-mistakes.md`  -  12 common CSS mistakes
 
 ## AI-Era Context (2026)
 
@@ -72,5 +72,5 @@ Modern CSS architecture and implementation. Native CSS features over JS solution
 
 ## Related Skills
 
-- `typescript-expert` — For type-safe design token generation
-- `system-design` — For design system architecture decisions
+- `typescript-expert`  -  For type-safe design token generation
+- `system-design`  -  For design system architecture decisions

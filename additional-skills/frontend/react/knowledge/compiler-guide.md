@@ -16,7 +16,7 @@ The React Compiler (previously React Forget) is a build-time tool that automatic
 3. **Inserts memoization**: caches computations and JSX when inputs haven't changed.
 4. **Skips child re-renders**: when props are memoized, children skip re-rendering.
 
-The Compiler essentially does what an expert developer would do with `useMemo`/`useCallback` everywhere — but correctly, exhaustively, and without the maintenance burden.
+The Compiler essentially does what an expert developer would do with `useMemo`/`useCallback` everywhere  -  but correctly, exhaustively, and without the maintenance burden.
 
 ## Setup
 
@@ -237,8 +237,8 @@ When adopting the Compiler:
 1. Enable eslint-plugin-react-compiler, fix all violations.
 2. Enable the Compiler.
 3. Remove `useMemo`, `useCallback`, `React.memo` calls.
-4. Run tests — behavior should be identical.
-5. Profile — performance should be equal or better.
+4. Run tests  -  behavior should be identical.
+5. Profile  -  performance should be equal or better.
 
 **Important:** Removing manual memos is optional. The Compiler handles them gracefully (they become no-ops). Remove for code clarity, not necessity.
 

@@ -4,11 +4,11 @@
 
 | Type | Best For | Audience | Confidence | Update Cadence | Risk |
 |------|----------|----------|------------|----------------|------|
-| Now/Next/Later | Product teams | Team + exec | Explicit per column | Monthly | Low — no date promises |
-| Outcome-based | Strategy alignment | Exec + board | Per outcome | Quarterly | Low — focuses on results |
-| Theme-based | Portfolio view | Exec + customers | Per theme | Quarterly | Medium — themes can be vague |
-| Timeline | Regulated/contracted | Partners + legal | Implied (committed) | As-needed | High — dates become promises |
-| Kanban-style | Continuous delivery | Team | Implicit (WIP) | Real-time | Low — but lacks future signal |
+| Now/Next/Later | Product teams | Team + exec | Explicit per column | Monthly | Low  -  no date promises |
+| Outcome-based | Strategy alignment | Exec + board | Per outcome | Quarterly | Low  -  focuses on results |
+| Theme-based | Portfolio view | Exec + customers | Per theme | Quarterly | Medium  -  themes can be vague |
+| Timeline | Regulated/contracted | Partners + legal | Implied (committed) | As-needed | High  -  dates become promises |
+| Kanban-style | Continuous delivery | Team | Implicit (WIP) | Real-time | Low  -  but lacks future signal |
 
 ## When to Use
 
@@ -43,11 +43,11 @@ Exec communication + strategy → Outcome-based
 
 Dynamic decision systems replacing static quarterly planning:
 - Initiatives tied to evidence (usage data, feedback signals, market intel) with auto-updated risk scores
-- Continuous business value recalculation — roadmap items reprioritize as inputs change
+- Continuous business value recalculation  -  roadmap items reprioritize as inputs change
 - AI/ML product considerations: model performance gates (accuracy/latency thresholds), data pipeline dependencies as first-class roadmap items
 - Evidence-backed confidence: each item links to supporting data, not just PM intuition
 
-**Tools**: Jeda.ai, IdeaPlan — generate roadmap views from backlog/feedback/strategy docs automatically.
+**Tools**: Jeda.ai, IdeaPlan  -  generate roadmap views from backlog/feedback/strategy docs automatically.
 
 **When to use**: High-velocity orgs with rich data signals. Requires instrumented product + feedback loops.
 **Anti-pattern**: AI-generated roadmap without human judgment on strategic bets. Automation ≠ strategy.

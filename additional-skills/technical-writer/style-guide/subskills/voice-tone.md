@@ -17,7 +17,7 @@ title: "Voice & Tone"
 - Create tone guidelines per content type: getting started (warm), reference (precise), troubleshooting (empathetic)
 - Use second person ("you") for instructions; avoid first person plural ("we") unless representing the company
 - Match formality to audience: developer docs can be casual; compliance docs stay formal
-- Read content aloud—if it sounds awkward spoken, it reads awkward too
+- Read content aloud - if it sounds awkward spoken, it reads awkward too
 
 ## Common Mistakes
 - Inconsistent tone: cheerful marketing copy next to dry technical reference creates whiplash

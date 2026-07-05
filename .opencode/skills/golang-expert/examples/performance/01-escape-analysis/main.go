@@ -1,4 +1,4 @@
-// escape-analysis — demonstrates stack vs heap allocation decisions.
+// escape-analysis  -  demonstrates stack vs heap allocation decisions.
 //
 // Run: go build -gcflags='-m' .  (see escape decisions)
 // Run: go test -bench=. -benchmem (measure allocation difference)
@@ -13,13 +13,13 @@ type Point struct {
 	X, Y float64
 }
 
-// NewPointValue returns by value — stays on caller's stack.
+// NewPointValue returns by value  -  stays on caller's stack.
 // go build -gcflags='-m' shows: "does not escape"
 func NewPointValue() Point {
 	return Point{X: 1.0, Y: 2.0}
 }
 
-// NewPointPointer returns pointer — escapes to heap.
+// NewPointPointer returns pointer  -  escapes to heap.
 // go build -gcflags='-m' shows: "escapes to heap"
 func NewPointPointer() *Point {
 	return &Point{X: 1.0, Y: 2.0}
@@ -28,7 +28,7 @@ func NewPointPointer() *Point {
 // --- Fixed-size array stays on stack ---
 
 func hashLocal(data []byte) [32]byte {
-	var buf [64]byte // stack-allocated — known size at compile time
+	var buf [64]byte // stack-allocated  -  known size at compile time
 	copy(buf[:], data)
 	// In real code: return sha256.Sum256(buf[:])
 	var result [32]byte
@@ -48,17 +48,17 @@ func EncodeTo(dst []byte, id int, name string) []byte {
 	return dst
 }
 
-// EncodeAlloc allocates internally — escapes.
+// EncodeAlloc allocates internally  -  escapes.
 func EncodeAlloc(id int, name string) string {
 	return fmt.Sprintf("id=%d,name=%s", id, name)
 }
 
 func main() {
-	// Value — no heap allocation
+	// Value  -  no heap allocation
 	p1 := NewPointValue()
 	fmt.Printf("Value: %+v\n", p1)
 
-	// Pointer — heap allocation
+	// Pointer  -  heap allocation
 	p2 := NewPointPointer()
 	fmt.Printf("Pointer: %+v\n", p2)
 

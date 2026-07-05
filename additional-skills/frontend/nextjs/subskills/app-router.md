@@ -4,12 +4,12 @@ Activate when: route structure, layouts, parallel routes, intercepting routes, r
 
 ## Core Principles
 
-1. **Layouts are persistent** — they don't re-render on navigation. Use for shared UI + data fetching that spans child routes.
-2. **Server Components by default** — only add `'use client'` when you need interactivity, browser APIs, or hooks.
-3. **Colocation** — `page.tsx`, `layout.tsx`, `loading.tsx`, `error.tsx`, `not-found.tsx` per segment.
-4. **Route groups** `(name)` — organize without affecting URL. Use for auth boundaries, feature grouping.
-5. **Parallel routes** `@slot` — render multiple pages simultaneously. Use for dashboards, modals.
-6. **Intercepting routes** `(.)path` — show route in context (modal) while preserving direct URL access.
+1. **Layouts are persistent**  -  they don't re-render on navigation. Use for shared UI + data fetching that spans child routes.
+2. **Server Components by default**  -  only add `'use client'` when you need interactivity, browser APIs, or hooks.
+3. **Colocation**  -  `page.tsx`, `layout.tsx`, `loading.tsx`, `error.tsx`, `not-found.tsx` per segment.
+4. **Route groups** `(name)`  -  organize without affecting URL. Use for auth boundaries, feature grouping.
+5. **Parallel routes** `@slot`  -  render multiple pages simultaneously. Use for dashboards, modals.
+6. **Intercepting routes** `(.)path`  -  show route in context (modal) while preserving direct URL access.
 
 ## File Convention
 
@@ -106,7 +106,7 @@ export default async function Page({
   // ...
 }
 
-// WRONG — will error in Next.js 15
+// WRONG  -  will error in Next.js 15
 export default function Page({ params }: { params: { slug: string } }) {
   // params is now a Promise, not a plain object
 }
@@ -131,8 +131,8 @@ app/
 
 ## Common Mistakes
 
-1. Fetching same data in layout + page — use React cache or pass via context.
-2. Putting `'use client'` on layout — all children become client components.
-3. Missing `default.tsx` for parallel routes — causes 404 on soft navigation.
-4. Not awaiting `params`/`searchParams` — runtime error in Next.js 15.
-5. Using `redirect()` in try/catch — redirect throws, catch swallows it.
+1. Fetching same data in layout + page  -  use React cache or pass via context.
+2. Putting `'use client'` on layout  -  all children become client components.
+3. Missing `default.tsx` for parallel routes  -  causes 404 on soft navigation.
+4. Not awaiting `params`/`searchParams`  -  runtime error in Next.js 15.
+5. Using `redirect()` in try/catch  -  redirect throws, catch swallows it.

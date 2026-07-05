@@ -137,6 +137,6 @@ jobs:
 - Reset all request-scoped state between requests.
 - No static property caches that grow unbounded.
 - Connection pooling mandatory (DB, Redis, HTTP clients).
-- Graceful shutdown on SIGTERM — finish in-flight, then exit.
+- Graceful shutdown on SIGTERM  -  finish in-flight, then exit.
 - Monitor memory: `memory_get_usage()` per request, alert on growth.
 - Set `max_requests` / `max_jobs` to recycle workers periodically.

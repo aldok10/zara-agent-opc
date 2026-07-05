@@ -22,21 +22,21 @@ Senior distributed systems architect. Modular monolith first. Extract services o
 
 ## Constraints
 
-1. Modular monolith first — extract only when team/scale/deployment boundaries demand it.
-2. One database per service — no shared DB. Communicate via APIs or events.
-3. Eventual consistency as default — strong consistency only where business requires.
-4. Idempotent operations everywhere — network is unreliable, retries are inevitable.
-5. Circuit breakers on all cross-service calls — fail fast, provide fallback.
-6. Bulkhead pattern — isolate failure domains, prevent cascade.
-7. Correlation IDs propagated through entire call chain — distributed tracing mandatory.
-8. Service owns its data AND behavior — no anemic services proxying to shared DB.
+1. Modular monolith first  -  extract only when team/scale/deployment boundaries demand it.
+2. One database per service  -  no shared DB. Communicate via APIs or events.
+3. Eventual consistency as default  -  strong consistency only where business requires.
+4. Idempotent operations everywhere  -  network is unreliable, retries are inevitable.
+5. Circuit breakers on all cross-service calls  -  fail fast, provide fallback.
+6. Bulkhead pattern  -  isolate failure domains, prevent cascade.
+7. Correlation IDs propagated through entire call chain  -  distributed tracing mandatory.
+8. Service owns its data AND behavior  -  no anemic services proxying to shared DB.
 9. Health checks: liveness (stuck?), readiness (can serve?), startup (ready yet?).
-10. Contract testing between services — consumer-driven contracts (Pact/Specmatic).
-11. Strangler fig for extraction — incremental, low risk, never big-bang rewrite.
-12. Async events default, sync only for queries — loose coupling over convenience.
-13. No synchronous chains >2 hops — latency compounds, availability multiplies.
-14. Compensating transactions over distributed locks — saga pattern, not 2PC.
-15. Deploy independently — shared deployment defeats the purpose of service boundaries.
+10. Contract testing between services  -  consumer-driven contracts (Pact/Specmatic).
+11. Strangler fig for extraction  -  incremental, low risk, never big-bang rewrite.
+12. Async events default, sync only for queries  -  loose coupling over convenience.
+13. No synchronous chains >2 hops  -  latency compounds, availability multiplies.
+14. Compensating transactions over distributed locks  -  saga pattern, not 2PC.
+15. Deploy independently  -  shared deployment defeats the purpose of service boundaries.
 
 ## DO NOT
 
@@ -72,15 +72,15 @@ Multiple OK. Load only what's needed.
 
 ## Knowledge (load on demand)
 
-- `knowledge/decomposition-patterns.md` — how to decompose services
-- `knowledge/resilience-patterns.md` — circuit breaker, bulkhead, retry, timeout
-- `knowledge/communication-patterns.md` — sync vs async, request-reply, fire-and-forget
-- `knowledge/data-patterns.md` — DB per service, saga, event sourcing as data pattern
-- `knowledge/observability-distributed.md` — tracing, correlation IDs, log aggregation
+- `knowledge/decomposition-patterns.md`  -  how to decompose services
+- `knowledge/resilience-patterns.md`  -  circuit breaker, bulkhead, retry, timeout
+- `knowledge/communication-patterns.md`  -  sync vs async, request-reply, fire-and-forget
+- `knowledge/data-patterns.md`  -  DB per service, saga, event sourcing as data pattern
+- `knowledge/observability-distributed.md`  -  tracing, correlation IDs, log aggregation
 
 ## AI-Era Context (2026)
 
-Microservices matured. Industry consensus: start modular monolith, extract with evidence. Tools like Temporal/Restate made durable execution mainstream — sagas are now infrastructure, not hand-rolled state machines. Service meshes (Istio/Linkerd) handle mTLS, retries, circuit breaking at infra layer. OpenTelemetry is the standard for distributed observability. AI workloads add new decomposition pressure: GPU-bound inference services often need independent scaling, making them natural extraction candidates.
+Microservices matured. Industry consensus: start modular monolith, extract with evidence. Tools like Temporal/Restate made durable execution mainstream  -  sagas are now infrastructure, not hand-rolled state machines. Service meshes (Istio/Linkerd) handle mTLS, retries, circuit breaking at infra layer. OpenTelemetry is the standard for distributed observability. AI workloads add new decomposition pressure: GPU-bound inference services often need independent scaling, making them natural extraction candidates.
 
 ## Related Skills
 

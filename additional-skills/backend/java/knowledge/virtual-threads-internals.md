@@ -38,7 +38,7 @@ A continuation is the saved execution state (stack frames, local variables) of a
 - **Yield:** Continuation saved, carrier thread freed.
 - **Resume:** Continuation re-mounted (possibly different carrier).
 
-This is cooperative scheduling at the JVM level — no OS context switch needed.
+This is cooperative scheduling at the JVM level  -  no OS context switch needed.
 
 ## Carrier Thread Pool
 
@@ -58,7 +58,7 @@ When a virtual thread cannot unmount from its carrier:
 ### Cause 1: `synchronized` with blocking
 
 ```java
-// PINNED — carrier thread blocked
+// PINNED  -  carrier thread blocked
 synchronized (lock) {
     socket.read();  // blocking I/O inside synchronized = pinned
 }
@@ -68,7 +68,7 @@ The `synchronized` keyword uses OS-level monitors that prevent continuation yiel
 
 ### Cause 2: Native/JNI methods
 
-Native code doesn't understand continuations — virtual thread stays pinned until native call returns.
+Native code doesn't understand continuations  -  virtual thread stays pinned until native call returns.
 
 ### Why pinning matters
 
@@ -92,7 +92,7 @@ private final ReentrantLock lock = new ReentrantLock();
 public void safeOperation() {
     lock.lock();
     try {
-        socket.read();  // NOT pinned — ReentrantLock allows unmounting
+        socket.read();  // NOT pinned  -  ReentrantLock allows unmounting
     } finally {
         lock.unlock();
     }
@@ -126,9 +126,9 @@ ScopedValue.runWhere(CTX, context, () -> {
 
 ## Scheduling
 
-- **Work-stealing** within the `ForkJoinPool` — idle carriers steal work from busy ones.
-- **No priority scheduling** — virtual threads are FIFO within the pool.
-- **No preemption** — a CPU-bound virtual thread holds its carrier until it yields (blocks or completes).
+- **Work-stealing** within the `ForkJoinPool`  -  idle carriers steal work from busy ones.
+- **No priority scheduling**  -  virtual threads are FIFO within the pool.
+- **No preemption**  -  a CPU-bound virtual thread holds its carrier until it yields (blocks or completes).
 
 This means CPU-bound work starves other virtual threads. Use platform threads for CPU-intensive tasks.
 
@@ -138,7 +138,7 @@ This means CPU-bound work starves other virtual threads. Use platform threads fo
 |-------------------|--------|-------|
 | Spring Boot 3.2+ | Full support | `spring.threads.virtual.enabled=true` |
 | JDBC (HikariCP) | Works | Virtual threads wait for connections normally |
-| Netty | Partial | Event loop model — virtual threads for handlers only |
+| Netty | Partial | Event loop model  -  virtual threads for handlers only |
 | Hibernate/JPA | Works | But watch for `synchronized` in older versions |
 | gRPC-Java | Works | Configure virtual thread executor |
 | Apache HttpClient 5 | Works | Uses non-pinning I/O |

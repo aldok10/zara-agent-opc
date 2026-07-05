@@ -45,10 +45,10 @@ Context:
 ## Review Summary
 
 ### Issues
-- [severity] [file:line] — [issue] — [suggested fix]
+- [severity] [file:line]  -  [issue]  -  [suggested fix]
 
 ### Modernization Opportunities
-- [pattern to migrate] — [modern replacement]
+- [pattern to migrate]  -  [modern replacement]
 
 ### Architecture Notes
 - [DI/structure observations]

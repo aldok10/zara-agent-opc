@@ -6,7 +6,7 @@
 
 1. **Test pyramid.** Unit tests (fast, many) → Integration tests (Testcontainers, fewer) → E2E tests (fewest).
 2. **Real dependencies over mocks.** Testcontainers for databases, message brokers, Redis. Mock only external third-party APIs.
-3. **Test slices over full context.** `@WebMvcTest`, `@DataJpaTest`, `@JsonTest` — load only what you need.
+3. **Test slices over full context.** `@WebMvcTest`, `@DataJpaTest`, `@JsonTest`  -  load only what you need.
 4. **ArchUnit for architecture.** Enforce module boundaries, layering rules, naming conventions as tests.
 5. **Test behavior, not implementation.** Assert on outcomes, not internal method calls.
 
@@ -112,7 +112,7 @@ class PaymentGatewayClientTest {
 }
 ```
 
-## ArchUnit — Architecture Tests
+## ArchUnit  -  Architecture Tests
 
 ```java
 @AnalyzeClasses(packages = "com.example.app")
@@ -168,7 +168,7 @@ class ModularityTest {
 | Builder/ObjectMother | Complex test data | `TestOrder.builder().withItems(3).build()` |
 | `@Nested` classes | Grouping related tests | State-based groups within a test class |
 | `@ParameterizedTest` | Same logic, multiple inputs | Validation rules, edge cases |
-| `assertAll()` | Multiple related assertions | Soft assertions — don't stop at first failure |
+| `assertAll()` | Multiple related assertions | Soft assertions  -  don't stop at first failure |
 | `@DynamicTest` | Generated test cases | Data-driven testing |
 
 ## Anti-Patterns

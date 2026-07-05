@@ -193,5 +193,5 @@ Build with: `tsc --build` (incremental, dependency-aware)
 
 ## Delegates To
 
-- `generics` — for declaration files and type exports
-- `utility-types` — for shared type definitions across packages
+- `generics`  -  for declaration files and type exports
+- `utility-types`  -  for shared type definitions across packages

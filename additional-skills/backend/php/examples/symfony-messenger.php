@@ -74,7 +74,7 @@ final readonly class ProcessPaymentHandler
                 'transaction_id' => $result->transactionId,
             ]);
         } catch (PaymentDeclinedException $e) {
-            // Permanent failure — do not retry
+            // Permanent failure  -  do not retry
             $order->markPaymentFailed($e->declineCode);
             $this->orders->save($order);
 

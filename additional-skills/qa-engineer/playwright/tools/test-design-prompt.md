@@ -48,9 +48,9 @@ Design Playwright E2E tests for a feature with proper structure, fixtures, mocki
 
 // File structure:
 // tests/
-//   fixtures.ts          — custom fixtures
+//   fixtures.ts           -  custom fixtures
 //   pages/
-//     feature.page.ts    — page object
+//     feature.page.ts     -  page object
 //   feature/
 //     happy-path.spec.ts
 //     error-cases.spec.ts

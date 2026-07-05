@@ -12,7 +12,7 @@ title: "Frontend Performance Common Mistakes"
 
 ## 2. Missing Image Dimensions
 
-**Wrong:** `<img src="photo.jpg" />` without width/height — causes layout shift on load.
+**Wrong:** `<img src="photo.jpg" />` without width/height  -  causes layout shift on load.
 **Fix:** Always specify `width` and `height` attributes. Use CSS `aspect-ratio` as backup.
 
 ## 3. Shipping Unused JavaScript
@@ -39,7 +39,7 @@ title: "Frontend Performance Common Mistakes"
 
 ## 5. srcset Without sizes
 
-**Wrong:** `<img srcset="sm.jpg 400w, lg.jpg 1200w" />` — browser assumes 100vw, downloads largest.
+**Wrong:** `<img srcset="sm.jpg 400w, lg.jpg 1200w" />`  -  browser assumes 100vw, downloads largest.
 **Fix:** Always pair `srcset` with `sizes` attribute matching your layout.
 
 ## 6. Not Preloading Critical Fonts
@@ -49,12 +49,12 @@ title: "Frontend Performance Common Mistakes"
 
 ## 7. Long Tasks in Event Handlers
 
-**Wrong:** Processing 1000 items synchronously in a click handler — UI freezes for 500ms.
+**Wrong:** Processing 1000 items synchronously in a click handler  -  UI freezes for 500ms.
 **Fix:** Break into chunks with `scheduler.yield()` or `requestIdleCallback`.
 
 ## 8. Inline All CSS
 
-**Wrong:** Inlining 200KB of CSS in HTML — slows TTFB, not cacheable.
+**Wrong:** Inlining 200KB of CSS in HTML  -  slows TTFB, not cacheable.
 **Fix:** Inline ONLY critical (above-fold) CSS (~14KB). Load rest async.
 
 ## 9. Over-Memoizing in React
@@ -64,12 +64,12 @@ title: "Frontend Performance Common Mistakes"
 
 ## 10. Serving JPEG/PNG Without Modern Formats
 
-**Wrong:** Only serving JPEG — 30-50% larger than AVIF/WebP.
+**Wrong:** Only serving JPEG  -  30-50% larger than AVIF/WebP.
 **Fix:** Use `<picture>` with AVIF > WebP > JPEG fallback. Or use image CDN with auto-format.
 
 ## 11. Not Using Content Visibility
 
-**Wrong:** Rendering 100 off-screen sections eagerly — browser lays out everything.
+**Wrong:** Rendering 100 off-screen sections eagerly  -  browser lays out everything.
 **Fix:** `content-visibility: auto` on below-fold sections. Browser skips layout/paint until needed.
 
 ```css

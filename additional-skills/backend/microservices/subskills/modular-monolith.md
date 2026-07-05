@@ -1,14 +1,14 @@
 # Modular Monolith
 
-A well-structured monolith with clear module boundaries. Each module owns its domain, data, and behavior. Modules communicate via defined internal APIs. Designed for extraction readiness — can become microservices when evidence demands it.
+A well-structured monolith with clear module boundaries. Each module owns its domain, data, and behavior. Modules communicate via defined internal APIs. Designed for extraction readiness  -  can become microservices when evidence demands it.
 
 ## Why Modular Monolith First
 
-1. **Single deployment** — no distributed system complexity (network, consistency, observability).
-2. **Simple debugging** — stack traces, breakpoints, single process.
-3. **Refactoring freedom** — move code between modules cheaply (same process).
-4. **Extraction readiness** — when a module needs independent scaling or deployment, extract it.
-5. **Team velocity** — fewer moving parts, faster iteration in early stages.
+1. **Single deployment**  -  no distributed system complexity (network, consistency, observability).
+2. **Simple debugging**  -  stack traces, breakpoints, single process.
+3. **Refactoring freedom**  -  move code between modules cheaply (same process).
+4. **Extraction readiness**  -  when a module needs independent scaling or deployment, extract it.
+5. **Team velocity**  -  fewer moving parts, faster iteration in early stages.
 
 ## Module Boundaries
 

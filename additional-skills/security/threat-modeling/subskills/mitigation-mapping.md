@@ -22,7 +22,7 @@ title: "Mitigation Mapping"
 ## Common Mistakes
 - Listing mitigations without assigning ownership or implementation timeline
 - Applying the same generic mitigation ("add logging") to every threat without specificity
-- Not tracking residual risk—assuming mitigated threats are fully eliminated
+- Not tracking residual risk - assuming mitigated threats are fully eliminated
 
 ## When to Apply
 - After threat identification phase to prioritize and assign security work

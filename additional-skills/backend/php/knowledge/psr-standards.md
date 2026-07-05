@@ -21,7 +21,7 @@ Maps namespace prefixes to directory paths via `composer.json`.
 
 ## PSR-7 / PSR-17: HTTP Messages & Factories
 
-Immutable HTTP message interfaces — request, response, stream, URI.
+Immutable HTTP message interfaces  -  request, response, stream, URI.
 
 ```php
 use Psr\Http\Message\ResponseInterface;
@@ -30,7 +30,7 @@ use Psr\Http\Message\ServerRequestInterface;
 function handle(ServerRequestInterface $request): ResponseInterface
 {
     $body = $request->getParsedBody();
-    // Messages are immutable — withX returns new instance
+    // Messages are immutable  -  withX returns new instance
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 }
 ```
@@ -58,7 +58,7 @@ final class AuthMiddleware implements MiddlewareInterface
 }
 ```
 
-- `RequestHandlerInterface`: single `handle()` method — the final handler.
+- `RequestHandlerInterface`: single `handle()` method  -  the final handler.
 - `MiddlewareInterface`: wraps handler, can short-circuit or modify request/response.
 - Dispatchers: `relay/relay`, `middleware/request-handler`.
 
@@ -108,7 +108,7 @@ $logger->error('Payment failed', [
 ```
 
 - 8 levels: emergency, alert, critical, error, warning, notice, info, debug.
-- Context array for structured data — not string interpolation.
+- Context array for structured data  -  not string interpolation.
 - Implementations: `monolog/monolog` (de facto standard).
 
 ## PSR-11: Container Interface
@@ -116,12 +116,12 @@ $logger->error('Payment failed', [
 ```php
 use Psr\Container\ContainerInterface;
 
-// NEVER inject the container — inject specific dependencies
+// NEVER inject the container  -  inject specific dependencies
 // Only use in framework internals and factories
 ```
 
-- `has()` + `get()` — that's it.
-- Never inject container directly — it's a service locator anti-pattern.
+- `has()` + `get()`  -  that's it.
+- Never inject container directly  -  it's a service locator anti-pattern.
 - Type-hint concrete services or interfaces with explicit bindings.
 
 ## PSR-14: Event Dispatcher

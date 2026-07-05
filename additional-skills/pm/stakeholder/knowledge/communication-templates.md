@@ -73,7 +73,7 @@ Cadence: biweekly. Reading time: <5 minutes.
 ```
 Subject: [Team] Update - [Date range]
 
-HEADLINE: [1 sentence — most important thing to know]
+HEADLINE: [1 sentence  -  most important thing to know]
 
 SHIPPED:
 - [item]: [impact/metric if available]

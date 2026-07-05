@@ -4,8 +4,8 @@
 
 | Initiative | Result | Evidence | Action |
 |-----------|--------|----------|--------|
-| Onboarding redesign | HIT | Time-to-value: 5d → 2.3d (target: 2d) | Graduate — monitor |
-| Welcome emails | PARTIAL | Day-7 return: 20% → 28% (target: 35%) | Iterate — test new subject lines |
+| Onboarding redesign | HIT | Time-to-value: 5d → 2.3d (target: 2d) | Graduate  -  monitor |
+| Welcome emails | PARTIAL | Day-7 return: 20% → 28% (target: 35%) | Iterate  -  test new subject lines |
 | Quick-start templates | HIT | First-action: 30% → 58% | Graduate |
 
 ## Killed

@@ -128,9 +128,9 @@ func main() {
 
 ## Key Rules Demonstrated
 
-1. **No cross-module imports of internal types** — only `api.go` types are used externally.
-2. **Persistence per module** — separate migration directories, separate schemas.
-3. **Platform is minimal** — only event bus, auth, and shared value objects.
-4. **Event-based coupling** — modules subscribe to events, don't call each other for side effects.
-5. **Function call for queries** — orders calls payments/inventory directly when it needs a response.
-6. **Extraction ready** — swap `paymentsSvc` with gRPC client to extract payments as service.
+1. **No cross-module imports of internal types**  -  only `api.go` types are used externally.
+2. **Persistence per module**  -  separate migration directories, separate schemas.
+3. **Platform is minimal**  -  only event bus, auth, and shared value objects.
+4. **Event-based coupling**  -  modules subscribe to events, don't call each other for side effects.
+5. **Function call for queries**  -  orders calls payments/inventory directly when it needs a response.
+6. **Extraction ready**  -  swap `paymentsSvc` with gRPC client to extract payments as service.

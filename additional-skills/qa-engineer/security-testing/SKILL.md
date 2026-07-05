@@ -8,10 +8,10 @@
 
 1. SAST on every PR (Semgrep for speed + cross-file taint, CodeQL for depth)
 2. DAST on staging after deploy (ZAP + Nuclei for known CVEs)
-3. IAST in staging runtime (Contrast/Datadog) — fills SAST/DAST gap with real execution paths
+3. IAST in staging runtime (Contrast/Datadog)  -  fills SAST/DAST gap with real execution paths
 4. Dependency scanning every build with reachability analysis (Trivy, Snyk reachability, Endor Labs)
 5. Secrets scanning: pre-commit hook + CI (gitleaks, truffleHog)
-6. SBOM generation every release (CycloneDX/SPDX) — legally required (EU CRA, US EO 14028)
+6. SBOM generation every release (CycloneDX/SPDX)  -  legally required (EU CRA, US EO 14028)
 7. IaC scanning on every infra PR (Checkov, Trivy config)
 8. Container: distroless base images, image signing (cosign/Sigstore), admission controllers
 9. Supply chain: SLSA L2+ provenance, artifact attestation, lock files committed
@@ -67,10 +67,10 @@ release-security:
 
 ## IAST (Instrumented Testing)
 
-Fills the SAST/DAST gap — instruments running app to detect vulnerabilities during functional tests:
+Fills the SAST/DAST gap  -  instruments running app to detect vulnerabilities during functional tests:
 - Deploy instrumented agent to staging (Contrast, Datadog IAST)
 - Run functional/integration test suite → IAST reports real exploitable paths
-- Zero extra test authoring — piggybacks on existing tests
+- Zero extra test authoring  -  piggybacks on existing tests
 - Catches: SQL injection, SSRF, path traversal with actual runtime context
 
 ## API Security (OWASP API Top 10 2023)
@@ -128,9 +128,9 @@ spec:
 
 ## Reachability Analysis
 
-Don't patch everything — prioritize what's actually callable:
+Don't patch everything  -  prioritize what's actually callable:
 - Endor Labs / Snyk reachability: static analysis of call graphs to vulnerable functions
-- Reduces noise 60-80% — only alert on reachable vulnerable paths
+- Reduces noise 60-80%  -  only alert on reachable vulnerable paths
 - Integrate post-SCA: `trivy fs .` → feed results to reachability filter
 - Non-reachable: downgrade severity, schedule for next maintenance window
 
@@ -147,8 +147,8 @@ fossa test     # fail CI on policy violations
 
 # Risk licenses to block/flag:
 # - GPL-2.0/3.0 in proprietary projects (copyleft contamination)
-# - SSPL (MongoDB license) — not OSI-approved, cloud service risk
-# - AGPL — network copyleft, triggers on SaaS usage
+# - SSPL (MongoDB license)  -  not OSI-approved, cloud service risk
+# - AGPL  -  network copyleft, triggers on SaaS usage
 ```
 
 ## Triage Workflow
@@ -162,7 +162,7 @@ fossa test     # fail CI on policy violations
 
 ## Anti-Patterns
 
-- Single tool reliance (defense in depth — SAST+DAST+IAST+SCA)
+- Single tool reliance (defense in depth  -  SAST+DAST+IAST+SCA)
 - Patching all CVEs equally (use reachability to prioritize)
 - Suppressing findings without justification
 - Running DAST against production without approval

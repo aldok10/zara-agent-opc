@@ -54,7 +54,7 @@ Expedite lane (swim lane, 1 WIP): crosses all columns, takes priority.
 
 ## Metrics to Track
 
-- Cycle time (primary) — P50/P70/P85/P95
+- Cycle time (primary)  -  P50/P70/P85/P95
 - Throughput (weekly)
 - WIP age (daily check)
 - Blocker clustering (which columns accumulate blocks)

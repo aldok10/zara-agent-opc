@@ -16,7 +16,7 @@ title: "State Management"
 ## Key Practices
 
 - Use Provider/Riverpod for dependency injection and state that multiple widgets share
-- Keep state as close to where it's used as possible — don't over-centralize
+- Keep state as close to where it's used as possible  -  don't over-centralize
 - Separate UI state (loading, error, success) from domain state (the actual data)
 - Use selectors/select to rebuild only widgets that depend on the specific piece of state that changed
 - For complex flows: Bloc pattern separates events, state, and transition logic explicitly
@@ -24,7 +24,7 @@ title: "State Management"
 ## Common Mistakes
 
 - Storing everything in global state: causes unnecessary rebuilds across unrelated widgets
-- Rebuilding entire screens when only one field changes — missing granular subscriptions
+- Rebuilding entire screens when only one field changes  -  missing granular subscriptions
 - Mixing state management approaches inconsistently across the same app
 
 ## When to Apply

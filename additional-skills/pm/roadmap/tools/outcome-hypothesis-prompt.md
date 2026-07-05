@@ -25,7 +25,7 @@ Kill criteria: If [metric] doesn't reach [threshold] by [midpoint], reconsider.
 2. Baseline must be current measured value (not guessed)
 3. Target must be specific number, not "improve" or "increase"
 4. Timeframe = realistic measurement window post-launch (not build time)
-5. Review hypotheses monthly — update or kill items that fail leading indicators
+5. Review hypotheses monthly  -  update or kill items that fail leading indicators
 
 ## Quality Check
 

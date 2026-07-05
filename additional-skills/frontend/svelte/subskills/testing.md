@@ -8,7 +8,7 @@ Triggered when task involves: component testing, unit tests, integration tests, 
 
 1. **Vitest + @testing-library/svelte** for component/unit tests.
 2. **Playwright** for e2e and visual regression.
-3. **Test behavior, not implementation** — assert what user sees, not internal state.
+3. **Test behavior, not implementation**  -  assert what user sees, not internal state.
 4. **Svelte 5 testing** requires `@testing-library/svelte` v5+ for runes support.
 
 ## Decision Table
@@ -171,8 +171,8 @@ test('shows error on invalid credentials', async ({ page }) => {
 ## Rules
 
 - Never test implementation details (internal state, effect execution count).
-- Always use `screen` queries — prefer `getByRole` > `getByText` > `getByTestId`.
+- Always use `screen` queries  -  prefer `getByRole` > `getByText` > `getByTestId`.
 - Use `fireEvent` for simple events, `userEvent` for complex interactions.
 - Mock external deps (fetch, DB) at boundary, not inside components.
-- E2E tests own the full stack — no mocking.
+- E2E tests own the full stack  -  no mocking.
 - Every new component gets at minimum a render test with default props.

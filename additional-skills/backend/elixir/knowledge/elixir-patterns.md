@@ -20,7 +20,7 @@ end
 Rules:
 - Each step returns `{:ok, value}` or `{:error, reason}`
 - `else` matches on the FIRST non-matching value
-- Keep `with` chains under 5 steps — extract sub-functions beyond that
+- Keep `with` chains under 5 steps  -  extract sub-functions beyond that
 
 ## Pipe Operator
 
@@ -33,9 +33,9 @@ user_params
 ```
 
 Rules:
-- First argument must be the "subject" — reshape functions to take data first
-- Don't pipe into anonymous functions — extract named function
-- Don't pipe `case`/`if` — use `then/1` if needed: `value |> then(&if(&1 > 0, do: &1, else: 0))`
+- First argument must be the "subject"  -  reshape functions to take data first
+- Don't pipe into anonymous functions  -  extract named function
+- Don't pipe `case`/`if`  -  use `then/1` if needed: `value |> then(&if(&1 > 0, do: &1, else: 0))`
 
 ## Protocols (Polymorphism)
 
@@ -61,7 +61,7 @@ end
 ```
 
 Use when: different types need same operation with different implementations.
-Don't use when: you control all types — multi-clause function is simpler.
+Don't use when: you control all types  -  multi-clause function is simpler.
 
 ## Behaviours (Contracts)
 
@@ -96,7 +96,7 @@ Use when: swappable implementations (payment, mailer, storage), testing with Mox
 ## Pattern Matching in Function Heads
 
 ```elixir
-# Multi-clause functions — each clause handles a specific case
+# Multi-clause functions  -  each clause handles a specific case
 def handle_response({:ok, %{status: 200, body: body}}), do: {:ok, Jason.decode!(body)}
 def handle_response({:ok, %{status: 404}}), do: {:error, :not_found}
 def handle_response({:ok, %{status: 429}}), do: {:error, :rate_limited}
@@ -128,9 +128,9 @@ end
 ```
 
 Anti-patterns:
-- Macros for "DSL coolness" — confuses developers, breaks tooling
-- Macros that could be functions — if it doesn't need compile-time, don't use macros
-- Nested macros — extremely hard to debug
+- Macros for "DSL coolness"  -  confuses developers, breaks tooling
+- Macros that could be functions  -  if it doesn't need compile-time, don't use macros
+- Nested macros  -  extremely hard to debug
 
 ## Recursion Patterns
 

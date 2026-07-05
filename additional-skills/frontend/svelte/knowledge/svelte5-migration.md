@@ -143,9 +143,9 @@ export function logout() { user = null; }
 
 ## Gotchas
 
-1. **`$state` is deep reactive** — objects/arrays are proxied. Use `$state.raw()` if you need reference equality checks.
-2. **`$derived` must be pure** — no side effects inside. If you need both a derived value and a side effect, split them.
-3. **`$effect` auto-tracks synchronous reads only** — async reads (inside `await`, `setTimeout`) are not tracked.
-4. **Props are not reactive by default in parent** — passing `$state` to a child: child sees updates. But child mutations don't flow back unless `$bindable()`.
-5. **`onMount` still works** — but `$effect` with cleanup is more idiomatic in Svelte 5.
-6. **Stores still work** — migration is recommended but not required. Mix is allowed during transition.
+1. **`$state` is deep reactive**  -  objects/arrays are proxied. Use `$state.raw()` if you need reference equality checks.
+2. **`$derived` must be pure**  -  no side effects inside. If you need both a derived value and a side effect, split them.
+3. **`$effect` auto-tracks synchronous reads only**  -  async reads (inside `await`, `setTimeout`) are not tracked.
+4. **Props are not reactive by default in parent**  -  passing `$state` to a child: child sees updates. But child mutations don't flow back unless `$bindable()`.
+5. **`onMount` still works**  -  but `$effect` with cleanup is more idiomatic in Svelte 5.
+6. **Stores still work**  -  migration is recommended but not required. Mix is allowed during transition.

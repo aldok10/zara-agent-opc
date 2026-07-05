@@ -9,7 +9,7 @@ Deciding global vs local state, lifting state, component composition, state shar
 - Default to local. Lift only when siblings need it. Go global only when distant components share it.
 - Composition > context > global store. Each level adds coupling.
 - Global state categories: auth, theme, feature flags, toast/notifications, layout. Everything else: local or URL.
-- If two components need the same server data, that's not global state — it's a shared query key.
+- If two components need the same server data, that's not global state  -  it's a shared query key.
 
 ## Decision Tree: Where Does This State Live?
 
@@ -38,7 +38,7 @@ function App() {
   return <Layout user={user}><Sidebar user={user}><Avatar user={user} /></Sidebar></Layout>;
 }
 
-// GOOD: Composition — pass rendered elements
+// GOOD: Composition  -  pass rendered elements
 function App() {
   const [user, setUser] = useState<User | null>(null);
   return (
@@ -131,8 +131,8 @@ export const featureFlags = new FeatureFlags();
 
 ## Anti-patterns
 
-- Everything in one global store — makes testing and code splitting impossible.
-- Context for frequently-changing values — re-renders all consumers.
-- Duplicating server state in global store — use query cache.
-- Global state for form values — scope to form component.
-- Using global state to avoid passing 2 levels of props — composition solves this.
+- Everything in one global store  -  makes testing and code splitting impossible.
+- Context for frequently-changing values  -  re-renders all consumers.
+- Duplicating server state in global store  -  use query cache.
+- Global state for form values  -  scope to form component.
+- Using global state to avoid passing 2 levels of props  -  composition solves this.

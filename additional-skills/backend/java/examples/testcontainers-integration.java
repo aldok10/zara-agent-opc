@@ -23,7 +23,7 @@ import static org.awaitility.Awaitility.await;
 /**
  * Integration test using Testcontainers with Spring Boot 3.1+ @ServiceConnection.
  *
- * Real PostgreSQL and Kafka containers — no mocks, no H2.
+ * Real PostgreSQL and Kafka containers  -  no mocks, no H2.
  * Tests verify actual database behavior, event publishing, and cross-module communication.
  */
 @SpringBootTest
@@ -38,7 +38,7 @@ class OrderIntegrationTest {
         .withUsername("test")
         .withPassword("test");
 
-    // Kafka container — manual property registration (no @ServiceConnection for Kafka yet)
+    // Kafka container  -  manual property registration (no @ServiceConnection for Kafka yet)
     @Container
     static KafkaContainer kafka = new KafkaContainer(
         DockerImageName.parse("confluentinc/cp-kafka:7.6.0"));
@@ -99,7 +99,7 @@ class OrderIntegrationTest {
     void shouldRejectOrderWithInvalidItems() {
         var command = new CreateOrderCommand(
             "customer-1",
-            List.of()  // empty items — invalid
+            List.of()  // empty items  -  invalid
         );
 
         assertThatThrownBy(() -> orderService.createOrder(command))

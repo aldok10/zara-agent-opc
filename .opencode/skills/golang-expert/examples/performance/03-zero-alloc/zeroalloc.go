@@ -1,9 +1,9 @@
-// zero-alloc — demonstrates zero-allocation patterns for hot paths.
+// zero-alloc  -  demonstrates zero-allocation patterns for hot paths.
 //
 // Run: go test -bench=. -benchmem
 //
 // These patterns eliminate heap allocations in performance-critical code.
-// Use ONLY on measured hot paths — don't apply everywhere (YAGNI).
+// Use ONLY on measured hot paths  -  don't apply everywhere (YAGNI).
 
 package zeroalloc
 
@@ -27,14 +27,14 @@ func FormatRecord(dst []byte, id int64, name, status string) []byte {
 	return dst
 }
 
-// FormatRecordSprintf uses fmt.Sprintf — allocates.
+// FormatRecordSprintf uses fmt.Sprintf  -  allocates.
 func FormatRecordSprintf(id int64, name, status string) string {
 	return `{"id":` + strconv.FormatInt(id, 10) + `,"name":"` + name + `","status":"` + status + `"}`
 }
 
 // --- Pattern 2: strings.Builder with Grow ---
 
-// JoinWithBuilder pre-allocates exact size — single allocation.
+// JoinWithBuilder pre-allocates exact size  -  single allocation.
 func JoinWithBuilder(parts []string, sep string) string {
 	if len(parts) == 0 {
 		return ""
@@ -54,7 +54,7 @@ func JoinWithBuilder(parts []string, sep string) string {
 	return b.String()
 }
 
-// JoinNaive concatenates with + operator — O(n) allocations.
+// JoinNaive concatenates with + operator  -  O(n) allocations.
 func JoinNaive(parts []string, sep string) string {
 	result := ""
 	for i, s := range parts {
@@ -68,7 +68,7 @@ func JoinNaive(parts []string, sep string) string {
 
 // --- Pattern 3: Slice reuse ---
 
-// FilterInPlace reuses the input slice's backing array — zero allocation.
+// FilterInPlace reuses the input slice's backing array  -  zero allocation.
 func FilterInPlace(items []int, keep func(int) bool) []int {
 	result := items[:0] // reuse backing array
 	for _, item := range items {
@@ -79,7 +79,7 @@ func FilterInPlace(items []int, keep func(int) bool) []int {
 	return result
 }
 
-// FilterAlloc always creates a new slice — allocates.
+// FilterAlloc always creates a new slice  -  allocates.
 func FilterAlloc(items []int, keep func(int) bool) []int {
 	var result []int
 	for _, item := range items {

@@ -134,5 +134,5 @@ function getLength(x: { length: number }): number {
 
 ## Delegates To
 
-- `utility-types` — for Pick/Omit/Record patterns using mapped types
-- `branded-types` — for branded generics in domain modeling
+- `utility-types`  -  for Pick/Omit/Record patterns using mapped types
+- `branded-types`  -  for branded generics in domain modeling

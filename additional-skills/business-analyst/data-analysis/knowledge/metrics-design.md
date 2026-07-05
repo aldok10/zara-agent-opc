@@ -65,7 +65,7 @@ Product teams should own ~70% leading, 30% lagging. Leading = time to intervene;
 1. **Vanity metrics**: total sign-ups (always goes up, says nothing)
 2. **Too many**: tracking 50+ → no focus
 3. **Gaming-prone**: lines of code, ticket count
-4. **Missing denominator**: "500 errors" — out of how many requests?
+4. **Missing denominator**: "500 errors"  -  out of how many requests?
 
 ## Design Process
 
@@ -78,4 +78,4 @@ Product teams should own ~70% leading, 30% lagging. Leading = time to intervene;
 
 ## Segmentation Rules
 
-Always break by: cohort (sign-up week), user type (free/paid), platform, acquisition channel. Aggregates hide problems — a "steady" average can mask one cohort thriving and another churning.
+Always break by: cohort (sign-up week), user type (free/paid), platform, acquisition channel. Aggregates hide problems  -  a "steady" average can mask one cohort thriving and another churning.

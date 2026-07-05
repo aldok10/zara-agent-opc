@@ -189,9 +189,9 @@ npx stryker run --mutate "$CHANGED"
 
 ## Performance Tips
 
-1. **Use coverageAnalysis: perTest** — only run tests affected by each mutant
-2. **Limit scope** — mutate only the PR's changed files in CI
-3. **Cache results** — Stryker incremental mode, PIT withHistory
-4. **Parallel execution** — set concurrency/threads to CPU count
-5. **Timeout tuning** — lower timeout kills hung mutants faster
-6. **Exclude generated code** — skip DTOs, config, migrations
+1. **Use coverageAnalysis: perTest**  -  only run tests affected by each mutant
+2. **Limit scope**  -  mutate only the PR's changed files in CI
+3. **Cache results**  -  Stryker incremental mode, PIT withHistory
+4. **Parallel execution**  -  set concurrency/threads to CPU count
+5. **Timeout tuning**  -  lower timeout kills hung mutants faster
+6. **Exclude generated code**  -  skip DTOs, config, migrations

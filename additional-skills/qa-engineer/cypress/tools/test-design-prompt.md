@@ -141,9 +141,9 @@ Cypress.Commands.add('login', (email = 'test@example.com') => {
 ## Cypress Test Plan: [Feature]
 
 ### Files to Create
-- `cypress/e2e/[feature].cy.ts` — E2E tests
-- `cypress/fixtures/[feature]-*.json` — API stubs
-- `cypress/support/[feature]-commands.ts` — Reusable commands (if needed)
+- `cypress/e2e/[feature].cy.ts`  -  E2E tests
+- `cypress/fixtures/[feature]-*.json`  -  API stubs
+- `cypress/support/[feature]-commands.ts`  -  Reusable commands (if needed)
 
 ### Test Cases ([count])
 | # | Scenario | Type | Priority |

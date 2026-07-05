@@ -20,7 +20,7 @@ title: "Drift Detection"
 - Audit drift events: who/what caused the divergence (RBAC + audit logs)
 
 ## Common Mistakes
-- Auto-healing all drift without investigating—could mask security incidents or operator bugs
+- Auto-healing all drift without investigating - could mask security incidents or operator bugs
 - Setting reconciliation intervals too long, allowing drift to persist and compound
 - Not excluding dynamic fields, causing constant "drift detected" noise
 

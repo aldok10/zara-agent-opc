@@ -4,16 +4,16 @@ LiveView: real-time server-rendered UI over WebSockets. Assigns, streams, hooks,
 
 ## Rules
 
-1. Use `assign/2` for small data, `stream/3` for large/paginated collections — streams don't hold all items in memory
-2. Function components (`attr`/`slot`) for stateless UI — LiveComponents only when you need isolated state or `handle_event`
-3. `phx-debounce` on text inputs, `phx-throttle` on scroll/resize — don't flood the server
-4. PubSub for cross-LiveView communication — never reach into another LV's process
+1. Use `assign/2` for small data, `stream/3` for large/paginated collections  -  streams don't hold all items in memory
+2. Function components (`attr`/`slot`) for stateless UI  -  LiveComponents only when you need isolated state or `handle_event`
+3. `phx-debounce` on text inputs, `phx-throttle` on scroll/resize  -  don't flood the server
+4. PubSub for cross-LiveView communication  -  never reach into another LV's process
 5. Uploads: validate content type + max size in `allow_upload/3`, process in `consume_uploaded_entries/3`
-6. JS hooks (`phx-hook`) only when server can't handle it — animations, third-party JS libs, clipboard
-7. Use `assign_async/3` for data that loads after mount — shows loading states properly
-8. `on_mount` hooks for auth/shared assigns — don't duplicate in every LiveView
-9. Keep `handle_event` thin — delegate to context functions, return assigns
-10. `push_event` to send data to JS hooks — never embed large data in assigns for JS consumption
+6. JS hooks (`phx-hook`) only when server can't handle it  -  animations, third-party JS libs, clipboard
+7. Use `assign_async/3` for data that loads after mount  -  shows loading states properly
+8. `on_mount` hooks for auth/shared assigns  -  don't duplicate in every LiveView
+9. Keep `handle_event` thin  -  delegate to context functions, return assigns
+10. `push_event` to send data to JS hooks  -  never embed large data in assigns for JS consumption
 
 ## Patterns
 
@@ -70,11 +70,11 @@ end
 
 ## Anti-Patterns
 
-- Storing full collections in assigns (memory per connection) — use streams
-- LiveComponents for purely presentational UI — function components are lighter
-- Business logic in `handle_event` — belongs in contexts
-- Polling with `Process.send_after` when PubSub would work — wasteful
-- Large `assign` payloads sent on every event — use `changed` tracking, assign only what changed
+- Storing full collections in assigns (memory per connection)  -  use streams
+- LiveComponents for purely presentational UI  -  function components are lighter
+- Business logic in `handle_event`  -  belongs in contexts
+- Polling with `Process.send_after` when PubSub would work  -  wasteful
+- Large `assign` payloads sent on every event  -  use `changed` tracking, assign only what changed
 - `phx-hook` for things LiveView can handle natively (forms, navigation, visibility)
 
 ## JS Interop
@@ -99,8 +99,8 @@ Hooks.Highlight = {
 
 ## Verification
 
-1. `mix test` — all LiveView tests pass (use `live/2`, `render_submit/2`, `render_change/2`)
+1. `mix test`  -  all LiveView tests pass (use `live/2`, `render_submit/2`, `render_change/2`)
 2. Confirm streams render with `phx-update="stream"` and `id` on each item
-3. Check no N+1 in mount — preload associations in context
+3. Check no N+1 in mount  -  preload associations in context
 4. Verify PubSub subscriptions have matching `handle_info` clauses
 5. Test upload flow: valid file accepted, oversized/wrong type rejected

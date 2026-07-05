@@ -1,6 +1,6 @@
 # User Interviews
 
-## The Mom Test (Rob Fitzpatrick) — Three Rules
+## The Mom Test (Rob Fitzpatrick)  -  Three Rules
 
 1. Talk about their life instead of your idea
 2. Ask about specifics in the past instead of generics or opinions about the future
@@ -17,7 +17,7 @@ Meetings succeed when they end with commitment. Three currencies of commitment:
 
 "Compliments are worthless as data because they cost nothing to give."
 
-Escalation ladder: follow-up → intro to decision-maker → pilot → LOI → payment. If they won't advance, you don't have signal—you have politeness.
+Escalation ladder: follow-up → intro to decision-maker → pilot → LOI → payment. If they won't advance, you don't have signal - you have politeness.
 
 ## JTBD Question Patterns
 
@@ -76,7 +76,7 @@ Escalation ladder: follow-up → intro to decision-maker → pilot → LOI → p
 ## Output Format
 
 ```
-## Interview: [Participant ID] — [Date]
+## Interview: [Participant ID]  -  [Date]
 Segment: [description]
 Context: [what they do, relevant background]
 
@@ -84,7 +84,7 @@ Context: [what they do, relevant background]
 1. [Behavior story with quotes]
 
 ### Opportunity Signals
-- [Opportunity statement] — Intensity: [H/M/L]
+- [Opportunity statement]  -  Intensity: [H/M/L]
 
 ### Surprises
 - [Unexpected finding]

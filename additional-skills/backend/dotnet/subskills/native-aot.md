@@ -4,16 +4,16 @@
 
 ## Rules
 
-1. Enable AOT with `<PublishAot>true</PublishAot>` — test from day one, not as afterthought
-2. Use `System.Text.Json` source generation — `[JsonSerializable]` context required
-3. No `System.Reflection.Emit` — no dynamic proxy generation, no Castle.Core
+1. Enable AOT with `<PublishAot>true</PublishAot>`  -  test from day one, not as afterthought
+2. Use `System.Text.Json` source generation  -  `[JsonSerializable]` context required
+3. No `System.Reflection.Emit`  -  no dynamic proxy generation, no Castle.Core
 4. Use `[DynamicallyAccessedMembers]` attributes to preserve types from trimming
-5. All DI registrations must be statically analyzable — no `services.AddTransient(typeof(IFoo<>), typeof(Foo<>))`
-6. Use `LoggerMessage` source generator — not `ILogger.LogInformation($"...")`
+5. All DI registrations must be statically analyzable  -  no `services.AddTransient(typeof(IFoo<>), typeof(Foo<>))`
+6. Use `LoggerMessage` source generator  -  not `ILogger.LogInformation($"...")`
 7. Replace `Activator.CreateInstance` with factory patterns or source generators
-8. Use `[JsonDerivedType]` for polymorphic serialization — not runtime type discovery
+8. Use `[JsonDerivedType]` for polymorphic serialization  -  not runtime type discovery
 9. Enable AOT analyzers: `<IsAotCompatible>true</IsAotCompatible>` in library projects
-10. Validate with `dotnet publish -r linux-x64 -c Release` — check for trim warnings
+10. Validate with `dotnet publish -r linux-x64 -c Release`  -  check for trim warnings
 11. Use `RequestDelegateGenerator` (built-in) for Minimal API AOT support
 12. Prefer `FrozenDictionary`/`FrozenSet` for static lookup tables (AOT-optimized)
 
@@ -97,16 +97,16 @@ public static class HandlerFactory
 
 ## Anti-Patterns
 
-- Adding `<PublishAot>` late in development — trim issues compound
+- Adding `<PublishAot>` late in development  -  trim issues compound
 - Using libraries without AOT annotations (check NuGet for `IsAotCompatible`)
 - Suppressing trim warnings with `[UnconditionalSuppressMessage]` without understanding impact
 - Dynamic generic type resolution at runtime
-- Newtonsoft.Json (not AOT-compatible) — use System.Text.Json with source gen
+- Newtonsoft.Json (not AOT-compatible)  -  use System.Text.Json with source gen
 
 ## Verification
 
-1. `dotnet publish -c Release -r <rid>` — zero trim/AOT warnings
-2. Run published binary — verify all endpoints respond correctly
+1. `dotnet publish -c Release -r <rid>`  -  zero trim/AOT warnings
+2. Run published binary  -  verify all endpoints respond correctly
 3. Check binary size: Minimal API AOT should be 10-30MB
-4. Startup time: measure with `time ./app` — should be <100ms
+4. Startup time: measure with `time ./app`  -  should be <100ms
 5. Verify no reflection calls at runtime with `DOTNET_EnableDiagnostics=0`

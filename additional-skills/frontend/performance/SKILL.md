@@ -35,7 +35,7 @@ Measure first. Run Lighthouse or check CrUX data before proposing optimizations.
 - Block main thread with synchronous third-party scripts
 - Use large JavaScript bundles without code splitting
 - Ignore CLS from dynamically injected content (ads, fonts, images)
-- Trust synthetic-only metrics — validate with field data (CrUX)
+- Trust synthetic-only metrics  -  validate with field data (CrUX)
 
 ## Route to Subskill
 
@@ -56,8 +56,8 @@ Measure first. Run Lighthouse or check CrUX data before proposing optimizations.
 
 ## Knowledge
 
-- `knowledge/cwv-optimization.md` — Core Web Vitals optimization checklist
-- `knowledge/common-mistakes.md` — 12 performance mistakes with fixes
+- `knowledge/cwv-optimization.md`  -  Core Web Vitals optimization checklist
+- `knowledge/common-mistakes.md`  -  12 performance mistakes with fixes
 
 ## AI-Era Context (2026)
 
@@ -69,5 +69,5 @@ Measure first. Run Lighthouse or check CrUX data before proposing optimizations.
 
 ## Related Skills
 
-- `typescript-expert` — tree-shaking and module boundaries
-- `frontend/testing` — performance regression testing
+- `typescript-expert`  -  tree-shaking and module boundaries
+- `frontend/testing`  -  performance regression testing

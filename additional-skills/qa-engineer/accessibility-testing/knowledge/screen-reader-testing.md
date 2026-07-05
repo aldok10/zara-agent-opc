@@ -60,17 +60,17 @@ title: "Screen Reader Testing Patterns"
 
 ## VoiceOver-Specific Gotchas
 
-- `role="application"` disables most VO keyboard shortcuts — avoid unless building custom widgets
+- `role="application"` disables most VO keyboard shortcuts  -  avoid unless building custom widgets
 - CSS `display:none` and `visibility:hidden` both remove from accessibility tree
-- `aria-hidden="true"` on parent hides all descendants — no override possible
+- `aria-hidden="true"` on parent hides all descendants  -  no override possible
 - VO announces `<table>` differently than `role="table"` in some contexts
-- VO requires `<label>` or `aria-label` on `<input>` — placeholder alone insufficient
+- VO requires `<label>` or `aria-label` on `<input>`  -  placeholder alone insufficient
 
 ## NVDA-Specific Patterns
 
 - Browse mode vs Focus mode switching is automatic for form fields
 - `aria-describedby` read after a pause (users may miss it)
-- Virtual buffer may cache content — dynamic updates need live regions
+- Virtual buffer may cache content  -  dynamic updates need live regions
 - NVDA+Space toggles focus mode for custom widgets
 
 ## Testing Checklist

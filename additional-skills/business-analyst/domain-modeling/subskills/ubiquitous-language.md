@@ -7,11 +7,11 @@ title: "Ubiquitous Language"
 
 ## Core Concepts
 
-- One shared vocabulary used by developers, domain experts, and stakeholders — no translation layer
+- One shared vocabulary used by developers, domain experts, and stakeholders  -  no translation layer
 - Terms are precise within a bounded context; ambiguity is a design smell
 - The language appears in code (class names, methods), docs, and conversations identically
-- Language evolves: when understanding deepens, rename things — don't preserve legacy confusion
-- Disagreement on terms reveals disagreement on concepts — resolve the concept first
+- Language evolves: when understanding deepens, rename things  -  don't preserve legacy confusion
+- Disagreement on terms reveals disagreement on concepts  -  resolve the concept first
 
 ## Key Practices
 
@@ -19,7 +19,7 @@ title: "Ubiquitous Language"
 - Name code elements using domain language: `PolicyHolder`, not `User`; `Claim`, not `Request`
 - Challenge synonyms: if two people use different words for the same thing, pick one and commit
 - Use the language in all artifacts: tickets, tests, documentation, conversations
-- When a term feels wrong or forced, it signals a modeling problem — investigate
+- When a term feels wrong or forced, it signals a modeling problem  -  investigate
 
 ## Common Mistakes
 

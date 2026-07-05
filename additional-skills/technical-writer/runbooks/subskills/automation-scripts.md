@@ -7,7 +7,7 @@ title: "Automation Scripts Documentation"
 
 ## Core Concepts
 - Automation script docs describe operational scripts: what they do, how to run them, what to expect
-- Scripts are code but consumed by operators—documentation bridges the gap
+- Scripts are code but consumed by operators - documentation bridges the gap
 - Must cover: purpose, prerequisites, parameters, expected output, error handling, rollback
 - Scripts in runbooks should be tested, version-controlled, and reviewed like production code
 - Idempotency: document whether a script is safe to re-run or has side effects

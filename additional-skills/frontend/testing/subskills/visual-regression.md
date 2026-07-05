@@ -11,10 +11,10 @@ User needs screenshot comparison tests, design system component QA, or visual re
 
 ## Core Principles
 
-- Visual tests supplement functional tests — never replace them
+- Visual tests supplement functional tests  -  never replace them
 - Test components in known states (default, hover, error, loading, responsive)
 - Consistent environment: fixed viewport, fonts loaded, animations disabled
-- Review visual diffs intentionally — auto-approve is an anti-pattern
+- Review visual diffs intentionally  -  auto-approve is an anti-pattern
 - Keep visual baselines in version control or dedicated service
 
 ## Decision Table
@@ -53,7 +53,7 @@ test('button states', async ({ page }) => {
 ### Consistent Environment
 
 ```ts
-// playwright.config.ts — visual test project
+// playwright.config.ts  -  visual test project
 {
   name: 'visual',
   use: {

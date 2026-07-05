@@ -9,9 +9,9 @@ title: "Navigation"
 
 - React Navigation is the standard: stack, tab, and drawer navigators compose into navigation trees
 - Navigation state is serializable: enables deep linking, state persistence, and URL-based routing
-- Screens are mounted/unmounted as users navigate — manage cleanup in useEffect return
+- Screens are mounted/unmounted as users navigate  -  manage cleanup in useEffect return
 - Type-safe navigation: define param types per screen to catch route errors at compile time
-- Deep linking maps URLs to specific screens with parameters — critical for notifications and sharing
+- Deep linking maps URLs to specific screens with parameters  -  critical for notifications and sharing
 
 ## Key Practices
 

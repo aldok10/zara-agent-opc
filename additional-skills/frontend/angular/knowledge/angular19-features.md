@@ -88,7 +88,7 @@ export const appConfig: ApplicationConfig = {
 With zoneless:
 - Change detection runs only when signals update or events fire.
 - No zone.js overhead (~60KB removed from bundle).
-- `setTimeout`/`setInterval` no longer trigger CD — use signals.
+- `setTimeout`/`setInterval` no longer trigger CD  -  use signals.
 - Manual `ChangeDetectorRef.detectChanges()` still works but shouldn't be needed.
 
 ## resource() / httpResource()
@@ -116,7 +116,7 @@ Status values: `idle`, `loading`, `resolved`, `error`, `reloading`, `local` (opt
 ## Dependency Injection
 
 ```typescript
-// inject() — preferred
+// inject()  -  preferred
 private readonly http = inject(HttpClient);
 private readonly router = inject(Router);
 
@@ -220,7 +220,7 @@ export class ChartComponent {
       this.initChart();
     });
 
-    // Run after every render (careful — performance)
+    // Run after every render (careful  -  performance)
     afterRender(() => {
       this.syncScroll();
     });

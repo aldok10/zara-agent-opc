@@ -27,10 +27,10 @@ import { Component, ChangeDetectionStrategy, signal, computed, effect } from '@a
   `,
 })
 export class CounterComponent {
-  // Writable signal — primary state
+  // Writable signal  -  primary state
   readonly count = signal(0);
 
-  // Computed — derived state (lazy, memoized)
+  // Computed  -  derived state (lazy, memoized)
   readonly double = computed(() => this.count() * 2);
   readonly parity = computed(() => this.count() % 2 === 0 ? 'even' : 'odd');
 
@@ -38,7 +38,7 @@ export class CounterComponent {
   readonly history = signal<string[]>([]);
 
   constructor() {
-    // Effect — side effect on signal change
+    // Effect  -  side effect on signal change
     effect(() => {
       const current = this.count();
       if (current > 0) {

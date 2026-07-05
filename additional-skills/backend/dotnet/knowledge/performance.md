@@ -106,7 +106,7 @@ var data = await httpClient.GetAsync(url, ct).ConfigureAwait(false);
 
 // Avoid async state machine for trivial wrappers:
 public Task SaveAsync(Product p, CancellationToken ct) =>
-    _db.SaveChangesAsync(ct); // no async/await — direct return
+    _db.SaveChangesAsync(ct); // no async/await  -  direct return
 ```
 
 ## Measurement

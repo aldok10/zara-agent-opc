@@ -14,7 +14,7 @@ title: "Metrics Design"
 
 ## Key Practices
 - Instrument the four golden signals: latency, traffic, errors, saturation
-- Use histograms over averages for latency—percentiles reveal tail behavior
+- Use histograms over averages for latency - percentiles reveal tail behavior
 - Keep label cardinality bounded: avoid user IDs, request IDs, or unbounded values as labels
 - Name metrics consistently: `<namespace>_<subsystem>_<name>_<unit>` (e.g., `http_request_duration_seconds`)
 - Define meaningful SLIs from user perspective, derive SLOs, then build error budgets

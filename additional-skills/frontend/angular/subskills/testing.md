@@ -5,10 +5,10 @@ Activation: user writes or fixes tests for Angular components, services, signals
 ## Core Principles
 
 1. Test behavior, not implementation. Assert what the user sees/gets.
-2. Signals simplify testing — read signal values directly, no async piping.
+2. Signals simplify testing  -  read signal values directly, no async piping.
 3. Use `TestBed` for integration, plain instantiation for unit.
 4. Prefer component harnesses over direct DOM queries.
-5. Keep tests fast — mock HTTP, avoid real timers.
+5. Keep tests fast  -  mock HTTP, avoid real timers.
 
 ## Decision Table
 

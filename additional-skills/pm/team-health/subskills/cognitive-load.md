@@ -11,7 +11,7 @@ Three types from Sweller's Cognitive Load Theory (1988), adopted by Team Topolog
 ### Intrinsic Load
 Domain complexity itself. Business rules, domain models, regulatory requirements.
 - Reduce via: bounded contexts, domain-driven design, clear ubiquitous language.
-- Cannot eliminate—this IS the work. But can bound it per team.
+- Cannot eliminate - this IS the work. But can bound it per team.
 
 ### Extraneous Load
 Tooling, process, and environmental friction. Build systems, deployment, cross-team coordination.

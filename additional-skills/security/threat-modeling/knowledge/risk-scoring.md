@@ -5,7 +5,7 @@ title: "Risk Scoring - 5x5 Matrix, DREAD, CVSS, Prioritization"
 
 # Risk Scoring
 
-Risk scoring quantifies threats to enable prioritization. No single model fits all contexts — choose based on audience and precision needs.
+Risk scoring quantifies threats to enable prioritization. No single model fits all contexts  -  choose based on audience and precision needs.
 
 ## 5x5 Risk Matrix
 
@@ -56,11 +56,11 @@ Developed at Microsoft for threat prioritization. Score each factor 1-10:
 
 Ranges: 1-3 Low, 4-6 Medium, 7-10 High.
 
-Criticism: Discoverability is debated — some organizations assume all vulnerabilities are discoverable (score = 10) to avoid false sense of security.
+Criticism: Discoverability is debated  -  some organizations assume all vulnerabilities are discoverable (score = 10) to avoid false sense of security.
 
 ## CVSS v4.0
 
-Common Vulnerability Scoring System — industry standard for vulnerability severity.
+Common Vulnerability Scoring System  -  industry standard for vulnerability severity.
 
 ### Metric Groups
 
@@ -106,13 +106,13 @@ Risk appetite is the amount of risk an organization is willing to accept in purs
 
 1. **Score all identified threats** using chosen model (matrix, DREAD, or CVSS)
 2. **Apply context:** business criticality of affected asset, existing controls, regulatory exposure
-3. **Rank by adjusted risk score** — not raw score alone
+3. **Rank by adjusted risk score**  -  not raw score alone
 4. **Group into action tiers:**
    - Tier 1: Fix now (blocking release)
    - Tier 2: Fix this cycle
    - Tier 3: Backlog with review date
    - Tier 4: Accept with documented rationale
-5. **Reassess after mitigation** — verify residual risk is within appetite
+5. **Reassess after mitigation**  -  verify residual risk is within appetite
 
 ## Risk Acceptance Criteria
 
@@ -125,7 +125,7 @@ A risk can be formally accepted when ALL conditions are met:
 - Business justification is recorded
 - Acceptance is reviewed during periodic risk assessments
 
-Never accept risk by omission — undocumented acceptance is unmanaged risk.
+Never accept risk by omission  -  undocumented acceptance is unmanaged risk.
 
 ## Choosing a Model
 

@@ -67,7 +67,7 @@ experiment:
 ### Traffic Segmentation
 - Exclude VIP/enterprise customers from blast radius
 - Use feature flags to route experiment traffic
-- Identify revenue-critical paths — avoid during peak hours
+- Identify revenue-critical paths  -  avoid during peak hours
 - Consider geographic impact (don't chaos-test during business hours in affected region)
 
 ### Customer Impact Budget

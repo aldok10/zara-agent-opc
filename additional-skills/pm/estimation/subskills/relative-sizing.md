@@ -19,7 +19,7 @@ Compare items by effort/complexity relative to each other. Builds shared underst
 | S | Small, known pattern | Standard CRUD, minor UI |
 | M | Medium, some unknowns | New feature, moderate complexity |
 | L | Large, significant effort | Cross-cutting, integration |
-| XL | Too big — split first | Epic-level, high uncertainty |
+| XL | Too big  -  split first | Epic-level, high uncertainty |
 
 ## Fibonacci Sequence (1,2,3,5,8,13,21)
 
@@ -43,6 +43,6 @@ Rationale: larger items have more uncertainty, gaps between numbers reflect this
 
 - **Precision theater**: debating 5 vs 8 for 20 minutes (both mean "medium-large")
 - **Sizing everything**: don't size items already committed or trivially small
-- **Using sizes for commitment**: "we committed to 40 points" — no
+- **Using sizes for commitment**: "we committed to 40 points"  -  no
 - **Individual sizing**: one person estimates alone, defeats shared understanding
-- **Anchoring bias**: first speaker influences all — use simultaneous reveal
+- **Anchoring bias**: first speaker influences all  -  use simultaneous reveal

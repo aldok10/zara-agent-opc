@@ -50,11 +50,11 @@
 
 ### Manual Checklist
 
-1. Diff the spec file — any removed/renamed/retyped fields?
-2. Check request schemas — any new required fields?
-3. Check enums — any removed values?
-4. Check URL paths — any renamed/removed?
-5. Check auth — any scheme changes?
+1. Diff the spec file  -  any removed/renamed/retyped fields?
+2. Check request schemas  -  any new required fields?
+3. Check enums  -  any removed values?
+4. Check URL paths  -  any renamed/removed?
+5. Check auth  -  any scheme changes?
 6. Run contract tests against old client expectations
 
 ## Sunset Headers

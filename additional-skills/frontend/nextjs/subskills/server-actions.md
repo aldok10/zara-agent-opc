@@ -4,11 +4,11 @@ Activate when: server action, form, mutation, useActionState, useFormStatus, 'us
 
 ## Core Principles
 
-1. **Server Actions are public HTTP POST endpoints** — anyone can call them. NEVER trust the caller.
+1. **Server Actions are public HTTP POST endpoints**  -  anyone can call them. NEVER trust the caller.
 2. **Always validate**: auth (who) + authorization (can they) + input (what) inside every action.
-3. **Zod for input validation** — parse, don't validate. Return typed errors.
-4. **Minimal arguments** — accept IDs, not full objects. Fetch fresh data server-side.
-5. **Progressive enhancement** — forms work without JS via `action` prop.
+3. **Zod for input validation**  -  parse, don't validate. Return typed errors.
+4. **Minimal arguments**  -  accept IDs, not full objects. Fetch fresh data server-side.
+5. **Progressive enhancement**  -  forms work without JS via `action` prop.
 6. **useActionState** for form state management (replaces useFormState in React 19).
 7. **useFormStatus** for pending UI (loading states).
 
@@ -149,10 +149,10 @@ export function TodoList({ todos }: { todos: Todo[] }) {
 
 ## Common Mistakes
 
-1. No auth check — action is callable by anyone with the URL.
-2. Trusting client-sent objects — always re-fetch by ID server-side.
-3. Returning sensitive data in action response — only return what UI needs.
-4. Using `redirect()` inside try/catch — it throws internally, catch swallows it.
-5. Not using `revalidateTag`/`revalidatePath` after mutation — stale UI.
-6. Huge payloads in FormData without size limits — add validation.
+1. No auth check  -  action is callable by anyone with the URL.
+2. Trusting client-sent objects  -  always re-fetch by ID server-side.
+3. Returning sensitive data in action response  -  only return what UI needs.
+4. Using `redirect()` inside try/catch  -  it throws internally, catch swallows it.
+5. Not using `revalidateTag`/`revalidatePath` after mutation  -  stale UI.
+6. Huge payloads in FormData without size limits  -  add validation.
 7. Using `useFormState` (deprecated) instead of `useActionState` (React 19).

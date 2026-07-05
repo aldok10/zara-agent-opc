@@ -9,8 +9,8 @@ Triggered when task involves: transitions, animations, motion, fly, fade, slide,
 1. **Built-in transitions** for enter/exit animations (`transition:`, `in:`, `out:`).
 2. **Animate directive** for list reordering (`animate:flip`).
 3. **Motion** utilities (`spring`, `tweened`) for interpolated values.
-4. **CSS transitions preferred** — GPU-accelerated, non-blocking.
-5. **Reduced motion** — always respect `prefers-reduced-motion`.
+4. **CSS transitions preferred**  -  GPU-accelerated, non-blocking.
+5. **Reduced motion**  -  always respect `prefers-reduced-motion`.
 
 ## Decision Table
 
@@ -215,6 +215,6 @@ export function typewriter(node: HTMLElement, {
 - Always provide `(item.id)` key in `{#each}` when using `animate:`.
 - Use `transition:` for toggle, `in:/out:` for asymmetric enter/exit.
 - Prefer CSS-based transitions (return `css` function) over tick-based for performance.
-- Test animations with `prefers-reduced-motion: reduce` — provide fallback or skip.
+- Test animations with `prefers-reduced-motion: reduce`  -  provide fallback or skip.
 - Keep durations under 400ms for UI interactions; longer only for decorative.
 - `local` modifier (`transition:fade|local`) for transitions that only play on direct block toggle, not parent.

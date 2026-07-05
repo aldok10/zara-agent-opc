@@ -56,7 +56,7 @@ public sealed interface PaymentResult
 public class ShippingCostCalculator {
 
     /**
-     * Exhaustive switch — compiler ensures all ShippingMethod variants handled.
+     * Exhaustive switch  -  compiler ensures all ShippingMethod variants handled.
      * Adding a new variant to the sealed interface = compile error here until handled.
      */
     public BigDecimal calculateCost(ShippingMethod method, BigDecimal orderTotal) {
@@ -74,7 +74,7 @@ public class ShippingCostCalculator {
     }
 
     /**
-     * Guarded patterns — additional conditions within case branches.
+     * Guarded patterns  -  additional conditions within case branches.
      */
     public String describeDelivery(ShippingMethod method) {
         return switch (method) {
@@ -103,7 +103,7 @@ public class OrderProcessor {
      */
     public String getStatusMessage(OrderStatus status) {
         return switch (status) {
-            case OrderStatus.Draft d -> "Order is in draft — confirm to proceed.";
+            case OrderStatus.Draft d -> "Order is in draft  -  confirm to proceed.";
             case OrderStatus.Confirmed c -> "Confirmed on " + c.confirmedAt() + ". Preparing shipment.";
             case OrderStatus.Shipped s -> "Shipped! Track with: " + s.trackingNumber();
             case OrderStatus.Delivered d -> "Delivered on " + d.deliveredAt() + ", signed by " + d.signedBy();
@@ -112,7 +112,7 @@ public class OrderProcessor {
     }
 
     /**
-     * Payment result handling — each variant has different recovery strategy.
+     * Payment result handling  -  each variant has different recovery strategy.
      */
     public OrderStatus handlePayment(PaymentResult result) {
         return switch (result) {

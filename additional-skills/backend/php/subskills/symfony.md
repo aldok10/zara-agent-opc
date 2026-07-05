@@ -33,7 +33,7 @@ src/
 - Transports: `doctrine://`, `amqp://`, `redis://` based on durability needs.
 - Retry strategy: `max_retries`, `delay`, `multiplier` per transport.
 - Stamps for metadata: `DelayStamp`, `TransportNamesStamp`.
-- Failure transport for dead letters — monitor and replay.
+- Failure transport for dead letters  -  monitor and replay.
 
 ### Workflow Component
 
@@ -66,14 +66,14 @@ src/
 
 ## Constraints
 
-1. No `ContainerInterface` injection — always inject specific services.
+1. No `ContainerInterface` injection  -  always inject specific services.
 2. Controllers must be invokable or max 5 actions.
 3. Doctrine entities: no logic beyond invariants. Business logic in domain services.
-4. Never use `EntityManager` directly in controllers — use repository pattern.
+4. Never use `EntityManager` directly in controllers  -  use repository pattern.
 5. All routes via attributes (`#[Route]`), not YAML (consistency).
 6. Event subscribers over listeners (explicit priority, multiple events).
-7. DTOs for Messenger messages — never entities on the bus.
-8. Twig: no PHP logic — use Twig extensions for complex rendering.
+7. DTOs for Messenger messages  -  never entities on the bus.
+8. Twig: no PHP logic  -  use Twig extensions for complex rendering.
 
 ## Testing
 
@@ -85,7 +85,7 @@ src/
 
 ## Verify
 
-- `bin/console lint:container` — DI container valid.
-- `bin/console debug:router` — routes resolve correctly.
-- `bin/console messenger:stats` — transport health.
-- `bin/phpunit` — all green.
+- `bin/console lint:container`  -  DI container valid.
+- `bin/console debug:router`  -  routes resolve correctly.
+- `bin/console messenger:stats`  -  transport health.
+- `bin/phpunit`  -  all green.

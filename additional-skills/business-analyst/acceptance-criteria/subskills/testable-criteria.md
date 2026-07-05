@@ -7,7 +7,7 @@ title: "Testable Criteria"
 
 ## Core Concepts
 
-- Every criterion must have a binary pass/fail outcome — no subjective interpretation
+- Every criterion must have a binary pass/fail outcome  -  no subjective interpretation
 - Use Given/When/Then format to express preconditions, actions, and expected results
 - Criteria should be independent of implementation details
 - Each criterion tests exactly one behavior; compound criteria get split
@@ -15,7 +15,7 @@ title: "Testable Criteria"
 
 ## Key Practices
 
-- Write criteria before implementation starts — they drive development, not follow it
+- Write criteria before implementation starts  -  they drive development, not follow it
 - Use concrete data examples: "Given user with balance $50" not "Given a user with money"
 - Include boundary values explicitly: zero, one, max, overflow
 - State negative cases: what should NOT happen is as important as what should
@@ -24,7 +24,7 @@ title: "Testable Criteria"
 ## Common Mistakes
 
 - Using subjective language: "intuitive", "user-friendly", "appropriate"
-- Mixing multiple behaviors in one criterion — makes failure diagnosis impossible
+- Mixing multiple behaviors in one criterion  -  makes failure diagnosis impossible
 - Writing criteria that only the happy path covers, ignoring error states
 
 ## When to Apply

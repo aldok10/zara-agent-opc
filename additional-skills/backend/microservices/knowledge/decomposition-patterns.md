@@ -7,8 +7,8 @@ How to break a monolith into services. Multiple strategies; choose based on cont
 DDD approach. Each service maps to a bounded context.
 
 1. Identify core domains via Event Storming or domain experts.
-2. Map bounded contexts — where language/models change, draw a boundary.
-3. Define context maps — relationships between contexts (upstream/downstream).
+2. Map bounded contexts  -  where language/models change, draw a boundary.
+3. Define context maps  -  relationships between contexts (upstream/downstream).
 4. Each bounded context becomes a candidate service.
 
 **Signals for boundary**: different ubiquitous language, different rate of change, different stakeholders.

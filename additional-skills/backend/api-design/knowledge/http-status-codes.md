@@ -1,6 +1,6 @@
 # HTTP Status Codes Reference
 
-## 2xx — Success
+## 2xx  -  Success
 
 | Code | Name | When to Use |
 |------|------|-------------|
@@ -10,7 +10,7 @@
 | 204 | No Content | DELETE success, PUT with no response body needed |
 | 206 | Partial Content | Range request fulfilled (`Content-Range` header) |
 
-## 3xx — Redirection
+## 3xx  -  Redirection
 
 | Code | Name | When to Use |
 |------|------|-------------|
@@ -20,7 +20,7 @@
 | 307 | Temporary Redirect | Redirect preserving method (POST stays POST) |
 | 308 | Permanent Redirect | Like 301 but preserves method |
 
-## 4xx — Client Errors
+## 4xx  -  Client Errors
 
 | Code | Name | When to Use |
 |------|------|-------------|
@@ -39,7 +39,7 @@
 | 422 | Unprocessable Content | Valid syntax but semantic validation failed |
 | 429 | Too Many Requests | Rate limited. MUST include `Retry-After` header |
 
-## 5xx — Server Errors
+## 5xx  -  Server Errors
 
 | Code | Name | When to Use |
 |------|------|-------------|

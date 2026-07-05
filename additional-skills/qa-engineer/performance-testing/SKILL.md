@@ -28,7 +28,7 @@
 | `constant-arrival-rate` | Open | Fixed RPS regardless of response time (API SLO) |
 | `ramping-arrival-rate` | Open | Ramp RPS up/down (capacity finding) |
 
-**Open vs Closed model**: arrival-rate executors decouple request rate from response time—if the system slows, more VUs spawn to maintain rate. Use for API targets with RPS SLOs. VU-based executors model real users with think time—use for browser/session flows.
+**Open vs Closed model**: arrival-rate executors decouple request rate from response time - if the system slows, more VUs spawn to maintain rate. Use for API targets with RPS SLOs. VU-based executors model real users with think time - use for browser/session flows.
 
 ```javascript
 export const options = {

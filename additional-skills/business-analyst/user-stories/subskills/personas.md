@@ -19,7 +19,7 @@ title: "Personas"
 - Include technical proficiency, usage frequency, and environmental constraints
 - Use personas in story writing: "As [Persona], I want X because [persona-specific motivation]"
 - Identify the primary persona whose needs take precedence when conflicts arise
-- Validate personas against real user data periodically — retire stale ones
+- Validate personas against real user data periodically  -  retire stale ones
 
 ## Common Mistakes
 

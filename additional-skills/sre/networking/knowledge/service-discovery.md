@@ -76,7 +76,7 @@ Best for: multi-cloud, hybrid environments, teams wanting dedicated discovery in
 
 ## Kubernetes Service Discovery
 
-Built into the platform — no additional infrastructure needed:
+Built into the platform  -  no additional infrastructure needed:
 
 ### ClusterIP Services
 

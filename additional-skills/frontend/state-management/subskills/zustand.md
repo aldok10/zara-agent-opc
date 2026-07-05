@@ -1,13 +1,13 @@
 # Zustand
 
-## Version Note (v5 — current stable, released 2024)
+## Version Note (v5  -  current stable, released 2024)
 
 - **Breaking:** Custom equality function as second arg to `create` is removed. Use `useShallow` from `zustand/shallow` for shallow comparison:
   ```ts
   import { useShallow } from 'zustand/shallow';
   const { name, age } = useStore(useShallow((s) => ({ name: s.name, age: s.age })));
   ```
-- `subscribeWithSelector` middleware is less necessary — `subscribe` now supports selectors natively.
+- `subscribeWithSelector` middleware is less necessary  -  `subscribe` now supports selectors natively.
 - TypeScript: `create<T>()(...)` double-call pattern is still required for type inference with middleware.
 
 ## Activation
@@ -19,7 +19,7 @@ React client-side synchronous state, stores, slices, middleware, persistence, de
 - One store per domain concern (auth, UI, cart) not one mega-store.
 - Slices pattern for large stores: compose independently, merge at creation.
 - Selectors prevent unnecessary re-renders. Always select minimal state.
-- Middleware order matters: `devtools(persist(immer(...)))` — outer wraps inner.
+- Middleware order matters: `devtools(persist(immer(...)))`  -  outer wraps inner.
 - Actions live inside the store. No external mutation.
 
 ## Decision Table
@@ -140,7 +140,7 @@ const useCartStore = create<CartState>()(
 
 ## Anti-patterns
 
-- Selecting entire store: `useStore()` — causes re-render on any change.
-- Storing server data — use TanStack Query instead.
-- Effects that sync between stores — derive or merge stores.
-- Creating stores inside components — creates new store per render.
+- Selecting entire store: `useStore()`  -  causes re-render on any change.
+- Storing server data  -  use TanStack Query instead.
+- Effects that sync between stores  -  derive or merge stores.
+- Creating stores inside components  -  creates new store per render.

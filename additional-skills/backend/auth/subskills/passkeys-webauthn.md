@@ -6,15 +6,15 @@ Passkeys are FIDO2 credentials synced across devices via platform keychain (iClo
 
 ## Rules
 
-1. Prefer synced passkeys (discoverable/resident credentials) over device-bound keys for consumer apps — recovery is built-in via cloud sync
+1. Prefer synced passkeys (discoverable/resident credentials) over device-bound keys for consumer apps  -  recovery is built-in via cloud sync
 2. Set `residentKey: "required"` for passwordless flows; `"preferred"` if supporting security keys as fallback
-3. Use `userVerification: "preferred"` — lets platform decide biometric/PIN; `"required"` blocks some security keys
-4. RP ID must be a registrable domain suffix of the origin — `auth.example.com` can use RP ID `example.com`
+3. Use `userVerification: "preferred"`  -  lets platform decide biometric/PIN; `"required"` blocks some security keys
+4. RP ID must be a registrable domain suffix of the origin  -  `auth.example.com` can use RP ID `example.com`
 5. Challenge must be cryptographically random, minimum 16 bytes, single-use, expire within 5 minutes
-6. Store credential public key, credential ID, sign count, and transports — never store attestation unless compliance requires it
-7. Verify sign count is strictly increasing on each authentication — stale/reset count signals cloned authenticator
-8. Implement conditional UI (`mediation: "conditional"`) for autofill-style passkey prompts — non-blocking UX
-9. Support multiple credentials per user for device redundancy — minimum 2 passkeys recommended during onboarding
+6. Store credential public key, credential ID, sign count, and transports  -  never store attestation unless compliance requires it
+7. Verify sign count is strictly increasing on each authentication  -  stale/reset count signals cloned authenticator
+8. Implement conditional UI (`mediation: "conditional"`) for autofill-style passkey prompts  -  non-blocking UX
+9. Support multiple credentials per user for device redundancy  -  minimum 2 passkeys recommended during onboarding
 10. Attestation: use `"none"` unless enterprise policy requires device provenance; `"direct"` adds privacy cost
 
 ## Registration Flow
@@ -58,11 +58,11 @@ Passkeys are FIDO2 credentials synced across devices via platform keychain (iClo
 
 ## Anti-Patterns
 
-- Requiring attestation for consumer apps — reduces compatibility, adds no security value
-- Using `userVerification: "discouraged"` — skips biometric, weakens 2FA to just possession
-- Single passkey per account — device loss = account lockout
-- Storing raw attestation blobs — wastes storage, privacy concern, rarely needed
-- Falling back to SMS OTP as primary when passkey unavailable — use TOTP or recovery codes
+- Requiring attestation for consumer apps  -  reduces compatibility, adds no security value
+- Using `userVerification: "discouraged"`  -  skips biometric, weakens 2FA to just possession
+- Single passkey per account  -  device loss = account lockout
+- Storing raw attestation blobs  -  wastes storage, privacy concern, rarely needed
+- Falling back to SMS OTP as primary when passkey unavailable  -  use TOTP or recovery codes
 
 ## UX Patterns
 

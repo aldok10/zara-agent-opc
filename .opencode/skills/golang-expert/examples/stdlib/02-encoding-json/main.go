@@ -1,6 +1,6 @@
-// encoding-json — demonstrates encoding/json package (no external lib needed).
+// encoding-json  -  demonstrates encoding/json package (no external lib needed).
 //
-// Go's encoding/json is production-ready — no need for JSON libraries
+// Go's encoding/json is production-ready  -  no need for JSON libraries
 // unless you need very specific performance characteristics.
 //
 // Key types: json.Marshal, json.Unmarshal, json.Encoder, json.Decoder,
@@ -27,7 +27,7 @@ type Person struct {
 	Name      string    `json:"name"`
 	Email     string    `json:"email,omitempty"`
 	CreatedAt time.Time `json:"created_at"`
-	// Tags is a slice — omitempty skips if nil/empty
+	// Tags is a slice  -  omitempty skips if nil/empty
 	Tags []string `json:"tags,omitempty"`
 	// Secret won't be marshaled (unexported field)
 	secret string
@@ -80,10 +80,10 @@ func main() {
 	if err := json.Unmarshal(b, &p2); err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("2. Unmarshaled back: ID=%d, Name=%s, secret=%q (empty — unexported)\n\n",
+	fmt.Printf("2. Unmarshaled back: ID=%d, Name=%s, secret=%q (empty  -  unexported)\n\n",
 		p2.ID, p2.Name, p2.secret)
 
-	// 3. Streaming Decoder — read from a reader
+	// 3. Streaming Decoder  -  read from a reader
 	jsonStream := `{"name": "Bob", "age": 30}
 {"name": "Charlie", "age": 25}`
 	decoder := json.NewDecoder(strings.NewReader(jsonStream))
@@ -102,14 +102,14 @@ func main() {
 	}
 	fmt.Println()
 
-	// 4. Streaming Encoder — write directly to writer
+	// 4. Streaming Encoder  -  write directly to writer
 	fmt.Println("4. Streaming encode to stdout:")
 	encoder := json.NewEncoder(os.Stdout)
 	encoder.SetIndent("", "  ")
 	encoder.Encode(p)
 	fmt.Println()
 
-	// 5. json.RawMessage — parse partially
+	// 5. json.RawMessage  -  parse partially
 	raw := `{"status": "ok", "data": {"user": "admin", "role": "super"}}`
 	var resp FlexibleResponse
 	if err := json.Unmarshal([]byte(raw), &resp); err != nil {
@@ -135,12 +135,12 @@ func main() {
 	json.Unmarshal([]byte(`"custom_world"`), &c2)
 	fmt.Printf("   Custom unmarshal: %+v\n", c2)
 
-	// 7. json.HTMLEscape — safe for embedding in HTML
+	// 7. json.HTMLEscape  -  safe for embedding in HTML
 	var buf bytes.Buffer
 	json.HTMLEscape(&buf, []byte(`{"x":"<script>alert('xss')</script>"}`))
 	fmt.Printf("\n7. HTMLEscaped: %s\n", buf.String())
 
-	// 8. json.Valid — validate before parsing
+	// 8. json.Valid  -  validate before parsing
 	fmt.Printf("\n8. json.Valid checks:\n")
 	fmt.Printf(`   "{}" -> %t (valid)`, json.Valid([]byte("{}")))
 	fmt.Printf(`   "{invalid" -> %t (invalid)`, json.Valid([]byte("{invalid")))

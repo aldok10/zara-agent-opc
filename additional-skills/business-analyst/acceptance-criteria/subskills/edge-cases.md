@@ -8,7 +8,7 @@ title: "Edge Cases"
 ## Core Concepts
 
 - Edge cases live at boundaries: empty inputs, max values, concurrent access, time zones
-- Every business rule has a "what if" shadow — the path nobody discussed in the meeting
+- Every business rule has a "what if" shadow  -  the path nobody discussed in the meeting
 - Edge cases are not optional extras; they prevent production incidents
 - Categories: boundary values, null/empty states, timing issues, permission conflicts, data format variations
 - Discovery happens through systematic questioning, not hope
@@ -23,7 +23,7 @@ title: "Edge Cases"
 
 ## Common Mistakes
 
-- Assuming "the user will never do that" — they will, on day one
+- Assuming "the user will never do that"  -  they will, on day one
 - Only testing the golden path during story refinement
 - Discovering edge cases in production instead of during analysis
 

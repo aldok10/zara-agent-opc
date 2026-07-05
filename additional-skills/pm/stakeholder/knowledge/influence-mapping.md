@@ -49,7 +49,7 @@ The foundational tool for stakeholder analysis. Maps each stakeholder on two axe
 - They become your champions if engaged well
 
 ### For Manage Closely (High Power, Low Interest)
-- Don't bore with details — give executive summaries
+- Don't bore with details  -  give executive summaries
 - Highlight what matters TO THEM (their goals, their metrics)
 - Proactive escalation of risks that could affect them
 - Monthly touchpoints, brief and focused
@@ -58,7 +58,7 @@ The foundational tool for stakeholder analysis. Maps each stakeholder on two axe
 ### For Keep Informed (Low Power, High Interest)
 - Consistent updates (newsletter, async docs)
 - Invite to demos and showcases
-- Listen — they often have domain expertise
+- Listen  -  they often have domain expertise
 - Warning: they may gain power (promotion, org change)
 
 ### For Monitor (Low Power, Low Interest)
@@ -125,7 +125,7 @@ Keep Informed: Design team
 ## Advanced Techniques
 
 ### Stakeholder Ecosystem Map
-Beyond individual mapping — understand relationships between stakeholders:
+Beyond individual mapping  -  understand relationships between stakeholders:
 ```
 [CTO] ←trusts→ [VP Eng] ←reports to→ [CEO]
    ↑                                       ↑

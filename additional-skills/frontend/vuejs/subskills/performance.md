@@ -48,7 +48,7 @@ const ModalDialog = defineAsyncComponent({
 </template>
 ```
 
-Only re-renders when `item.id` or `item.updated` changes. Use sparingly — premature optimization otherwise.
+Only re-renders when `item.id` or `item.updated` changes. Use sparingly  -  premature optimization otherwise.
 
 ## Vapor Mode (Vue 3.5+)
 

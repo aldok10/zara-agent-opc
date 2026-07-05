@@ -56,11 +56,11 @@ defmodule MyApp.Domain.Supervisor do
   @impl true
   def init(_init_arg) do
     children = [
-      # Cache process — independent, restart alone
+      # Cache process  -  independent, restart alone
       MyApp.Cache,
-      # Rate limiter — independent
+      # Rate limiter  -  independent
       MyApp.RateLimiter,
-      # Game room supervisor — dynamically spawns game processes
+      # Game room supervisor  -  dynamically spawns game processes
       {DynamicSupervisor,
         name: MyApp.GameSupervisor,
         strategy: :one_for_one,

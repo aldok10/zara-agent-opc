@@ -69,7 +69,7 @@
 
 ### Committed vs Aspirational Scoring (Reclaro 2025)
 
-- **Committed KRs**: binary—must hit 100%. Score: 1.0 or 0.0. No partial credit.
+- **Committed KRs**: binary - must hit 100%. Score: 1.0 or 0.0. No partial credit.
 - **Aspirational KRs**: 70% = green (strong). 100% = you sandbagged.
 - Perfect existing scoring process > adopting new frameworks prematurely
 - Focus: consistency of measurement, not sophistication of rubric

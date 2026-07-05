@@ -37,7 +37,7 @@
 - If heated: 2min silent break, then resume
 
 ### Energy Management
-- Check energy at start — adjust timebox if low
+- Check energy at start  -  adjust timebox if low
 - Break at 30min mark for 60min+ retros
 - Energizer if group is flat (see facilitation-formats.md)
 - End 5min early rather than dragging over time
@@ -77,14 +77,14 @@
 - Use AI to synthesize/cluster retro items (group 30+ stickies into themes)
 - AI-generated action item drafts from discussion notes (human approves)
 - Sentiment analysis on retro trends across sprints (Retrium, Parabol)
-- Never let AI replace human facilitation—augment only
+- Never let AI replace human facilitation - augment only
 
 ## Equal Participation Techniques
 
 - Anonymous submission (reduces power dynamics)
 - Round-robin + "pass" option (ensures air time)
 - Written-first always (silent write is non-negotiable)
-- Track speaking time—redistribute if >40% from one person
+- Track speaking time - redistribute if >40% from one person
 - Explicitly invite quieter members: "X, anything to add?"
 
 ## Common Mistakes

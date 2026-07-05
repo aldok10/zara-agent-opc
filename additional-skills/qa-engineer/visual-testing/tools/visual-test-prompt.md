@@ -56,7 +56,7 @@ Design and implement a visual regression testing strategy with appropriate tooli
 ### 3. Configure Capture
 
 ```typescript
-// playwright.config.ts — visual test project
+// playwright.config.ts  -  visual test project
 {
   name: 'visual',
   use: {

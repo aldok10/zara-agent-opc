@@ -22,9 +22,9 @@ Job executor: [role/persona]. Context: [situation triggering the job].
 - "What does 'done well' look like? How do you know you succeeded?"
 
 ## Questions to AVOID
-- "Would you use X?" (hypothetical—worthless)
-- "How much would you pay?" (stated preference—unreliable)
-- "What features do you want?" (solution-space—their job, not yours)
-- "Do you like this idea?" (compliment-fishing—Mom Test violation)
+- "Would you use X?" (hypothetical - worthless)
+- "How much would you pay?" (stated preference - unreliable)
+- "What features do you want?" (solution-space - their job, not yours)
+- "Do you like this idea?" (compliment-fishing - Mom Test violation)
 
 ## Output: capture push/pull/anxiety/habit forces + timeline of switch decision.

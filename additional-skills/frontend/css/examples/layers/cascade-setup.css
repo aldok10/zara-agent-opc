@@ -6,7 +6,7 @@
 /* 1. Declare layer order (lowest → highest priority) */
 @layer reset, base, tokens, layouts, components, utilities, overrides;
 
-/* 2. Reset layer — normalize browser defaults */
+/* 2. Reset layer  -  normalize browser defaults */
 @layer reset {
   *,
   *::before,
@@ -54,7 +54,7 @@
   }
 }
 
-/* 3. Tokens layer — design tokens as custom properties */
+/* 3. Tokens layer  -  design tokens as custom properties */
 @layer tokens {
   :root {
     /* Colors (OKLCH) */
@@ -125,7 +125,7 @@
   }
 }
 
-/* 4. Base layer — element defaults */
+/* 4. Base layer  -  element defaults */
 @layer base {
   body {
     font-family: var(--font-sans);
@@ -159,7 +159,7 @@
   }
 }
 
-/* 5. Layouts layer — structural patterns */
+/* 5. Layouts layer  -  structural patterns */
 @layer layouts {
   .container {
     inline-size: min(100% - 2rem, var(--max-width, 1200px));
@@ -179,12 +179,12 @@
   }
 }
 
-/* 6. Components layer — UI components */
+/* 6. Components layer  -  UI components */
 @layer components {
   /* Components go here (buttons, cards, forms, etc.) */
 }
 
-/* 7. Utilities layer — single-purpose overrides */
+/* 7. Utilities layer  -  single-purpose overrides */
 @layer utilities {
   .visually-hidden {
     position: absolute;
@@ -202,7 +202,7 @@
   .text-pretty { text-wrap: pretty; }
 }
 
-/* 8. Overrides layer — third-party fixes (use sparingly) */
+/* 8. Overrides layer  -  third-party fixes (use sparingly) */
 @layer overrides {
   /* Fix third-party library styles here */
 }

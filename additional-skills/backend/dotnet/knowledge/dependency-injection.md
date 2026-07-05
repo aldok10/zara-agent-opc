@@ -36,7 +36,7 @@ public class OrderProcessor(IServiceScopeFactory scopeFactory) : BackgroundServi
     }
 }
 ```
-Never inject scoped services into singletons directly — use `IServiceScopeFactory`.
+Never inject scoped services into singletons directly  -  use `IServiceScopeFactory`.
 
 ## Disposal Patterns
 

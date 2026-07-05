@@ -48,7 +48,7 @@ app/
 
 ### Octane (Long-Running)
 
-- No static state between requests — reset in `RequestHandled` listener.
+- No static state between requests  -  reset in `RequestHandled` listener.
 - Use `Octane::concurrently()` for parallel I/O.
 - Container bindings: use `scoped()` not `singleton()` for request-bound services.
 - Test with `--watch` in development.
@@ -74,10 +74,10 @@ app/
 ## Constraints
 
 1. Controllers: max 5 public methods (CRUD + index). Beyond = new controller.
-2. No business logic in controllers — delegate to Actions/Services.
-3. FormRequest for all validation — never `$request->validate()` inline.
-4. API Resources for all JSON responses — never `->toArray()` directly.
-5. Events for side effects — never chain side effects in the main flow.
+2. No business logic in controllers  -  delegate to Actions/Services.
+3. FormRequest for all validation  -  never `$request->validate()` inline.
+4. API Resources for all JSON responses  -  never `->toArray()` directly.
+5. Events for side effects  -  never chain side effects in the main flow.
 6. Config via `config()` helper, never `env()` outside config files.
 7. Route model binding for all resource routes.
 8. Migrations: separate schema and data migrations, never drop columns without deploy strategy.
@@ -88,10 +88,10 @@ app/
 - Factories with states for all models.
 - `Queue::fake()`, `Event::fake()`, `Notification::fake()` for isolation.
 - `assertDatabaseHas`/`assertDatabaseMissing` for persistence verification.
-- HTTP tests via `$this->postJson()` — test full request cycle.
+- HTTP tests via `$this->postJson()`  -  test full request cycle.
 
 ## Verify
 
-- `php artisan test` — all green.
-- `php artisan route:list` — no duplicate/conflicting routes.
-- `php artisan model:show` — verify relationships and casts.
+- `php artisan test`  -  all green.
+- `php artisan route:list`  -  no duplicate/conflicting routes.
+- `php artisan model:show`  -  verify relationships and casts.

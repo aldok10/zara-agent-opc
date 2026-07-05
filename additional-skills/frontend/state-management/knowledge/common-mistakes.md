@@ -31,8 +31,8 @@ title: "10 State Management Mistakes"
 
 ## 5. Selecting Entire Store
 
-**Wrong**: `const state = useStore()` — re-renders on ANY store change.
-**Right**: `const count = useStore(s => s.count)` — re-renders only when `count` changes.
+**Wrong**: `const state = useStore()`  -  re-renders on ANY store change.
+**Right**: `const count = useStore(s => s.count)`  -  re-renders only when `count` changes.
 **Why**: Performance death by a thousand re-renders.
 
 ## 6. Missing Query Key Variables
@@ -49,7 +49,7 @@ title: "10 State Management Mistakes"
 
 ## 8. Not Using URL State for Shareable UI
 
-**Wrong**: Active tab, filters, pagination in useState — lost on refresh/share.
+**Wrong**: Active tab, filters, pagination in useState  -  lost on refresh/share.
 **Right**: searchParams for any state the user might want to bookmark or share.
 **Why**: Better UX, browser back button works, shareable links.
 

@@ -142,7 +142,7 @@ export default defineConfig({
 # Run with coverage
 npx vitest run --coverage
 
-# Watch mode (no coverage — too slow)
+# Watch mode (no coverage  -  too slow)
 npx vitest
 
 # Single file

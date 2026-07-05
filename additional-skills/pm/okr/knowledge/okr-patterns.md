@@ -55,11 +55,11 @@
 - Failed OKRs: root cause is poor execution cadence more often than poor goal design
 - Fix the check-in rhythm first, then refine the OKRs
 - Standardize process across teams before customizing per-team
-- Assess OKR maturity continuously—don't assume adoption = mastery
+- Assess OKR maturity continuously - don't assume adoption = mastery
 
 ### Weekly Confidence Scoring
 
 - Shift from quarterly-only scoring to weekly confidence check-ins
 - Format: On Track (green) / At Risk (yellow) / Off Track (red) + % confidence
-- Enables early intervention—don't wait for end-of-quarter surprise
+- Enables early intervention - don't wait for end-of-quarter surprise
 - Confidence drops 2 weeks in a row → escalate to leadership or reprioritize

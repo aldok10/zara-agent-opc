@@ -13,10 +13,10 @@ title: "OAuth & OpenID Connect"
 - Token introspection vs local JWT validation tradeoffs (network call vs key rotation lag)
 
 ## Key Practices
-- Always use PKCE even for confidential clients—defense in depth against code interception
+- Always use PKCE even for confidential clients - defense in depth against code interception
 - Store tokens server-side or in secure HTTP-only cookies; never in localStorage
 - Validate `iss`, `aud`, `exp`, `nbf` claims on every token consumption
-- Implement token rotation for refresh tokens—detect reuse as compromise signal
+- Implement token rotation for refresh tokens - detect reuse as compromise signal
 - Use short access token lifetimes (5-15min) paired with silent refresh
 
 ## Common Mistakes

@@ -42,10 +42,10 @@ async function getReviews(productId: string): Promise<Review[]> {
 
 // --- Server Component (default, no directive) ---
 export default async function ProductPage({ params }: { params: { id: string } }) {
-  // Fetch product immediately (blocking — needed for the page)
+  // Fetch product immediately (blocking  -  needed for the page)
   const product = await getProduct(params.id);
 
-  // Start reviews fetch but DON'T await — pass promise for streaming
+  // Start reviews fetch but DON'T await  -  pass promise for streaming
   const reviewsPromise = getReviews(params.id);
 
   return (

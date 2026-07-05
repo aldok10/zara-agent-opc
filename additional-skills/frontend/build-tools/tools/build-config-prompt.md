@@ -52,7 +52,7 @@ Context:
 ## Configuration Review
 
 ### Issues
-- [severity] [setting] — [problem] — [fix]
+- [severity] [setting]  -  [problem]  -  [fix]
 
 ### Bundle Optimization
 - Current: [observations about output]

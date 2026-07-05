@@ -2,11 +2,11 @@
 
 ## Process Lifecycle
 
-1. **Spawn** — `start_link/1` creates process, links to parent (supervisor)
-2. **Init** — `init/1` sets initial state, returns `{:ok, state}` or `{:ok, state, {:continue, :setup}}`
-3. **Running** — handles messages via `handle_call/cast/info`
-4. **Termination** — `terminate/2` called on normal/shutdown (NOT on brutal_kill or node crash)
-5. **Restart** — supervisor restarts with fresh `init/1`, clean slate
+1. **Spawn**  -  `start_link/1` creates process, links to parent (supervisor)
+2. **Init**  -  `init/1` sets initial state, returns `{:ok, state}` or `{:ok, state, {:continue, :setup}}`
+3. **Running**  -  handles messages via `handle_call/cast/info`
+4. **Termination**  -  `terminate/2` called on normal/shutdown (NOT on brutal_kill or node crash)
+5. **Restart**  -  supervisor restarts with fresh `init/1`, clean slate
 
 ## Supervision Strategies
 
@@ -30,7 +30,7 @@ Supervisor.init(children,
 )
 ```
 
-If a child crashes 4 times in 5 seconds, the supervisor crashes. Its parent supervisor then decides what to do — this is the escalation pattern.
+If a child crashes 4 times in 5 seconds, the supervisor crashes. Its parent supervisor then decides what to do  -  this is the escalation pattern.
 
 ## Message Passing
 
@@ -40,11 +40,11 @@ If a child crashes 4 times in 5 seconds, the supervisor crashes. Its parent supe
 
 ## Process Design Principles
 
-1. **Single responsibility** — one process, one job
-2. **Fail fast** — validate early, crash on invariant violation
-3. **Clean restart** — state must be reconstructable from init args + external storage
-4. **Bounded mailbox** — prefer `call` over `cast`, use demand-based flow for producers
-5. **Monitor > Link** — when you need to KNOW about death without dying yourself
+1. **Single responsibility**  -  one process, one job
+2. **Fail fast**  -  validate early, crash on invariant violation
+3. **Clean restart**  -  state must be reconstructable from init args + external storage
+4. **Bounded mailbox**  -  prefer `call` over `cast`, use demand-based flow for producers
+5. **Monitor > Link**  -  when you need to KNOW about death without dying yourself
 
 ## Links vs Monitors
 

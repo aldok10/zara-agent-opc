@@ -74,9 +74,9 @@ Based on project type:
 - Run: pre-merge or nightly
 
 ### Layer 5: Non-Functional
-- Performance: [k6 / artillery] — [when to run]
-- Security: [SAST + DAST] — [when to run]
-- Accessibility: [axe-core] — [when to run]
+- Performance: [k6 / artillery]  -  [when to run]
+- Security: [SAST + DAST]  -  [when to run]
+- Accessibility: [axe-core]  -  [when to run]
 ```
 
 ### 4. Test Data Strategy

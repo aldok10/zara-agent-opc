@@ -1,4 +1,4 @@
-// worker-pool — demonstrates the Worker Pool concurrency pattern.
+// worker-pool  -  demonstrates the Worker Pool concurrency pattern.
 //
 // This is the most common production concurrency pattern: limit concurrent
 // work to N goroutines to control resource usage.
@@ -74,7 +74,7 @@ func main() {
 		go func(workerID int) {
 			defer wg.Done()
 			worker(ctx, workerID, jobs, results)
-		}(wg_val()) // Go 1.22+ — loop var is per-iteration, but this shows the pattern
+		}(wg_val()) // Go 1.22+  -  loop var is per-iteration, but this shows the pattern
 	}
 
 	// Send jobs (from a separate goroutine so workers can start immediately)

@@ -190,14 +190,14 @@ export function FeedbackForm() {
 | Action (server) | Schema validation | Zod/valibot `safeParse` |
 | Database | Constraints | DB schema (unique, FK, check) |
 
-Always validate on the server. Client validation is UX only — never trust it.
+Always validate on the server. Client validation is UX only  -  never trust it.
 
 ## Anti-Patterns
 
 | Wrong | Right | Why |
 |-------|-------|-----|
 | `useEffect` + `fetch` for mutations | Server Action / `useActionState` | No pending/error integration |
-| `useFormStatus` in same component as `<form>` | Extract to child component | Won't work — reads from parent form |
+| `useFormStatus` in same component as `<form>` | Extract to child component | Won't work  -  reads from parent form |
 | Trusting `formData` without validation | Zod schema on server | Security: client can send anything |
 | `e.preventDefault()` + manual fetch | Use `action` prop on form | Loses progressive enhancement |
 | Showing optimistic state without rollback | Handle action failure, revert | Inconsistent UI on error |

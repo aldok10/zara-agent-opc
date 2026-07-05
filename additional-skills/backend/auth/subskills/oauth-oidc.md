@@ -6,15 +6,15 @@ OAuth 2.1 (draft RFC, de facto standard) consolidates OAuth 2.0 best practices i
 
 ## Rules
 
-1. Authorization Code + PKCE is the only grant for interactive users — public and confidential clients
+1. Authorization Code + PKCE is the only grant for interactive users  -  public and confidential clients
 2. Client Credentials grant for machine-to-machine; scope to minimum required permissions
 3. Token Exchange (RFC 8693) for delegation and impersonation across service boundaries
-4. DPoP binds tokens to client key pairs — prevents token theft via proof-of-possession
+4. DPoP binds tokens to client key pairs  -  prevents token theft via proof-of-possession
 5. State parameter prevents CSRF; use cryptographically random, per-request values
-6. Redirect URI must be exact-match registered — no wildcards, no localhost in production
+6. Redirect URI must be exact-match registered  -  no wildcards, no localhost in production
 7. Authorization servers must support PKCE `S256` method; reject `plain` in production
 8. Token response must include `token_type`, `expires_in`, `scope`; omit refresh tokens for public clients unless rotation is enforced
-9. OIDC `id_token` is for the client, `access_token` is for the resource server — never send id_tokens to APIs
+9. OIDC `id_token` is for the client, `access_token` is for the resource server  -  never send id_tokens to APIs
 10. Discovery document (`.well-known/openid-configuration`) is mandatory; hardcoding endpoints is fragile
 
 ## Patterns
@@ -52,11 +52,11 @@ scope=<narrowed_scope>
 
 ## Anti-Patterns
 
-- Using `response_type=token` (implicit) — removed in OAuth 2.1
-- Storing authorization codes for replay — codes are single-use, expire in 60s max
-- Requesting all scopes upfront — use incremental consent
-- Sharing client_secret across environments — unique per deployment
-- Skipping `nonce` in OIDC — enables id_token replay attacks
+- Using `response_type=token` (implicit)  -  removed in OAuth 2.1
+- Storing authorization codes for replay  -  codes are single-use, expire in 60s max
+- Requesting all scopes upfront  -  use incremental consent
+- Sharing client_secret across environments  -  unique per deployment
+- Skipping `nonce` in OIDC  -  enables id_token replay attacks
 
 ## Verification
 

@@ -128,8 +128,8 @@ export default defineConfig({
 
 ## Anti-patterns
 
-- Using `require()` in Vite projects — breaks ESM.
-- `process.env` in client code — use `import.meta.env`.
+- Using `require()` in Vite projects  -  breaks ESM.
+- `process.env` in client code  -  use `import.meta.env`.
 - Large `manualChunks` that bundle unrelated code together.
-- Missing `external` in library mode — bundles peer deps.
-- Not setting `sideEffects: false` — prevents tree-shaking.
+- Missing `external` in library mode  -  bundles peer deps.
+- Not setting `sideEffects: false`  -  prevents tree-shaking.

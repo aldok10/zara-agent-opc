@@ -7,22 +7,22 @@ description: "Product discovery: continuous exploration, validation, experiments
 
 ## Scope
 
-Continuous discovery practices: identify opportunities, validate assumptions, design experiments, synthesize learnings. Not a phase—a cadence running parallel to delivery.
+Continuous discovery practices: identify opportunities, validate assumptions, design experiments, synthesize learnings. Not a phase - a cadence running parallel to delivery.
 
 ## Core Principles
 
 1. Opportunity Solution Trees: map opportunities to desired outcomes before ideating solutions
-2. Assumption mapping before building anything significant—plot importance x evidence
+2. Assumption mapping before building anything significant - plot importance x evidence
 3. Interview weekly (min 1 customer/week per Torres; product trio talks to at least 1 customer every week)
 4. Five assumption types (Torres): Desirability, Viability, Feasibility, Usability, Ethical
 5. Four assumption test types (Torres): Prototype tests, One-question surveys, Data mining, Research spikes
 6. Smallest assumption test to validate riskiest assumption first
-7. Separate discovery from delivery cadences—different rhythms, different artifacts
+7. Separate discovery from delivery cadences - different rhythms, different artifacts
 8. Evidence hierarchy: opinion < survey < behavior < experiment < replicated results
-9. Kill ideas early and cheaply—prototype cost << build cost
+9. Kill ideas early and cheaply - prototype cost << build cost
 10. Cross-functional discovery: design + eng + PM together in interviews and synthesis
 11. OST structure: Outcome > Opportunities > Solutions > Assumption Tests (tree, not list)
-12. One metric that matters per discovery cycle—focus prevents scattered learning
+12. One metric that matters per discovery cycle - focus prevents scattered learning
 13. Assumption tests ≠ experiments: assumption tests are used in DISCOVERY when deciding between ideas; experiments MEASURE THE IMPACT of what was built (Torres)
 
 ## DO NOT

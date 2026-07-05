@@ -48,16 +48,16 @@ Context:
 ## Next.js Review
 
 ### Issues
-- [severity] [file:line] — [issue] — [fix]
+- [severity] [file:line]  -  [issue]  -  [fix]
 
 ### Component Boundaries
 - [components that should move server→client or client→server]
 
 ### Caching Strategy
-- [current behavior] — [recommended behavior]
+- [current behavior]  -  [recommended behavior]
 
 ### Data Fetching
-- [waterfall/parallel assessment] — [optimization]
+- [waterfall/parallel assessment]  -  [optimization]
 
 ### Verdict
 [approve / request changes / needs architecture discussion]

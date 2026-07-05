@@ -35,10 +35,10 @@
 
 ## Response Priority
 
-1. Reckless-Inadvertent (capability gap—most dangerous)
-2. Reckless-Deliberate (conscious negligence—high risk)
-3. Prudent-Deliberate (managed risk—track and plan)
-4. Prudent-Inadvertent (learning debt—lowest urgency)
+1. Reckless-Inadvertent (capability gap - most dangerous)
+2. Reckless-Deliberate (conscious negligence - high risk)
+3. Prudent-Deliberate (managed risk - track and plan)
+4. Prudent-Inadvertent (learning debt - lowest urgency)
 
 ## AI-Generated Debt (2024-2025 Crisis)
 

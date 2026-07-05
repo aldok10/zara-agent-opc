@@ -10,18 +10,18 @@ title: "Cypress Retry and Flake Prevention"
 Cypress commands automatically retry until they pass or timeout. Understanding which commands retry is essential for stable tests.
 
 ### Commands That Retry
-- `cy.get()` — re-queries DOM until element found
-- `cy.find()` — re-queries within subject
-- `cy.contains()` — re-queries for text content
-- `.should()` — retries the assertion chain
-- `.its()` — retries property access
+- `cy.get()`  -  re-queries DOM until element found
+- `cy.find()`  -  re-queries within subject
+- `cy.contains()`  -  re-queries for text content
+- `.should()`  -  retries the assertion chain
+- `.its()`  -  retries property access
 
 ### Commands That Do NOT Retry
-- `cy.click()` — acts immediately on current subject
-- `cy.type()` — acts immediately
-- `cy.request()` — fires once
-- `cy.then()` — runs callback once (no retry)
-- `cy.invoke()` — calls function once
+- `cy.click()`  -  acts immediately on current subject
+- `cy.type()`  -  acts immediately
+- `cy.request()`  -  fires once
+- `cy.then()`  -  runs callback once (no retry)
+- `cy.invoke()`  -  calls function once
 
 ### Key Rule
 Only the LAST command before an assertion retries. Chain carefully:
@@ -71,7 +71,7 @@ Cypress discourages conditional testing (`if element exists, do X`) because it i
 
 ### Anti-Pattern
 ```javascript
-// BAD: race condition — element may appear after check
+// BAD: race condition  -  element may appear after check
 cy.get('body').then(($body) => {
   if ($body.find('.modal').length) {
     cy.get('.modal .close').click();
@@ -136,12 +136,12 @@ cy.wait('@products');
 ## Flake Detection and Prevention
 
 ### Common Flake Sources
-1. **Animation timing** — assert visibility, don't wait fixed time
-2. **Network race conditions** — intercept and wait for specific requests
-3. **Shared state between tests** — isolate via beforeEach reset
-4. **Element detachment** — re-query after DOM changes
-5. **Viewport-dependent rendering** — set explicit viewport in test
-6. **Third-party scripts** — block in `cy.intercept`
+1. **Animation timing**  -  assert visibility, don't wait fixed time
+2. **Network race conditions**  -  intercept and wait for specific requests
+3. **Shared state between tests**  -  isolate via beforeEach reset
+4. **Element detachment**  -  re-query after DOM changes
+5. **Viewport-dependent rendering**  -  set explicit viewport in test
+6. **Third-party scripts**  -  block in `cy.intercept`
 
 ### Element Detachment Fix
 ```javascript
@@ -163,7 +163,7 @@ module.exports = defineConfig({
 });
 ```
 
-- Track tests that pass on retry — these are flaky
+- Track tests that pass on retry  -  these are flaky
 - Flag tests that fail >5% of runs for investigation
 - Dashboard: Cypress Cloud or custom reporting shows flake rate
 

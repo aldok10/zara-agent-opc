@@ -50,7 +50,7 @@ title: "Bundler Comparison 2026"
 
 ### Webpack → Rspack
 ```js
-// rspack.config.js — mostly identical to webpack.config.js
+// rspack.config.js  -  mostly identical to webpack.config.js
 const { RspackPlugin } = require('@rspack/core');
 
 module.exports = {
@@ -67,7 +67,7 @@ Migration steps:
 1. Replace `webpack` dependency with `@rspack/core`
 2. Replace `ts-loader`/`babel-loader` with `builtin:swc-loader`
 3. Remove `terser-webpack-plugin` (built-in minification)
-4. Test — most configs work without changes
+4. Test  -  most configs work without changes
 
 ### Webpack → Vite
 ```js
@@ -102,8 +102,8 @@ Migration steps:
 | Metric | Vite 7 | Turbopack | esbuild | Rspack |
 |--------|--------|-----------|---------|--------|
 | Cold Start | 380ms | 290ms | 150ms | 420ms |
-| HMR (leaf) | 12ms | 6ms | — | 18ms |
-| HMR (root) | 85ms | 45ms | — | 110ms |
+| HMR (leaf) | 12ms | 6ms |  -  | 18ms |
+| HMR (root) | 85ms | 45ms |  -  | 110ms |
 | Prod Build | 4.2s | 5.1s | 2.8s | 4.8s |
 | Bundle Size | 142KB | 148KB | 156KB | 144KB |
 

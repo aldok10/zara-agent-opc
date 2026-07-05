@@ -41,7 +41,7 @@ User needs to measure, debug, or fix LCP, INP, or CLS issues.
 ### LCP Pattern
 
 ```html
-<!-- Hero image — always fetchpriority="high", never lazy -->
+<!-- Hero image  -  always fetchpriority="high", never lazy -->
 <img
   src="/hero.webp"
   alt="Product showcase"
@@ -57,7 +57,7 @@ User needs to measure, debug, or fix LCP, INP, or CLS issues.
 
 ## INP (Interaction to Next Paint)
 
-**What it measures:** Responsiveness — time from user interaction to next visual update.
+**What it measures:** Responsiveness  -  time from user interaction to next visual update.
 
 ### Optimization Strategies
 
@@ -92,7 +92,7 @@ function yieldToMain() {
 
 ## CLS (Cumulative Layout Shift)
 
-**What it measures:** Visual stability — unexpected layout movement during page life.
+**What it measures:** Visual stability  -  unexpected layout movement during page life.
 
 ### Common Causes & Fixes
 

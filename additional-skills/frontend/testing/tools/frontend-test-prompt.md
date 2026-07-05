@@ -54,13 +54,13 @@ Context:
 | ...      | unit/component/e2e | covered/missing |
 
 ### Issues in Existing Tests
-- [problem] — [why it reduces confidence] — [fix]
+- [problem]  -  [why it reduces confidence]  -  [fix]
 
 ### Missing Tests
-- [behavior not tested] — [recommended level] — [approach]
+- [behavior not tested]  -  [recommended level]  -  [approach]
 
 ### Anti-patterns Found
-- [pattern] — [why it's problematic] — [alternative]
+- [pattern]  -  [why it's problematic]  -  [alternative]
 
 ### Recommendations
 - [priority improvements]

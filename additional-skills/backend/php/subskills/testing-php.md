@@ -136,13 +136,13 @@ Rule::that('Domain')
 
 ### Rule: Fake > Mock
 
-- In-memory repository fakes for domain tests — no framework, fast, readable.
+- In-memory repository fakes for domain tests  -  no framework, fast, readable.
 - Mocks only when verifying interaction is the actual requirement.
 - Never mock what you don't own (wrap in adapter, mock adapter).
 
 ## Verify
 
-- `vendor/bin/pest --coverage --min=80` — coverage threshold.
-- `vendor/bin/infection --min-msi=80` — mutation testing passes.
-- Architecture tests green — layer boundaries enforced.
+- `vendor/bin/pest --coverage --min=80`  -  coverage threshold.
+- `vendor/bin/infection --min-msi=80`  -  mutation testing passes.
+- Architecture tests green  -  layer boundaries enforced.
 - No `@depends` chains (tests must be independent).

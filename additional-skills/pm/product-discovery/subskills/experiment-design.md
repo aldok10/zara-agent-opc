@@ -37,7 +37,7 @@ Requires: design prototype. Yields: task success rate. Strength: fast, cheap usa
 | Usability test | 5 | 8 | Diminishing returns after 5 |
 | Interviews | 5 | 12 | Per segment |
 | Fake door | 100 clicks | 500+ | For meaningful conversion rate |
-| A/B test | Calculate per MDE | — | Use power calculator |
+| A/B test | Calculate per MDE |  -  | Use power calculator |
 | Survey | 30 | 100+ | Per segment |
 
 ## Minimum Detectable Effect (A/B)
@@ -45,7 +45,7 @@ Requires: design prototype. Yields: task success rate. Strength: fast, cheap usa
 - Decide smallest meaningful difference BEFORE running
 - Use power calculator: baseline rate, MDE, significance (0.05), power (0.8)
 - If required sample > available traffic: use qualitative method instead
-- Don't peek at results early—commit to duration
+- Don't peek at results early - commit to duration
 
 ## Experiment Brief Template
 
@@ -66,8 +66,8 @@ DECISION RULES:
 ## Rules
 
 - Define success/kill criteria BEFORE launch (pre-registration)
-- One hypothesis per experiment—isolate variables
+- One hypothesis per experiment - isolate variables
 - Time-box: no open-ended experiments
-- Inconclusive != success—redesign or pick stronger method
+- Inconclusive != success - redesign or pick stronger method
 - Document learnings regardless of outcome
 - Share results within 48h of completion

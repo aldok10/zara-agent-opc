@@ -23,7 +23,7 @@ GET /api/documents?id=abc   → change to /api/documents?id=def
 ### What to Check
 - Sequential IDs (easy to enumerate)
 - UUID-based IDs (still vulnerable if no auth check)
-- Nested resources: `/users/{id}/settings` — test with wrong user's token
+- Nested resources: `/users/{id}/settings`  -  test with wrong user's token
 - Batch endpoints: `POST /api/batch` with mixed-ownership IDs
 - GraphQL: query nodes by ID without ownership validation
 

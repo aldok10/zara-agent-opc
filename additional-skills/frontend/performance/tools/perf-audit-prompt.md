@@ -48,10 +48,10 @@ Context:
 ## Performance Audit
 
 ### Critical (high impact)
-- [metric affected] [issue] — [cause] — [fix] — [expected improvement]
+- [metric affected] [issue]  -  [cause]  -  [fix]  -  [expected improvement]
 
 ### Moderate (medium impact)
-- [metric affected] [issue] — [cause] — [fix]
+- [metric affected] [issue]  -  [cause]  -  [fix]
 
 ### Opportunities
 - [optimization not yet applied]

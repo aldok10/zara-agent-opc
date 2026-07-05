@@ -18,7 +18,7 @@ title: "JVM performance: GC selection, JFR, async profiler, JIT"
 ### Recommendations
 
 ```bash
-# Web services (Spring Boot, API servers) — low latency
+# Web services (Spring Boot, API servers)  -  low latency
 java -XX:+UseZGC -XX:+ZGenerational -Xmx2g -jar app.jar
 
 # General purpose (default is fine for most)
@@ -27,7 +27,7 @@ java -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -Xmx4g -jar app.jar
 # Container with limited memory (< 512MB)
 java -XX:+UseSerialGC -Xmx256m -jar app.jar
 
-# Batch/data processing — max throughput
+# Batch/data processing  -  max throughput
 java -XX:+UseParallelGC -Xmx8g -jar app.jar
 ```
 
@@ -63,12 +63,12 @@ jcmd <pid> JFR.stop
 ```
 
 Key events to monitor:
-- `jdk.GCPause` — GC pause duration
-- `jdk.CPULoad` — System/process CPU
-- `jdk.ThreadPark` — Thread contention
-- `jdk.VirtualThreadPinned` — Virtual thread pinning
-- `jdk.SocketRead` / `jdk.SocketWrite` — I/O latency
-- `jdk.ObjectAllocationSample` — Allocation hot spots
+- `jdk.GCPause`  -  GC pause duration
+- `jdk.CPULoad`  -  System/process CPU
+- `jdk.ThreadPark`  -  Thread contention
+- `jdk.VirtualThreadPinned`  -  Virtual thread pinning
+- `jdk.SocketRead` / `jdk.SocketWrite`  -  I/O latency
+- `jdk.ObjectAllocationSample`  -  Allocation hot spots
 
 ## Async Profiler
 
@@ -98,7 +98,7 @@ The JVM compiles hot methods from bytecode to native code at runtime.
 # Log JIT compilation
 -XX:+PrintCompilation
 
-# Disable tiered compilation (for benchmarking — forces C2 only)
+# Disable tiered compilation (for benchmarking  -  forces C2 only)
 -XX:-TieredCompilation
 
 # Max code cache (increase for large apps)
@@ -110,9 +110,9 @@ The JVM compiles hot methods from bytecode to native code at runtime.
 JIT needs ~10-30 seconds to compile hot paths. First requests are slow.
 
 Strategies:
-1. **Load-shedding during warm-up** — readiness probe after warm-up period.
-2. **CDS/AppCDS** — Class Data Sharing reduces startup time.
-3. **GraalVM native** — eliminates warm-up entirely (AOT compiled).
+1. **Load-shedding during warm-up**  -  readiness probe after warm-up period.
+2. **CDS/AppCDS**  -  Class Data Sharing reduces startup time.
+3. **GraalVM native**  -  eliminates warm-up entirely (AOT compiled).
 
 ## Application Class-Data Sharing (AppCDS)
 

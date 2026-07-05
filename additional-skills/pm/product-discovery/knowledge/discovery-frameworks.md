@@ -40,18 +40,18 @@
 
 - AI-powered customer conversations (synthetic interviews, chatbot probes) supplement manual research
 - Use for: pattern extraction from support tickets, churned-user signals, large-scale qualitative coding
-- NOT a replacement for real interviews—augments volume, reduces time-to-first-insight
+- NOT a replacement for real interviews - augments volume, reduces time-to-first-insight
 - Evidence hierarchy: AI conversation insights < real interviews < behavioral data < controlled experiments
 
 ### Teresa Torres 2024: "Something > Nothing"
 
 - Start imperfect. Weekly touchpoints > quarterly research sprints
-- Bad discovery habits beat no discovery habits—iterate on process
+- Bad discovery habits beat no discovery habits - iterate on process
 - Minimum viable cadence: 1 customer conversation/week per product trio
 
 ### Product Trio as Non-Negotiable
 
-- PM + Design + Eng in discovery together—not sequential handoffs
+- PM + Design + Eng in discovery together - not sequential handoffs
 - Eng in interviews catches feasibility signals early, reduces rework
 - Shared context > shared artifacts. Trio alignment eliminates "build the wrong thing" risk
 - Anti-pattern: PM does discovery alone, hands off insight deck to team

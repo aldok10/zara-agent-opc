@@ -16,7 +16,7 @@ title: "Security Code Review"
 ## Key Practices
 
 - Focus on trust boundaries: where does untrusted input enter? Where does sensitive data leave?
-- Check authorization at every access point, not just the UI layer — APIs are the real boundary
+- Check authorization at every access point, not just the UI layer  -  APIs are the real boundary
 - Verify input validation: allowlist over denylist, validate type/length/range/format
 - Review error handling: does it leak internal details (stack traces, SQL, file paths)?
 - Check secrets management: no hardcoded keys, tokens, or connection strings in source
@@ -24,7 +24,7 @@ title: "Security Code Review"
 ## Common Mistakes
 
 - Reviewing only for functional correctness while ignoring security implications
-- Assuming framework defaults handle security — they often don't cover all cases
+- Assuming framework defaults handle security  -  they often don't cover all cases
 - Rubber-stamping reviews under time pressure: security bugs ship when reviews are cursory
 
 ## When to Apply

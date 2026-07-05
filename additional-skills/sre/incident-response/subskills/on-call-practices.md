@@ -14,7 +14,7 @@ title: "On-Call Practices"
 
 ## Key Practices
 - Define clear escalation criteria: what severity warrants paging vs next-business-day
-- Maintain runbooks for every alert—an alert without a runbook is incomplete
+- Maintain runbooks for every alert - an alert without a runbook is incomplete
 - Conduct handoff at rotation boundaries: document active issues, pending changes, known risks
 - Track interrupt metrics: page volume, time-to-acknowledge, time-to-resolve, false positive rate
 - Schedule regular on-call review to reduce noise and improve signal quality

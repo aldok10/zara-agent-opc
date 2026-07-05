@@ -27,8 +27,8 @@
 - Definition: today - date work started (for in-progress items)
 - Healthy: below P50 historical cycle time
 - Warning: between P50-P85
-- Action: above P85 — investigate immediately
-- Critical: above P95 — escalate/split/remove
+- Action: above P85  -  investigate immediately
+- Critical: above P95  -  escalate/split/remove
 
 ## Burn-down Chart
 
@@ -99,7 +99,7 @@ Flow Efficiency  = Active time / Total cycle time × 100%
 - Binary per sprint: goal met = 1, missed = 0
 - Rolling 6-sprint rate. Target: >80%
 - Below 60%: goals too ambitious or too many mid-sprint disruptions
-- Separate from velocity — goal can be met without finishing all stories
+- Separate from velocity  -  goal can be met without finishing all stories
 
 ## INVEST Criteria (User Story Quality)
 

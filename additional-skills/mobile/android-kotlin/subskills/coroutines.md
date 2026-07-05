@@ -15,7 +15,7 @@ title: "Coroutines"
 
 ## Key Practices
 
-- Use `viewModelScope` in ViewModels, `lifecycleScope` in Activities/Fragments — never create global scopes
+- Use `viewModelScope` in ViewModels, `lifecycleScope` in Activities/Fragments  -  never create global scopes
 - Switch dispatchers at the repository layer: `withContext(Dispatchers.IO)` for disk/network
 - Use `StateFlow` for UI state and `SharedFlow` for one-shot events
 - Handle cancellation: check `isActive` in long loops, use `ensureActive()` at suspension points
@@ -25,7 +25,7 @@ title: "Coroutines"
 
 - Using `GlobalScope`: coroutines outlive their intended lifecycle, causing leaks and crashes
 - Catching `CancellationException`: breaks structured concurrency's cancellation propagation
-- Blocking the Main dispatcher with `runBlocking` — freezes the UI thread
+- Blocking the Main dispatcher with `runBlocking`  -  freezes the UI thread
 
 ## When to Apply
 

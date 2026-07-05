@@ -13,7 +13,7 @@ Text-based diagrams rendered in Markdown:
 
 ### Strengths
 - Native support in GitHub, GitLab, Notion, Backstage
-- No separate tooling needed — renders inline in Markdown files
+- No separate tooling needed  -  renders inline in Markdown files
 - Version control friendly (plain text diffs)
 - Good for: flowcharts, sequence diagrams, ER diagrams, Gantt charts
 
@@ -94,7 +94,7 @@ Modern declarative diagramming language:
 - Markdown text in shapes
 - Animated connections (for presentations)
 - Built-in themes with modern aesthetics
-- Standalone binary — no runtime dependencies
+- Standalone binary  -  no runtime dependencies
 
 ### Limitations
 - Younger project (smaller community, fewer integrations)

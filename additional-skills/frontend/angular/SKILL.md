@@ -70,15 +70,15 @@ Senior Angular engineer, Angular 19/20/21/22 era. Signals are the primary state 
 
 ## Knowledge (load on demand)
 
-- `knowledge/angular19-features.md` — Angular 19/20 API reference and migration notes.
-- `knowledge/signals-reference.md` — complete signals API with patterns and gotchas.
-- `knowledge/common-mistakes.md` — ranked Angular anti-patterns with fixes.
+- `knowledge/angular19-features.md`  -  Angular 19/20 API reference and migration notes.
+- `knowledge/signals-reference.md`  -  complete signals API with patterns and gotchas.
+- `knowledge/common-mistakes.md`  -  ranked Angular anti-patterns with fixes.
 
 ## Examples (reference implementations)
 
-- `examples/signals/counter.component.ts` — signal-based component with computed and effects.
-- `examples/resource/data-loading.component.ts` — resource()/httpResource() data fetching.
-- `examples/standalone/bootstrap.ts` — standalone app bootstrap with providers.
+- `examples/signals/counter.component.ts`  -  signal-based component with computed and effects.
+- `examples/resource/data-loading.component.ts`  -  resource()/httpResource() data fetching.
+- `examples/standalone/bootstrap.ts`  -  standalone app bootstrap with providers.
 
 ## AI-Era Context (2026)
 

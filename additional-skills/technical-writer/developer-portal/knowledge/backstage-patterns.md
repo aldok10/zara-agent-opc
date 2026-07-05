@@ -121,7 +121,7 @@ spec:
 - Include all golden path defaults (CI/CD, Dockerfile, observability, health checks)
 - Use parameters to capture only what varies (name, owner, tier)
 - Register output in catalog automatically (close the loop)
-- Version templates — breaking changes need migration guides
+- Version templates  -  breaking changes need migration guides
 - Test templates in CI (render + validate output structure)
 
 ## Plugin Architecture
@@ -222,7 +222,7 @@ plugins:
 
 ### Scaling Concerns
 
-- Backstage is a frontend app — backend plugins add load
+- Backstage is a frontend app  -  backend plugins add load
 - PostgreSQL backend required for production (SQLite only for dev)
 - Search (Elasticsearch/Lunr) needed when catalog exceeds ~200 entities
 - Authentication: integrate with existing SSO (Okta, Google, GitHub)

@@ -7,15 +7,15 @@ JWTs are bearer credentials for stateless authorization. They trade server-side 
 ## Rules
 
 1. Access tokens: max 15 minutes expiry, minimal claims (sub, aud, iss, exp, iat, scope/permissions)
-2. Refresh tokens: opaque strings stored server-side, not JWTs — no reason to make them self-contained
+2. Refresh tokens: opaque strings stored server-side, not JWTs  -  no reason to make them self-contained
 3. Use asymmetric signing (ES256 preferred, RS256 acceptable) for multi-service architectures; symmetric (HS256) only for single-service
 4. Always validate: `alg` matches expected, `exp` not past, `iss` matches known issuer, `aud` includes this service, signature valid
-5. Reject `alg:none` explicitly — whitelist allowed algorithms, never trust header's stated algorithm
-6. JWE (encrypted JWT) required when claims contain sensitive attributes — use A256GCM or A128CBC-HS256
-7. Keep token payload under 1KB — large tokens cause header size issues, slow every request
+5. Reject `alg:none` explicitly  -  whitelist allowed algorithms, never trust header's stated algorithm
+6. JWE (encrypted JWT) required when claims contain sensitive attributes  -  use A256GCM or A128CBC-HS256
+7. Keep token payload under 1KB  -  large tokens cause header size issues, slow every request
 8. Key rotation: publish new key to JWKS, sign with new key, keep old key valid for max token lifetime + clock skew, then remove
 9. DPoP binding: include `cnf.jkt` claim to bind token to client's proof-of-possession key
-10. `jti` (JWT ID) enables revocation checks and replay detection — include for tokens that can be revoked
+10. `jti` (JWT ID) enables revocation checks and replay detection  -  include for tokens that can be revoked
 11. Never put credentials, secrets, or refresh tokens inside JWT claims
 12. Nested JWTs (signed then encrypted) when both integrity and confidentiality needed across untrusted intermediaries
 
@@ -65,7 +65,7 @@ JWTs are bearer credentials for stateless authorization. They trade server-side 
 - Stuffing user profile data into access tokens (use OIDC userinfo endpoint)
 - Using JWT as session cookie replacement without revocation strategy
 - Symmetric keys shared across services (compromised service = all tokens forged)
-- Not validating audience — token intended for Service A accepted by Service B
+- Not validating audience  -  token intended for Service A accepted by Service B
 - Infinite-lived JWTs or >1hr access tokens without sender-constraining
 - Using `kid` from untrusted JWT to select verification key without allowlist
 

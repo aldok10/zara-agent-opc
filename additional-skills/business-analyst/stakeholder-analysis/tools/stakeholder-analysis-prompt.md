@@ -51,7 +51,7 @@ For each gap between current and target:
 - What motivates this stakeholder? (career goals, team goals, pain relief)
 - What concerns them? (risk, workload, control, visibility)
 - What's the path from current to target state?
-- Who influences them? (leverage existing relationships)
+- Who influences them? (use existing relationships)
 
 ### Step 6: Communication Plan
 

@@ -13,9 +13,9 @@ User needs image format selection, responsive image markup, lazy loading strateg
 
 - Modern formats: AVIF (smallest) > WebP (wide support) > JPEG/PNG (fallback)
 - Always provide width + height (prevent CLS)
-- `loading="lazy"` for below-fold only — never on LCP image
+- `loading="lazy"` for below-fold only  -  never on LCP image
 - `fetchpriority="high"` on LCP image
-- srcset + sizes for responsive — let browser pick optimal size
+- srcset + sizes for responsive  -  let browser pick optimal size
 - Serve from CDN with auto-format negotiation when possible
 
 ## Decision Table
@@ -75,7 +75,7 @@ User needs image format selection, responsive image markup, lazy loading strateg
 ```tsx
 import Image from 'next/image';
 
-// LCP image — priority
+// LCP image  -  priority
 <Image
   src="/hero.jpg"
   alt="Hero"
@@ -85,7 +85,7 @@ import Image from 'next/image';
   sizes="100vw"
 />
 
-// Below-fold — default lazy
+// Below-fold  -  default lazy
 <Image
   src="/feature.jpg"
   alt="Feature"

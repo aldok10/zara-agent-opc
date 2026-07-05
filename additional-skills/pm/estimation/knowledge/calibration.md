@@ -23,10 +23,10 @@ Plot monthly:
 
 | Signal | Action |
 |--------|--------|
-| Ratio consistently >1.3 | Team under-estimates — inflate by ratio |
-| Ratio consistently <0.7 | Team over-estimates — reduce buffer |
-| High variance (SD >0.5) | Splitting problem — items too large |
-| Ratio drifting over time | Context shift — re-anchor |
+| Ratio consistently >1.3 | Team under-estimates  -  inflate by ratio |
+| Ratio consistently <0.7 | Team over-estimates  -  reduce buffer |
+| High variance (SD >0.5) | Splitting problem  -  items too large |
+| Ratio drifting over time | Context shift  -  re-anchor |
 
 ## Team Maturity Indicators
 
@@ -69,10 +69,10 @@ For new teams or major composition changes:
 
 | Sprint | Purpose |
 |--------|---------|
-| 1 | Baseline — no commitments, measure actuals only |
-| 2 | First estimates — compare to sprint 1 actuals |
-| 3 | Adjust — apply ratio from sprint 2 misses |
-| 4 | Validate — accuracy should be >50% within 20% |
+| 1 | Baseline  -  no commitments, measure actuals only |
+| 2 | First estimates  -  compare to sprint 1 actuals |
+| 3 | Adjust  -  apply ratio from sprint 2 misses |
+| 4 | Validate  -  accuracy should be >50% within 20% |
 
 After 3-4 sprints: team has reliable throughput baseline. Before that: all forecasts carry high uncertainty disclaimer.
 

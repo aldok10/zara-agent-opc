@@ -6,15 +6,15 @@ Designing REST APIs: resource modeling, HTTP method selection, status code usage
 
 ## Rules
 
-1. Resources are nouns, never verbs — model the domain, not the operations
+1. Resources are nouns, never verbs  -  model the domain, not the operations
 2. Use sub-resources for relationships: `/users/{id}/orders` (max 2 levels deep)
 3. Non-CRUD actions use POST to a sub-resource: `POST /orders/{id}/cancel` (not `/cancelOrder`)
 4. GET is safe + idempotent; PUT is idempotent (full replace); DELETE is idempotent; POST is neither
 5. PATCH uses JSON Merge Patch (RFC 7396) by default; document which fields are patchable
-6. Collection GET returns stable sort order — default by creation time descending if unspecified
+6. Collection GET returns stable sort order  -  default by creation time descending if unspecified
 7. Filter via query params (`?status=active`), never request body on GET
 8. Bulk operations: `POST /orders/batch` with `{"operations": [...]}`, return per-item results
-9. 204 No Content for successful DELETE — no body, no `Content-Type`
+9. 204 No Content for successful DELETE  -  no body, no `Content-Type`
 10. Long-running: return 202 + `Location` header pointing to status resource
 
 ## Patterns
@@ -31,10 +31,10 @@ Designing REST APIs: resource modeling, HTTP method selection, status code usage
 
 ## Anti-Patterns
 
-- `/api/getUsers` — RPC-style naming in REST
+- `/api/getUsers`  -  RPC-style naming in REST
 - `POST /users/search` when GET + query params suffices (POST search only for complex query bodies)
-- Returning 200 with `{"success": false}` — use proper status codes
-- Nested creation `POST /users/{id}/orders/{oid}/items` beyond 2 levels — flatten or use batch
+- Returning 200 with `{"success": false}`  -  use proper status codes
+- Nested creation `POST /users/{id}/orders/{oid}/items` beyond 2 levels  -  flatten or use batch
 - Using query params for resource identity (`/orders?id=123` instead of `/orders/123`)
 
 ## Status Code Quick-Reference

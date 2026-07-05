@@ -9,7 +9,7 @@ title: "Incident Communication"
 - Incident communication keeps stakeholders informed without distracting responders
 - Roles: Incident Commander (decisions), Communications Lead (updates), responders (execution)
 - Channels: internal (engineering war room), external (status page, customer notifications)
-- Cadence: regular updates even when "still investigating"—silence breeds panic
+- Cadence: regular updates even when "still investigating" - silence breeds panic
 - Post-incident: blameless retrospective focused on systemic improvements
 
 ## Key Practices
@@ -22,7 +22,7 @@ title: "Incident Communication"
 ## Common Mistakes
 - Technical responders context-switching to write updates (slows resolution)
 - Providing overly technical updates to non-technical stakeholders
-- Going silent during investigation—stakeholders assume nobody is working on it
+- Going silent during investigation - stakeholders assume nobody is working on it
 
 ## When to Apply
 - Active incidents affecting customers or internal SLAs

@@ -1,4 +1,4 @@
-// slices-maps-iterators — demonstrates generic slices, maps packages (Go 1.21+)
+// slices-maps-iterators  -  demonstrates generic slices, maps packages (Go 1.21+)
 // and iterators (Go 1.23+).
 //
 // These packages eliminate the need for most custom slice/map manipulation code.
@@ -21,12 +21,12 @@ func main() {
 	idx, found := slices.BinarySearch(nums, 7)
 	fmt.Printf("1. BinarySearch for 7: idx=%d, found=%t\n", idx, found)
 
-	// slices.Compact — remove adjacent duplicates
+	// slices.Compact  -  remove adjacent duplicates
 	data := []int{1, 1, 2, 2, 2, 3, 3, 4}
 	data = slices.Compact(data)
 	fmt.Printf("2. Compact: %v\n", data)
 
-	// slices.Clone — deep copy (shallow for reference elements)
+	// slices.Clone  -  deep copy (shallow for reference elements)
 	original := []string{"a", "b", "c"}
 	clone := slices.Clone(original)
 	clone[0] = "x"
@@ -35,7 +35,7 @@ func main() {
 	// slices.Contains
 	fmt.Printf("4. Contains 'b': %t\n", slices.Contains(original, "b"))
 
-	// slices.Delete — remove elements by range
+	// slices.Delete  -  remove elements by range
 	items := []int{0, 1, 2, 3, 4, 5}
 	items = slices.Delete(items, 2, 4) // delete indices [2,4)
 	fmt.Printf("5. Delete [2,4): %v\n", items)
@@ -92,12 +92,12 @@ func main() {
 	m2["c"] = 3
 	fmt.Printf("14. maps.Clone: original=%v, clone=%v\n", m, m2)
 
-	// maps.Copy — copy all keys from src to dst
+	// maps.Copy  -  copy all keys from src to dst
 	dst := map[string]int{"x": 10}
 	maps.Copy(dst, map[string]int{"y": 20, "z": 30})
 	fmt.Printf("15. maps.Copy: %v\n", dst)
 
-	// maps.DeleteFunc — delete entries matching predicate
+	// maps.DeleteFunc  -  delete entries matching predicate
 	m3 := map[string]int{"a": 1, "b": 2, "c": 3, "d": 4}
 	maps.DeleteFunc(m3, func(k string, v int) bool { return v%2 == 0 })
 	fmt.Printf("16. maps.DeleteFunc (odd only): %v\n", m3)
@@ -115,7 +115,7 @@ func main() {
 
 	// --- iterators (Go 1.23+) ---
 
-	// slices.All — iterate with index
+	// slices.All  -  iterate with index
 	fmt.Println("\n19. slices.All:")
 	for i, v := range slices.All([]string{"a", "b", "c"}) {
 		fmt.Printf("   [%d] = %s\n", i, v)
@@ -130,7 +130,7 @@ func main() {
 		fmt.Printf("   [%d] = %s\n", i, v)
 	}
 
-	// slices.Collect — collect iterator into slice
+	// slices.Collect  -  collect iterator into slice
 	even := slices.Collect(func(yield func(int) bool) {
 		for i := 0; i < 10; i++ {
 			if i%2 == 0 && !yield(i) {
@@ -140,12 +140,12 @@ func main() {
 	})
 	fmt.Printf("21. slices.Collect (evens): %v\n", even)
 
-	// slices.Sorted — sort values from an iterator
+	// slices.Sorted  -  sort values from an iterator
 	unsortedIter := slices.Values([]int{3, 1, 4, 1, 5, 9})
 	sorted := slices.Sorted(unsortedIter)
 	fmt.Printf("22. slices.Sorted: %v\n", sorted)
 
-	// maps.All — iterate over map
+	// maps.All  -  iterate over map
 	fmt.Println("23. maps.All:")
 	for k, v := range maps.All(map[string]int{"x": 1, "y": 2, "z": 3}) {
 		fmt.Printf("   %s = %d\n", k, v)
@@ -155,7 +155,7 @@ func main() {
 	keys2 := slices.Collect(maps.Keys(map[string]int{"a": 1, "b": 2}))
 	fmt.Printf("24. maps.Keys collected: %v\n", keys2)
 
-	// Chunk — split into groups (Go 1.23+)
+	// Chunk  -  split into groups (Go 1.23+)
 	fmt.Println("25. slices.Chunk (groups of 3):")
 	for chunk := range slices.Chunk([]int{1, 2, 3, 4, 5, 6, 7}, 3) {
 		fmt.Printf("   %v\n", chunk)

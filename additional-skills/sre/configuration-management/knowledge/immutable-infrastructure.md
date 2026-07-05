@@ -5,7 +5,7 @@ title: "Immutable Infrastructure Patterns"
 
 # Immutable Infrastructure Patterns
 
-Once deployed, infrastructure components are never modified in place — replaced entirely on change.
+Once deployed, infrastructure components are never modified in place  -  replaced entirely on change.
 
 ## Core Principle
 

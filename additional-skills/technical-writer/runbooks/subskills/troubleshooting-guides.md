@@ -25,6 +25,6 @@ title: "Troubleshooting Guides"
 - Stale guides referencing commands, paths, or configurations that no longer exist
 
 ## When to Apply
-- After resolving a production incident—capture the diagnosis path while fresh
+- After resolving a production incident - capture the diagnosis path while fresh
 - Building operational documentation for services entering production readiness
 - Reducing repeat pages for known issues that have documented resolutions

@@ -17,7 +17,7 @@ Single-team Scrum/Kanban works for 5-9 people. Scaling frameworks address:
 
 ### Structure
 - **Team Level**: Scrum/Kanban teams (5-11 people)
-- **Program Level**: Agile Release Train (ART) — 50-125 people
+- **Program Level**: Agile Release Train (ART)  -  50-125 people
 - **Large Solution**: Multiple ARTs coordinated
 - **Portfolio**: Strategy, funding, governance
 

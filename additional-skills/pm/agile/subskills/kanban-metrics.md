@@ -14,7 +14,7 @@ Time from work started to work completed (not created to completed).
 **Percentile analysis**:
 - P50: typical item completion time
 - P70: moderate confidence threshold
-- P85: SLE (Service Level Expectation) — promise to stakeholders
+- P85: SLE (Service Level Expectation)  -  promise to stakeholders
 - P95: outlier threshold; investigate anything above
 
 **Scatterplot reading**:
@@ -41,7 +41,7 @@ Current age of in-progress items (today - start date).
 **Thresholds**:
 - Below P50 cycle time: healthy, no action
 - Between P50-P85: monitor, may need help
-- Above P85: immediate action — blocked, scope creep, or needs splitting
+- Above P85: immediate action  -  blocked, scope creep, or needs splitting
 - Above P95: escalate, likely needs removal or complete rework
 
 **Daily check**: Sort WIP by age descending. Top items get attention first.
@@ -88,7 +88,7 @@ Anderson's Kanban Method defines 6 general practices: Visualize, Limit WIP, Mana
 
 ## Four Mandatory Flow Metrics (Kanban Guide)
 
-1. **WIP** — foundational; control it first
-2. **Throughput** — items completed per time period
-3. **Work Item Age** — leading indicator for in-progress items
-4. **Cycle Time** — started to finished
+1. **WIP**  -  foundational; control it first
+2. **Throughput**  -  items completed per time period
+3. **Work Item Age**  -  leading indicator for in-progress items
+4. **Cycle Time**  -  started to finished

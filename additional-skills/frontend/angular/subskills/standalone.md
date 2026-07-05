@@ -4,7 +4,7 @@ Activation: user works with component architecture, DI, routing, lazy loading, o
 
 ## Core Principles
 
-1. Every component is standalone — `standalone: true` is default in Angular 19+.
+1. Every component is standalone  -  `standalone: true` is default in Angular 19+.
 2. Components declare their own dependencies via `imports`.
 3. DI uses `inject()` function, not constructor parameters.
 4. Routes are arrays of `Route` objects, no RouterModule.
@@ -176,7 +176,7 @@ export const appConfig: ApplicationConfig = {
 ## Gotchas
 
 1. **`imports` in component metadata replaces module imports.** List every dependency the template uses.
-2. **`inject()` only works in injection context.** Constructor, field initializer, or factory — not in arbitrary methods.
+2. **`inject()` only works in injection context.** Constructor, field initializer, or factory  -  not in arbitrary methods.
 3. **Lazy routes must export the component/routes directly.** No module wrapper needed.
 4. **Route-scoped providers create child injector.** Services are isolated to that route subtree.
 5. **`providedIn: 'root'` is tree-shakeable.** Prefer it for app-wide services.

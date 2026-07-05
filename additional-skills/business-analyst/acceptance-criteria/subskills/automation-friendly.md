@@ -9,7 +9,7 @@ title: "Automation-Friendly Criteria"
 
 - Criteria should map directly to automated test steps without interpretation
 - Stable selectors: reference data attributes or roles, not visual layout or CSS classes
-- State setup must be explicit — automated tests need reproducible preconditions
+- State setup must be explicit  -  automated tests need reproducible preconditions
 - Assertions target observable system state, not internal implementation
 - Time-dependent criteria need deterministic controls (clock mocking, fixed timestamps)
 
@@ -19,7 +19,7 @@ title: "Automation-Friendly Criteria"
 - Specify exact test data: "user email: test@example.com" not "a valid email"
 - Include API contract details: expected status codes, response shapes, error formats
 - Define wait conditions explicitly: "order status changes to CONFIRMED" not "order is processed"
-- Keep criteria independent — no test should depend on another test's side effects
+- Keep criteria independent  -  no test should depend on another test's side effects
 
 ## Common Mistakes
 

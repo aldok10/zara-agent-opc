@@ -1,4 +1,4 @@
-// graceful-shutdown — demonstrates proper signal handling and graceful shutdown.
+// graceful-shutdown  -  demonstrates proper signal handling and graceful shutdown.
 //
 // Key stdlib: os/signal, context, net/http.Server.Shutdown
 

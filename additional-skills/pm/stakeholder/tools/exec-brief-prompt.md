@@ -1,6 +1,6 @@
 # Executive Brief Prompt
 
-## Structure (Minto Pyramid — conclusion first)
+## Structure (Minto Pyramid  -  conclusion first)
 
 ```
 DECISION REQUESTED: [what you need approved/decided, 1 sentence]
@@ -15,9 +15,9 @@ CONTEXT (only what's needed to decide):
 - [key fact 3]
 
 OPTIONS:
-A) [recommended] — [pro] / [con]
-B) [alternative] — [pro] / [con]
-C) Do nothing — [consequence]
+A) [recommended]  -  [pro] / [con]
+B) [alternative]  -  [pro] / [con]
+C) Do nothing  -  [consequence]
 
 NEXT STEPS (if approved):
 - [action 1] by [date]

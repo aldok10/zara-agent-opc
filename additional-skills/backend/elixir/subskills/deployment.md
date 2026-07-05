@@ -4,15 +4,15 @@ BEAM deployment: releases, hot upgrades, clustering (libcluster), Fly.io, observ
 
 ## Rules
 
-1. Always deploy as OTP release (`mix release`) — not `mix phx.server` in production
-2. `runtime.exs` for all production config — compile-time config cannot read env vars at deploy
-3. Health check endpoint required — `/health` returning 200 with version and node name
-4. Cluster formation with `libcluster` — configure strategy per environment (DNS, Kubernetes, gossip)
-5. Distributed features (PubSub, presence) require clustering — verify nodes connect before enabling
-6. Use `Phoenix.PubSub` with default pg adapter for multi-node — automatic with clustering
-7. Log structured JSON in production — use `Logger` backends like `LoggerJSON`
-8. Telemetry metrics attached at application start — export to Prometheus/OTLP
-9. Database migrations run as release command, not on startup — `bin/my_app eval "MyApp.Release.migrate"`
+1. Always deploy as OTP release (`mix release`)  -  not `mix phx.server` in production
+2. `runtime.exs` for all production config  -  compile-time config cannot read env vars at deploy
+3. Health check endpoint required  -  `/health` returning 200 with version and node name
+4. Cluster formation with `libcluster`  -  configure strategy per environment (DNS, Kubernetes, gossip)
+5. Distributed features (PubSub, presence) require clustering  -  verify nodes connect before enabling
+6. Use `Phoenix.PubSub` with default pg adapter for multi-node  -  automatic with clustering
+7. Log structured JSON in production  -  use `Logger` backends like `LoggerJSON`
+8. Telemetry metrics attached at application start  -  export to Prometheus/OTLP
+9. Database migrations run as release command, not on startup  -  `bin/my_app eval "MyApp.Release.migrate"`
 10. Graceful shutdown: `SIGTERM` handling with drain period for in-flight requests
 
 ## Release Configuration
@@ -146,18 +146,18 @@ end
 
 ## Anti-Patterns
 
-- Running `mix phx.server` in production — no release benefits, slow startup, dev deps loaded
-- Config in `config.exs` that reads `System.get_env` — only works at compile time
-- Migrations on app boot — blocks startup, can timeout, retry loops
-- No health check — orchestrator can't determine readiness
-- Hardcoded node names — breaks multi-instance deployments
-- Missing graceful shutdown — drops in-flight WebSocket connections
-- Using `:rpc.call` without timeouts — can hang indefinitely in network partition
+- Running `mix phx.server` in production  -  no release benefits, slow startup, dev deps loaded
+- Config in `config.exs` that reads `System.get_env`  -  only works at compile time
+- Migrations on app boot  -  blocks startup, can timeout, retry loops
+- No health check  -  orchestrator can't determine readiness
+- Hardcoded node names  -  breaks multi-instance deployments
+- Missing graceful shutdown  -  drops in-flight WebSocket connections
+- Using `:rpc.call` without timeouts  -  can hang indefinitely in network partition
 
 ## Verification
 
-1. `MIX_ENV=prod mix release` — builds successfully
-2. `bin/my_app eval "IO.puts(:ok)"` — release boots and can eval
-3. `bin/my_app start` + `curl localhost:4000/health` — responds correctly
+1. `MIX_ENV=prod mix release`  -  builds successfully
+2. `bin/my_app eval "IO.puts(:ok)"`  -  release boots and can eval
+3. `bin/my_app start` + `curl localhost:4000/health`  -  responds correctly
 4. Verify clustering: start 2 nodes, check `Node.list()` is non-empty
 5. Rolling deploy: old and new versions both serve traffic during transition

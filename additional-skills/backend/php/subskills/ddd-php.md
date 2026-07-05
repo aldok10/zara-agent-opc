@@ -36,10 +36,10 @@ src/
 
 ### Aggregate Root
 
-- Consistency boundary — all mutations go through the root.
-- Protect invariants — never allow invalid state.
-- Record domain events — publish after persistence succeeds.
-- Identity by ID (not database PK) — use UUID or ULID.
+- Consistency boundary  -  all mutations go through the root.
+- Protect invariants  -  never allow invalid state.
+- Record domain events  -  publish after persistence succeeds.
+- Identity by ID (not database PK)  -  use UUID or ULID.
 
 ```php
 final class Order
@@ -121,7 +121,7 @@ final readonly class Money
 ### Domain Events
 
 - Named in past tense: `OrderPlaced`, `PaymentFailed`.
-- Immutable data carriers — readonly classes.
+- Immutable data carriers  -  readonly classes.
 - Include aggregate ID + relevant data for consumers.
 - Published AFTER successful persistence (outbox pattern or dispatcher).
 
@@ -154,13 +154,13 @@ Implementation lives in Infrastructure (Doctrine/Eloquent).
 
 ## Rules
 
-1. Aggregates are consistency boundaries — one transaction per aggregate.
-2. Reference other aggregates by ID only — never hold object references.
+1. Aggregates are consistency boundaries  -  one transaction per aggregate.
+2. Reference other aggregates by ID only  -  never hold object references.
 3. Domain events for cross-aggregate communication (eventual consistency).
-4. No framework imports in Domain namespace — pure PHP only.
-5. Value objects validate on construction — invalid state is impossible.
-6. Repository returns domain objects — never Doctrine entities or Eloquent models directly.
-7. Application layer orchestrates — domain layer contains the rules.
+4. No framework imports in Domain namespace  -  pure PHP only.
+5. Value objects validate on construction  -  invalid state is impossible.
+6. Repository returns domain objects  -  never Doctrine entities or Eloquent models directly.
+7. Application layer orchestrates  -  domain layer contains the rules.
 
 ## Testing DDD Code
 
@@ -173,5 +173,5 @@ Implementation lives in Infrastructure (Doctrine/Eloquent).
 
 - Domain layer has zero framework imports (architecture test).
 - All value objects are readonly and self-validating.
-- Aggregates enforce invariants — no way to create invalid state.
-- Events published after persistence — never before.
+- Aggregates enforce invariants  -  no way to create invalid state.
+- Events published after persistence  -  never before.

@@ -13,7 +13,7 @@ title: "Alerting"
 - Alert routing: right person, right time, right channel (page vs email vs chat)
 
 ## Key Practices
-- Alert on symptoms (user impact) not causes (CPU high)—symptoms tell you something is wrong
+- Alert on symptoms (user impact) not causes (CPU high) - symptoms tell you something is wrong
 - Include runbook link, impact summary, and relevant dashboard URL in every alert
 - Use burn-rate alerting for SLO-based systems: 14.4x burn = page, 6x burn = ticket, 1x = dashboard
 - Implement alert deduplication and grouping to prevent notification storms

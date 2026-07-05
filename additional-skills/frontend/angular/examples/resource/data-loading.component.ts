@@ -62,12 +62,12 @@ export class DataLoadingComponent {
   readonly filterText = signal('');
   readonly roleFilter = signal<string>('');
 
-  // httpResource — reactive HTTP data loading
+  // httpResource  -  reactive HTTP data loading
   // Automatically handles loading/error/value states
   // Re-fetches when reactive dependencies in the URL function change
   readonly usersResource = httpResource<User[]>('/api/users');
 
-  // Computed — client-side filtering of loaded data
+  // Computed  -  client-side filtering of loaded data
   readonly filteredUsers = computed(() => {
     const users = this.usersResource.value() ?? [];
     const text = this.filterText().toLowerCase();

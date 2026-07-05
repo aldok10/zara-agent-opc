@@ -43,13 +43,13 @@ final result = add(3, 5); // near-native speed, no serialization
 ## Kotlin Multiplatform (KMP)
 
 ```kotlin
-// commonMain — shared logic
+// commonMain  -  shared logic
 expect class PlatformCrypto() { fun sha256(input: ByteArray): ByteArray }
 
-// androidMain — JVM directly (zero overhead)
+// androidMain  -  JVM directly (zero overhead)
 actual class PlatformCrypto { actual fun sha256(input: ByteArray) = MessageDigest.getInstance("SHA-256").digest(input) }
 
-// iosMain — cinterop with C/Obj-C (near-zero overhead)
+// iosMain  -  cinterop with C/Obj-C (near-zero overhead)
 actual class PlatformCrypto { actual fun sha256(input: ByteArray) = /* CommonCrypto CC_SHA256 */ }
 ```
 

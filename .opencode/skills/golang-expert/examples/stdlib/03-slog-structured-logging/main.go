@@ -1,4 +1,4 @@
-// slog-structured-logging — demonstrates log/slog (Go 1.21+).
+// slog-structured-logging  -  demonstrates log/slog (Go 1.21+).
 //
 // slog is the standard structured logging package. No external dependency needed.
 // Supports: leveled logging, structured attributes, JSON/text output, custom handlers.
@@ -42,7 +42,7 @@ func main() {
 	requestLogger.Info("Request started", "path", "/api/users")
 	requestLogger.Info("Request completed", "status", 200, "duration_ms", 42)
 
-	// --- 5. slog.Group — group related fields ---
+	// --- 5. slog.Group  -  group related fields ---
 	logger.Info("User updated",
 		slog.Group("user",
 			"id", 42,
@@ -74,7 +74,7 @@ func main() {
 		slog.Int("error_code", 5001),
 	)
 
-	// --- 8. MultiHandler (Go 1.26+) — log to multiple outputs ---
+	// --- 8. MultiHandler (Go 1.26+)  -  log to multiple outputs ---
 	// file, _ := os.Create("app.log")
 	// multiHandler := slog.NewMultiHandler(
 	//     slog.NewTextHandler(os.Stdout, nil),
@@ -85,9 +85,9 @@ func main() {
 
 	// --- Why slog over third-party loggers? ---
 	slog.Info("\n📌 slog advantages:")
-	slog.Info("  - Zero dependencies — it's in stdlib since Go 1.21")
+	slog.Info("  - Zero dependencies  -  it's in stdlib since Go 1.21")
 	slog.Info("  - Structured output (JSON/text) with leveled logging")
-	slog.Info("  - Fast — comparable to zap/zerolog in many benchmarks")
+	slog.Info("  - Fast  -  comparable to zap/zerolog in many benchmarks")
 	slog.Info("  - Custom handlers for any output format")
 	slog.Info("  - slog.NewMultiHandler (Go 1.26+) for multi-output")
 }

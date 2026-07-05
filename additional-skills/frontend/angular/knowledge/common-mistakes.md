@@ -157,7 +157,7 @@ Wrong:
 @Component({
   selector: 'app-list',
   template: `...`,
-  // default CD — checks entire tree every cycle
+  // default CD  -  checks entire tree every cycle
 })
 ```
 
@@ -273,7 +273,7 @@ Right:
 const total = computed(() => price() * quantity());
 ```
 
-Why: This is derived state — use computed(). Effects are for side effects (logging, API calls, DOM manipulation).
+Why: This is derived state  -  use computed(). Effects are for side effects (logging, API calls, DOM manipulation).
 
 ## 14. Not using resource() for data loading
 
@@ -296,7 +296,7 @@ Right:
 ```typescript
 userId = signal('');
 userData = httpResource<User>(() => `/api/users/${this.userId()}`);
-// userData.value(), userData.isLoading(), userData.error() — all handled
+// userData.value(), userData.isLoading(), userData.error()  -  all handled
 ```
 
 Why: resource() handles loading/error states, cancellation, and reactivity automatically.
@@ -315,7 +315,7 @@ Right:
 @Component({
   imports: [NgClass, DatePipe], // import only what you need
 })
-// Or better — use signals and template expressions instead of NgClass/NgStyle
+// Or better  -  use signals and template expressions instead of NgClass/NgStyle
 ```
 
 Why: CommonModule imports all directives/pipes. Import granularly for tree-shaking. Better yet, replace Angular pipes/directives with native template expressions where possible.

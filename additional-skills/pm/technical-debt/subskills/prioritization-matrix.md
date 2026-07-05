@@ -32,10 +32,10 @@ Apply tiebreakers in order:
 ## ROI Framing for Stakeholders
 
 Never say "refactoring." Frame as:
-- "Investing in delivery speed"—show cycle time data
-- "Reducing incident risk"—show near-miss or incident correlation
-- "Unblocking feature X"—tie to roadmap item
-- "Protecting team retention"—cite friction survey data
+- "Investing in delivery speed" - show cycle time data
+- "Reducing incident risk" - show near-miss or incident correlation
+- "Unblocking feature X" - tie to roadmap item
+- "Protecting team retention" - cite friction survey data
 
 Template: "This debt item costs us ~{X} hours/sprint in workarounds. Fixing it is {Y} days. ROI breakeven in {Z} sprints."
 

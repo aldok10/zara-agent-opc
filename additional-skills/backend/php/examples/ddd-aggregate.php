@@ -319,7 +319,7 @@ abstract class AggregateRoot
 
 interface DomainEvent
 {
-    // Marker interface — all events are readonly data carriers
+    // Marker interface  -  all events are readonly data carriers
 }
 
 // --- Repository Interface (Domain Layer) ---

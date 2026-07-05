@@ -86,7 +86,7 @@ message Order {
   Money total = 6;
   google.protobuf.Timestamp created_at = 14;
   google.protobuf.Timestamp updated_at = 15;
-  string notes = 16; // Rarely set — higher field number
+  string notes = 16; // Rarely set  -  higher field number
 }
 
 message OrderItem {

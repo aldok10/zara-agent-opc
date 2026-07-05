@@ -2,7 +2,7 @@
 
 ## Property Hooks
 
-Define get/set logic inline on properties — replaces magic methods and boilerplate getters/setters.
+Define get/set logic inline on properties  -  replaces magic methods and boilerplate getters/setters.
 
 ```php
 final class User
@@ -42,7 +42,7 @@ final class Config
 
 - Replaces `readonly` in many cases (allows internal mutation).
 - Works with property hooks.
-- `private(set)` is the most common — expose value, control mutation.
+- `private(set)` is the most common  -  expose value, control mutation.
 
 ## #[\Deprecated] Attribute
 
@@ -90,8 +90,8 @@ $key = array_find_key($items, fn ($item) => $item->isPrimary());
 ## Other Notable Changes
 
 - `Deprecated` attribute on classes, methods, constants, parameters.
-- `mb_trim()`, `mb_ltrim()`, `mb_rtrim()` — multibyte-safe trimming.
-- `request_parse_body()` — parse multipart form data outside POST.
+- `mb_trim()`, `mb_ltrim()`, `mb_rtrim()`  -  multibyte-safe trimming.
+- `request_parse_body()`  -  parse multipart form data outside POST.
 - `http_get_last_response_headers()` / `http_clear_last_response_headers()`.
 - DOM: `Dom\HTMLDocument` and `Dom\XMLDocument` (spec-compliant HTML5 parsing).
 - BCMath: `BcMath\Number` object with operator overloading.

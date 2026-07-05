@@ -30,4 +30,4 @@ Create/update the tech debt register for [team/project]. For each item, capture:
 1. Add new items as discovered (any team member can submit)
 2. Score during sprint planning or debt standup
 3. Re-score quarterly (costs and impacts shift)
-4. Archive resolved items (don't delete—track for retrospective)
+4. Archive resolved items (don't delete - track for retrospective)

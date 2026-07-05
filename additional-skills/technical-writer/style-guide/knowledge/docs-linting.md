@@ -112,7 +112,7 @@ Pluggable linting framework for natural language:
 ### Key Difference from Vale
 
 - Plugin-based architecture (npm packages)
-- Rules are JavaScript modules — more programmable
+- Rules are JavaScript modules  -  more programmable
 - Supports fixing (auto-correct) for many rules
 - Better for non-English content (i18n support)
 

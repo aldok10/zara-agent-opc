@@ -25,7 +25,7 @@ Build alignment, create coalitions, frame decisions. Get things done through oth
 |----------|----------|
 | High power, high interest | Collaborate closely, regular 1:1s, co-create solutions |
 | High power, low interest | Keep satisfied, brief updates, escalate only when needed |
-| Low power, high interest | Keep informed, leverage as advocates, gather input |
+| Low power, high interest | Keep informed, use as advocates, gather input |
 | Low power, low interest | Monitor, minimal effort, batch communications |
 
 ## Influence Tactics

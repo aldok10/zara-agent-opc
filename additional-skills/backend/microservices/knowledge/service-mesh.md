@@ -72,11 +72,11 @@ fault:
 
 ## Linkerd
 
-- Written in Rust (linkerd2-proxy) — smaller footprint than Envoy
+- Written in Rust (linkerd2-proxy)  -  smaller footprint than Envoy
 - Simpler operational model: fewer CRDs, opinionated defaults
 - Automatic mTLS with no configuration (identity system built-in)
 - Service profiles for per-route metrics and retries
-- No built-in ingress gateway — pairs with existing ingress controllers
+- No built-in ingress gateway  -  pairs with existing ingress controllers
 - Best for: teams wanting mesh benefits without Istio's complexity
 
 ## mTLS Automation

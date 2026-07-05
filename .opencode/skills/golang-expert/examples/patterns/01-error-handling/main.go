@@ -1,4 +1,4 @@
-// error-handling — demonstrates idiomatic Go error handling patterns.
+// error-handling  -  demonstrates idiomatic Go error handling patterns.
 //
 // Run: go run . (from inside this directory)
 
@@ -130,7 +130,7 @@ func main() {
 		fmt.Printf("   ↳ %v\n", e)
 	}
 
-	// Example 4: errors.Join — aggregate multiple errors
+	// Example 4: errors.Join  -  aggregate multiple errors
 	joined := validateAll(
 		nil,
 		errors.New("name is required"),
@@ -145,6 +145,6 @@ func main() {
 	}
 	fmt.Printf("   Number of errors in chain: %d\n", count)
 
-	// Example 5: Check type vs check string — ALWAYS use type checks
-	fmt.Println("\n5. Golden rule: NEVER check error strings — use errors.Is / errors.As")
+	// Example 5: Check type vs check string  -  ALWAYS use type checks
+	fmt.Println("\n5. Golden rule: NEVER check error strings  -  use errors.Is / errors.As")
 }

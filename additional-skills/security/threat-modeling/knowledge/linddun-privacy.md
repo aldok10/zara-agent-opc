@@ -15,7 +15,7 @@ LINDDUN is a structured methodology for identifying privacy threats in software 
 | **I** - Identifiability | A subject can be identified from data | Data or behavior patterns reveal who the subject is |
 | **N** - Non-repudiation | Subject cannot deny an action | Excessive logging or audit trails that expose user actions to unintended parties |
 | **D** - Detectability | Existence of an item of interest can be detected | Attacker can determine that a record/communication exists (even without content) |
-| **D** - Disclosure of information | Data is exposed to unauthorized party | Confidentiality breach — data leaks, improper access control, side channels |
+| **D** - Disclosure of information | Data is exposed to unauthorized party | Confidentiality breach  -  data leaks, improper access control, side channels |
 | **U** - Unawareness | Subject unaware of data collection/processing | Lack of transparency about what data is collected, how it's used, and by whom |
 | **N** - Non-compliance | System violates privacy regulations or policies | Failure to meet legal obligations (GDPR, CCPA, HIPAA) |
 
@@ -107,12 +107,12 @@ Use trees to systematically enumerate how each threat manifests in your system's
 Run STRIDE first (security threats), then LINDDUN (privacy threats) on the same DFD:
 - STRIDE identifies: spoofing, tampering, repudiation, information disclosure, DoS, elevation of privilege
 - LINDDUN adds: linkability, identifiability, excessive non-repudiation, detectability, unawareness, non-compliance
-- Overlap: "Information Disclosure" in STRIDE ≈ "Disclosure" in LINDDUN — but LINDDUN adds nuance about inference and correlation attacks
+- Overlap: "Information Disclosure" in STRIDE ≈ "Disclosure" in LINDDUN  -  but LINDDUN adds nuance about inference and correlation attacks
 
 ## Common Pitfalls
 
 - Treating anonymization as binary (it's a spectrum)
 - Ignoring quasi-identifier combinations (ZIP + birthdate + gender = 87% US population unique)
 - Assuming encrypted = private (access patterns still leak information)
-- Collecting data "just in case" — violates data minimization
+- Collecting data "just in case"  -  violates data minimization
 - Logging PII in application logs without purpose justification

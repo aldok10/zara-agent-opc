@@ -4,7 +4,7 @@ Activation: user works with NgRx SignalStore, global state management, or NgRx e
 
 ## Core Principles
 
-1. NgRx SignalStore is the modern approach — signals-first, no boilerplate.
+1. NgRx SignalStore is the modern approach  -  signals-first, no boilerplate.
 2. Use SignalStore for feature/global state; component signals for local state.
 3. `withComputed()` for derived state, `withMethods()` for actions, `withHooks()` for lifecycle.
 4. `rxMethod()` bridges RxJS effects into SignalStore.
@@ -14,7 +14,7 @@ Activation: user works with NgRx SignalStore, global state management, or NgRx e
 
 | Scenario | Pattern |
 |----------|---------|
-| Simple local state | Component `signal()` — no store needed |
+| Simple local state | Component `signal()`  -  no store needed |
 | Shared feature state | `signalStore()` at feature level |
 | Global app state | `signalStore()` with `providedIn: 'root'` |
 | Complex async flows | `rxMethod()` in store methods |
@@ -125,7 +125,7 @@ export const UserStore = signalStore(
   })),
 );
 
-// Usage — store exposes: entities(), ids(), entityMap()
+// Usage  -  store exposes: entities(), ids(), entityMap()
 ```
 
 ## Using Store in Component

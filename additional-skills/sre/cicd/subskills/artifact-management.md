@@ -7,7 +7,7 @@ title: "Artifact Management"
 
 ## Core Concepts
 - Build artifacts: compiled binaries, container images, packages, deployment bundles
-- Immutable artifacts: once published to a registry, never overwrite—tag with version/SHA
+- Immutable artifacts: once published to a registry, never overwrite - tag with version/SHA
 - Provenance: each artifact traces back to source commit, build environment, and dependencies
 - Retention policies: balance storage cost against rollback capability
 - Promotion model: artifact moves through environments (dev → staging → prod) without rebuild

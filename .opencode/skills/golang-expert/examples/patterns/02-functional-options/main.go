@@ -1,4 +1,4 @@
-// functional-options — demonstrates the Functional Options pattern.
+// functional-options  -  demonstrates the Functional Options pattern.
 //
 // Functional Options is the idiomatic Go way to provide flexible,
 // backwards-compatible configuration for constructors.
@@ -75,7 +75,7 @@ func NewServer(host string, port int, opts ...Option) *Server {
 // backwards-compatible, and self-documenting.
 
 func main() {
-	// Default server — just host and port
+	// Default server  -  just host and port
 	s1 := NewServer("0.0.0.0", 8080)
 
 	// Server with custom timeout

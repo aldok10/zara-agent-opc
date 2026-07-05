@@ -11,7 +11,7 @@ Architectural framework for modular monoliths in Spring Boot. Enforces module bo
 
 - Microservices add network, deployment, and observability complexity.
 - Modular monoliths get clean boundaries with single deployment.
-- Migrate to microservices later by extracting modules — boundaries are already defined.
+- Migrate to microservices later by extracting modules  -  boundaries are already defined.
 
 ## Module Structure
 
@@ -19,9 +19,9 @@ Architectural framework for modular monoliths in Spring Boot. Enforces module bo
 com.example.app/
 ├── Application.java               // @SpringBootApplication
 ├── order/                          // Application module (auto-detected)
-│   ├── Order.java                  // Public API — exposed to other modules
+│   ├── Order.java                  // Public API  -  exposed to other modules
 │   ├── OrderService.java           // Public API
-│   ├── OrderCreated.java           // Event — the integration contract
+│   ├── OrderCreated.java           // Event  -  the integration contract
 │   └── internal/                   // NOT accessible from other modules
 │       ├── OrderRepository.java
 │       ├── OrderMapper.java
@@ -31,7 +31,7 @@ com.example.app/
 │   ├── StockReserved.java
 │   └── internal/
 │       └── InventoryRepository.java
-└── shared/                         // Open module — accessible by all
+└── shared/                         // Open module  -  accessible by all
     ├── Money.java
     └── EntityId.java
 ```
@@ -50,10 +50,10 @@ Types in `internal` sub-package are module-private. Only top-level package types
 
 ## Event-Based Integration
 
-Modules communicate via domain events — no direct service-to-service calls across boundaries.
+Modules communicate via domain events  -  no direct service-to-service calls across boundaries.
 
 ```java
-// In order module — publishes event
+// In order module  -  publishes event
 @Service
 @Transactional
 public class OrderService {
@@ -68,12 +68,12 @@ public class OrderService {
     }
 }
 
-// Event record — the public contract
+// Event record  -  the public contract
 public record OrderCompleted(OrderId orderId, Money total) {}
 ```
 
 ```java
-// In inventory module — listens
+// In inventory module  -  listens
 @Service
 public class StockReservationListener {
 
@@ -88,7 +88,7 @@ public class StockReservationListener {
 
 - Executes in a separate transaction (after the publishing transaction commits).
 - Automatically retried on failure (with exponential backoff by default).
-- Events persisted to an event publication log — guaranteed delivery.
+- Events persisted to an event publication log  -  guaranteed delivery.
 
 ```java
 // Enable event publication log (persistence)

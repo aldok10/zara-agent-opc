@@ -64,7 +64,7 @@ const count = ref(0)
 console.log(count.value) // need .value
 
 // In <template>:
-// {{ count }} — auto-unwrapped, no .value needed
+// {{ count }}  -  auto-unwrapped, no .value needed
 
 // GOTCHA: ref inside reactive is auto-unwrapped
 const state = reactive({ count: ref(0) })

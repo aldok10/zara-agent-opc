@@ -14,7 +14,7 @@ User needs to reduce bundle size, implement lazy loading, or optimize tree-shaki
 - Split by route boundary (each route = separate chunk)
 - Lazy load below-fold components
 - Never lazy load above-fold / critical path components
-- Tree-shake via ESM — avoid barrel files that import everything
+- Tree-shake via ESM  -  avoid barrel files that import everything
 - Monitor bundle size in CI (budget enforcement)
 
 ## Decision Table

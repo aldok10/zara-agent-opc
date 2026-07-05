@@ -31,7 +31,7 @@ Write a sprint goal that:
 
 ## Anti-patterns
 
-- "Complete stories X, Y, Z" — task list, not goal
-- "Improve performance" — not measurable
-- "Start working on auth" — no completion criteria
-- Two goals joined with "and" — pick one or split sprint
+- "Complete stories X, Y, Z"  -  task list, not goal
+- "Improve performance"  -  not measurable
+- "Start working on auth"  -  no completion criteria
+- Two goals joined with "and"  -  pick one or split sprint

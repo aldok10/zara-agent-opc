@@ -59,7 +59,7 @@ Compare DOM structure, computed styles, and layout properties rather than render
 ### Chromatic Example
 ```javascript
 // Storybook stories become visual tests automatically
-// .storybook/main.js — Chromatic captures each story
+// .storybook/main.js  -  Chromatic captures each story
 
 export default {
   title: 'Components/Button',

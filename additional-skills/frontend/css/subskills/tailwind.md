@@ -6,12 +6,12 @@ Trigger when task involves: Tailwind setup, v4 migration, custom theme configura
 
 ## Core Principles
 
-1. Tailwind v4 is CSS-first — configuration lives in CSS via `@theme`, not `tailwind.config.js`
-2. Rust-based engine (Oxide) — faster builds, no PostCSS dependency for core
-3. Native `@layer` integration — Tailwind layers map to CSS cascade layers
+1. Tailwind v4 is CSS-first  -  configuration lives in CSS via `@theme`, not `tailwind.config.js`
+2. Rust-based engine (Oxide)  -  faster builds, no PostCSS dependency for core
+3. Native `@layer` integration  -  Tailwind layers map to CSS cascade layers
 4. OKLCH color space for perceptually uniform color palettes
 5. Design tokens as CSS custom properties via `@theme`
-6. Zero-config content detection — no `content` array needed
+6. Zero-config content detection  -  no `content` array needed
 7. `@utility` and `@variant` for custom extensions in CSS
 
 ## Decision Table

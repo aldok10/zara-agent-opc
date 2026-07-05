@@ -7,16 +7,16 @@ title: "Scheduling"
 
 ## Core Concepts
 
-- Schedules express "when" to run; dependencies express "whether" to run — both are needed
+- Schedules express "when" to run; dependencies express "whether" to run  -  both are needed
 - Data availability trumps clock time: schedule based on when inputs are ready, not arbitrary cron
-- Overlapping runs cause data corruption — prevent concurrent execution of the same pipeline
+- Overlapping runs cause data corruption  -  prevent concurrent execution of the same pipeline
 - Time zones matter: UTC internally, local time only at display boundaries
 - Catchup behavior must be explicit: should missed runs backfill automatically or not?
 
 ## Key Practices
 
 - Use data sensors or event triggers over fixed schedules when input arrival time varies
-- Set execution timeouts — a hung task should fail, not block the next scheduled run
+- Set execution timeouts  -  a hung task should fail, not block the next scheduled run
 - Prevent overlap with concurrency limits or lock mechanisms at the DAG/task level
 - Schedule heavy jobs during off-peak hours to avoid resource contention
 - Document SLAs: "dashboard refreshes by 8am" drives schedule design backward from deadline

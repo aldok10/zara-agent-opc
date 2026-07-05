@@ -68,7 +68,7 @@ Pipeline: `Character Filters → Tokenizer → Token Filters`
 "tv, television"
 ```
 
-Apply at **search time** (not index time) — allows updates without reindexing.
+Apply at **search time** (not index time)  -  allows updates without reindexing.
 
 ## Learning to Rank (LTR)
 

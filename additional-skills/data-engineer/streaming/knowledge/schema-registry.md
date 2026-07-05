@@ -30,7 +30,7 @@ Consumer → Deserializer → Schema Registry
 | **BACKWARD_TRANSITIVE** | New schema can read data from ALL previous versions | Long-retention topics, reprocessing from earliest offset |
 | **FORWARD** | Previous schema can read data written by new schema | Producer-first deployments (deploy producers before consumers) |
 | **FORWARD_TRANSITIVE** | ALL previous schemas can read new data | Independent producer rollouts |
-| **FULL** | Both backward and forward compatible with previous | Recommended default — safest for independent deployments |
+| **FULL** | Both backward and forward compatible with previous | Recommended default  -  safest for independent deployments |
 | **FULL_TRANSITIVE** | Both backward and forward with ALL versions | Strictest, long-lived topics with many consumer versions |
 | **NONE** | No compatibility checking | Development only, not for production |
 
@@ -114,7 +114,7 @@ Subjects group schemas logically. The strategy determines how subjects map to to
 {"name": "middle_name", "type": ["null", "string"], "default": null}
 ```
 
-Allows the field to be absent — critical for backward compatibility.
+Allows the field to be absent  -  critical for backward compatibility.
 
 ### Reserved Fields (Protobuf)
 
@@ -144,7 +144,7 @@ Prevents accidental reuse of removed field numbers.
 
 1. Register new schema version (must be compatible)
 2. Deploy new producers writing v2
-3. Consumers use schema resolution — old messages read with v2 schema (defaults fill gaps)
+3. Consumers use schema resolution  -  old messages read with v2 schema (defaults fill gaps)
 4. Over time, all messages in topic converge to v2
 
 **Pros:** no duplicate topics, simple operational model
@@ -171,7 +171,7 @@ Prevents accidental reuse of removed field numbers.
 ### SMT (Single Message Transforms) Considerations
 
 - Transforms that alter structure (add/remove fields, rename) create new schemas
-- New schemas must pass compatibility check — plan transforms with evolution in mind
+- New schemas must pass compatibility check  -  plan transforms with evolution in mind
 - InsertField, ReplaceField, and Cast SMTs all trigger re-registration
 
 ## Operational Practices
@@ -180,4 +180,4 @@ Prevents accidental reuse of removed field numbers.
 - Use CI/CD to validate schema compatibility before deployment (`mvn schema-registry:compatibility`)
 - Monitor: schema count per subject, compatibility check failures, registry latency
 - Back up registry schemas (they live in a Kafka topic: `_schemas`)
-- Set `auto.register.schemas=false` in production producers — register via CI pipeline only
+- Set `auto.register.schemas=false` in production producers  -  register via CI pipeline only

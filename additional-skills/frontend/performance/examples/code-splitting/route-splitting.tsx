@@ -8,7 +8,7 @@ const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Settings = lazy(() => import('./pages/Settings'));
 const Profile = lazy(() => import('./pages/Profile'));
 
-// Heavy feature — loaded on interaction, not on route
+// Heavy feature  -  loaded on interaction, not on route
 const ChartEditor = lazy(() => import('./features/ChartEditor'));
 
 // --- Loading Fallback ---

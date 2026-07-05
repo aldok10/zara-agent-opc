@@ -2,12 +2,12 @@
 
 ## Universal Pattern
 
-1. **Silent Write** (5min) — everyone posts individually, no discussion
-2. **Group & Reveal** (5min) — cluster similar items, read aloud
-3. **Dot Vote** (3min) — each person gets 3-5 votes, pick top 3-5 themes
-4. **Discuss** (25-35min) — top-voted items, time-boxed per item
-5. **Action Items** (10min) — owner + due + done-definition for top issues
-6. **Close** (5min) — read back actions, appreciation round
+1. **Silent Write** (5min)  -  everyone posts individually, no discussion
+2. **Group & Reveal** (5min)  -  cluster similar items, read aloud
+3. **Dot Vote** (3min)  -  each person gets 3-5 votes, pick top 3-5 themes
+4. **Discuss** (25-35min)  -  top-voted items, time-boxed per item
+5. **Action Items** (10min)  -  owner + due + done-definition for top issues
+6. **Close** (5min)  -  read back actions, appreciation round
 
 ## Format Catalog
 

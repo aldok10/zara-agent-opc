@@ -159,7 +159,7 @@ type UserId = Brand<string, "UserId">;
 type PostId = Brand<string, "PostId">;
 
 function getUser(id: UserId): User { ... }
-// getUser(postId) — compile error
+// getUser(postId)  -  compile error
 ```
 
 ## 12. Record with Exhaustive Keys

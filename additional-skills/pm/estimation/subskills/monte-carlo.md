@@ -26,7 +26,7 @@ Forecast delivery dates using throughput-based probabilistic simulation. Answers
 
 | Percentile | Meaning | Use for |
 |-----------|---------|---------|
-| 50th | Coin flip — 50% chance of hitting | Internal planning |
+| 50th | Coin flip  -  50% chance of hitting | Internal planning |
 | 85th | High confidence | External commitments |
 | 95th | Near-certain | Contractual deadlines |
 

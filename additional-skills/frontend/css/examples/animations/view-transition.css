@@ -61,7 +61,7 @@
   view-transition-name: header;
 }
 
-/* Header stays in place — no animation */
+/* Header stays in place  -  no animation */
 ::view-transition-group(header) {
   animation: none;
 }
@@ -135,6 +135,6 @@
   For dynamic lists, set view-transition-name inline:
   <article style="view-transition-name: post-${id}">
 
-  CSS cannot generate unique names — use inline styles or JS
+  CSS cannot generate unique names  -  use inline styles or JS
   to assign per-element view-transition-name values.
 */

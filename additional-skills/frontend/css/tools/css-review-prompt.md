@@ -45,7 +45,7 @@ Context:
 ## CSS Review
 
 ### Issues
-- [severity] [selector/line] — [problem] — [fix]
+- [severity] [selector/line]  -  [problem]  -  [fix]
 
 ### Specificity Concerns
 - [selectors with high specificity and alternatives]
@@ -54,7 +54,7 @@ Context:
 - [current approach] → [better approach]
 
 ### Modern CSS Opportunities
-- [feature to adopt] — [benefit] — [browser support note]
+- [feature to adopt]  -  [benefit]  -  [browser support note]
 
 ### Verdict
 [clean / minor issues / needs refactoring]

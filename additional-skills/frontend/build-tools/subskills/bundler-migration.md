@@ -81,7 +81,7 @@ export default defineConfig({
 ## Migration Steps: Webpack → Rspack
 
 ```javascript
-// rspack.config.js — nearly identical to webpack.config.js
+// rspack.config.js  -  nearly identical to webpack.config.js
 const { defineConfig } = require('@rspack/cli');
 
 module.exports = defineConfig({
@@ -119,7 +119,7 @@ module.exports = defineConfig({
 
 ## Anti-patterns
 
-- Big-bang migration — high risk. Run both in parallel first.
-- Keeping `process.env` in client code — breaks in Vite dev.
-- Not testing production build — dev works but build fails.
+- Big-bang migration  -  high risk. Run both in parallel first.
+- Keeping `process.env` in client code  -  breaks in Vite dev.
+- Not testing production build  -  dev works but build fails.
 - Ignoring bundle size regression after migration.

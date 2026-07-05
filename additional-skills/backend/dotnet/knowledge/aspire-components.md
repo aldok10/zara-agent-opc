@@ -30,9 +30,9 @@ builder.AddSqlServerDbContext<OrderDbContext>("orders");
 var cache = builder.AddRedis("cache").WithRedisInsight();
 builder.AddProject<Projects.Api>("api").WithReference(cache);
 
-// API — distributed cache:
+// API  -  distributed cache:
 builder.AddRedisDistributedCache("cache");
-// API — output cache:
+// API  -  output cache:
 builder.AddRedisOutputCache("cache");
 ```
 

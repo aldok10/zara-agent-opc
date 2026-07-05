@@ -5,11 +5,11 @@ Activate when: middleware, redirect, auth check, edge runtime, geo-routing, A/B 
 ## Core Principles
 
 1. **Single file**: `middleware.ts` at project root (next to `app/`).
-2. **Edge Runtime only** — no Node.js APIs (no `fs`, no `crypto.randomBytes`, limited `Buffer`).
+2. **Edge Runtime only**  -  no Node.js APIs (no `fs`, no `crypto.randomBytes`, limited `Buffer`).
 3. **Runs on EVERY request** unless filtered by `matcher` config.
-4. **Fast and light** — don't do DB queries or heavy computation. Check tokens/cookies only.
+4. **Fast and light**  -  don't do DB queries or heavy computation. Check tokens/cookies only.
 5. **Auth pattern**: verify session cookie/token existence → redirect if missing. Full validation in Server Component/Action.
-6. **Compose via early returns** — check conditions sequentially, return response or `NextResponse.next()`.
+6. **Compose via early returns**  -  check conditions sequentially, return response or `NextResponse.next()`.
 
 ## Structure
 
@@ -125,9 +125,9 @@ export function middleware(request: NextRequest) {
 
 ## Common Mistakes
 
-1. Doing DB queries in middleware — use it only for routing decisions based on cookies/headers.
-2. Missing `matcher` — middleware runs on every request including static files.
-3. Using Node.js-only libraries — will fail at edge runtime.
-4. Full JWT validation with secret rotation — keep middleware checks lightweight, validate fully in server.
-5. Forgetting `NextResponse.next()` — request hangs.
-6. Infinite redirect loops — ensure login page is excluded from auth check.
+1. Doing DB queries in middleware  -  use it only for routing decisions based on cookies/headers.
+2. Missing `matcher`  -  middleware runs on every request including static files.
+3. Using Node.js-only libraries  -  will fail at edge runtime.
+4. Full JWT validation with secret rotation  -  keep middleware checks lightweight, validate fully in server.
+5. Forgetting `NextResponse.next()`  -  request hangs.
+6. Infinite redirect loops  -  ensure login page is excluded from auth check.

@@ -9,7 +9,7 @@
 - Dot voting opens 2h before sync (async votes allowed)
 
 ### Phase 2: Sync Discussion (45min max)
-- Skip silent write (done async) — go straight to grouped themes
+- Skip silent write (done async)  -  go straight to grouped themes
 - Discuss top 3-5 voted items only
 - Action items formed live with owner confirmation
 - Record session or post summary within 1h
@@ -28,7 +28,7 @@
 ## Timezone Fairness
 
 - Rotate meeting time if team spans >4h difference
-- Track who gets "bad time" — distribute fairly over quarter
+- Track who gets "bad time"  -  distribute fairly over quarter
 - If impossible: extend async phase, shorten sync to 30min
 - Record sync for those who can't attend live
 

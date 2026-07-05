@@ -78,7 +78,7 @@ Each acceptance criterion must be:
 - **Specific**: one behavior per scenario
 - **Measurable**: automatable as a test
 - **Actor-clear**: which user type performs the action
-- **Boundary-explicit**: no "quickly", "several", or "a few" — use numbers
+- **Boundary-explicit**: no "quickly", "several", or "a few"  -  use numbers
 
 Validation questions:
 1. Can QA write a test without asking clarification?

@@ -86,7 +86,7 @@ jobs:
 
 ### Starting Conservative, Then Relaxing
 ```typescript
-// Start strict — catch everything
+// Start strict  -  catch everything
 { maxDiffPixelRatio: 0 }
 
 // After first false positives, loosen per page type

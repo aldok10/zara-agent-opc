@@ -13,7 +13,7 @@
 ## Spring Boot Native Support
 
 ```xml
-<!-- pom.xml — Spring Boot 3 native profile -->
+<!-- pom.xml  -  Spring Boot 3 native profile -->
 <profiles>
     <profile>
         <id>native</id>

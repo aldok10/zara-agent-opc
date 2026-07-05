@@ -32,10 +32,10 @@ JSON Schema (draft 2020-12) defines the structure, types, and constraints of JSO
 ```
 
 ### Composition Keywords
-- `allOf` — must match all schemas (intersection)
-- `anyOf` — must match at least one (union)
-- `oneOf` — must match exactly one (exclusive)
-- `not` — must NOT match the schema
+- `allOf`  -  must match all schemas (intersection)
+- `anyOf`  -  must match at least one (union)
+- `oneOf`  -  must match exactly one (exclusive)
+- `not`  -  must NOT match the schema
 
 ## OpenAPI Validation
 
@@ -61,12 +61,12 @@ paths:
 ```
 
 ### Validation Layers
-1. **Status code** — correct code for the scenario
-2. **Content-Type** — matches declared media type
-3. **Headers** — required headers present (pagination, rate-limit)
-4. **Body structure** — matches schema shape
-5. **Value constraints** — enums, ranges, formats honored
-6. **Additional properties** — no undeclared fields leak
+1. **Status code**  -  correct code for the scenario
+2. **Content-Type**  -  matches declared media type
+3. **Headers**  -  required headers present (pagination, rate-limit)
+4. **Body structure**  -  matches schema shape
+5. **Value constraints**  -  enums, ranges, formats honored
+6. **Additional properties**  -  no undeclared fields leak
 
 ## Contract Testing vs Schema Validation
 

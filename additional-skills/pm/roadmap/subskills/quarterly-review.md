@@ -38,7 +38,7 @@ Action: CONTINUE / ITERATE / KILL / GRADUATE
 ## Re-prioritization Process
 
 1. Kill: items that hit kill criteria or lost strategic relevance
-2. Graduate: items that achieved outcome — move to maintenance
+2. Graduate: items that achieved outcome  -  move to maintenance
 3. Shift: Later→Next (validated), Next→Now (ready), Now→Next (blocked)
 4. Add: new items from discovery, strategy shifts, market changes
 5. Validate: does updated Now column fit capacity?
@@ -49,16 +49,16 @@ Action: CONTINUE / ITERATE / KILL / GRADUATE
 ## Q[X] Roadmap Review Output
 
 ### Results (last quarter)
-- [Initiative]: [HIT/MISS] — [1-line evidence]
+- [Initiative]: [HIT/MISS]  -  [1-line evidence]
 
 ### Killed
-- [Item]: [reason] — [learning captured]
+- [Item]: [reason]  -  [learning captured]
 
 ### Column Changes
 - [Item] moved [from → to]: [rationale]
 
 ### Next Quarter Now (committed)
-- [Initiative]: [owner] — [outcome target]
+- [Initiative]: [owner]  -  [outcome target]
 
 ### Next Quarter Next (shaped)
 - [Initiative]: [open questions remaining]
@@ -77,7 +77,7 @@ After review, publish:
 ## Cadence
 
 - Full review: quarterly (this document)
-- Shift check: monthly (15 min — anything need to move?)
+- Shift check: monthly (15 min  -  anything need to move?)
 - Health check: weekly (Now items on track?)
 
 ## Anti-patterns

@@ -2,11 +2,11 @@
 
 ## Core Principles
 
-1. Never trust, always verify — network location grants no implicit trust
-2. Least privilege access — minimum permissions for minimum duration
-3. Assume breach — design controls assuming attacker is already inside
-4. Continuous verification — re-evaluate trust on every request, not just at login
-5. Explicit verification — authenticate and authorize based on all available signals
+1. Never trust, always verify  -  network location grants no implicit trust
+2. Least privilege access  -  minimum permissions for minimum duration
+3. Assume breach  -  design controls assuming attacker is already inside
+4. Continuous verification  -  re-evaluate trust on every request, not just at login
+5. Explicit verification  -  authenticate and authorize based on all available signals
 
 ## Trust Signals
 

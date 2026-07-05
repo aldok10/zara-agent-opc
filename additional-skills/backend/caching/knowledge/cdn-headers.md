@@ -99,11 +99,11 @@ Surrogate-Control: max-age=86400
 
 ## Header Precedence
 
-1. `no-store` — trumps everything, never cache
-2. `no-cache` — may store but must revalidate on every use
-3. `s-maxage` — overrides `max-age` for shared caches (CDN)
-4. `max-age` — freshness lifetime for all caches
-5. `Expires` header — legacy, ignored if `Cache-Control` present
+1. `no-store`  -  trumps everything, never cache
+2. `no-cache`  -  may store but must revalidate on every use
+3. `s-maxage`  -  overrides `max-age` for shared caches (CDN)
+4. `max-age`  -  freshness lifetime for all caches
+5. `Expires` header  -  legacy, ignored if `Cache-Control` present
 
 ## Debugging
 

@@ -22,7 +22,7 @@ title: "Multi-Stage Builds"
 ## Common Mistakes
 - Installing build tools in the runtime stage, negating size benefits
 - Not leveraging build cache due to poor layer ordering (copying all files before dependency install)
-- Using `latest` base image tags—pin to specific digest or version for reproducibility
+- Using `latest` base image tags - pin to specific digest or version for reproducibility
 
 ## When to Apply
 - Building production container images for any compiled language (Go, Rust, Java, TypeScript)

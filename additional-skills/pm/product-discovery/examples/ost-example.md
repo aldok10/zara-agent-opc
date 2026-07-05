@@ -24,18 +24,18 @@ Priority: M (Freq:M, Int:H, Breadth:M)
 
 **Solution 1a**: Interactive demo before signup
 - Assumption: Users who see product in action will activate more
-- Experiment: Fake door — "Try it now" on landing page. Success: >5% click-through (n=1000)
+- Experiment: Fake door  -  "Try it now" on landing page. Success: >5% click-through (n=1000)
 
 **Solution 1b**: Personalized onboarding by use case
 - Assumption: Tailored paths reduce confusion
-- Experiment: Wizard of Oz — manually route 50 users to tailored paths. Success: activation >55%
+- Experiment: Wizard of Oz  -  manually route 50 users to tailored paths. Success: activation >55%
 
 ### Opportunity 2: Too many steps
 
 **Solution 2a**: Skip setup, pre-populate with sample data
 - Assumption: Seeing populated product drives exploration
-- Experiment: A/B test — sample data vs empty state. Success: +10pp activation (n=500/arm)
+- Experiment: A/B test  -  sample data vs empty state. Success: +10pp activation (n=500/arm)
 
 **Solution 2b**: Progressive setup (do minimum, prompt rest later)
 - Assumption: Reducing upfront friction increases completion
-- Experiment: Prototype test — 8 users attempt reduced flow. Success: >80% task completion
+- Experiment: Prototype test  -  8 users attempt reduced flow. Success: >80% task completion

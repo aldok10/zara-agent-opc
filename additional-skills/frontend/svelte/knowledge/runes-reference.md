@@ -40,7 +40,7 @@ Creates a plain (non-reactive) copy of reactive state. Use when passing to exter
 
 ```typescript
 let obj = $state({ a: 1, nested: { b: 2 } });
-const plain = $state.snapshot(obj); // { a: 1, nested: { b: 2 } } — no proxy
+const plain = $state.snapshot(obj); // { a: 1, nested: { b: 2 } }  -  no proxy
 JSON.stringify(plain); // safe, no circular proxy refs
 ```
 

@@ -6,7 +6,7 @@
 
 1. **Test behavior, not implementation.** Query by role/label, assert what users see.
 2. **React Testing Library (RTL)** is the standard. It enforces accessible queries.
-3. **MSW (Mock Service Worker)** for network mocking — intercepts at the network level, not by mocking fetch.
+3. **MSW (Mock Service Worker)** for network mocking  -  intercepts at the network level, not by mocking fetch.
 4. **Arrange-Act-Assert** structure for every test.
 5. **One assertion per behavior.** Tests should have a clear, single reason to fail.
 6. **Accessibility assertions built in.** If you query by role, you're testing a11y for free.
@@ -24,7 +24,7 @@ Use the most accessible query first:
 | 5 | `getByDisplayValue` | Current form field value |
 | 6 | `getByAltText` | Images |
 | 7 | `getByTitle` | Rare, when title attribute is meaningful |
-| 8 | `getByTestId` | Last resort — no semantic meaning |
+| 8 | `getByTestId` | Last resort  -  no semantic meaning |
 
 ## Pattern 1: Component Test
 

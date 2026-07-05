@@ -46,16 +46,16 @@ Context:
 ## React Review
 
 ### Issues
-- [severity] [file:line] — [issue] — [fix]
+- [severity] [file:line]  -  [issue]  -  [fix]
 
 ### Hook Concerns
-- [hook] — [problem with deps/cleanup/timing]
+- [hook]  -  [problem with deps/cleanup/timing]
 
 ### Composition
 - [components that should be split/merged/restructured]
 
 ### Performance
-- [re-render risks] — [mitigation]
+- [re-render risks]  -  [mitigation]
 
 ### Verdict
 [approve / request changes / needs refactoring]

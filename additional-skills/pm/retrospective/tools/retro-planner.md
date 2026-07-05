@@ -7,7 +7,7 @@ Given these inputs, recommend a retrospective format and produce an agenda:
 ### Inputs
 - **Team size**: [number]
 - **Sprint duration**: [1-4 weeks]
-- **Recent events**: [incidents, launches, conflicts, wins — brief]
+- **Recent events**: [incidents, launches, conflicts, wins  -  brief]
 - **Previous format (last 2)**: [format names]
 - **Safety concerns**: [any known issues, or "none"]
 - **Remote/colocated/hybrid**: [mode]

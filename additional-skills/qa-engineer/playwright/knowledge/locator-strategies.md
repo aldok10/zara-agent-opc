@@ -23,7 +23,7 @@ Locators are the primary way to find elements in Playwright. They are strict, au
 
 - Role-based selectors mirror how users and assistive tech interact with the page
 - They survive refactors (class/ID changes don't break tests)
-- `data-testid` is stable but invisible to users — use when semantic selectors can't distinguish elements
+- `data-testid` is stable but invisible to users  -  use when semantic selectors can't distinguish elements
 
 ## Auto-Wait Mechanism
 
@@ -37,7 +37,7 @@ Every locator action automatically waits for the element to be:
 
 Default timeout: 30s (configurable via `actionTimeout` in config or per-action).
 
-No need for explicit `waitForSelector` in most cases — the locator handles it.
+No need for explicit `waitForSelector` in most cases  -  the locator handles it.
 
 ## Strict Mode
 
@@ -81,7 +81,7 @@ await page.getByRole('listitem')
 const dialog = page.getByRole('dialog');
 await dialog.getByRole('button', { name: 'Confirm' }).click();
 
-// Chain narrows scope — each step produces a new locator
+// Chain narrows scope  -  each step produces a new locator
 const row = page.getByRole('row').filter({ hasText: 'Alice' });
 await row.getByRole('button', { name: 'Edit' }).click();
 ```
@@ -112,14 +112,14 @@ await page.getByRole('button', { name: 'Shadow Button' }).click();
 await page.locator('my-component >> button.inner').click();
 ```
 
-Closed shadow DOM cannot be pierced — requires `evaluate()` workaround if needed.
+Closed shadow DOM cannot be pierced  -  requires `evaluate()` workaround if needed.
 
 ## Best Practices for Stable Selectors
 
 ### Do
 
 - Prefer user-facing attributes: role, label, text, placeholder
-- Use `data-testid` as fallback — add them intentionally in source
+- Use `data-testid` as fallback  -  add them intentionally in source
 - Scope locators to reduce ambiguity (`dialog.getByRole(...)`)
 - Use `filter()` over index-based selection when possible
 - Keep locators in a dedicated helper/fixture for reuse
@@ -130,7 +130,7 @@ Closed shadow DOM cannot be pierced — requires `evaluate()` workaround if need
 - Auto-generated IDs or deeply nested CSS paths
 - XPath with positional predicates (`//div[3]/span[1]`)
 - `nth()` without a clear structural reason
-- `page.locator('text=...')` — prefer `getByText()` or `getByRole()`
+- `page.locator('text=...')`  -  prefer `getByText()` or `getByRole()`
 
 ## Common Patterns
 
@@ -167,7 +167,7 @@ await expect(page.getByTestId('status')).toHaveText('Complete');
 
 ## Debugging Locators
 
-- `npx playwright codegen` — generate locators interactively
-- `locator.highlight()` — visually highlight matched element in headed mode
-- `page.pause()` — open inspector mid-test
+- `npx playwright codegen`  -  generate locators interactively
+- `locator.highlight()`  -  visually highlight matched element in headed mode
+- `page.pause()`  -  open inspector mid-test
 - Trace viewer shows locator matches and timing for failed actions

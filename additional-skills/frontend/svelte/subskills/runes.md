@@ -6,10 +6,10 @@ Triggered when task involves: reactive state, `$state`, `$derived`, `$effect`, `
 
 ## Core Principles
 
-1. **Runes are compiler directives** — they signal the Svelte compiler to instrument reactivity. They are not runtime functions.
-2. **Granular reactivity** — `$state` creates deep reactive proxies. Arrays/objects are reactive at property level.
-3. **Derivation hierarchy** — `$derived` > `$effect`. If the value is a pure function of other state, it's `$derived`.
-4. **Effects are exits** — `$effect` is an escape hatch to the imperative world (DOM, timers, network).
+1. **Runes are compiler directives**  -  they signal the Svelte compiler to instrument reactivity. They are not runtime functions.
+2. **Granular reactivity**  -  `$state` creates deep reactive proxies. Arrays/objects are reactive at property level.
+3. **Derivation hierarchy**  -  `$derived` > `$effect`. If the value is a pure function of other state, it's `$derived`.
+4. **Effects are exits**  -  `$effect` is an escape hatch to the imperative world (DOM, timers, network).
 
 ## Decision Table
 
@@ -186,6 +186,6 @@ export class TodoStore {
 ## Rules
 
 - Every `$effect` must have a comment explaining WHY it's an effect, not a derivation.
-- Prefer `$derived.by` over `$effect` + state assignment — always.
+- Prefer `$derived.by` over `$effect` + state assignment  -  always.
 - Use `$state.raw()` for data > 1000 items or data not rendered reactively.
 - Cleanup: always return cleanup function from effects with subscriptions/timers/fetches.

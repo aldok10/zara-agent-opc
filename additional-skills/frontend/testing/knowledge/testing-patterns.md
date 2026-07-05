@@ -33,10 +33,10 @@ describe('LoginForm', () => {
 ```
 
 ### Query Priority
-1. `getByRole` — button, textbox, heading (preferred)
-2. `getByLabelText` — form fields
-3. `getByText` — non-interactive content
-4. `getByTestId` — last resort only
+1. `getByRole`  -  button, textbox, heading (preferred)
+2. `getByLabelText`  -  form fields
+3. `getByText`  -  non-interactive content
+4. `getByTestId`  -  last resort only
 
 ## Integration Tests with MSW
 

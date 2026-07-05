@@ -26,7 +26,7 @@ CORE: BEHAVIOR STORIES (20 min)
 - [Assumption-specific probe 2]
 
 DIG DEEPER (10 min)
-- You mentioned [surprise] — tell me more about that
+- You mentioned [surprise]  -  tell me more about that
 - Why was that important to you?
 - Who else is involved in [process]?
 - What would it mean if this was solved?
@@ -40,4 +40,4 @@ WRAP-UP (2 min)
 - Never mention your solution or product ideas
 - Ask about past behavior, never hypotheticals
 - Follow energy: when they lean in, dig deeper
-- Silence is a tool—pause 3 seconds before filling gaps
+- Silence is a tool - pause 3 seconds before filling gaps

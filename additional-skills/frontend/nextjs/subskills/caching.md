@@ -161,10 +161,10 @@ export const fetchCache = 'force-cache'   // cache all fetches in segment
 
 ## Common Mistakes
 
-1. Assuming fetch is cached (Next.js 14 behavior) — it's NOT in 15.
-2. Using `revalidate: 0` thinking it means "no cache" — use `cache: 'no-store'` or just omit cache options.
-3. Mixing `cache: 'force-cache'` with `revalidate` in same fetch — use `next: { revalidate }` instead.
-4. Not tagging fetches — makes on-demand revalidation impossible.
-5. Using `revalidatePath('/')` thinking it invalidates everything — it only invalidates that exact path.
-6. Caching user-specific data — stale data leak between users.
-7. Forgetting React `cache()` is per-request only — not persistent across requests.
+1. Assuming fetch is cached (Next.js 14 behavior)  -  it's NOT in 15.
+2. Using `revalidate: 0` thinking it means "no cache"  -  use `cache: 'no-store'` or just omit cache options.
+3. Mixing `cache: 'force-cache'` with `revalidate` in same fetch  -  use `next: { revalidate }` instead.
+4. Not tagging fetches  -  makes on-demand revalidation impossible.
+5. Using `revalidatePath('/')` thinking it invalidates everything  -  it only invalidates that exact path.
+6. Caching user-specific data  -  stale data leak between users.
+7. Forgetting React `cache()` is per-request only  -  not persistent across requests.

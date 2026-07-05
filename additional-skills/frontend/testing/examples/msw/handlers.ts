@@ -21,12 +21,12 @@ const users: User[] = [
 
 // --- REST Handlers ---
 export const handlers = [
-  // GET /api/users — list users
+  // GET /api/users  -  list users
   http.get('/api/users', () => {
     return HttpResponse.json(users);
   }),
 
-  // GET /api/users/:id — single user
+  // GET /api/users/:id  -  single user
   http.get('/api/users/:id', ({ params }) => {
     const user = users.find((u) => u.id === params.id);
     if (!user) {
@@ -35,14 +35,14 @@ export const handlers = [
     return HttpResponse.json(user);
   }),
 
-  // POST /api/users — create user
+  // POST /api/users  -  create user
   http.post('/api/users', async ({ request }) => {
     const body = (await request.json()) as Omit<User, 'id'>;
     const newUser: User = { id: String(users.length + 1), ...body };
     return HttpResponse.json(newUser, { status: 201 });
   }),
 
-  // DELETE /api/users/:id — delete user
+  // DELETE /api/users/:id  -  delete user
   http.delete('/api/users/:id', ({ params }) => {
     const exists = users.some((u) => u.id === params.id);
     if (!exists) {
@@ -51,7 +51,7 @@ export const handlers = [
     return new HttpResponse(null, { status: 204 });
   }),
 
-  // GET /api/search — search with query
+  // GET /api/search  -  search with query
   http.get('/api/search', ({ request }) => {
     const url = new URL(request.url);
     const q = url.searchParams.get('q') ?? '';
@@ -62,7 +62,7 @@ export const handlers = [
     return HttpResponse.json(result);
   }),
 
-  // POST /api/login — auth
+  // POST /api/login  -  auth
   http.post('/api/login', async ({ request }) => {
     const { email, password } = (await request.json()) as {
       email: string;

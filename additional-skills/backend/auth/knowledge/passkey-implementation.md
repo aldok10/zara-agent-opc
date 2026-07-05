@@ -32,8 +32,8 @@ Two ceremonies: registration (navigator.credentials.create) and authentication (
 ```
 
 ### Server verifies response:
-1. Decode clientDataJSON — verify type="webauthn.create", origin, challenge
-2. Decode attestationObject — extract authData, verify rpIdHash
+1. Decode clientDataJSON  -  verify type="webauthn.create", origin, challenge
+2. Decode attestationObject  -  extract authData, verify rpIdHash
 3. Check flags: UP (user present) must be set, UV (user verified) based on policy
 4. Extract credential public key and credential ID from authData
 5. Store: credentialId, publicKey (COSE format), signCount, transports, userId
@@ -55,7 +55,7 @@ Empty `allowCredentials` enables discoverable credential selection (passkey pick
 
 ### Server verifies response:
 1. Look up credential by rawId in database
-2. Decode clientDataJSON — verify type="webauthn.get", origin, challenge
+2. Decode clientDataJSON  -  verify type="webauthn.get", origin, challenge
 3. Verify rpIdHash matches expected RP ID
 4. Verify flags (UP, UV)
 5. Verify signature over authData + hash(clientDataJSON) using stored public key

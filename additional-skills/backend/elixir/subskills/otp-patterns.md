@@ -4,18 +4,18 @@ OTP design: supervision trees, GenServer, Registry, DynamicSupervisor, Task.Supe
 
 ## Rules
 
-1. Design supervision tree BEFORE writing process code — draw the hierarchy, identify failure domains
-2. GenServer state must be minimal — derive what you can, store only source of truth
-3. `handle_continue` for expensive init work — don't block supervisor startup
-4. `child_spec/1` defines restart strategy per child — `:permanent` (always), `:transient` (crash only), `:temporary` (never)
-5. DynamicSupervisor for runtime-spawned processes — static children go in regular Supervisor
-6. Registry for process discovery — never store PIDs in state (they change on restart)
+1. Design supervision tree BEFORE writing process code  -  draw the hierarchy, identify failure domains
+2. GenServer state must be minimal  -  derive what you can, store only source of truth
+3. `handle_continue` for expensive init work  -  don't block supervisor startup
+4. `child_spec/1` defines restart strategy per child  -  `:permanent` (always), `:transient` (crash only), `:temporary` (never)
+5. DynamicSupervisor for runtime-spawned processes  -  static children go in regular Supervisor
+6. Registry for process discovery  -  never store PIDs in state (they change on restart)
 7. `Task.Supervisor.async_nolink` for work that shouldn't crash the caller on failure
-8. GenServer `call` for request/response with backpressure — `cast` for fire-and-forget (rare in practice)
-9. `:via` tuples with Registry for named process lookup — supports swarm/Horde for distribution
-10. Timeouts in `GenServer.call` default to 5000ms — set explicit timeouts for slow operations
-11. `terminate/2` is NOT guaranteed to run (brutal_kill, node crash) — don't rely on it for critical cleanup
-12. Use `:persistent_term` for rarely-changing global config — faster reads than ETS, expensive writes
+8. GenServer `call` for request/response with backpressure  -  `cast` for fire-and-forget (rare in practice)
+9. `:via` tuples with Registry for named process lookup  -  supports swarm/Horde for distribution
+10. Timeouts in `GenServer.call` default to 5000ms  -  set explicit timeouts for slow operations
+11. `terminate/2` is NOT guaranteed to run (brutal_kill, node crash)  -  don't rely on it for critical cleanup
+12. Use `:persistent_term` for rarely-changing global config  -  faster reads than ETS, expensive writes
 
 ## Supervision Strategies
 
@@ -89,21 +89,21 @@ defp via(id), do: {:via, Registry, {MyApp.SessionRegistry, id}}
 
 ## Process Lifecycle
 
-1. `start_link` — spawns, links to supervisor
-2. `init/1` — synchronous init (keep fast), return `{:ok, state, {:continue, :load}}`
-3. `handle_continue/2` — async expensive init (load from DB, connect to external)
-4. `handle_call/cast/info` — process messages
-5. `terminate/2` — cleanup (not guaranteed)
+1. `start_link`  -  spawns, links to supervisor
+2. `init/1`  -  synchronous init (keep fast), return `{:ok, state, {:continue, :load}}`
+3. `handle_continue/2`  -  async expensive init (load from DB, connect to external)
+4. `handle_call/cast/info`  -  process messages
+5. `terminate/2`  -  cleanup (not guaranteed)
 
 ## Anti-Patterns
 
-- Storing PIDs in state (break on restart) — use Registry or named processes
-- God GenServer (>200 LOC in callbacks) — split into multiple processes
-- Blocking `init/1` with slow I/O — use `{:continue, :setup}` pattern
-- Using Agent when you need conditional logic — Agent is just get/update, GenServer for behavior
-- `Process.whereis` for process lookup — fragile, use Registry
-- Missing catch-all `handle_info` — crashes process on unexpected messages
-- Synchronous calls in `init` to other GenServers — potential deadlock during startup
+- Storing PIDs in state (break on restart)  -  use Registry or named processes
+- God GenServer (>200 LOC in callbacks)  -  split into multiple processes
+- Blocking `init/1` with slow I/O  -  use `{:continue, :setup}` pattern
+- Using Agent when you need conditional logic  -  Agent is just get/update, GenServer for behavior
+- `Process.whereis` for process lookup  -  fragile, use Registry
+- Missing catch-all `handle_info`  -  crashes process on unexpected messages
+- Synchronous calls in `init` to other GenServers  -  potential deadlock during startup
 
 ## Verification
 

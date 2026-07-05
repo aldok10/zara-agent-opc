@@ -10,9 +10,9 @@ public class ProductService(AppDbContext db, ILogger<ProductService> logger)
         await db.Products.FindAsync([id], ct);
 }
 ```
-- Parameters captured as fields — no explicit field declaration needed
+- Parameters captured as fields  -  no explicit field declaration needed
 - Use for DI injection pattern (replaces constructor + private readonly fields)
-- Caution: captured parameters are mutable — don't reassign
+- Caution: captured parameters are mutable  -  don't reassign
 
 ### Collection Expressions
 ```csharp
@@ -47,7 +47,7 @@ Log("one", "two", "three"); // no heap allocation
 
 ### `field` Keyword (semi-auto properties, preview)
 ```csharp
-// Preview in C# 13 — finalized in C# 14
+// Preview in C# 13  -  finalized in C# 14
 public string Name
 {
     get => field;
@@ -83,7 +83,7 @@ var buffer = new Buffer10
 
 ### Extension Members (methods, properties, static methods)
 ```csharp
-// Extension properties and static methods — not just methods anymore
+// Extension properties and static methods  -  not just methods anymore
 public implicit extension ProductExtensions for Product
 {
     public decimal DiscountedPrice => this.Price * 0.9m;
@@ -98,7 +98,7 @@ var empty = Product.Empty;             // extension static member
 
 ### `field` Keyword Finalized
 ```csharp
-// Semi-auto properties — compiler generates backing field, you control accessors
+// Semi-auto properties  -  compiler generates backing field, you control accessors
 public string Name
 {
     get => field;
@@ -117,7 +117,7 @@ public T Parse<T>(ReadOnlySpan<char> input) where T : ISpanParsable<T>, allows r
 
 ### Unbound Generic Types in `nameof`
 ```csharp
-var name = nameof(List<>); // "List" — works without specifying type argument
+var name = nameof(List<>); // "List"  -  works without specifying type argument
 ```
 
 ## When to Use What

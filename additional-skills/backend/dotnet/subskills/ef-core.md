@@ -4,19 +4,19 @@ Entity Framework Core 10 patterns: migrations, query optimization, interceptors.
 
 ## Rules
 
-1. One `DbContext` per bounded context — don't create a god context
-2. Use `AsNoTracking()` on all read-only queries — significant perf gain
-3. Project with `Select()` — never load full entities when only fields needed
+1. One `DbContext` per bounded context  -  don't create a god context
+2. Use `AsNoTracking()` on all read-only queries  -  significant perf gain
+3. Project with `Select()`  -  never load full entities when only fields needed
 4. Migrations: one concern per migration, name descriptively (`AddProductAuditColumns`)
-5. Use expand-contract for breaking schema changes — never drop columns in same release
+5. Use expand-contract for breaking schema changes  -  never drop columns in same release
 6. Compiled queries for hot paths: `EF.CompileAsyncQuery()`
 7. Use `IDbContextFactory<T>` for background services / parallel work
 8. Interceptors for cross-cutting: audit fields, soft delete, tenant filtering
 9. Value converters for domain types (strongly-typed IDs, enums, JSON columns)
-10. Configure entities in `IEntityTypeConfiguration<T>` classes — not in `OnModelCreating`
+10. Configure entities in `IEntityTypeConfiguration<T>` classes  -  not in `OnModelCreating`
 11. Use `HasQueryFilter()` for global filters (soft delete, multi-tenancy)
 12. Batch operations: use `ExecuteUpdateAsync`/`ExecuteDeleteAsync` over loading + saving
-13. Always specify `MaxLength` on string properties — prevents nvarchar(max)
+13. Always specify `MaxLength` on string properties  -  prevents nvarchar(max)
 
 ## Patterns
 
@@ -85,8 +85,8 @@ await db.Products
 ## Anti-Patterns
 
 - Lazy loading enabled (N+1 queries by default)
-- Repository/UnitOfWork wrapping DbContext — EF IS the repository + UoW
-- `ToListAsync()` before filtering — fetches all rows then filters in memory
+- Repository/UnitOfWork wrapping DbContext  -  EF IS the repository + UoW
+- `ToListAsync()` before filtering  -  fetches all rows then filters in memory
 - Non-idempotent migrations (will fail on re-run or in CI)
 - Using `Include()` chains loading entire object graphs
 
@@ -99,7 +99,7 @@ await db.Products
 
 ## Verification
 
-1. `dotnet ef migrations script --idempotent` — review generated SQL
+1. `dotnet ef migrations script --idempotent`  -  review generated SQL
 2. Run migrations against test database in CI
 3. Query tests: verify N+1 detection with `DbContext` logging
 4. Verify no tracking on read endpoints (inspect `ChangeTracker.Entries()` count)

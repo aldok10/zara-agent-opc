@@ -20,7 +20,7 @@ Desired Outcome (measurable)
 ## Build Steps
 
 1. Define desired outcome: single metric, measurable, time-bound
-2. Identify opportunities via interviews/data—user needs, pains, desires
+2. Identify opportunities via interviews/data - user needs, pains, desires
 3. Frame as opportunity statements: "Users need a way to [verb] so that [outcome]"
 4. Prioritize opportunities: frequency x intensity x breadth
 5. Brainstorm multiple solutions per top opportunity (min 3)
@@ -42,7 +42,7 @@ Desired Outcome (measurable)
 - Multiple opportunities per outcome (min 3, ideally 5+)
 - Multiple solutions per opportunity (min 2)
 - Multiple experiments per solution (validate different assumptions)
-- Tree is living artifact—update weekly during discovery
+- Tree is living artifact - update weekly during discovery
 - Prune dead branches: failed experiments kill solutions, not opportunities
 
 ## Anti-patterns
@@ -61,9 +61,9 @@ Target: [metric] from [current] to [target] by [date]
 
 ### Opportunity 1: [statement]
 Evidence: [source, strength]
-Priority: [H/M/L] — Freq:[H/M/L] Int:[H/M/L] Breadth:[H/M/L]
+Priority: [H/M/L]  -  Freq:[H/M/L] Int:[H/M/L] Breadth:[H/M/L]
 
 #### Solution 1a: [description]
 Riskiest assumption: [statement]
-Assumption test: [method] — Success: [criteria] — Kill: [criteria]
+Assumption test: [method]  -  Success: [criteria]  -  Kill: [criteria]
 ```

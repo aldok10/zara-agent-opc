@@ -1,6 +1,6 @@
 [
   {
-    "_comment": "Standard RFC 9457 error — resource not found",
+    "_comment": "Standard RFC 9457 error  -  resource not found",
     "type": "https://api.example.com/errors/order-not-found",
     "title": "Order Not Found",
     "status": 404,
@@ -52,7 +52,7 @@
     "currency": "USD"
   },
   {
-    "_comment": "Conflict error — state transition not allowed",
+    "_comment": "Conflict error  -  state transition not allowed",
     "type": "https://api.example.com/errors/invalid-state-transition",
     "title": "Invalid State Transition",
     "status": 409,

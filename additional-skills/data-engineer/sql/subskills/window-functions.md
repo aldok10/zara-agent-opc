@@ -24,7 +24,7 @@ title: "Window Functions"
 ## Common Mistakes
 
 - Forgetting ORDER BY in ranking functions: ROW_NUMBER without ORDER BY is non-deterministic
-- Confusing RANK vs DENSE_RANK vs ROW_NUMBER — they handle ties differently
+- Confusing RANK vs DENSE_RANK vs ROW_NUMBER  -  they handle ties differently
 - Not specifying frame bounds: default frame may include more rows than intended
 
 ## When to Apply

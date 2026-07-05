@@ -200,7 +200,7 @@ describe('Push Notifications', () => {
 ## Platform-Specific Concerns
 
 ### iOS
-- Permission dialogs (camera, location, notifications) — must handle in tests
+- Permission dialogs (camera, location, notifications)  -  must handle in tests
 - App Transport Security (HTTPS requirements)
 - Background app refresh behavior
 - Face ID / Touch ID flows (use simulated biometrics)

@@ -8,7 +8,7 @@ title: "API Reference Documentation"
 ## Core Concepts
 - Reference docs describe every endpoint, method, parameter, and response in a consistent format
 - Structure: endpoint path, HTTP method, description, parameters, request body, responses, examples
-- Accuracy is non-negotiable—reference docs are the contract between provider and consumer
+- Accuracy is non-negotiable - reference docs are the contract between provider and consumer
 - Auto-generation from source (OpenAPI/Swagger, JSDoc, godoc) keeps docs synchronized with code
 - Versioning: reference docs must match the API version the reader is using
 
@@ -20,7 +20,7 @@ title: "API Reference Documentation"
 - Provide "Try It" or curl examples that readers can copy and execute immediately
 
 ## Common Mistakes
-- Documenting only the happy path—missing error codes, edge cases, and constraints
+- Documenting only the happy path - missing error codes, edge cases, and constraints
 - Stale examples that don't match current API behavior (manual docs drift)
 - Mixing tutorial narrative into reference pages (different audiences, different formats)
 

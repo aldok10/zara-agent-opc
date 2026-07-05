@@ -114,7 +114,7 @@ Publish events reliably without distributed transactions.
 4. Guarantees at-least-once delivery
 ```
 
-Alternative: Change Data Capture (CDC) — Debezium reads DB transaction log, publishes events.
+Alternative: Change Data Capture (CDC)  -  Debezium reads DB transaction log, publishes events.
 
 ## Message Broker Selection
 

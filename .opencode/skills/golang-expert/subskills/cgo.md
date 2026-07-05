@@ -32,7 +32,7 @@
 | Cross-compilation | `GOOS=linux go build` | Needs C cross-compiler toolchain | Complex |
 | Static binary | Default | Needs `-extldflags "-static"` + musl | Manual |
 | Debugging | pprof, delve, trace | Partial - C portion invisible to Go tools | Degraded |
-| GC interaction | Seamless | Can't scan C heap, manual free required | Manual |
+| GC interaction | Automatic | Can't scan C heap, manual free required | Manual |
 
 ## Rules When Using CGO
 

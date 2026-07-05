@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Connect every roadmap item to measurable business results. Features are bets — make the hypothesis explicit.
+Connect every roadmap item to measurable business results. Features are bets  -  make the hypothesis explicit.
 
 ## Outcome Hypothesis Format
 

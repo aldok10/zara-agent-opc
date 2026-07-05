@@ -4,7 +4,7 @@
 
 Reserve 15-20% of sprint capacity for debt reduction. This is a floor, not a target.
 - 10-person team, 2-week sprint = 15-20 story points dedicated to debt
-- Track as separate swimlane or tagged items—never hidden in feature work
+- Track as separate swimlane or tagged items - never hidden in feature work
 
 ## Protecting the Allocation
 

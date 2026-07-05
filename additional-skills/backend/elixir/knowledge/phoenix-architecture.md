@@ -53,7 +53,7 @@ end
 
 ## Controllers (JSON APIs)
 
-Thin — parse params, call context, render response.
+Thin  -  parse params, call context, render response.
 
 ```elixir
 defmodule MyAppWeb.API.PostController do
@@ -84,7 +84,7 @@ Contexts encapsulate a business domain. They are the public API for a feature ar
 
 Rules:
 - One context per bounded domain (Accounts, Blog, Billing)
-- Contexts call Repo — controllers/LiveViews never touch Repo directly
+- Contexts call Repo  -  controllers/LiveViews never touch Repo directly
 - Cross-context communication via public functions, never schema sharing
 - Contexts define their own types (not just schema wrappers)
 
@@ -123,7 +123,7 @@ Real-time communication over WebSockets (separate from LiveView).
 
 ## Verified Routes
 
-Phoenix 1.7+ (standard in 1.8) — compile-time checked routes:
+Phoenix 1.7+ (standard in 1.8)  -  compile-time checked routes:
 
 ```elixir
 # Compile error if route doesn't exist:

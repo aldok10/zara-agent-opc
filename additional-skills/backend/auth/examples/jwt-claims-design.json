@@ -1,7 +1,7 @@
 {
   "scenarios": {
     "user_access_token": {
-      "description": "Standard user-facing API access token — minimal claims for authorization",
+      "description": "Standard user-facing API access token  -  minimal claims for authorization",
       "token": {
         "header": {
           "alg": "ES256",
@@ -26,7 +26,7 @@
         "aud: specific API audience, not wildcard",
         "exp: 15 minutes from iat (900 seconds)",
         "jti: unique token ID for revocation checks",
-        "No PII in claims — use userinfo endpoint for profile data"
+        "No PII in claims  -  use userinfo endpoint for profile data"
       ]
     },
     "service_to_service": {
@@ -50,13 +50,13 @@
       },
       "notes": [
         "sub matches client_id for service identity",
-        "Shorter expiry (5 min) — services can refresh easily",
-        "Narrow scope — only what this service needs",
-        "No user context (no act claim) — pure service call"
+        "Shorter expiry (5 min)  -  services can refresh easily",
+        "Narrow scope  -  only what this service needs",
+        "No user context (no act claim)  -  pure service call"
       ]
     },
     "delegated_token": {
-      "description": "Token exchange result — service acting on behalf of user",
+      "description": "Token exchange result  -  service acting on behalf of user",
       "token": {
         "header": {
           "alg": "ES256",
@@ -110,7 +110,7 @@
       },
       "notes": [
         "cnf.jkt: SHA-256 thumbprint of client's DPoP public key",
-        "token_type: DPoP (not Bearer) — RS must verify proof",
+        "token_type: DPoP (not Bearer)  -  RS must verify proof",
         "Stolen token is useless without client's private key",
         "Use for high-value APIs (banking, admin, data export)"
       ]
@@ -137,10 +137,10 @@
         }
       },
       "notes": [
-        "org_id: tenant isolation — enforce at API AND database layer",
+        "org_id: tenant isolation  -  enforce at API AND database layer",
         "org_role: role within the organization context",
         "permissions: pre-computed at token issuance for fast checks",
-        "User may have different roles in different orgs — token is org-scoped",
+        "User may have different roles in different orgs  -  token is org-scoped",
         "RLS policy: WHERE org_id = token.org_id on all queries"
       ]
     }

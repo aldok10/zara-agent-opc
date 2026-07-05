@@ -1,11 +1,11 @@
-// sync-pool — demonstrates correct sync.Pool usage with benchmarks.
+// sync-pool  -  demonstrates correct sync.Pool usage with benchmarks.
 //
 // Run: go test -bench=. -benchmem -count=5
 //
 // sync.Pool reduces allocation pressure by reusing temporary objects.
 // Key rules:
 //   - Always Reset before Put
-//   - Pool is drained every GC — not a cache
+//   - Pool is drained every GC  -  not a cache
 //   - Don't pool objects < 256 bytes unless proven beneficial
 //   - Don't store objects with external references (file handles, connections)
 
@@ -24,7 +24,7 @@ var bufPool = sync.Pool{
 	},
 }
 
-// ProcessWithPool reuses buffers from pool — 0 allocs on hot path.
+// ProcessWithPool reuses buffers from pool  -  0 allocs on hot path.
 func ProcessWithPool(data []byte) []byte {
 	buf := bufPool.Get().(*bytes.Buffer)
 	defer func() {
@@ -65,7 +65,7 @@ func GetBuffer(size int) *[]byte {
 	if size <= 65536 {
 		return largePool.Get().(*[]byte)
 	}
-	// Don't pool very large buffers — they waste memory
+	// Don't pool very large buffers  -  they waste memory
 	b := make([]byte, 0, size)
 	return &b
 }

@@ -26,7 +26,7 @@ name.update(v => v + '!'); // derive from current
 ```
 
 Options:
-- `equal?: (a: T, b: T) => boolean` — custom equality (skip redundant updates).
+- `equal?: (a: T, b: T) => boolean`  -  custom equality (skip redundant updates).
 
 ### computed<T>(computation: () => T, options?: { equal? })
 
@@ -71,7 +71,7 @@ const selected = linkedSignal({
   computation: (items) => items[0],
 });
 
-// Writable — can be manually set, resets when source changes
+// Writable  -  can be manually set, resets when source changes
 selected.set(items()[2]);
 ```
 
@@ -90,12 +90,12 @@ const userResource = resource({
 ```
 
 Signals exposed:
-- `value(): T | undefined` — resolved value.
-- `status(): ResourceStatus` — `idle | loading | resolved | error | reloading | local`.
-- `error(): unknown` — error if status is `error`.
-- `isLoading(): boolean` — true during `loading` or `reloading`.
-- `reload()` — re-trigger loader.
-- `set(value)` / `update(fn)` — optimistic local update (status becomes `local`).
+- `value(): T | undefined`  -  resolved value.
+- `status(): ResourceStatus`  -  `idle | loading | resolved | error | reloading | local`.
+- `error(): unknown`  -  error if status is `error`.
+- `isLoading(): boolean`  -  true during `loading` or `reloading`.
+- `reload()`  -  re-trigger loader.
+- `set(value)` / `update(fn)`  -  optimistic local update (status becomes `local`).
 
 Behavior:
 - `request` re-evaluates reactively. New request value = new loader call.
@@ -123,21 +123,21 @@ Same signals as `resource()`. Uses Angular's HttpClient internally (interceptors
 ```typescript
 import { toSignal } from '@angular/core/rxjs-interop';
 
-// With initial value — returns Signal<T>
+// With initial value  -  returns Signal<T>
 const data = toSignal(data$, { initialValue: [] });
 
-// Without — returns Signal<T | undefined>
+// Without  -  returns Signal<T | undefined>
 const data = toSignal(data$);
 
-// Require synchronous emission (BehaviorSubject) — returns Signal<T>
+// Require synchronous emission (BehaviorSubject)  -  returns Signal<T>
 const data = toSignal(data$, { requireSync: true });
 ```
 
 Options:
-- `initialValue: T` — value before first emission.
-- `requireSync: boolean` — error if source doesn't emit synchronously.
-- `manualCleanup: boolean` — don't auto-unsubscribe on destroy.
-- `injector: Injector` — custom injection context.
+- `initialValue: T`  -  value before first emission.
+- `requireSync: boolean`  -  error if source doesn't emit synchronously.
+- `manualCleanup: boolean`  -  don't auto-unsubscribe on destroy.
+- `injector: Injector`  -  custom injection context.
 
 ### toObservable<T>(signal)
 
@@ -205,7 +205,7 @@ value = model.required<string>(); // required two-way binding
 ### viewChild / viewChildren / contentChild / contentChildren
 
 ```typescript
-// Query signal — updates when view changes
+// Query signal  -  updates when view changes
 chart = viewChild<ElementRef>('chartCanvas');         // Signal<ElementRef | undefined>
 chart = viewChild.required<ElementRef>('chartCanvas'); // Signal<ElementRef>
 items = viewChildren(ItemComponent);                   // Signal<readonly ItemComponent[]>
@@ -253,7 +253,7 @@ const isValid = computed(() => emailError() === null);
 const todoResource = resource({ ... });
 
 function toggleTodo(id: string) {
-  // Optimistic update — status becomes 'local'
+  // Optimistic update  -  status becomes 'local'
   todoResource.update(todos =>
     todos?.map(t => t.id === id ? { ...t, done: !t.done } : t)
   );

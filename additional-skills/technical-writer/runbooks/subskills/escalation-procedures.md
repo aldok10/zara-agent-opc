@@ -22,7 +22,7 @@ title: "Escalation Procedures"
 ## Common Mistakes
 - Vague criteria that leave responders unsure whether to escalate
 - Contact lists with outdated information (person left, role changed, wrong phone number)
-- No clear ownership after escalation—both parties assume the other is handling it
+- No clear ownership after escalation - both parties assume the other is handling it
 
 ## When to Apply
 - Building incident response processes for a new team or service

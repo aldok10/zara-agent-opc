@@ -2,7 +2,7 @@ package main
 
 import "testing"
 
-// BenchmarkNewPointValue — 0 allocs/op (stack)
+// BenchmarkNewPointValue  -  0 allocs/op (stack)
 func BenchmarkNewPointValue(b *testing.B) {
 	for b.Loop() {
 		p := NewPointValue()
@@ -10,7 +10,7 @@ func BenchmarkNewPointValue(b *testing.B) {
 	}
 }
 
-// BenchmarkNewPointPointer — 1 allocs/op (heap)
+// BenchmarkNewPointPointer  -  1 allocs/op (heap)
 func BenchmarkNewPointPointer(b *testing.B) {
 	for b.Loop() {
 		p := NewPointPointer()
@@ -18,7 +18,7 @@ func BenchmarkNewPointPointer(b *testing.B) {
 	}
 }
 
-// BenchmarkEncodeTo — 0 allocs/op (buffer reuse)
+// BenchmarkEncodeTo  -  0 allocs/op (buffer reuse)
 func BenchmarkEncodeTo(b *testing.B) {
 	buf := make([]byte, 0, 256)
 	for b.Loop() {
@@ -26,7 +26,7 @@ func BenchmarkEncodeTo(b *testing.B) {
 	}
 }
 
-// BenchmarkEncodeAlloc — 1+ allocs/op (fmt.Sprintf)
+// BenchmarkEncodeAlloc  -  1+ allocs/op (fmt.Sprintf)
 func BenchmarkEncodeAlloc(b *testing.B) {
 	for b.Loop() {
 		_ = EncodeAlloc(42, "alice")

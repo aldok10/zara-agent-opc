@@ -10,7 +10,7 @@ import (
 //
 // Run: go test -fuzz=FuzzParse -fuzztime=15s
 func FuzzParse(f *testing.F) {
-	// Seed corpus — known good inputs
+	// Seed corpus  -  known good inputs
 	f.Add("user@example.com")
 	f.Add("a@b")
 	f.Add("test@test.co.uk")

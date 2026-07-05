@@ -15,18 +15,18 @@ Collect anonymously (poll tool, anonymous sticky, or hand count with eyes closed
 |---------------|--------|
 | 4.0-5.0 | Proceed normally |
 | 3.0-3.9 | Acknowledge, set norms explicitly, proceed with care |
-| <3.0 | STOP regular retro — run trust-building instead |
+| <3.0 | STOP regular retro  -  run trust-building instead |
 
 ## When Safety Is Low (<3.0)
 
 1. Acknowledge: "Safety is low today. Let's address that first."
-2. Do NOT ask "why" publicly — that requires the safety you don't have
+2. Do NOT ask "why" publicly  -  that requires the safety you don't have
 3. Options:
    - Anonymous written concerns (facilitator reads themes only)
    - Smaller breakout groups (2-3 people) for 10min
    - Skip retro, schedule 1:1s, reconvene next week
    - Facilitator shares vulnerability first (model safety)
-4. Never force it — low safety retro produces garbage data
+4. Never force it  -  low safety retro produces garbage data
 
 ## Establishing Norms (first retro or after low score)
 
@@ -56,9 +56,9 @@ Post norms visibly at every retro. Revisit quarterly.
 ## Ongoing Safety Monitoring
 
 - Run safety check every retro (takes 1min)
-- Track score over time — trend matters more than single point
+- Track score over time  -  trend matters more than single point
 - Score drop of 1+ point: investigate (1:1s, not public)
-- If score consistently <3.5: systemic issue — escalate to manager/HR
+- If score consistently <3.5: systemic issue  -  escalate to manager/HR
 
 ## Verification
 

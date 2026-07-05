@@ -43,7 +43,7 @@ If you can't complete steps 2-3: alignment gap exists. Fix before committing.
 
 ## Bottom-Up Laddering
 
-Doerr uses "cascading" (top-down direction) and "laddering" (bottom-up alignment). WhatMatters teaches "Four Different Ways OKRs Align" — not a single prescribed method.
+Doerr uses "cascading" (top-down direction) and "laddering" (bottom-up alignment). WhatMatters teaches "Four Different Ways OKRs Align"  -  not a single prescribed method.
 
 Teams propose OKRs that:
 - Address company direction in their domain

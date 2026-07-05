@@ -24,7 +24,7 @@ title: "Dependency Scanning"
 ## Common Mistakes
 
 - Only scanning direct dependencies: the vulnerability is usually in a transitive dep
-- Ignoring findings because "we don't use that function" — attackers find paths you didn't consider
+- Ignoring findings because "we don't use that function"  -  attackers find paths you didn't consider
 - Updating dependencies without testing: the fix breaks something, so teams stop updating
 
 ## When to Apply

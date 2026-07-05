@@ -25,7 +25,7 @@ title: "Access Patterns"
 
 - Designing warehouse schemas without studying how data will actually be queried
 - One-size-fits-all: same table structure serving sub-second dashboards and exploratory queries
-- Over-normalizing in an analytical warehouse — joins at query time kill dashboard performance
+- Over-normalizing in an analytical warehouse  -  joins at query time kill dashboard performance
 
 ## When to Apply
 

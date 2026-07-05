@@ -70,7 +70,7 @@ Draft → Development → Testing → Canary → Rollout → Permanent/Removed
 - **Device/platform**: mobile vs desktop separate rollouts
 
 ### Consistent Hashing
-Percentage rollouts must be consistent — same user sees same variant across sessions:
+Percentage rollouts must be consistent  -  same user sees same variant across sessions:
 ```
 hash(user_id + flag_key) % 100 < percentage → enabled
 ```

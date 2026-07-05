@@ -39,7 +39,7 @@ register()  → Boot all providers → boot()  → Application ready
 
 - `register()`: only bind into container. Never resolve other services here.
 - `boot()`: all providers registered. Safe to resolve, register routes, listeners.
-- Deferred providers: `$defer = true` + `provides()` — loaded only when bound class requested.
+- Deferred providers: `$defer = true` + `provides()`  -  loaded only when bound class requested.
 
 ### Best Practice
 
@@ -73,7 +73,7 @@ final class PaymentServiceProvider extends ServiceProvider
 
 ### Testing
 
-- `Cache::shouldReceive('get')->once()->andReturn($value)` — Mockery integration.
+- `Cache::shouldReceive('get')->once()->andReturn($value)`  -  Mockery integration.
 - Or inject `CacheManager` directly in constructor (preferred for testability).
 
 ### Real-Time Facades
@@ -172,5 +172,5 @@ Event::dispatch(new OrderPlaced($order))
 
 - Events are simple DTOs (data + no logic).
 - Listeners contain the side-effect logic.
-- `ShouldQueue` listeners run async — failures don't block main flow.
+- `ShouldQueue` listeners run async  -  failures don't block main flow.
 - Model events: `creating`, `created`, `updating`, `updated`, `deleting`, `deleted`.

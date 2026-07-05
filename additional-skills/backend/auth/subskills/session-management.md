@@ -10,7 +10,7 @@ Sessions maintain authenticated state between requests. Cookie-based sessions re
 2. Session ID: cryptographically random, minimum 128 bits entropy, opaque (not JWT, not sequential)
 3. Regenerate session ID after authentication state change (login, privilege escalation, password change)
 4. Sliding expiry: extend on activity, absolute maximum lifetime regardless (e.g., sliding=30min, absolute=8hr)
-5. Server-side session store is mandatory for revocable sessions — Redis, DynamoDB, or database with TTL
+5. Server-side session store is mandatory for revocable sessions  -  Redis, DynamoDB, or database with TTL
 6. Multi-device: each device gets independent session; list active sessions for user, allow selective revocation
 7. CSRF protection: SameSite + synchronizer token pattern for state-changing operations; double-submit cookie as fallback
 8. Session data: store minimal server-side (user_id, device_id, created_at, last_active, ip_hash); not user profile

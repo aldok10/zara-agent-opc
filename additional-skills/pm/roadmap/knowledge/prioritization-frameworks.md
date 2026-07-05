@@ -33,7 +33,7 @@
 **Categories**: Basic (must-have) / Performance (more=better) / Delighter (unexpected joy)
 
 **Use when**: Understanding customer satisfaction drivers. Differentiating table-stakes from differentiators.
-**Anti-pattern**: Classifying without customer research. Delighters become basics over time — revisit.
+**Anti-pattern**: Classifying without customer research. Delighters become basics over time  -  revisit.
 
 ## Value vs Effort (2x2)
 
@@ -48,9 +48,9 @@
 
 | Score | Segment |
 |-------|---------|
-| >10 | Underserved — high opportunity |
+| >10 | Underserved  -  high opportunity |
 | 6-10 | Appropriately served |
-| <6 | Overserved — deprioritize |
+| <6 | Overserved  -  deprioritize |
 
 **Use when**: JTBD-oriented teams. Identifying underserved needs. Validating where to invest.
 **Anti-pattern**: Survey without proper JTBD framing. Small sample size. Using without segmenting by persona.
@@ -105,7 +105,7 @@ Custom criteria with weights summing to 100%. Example:
 
 ## RICE Calibration Tips
 
-- **Reach**: Use real data — MAU, segment size, funnel stage counts. Never guess.
+- **Reach**: Use real data  -  MAU, segment size, funnel stage counts. Never guess.
 - **Impact**: Anchor to historical feature launches. "What moved the needle 3x before?"
 - **Confidence**: <50% = you're speculating. Run a spike/experiment first.
 - **Effort**: Include design, QA, infra, documentation. Not just dev time.

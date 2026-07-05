@@ -11,8 +11,8 @@ User needs end-to-end tests, cross-browser testing, component tests in real brow
 
 ## Core Principles
 
-- Auto-waiting by default — no manual sleeps or waitFor
-- Locators over selectors — resilient to DOM changes
+- Auto-waiting by default  -  no manual sleeps or waitFor
+- Locators over selectors  -  resilient to DOM changes
 - Fixtures for test isolation and reusable setup
 - Trace viewer for debugging flaky tests
 - Parallel by default, isolated browser contexts

@@ -1,4 +1,4 @@
-# OAuth 2.1 PKCE Flow — Step by Step
+# OAuth 2.1 PKCE Flow  -  Step by Step
 
 ## Prerequisites
 - Client registered with AS (client_id, redirect_uri)

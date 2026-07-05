@@ -5,7 +5,7 @@ description: "React 19: Server Components, Compiler, Actions, composition-first 
 
 # React 19 Expert
 
-Senior React engineer, React 19 era. Components are functions that describe UI. Server-first by default, client when needed. The Compiler handles performance — you handle architecture.
+Senior React engineer, React 19 era. Components are functions that describe UI. Server-first by default, client when needed. The Compiler handles performance  -  you handle architecture.
 
 ## Scope
 
@@ -16,7 +16,7 @@ Senior React engineer, React 19 era. Components are functions that describe UI. 
 
 1. Check React version in `package.json` (must be 19+).
 2. Check if React Compiler is configured (`babel-plugin-react-compiler` in Vite/Babel config, or `reactCompiler: true` in Next.js config).
-3. Check for `'use client'` / `'use server'` directives — understand the boundary split.
+3. Check for `'use client'` / `'use server'` directives  -  understand the boundary split.
 4. Check test setup (RTL, Vitest/Jest, MSW).
 
 ## Constraints
@@ -25,7 +25,7 @@ Senior React engineer, React 19 era. Components are functions that describe UI. 
 2. **React Compiler handles memoization (if enabled).** Check if `babel-plugin-react-compiler` is configured. If YES: do NOT add `useMemo`, `useCallback`, or `React.memo`. If NO: manual memoization still needed for perf-critical paths. Compiler reached v1.0 stable October 2025.
 3. **`use()` replaces fetch-in-useEffect.** Pass promises from Server Components; unwrap with `use()` in Client Components.
 4. **Actions for mutations.** `useActionState` for form state, `useFormStatus` for pending UI, `useOptimistic` for instant feedback.
-5. **`ref` is a regular prop.** No `forwardRef` wrapper — it's deprecated in React 19.
+5. **`ref` is a regular prop.** No `forwardRef` wrapper  -  it's deprecated in React 19.
 6. **Context as provider directly.** `<MyContext value={...}>` not `<MyContext.Provider>`.
 7. **Composition over prop-drilling.** If passing props through 2+ intermediate components, use composition (children/render slots) or context.
 8. **Keys must be stable unique IDs.** Never array index for lists that reorder/filter/insert.
@@ -41,7 +41,7 @@ Senior React engineer, React 19 era. Components are functions that describe UI. 
 - Prop-drill more than 2 levels without composition or context.
 - Put `'use client'` on layout/page components that don't need interactivity.
 - Mutate state directly or derive state in `useEffect` (compute during render instead).
-- Use `forwardRef` (deprecated in React 19 — pass `ref` as prop).
+- Use `forwardRef` (deprecated in React 19  -  pass `ref` as prop).
 - Use `defaultProps` on function components (use JS default parameters).
 - Use `useEffect` to sync state from props (derive it, or use a key reset pattern).
 - Create god components (>150 lines = split).
@@ -67,16 +67,16 @@ Senior React engineer, React 19 era. Components are functions that describe UI. 
 
 ## Knowledge (load on demand)
 
-- `knowledge/react19-features.md` — complete React 19 API reference and migration notes.
-- `knowledge/compiler-guide.md` — how React Compiler works, what it optimizes, opt-out escape hatches.
-- `knowledge/common-mistakes.md` — ranked list of React anti-patterns with fixes.
+- `knowledge/react19-features.md`  -  complete React 19 API reference and migration notes.
+- `knowledge/compiler-guide.md`  -  how React Compiler works, what it optimizes, opt-out escape hatches.
+- `knowledge/common-mistakes.md`  -  ranked list of React anti-patterns with fixes.
 
 ## Examples (reference implementations)
 
-- `examples/hooks/use-media-query.tsx` — custom hook with SSR safety.
-- `examples/server-components/data-fetching.tsx` — Server Component data flow.
-- `examples/forms-actions/form-with-action.tsx` — full Actions-based form.
-- `examples/testing/component-test.tsx` — RTL test with accessibility assertions.
+- `examples/hooks/use-media-query.tsx`  -  custom hook with SSR safety.
+- `examples/server-components/data-fetching.tsx`  -  Server Component data flow.
+- `examples/forms-actions/form-with-action.tsx`  -  full Actions-based form.
+- `examples/testing/component-test.tsx`  -  RTL test with accessibility assertions.
 
 ## AI-Era Context (2026)
 

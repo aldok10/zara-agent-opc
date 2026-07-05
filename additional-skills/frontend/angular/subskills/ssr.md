@@ -8,7 +8,7 @@ Activation: user works with Angular SSR, hydration, prerendering, or server-side
 2. Incremental hydration enables partial client-side activation.
 3. Prerendering (SSG) generates static HTML at build time.
 4. Server routes configure per-path rendering mode.
-5. Avoid DOM/browser APIs on the server — use `afterNextRender()` or `isPlatformBrowser()`.
+5. Avoid DOM/browser APIs on the server  -  use `afterNextRender()` or `isPlatformBrowser()`.
 
 ## Decision Table
 
@@ -104,10 +104,10 @@ export class ChartComponent {
 
 ## Transfer State
 
-Angular SSR automatically transfers HTTP responses from server to client via `TransferState`. When using `provideHttpClient()` with SSR, responses are serialized into the HTML and reused on the client — no duplicate requests.
+Angular SSR automatically transfers HTTP responses from server to client via `TransferState`. When using `provideHttpClient()` with SSR, responses are serialized into the HTML and reused on the client  -  no duplicate requests.
 
 ```typescript
-// Automatic with provideHttpClient() + SSR — no manual setup needed
+// Automatic with provideHttpClient() + SSR  -  no manual setup needed
 import { provideHttpClient, withFetch } from '@angular/common/http';
 ```
 

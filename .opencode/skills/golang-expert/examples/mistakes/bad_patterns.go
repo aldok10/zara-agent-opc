@@ -1,4 +1,4 @@
-// mistakes — BAD code examples that AI must NEVER produce.
+// mistakes  -  BAD code examples that AI must NEVER produce.
 //
 // This file exists to teach understanding, not just rules.
 // Each example shows WHY the code is wrong, what breaks, and the correct fix.
@@ -30,10 +30,10 @@ import (
 // It makes the package harder to use and creates unnecessary coupling.
 //
 // THE MENTAL MODEL:
-// "Accept interfaces, return structs" — the caller decides what abstraction
+// "Accept interfaces, return structs"  -  the caller decides what abstraction
 // they need. You don't decide for them.
 
-// BAD — returns interface, callers can't access UserRepo-specific methods
+// BAD  -  returns interface, callers can't access UserRepo-specific methods
 type UserRepository interface {
 	Get(ctx context.Context, id string) (*User, error)
 }
@@ -42,7 +42,7 @@ func NewUserRepositoryBad() UserRepository { // BAD: returns interface
 	return &userRepo{}
 }
 
-// GOOD — returns concrete type, callers can use it directly
+// GOOD  -  returns concrete type, callers can use it directly
 // If a caller needs an interface, they define it themselves
 func NewUserRepository() *userRepo { // GOOD: returns concrete
 	return &userRepo{}
@@ -99,7 +99,7 @@ func CollectResultsGood(items []int) []int {
 // If you append to the sub-slice and it doesn't exceed capacity,
 // it overwrites data in the ORIGINAL slice silently.
 //
-// This is one of Go's most insidious bugs — it compiles, runs,
+// This is one of Go's most insidious bugs  -  it compiles, runs,
 // and produces wrong results only sometimes (depends on capacity).
 //
 // THE MENTAL MODEL:
@@ -112,7 +112,7 @@ func SliceAppendBug() {
 
 	// BAD: this overwrites s[3] because sub has room in shared array
 	sub = append(sub, 99)
-	// Now s = [1, 2, 3, 99, 5] — SILENT DATA CORRUPTION
+	// Now s = [1, 2, 3, 99, 5]  -  SILENT DATA CORRUPTION
 
 	_ = sub
 	_ = s
@@ -135,7 +135,7 @@ func SliceAppendSafe() {
 // ===========================================================================
 //
 // WHY IT'S WRONG:
-// defer doesn't execute at end of loop iteration — it executes at end of
+// defer doesn't execute at end of loop iteration  -  it executes at end of
 // FUNCTION. In a loop processing 10000 files, you hold 10000 open file
 // descriptors until the function returns. This causes resource exhaustion.
 //
@@ -186,7 +186,7 @@ func processOnePath(path string) error {
 //   Debugging becomes "not found" with no idea which layer or operation.
 // - ALWAYS wrapping: exposes internal implementation. If you wrap a
 //   database error with %w, callers can errors.Is(err, sql.ErrNoRows)
-//   — now they depend on your DB choice.
+//    -  now they depend on your DB choice.
 //
 // THE MENTAL MODEL:
 // Wrap (%w) when callers NEED to inspect the cause.
@@ -215,7 +215,7 @@ func GetUserGood(id string) error {
 // WHY IT'S WRONG:
 // If you log AND return, the error appears in logs TWICE (once here, once
 // at the caller who also logs). This creates noise, confusing debugging.
-// The error should be handled at ONE layer — typically the outermost
+// The error should be handled at ONE layer  -  typically the outermost
 // (HTTP handler, main function, etc.)
 //
 // THE MENTAL MODEL:
@@ -282,7 +282,7 @@ func SafeGoroutine(ctx context.Context) {
 // WHY IT'S WRONG:
 // sync.Mutex, sync.WaitGroup, sync.Cond contain internal state.
 // Copying them creates a SECOND mutex/waitgroup with independent state.
-// The original and copy no longer synchronize — you get data races
+// The original and copy no longer synchronize  -  you get data races
 // that the race detector catches but look insane to debug.
 //
 // THE MENTAL MODEL:
@@ -294,7 +294,7 @@ func WorkerBad(wg sync.WaitGroup, id int) { // BAD: WaitGroup copied by value
 	fmt.Printf("worker %d\n", id)
 }
 
-func WorkerGood(wg *sync.WaitGroup, id int) { // GOOD: pointer — shares state
+func WorkerGood(wg *sync.WaitGroup, id int) { // GOOD: pointer  -  shares state
 	defer wg.Done()
 	fmt.Printf("worker %d\n", id)
 }
@@ -306,7 +306,7 @@ func WorkerGood(wg *sync.WaitGroup, id int) { // GOOD: pointer — shares state
 // WHY IT'S WRONG:
 // time.After creates a Timer that won't be garbage collected until it fires.
 // In a loop handling 10000 requests/sec with 30s timeout, you accumulate
-// 300,000 timers in memory — each holding ~200 bytes = 60MB leaked.
+// 300,000 timers in memory  -  each holding ~200 bytes = 60MB leaked.
 //
 // Go 1.23+ improved timer GC, but the pattern remains wasteful.
 //
@@ -400,7 +400,7 @@ func HandleRequestBad(w http.ResponseWriter, r *http.Request) {
 		// BAD: missing return! Handler continues below...
 	}
 
-	// This runs even when id is empty — bug!
+	// This runs even when id is empty  -  bug!
 	user := lookupUser(id)
 	json.NewEncoder(w).Encode(user)
 }
@@ -469,7 +469,7 @@ func GoodServer() *http.Server {
 func BuildStringBad(parts []string) string {
 	result := ""
 	for _, p := range parts {
-		result += p // BAD: O(n²) — copies entire string each iteration
+		result += p // BAD: O(n²)  -  copies entire string each iteration
 	}
 	return result
 }

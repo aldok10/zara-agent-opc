@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 
 /**
  * Auth middleware: checks session cookie, redirects unauthenticated users.
- * Lightweight — full session validation happens in Server Components/Actions.
+ * Lightweight  -  full session validation happens in Server Components/Actions.
  */
 
 const publicPaths = new Set([

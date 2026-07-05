@@ -127,9 +127,9 @@ Based on objective:
 - Ramp pattern: [description]
 
 ### Script Files
-- `scripts/[name].js` — main test script
-- `data/[name].csv` — test data
-- `thresholds.json` — pass/fail criteria
+- `scripts/[name].js`  -  main test script
+- `data/[name].csv`  -  test data
+- `thresholds.json`  -  pass/fail criteria
 
 ### k6 Command
 ```bash

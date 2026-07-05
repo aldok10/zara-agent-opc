@@ -4,11 +4,11 @@ Activate when: deploy, Docker, standalone, Vercel, self-host, CI/CD, build outpu
 
 ## Core Principles
 
-1. **`output: 'standalone'`** for Docker/self-hosted — creates minimal Node.js server with only needed dependencies.
-2. **Multi-stage Docker builds** — separate build from runtime for small images.
-3. **`HOSTNAME=0.0.0.0`** — required for containerized deployments (not localhost).
+1. **`output: 'standalone'`** for Docker/self-hosted  -  creates minimal Node.js server with only needed dependencies.
+2. **Multi-stage Docker builds**  -  separate build from runtime for small images.
+3. **`HOSTNAME=0.0.0.0`**  -  required for containerized deployments (not localhost).
 4. **Environment variables**: build-time (`NEXT_PUBLIC_*`) vs runtime (server-only). Never expose secrets to client.
-5. **Health checks** — add `/api/health` Route Handler for orchestrators.
+5. **Health checks**  -  add `/api/health` Route Handler for orchestrators.
 
 ## Docker Pattern (Multi-Stage)
 
@@ -123,7 +123,7 @@ steps:
 | Docker / K8s | `output: 'standalone'`, multi-stage Dockerfile |
 | AWS (ECS/Fargate) | Standalone + ALB health check on `/api/health` |
 | Cloudflare | Edge runtime only, no Node.js APIs |
-| Static export | `output: 'export'` — no server features |
+| Static export | `output: 'export'`  -  no server features |
 
 ## Caching Headers in Production
 
@@ -144,9 +144,9 @@ const config: NextConfig = {
 
 ## Common Mistakes
 
-1. Missing `HOSTNAME=0.0.0.0` in container — server listens on localhost only.
-2. Forgetting to copy `public/` and `.next/static` in Docker — missing assets.
-3. Using `NEXT_PUBLIC_` for secrets — they're embedded in client bundle.
-4. Not using `--frozen-lockfile` in CI — non-deterministic builds.
-5. Skipping health checks — orchestrator can't determine readiness.
-6. Running as root in container — security risk.
+1. Missing `HOSTNAME=0.0.0.0` in container  -  server listens on localhost only.
+2. Forgetting to copy `public/` and `.next/static` in Docker  -  missing assets.
+3. Using `NEXT_PUBLIC_` for secrets  -  they're embedded in client bundle.
+4. Not using `--frozen-lockfile` in CI  -  non-deterministic builds.
+5. Skipping health checks  -  orchestrator can't determine readiness.
+6. Running as root in container  -  security risk.

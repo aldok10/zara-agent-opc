@@ -202,7 +202,7 @@ function Input({ ref, ...props }: Props & { ref?: React.Ref<HTMLInputElement> })
 
 ## 12. Missing Error Boundaries (LOW but catastrophic)
 
-**Wrong:** No error handling — one component crash takes down the whole app.
+**Wrong:** No error handling  -  one component crash takes down the whole app.
 
 **Right:**
 ```tsx
@@ -219,11 +219,11 @@ function Input({ ref, ...props }: Props & { ref?: React.Ref<HTMLInputElement> })
 
 | Situation | Use Effect? |
 |-----------|-------------|
-| Fetch data | NO — Server Component / use() / TanStack Query |
-| Sync state from props | NO — compute during render |
-| Reset state on prop change | NO — use key |
-| Respond to event | NO — call in event handler |
-| Subscribe to external store | YES — `useEffect` or `useSyncExternalStore` |
-| Set up DOM listener | YES — `useEffect` with cleanup |
-| Measure DOM element | YES — `useLayoutEffect` |
-| Initialize third-party lib | YES — `useEffect` once |
+| Fetch data | NO  -  Server Component / use() / TanStack Query |
+| Sync state from props | NO  -  compute during render |
+| Reset state on prop change | NO  -  use key |
+| Respond to event | NO  -  call in event handler |
+| Subscribe to external store | YES  -  `useEffect` or `useSyncExternalStore` |
+| Set up DOM listener | YES  -  `useEffect` with cleanup |
+| Measure DOM element | YES  -  `useLayoutEffect` |
+| Initialize third-party lib | YES  -  `useEffect` once |

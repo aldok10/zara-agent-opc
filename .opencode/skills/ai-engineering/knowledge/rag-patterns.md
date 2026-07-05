@@ -72,7 +72,7 @@ Term-frequency based scoring. Excels at exact match, rare terms, proper nouns. D
 
 ### Hybrid Search with Reciprocal Rank Fusion (RRF)
 
-Combine dense and sparse results. RRF assigns scores based on rank position rather than raw scores, making it robust to score distribution differences.
+Combine dense and sparse results. RRF assigns scores based on rank position rather than raw scores, making it resilient to score distribution differences.
 
 ```python
 def reciprocal_rank_fusion(result_lists, k=60):

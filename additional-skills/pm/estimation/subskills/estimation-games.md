@@ -31,7 +31,7 @@
 6. Discuss only items moved 3+ times
 
 ### Output
-Rough relative sizes for entire backlog. Not precise — that's the point.
+Rough relative sizes for entire backlog. Not precise  -  that's the point.
 
 ## Dot Voting (Priority, Not Size)
 

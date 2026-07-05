@@ -186,7 +186,7 @@ nginx -t && kill -HUP $(cat /var/run/nginx.pid)
 - **Caddy**: `caddy reload` (API call, validates before applying)
 - **Envoy**: xDS dynamic configuration (control plane pushes updates)
 - **Nginx Unit**: REST API PUT to config endpoint (atomic update)
-- **HAProxy**: seamless reload via master-worker mode
+- **HAProxy**: hot reload via master-worker mode
 
 ## TLS Best Practices (2024+)
 

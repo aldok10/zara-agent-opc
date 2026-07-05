@@ -46,7 +46,7 @@ public class PricingService {
     public PriceQuote calculatePrice(String productId, String currency) {
         try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
 
-            // Fork concurrent subtasks — each runs on its own virtual thread
+            // Fork concurrent subtasks  -  each runs on its own virtual thread
             Subtask<Product> productTask = scope.fork(() ->
                 catalogClient.getProduct(productId));
 
@@ -60,7 +60,7 @@ public class PricingService {
             scope.join();
             scope.throwIfFailed();
 
-            // All results available — compute price
+            // All results available  -  compute price
             var product = productTask.get();
             var inventory = inventoryTask.get();
             var rate = rateTask.get();
@@ -110,7 +110,7 @@ public class PricingService {
     }
 
     /**
-     * Race multiple pricing providers — return fastest response.
+     * Race multiple pricing providers  -  return fastest response.
      * Uses ShutdownOnSuccess to cancel slower providers once one responds.
      */
     public PriceQuote getQuoteFromFastestProvider(String productId) {

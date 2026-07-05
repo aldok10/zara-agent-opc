@@ -6,21 +6,21 @@
 
 1. Hooks are functions that let you "hook into" React state and lifecycle from function components.
 2. Rules of Hooks: call at top level only, never inside conditions/loops/nested functions.
-3. Custom hooks extract reusable stateful logic — they share logic, not state.
-4. Name custom hooks `use*` — the Compiler and linter rely on this convention.
+3. Custom hooks extract reusable stateful logic  -  they share logic, not state.
+4. Name custom hooks `use*`  -  the Compiler and linter rely on this convention.
 5. A hook should do ONE thing. Compose small hooks into larger ones.
 
 ## React 19 Hook Changes
 
 | Hook | Status in React 19 |
 |------|-------------------|
-| `use()` | NEW — unwrap promises and context |
-| `useActionState` | NEW — form action state management |
-| `useFormStatus` | NEW — pending state in forms |
-| `useOptimistic` | NEW — optimistic UI updates |
+| `use()` | NEW  -  unwrap promises and context |
+| `useActionState` | NEW  -  form action state management |
+| `useFormStatus` | NEW  -  pending state in forms |
+| `useOptimistic` | NEW  -  optimistic UI updates |
 | `useContext` | Still works but `use(Context)` preferred |
-| `useMemo`/`useCallback` | Compiler handles — remove manual calls |
-| `forwardRef` | DEPRECATED — ref is a regular prop |
+| `useMemo`/`useCallback` | Compiler handles  -  remove manual calls |
+| `forwardRef` | DEPRECATED  -  ref is a regular prop |
 
 ## Decision Table: Which Hook?
 
@@ -68,7 +68,7 @@ function useOnlineStatus(): boolean {
 
 ```tsx
 function useFormattedDate(date: Date, locale = "en-US"): string {
-  // No state, no effect — pure derivation. React Compiler optimizes this.
+  // No state, no effect  -  pure derivation. React Compiler optimizes this.
   return new Intl.DateTimeFormat(locale, { dateStyle: "medium" }).format(date);
 }
 ```

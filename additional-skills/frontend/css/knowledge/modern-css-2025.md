@@ -170,7 +170,7 @@ Both pages must opt in with `@view-transition`. Browser handles interpolation.
 
 ## oklch() Color Function
 
-Perceptually uniform — same lightness values look equally bright.
+Perceptually uniform  -  same lightness values look equally bright.
 
 ```css
 :root {

@@ -53,7 +53,7 @@ Context:
 ## Types Review
 
 ### Issues
-- [severity] [file:line] — [type problem] — [fix]
+- [severity] [file:line]  -  [type problem]  -  [fix]
 
 ### Type Safety Gaps
 - [where bugs could slip through]

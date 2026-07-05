@@ -7,7 +7,7 @@ Fine-grained reactivity, Angular signals, Svelte 5 runes, Preact signals, SolidJ
 ## Core Principles
 
 - Signals are reactive atoms. Reading subscribes, writing notifies.
-- Computed/derived signals are lazy and cached — only recompute when dependencies change.
+- Computed/derived signals are lazy and cached  -  only recompute when dependencies change.
 - Effects run when signal dependencies change. Minimize effects.
 - Fine-grained = only the exact consumer re-renders, not the whole component tree.
 - Signals replace the "push" model (setState + re-render tree) with "pull" model (read when needed).
@@ -73,11 +73,11 @@ export class CartComponent {
 ```typescript
 import { signal, computed, effect } from '@preact/signals';
 
-// Can live OUTSIDE components — truly global
+// Can live OUTSIDE components  -  truly global
 const count = signal(0);
 const doubled = computed(() => count.value * 2);
 
-// Auto-subscribes — only this text node re-renders
+// Auto-subscribes  -  only this text node re-renders
 function Counter() {
   return <div>Count: {count} Doubled: {doubled}</div>;
 }
@@ -107,15 +107,15 @@ export const toggleTheme = () => {
 
 | Scenario | Signals | useState/stores |
 |----------|---------|-----------------|
-| Frequent updates (animations, timers) | Preferred — no re-render overhead | Expensive re-renders |
-| Deeply nested component reads | Preferred — surgical updates | Context re-renders all consumers |
+| Frequent updates (animations, timers) | Preferred  -  no re-render overhead | Expensive re-renders |
+| Deeply nested component reads | Preferred  -  surgical updates | Context re-renders all consumers |
 | Simple form state | Either works | Familiar pattern |
-| Server state / caching | No — use TanStack Query | No — use TanStack Query |
+| Server state / caching | No  -  use TanStack Query | No  -  use TanStack Query |
 | Shared across distant components | Signals shine here | Requires context/store |
 
 ## Anti-patterns
 
-- Effects that write to other signals (cascading updates) — use computed instead.
+- Effects that write to other signals (cascading updates)  -  use computed instead.
 - Reading signals outside reactive context loses tracking.
 - Storing signal references in plain objects breaks reactivity in some frameworks.
-- Over-granular signals (one per field of one object) — group related state.
+- Over-granular signals (one per field of one object)  -  group related state.

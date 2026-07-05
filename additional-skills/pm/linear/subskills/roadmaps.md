@@ -40,7 +40,7 @@ Linear Projects view:
 - Monthly roadmap review with stakeholders.
 - Format: what shipped, what's next, what changed, what's at risk.
 - Use Linear project updates (not separate docs).
-- Link to project directly—single source of truth.
+- Link to project directly - single source of truth.
 
 ## Progress Indicators
 

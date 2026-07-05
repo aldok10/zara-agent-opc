@@ -34,7 +34,7 @@ Read `package.json` for Vue version, Nuxt presence, and key deps (pinia, vue-rou
 ## DO NOT
 
 - Use Options API in new code (no `data()`, `methods`, `computed` properties object)
-- Mutate props directly — emit events or use `defineModel()`
+- Mutate props directly  -  emit events or use `defineModel()`
 - Overuse watchers for derived state (use `computed` instead)
 - Skip `defineEmits`/`defineProps` type declarations
 - Use Vuex (Pinia is the official state management)
@@ -62,9 +62,9 @@ Read `package.json` for Vue version, Nuxt presence, and key deps (pinia, vue-rou
 
 ## Knowledge (load on demand)
 
-- `frontend-vue/knowledge/vue35-features.md` — reactive props destructuring, useTemplateRef, useId, Vapor Mode
-- `frontend-vue/knowledge/composable-patterns.md` — extraction patterns, async composables, shared state
-- `frontend-vue/knowledge/common-mistakes.md` — reactivity loss, watcher abuse, prop mutation, ref unwrapping
+- `frontend-vue/knowledge/vue35-features.md`  -  reactive props destructuring, useTemplateRef, useId, Vapor Mode
+- `frontend-vue/knowledge/composable-patterns.md`  -  extraction patterns, async composables, shared state
+- `frontend-vue/knowledge/common-mistakes.md`  -  reactivity loss, watcher abuse, prop mutation, ref unwrapping
 
 ## AI-Era Context (2026)
 

@@ -16,7 +16,7 @@ title: "API Tutorials"
 - State the end result upfront so readers know what they're building toward
 - List exact prerequisites: accounts, tools, versions, permissions needed before starting
 - Number steps explicitly; each step produces a visible, verifiable outcome
-- Include complete code at each checkpoint—don't rely on readers assembling fragments correctly
+- Include complete code at each checkpoint - don't rely on readers assembling fragments correctly
 - Test tutorials end-to-end on a fresh environment before publishing
 
 ## Common Mistakes

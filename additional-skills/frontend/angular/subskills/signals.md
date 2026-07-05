@@ -5,9 +5,9 @@ Activation: user works with signals, computed state, effects, resource loading, 
 ## Core Principles
 
 1. Signals are synchronous, glitch-free, pull-based reactivity.
-2. Computed signals are lazy — only recalculate when read and dependencies changed.
+2. Computed signals are lazy  -  only recalculate when read and dependencies changed.
 3. Effects run in the microtask queue after signal changes settle.
-4. Never mutate signal values in computed — computed must be pure.
+4. Never mutate signal values in computed  -  computed must be pure.
 5. Use `untracked()` to read signals without creating dependencies.
 
 ## Decision Table
@@ -105,9 +105,9 @@ const userResource = resource({
     return res.json();
   },
 });
-// userResource.value() — the data (or undefined)
-// userResource.status() — idle | loading | resolved | error
-// userResource.error() — error if failed
+// userResource.value()  -  the data (or undefined)
+// userResource.status()  -  idle | loading | resolved | error
+// userResource.error()  -  error if failed
 
 // httpResource (Angular 19.2+)
 const user = httpResource<User>(`/api/users/${userId()}`);

@@ -7,7 +7,7 @@
 1. **Non-blocking end-to-end.** One blocking call defeats the purpose. Every layer must be reactive.
 2. **Backpressure is the killer feature.** When data production outpaces consumption, reactive handles it gracefully.
 3. **`Mono` = 0 or 1 result. `Flux` = 0 to N results.** The types encode async semantics.
-4. **Nothing happens until you subscribe.** Reactive streams are lazy — assembling a pipeline doesn't execute it.
+4. **Nothing happens until you subscribe.** Reactive streams are lazy  -  assembling a pipeline doesn't execute it.
 5. **Virtual threads are simpler for most cases.** Use reactive only when backpressure, streaming, or SSE are required.
 
 ## When Reactive vs Virtual Threads

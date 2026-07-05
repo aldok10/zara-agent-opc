@@ -19,7 +19,7 @@ title: "10 Build Tool Mistakes"
 
 ## 3. Using `process.env` in Client Code (Vite)
 
-**Wrong**: `process.env.API_URL` — undefined at runtime in Vite dev.
+**Wrong**: `process.env.API_URL`  -  undefined at runtime in Vite dev.
 **Right**: `import.meta.env.VITE_API_URL` for client. Only `VITE_` prefixed vars exposed.
 **Impact**: Silent undefined values, broken API calls, hard-to-debug production issues.
 

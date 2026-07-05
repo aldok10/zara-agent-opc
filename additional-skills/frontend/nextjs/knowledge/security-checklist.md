@@ -100,7 +100,7 @@ const config: NextConfig = {
 
 ## Data Exposure Prevention
 
-1. **Never pass full DB objects to client** — select only needed fields
+1. **Never pass full DB objects to client**  -  select only needed fields
 2. **DTO pattern**: transform server data before sending to client components
 3. **`server-only` package**: mark files that should never be imported client-side
 4. **Taint API**: `experimental_taintObjectReference` to prevent accidental prop passing
@@ -143,7 +143,7 @@ export async function POST(request: Request) {
 ## CSRF Protection
 
 - Server Actions have built-in CSRF protection (Origin header check)
-- Route Handlers do NOT — verify Origin/Referer for state-changing endpoints
+- Route Handlers do NOT  -  verify Origin/Referer for state-changing endpoints
 - Webhooks: verify signatures from provider
 
 ## Common Vulnerabilities

@@ -145,8 +145,8 @@ const queryClient = new QueryClient({
 
 ## Anti-patterns
 
-- Storing query data in Zustand/Redux — double source of truth.
-- Missing variables in `queryKey` — stale/wrong cache hits.
-- `refetchOnWindowFocus: true` with real-time subscriptions — redundant fetches.
-- Not cancelling queries in optimistic updates — race conditions.
-- Using `queryClient.setQueryData` without `invalidateQueries` on settle — stale data.
+- Storing query data in Zustand/Redux  -  double source of truth.
+- Missing variables in `queryKey`  -  stale/wrong cache hits.
+- `refetchOnWindowFocus: true` with real-time subscriptions  -  redundant fetches.
+- Not cancelling queries in optimistic updates  -  race conditions.
+- Using `queryClient.setQueryData` without `invalidateQueries` on settle  -  stale data.

@@ -32,7 +32,7 @@ Decision: start with Maestro for flow coverage, add Appium only for device farm 
 ## Maestro Framework
 
 ```yaml
-# flow: login.yaml — readable, <2% flake rate
+# flow: login.yaml  -  readable, <2% flake rate
 appId: com.example.app
 ---
 - launchApp

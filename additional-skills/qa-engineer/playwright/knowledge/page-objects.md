@@ -168,7 +168,7 @@ test('dashboard shows user data', async ({ authenticatedPage, dashboardPage }) =
 
 ### Storage State (Shared Auth)
 ```typescript
-// auth.setup.ts — runs once before all tests
+// auth.setup.ts  -  runs once before all tests
 import { test as setup } from '@playwright/test';
 
 setup('authenticate', async ({ page }) => {

@@ -50,17 +50,17 @@ Svelte 5 components, SvelteKit applications, runes reactivity, form actions, loa
 
 ## Verification
 
-1. `npx svelte-check --tsconfig ./tsconfig.json` — zero errors
-2. `npm run test` or `npx vitest run` — tests pass
+1. `npx svelte-check --tsconfig ./tsconfig.json`  -  zero errors
+2. `npm run test` or `npx vitest run`  -  tests pass
 3. No `$:` or `export let` in new code (grep verify)
 4. No stores imported from `svelte/store` in new files
 5. All `$effect` usages justified (side effect, not derivation)
 
 ## Knowledge
 
-- `knowledge/runes-reference.md` — Complete runes API
-- `knowledge/svelte5-migration.md` — Svelte 4 → 5 migration patterns
-- `knowledge/common-mistakes.md` — Anti-patterns and fixes
+- `knowledge/runes-reference.md`  -  Complete runes API
+- `knowledge/svelte5-migration.md`  -  Svelte 4 → 5 migration patterns
+- `knowledge/common-mistakes.md`  -  Anti-patterns and fixes
 
 ## AI-Era Context (2026)
 
@@ -72,6 +72,6 @@ Svelte 5 components, SvelteKit applications, runes reactivity, form actions, loa
 
 ## Related Skills
 
-- `typescript-expert` — Type-safe component interfaces
-- `testing-strategy` — Test architecture decisions
-- `system-design` — SvelteKit deployment and SSR patterns
+- `typescript-expert`  -  Type-safe component interfaces
+- `testing-strategy`  -  Test architecture decisions
+- `system-design`  -  SvelteKit deployment and SSR patterns

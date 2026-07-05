@@ -4,7 +4,7 @@ Activate when: building with Nuxt 3, server routes, SSR/ISR/SPA hybrid rendering
 
 ## Core Principles
 
-1. **Auto-imports are law.** Never import Vue/Nuxt composables manually. `ref`, `computed`, `useFetch`, `useRoute`, `useState` — all available globally.
+1. **Auto-imports are law.** Never import Vue/Nuxt composables manually. `ref`, `computed`, `useFetch`, `useRoute`, `useState`  -  all available globally.
 2. **File-based routing.** `pages/` directory = routes. Dynamic: `[id].vue`. Catch-all: `[...slug].vue`.
 3. **Server routes = BFF.** `server/api/` and `server/routes/` for backend logic. No Express needed.
 4. **Hybrid rendering.** Per-route rendering strategy via `routeRules` in `nuxt.config.ts`.
@@ -66,7 +66,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
 // Usage in page:
 definePageMeta({ middleware: 'auth' })
 
-// middleware/auth.global.ts — runs on every route (file suffix)
+// middleware/auth.global.ts  -  runs on every route (file suffix)
 ```
 
 ## State Management in Nuxt

@@ -12,7 +12,7 @@
 
 ## Ownership Rules
 
-- Every flag has exactly ONE team owner (not individual — survives attrition).
+- Every flag has exactly ONE team owner (not individual  -  survives attrition).
 - Owner responsible for: ramp decisions, monitoring, cleanup.
 - Transfer ownership explicitly in flag system if team changes.
 - Orphaned flags (owner team dissolved): platform team inherits, archives within 1 sprint.
@@ -61,7 +61,7 @@ Each transition requires: metric check pass, owner approval, state logged.
 ## CI/CD Flag Testing
 
 - Test BOTH flag states (on/off) in CI pipeline
-- Mock flag service in integration tests—never call live
+- Mock flag service in integration tests - never call live
 - Pre-deploy check: new code paths reachable under both states
 - Canary failures auto-rollback flag to previous state
 

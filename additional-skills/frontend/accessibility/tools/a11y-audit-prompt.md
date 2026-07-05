@@ -46,10 +46,10 @@ Context:
 ## Audit Results
 
 ### Critical (must fix)
-- [Issue]: [element/line] — [WCAG criterion] — [fix]
+- [Issue]: [element/line]  -  [WCAG criterion]  -  [fix]
 
 ### Warnings (should fix)
-- [Issue]: [element/line] — [WCAG criterion] — [fix]
+- [Issue]: [element/line]  -  [WCAG criterion]  -  [fix]
 
 ### Passed
 - [What was checked and passed]

@@ -21,13 +21,13 @@ processUser(user); // type-safe
 ## 2. Enums Instead of Const Objects
 
 ```typescript
-// WRONG — enums have quirks (reverse mapping, tree-shaking issues)
+// WRONG  -  enums have quirks (reverse mapping, tree-shaking issues)
 enum Status {
   Active = "active",
   Inactive = "inactive",
 }
 
-// RIGHT — const object + union type
+// RIGHT  -  const object + union type
 const Status = {
   Active: "active",
   Inactive: "inactive",
@@ -38,7 +38,7 @@ type Status = (typeof Status)[keyof typeof Status];
 ## 3. Non-exhaustive Union Handling
 
 ```typescript
-// WRONG — new variant silently falls through
+// WRONG  -  new variant silently falls through
 type Theme = "light" | "dark" | "system";
 function getIcon(theme: Theme) {
   if (theme === "light") return sunIcon;
@@ -46,7 +46,7 @@ function getIcon(theme: Theme) {
   return defaultIcon; // "system" handled accidentally
 }
 
-// RIGHT — exhaustive check catches new variants at compile time
+// RIGHT  -  exhaustive check catches new variants at compile time
 function getIcon(theme: Theme) {
   switch (theme) {
     case "light": return sunIcon;
@@ -63,11 +63,11 @@ function getIcon(theme: Theme) {
 ## 4. Optional Chaining Without Null Check on Result
 
 ```typescript
-// WRONG — optional chain returns T | undefined, but treated as T
+// WRONG  -  optional chain returns T | undefined, but treated as T
 const name = user?.profile?.name;
 document.title = name; // possibly undefined!
 
-// RIGHT — handle the undefined case
+// RIGHT  -  handle the undefined case
 const name = user?.profile?.name ?? "Anonymous";
 document.title = name;
 ```
@@ -75,11 +75,11 @@ document.title = name;
 ## 5. Type Assertion to Silence Errors
 
 ```typescript
-// WRONG — masks real type mismatch
+// WRONG  -  masks real type mismatch
 const element = document.getElementById("app") as HTMLDivElement;
 element.style.color = "red"; // might be null!
 
-// RIGHT — narrow properly
+// RIGHT  -  narrow properly
 const element = document.getElementById("app");
 if (!(element instanceof HTMLDivElement)) {
   throw new Error("Expected #app to be a div");
@@ -90,11 +90,11 @@ element.style.color = "red"; // safe
 ## 6. Forgetting `noUncheckedIndexedAccess`
 
 ```typescript
-// WITHOUT the flag — silently assumes value exists
+// WITHOUT the flag  -  silently assumes value exists
 const items: string[] = ["a", "b"];
 const first: string = items[5]; // no error, but undefined at runtime!
 
-// WITH noUncheckedIndexedAccess — forces check
+// WITH noUncheckedIndexedAccess  -  forces check
 const first: string | undefined = items[5]; // correct type
 if (first !== undefined) {
   console.log(first.toUpperCase()); // safe
@@ -104,7 +104,7 @@ if (first !== undefined) {
 ## 7. Mutable Object as Prop/State
 
 ```typescript
-// WRONG — mutation causes bugs, TS doesn't warn
+// WRONG  -  mutation causes bugs, TS doesn't warn
 interface Props {
   items: string[];
 }
@@ -112,7 +112,7 @@ function addItem(props: Props) {
   props.items.push("new"); // mutates parent!
 }
 
-// RIGHT — readonly prevents mutation
+// RIGHT  -  readonly prevents mutation
 interface Props {
   readonly items: readonly string[];
 }
@@ -125,20 +125,20 @@ function addItem(props: Props) {
 ## 8. Over-generic Functions
 
 ```typescript
-// WRONG — generic adds nothing over concrete type
+// WRONG  -  generic adds nothing over concrete type
 function getLength<T extends { length: number }>(arr: T): number {
   return arr.length;
 }
 
-// RIGHT — no generic needed
+// RIGHT  -  no generic needed
 function getLength(arr: { length: number }): number {
   return arr.length;
 }
 
-// WRONG — too many type params, unreadable
+// WRONG  -  too many type params, unreadable
 function transform<A, B, C, D, E>(a: A, b: B, c: C): [D, E] { ... }
 
-// RIGHT — max 3, with clear constraints
+// RIGHT  -  max 3, with clear constraints
 function transform<TInput extends Serializable, TOutput>(
   input: TInput,
   mapper: (data: TInput) => TOutput
@@ -148,11 +148,11 @@ function transform<TInput extends Serializable, TOutput>(
 ## 9. Using Interface Merging Accidentally
 
 ```typescript
-// WRONG — interface with same name merges (silent bug)
+// WRONG  -  interface with same name merges (silent bug)
 interface Config { port: number; }
 interface Config { host: string; } // merges with above!
 
-// RIGHT — type alias prevents accidental merging
+// RIGHT  -  type alias prevents accidental merging
 type Config = { port: number; host: string; };
 ```
 
@@ -181,14 +181,14 @@ interface User {
 ## 11. Forgetting Discriminant in API Response Types
 
 ```typescript
-// WRONG — no way to narrow
+// WRONG  -  no way to narrow
 type ApiResponse<T> = {
   data?: T;
   error?: string;
 };
 // Both could be undefined, or both present
 
-// RIGHT — discriminated union
+// RIGHT  -  discriminated union
 type ApiResponse<T> =
   | { success: true; data: T }
   | { success: false; error: string };
@@ -205,12 +205,12 @@ function handle(res: ApiResponse<User>) {
 ## 12. Trusting External Data Without Validation
 
 ```typescript
-// WRONG — API response typed but not validated
+// WRONG  -  API response typed but not validated
 interface User { id: string; name: string; role: "admin" | "user"; }
 const user: User = await fetch("/api/user").then(r => r.json());
 // Runtime: could be anything, TS thinks it's User
 
-// RIGHT — validate at boundary
+// RIGHT  -  validate at boundary
 import { z } from "zod";
 const UserSchema = z.object({
   id: z.string().uuid(),

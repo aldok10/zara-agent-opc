@@ -48,7 +48,7 @@ Context:
 ## Vue Review
 
 ### Issues
-- [severity] [file:line] — [issue] — [fix]
+- [severity] [file:line]  -  [issue]  -  [fix]
 
 ### Reactivity
 - [correctness observations]

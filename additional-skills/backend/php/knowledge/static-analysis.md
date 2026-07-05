@@ -49,7 +49,7 @@ includes:
 
 ```bash
 vendor/bin/phpstan analyse --generate-baseline
-# Creates phpstan-baseline.neon — existing errors ignored, new ones blocked
+# Creates phpstan-baseline.neon  -  existing errors ignored, new ones blocked
 ```
 
 ### Custom Rules
@@ -151,8 +151,8 @@ jobs:
 
 ## Rules
 
-1. New projects: start at PHPStan level 9 — never lower.
+1. New projects: start at PHPStan level 9  -  never lower.
 2. Legacy projects: baseline + level 6 minimum, increment monthly.
-3. CI blocks on any new PHPStan error — zero tolerance for regression.
-4. Rector dry-run in CI — ensures automated fixes are applied.
+3. CI blocks on any new PHPStan error  -  zero tolerance for regression.
+4. Rector dry-run in CI  -  ensures automated fixes are applied.
 5. Custom rules for domain invariants (no framework in domain layer).

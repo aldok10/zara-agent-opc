@@ -50,7 +50,7 @@ const ROUTES = {
   userDetail: "/users/:id",
 } satisfies Record<string, `/${string}`>;
 
-// Type is preserved as literal — autocomplete works
+// Type is preserved as literal  -  autocomplete works
 type Route = (typeof ROUTES)[keyof typeof ROUTES];
 // "/", "/users", "/users/:id"
 
@@ -178,5 +178,5 @@ const config = { port: 3000 } as const satisfies { port: number };
 
 ## Delegates To
 
-- `generics` — for building reusable utility types with type params
-- `branded-types` — for branded versions of utility patterns
+- `generics`  -  for building reusable utility types with type params
+- `branded-types`  -  for branded versions of utility patterns

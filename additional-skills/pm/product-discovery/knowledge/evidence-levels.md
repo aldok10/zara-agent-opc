@@ -26,11 +26,11 @@
 ## Rules
 
 - Never ship based solely on Level 1-2 evidence for non-trivial features
-- Level 3 (surveys) overstates demand by 3-5x—discount accordingly
-- Level 4 (behavioral) is necessary but not sufficient—shows need, not solution fit
+- Level 3 (surveys) overstates demand by 3-5x - discount accordingly
+- Level 4 (behavioral) is necessary but not sufficient - shows need, not solution fit
 - Level 5 (experiment) required before significant engineering investment
-- Stated preference ("I would use X") is Level 3 at best—treat with skepticism
-- Negative evidence is as valuable as positive—kills bad ideas cheaply
+- Stated preference ("I would use X") is Level 3 at best - treat with skepticism
+- Negative evidence is as valuable as positive - kills bad ideas cheaply
 - Ask about specific past behavior, not hypothetical futures (Mom Test core rule)
 - Commitment signals validate interest: time (will they schedule follow-up?), money (will they pre-pay?), reputation (will they refer others?)
 - AI-generated insights (L1.5) useful for hypothesis generation at scale but never sufficient alone

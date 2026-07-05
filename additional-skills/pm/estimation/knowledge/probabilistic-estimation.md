@@ -115,7 +115,7 @@ Reference class forecasting counteracts:
 
 | Confidence | Meaning | Use For |
 |---|---|---|
-| 50% | Coin flip — equally likely above or below | Internal planning |
+| 50% | Coin flip  -  equally likely above or below | Internal planning |
 | 75% | Likely, but 1-in-4 chance of exceeding | Team commitments |
 | 85% | High confidence, small miss risk | Stakeholder commitments |
 | 95% | Near-certain (includes padding) | External deadlines, contracts |

@@ -46,11 +46,11 @@ SagaOrchestrator:
 
 Rules for compensation actions:
 
-1. **Semantic undo** — not necessarily technical undo. Refund != delete payment record.
-2. **Idempotent** — compensation may run multiple times (network retries).
-3. **Commutative** — order of compensations shouldn't matter when possible.
-4. **Never fail permanently** — compensations must eventually succeed (retry with backoff).
-5. **Record state** — log compensation execution for audit.
+1. **Semantic undo**  -  not necessarily technical undo. Refund != delete payment record.
+2. **Idempotent**  -  compensation may run multiple times (network retries).
+3. **Commutative**  -  order of compensations shouldn't matter when possible.
+4. **Never fail permanently**  -  compensations must eventually succeed (retry with backoff).
+5. **Record state**  -  log compensation execution for audit.
 
 ## Timeout Handling
 
@@ -78,7 +78,7 @@ Modern approach: durable execution frameworks handle saga complexity at infrastr
 
 ### Restate
 
-- Durable execution engine (no separate cluster required — embeds or runs as single binary)
+- Durable execution engine (no separate cluster required  -  embeds or runs as single binary)
 - Virtual objects with durable state
 - Journal-based replay (event sourcing under the hood)
 - Lower operational overhead than Temporal

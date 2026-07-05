@@ -6,11 +6,11 @@ Triggered when task involves: routing, pages, layouts, form actions, load functi
 
 ## Core Principles
 
-1. **File-based routing** — `src/routes/` directory structure defines URL paths.
-2. **Server-first** — Load functions run on server first, rerun on client navigation.
-3. **Progressive enhancement** — Form actions work without JavaScript.
-4. **Separation** — `+page.server.ts` for server-only logic, `+page.ts` for universal.
-5. **Type safety** — Generated types from `$types` for load/action data.
+1. **File-based routing**  -  `src/routes/` directory structure defines URL paths.
+2. **Server-first**  -  Load functions run on server first, rerun on client navigation.
+3. **Progressive enhancement**  -  Form actions work without JavaScript.
+4. **Separation**  -  `+page.server.ts` for server-only logic, `+page.ts` for universal.
+5. **Type safety**  -  Generated types from `$types` for load/action data.
 
 ## Decision Table
 
@@ -217,7 +217,7 @@ export const csr = false;       // Server-only (no JS sent)
 
 ## Rules
 
-- Always use `$types` imports for type safety — never manually type load/action data.
+- Always use `$types` imports for type safety  -  never manually type load/action data.
 - Form actions over API routes for mutations from pages.
 - `use:enhance` on every form unless you have a specific reason not to.
 - Server load for secrets/DB; universal load for public fetch.

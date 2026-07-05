@@ -17,13 +17,13 @@
 
 ## Kanban
 
-### Kanban Guide 2025 (Vacanti et al.) — 3 Practices
+### Kanban Guide 2025 (Vacanti et al.)  -  3 Practices
 
 1. Defining and Visualizing the Workflow
 2. Actively Managing Items in a Workflow
 3. Improving the Workflow
 
-### Anderson's Kanban Method — 6 Practices
+### Anderson's Kanban Method  -  6 Practices
 
 Visualize, Limit WIP, Manage Flow, Make Policies Explicit, Implement Feedback Loops, Improve Collaboratively.
 
@@ -72,12 +72,12 @@ The Guide's 3 practices subsume Anderson's 6.
 **AI-Powered Sprint Planning**:
 - LLMs assist backlog refinement, acceptance criteria drafting, story splitting
 - AI coding agents accelerate implementation → shorter cycle times → smaller sprints viable
-- Risk: "done faster" ≠ "done right" — AI code carries higher defect density, needs review gates
+- Risk: "done faster" ≠ "done right"  -  AI code carries higher defect density, needs review gates
 
 **Scrum + AI Coding Agents**:
-- Sprints shift from "build" to "specify + verify" — more time in refinement/review, less in coding
+- Sprints shift from "build" to "specify + verify"  -  more time in refinement/review, less in coding
 - Definition of Done must include AI-code review pass + integration testing
-- Velocity inflates artificially — switch to throughput + escaped defects as primary metrics
+- Velocity inflates artificially  -  switch to throughput + escaped defects as primary metrics
 - Sprint capacity model: human reviews become bottleneck, not implementation
 
 **Remote/Hybrid Ceremony Adaptations**:

@@ -30,7 +30,7 @@ Mutation Score = (Killed Mutants / Total Mutants) × 100%
 
 ## Equivalent Mutants
 
-An equivalent mutant produces identical behavior to the original code — it can't be killed because there's no observable difference.
+An equivalent mutant produces identical behavior to the original code  -  it can't be killed because there's no observable difference.
 
 ### Common Sources
 ```java

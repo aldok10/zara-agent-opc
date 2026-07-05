@@ -2,7 +2,7 @@
 
 ## Rules
 
-`MAJOR.MINOR.PATCH` — no exceptions for public APIs.
+`MAJOR.MINOR.PATCH`  -  no exceptions for public APIs.
 
 | Change Type | Bump | Example |
 |-------------|------|---------|

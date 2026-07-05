@@ -24,8 +24,8 @@ title: "Idempotency"
 ## Common Mistakes
 
 - Appending without deduplication: each rerun adds duplicate rows
-- Using auto-increment IDs as primary keys — they guarantee non-idempotent inserts
-- Assuming "it won't fail" so idempotency isn't needed — it always fails eventually
+- Using auto-increment IDs as primary keys  -  they guarantee non-idempotent inserts
+- Assuming "it won't fail" so idempotency isn't needed  -  it always fails eventually
 
 ## When to Apply
 

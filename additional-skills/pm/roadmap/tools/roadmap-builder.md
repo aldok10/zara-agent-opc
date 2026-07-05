@@ -25,7 +25,7 @@
 ## Output Format
 
 ```
-## Roadmap: [Quarter] — [Team/Product]
+## Roadmap: [Quarter]  -  [Team/Product]
 
 ### Now (Committed, High Confidence)
 [Table: Initiative | Outcome | Metric | Owner | Dependencies]

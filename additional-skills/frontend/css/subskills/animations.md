@@ -6,7 +6,7 @@ Trigger when task involves: page transitions, state animations, scroll-driven ef
 
 ## Core Principles
 
-1. View Transitions API for page/state transitions — replaces JS animation libraries for navigation
+1. View Transitions API for page/state transitions  -  replaces JS animation libraries for navigation
 2. `@starting-style` for entry animations (animating from `display: none`)
 3. Scroll-driven animations via `animation-timeline: scroll()` or `view()`
 4. Compositor-friendly properties only: `transform`, `opacity`, `filter`

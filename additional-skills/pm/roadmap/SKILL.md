@@ -11,24 +11,24 @@ Build, maintain, and communicate product roadmaps. Translate strategy into actio
 
 ## Core Principles
 
-1. Now/Next/Later over fixed timelines — certainty degrades with distance
-2. Outcomes over features — state what changes, not what ships
-3. Every item links to OKR or strategic theme — no orphan work
+1. Now/Next/Later over fixed timelines  -  certainty degrades with distance
+2. Outcomes over features  -  state what changes, not what ships
+3. Every item links to OKR or strategic theme  -  no orphan work
 4. Confidence indicators on all items: high/medium/low
-5. Different views per audience — exec, team, stakeholders, customers
-6. Include discovery work — not just delivery items
-7. Capacity-aware — reflects actual bandwidth, not wishes
-8. Dependencies explicitly mapped — blocking/blocked-by visible
+5. Different views per audience  -  exec, team, stakeholders, customers
+6. Include discovery work  -  not just delivery items
+7. Capacity-aware  -  reflects actual bandwidth, not wishes
+8. Dependencies explicitly mapped  -  blocking/blocked-by visible
 9. Customer-facing: directional only, no dates
-10. Review quarterly, shift-check monthly — living document
+10. Review quarterly, shift-check monthly  -  living document
 
 ## DO NOT
 
-1. Promise dates on Later items — use directional language
-2. List features without outcomes — every item needs "so what"
-3. Overload Now column — respect capacity constraints
-4. Skip kill criteria — every bet needs exit conditions
-5. Conflate internal and external views — audiences need different detail
+1. Promise dates on Later items  -  use directional language
+2. List features without outcomes  -  every item needs "so what"
+3. Overload Now column  -  respect capacity constraints
+4. Skip kill criteria  -  every bet needs exit conditions
+5. Conflate internal and external views  -  audiences need different detail
 
 ## Route to Subskill
 
@@ -48,7 +48,7 @@ Build, maintain, and communicate product roadmaps. Translate strategy into actio
 | Stakeholder presentation | Generate audience view → `stakeholder-views` |
 | Capacity change | Rebalance Now/Next → `now-next-later` |
 | New discovery insight | Evaluate for Next/Later placement |
-| Item stalled 2+ sprints | Escalate or kill — check kill criteria |
+| Item stalled 2+ sprints | Escalate or kill  -  check kill criteria |
 
 ## AI-Era Context (2026)
 

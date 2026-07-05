@@ -10,7 +10,7 @@ Trigger when task involves: responsive components, element-level breakpoints, co
 2. Name containers explicitly for clarity and nested container support
 3. Use `cq` units (`cqi`, `cqb`, `cqw`, `cqh`) for container-relative sizing
 4. Style queries (`@container style()`) enable conditional styling based on custom property values
-5. Always define `container-type` — `inline-size` is safest default (avoids height loops)
+5. Always define `container-type`  -  `inline-size` is safest default (avoids height loops)
 
 ## Decision Table
 

@@ -15,9 +15,9 @@
 
 ## Selected for Q4
 
-1. **#4 Stale API docs** (Score 12.0) — Owner: @sarah, 1 sprint
-2. **#1 Auth N+1 queries** (Score 10.0) — Owner: @mike, 2 sprints
-3. **#3 Flaky test suite** (Score 6.7) — Owner: @team-platform, ongoing 20% allocation
+1. **#4 Stale API docs** (Score 12.0)  -  Owner: @sarah, 1 sprint
+2. **#1 Auth N+1 queries** (Score 10.0)  -  Owner: @mike, 2 sprints
+3. **#3 Flaky test suite** (Score 6.7)  -  Owner: @team-platform, ongoing 20% allocation
 
 ## Allocation: 18% sprint capacity protected (agreed with VP Eng)
 

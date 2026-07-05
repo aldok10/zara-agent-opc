@@ -1,6 +1,6 @@
 /**
  * Standalone Angular 19+ application bootstrap.
- * No NgModules — everything configured via providers and standalone components.
+ * No NgModules  -  everything configured via providers and standalone components.
  */
 
 // === main.ts ===
@@ -23,7 +23,7 @@ import { errorInterceptor } from './interceptors/error.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    // Zoneless — signals drive change detection, no zone.js overhead
+    // Zoneless  -  signals drive change detection, no zone.js overhead
     provideZonelessChangeDetection(),
 
     // Router with input binding (route params -> component inputs)

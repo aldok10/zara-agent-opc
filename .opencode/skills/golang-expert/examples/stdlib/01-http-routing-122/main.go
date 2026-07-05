@@ -1,4 +1,4 @@
-// http-routing-122 — demonstrates Go 1.22+ enhanced HTTP routing in net/http.
+// http-routing-122  -  demonstrates Go 1.22+ enhanced HTTP routing in net/http.
 //
 // No framework needed. Go 1.22 added method+pattern routing directly in stdlib.
 //
@@ -32,7 +32,7 @@ func main() {
 	mux.HandleFunc("PUT /tasks/{id}", updateTask)
 	mux.HandleFunc("DELETE /tasks/{id}", deleteTask)
 
-	// Static files — works since Go 1.0
+	// Static files  -  works since Go 1.0
 	mux.Handle("GET /static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 
 	log.Println("Server starting on :8080")

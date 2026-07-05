@@ -18,14 +18,14 @@ title: "CTE Patterns"
 - Use CTEs to name intermediate transformations: raw -> filtered -> aggregated -> final
 - Recursive CTEs: define base case UNION ALL recursive step with termination condition
 - Materialize CTEs explicitly (where supported) when referenced multiple times to avoid recomputation
-- Keep each CTE focused on one transformation — name it for what it produces
+- Keep each CTE focused on one transformation  -  name it for what it produces
 - Use CTEs over nested subqueries for anything beyond two levels of nesting
 
 ## Common Mistakes
 
-- Assuming CTEs are always materialized — in most engines they're inlined (can re-execute)
+- Assuming CTEs are always materialized  -  in most engines they're inlined (can re-execute)
 - Infinite recursion: forgetting the WHERE clause that terminates recursive CTEs
-- Using CTEs where a simple JOIN suffices — added syntax without added clarity
+- Using CTEs where a simple JOIN suffices  -  added syntax without added clarity
 
 ## When to Apply
 

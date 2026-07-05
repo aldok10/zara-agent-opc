@@ -13,31 +13,31 @@ title: "User Story Splitting Patterns"
 
 ## SPIDR Framework
 
-### S — Spike (separate learning from building)
+### S  -  Spike (separate learning from building)
 ```
 Original: "Pay with cryptocurrency"
 Split: Spike (research APIs, 2-day timebox) → Implement Bitcoin → Add Ethereum
 ```
 
-### P — Path (workflow steps)
+### P  -  Path (workflow steps)
 ```
 Original: "Check out my cart"
 Split: 1. Checkout with saved payment  2. New credit card  3. PayPal  4. Payment failure retry
 ```
 
-### I — Interface (input methods/platforms)
+### I  -  Interface (input methods/platforms)
 ```
 Original: "Upload documents"
 Split: 1. File picker  2. Drag-and-drop  3. Multiple files  4. Mobile camera
 ```
 
-### D — Data Variations
+### D  -  Data Variations
 ```
 Original: "Generate reports"
 Split: 1. Single user  2. Team aggregation  3. Custom date range  4. CSV export  5. PDF export
 ```
 
-### R — Rules (business rules)
+### R  -  Rules (business rules)
 ```
 Original: "Set shipping rates"
 Split: 1. Flat rate  2. Weight-based  3. Zone-based  4. Free above threshold

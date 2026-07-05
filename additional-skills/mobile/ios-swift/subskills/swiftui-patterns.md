@@ -17,13 +17,13 @@ title: "SwiftUI Patterns"
 
 - Use @State for local, view-owned state; @Binding to share write access with child views
 - Use @StateObject for reference-type models owned by the view; @ObservedObject when passed in
-- Extract subviews by creating new View structs — prefer this over computed properties for complex UI
+- Extract subviews by creating new View structs  -  prefer this over computed properties for complex UI
 - Use @Environment for app-wide dependencies (color scheme, locale, custom services)
-- Keep view body pure: no side effects — use .task or .onAppear for async work
+- Keep view body pure: no side effects  -  use .task or .onAppear for async work
 
 ## Common Mistakes
 
-- Using @ObservedObject when @StateObject is needed — causes object recreation on parent redraw
+- Using @ObservedObject when @StateObject is needed  -  causes object recreation on parent redraw
 - Putting heavy logic in body: it re-evaluates on every state change
 - Over-using @EnvironmentObject: creates implicit dependencies that are hard to trace
 

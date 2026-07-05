@@ -29,7 +29,7 @@ interface Props {
 }
 
 const { title, count = 0 } = defineProps<Props>()
-// `title` and `count` are reactive — they track in templates and computed
+// `title` and `count` are reactive  -  they track in templates and computed
 
 // IMPORTANT: when passing to a composable that needs reactivity, wrap in getter
 const doubled = computed(() => count * 2) // works directly in computed

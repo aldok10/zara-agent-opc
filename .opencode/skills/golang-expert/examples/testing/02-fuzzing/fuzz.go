@@ -1,4 +1,4 @@
-// fuzzing — demonstrates Go's built-in fuzzing (Go 1.18+).
+// fuzzing  -  demonstrates Go's built-in fuzzing (Go 1.18+).
 //
 // Run: go test -fuzz=FuzzParse -fuzztime=15s -v
 // Run: go test -fuzz=FuzzReverse -fuzztime=15s

@@ -13,20 +13,20 @@ ART size is typically 50-125 people. SAFe doesn't prescribe minimum org size, bu
 ## 2-Day Event Structure
 
 ### Day 1
-1. Business context (exec, 30min) — why this PI matters
-2. Product vision (PM, 30min) — top 10 features prioritized
-3. Architecture vision (architect, 30min) — enablers, tech debt
-4. Team breakouts (2h) — draft plans, identify dependencies
-5. Draft plan review (2h) — teams present, cross-team sync
-6. Management review (1h) — adjust scope, resolve conflicts
+1. Business context (exec, 30min)  -  why this PI matters
+2. Product vision (PM, 30min)  -  top 10 features prioritized
+3. Architecture vision (architect, 30min)  -  enablers, tech debt
+4. Team breakouts (2h)  -  draft plans, identify dependencies
+5. Draft plan review (2h)  -  teams present, cross-team sync
+6. Management review (1h)  -  adjust scope, resolve conflicts
 
 ### Day 2
-1. Planning adjustments (1h) — incorporate Day 1 feedback
-2. Team breakouts (2h) — finalize plans, resolve dependencies
-3. Final plan review (1h) — each team presents objectives
-4. Program board updated — features mapped to iterations + teams
-5. Confidence vote — fist of five (1-5)
-6. PI objectives committed — with uncommitted objectives separate
+1. Planning adjustments (1h)  -  incorporate Day 1 feedback
+2. Team breakouts (2h)  -  finalize plans, resolve dependencies
+3. Final plan review (1h)  -  each team presents objectives
+4. Program board updated  -  features mapped to iterations + teams
+5. Confidence vote  -  fist of five (1-5)
+6. PI objectives committed  -  with uncommitted objectives separate
 
 ## Program Board
 

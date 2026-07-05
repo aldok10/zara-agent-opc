@@ -17,11 +17,11 @@ Module Federation 2.0, micro-frontends, shared dependencies, runtime remotes, fe
 | Scenario | Module Federation? |
 |----------|--------------------|
 | Independent teams, own deploy cadence | Yes |
-| Shared component library (same repo) | No — internal package |
+| Shared component library (same repo) | No  -  internal package |
 | A/B testing different app versions | Yes |
-| Single team, multiple apps sharing code | No — monorepo |
+| Single team, multiple apps sharing code | No  -  monorepo |
 | Legacy app embedding modern widget | Yes |
-| Performance-critical path | No — adds runtime overhead |
+| Performance-critical path | No  -  adds runtime overhead |
 
 ## Patterns
 
@@ -148,8 +148,8 @@ shared: {
 
 ## Anti-patterns
 
-- Sharing everything — increases coupling, defeats purpose.
-- No error boundaries — one remote failure crashes whole app.
-- Eager loading all shared deps — eliminates code-splitting benefit.
-- No version constraints — runtime crashes from incompatible versions.
-- Using for code sharing within same team/repo — monorepo is simpler.
+- Sharing everything  -  increases coupling, defeats purpose.
+- No error boundaries  -  one remote failure crashes whole app.
+- Eager loading all shared deps  -  eliminates code-splitting benefit.
+- No version constraints  -  runtime crashes from incompatible versions.
+- Using for code sharing within same team/repo  -  monorepo is simpler.

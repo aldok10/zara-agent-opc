@@ -4,16 +4,16 @@ ExUnit, Mox, async tests, property-based testing (StreamData), Wallaby, test iso
 
 ## Rules
 
-1. `async: true` on all test modules that don't share state — Ecto sandbox allows concurrent DB access per test
-2. Mox for external dependencies — define behaviours, mock at boundaries only
+1. `async: true` on all test modules that don't share state  -  Ecto sandbox allows concurrent DB access per test
+2. Mox for external dependencies  -  define behaviours, mock at boundaries only
 3. `setup` for per-test state, `setup_all` only for truly expensive shared fixtures
-4. Test the public API (context functions) — don't test GenServer internals directly
-5. Property-based tests for pure functions with wide input domains — StreamData generators
+4. Test the public API (context functions)  -  don't test GenServer internals directly
+5. Property-based tests for pure functions with wide input domains  -  StreamData generators
 6. `Ecto.Adapters.SQL.Sandbox` in shared mode for LiveView/integration tests
 7. `ExUnit.CaptureLog` for asserting log output without polluting test output
-8. Factory pattern with `ex_machina` or custom builders — never seed test DB globally
+8. Factory pattern with `ex_machina` or custom builders  -  never seed test DB globally
 9. Tags for slow/integration tests: `@tag :integration` + `--exclude integration` in config
-10. Assert on specific patterns, not entire structs — `assert %{status: :ok, id: id} = result`
+10. Assert on specific patterns, not entire structs  -  `assert %{status: :ok, id: id} = result`
 
 ## Test Structure
 
@@ -127,17 +127,17 @@ end
 ## Anti-Patterns
 
 - Testing implementation (internal GenServer state) instead of behaviour (public API)
-- `async: false` everywhere — dramatically slows test suite
-- Mocking modules you own — test the real module, mock external boundaries
-- Asserting on entire structs — brittle, breaks when fields added
-- Shared test database state — tests must be independent
-- `Process.sleep` in tests — use `assert_receive` with timeout or `eventually` helpers
-- Testing Phoenix controllers without going through the router — misses plugs
+- `async: false` everywhere  -  dramatically slows test suite
+- Mocking modules you own  -  test the real module, mock external boundaries
+- Asserting on entire structs  -  brittle, breaks when fields added
+- Shared test database state  -  tests must be independent
+- `Process.sleep` in tests  -  use `assert_receive` with timeout or `eventually` helpers
+- Testing Phoenix controllers without going through the router  -  misses plugs
 
 ## Verification
 
-1. `mix test --cover` — check coverage on critical paths
-2. `mix test --stale` — fast feedback during development
+1. `mix test --cover`  -  check coverage on critical paths
+2. `mix test --stale`  -  fast feedback during development
 3. All async tests pass under `--max-cases 16` (concurrency stress)
 4. Mox `verify_on_exit!` catches unmet expectations
 5. Property tests run 100+ iterations by default (configurable)

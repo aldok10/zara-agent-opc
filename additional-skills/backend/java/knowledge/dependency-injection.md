@@ -14,7 +14,7 @@ public class OrderService {
     private final PaymentGateway paymentGateway;
     private final EventPublisher events;
 
-    // Single constructor — @Autowired is implicit
+    // Single constructor  -  @Autowired is implicit
     public OrderService(OrderRepository repository,
                         PaymentGateway paymentGateway,
                         EventPublisher events) {
@@ -26,10 +26,10 @@ public class OrderService {
 ```
 
 Why constructor injection:
-- **Immutability** — final fields, set once.
-- **Testability** — pass mocks directly in tests, no Spring context needed.
-- **Fail-fast** — missing dependency = compile error (or startup failure), not NPE at runtime.
-- **Explicit dependencies** — constructor shows what the class needs.
+- **Immutability**  -  final fields, set once.
+- **Testability**  -  pass mocks directly in tests, no Spring context needed.
+- **Fail-fast**  -  missing dependency = compile error (or startup failure), not NPE at runtime.
+- **Explicit dependencies**  -  constructor shows what the class needs.
 
 ## @Qualifier and Custom Annotations
 

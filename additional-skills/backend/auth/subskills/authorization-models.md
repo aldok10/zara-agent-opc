@@ -7,12 +7,12 @@ Authorization determines what an authenticated identity can do. Models range fro
 ## Rules
 
 1. RBAC for coarse-grained access (admin, editor, viewer); ABAC for fine-grained (resource owner, time-based, geo-restricted)
-2. Combine models: RBAC gates entry, ABAC/ReBAC refines within — never choose one as universal solution
+2. Combine models: RBAC gates entry, ABAC/ReBAC refines within  -  never choose one as universal solution
 3. Policy-as-code: store authorization rules in version-controlled, testable policy files (Rego, Cedar, DSL)
-4. Evaluate policies at enforcement point closest to data — API gateway for route-level, service for resource-level, database for row-level
+4. Evaluate policies at enforcement point closest to data  -  API gateway for route-level, service for resource-level, database for row-level
 5. Deny by default: every request unauthorized unless explicitly permitted by policy
 6. Permission boundaries: maximum permission set per role, even if individual policies grant more (like AWS SCPs)
-7. Avoid negation in policies where possible — explicit allow lists over deny-except patterns
+7. Avoid negation in policies where possible  -  explicit allow lists over deny-except patterns
 8. Pre-compute expensive authorization decisions where latency matters (cache grants, materialize views)
 9. Separation of duties: define incompatible roles that cannot coexist on same identity
 10. Audit every authorization decision: who, what resource, what action, policy evaluated, result, timestamp

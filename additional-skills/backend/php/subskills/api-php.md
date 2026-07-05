@@ -101,7 +101,7 @@ Route::prefix('v2')->group(fn () => require 'routes/api/v2.php');
 
 ## OpenAPI Generation
 
-- **API Platform**: automatic from attributes — zero config.
+- **API Platform**: automatic from attributes  -  zero config.
 - **Laravel**: `dedoc/scramble` for auto-generation from types and FormRequests.
 - **Framework-agnostic**: `zircote/swagger-php` with `#[OA\*]` attributes.
 - Always validate generated spec: `spectral lint openapi.yaml`.
@@ -133,17 +133,17 @@ final class OrderTransformer extends TransformerAbstract
 ## Best Practices
 
 1. Always return consistent envelope: `{ "data": ..., "meta": ..., "links": ... }`.
-2. Use HTTP status codes correctly — 201 Created, 204 No Content, 422 Unprocessable.
+2. Use HTTP status codes correctly  -  201 Created, 204 No Content, 422 Unprocessable.
 3. Pagination: cursor-based for large datasets, offset for small.
-4. Rate limiting via middleware — return `X-RateLimit-*` headers.
+4. Rate limiting via middleware  -  return `X-RateLimit-*` headers.
 5. HATEOAS links for discoverability (at minimum: self, next, prev).
 6. Error format: RFC 9457 Problem Details (`application/problem+json`).
-7. Input validation at API boundary — domain layer never sees invalid data.
+7. Input validation at API boundary  -  domain layer never sees invalid data.
 8. ETag/If-None-Match for conditional requests (caching).
 
 ## Security
 
-- Authentication: Bearer token (JWT/Sanctum/Passport) — never session for API.
+- Authentication: Bearer token (JWT/Sanctum/Passport)  -  never session for API.
 - Authorization: per-operation, not per-endpoint (API Platform `security` attribute).
 - Input: validate ALL fields, reject unknown fields (strict mode).
 - Output: never expose internal IDs, timestamps, or sensitive fields unintentionally.

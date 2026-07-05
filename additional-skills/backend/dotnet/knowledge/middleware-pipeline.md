@@ -1,11 +1,11 @@
 # ASP.NET Core Middleware Pipeline
 
-## Pipeline Order (critical — order matters)
+## Pipeline Order (critical  -  order matters)
 
 ```csharp
 var app = builder.Build();
 
-// 1. Exception handling (outermost — catches everything below)
+// 1. Exception handling (outermost  -  catches everything below)
 app.UseExceptionHandler("/error");
 
 // 2. HSTS (before any response)
@@ -100,8 +100,8 @@ app.Map("/warmup", () => Results.Ok("ready")); // no next() call
 
 ## Common Mistakes
 
-- CORS after Authorization — CORS preflight will get 401
-- Exception handler not first — exceptions in earlier middleware uncaught
+- CORS after Authorization  -  CORS preflight will get 401
+- Exception handler not first  -  exceptions in earlier middleware uncaught
 - UseRouting/UseEndpoints split without understanding (legacy pattern)
-- Static files after auth — forces auth for CSS/JS
-- Rate limiter after auth — DDoS hits auth layer first
+- Static files after auth  -  forces auth for CSS/JS
+- Rate limiter after auth  -  DDoS hits auth layer first

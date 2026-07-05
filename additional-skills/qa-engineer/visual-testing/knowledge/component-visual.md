@@ -176,7 +176,7 @@ export const ResponsiveCard: Story = {
 | 320px | Small mobile | High |
 | 375px | Standard mobile | Medium |
 | 768px | Tablet portrait | High |
-| 1024px | Tablet landscape / small desktop | Medium |
+| 1024px | Tablet horizontal / small desktop | Medium |
 | 1200px | Desktop | High |
 | 1440px | Large desktop | Low |
 

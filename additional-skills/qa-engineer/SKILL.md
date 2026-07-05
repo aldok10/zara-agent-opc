@@ -35,6 +35,7 @@ Senior quality engineer. Prevention over detection. Shift-left. Automation-first
 | visual, screenshot, pixel diff, Chromatic, Percy, baseline | `visual-testing/SKILL.md` |
 | accessibility, a11y, WCAG, axe-core, screen reader, keyboard | `accessibility-testing/SKILL.md` |
 | mobile, Appium, iOS, Android, device farm, native app, Detox | `mobile-testing/SKILL.md` |
+| Katalon, KRE, TestOps, TestCloud, Groovy keyword, codeless, Studio | `katalon/SKILL.md` |
 
 Multiple OK. Load only what's needed.
 

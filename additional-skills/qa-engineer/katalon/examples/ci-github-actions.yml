@@ -1,0 +1,43 @@
+name: Katalon CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Katalon Tests
+        uses: katalon-studio/katalon-studio-github-action@v2.1
+        with:
+          version: '11.1.0'
+          projectPath: '${{ github.workspace }}'
+          args: >-
+            -noSplash
+            -retry=2
+            -retryStrategy=failedExecutions
+            -browserType="Chrome (headless)"
+            -executionProfile="staging"
+            -testSuitePath="Test Suites/Regression"
+            -apiKey=${{ secrets.KATALON_API_KEY }}
+            --config -webui.autoUpdateDrivers=true
+
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: katalon-reports
+          path: Reports/
+
+      - name: Publish Test Results
+        if: always()
+        uses: dorny/test-reporter@v1
+        with:
+          name: Katalon Test Results
+          path: Reports/**/JUnit_Report.xml
+          reporter: java-junit

@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  katalon:
+    image: katalonstudio/katalon:11-latest-slim
+    container_name: katalon-runner
+    shm_size: "2g"
+    volumes:
+      - .:/tmp/project
+    environment:
+      - KATALON_API_KEY=${KATALON_API_KEY}
+    entrypoint: katalonc.sh
+    command: >
+      -projectPath=/tmp/project
+      -browserType="Chrome (headless)"
+      -executionProfile="default"
+      -testSuitePath="Test Suites/Regression"
+      -retry=1
+      -retryStrategy=failedExecutions
+      -apiKey=${KATALON_API_KEY}
+      --config -webui.autoUpdateDrivers=true

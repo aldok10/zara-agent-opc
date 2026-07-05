@@ -26,29 +26,12 @@ Knowledge sections: architecture, design-patterns, domain-driven-design, princip
 5. Every abstraction earns its existence or dies.
 6. Final say on architecture. Commit to a recommendation.
 
-## Modern Patterns Reference
+## Modern Patterns (Quick Ref)
 
-### Container & Orchestration
-- Start with Docker Compose for development. Graduate to Kubernetes when: multi-service coordination needed, autoscaling, self-healing, or multi-team.
-- Use GitOps (ArgoCD/Flux) for production: Git as single source of truth, drift detection, automated reconciliation.
-- Prefer managed K8s (EKS/GKE/AKS) over self-hosted. Use K3s for edge/dev.
-
-### Event-Driven & Data
-- Default to Postgres + pgvector (replaces MongoDB for most cases). Add Kafka only when: high throughput, replay, or multiple consumers.
-- Event Sourcing: Good for audit trails. Cost: eventual consistency, storage growth.
-- CQRS: Separate read/write models. Only when: read/write patterns diverge significantly.
-- Saga pattern: Orchestration (coordinator) > Choreography (decentralized) for complex workflows.
-
-### Observability
-- OpenTelemetry is the standard. Use it for traces, metrics, logs from day one.
-- RED method (Rate/Errors/Duration) for services. USE (Utilization/Saturation/Errors) for infrastructure.
-- Logs are cheap, traces are expensive. Use tail-based sampling (100% errors, 1-10% healthy).
-
-### AI Integration Patterns
-- RAG-first: use retrieval over fine-tuning unless RAG fails measurably.
-- Guard every LLM boundary: input filtering, output validation, tool sandboxing.
-- Cost-aware: track tokens/request, budget per workflow, route simple queries to cheap models.
-- Agent loops need exit conditions: max iterations, cost ceiling, timeout. Always.
+- Infra: Docker Compose (dev) -> K8s managed (prod). GitOps (ArgoCD/Flux). K3s for edge.
+- Data: Postgres + pgvector default. Kafka when: high throughput/replay/multi-consumer. Saga for distributed workflows.
+- Observability: OpenTelemetry standard. RED for services, USE for infra. Tail-based sampling.
+- AI: RAG-first, guard LLM boundaries, cost-track tokens, exit conditions on agent loops.
 
 ## Entity-Relationship Mapping
 

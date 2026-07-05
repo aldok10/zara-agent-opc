@@ -125,12 +125,24 @@ const allTools = {
 };
 
 export default function createSocial({ client, directory } = {}) {
+  let _socialInjected = false;
+
   return {
+    onEvent(event) {
+      const type = typeof event === 'string' ? event : event?.type;
+      if (type === 'session.created') _socialInjected = false;
+    },
+
     inject(messages) {
       // Shed social injection under high pressure (>70%)
       if (contextPressure.level > 0.70) return messages;
 
       leadership.countInteraction();
+
+      // Profile context: inject once per session only
+      if (_socialInjected) return messages;
+      _socialInjected = true;
+
       const p = leadership.loadProfile();
       const lines = [];
       const ctx = leadership.buildContextLine(p);

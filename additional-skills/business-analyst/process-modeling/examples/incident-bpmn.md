@@ -128,5 +128,5 @@ escalation_policy:
 
 ## Key Points
 - Timer boundary events enforce SLAs: if acknowledgment doesn't happen within 5 minutes for SEV1, automatic escalation fires. This is modeled as an interrupting boundary timer.
-- The investigation sub-process is a loop — you form a hypothesis, gather evidence, validate. This maps to real incident work better than a linear flow.
+- The investigation sub-process is a loop  -  you form a hypothesis, gather evidence, validate. This maps to real incident work better than a linear flow.
 - Post-mortem is a required output (not optional) for SEV1/SEV2. The 48-hour timer creates accountability without blocking resolution.

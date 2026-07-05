@@ -70,7 +70,7 @@ ASSESS EACH WORKLOAD:
    - Each wave: duration, team allocation, rollback plan
 
 RULES:
-- Not everything should migrate — identify what stays and why
+- Not everything should migrate  -  identify what stays and why
 - Estimate TCO for 3 years (include migration cost, not just runtime)
 - Factor in team ramp-up time for unfamiliar services
 - Plan for coexistence period (hybrid connectivity)

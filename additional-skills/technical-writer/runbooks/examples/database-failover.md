@@ -174,6 +174,6 @@ Test this runbook every quarter in staging:
 ```
 
 ## Key Points
-- Always check replica lag before promoting—promoting a lagging replica means data loss equal to the lag amount
+- Always check replica lag before promoting - promoting a lagging replica means data loss equal to the lag amount
 - Stop application writes BEFORE promoting to prevent split-brain (both old primary and new primary accepting writes)
 - Test this runbook quarterly with a real failover drill; an untested runbook is a liability, not an asset

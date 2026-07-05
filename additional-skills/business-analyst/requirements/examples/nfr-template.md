@@ -119,4 +119,4 @@ Each NFR maps to one or more verification methods:
 ## Key Points
 - Every NFR has a measurable target and a method of verification. "The system should be fast" is not a requirement; "P95 latency < 200ms measured via APM" is.
 - Include business justification to prioritize NFRs during tradeoff discussions. Teams can make informed decisions about which thresholds to relax under budget pressure.
-- NFRs are living documents — review targets quarterly against actual production metrics and adjust growth projections.
+- NFRs are living documents  -  review targets quarterly against actual production metrics and adjust growth projections.

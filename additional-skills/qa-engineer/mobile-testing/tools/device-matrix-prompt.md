@@ -58,7 +58,7 @@ RULES:
 - Prefer real user analytics over global market share
 - Include at least one "low-end" device per platform
 - Account for manufacturer OS customizations (One UI, MIUI, etc)
-- Consider device age — 2-3 year old flagships represent mid-range now
+- Consider device age  -  2-3 year old flagships represent mid-range now
 - Document why each device is in the matrix (traceability)
 ```
 

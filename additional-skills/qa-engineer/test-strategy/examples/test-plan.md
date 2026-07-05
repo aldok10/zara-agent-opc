@@ -6,7 +6,7 @@ title: "Test Plan for New Microservice"
 # Test Plan for New Microservice (Risk-Based Approach)
 
 ## Context
-When launching a new service that handles payment processing. This template prioritizes test effort based on business risk, failure probability, and impact—not uniform coverage across all components.
+When launching a new service that handles payment processing. This template prioritizes test effort based on business risk, failure probability, and impact - not uniform coverage across all components.
 
 ## Code/Template
 
@@ -116,5 +116,5 @@ When launching a new service that handles payment processing. This template prio
 
 ## Key Points
 - Risk score drives test investment: spend 80% of effort on the 20% of code that handles money and state transitions
-- Define exit criteria before writing tests—prevents endless "one more test" scope creep
+- Define exit criteria before writing tests - prevents endless "one more test" scope creep
 - Separate test environments by purpose; never run load tests against shared staging

@@ -61,7 +61,7 @@ RULES:
 - Fixtures over beforeEach/afterEach (composable, typed, scoped)
 - Page objects expose behavior, not selectors
 - Locators use getByRole/getByTestId, never CSS classes
-- No page.waitForTimeout — use proper conditions
+- No page.waitForTimeout  -  use proper conditions
 - Fixtures must be independent (no order dependency)
 - Teardown must run even if test fails (use try/finally or generator)
 - Keep fixtures focused: one responsibility each

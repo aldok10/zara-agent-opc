@@ -141,6 +141,6 @@ post_incident:
 ```
 
 ## Key Points
-- Structure runbooks as decision trees (condition -> action), not walls of text—on-call engineers at 3am need quick answers
+- Structure runbooks as decision trees (condition -> action), not walls of text - on-call engineers at 3am need quick answers
 - Include the exact commands to run, not just descriptions; copy-paste reduces errors under pressure
 - Every action needs a rollback command; if the fix doesn't work, you need to undo it without thinking

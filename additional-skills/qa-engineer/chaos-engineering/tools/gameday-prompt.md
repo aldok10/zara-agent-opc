@@ -62,7 +62,7 @@ RULES:
 - Never inject in production without explicit approval and rollback plan
 - All participants must know the abort procedure
 - Record everything: timestamps, decisions, surprises
-- Gameday is learning, not blame — capture findings, not faults
+- Gameday is learning, not blame  -  capture findings, not faults
 ```
 
 ## Output Format

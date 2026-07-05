@@ -6,7 +6,7 @@ title: "Ansible Role for Hardened Web Server"
 # Ansible Role for Hardened Web Server
 
 ## Context
-When provisioning web servers that must meet CIS benchmarks and organizational security standards. This role configures Nginx with TLS, disables unnecessary services, sets up firewall rules, and applies OS-level hardening—all idempotent and testable.
+When provisioning web servers that must meet CIS benchmarks and organizational security standards. This role configures Nginx with TLS, disables unnecessary services, sets up firewall rules, and applies OS-level hardening - all idempotent and testable.
 
 ## Code/Template
 
@@ -201,6 +201,6 @@ ssh_allowed_users: ["deploy", "ansible"]
 ```
 
 ## Key Points
-- Always `validate` config files before deploying (nginx -t, sshd -t)—a bad config can lock you out or take down the service
+- Always `validate` config files before deploying (nginx -t, sshd -t) - a bad config can lock you out or take down the service
 - Restrict SSH to management CIDR only via firewall; defense in depth beyond just key-only auth
 - Use handlers (not tasks) for service restarts so multiple config changes trigger only one reload

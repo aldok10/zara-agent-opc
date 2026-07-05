@@ -154,6 +154,6 @@ npx stryker run --mutate "src/pricing/**/*.ts"
 ```
 
 ## Key Points
-- Set `thresholds.break` to fail CI when mutation score drops below acceptable level—treats mutant survival as a real signal
+- Set `thresholds.break` to fail CI when mutation score drops below acceptable level - treats mutant survival as a real signal
 - Use `incremental: true` in development to only re-test mutants for changed code; full runs on release branches
 - Exclude string literals and generated code to reduce noise; focus on logic, arithmetic, and conditional mutations

@@ -22,7 +22,7 @@ Cohort: Users who started a free trial in this period
 
 | Step | Event | Users | Conversion | Drop-off | Drop-off % |
 |------|-------|-------|-----------|----------|-----------|
-| 1 | Visited pricing page | 48,200 | — | — | — |
+| 1 | Visited pricing page | 48,200 |  -  |  -  |  -  |
 | 2 | Started free trial | 12,050 | 25.0% | 36,150 | 75.0% |
 | 3 | Completed onboarding | 8,435 | 70.0% | 3,615 | 30.0% |
 | 4 | Created first project | 5,904 | 70.0% | 2,531 | 30.0% |
@@ -57,7 +57,7 @@ Lowest-effort fix: Step 2 → 3 (30% drop in onboarding completion)
 | Paid ads | 3,615 | 9.1% | Lower quality traffic |
 | Product Hunt | 1,807 | 14.8% | One-time spike |
 | Referral | 1,205 | 22.4% | Best segment |
-| Other | 603 | 11.0% | — |
+| Other | 603 | 11.0% |  -  |
 
 ### SQL Query (event-based funnel)
 
@@ -99,5 +99,5 @@ FROM funnel;
 
 ## Key Points
 - Always measure both absolute drop-off (volume) and relative drop-off (rate). The biggest volume loss may not be the highest-leverage fix.
-- Segment funnels by acquisition channel — aggregate numbers hide that referral converts at 2.5x the rate of paid ads.
+- Segment funnels by acquisition channel  -  aggregate numbers hide that referral converts at 2.5x the rate of paid ads.
 - Attach a revenue estimate to each improvement: "15pp improvement at step X = Y additional paid conversions at $Z ARR each."

@@ -81,7 +81,7 @@ RULES:
 - Template must produce a deployable service in < 1 hour
 - Every default must be justified (not just "best practice")
 - Include what teams WILL need, not everything they MIGHT need
-- Version the template — teams should be able to upgrade
+- Version the template  -  teams should be able to upgrade
 - Don't couple template to specific library versions (use ranges wisely)
 ```
 

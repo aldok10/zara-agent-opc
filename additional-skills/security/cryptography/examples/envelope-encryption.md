@@ -168,6 +168,6 @@ async function reEncryptAll(envelope: EnvelopeEncryption) {
 ```
 
 ## Key Points
-- Never store the plaintext data key—generate, use, zero-out immediately; only the KMS-encrypted version persists
+- Never store the plaintext data key - generate, use, zero-out immediately; only the KMS-encrypted version persists
 - AES-256-GCM provides both confidentiality and integrity (auth tag prevents tampering); always store IV with ciphertext
 - KMS key rotation is transparent: old encrypted data keys remain decryptable, new operations use latest key version

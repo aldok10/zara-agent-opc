@@ -111,12 +111,12 @@ try {
 
 ## Common issues
 
-**"Invalid API key"** — Make sure you're using a test key (starts with `sk_test_`).
+**"Invalid API key"**  -  Make sure you're using a test key (starts with `sk_test_`).
 Live keys (starting with `sk_live_`) only work after account verification.
 
-**"Module not found"** — Run `npm install @acme/payments` in your project directory.
+**"Module not found"**  -  Run `npm install @acme/payments` in your project directory.
 
-**Payment stuck in "pending"** — Test payments in sandbox don't auto-capture.
+**Payment stuck in "pending"**  -  Test payments in sandbox don't auto-capture.
 Use `acme.payments.capture(payment.id)` or enable auto-capture in Dashboard settings.
 
 ---
@@ -126,13 +126,13 @@ Need help? [Join our Discord](https://discord.gg/acme) or [open a support ticket
 
 ### Structure Rules for Getting Started Guides
 
-1. **Prerequisites** — exactly what they need, with install links
-2. **Copy-paste code** — working example, not pseudocode
-3. **Expected output** — show what success looks like
-4. **Next steps** — table of related guides based on goals
-5. **Troubleshooting** — top 3 issues new users hit
+1. **Prerequisites**  -  exactly what they need, with install links
+2. **Copy-paste code**  -  working example, not pseudocode
+3. **Expected output**  -  show what success looks like
+4. **Next steps**  -  table of related guides based on goals
+5. **Troubleshooting**  -  top 3 issues new users hit
 
 ## Key Points
 - Optimize for copy-paste-run: every code block should work if pasted directly (no `...` or `// your code here` placeholders)
 - Show expected output after every command so users can verify they're on track without waiting until the end
-- Put the "happy path" first, error handling second—don't front-load complexity before the user has seen success
+- Put the "happy path" first, error handling second - don't front-load complexity before the user has seen success

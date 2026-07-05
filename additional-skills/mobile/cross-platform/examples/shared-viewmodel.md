@@ -262,6 +262,6 @@ object FlowCollector {
 ```
 
 ## Key Points
-- Pass `CoroutineScope` into the shared ViewModel rather than creating it internally—Android uses `viewModelScope` (auto-cancelled), iOS uses a custom scope cancelled in `deinit`
+- Pass `CoroutineScope` into the shared ViewModel rather than creating it internally - Android uses `viewModelScope` (auto-cancelled), iOS uses a custom scope cancelled in `deinit`
 - Use sealed interfaces for events (not lambdas) so the same event handling logic works on both platforms without adaptation
-- Always dispatch state updates to the main thread on iOS (`dispatch_get_main_queue`)—Kotlin coroutines don't guarantee main thread on iOS by default
+- Always dispatch state updates to the main thread on iOS (`dispatch_get_main_queue`) - Kotlin coroutines don't guarantee main thread on iOS by default

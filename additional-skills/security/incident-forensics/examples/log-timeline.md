@@ -205,6 +205,6 @@ if __name__ == "__main__":
 ```
 
 ## Key Points
-- Always define IOCs (indicators of compromise) upfront—suspect IPs, user agents, API keys—and flag matches in the timeline automatically
+- Always define IOCs (indicators of compromise) upfront - suspect IPs, user agents, API keys - and flag matches in the timeline automatically
 - Correlate across at least 3 log sources (identity, network, application) to catch lateral movement that no single source reveals
 - Export as structured JSON for handoff to legal/compliance; human-readable for the war room, machine-readable for the report

@@ -6,7 +6,7 @@ title: "ARIA Live Region Testing"
 # ARIA Live Region Testing
 
 ## Context
-When testing dynamic content updates (notifications, form errors, chat messages) that must be announced by screen readers. ARIA live regions are often implemented but never verified—this test catches silent failures.
+When testing dynamic content updates (notifications, form errors, chat messages) that must be announced by screen readers. ARIA live regions are often implemented but never verified - this test catches silent failures.
 
 ## Code/Template
 
@@ -99,5 +99,5 @@ test.describe('ARIA Live Regions', () => {
 
 ## Key Points
 - Use `polite` for non-urgent updates (saves, status), `assertive` for errors requiring immediate attention
-- Always test that live regions are empty before interaction—pre-populated content won't be announced
+- Always test that live regions are empty before interaction - pre-populated content won't be announced
 - Combine with axe-core to catch structural violations (missing roles, incorrect nesting)

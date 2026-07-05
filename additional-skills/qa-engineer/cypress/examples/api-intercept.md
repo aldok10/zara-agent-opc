@@ -151,5 +151,5 @@ describe('Dashboard', () => {
 
 ## Key Points
 - Always alias intercepts with `.as()` and `cy.wait('@alias')` to avoid race conditions between page load and assertions
-- Test the unhappy path: timeouts, 500s, 403s, empty responses, malformed JSON—these are where real bugs hide
+- Test the unhappy path: timeouts, 500s, 403s, empty responses, malformed JSON - these are where real bugs hide
 - Use dynamic intercept handlers (callback form) when you need to vary responses across requests (retry flows, pagination)

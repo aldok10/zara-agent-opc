@@ -33,7 +33,7 @@ DESIGN THE BASELINE STRATEGY:
    - Which states to capture per component (default, hover, focus, error, loading, empty)
    - Viewport sizes to baseline (mobile, tablet, desktop)
    - Theme variants (light, dark, high contrast)
-   - Browser matrix (Chrome, Firefox, Safari — which are canonical)
+   - Browser matrix (Chrome, Firefox, Safari  -  which are canonical)
    - Data variations (short text, long text, missing data)
 
 2. UPDATE WORKFLOW
@@ -64,7 +64,7 @@ DESIGN THE BASELINE STRATEGY:
 RULES:
 - Baselines should represent intended design, not "whatever is deployed"
 - Every baseline update needs a reason (linked to ticket/decision)
-- Pixel-perfect is not the goal — catching unintended regressions is
+- Pixel-perfect is not the goal  -  catching unintended regressions is
 - False positives erode trust faster than missed bugs
 ```
 

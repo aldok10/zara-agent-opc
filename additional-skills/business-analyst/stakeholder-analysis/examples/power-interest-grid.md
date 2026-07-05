@@ -102,7 +102,7 @@ Board Sponsor ──advocates──→ CFO (budget approval)
 2. **Week 1**: Secure CFO sign-off on 18-month budget with quarterly gates
 3. **Week 2**: Hold Product/Engineering capacity split negotiation (70/30 proposed)
 4. **Week 3**: Launch migration newsletter for Keep Informed group
-5. **Ongoing**: Monthly stakeholder grid review — power/interest shifts as project progresses
+5. **Ongoing**: Monthly stakeholder grid review  -  power/interest shifts as project progresses
 
 ## Key Points
 - The grid is dynamic: a stakeholder's position changes over phases. Backend engineers move to "Manage Closely" during cutover week. Re-assess quarterly.

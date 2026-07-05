@@ -189,6 +189,6 @@ jobs:
 ```
 
 ## Key Points
-- Collect evidence continuously (weekly), not just before audits—auditors want to see consistent compliance over the observation period
+- Collect evidence continuously (weekly), not just before audits - auditors want to see consistent compliance over the observation period
 - Store evidence immutably in S3 with versioning and KMS encryption; auditors need tamper-proof records
 - Automate the "pass/fail" determination so non-compliance triggers alerts before the auditor finds it

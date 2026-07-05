@@ -180,4 +180,4 @@ spec:
 ## Key Points
 - Diversify across 15+ instance types (category + generation + size combinations) to maintain spot capacity even during regional pressure
 - Use `topologySpreadConstraints` across zones AND capacity types so a single spot interruption event doesn't take out all replicas
-- Set `terminationGracePeriodSeconds: 120` to match AWS's 2-minute interruption warning—drain connections gracefully
+- Set `terminationGracePeriodSeconds: 120` to match AWS's 2-minute interruption warning - drain connections gracefully

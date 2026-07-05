@@ -79,8 +79,8 @@ TROUBLESHOOTING LAYERS (bottom-up):
 RULES:
 - Work bottom-up: don't debug TLS if packets aren't reaching destination
 - Verify from BOTH sides (source can send AND destination can receive)
-- Check recent changes first — most issues are caused by recent deployments
-- Cloud networking is stateful (SGs) AND stateless (NACLs) — check both
+- Check recent changes first  -  most issues are caused by recent deployments
+- Cloud networking is stateful (SGs) AND stateless (NACLs)  -  check both
 - Document each step: what was tested, what was the result
 ```
 

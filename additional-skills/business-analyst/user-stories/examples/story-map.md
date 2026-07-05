@@ -28,7 +28,7 @@ BACKBONE (user tasks under each activity):
 
 ### Release Slices
 
-#### Release 1 — MVP (2 sprints)
+#### Release 1  -  MVP (2 sprints)
 
 | Activity | Stories | Acceptance Criteria |
 |----------|---------|-------------------|
@@ -47,7 +47,7 @@ BACKBONE (user tasks under each activity):
 
 ---
 
-#### Release 2 — Enhanced Shipping (1 sprint)
+#### Release 2  -  Enhanced Shipping (1 sprint)
 
 | Story | Details |
 |-------|---------|
@@ -58,7 +58,7 @@ BACKBONE (user tasks under each activity):
 
 ---
 
-#### Release 3 — Payment Options (1 sprint)
+#### Release 3  -  Payment Options (1 sprint)
 
 | Story | Details |
 |-------|---------|
@@ -69,7 +69,7 @@ BACKBONE (user tasks under each activity):
 
 ---
 
-#### Release 4 — Promotions & Loyalty (1 sprint)
+#### Release 4  -  Promotions & Loyalty (1 sprint)
 
 | Story | Details |
 |-------|---------|
@@ -80,7 +80,7 @@ BACKBONE (user tasks under each activity):
 
 ---
 
-#### Release 5 — Post-Purchase Experience (1 sprint)
+#### Release 5  -  Post-Purchase Experience (1 sprint)
 
 | Story | Details |
 |-------|---------|
@@ -137,4 +137,4 @@ Validates: API structure, Stripe integration, DB schema, deploy pipeline.
 ## Key Points
 - Read the map left-to-right for the user journey, top-to-bottom for priority. MVP is the thinnest horizontal slice that delivers value end-to-end.
 - The walking skeleton (Sprint 0) proves architecture without delivering user value. It de-risks integration points before the team builds real features.
-- Each release slice is independently shippable. Release 2 (shipping) can ship without Release 3 (payment options) — no hidden dependencies between slices.
+- Each release slice is independently shippable. Release 2 (shipping) can ship without Release 3 (payment options)  -  no hidden dependencies between slices.

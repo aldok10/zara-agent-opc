@@ -159,6 +159,6 @@ echo '{"method":"GET","path":["api","v1","orders","ord-1"],"user":{"id":"user-1"
 ```
 
 ## Key Points
-- Separate `allow` and `deny` rules—explicit deny wins, making it easy to add hard business constraints that override permissions
+- Separate `allow` and `deny` rules - explicit deny wins, making it easy to add hard business constraints that override permissions
 - Always test cross-tenant access: the most critical authorization bug is org A reading org B's data
 - Include `reasons` in the response for audit trails; knowing *why* access was granted is as important as the decision

@@ -168,6 +168,6 @@ jobs:
 ```
 
 ## Key Points
-- Use `onlyChanged: true` in CI to avoid snapshotting 500 stories on every PR—only test what the diff touches
+- Use `onlyChanged: true` in CI to avoid snapshotting 500 stories on every PR - only test what the diff touches
 - Set `diffThreshold` per-story for components with animations or anti-aliasing; 0.2 avoids false positives
 - Auto-accept changes on `main` merges (`--auto-accept-changes main`) so baselines stay current without manual approval loops

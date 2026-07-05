@@ -6,7 +6,7 @@ title: "Custom Semgrep Rules for Common Vulnerabilities"
 # Custom Semgrep Rules for Common Vulnerabilities
 
 ## Context
-When your team has domain-specific security patterns that generic SAST tools miss. Custom Semgrep rules encode institutional knowledge—preventing the same class of vulnerability from recurring across repos.
+When your team has domain-specific security patterns that generic SAST tools miss. Custom Semgrep rules encode institutional knowledge - preventing the same class of vulnerability from recurring across repos.
 
 ## Code/Template
 
@@ -171,6 +171,6 @@ jobs:
 ```
 
 ## Key Points
-- Use `pattern-not` and `pattern-not-inside` to reduce false positives—exclude patterns where the fix is already applied
+- Use `pattern-not` and `pattern-not-inside` to reduce false positives - exclude patterns where the fix is already applied
 - Attach CWE and OWASP metadata to each rule so developers understand the real-world impact, not just the code pattern
 - Start with ERROR severity for proven exploitable patterns; use WARNING for "likely vulnerable but needs context"

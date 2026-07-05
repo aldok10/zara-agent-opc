@@ -75,7 +75,7 @@ DESIGN FOR EACH PHASE:
    - Feedback loop: production findings → requirements
 
 RULES:
-- Gates must not create bottlenecks — automate where possible
+- Gates must not create bottlenecks  -  automate where possible
 - Developer experience matters: fast feedback, low false positives
 - Start with high-signal tools, add depth over time
 - Measure: mean time to remediate, escape rate, finding density trends

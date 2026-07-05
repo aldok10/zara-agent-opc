@@ -70,7 +70,7 @@ DESIGN THE VALIDATION SUITE:
    - Alert routing on failure
 
 RULES:
-- Percentiles, not averages — averages hide tail latency
+- Percentiles, not averages  -  averages hide tail latency
 - Test against production-like data volumes
 - Account for warm-up (JIT, connection pool, cache fill)
 - Include error responses in latency calculations

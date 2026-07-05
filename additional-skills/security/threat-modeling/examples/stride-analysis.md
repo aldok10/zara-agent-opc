@@ -106,6 +106,6 @@ When threat modeling a new or modified system to identify security risks before 
 ```
 
 ## Key Points
-- Apply STRIDE to each component AND each data flow between components—threats often live at boundaries, not inside services
+- Apply STRIDE to each component AND each data flow between components - threats often live at boundaries, not inside services
 - Rank by likelihood x impact and assign to sprints; not every threat needs immediate mitigation
-- The #1 payment API vulnerability is IDOR (accessing another user's data)—always filter queries by authenticated user context
+- The #1 payment API vulnerability is IDOR (accessing another user's data) - always filter queries by authenticated user context

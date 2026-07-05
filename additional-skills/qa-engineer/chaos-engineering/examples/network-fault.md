@@ -6,7 +6,7 @@ title: "Network Fault Injection with Toxiproxy"
 # Network Fault Injection with Toxiproxy
 
 ## Context
-When validating that services handle network failures gracefully—timeouts, connection resets, bandwidth degradation. Run this before promoting to production to confirm retry logic, circuit breakers, and fallback behaviors work under real failure conditions.
+When validating that services handle network failures gracefully - timeouts, connection resets, bandwidth degradation. Run this before promoting to production to confirm retry logic, circuit breakers, and fallback behaviors work under real failure conditions.
 
 ## Code/Template
 
@@ -132,6 +132,6 @@ echo "=== All experiments complete ==="
 ```
 
 ## Key Points
-- Always state a hypothesis before injecting faults—"what should happen?" not just "what breaks?"
+- Always state a hypothesis before injecting faults - "what should happen?" not just "what breaks?"
 - Clean up toxics after each experiment; leftover faults will pollute subsequent tests
 - Run in staging with production-like traffic patterns; isolated unit environments miss interaction effects

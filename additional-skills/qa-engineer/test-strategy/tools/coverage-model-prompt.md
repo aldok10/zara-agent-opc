@@ -62,10 +62,10 @@ BUILD THE MODEL:
 5. MEASUREMENT
    - Leading indicators: coverage delta, test creation rate
    - Lagging indicators: defect escape rate, MTTR
-   - Not just "coverage %" — meaningful coverage metrics
+   - Not just "coverage %"  -  meaningful coverage metrics
 
 RULES:
-- 100% line coverage is not the goal — risk-proportional coverage is
+- 100% line coverage is not the goal  -  risk-proportional coverage is
 - More tests where failures are expensive, fewer where they're cheap
 - Account for test maintenance cost in the model
 - Flag areas with "coverage theater" (tests that pass but verify nothing)

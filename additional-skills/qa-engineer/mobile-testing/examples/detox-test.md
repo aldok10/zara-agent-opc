@@ -6,7 +6,7 @@ title: "Detox E2E Test for React Native Login Flow"
 # Detox E2E Test for React Native Login Flow
 
 ## Context
-When testing critical user flows on React Native apps that must work reliably across iOS and Android. Detox runs on real simulators/emulators with gray-box testing—it understands app idle state, so no arbitrary sleeps needed.
+When testing critical user flows on React Native apps that must work reliably across iOS and Android. Detox runs on real simulators/emulators with gray-box testing - it understands app idle state, so no arbitrary sleeps needed.
 
 ## Code/Template
 
@@ -152,6 +152,6 @@ describe('Login Flow', () => {
 ```
 
 ## Key Points
-- Use `testID` props consistently in React Native components—they map to `by.id()` selectors and work cross-platform
+- Use `testID` props consistently in React Native components - they map to `by.id()` selectors and work cross-platform
 - Prefer `waitFor().toBeVisible().withTimeout()` over arbitrary delays; Detox auto-waits for animations but not network
 - Test session persistence with `device.launchApp({ newInstance: false })` to verify token storage survives app lifecycle

@@ -193,6 +193,6 @@ fi
 ```
 
 ## Key Points
-- Use `negative: true` matchers to reduce false positives—confirm the response is NOT a login page, NOT an error
+- Use `negative: true` matchers to reduce false positives - confirm the response is NOT a login page, NOT an error
 - Include CWE and CVSS metadata for automatic triage integration with vulnerability management platforms
 - Rate-limit scans (`-rate-limit`) against production; aggressive scanning can trigger WAF blocks or cause availability issues

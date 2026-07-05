@@ -178,6 +178,6 @@ az webapp log tail --name myapp-app --resource-group rg-myapp-prod
 ```
 
 ## Key Points
-- Use `enableRbacAuthorization: true` over legacy access policies—RBAC scales better and integrates with Azure AD PIM for just-in-time access
+- Use `enableRbacAuthorization: true` over legacy access policies - RBAC scales better and integrates with Azure AD PIM for just-in-time access
 - Enable purge protection on Key Vault to prevent accidental or malicious permanent deletion of secrets
 - Set `networkAcls.defaultAction: 'Deny'` and add VNet rules later; start locked down, open selectively

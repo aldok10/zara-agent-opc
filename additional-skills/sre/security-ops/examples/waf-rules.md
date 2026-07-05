@@ -245,6 +245,6 @@ resource "aws_wafv2_ip_set" "trusted_ips" {
 ```
 
 ## Key Points
-- Start managed rules in `count` mode (observe), analyze false positives for 1-2 weeks, then switch to `block`—never deploy blocking rules blind
+- Start managed rules in `count` mode (observe), analyze false positives for 1-2 weeks, then switch to `block` - never deploy blocking rules blind
 - Layer rate limits: global (2000 req/5min) for DDoS + endpoint-specific (20/5min for login) for brute force
 - Always exclude trusted IPs (monitoring, CI) from rate limits; your own health checks shouldn't trigger blocks

@@ -6,7 +6,7 @@ title: "Input Validation Patterns with Zod"
 # Input Validation Patterns (TypeScript + Zod)
 
 ## Context
-When validating untrusted input at API boundaries—request bodies, query params, webhook payloads. Validation must happen before any business logic touches the data. Zod provides runtime type safety with zero-cost TypeScript inference.
+When validating untrusted input at API boundaries - request bodies, query params, webhook payloads. Validation must happen before any business logic touches the data. Zod provides runtime type safety with zero-cost TypeScript inference.
 
 ## Code/Template
 
@@ -166,6 +166,6 @@ function formatZodErrors(error: ZodError): Record<string, string> {
 ```
 
 ## Key Points
-- Validate at the boundary, use typed data downstream—`z.infer<typeof Schema>` gives you compile-time safety after runtime validation
+- Validate at the boundary, use typed data downstream - `z.infer<typeof Schema>` gives you compile-time safety after runtime validation
 - Block SSRF in URL inputs by denying internal IPs, metadata endpoints, and non-HTTPS protocols
 - Never allow role escalation via API input; hard-code admin assignment to internal tooling only

@@ -188,6 +188,6 @@ spec:
 ```
 
 ## Key Points
-- Validate service names with regex patterns in the template—prevents naming inconsistencies that break DNS, K8s labels, and metrics
+- Validate service names with regex patterns in the template - prevents naming inconsistencies that break DNS, K8s labels, and metrics
 - Wire up monitoring, catalog registration, and deployment in the same template; a service without observability is invisible
 - Set `lifecycle: experimental` by default; teams must explicitly promote to `production` after passing readiness review

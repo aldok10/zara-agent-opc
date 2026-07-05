@@ -88,7 +88,7 @@ RULES:
 - Measure before and after (benchmark with representative traffic)
 - Change one thing at a time when debugging performance issues
 - Don't copy configs from the internet without understanding the workload
-- Buffer sizes depend on YOUR traffic — profile typical request/response sizes
+- Buffer sizes depend on YOUR traffic  -  profile typical request/response sizes
 - Security > performance: don't enable weak ciphers for speed
 - Test under realistic load, not just synthetic benchmarks
 ```

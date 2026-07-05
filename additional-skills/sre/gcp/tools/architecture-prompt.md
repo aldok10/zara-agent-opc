@@ -76,7 +76,7 @@ RULES:
 - Workload Identity over service account keys (always)
 - Organization policies prevent misconfigurations at scale
 - Design for least privilege from day one (harder to restrict later)
-- Plan IP ranges for growth — CIDR exhaustion is painful to fix
+- Plan IP ranges for growth  -  CIDR exhaustion is painful to fix
 - Consider data residency requirements in region selection
 ```
 

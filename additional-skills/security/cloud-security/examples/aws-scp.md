@@ -6,7 +6,7 @@ title: "AWS Service Control Policy Guardrails"
 # AWS Service Control Policy (Guardrails)
 
 ## Context
-When you need preventive controls across an AWS Organization that cannot be bypassed—even by account administrators. SCPs define the maximum permissions boundary for all IAM entities in member accounts.
+When you need preventive controls across an AWS Organization that cannot be bypassed - even by account administrators. SCPs define the maximum permissions boundary for all IAM entities in member accounts.
 
 ## Code/Template
 
@@ -177,6 +177,6 @@ resource "aws_organizations_policy_attachment" "workloads_ou" {
 ```
 
 ## Key Points
-- SCPs are deny-only guardrails—they never grant permissions, only restrict the maximum boundary
+- SCPs are deny-only guardrails - they never grant permissions, only restrict the maximum boundary
 - Always exclude global services (IAM, Route53, CloudFront) from region restrictions or you'll break cross-region functionality
 - Test SCPs in a sandbox OU first; a misconfigured SCP can lock out all users in an account including the root

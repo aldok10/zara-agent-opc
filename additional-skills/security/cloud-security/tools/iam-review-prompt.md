@@ -64,7 +64,7 @@ ANALYSIS FRAMEWORK:
 
 RULES:
 - Propose specific scoped-down alternatives, not just "too broad"
-- Consider operational need — don't recommend breaking functionality
+- Consider operational need  -  don't recommend breaking functionality
 - Flag permissions that are high-risk even if currently needed
 - Distinguish: definitely over-permissioned vs needs investigation
 ```

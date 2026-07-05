@@ -67,7 +67,7 @@ DESIGN THE DRIFT STRATEGY:
    - State locking and access controls
 
 RULES:
-- Not all drift is bad — classify before auto-remediating
+- Not all drift is bad  -  classify before auto-remediating
 - Auto-scaling changes to instance count are expected drift
 - Security drift = immediate alert, don't wait for scheduled scan
 - Import before overwrite: understand why drift occurred

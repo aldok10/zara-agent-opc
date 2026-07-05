@@ -123,9 +123,9 @@ limits per-endpoint later.
 | **Perf** | Performance concern | Discuss |
 | **Nit** | Style/preference | Optional |
 | **Question** | Clarification needed | Respond |
-| **Nice** | Positive reinforcement | — |
+| **Nice** | Positive reinforcement |  -  |
 
 ## Key Points
 - Every blocking comment needs: what's wrong, why it matters, and a suggested fix
 - Prefix comments with severity so authors can triage effectively
-- Praise specific good decisions—it reinforces patterns and builds trust
+- Praise specific good decisions - it reinforces patterns and builds trust

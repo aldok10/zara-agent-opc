@@ -1,126 +1,138 @@
 ---
 type: example
-title: "Getting Started with the Task API"
+title: "Getting Started Guide Template"
 ---
 
-# Getting Started with the Task API
+# Getting Started Guide Template
 
-Build a simple task tracker in under 5 minutes.
+## Context
+When onboarding new developers to your API or SDK. A getting started guide must take someone from zero to a working integration in under 10 minutes. Optimize for time-to-first-success, not completeness.
+
+## Code/Template
+
+```markdown
+# Getting Started with Acme Payments API
+
+Get your first payment working in under 5 minutes.
 
 ## Prerequisites
 
-- A programming language runtime (Node.js 18+, Python 3.10+, or Go 1.21+)
-- An API key (get one free at the [developer dashboard](https://dashboard.example.com/api-keys))
+- Node.js 18+ ([download](https://nodejs.org))
+- An Acme account ([sign up free](https://acme.dev/signup))
+- Your API key (found in [Dashboard > Settings > API Keys](https://acme.dev/settings/keys))
 
-## Step 1: Install the SDK
-
-Choose your language:
+## 1. Install the SDK
 
 ```bash
-# JavaScript / TypeScript
-npm install @example/task-sdk
-
-# Python
-pip install example-task-sdk
-
-# Go
-go get github.com/example/task-sdk-go
+npm install @acme/payments
 ```
 
-## Step 2: Create your first task
+## 2. Set up your client
 
-```javascript
-import { TaskClient } from '@example/task-sdk';
+Create a file called `payment.ts`:
 
-const client = new TaskClient({
-  apiKey: 'your-api-key-here'
+```typescript
+import { AcmeClient } from '@acme/payments';
+
+const acme = new AcmeClient({
+  apiKey: process.env.ACME_API_KEY, // Never hardcode this
+});
+```
+
+> **Security**: Store your API key in environment variables. Never commit it to source control.
+
+## 3. Create a payment
+
+```typescript
+const payment = await acme.payments.create({
+  amount: 2500,       // Amount in cents ($25.00)
+  currency: 'usd',
+  description: 'Order #1234',
+  customer: {
+    email: 'buyer@example.com',
+  },
 });
 
-const task = await client.tasks.create({
-  title: 'My first task',
-  priority: 'medium'
-});
-
-console.log(`Created task: ${task.id}`);
+console.log(`Payment created: ${payment.id}`);
+console.log(`Status: ${payment.status}`);
+// => Payment created: pay_1a2b3c4d
+// => Status: pending
 ```
 
-```python
-from example_task_sdk import TaskClient
+## 4. Run it
 
-client = TaskClient(api_key="your-api-key-here")
-
-task = client.tasks.create(
-    title="My first task",
-    priority="medium"
-)
-
-print(f"Created task: {task.id}")
+```bash
+ACME_API_KEY=sk_test_your_key npx tsx payment.ts
 ```
 
-```go
-package main
+You should see:
 
-import (
-    "fmt"
-    task "github.com/example/task-sdk-go"
-)
+```
+Payment created: pay_1a2b3c4d
+Status: pending
+```
 
-func main() {
-    client := task.NewClient("your-api-key-here")
+Check the [Dashboard](https://acme.dev/payments) to see your test payment.
 
-    t, err := client.Tasks.Create(task.CreateParams{
-        Title:    "My first task",
-        Priority: "medium",
-    })
-    if err != nil {
-        panic(err)
-    }
+## 5. Handle the response
 
-    fmt.Printf("Created task: %s\n", t.ID)
+Every API call returns a typed response or throws an `AcmeError`:
+
+```typescript
+import { AcmeClient, AcmeError } from '@acme/payments';
+
+try {
+  const payment = await acme.payments.create({
+    amount: 2500,
+    currency: 'usd',
+  });
+
+  if (payment.status === 'succeeded') {
+    // Payment captured immediately
+  } else if (payment.status === 'pending') {
+    // Redirect user to payment.redirectUrl
+  }
+} catch (error) {
+  if (error instanceof AcmeError) {
+    console.error(`[${error.code}] ${error.message}`);
+    // => [insufficient_funds] The card has insufficient funds.
+  }
 }
 ```
-
-**Expected result:** A new task is created and its unique ID is printed.
-
-## Step 3: List your tasks
-
-```javascript
-const tasks = await client.tasks.list({ status: 'open' });
-
-for (const task of tasks.data) {
-  console.log(`${task.id}: ${task.title} [${task.priority}]`);
-}
-```
-
-**Expected result:** You see the task you created in the previous step.
-
-## Step 4: Complete the task
-
-```javascript
-await client.tasks.update(task.id, { status: 'done' });
-console.log('Task completed!');
-```
-
-**Expected result:** The task status changes to "done".
-
-## What you just did
-
-1. Installed the SDK
-2. Created a task via the API
-3. Listed tasks with a filter
-4. Updated a task's status
 
 ## What's next?
 
-- [Add due dates and assignees](/docs/guides/task-management) -- organize your tasks
-- [Set up webhooks](/docs/guides/webhooks) -- get notified when tasks change
-- [Handle errors](/docs/guides/error-handling) -- build production-ready code
-- [API Reference](/docs/api/tasks) -- see all available endpoints
+| Goal | Guide |
+|------|-------|
+| Accept payments on your website | [Checkout Integration →](/docs/checkout) |
+| Get notified when payments complete | [Webhooks →](/docs/webhooks) |
+| Go live with real payments | [Production Checklist →](/docs/production) |
+| Handle refunds and disputes | [Managing Payments →](/docs/managing) |
 
-## Troubleshooting
+## Common issues
 
-| Symptom | Cause | Fix |
-|---------|-------|-----|
-| 401 Unauthorized | Invalid or missing API key | Check your key at the [dashboard](https://dashboard.example.com/api-keys) |
-| Connection timeout | Network or firewall issue | Verify you can reach `api.example.com` on port 443 |
-| Module not found | SDK not installed | Re-run the install command from Step 1 |
+**"Invalid API key"** — Make sure you're using a test key (starts with `sk_test_`).
+Live keys (starting with `sk_live_`) only work after account verification.
+
+**"Module not found"** — Run `npm install @acme/payments` in your project directory.
+
+**Payment stuck in "pending"** — Test payments in sandbox don't auto-capture.
+Use `acme.payments.capture(payment.id)` or enable auto-capture in Dashboard settings.
+
+---
+
+Need help? [Join our Discord](https://discord.gg/acme) or [open a support ticket](https://acme.dev/support).
+```
+
+### Structure Rules for Getting Started Guides
+
+1. **Prerequisites** — exactly what they need, with install links
+2. **Copy-paste code** — working example, not pseudocode
+3. **Expected output** — show what success looks like
+4. **Next steps** — table of related guides based on goals
+5. **Troubleshooting** — top 3 issues new users hit
+
+## Key Points
+- Optimize for copy-paste-run: every code block should work if pasted directly (no `...` or `// your code here` placeholders)
+- Show expected output after every command so users can verify they're on track without waiting until the end
+- Put the "happy path" first, error handling second—don't front-load complexity before the user has seen success

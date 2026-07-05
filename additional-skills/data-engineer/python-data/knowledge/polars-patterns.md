@@ -1,183 +1,199 @@
+---
+type: fact
+title: "Polars Patterns"
+---
+
 # Polars Patterns
 
-Modern DataFrame library for Python/Rust. Lazy evaluation, multi-threaded, and memory-efficient.
+## Core Design
 
-## Core Concepts
+Polars is a DataFrame library written in Rust with Python bindings. Built for performance: columnar memory layout (Apache Arrow), multi-threaded execution, and query optimization through lazy evaluation.
 
-### Lazy vs Eager
+## Lazy vs Eager Evaluation
+
+### Eager Mode
+- Operations execute immediately, return results
+- Good for: exploration, small data, quick checks
+- `pl.read_csv()` returns a DataFrame (eager)
+
+### Lazy Mode
+- Operations build a logical plan, execute only on `.collect()`
+- Query optimizer: predicate pushdown, projection pushdown, join rewriting
+- Good for: production pipelines, large data, performance
+- `pl.scan_csv()` returns a LazyFrame
 
 ```python
 import polars as pl
 
-# Eager: executes immediately
-df = pl.read_csv("data.csv")
-result = df.filter(pl.col("amount") > 100).select("id", "amount")
-
-# Lazy: builds query plan, optimizes, then executes
+# Lazy: optimizer pushes filter before join, reads only needed columns
 result = (
-    pl.scan_csv("data.csv")
-    .filter(pl.col("amount") > 100)
-    .select("id", "amount")
+    pl.scan_parquet("orders/*.parquet")
+    .filter(pl.col("status") == "completed")
+    .join(
+        pl.scan_parquet("customers.parquet").select("id", "region"),
+        left_on="customer_id",
+        right_on="id",
+    )
+    .group_by("region")
+    .agg(pl.col("amount").sum().alias("total_revenue"))
+    .sort("total_revenue", descending=True)
     .collect()
 )
 ```
 
-**Always prefer lazy** (`scan_*` + `.collect()`). Benefits:
-- Predicate pushdown (filter before reading all columns)
-- Projection pushdown (read only needed columns)
-- Common subexpression elimination
-- Parallel execution across cores
+### When to Use Lazy
+- Always in production code
+- When data exceeds memory (streaming mode)
+- When joining multiple sources (optimizer shines)
+- When reading from Parquet/IPC (predicate pushdown to file reader)
 
-### Expressions
+## Expression API
 
-Expressions are the building blocks. They describe computations without executing them.
+### Philosophy
+- Expressions are the unit of computation (not row-level operations)
+- Composable: chain methods to build complex transformations
+- Vectorized: operates on entire columns, no Python loops
+
+### Common Patterns
 
 ```python
-df.select(
-    pl.col("revenue").sum().alias("total_revenue"),
-    pl.col("revenue").mean().alias("avg_revenue"),
-    (pl.col("revenue") / pl.col("cost")).alias("margin"),
-    pl.col("date").dt.year().alias("year"),
-    pl.when(pl.col("amount") > 1000)
-      .then(pl.lit("high"))
-      .otherwise(pl.lit("low"))
-      .alias("tier"),
+# Multiple aggregations in one pass
+df.group_by("category").agg(
+    pl.col("price").mean().alias("avg_price"),
+    pl.col("price").std().alias("std_price"),
+    pl.col("quantity").sum().alias("total_qty"),
+    pl.len().alias("order_count"),
 )
-```
 
-### Column Selection
-
-```python
-import polars.selectors as cs
-
-df.select(cs.numeric())
-df.select(cs.by_dtype(pl.Utf8))
-df.select(cs.starts_with("metric_"))
-df.select(cs.all() - cs.by_name("internal_id"))
-```
-
-## Common Operations
-
-### Groupby + Aggregation
-
-```python
-result = df.group_by("category", "region").agg(
-    pl.col("revenue").sum().alias("total_revenue"),
-    pl.col("revenue").mean().alias("avg_revenue"),
-    pl.col("order_id").n_unique().alias("unique_orders"),
-    pl.col("amount").quantile(0.95).alias("p95_amount"),
-    pl.col("is_returned").mean().alias("return_rate"),
-)
-```
-
-### Window Functions
-
-```python
+# Window functions (over groups without collapsing)
 df.with_columns(
-    pl.col("revenue")
-      .sum()
-      .over("category")
-      .alias("category_total"),
-    pl.col("revenue")
-      .rank(method="dense", descending=True)
-      .over("category")
-      .alias("rank_in_category"),
     pl.col("amount")
-      .rolling_mean(window_size=7)
-      .over("user_id")
-      .alias("rolling_7d_avg"),
-)
-```
-
-### Joins
-
-```python
-result = orders.join(
-    customers,
-    on="customer_id",
-    how="left",
-    suffix="_customer",
+    .sum()
+    .over("customer_id")
+    .alias("customer_total"),
+    pl.col("amount")
+    .rank()
+    .over("category")
+    .alias("rank_in_category"),
 )
 
-# Asof join for time-series alignment
-result = trades.join_asof(
-    quotes,
-    on="timestamp",
-    by="ticker",
-    strategy="backward",
-    tolerance="5s",
-)
-```
-
-### String Operations
-
-```python
+# Conditional expressions
 df.with_columns(
-    pl.col("email").str.to_lowercase().alias("email_lower"),
+    pl.when(pl.col("age") < 18)
+    .then(pl.lit("minor"))
+    .when(pl.col("age") < 65)
+    .then(pl.lit("adult"))
+    .otherwise(pl.lit("senior"))
+    .alias("age_group")
+)
+
+# String operations
+df.with_columns(
+    pl.col("email").str.to_lowercase().alias("email_clean"),
     pl.col("name").str.split(" ").list.first().alias("first_name"),
-    pl.col("url").str.extract(r"https?://([^/]+)", 1).alias("domain"),
 )
-```
 
-### Temporal Operations
-
-```python
+# Struct and nested data
 df.with_columns(
-    pl.col("timestamp").dt.date().alias("date"),
-    pl.col("timestamp").dt.hour().alias("hour"),
-    pl.col("timestamp").dt.truncate("1h").alias("hour_bucket"),
-    (pl.col("end_time") - pl.col("start_time")).dt.total_seconds().alias("duration_s"),
-)
-
-# Group by dynamic time windows
-df.group_by_dynamic("timestamp", every="1h", period="2h").agg(
-    pl.col("value").mean().alias("avg_value"),
+    pl.struct(["city", "state", "zip"]).alias("address"),
 )
 ```
 
-## I/O Patterns
-
+### Expression Reuse
 ```python
-# Parquet (best for analytics)
-df = pl.scan_parquet("data/*.parquet")
-df.collect().write_parquet("output.parquet", compression="zstd")
+# Define reusable expressions
+revenue = pl.col("price") * pl.col("quantity")
+is_high_value = revenue > 1000
 
-# CSV with schema override
-df = pl.scan_csv("data.csv", dtypes={"id": pl.UInt32, "amount": pl.Float64})
-
-# Delta Lake
-df = pl.scan_delta("s3://bucket/table/")
-
-# Multiple files with hive partitioning
-df = pl.scan_parquet("data/**/*.parquet", hive_partitioning=True)
+df.with_columns(
+    revenue.alias("revenue"),
+    is_high_value.alias("is_high_value"),
+).filter(is_high_value)
 ```
 
-## Performance Tips
+## Streaming Mode
 
-1. **Use lazy mode**: always `scan_*` -> transform -> `.collect()`
-2. **Avoid Python UDFs**: use expressions instead; they run in Rust/parallel
-3. **Predicate pushdown**: filter early to reduce data volume
-4. **Streaming mode**: `.collect(streaming=True)` for data larger than RAM
-5. **Rechunk after joins**: `.rechunk()` consolidates fragmented memory
-6. **Use categoricals**: `pl.Categorical` for low-cardinality string columns
-7. **Sink to Parquet**: `.sink_parquet()` for out-of-core processing in lazy mode
+### When to Use
+- Data exceeds available RAM
+- Processing large Parquet datasets incrementally
+- Batch processing where full materialization is unnecessary
 
-## vs Pandas
+### How It Works
+```python
+# Process in chunks, never load full dataset
+result = (
+    pl.scan_parquet("huge_dataset/**/*.parquet")
+    .filter(pl.col("date") >= "2024-01-01")
+    .group_by("category")
+    .agg(pl.col("amount").sum())
+    .collect(streaming=True)
+)
+```
 
-| Operation | Pandas | Polars |
-|-----------|--------|--------|
-| Read CSV | `pd.read_csv()` | `pl.scan_csv().collect()` |
-| Filter | `df[df["x"] > 5]` | `df.filter(pl.col("x") > 5)` |
-| Groupby | `df.groupby("x").agg(...)` | `df.group_by("x").agg(...)` |
-| Apply | `df["x"].apply(fn)` | `df.with_columns(pl.col("x").map_elements(fn))` |
-| Memory | Single-threaded, copies | Multi-threaded, zero-copy |
-| Nulls | NaN/None confusion | First-class null handling |
-| Strings | Object dtype (slow) | Apache Arrow UTF-8 (fast) |
+### Limitations
+- Not all operations support streaming (some need full data: sorts, some joins)
+- Some aggregations require seeing all groups (handled via partial aggregation)
+- Check `.explain(streaming=True)` to verify streaming plan
 
-## Anti-Patterns
+## Performance vs Pandas
 
-- Using `.apply()` or `.map_elements()` when an expression exists
-- Collecting lazy frames too early (breaks optimization)
-- Iterating rows with `for row in df.iter_rows()` -- vectorize instead
-- Using pandas interop (`.to_pandas()`) in hot paths
-- Not specifying dtypes on CSV reads (inference is expensive)
+### Why Polars Is Faster
+- Rust core: no GIL, true parallelism across CPU cores
+- Apache Arrow memory: cache-friendly columnar layout, zero-copy operations
+- Query optimizer: eliminates unnecessary work before execution
+- No index: avoids index alignment overhead on every operation
+- Lazy evaluation: fuses operations, reduces intermediate allocations
+
+### Migration Patterns
+
+| Pandas | Polars |
+|--------|--------|
+| `df[df['x'] > 5]` | `df.filter(pl.col("x") > 5)` |
+| `df.groupby('a').agg({'b': 'sum'})` | `df.group_by("a").agg(pl.col("b").sum())` |
+| `df.apply(fn, axis=1)` | `df.with_columns(expression)` or `df.map_rows(fn)` |
+| `pd.merge(df1, df2, on='id')` | `df1.join(df2, on="id")` |
+| `df.fillna(0)` | `df.with_columns(pl.col("x").fill_null(0))` |
+| `df.sort_values('x')` | `df.sort("x")` |
+
+### When Pandas Still Makes Sense
+- Ecosystem integration (scikit-learn, matplotlib expect pandas)
+- Small data where performance doesn't matter
+- Team familiarity and existing codebase
+- Use `.to_pandas()` at boundaries when needed
+
+## Production Patterns
+
+### Schema Enforcement
+```python
+# Define expected schema
+schema = {
+    "order_id": pl.Utf8,
+    "amount": pl.Float64,
+    "created_at": pl.Datetime("us"),
+    "status": pl.Categorical,
+}
+
+df = pl.read_parquet("data.parquet").cast(schema)
+```
+
+### Error Handling
+```python
+# Validate before processing
+def validate_dataframe(df: pl.DataFrame) -> pl.DataFrame:
+    assert df.height > 0, "Empty dataframe"
+    null_pct = df.null_count() / df.height
+    high_null_cols = [
+        col for col, pct in zip(df.columns, null_pct.row(0))
+        if pct > 0.5
+    ]
+    if high_null_cols:
+        raise ValueError(f"High null rate in: {high_null_cols}")
+    return df
+```
+
+### Memory Management
+- Use `pl.scan_*` (lazy) to avoid loading full datasets
+- `.collect(streaming=True)` for out-of-core processing
+- `.sink_parquet()` writes lazy results directly to disk
+- Prefer `pl.Categorical` for low-cardinality string columns (saves memory)
+- `.rechunk()` after many filter/concat operations (consolidates memory)

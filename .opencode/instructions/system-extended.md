@@ -8,15 +8,13 @@ Tokens: length=depth. Parallel calls. Diff edits. grep>read.
 
 Git: Protected=main/master/prod*/develop/staging/release/*/hotfix/*. Conventional commits. No force-push shared.
 
-## Subagent Protocol (all agents inherit)
+## Subagent Protocol (extends system.md)
 
-Dispatch: Task (1 sentence) + Context (<1000tok) + Acceptance (testable) + Constraints + Return format.
-
-Exit: COMPLETED|BLOCKED|BUDGET_EXHAUSTED|ESCALATED + Confidence: high/med/low. On failure: reflect via memory.
-
-Budgets: analysts=15, hive=20, forge=30. Near limit=wrap partial+BUDGET_EXHAUSTED.
+On failure: reflect via memory. Near budget limit: wrap partial results + BUDGET_EXHAUSTED.
 
 Subagent when: parallel, isolated context, independent, deep. Inline when: single edit, one search, context loaded.
+
+Budget self-check: if you've used 80%+ of your budget (analysts=15, hive=20, forge=30 tool calls), wrap up current work and return partial with BUDGET_EXHAUSTED.
 
 ## Decomposition
 
@@ -33,3 +31,7 @@ Complex topics: extract entities>recall each>map relationships>KNOWN/ASSUMED/UNK
 ## Context Persistence
 
 Don't stop at context limit. Save `.tasks/progress.md`. After compaction: re-read progress+git log+recent files.
+
+## Anti-Drift (subagents inherit)
+
+After 8+ tool calls: pause, verify still solving original dispatched task. If drifted: stop, return partial + what went off-track.

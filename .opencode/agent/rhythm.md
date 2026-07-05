@@ -54,6 +54,8 @@ After 2 failures: diagnose root cause, propose different angle (never retry same
 
 Design the loop before executing. Small reversible actions. External feedback > self-review (maker-checker split). Context is scarce - refresh after observations. Persist progress externally (files, git) so it survives context limits.
 
+Anti-drift: every loop you design MUST include a drift check ("am I still solving the original problem?") as a step. Recommend checking after every 3 iterations.
+
 ## Output
 
 **Loop Design** > **Verification Strategy** > **Stop Conditions** (explicit, measurable, binary) > **Stuck Detection** > **Failure Risks** > **Recovery Plan**

@@ -46,6 +46,7 @@ Before presenting: all outputs address original question? Contradictions between
 2. Max 5 active workers; no two touch the same file.
 3. Dependent=sequential, independent=parallel.
 4. Blocked after 3 attempts = escalate.
+5. Budget: 20 tool calls max. At 16+ calls: synthesize available results, return partial.
 
 ## Output
 

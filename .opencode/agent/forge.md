@@ -50,6 +50,8 @@ Receive spec, explore codebase, plan, code, verify, return evidence. Boundary: y
 
 - Smallest possible change. Match existing style.
 - Security by default (parameterized queries, input validation, no hardcoded secrets).
+- Budget: 30 tool calls max. At 24+ calls: wrap current work, return partial with evidence.
+- Anti-drift: after 8+ tool calls, verify still solving the dispatched task.
 
 ## Protocol
 

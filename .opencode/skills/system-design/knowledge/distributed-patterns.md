@@ -382,3 +382,66 @@ Some operations are naturally idempotent:
 ```
 
 Lock prevents race conditions when parallel retries arrive simultaneously.
+
+## WebAssembly on Kubernetes
+
+Running Wasm workloads alongside containers on Kubernetes for fast cold-start, sandboxed execution.
+
+### Core Components
+
+- **SpinKube**: Kubernetes operator that schedules Wasm apps as pods using Spin runtime
+- **containerd-shim-spin**: containerd shim that runs Wasm modules directly, no container image layers needed
+- **WASI 0.2**: stable component model with typed interfaces (wasi:http, wasi:keyvalue, wasi:messaging)
+
+### When to Use
+
+- Sub-millisecond cold starts (vs seconds for containers)
+- Lightweight functions/microservices with strict sandboxing
+- Edge computing where container overhead is too high
+- Multi-tenant execution with capability-based security (no filesystem/network unless granted)
+
+### Deployment Pattern
+
+```yaml
+# SpinKube: deploy a Wasm app as a SpinApp custom resource
+apiVersion: core.spinoperator.dev/v1alpha1
+kind: SpinApp
+metadata:
+  name: my-wasm-service
+spec:
+  image: ghcr.io/myorg/my-wasm-app:v1
+  replicas: 3
+  executor: containerd-shim-spin
+```
+
+### Tradeoffs
+
+- Limited language support (Rust, Go, JS/TS via wasm-compatible toolchains)
+- No raw socket/thread access (WASI capability model)
+- Ecosystem still maturing -- fewer debugging tools than containers
+- Best paired with containers, not as full replacement
+
+## AI Infrastructure Patterns
+
+Patterns for running inference workloads at scale on Kubernetes.
+
+### GPU Scheduling
+
+- Use `nvidia.com/gpu` resource requests for deterministic scheduling
+- Time-slicing (MIG on A100/H100) for smaller models sharing a GPU
+- Node affinity/taints to isolate GPU nodes from general workloads
+- Karpenter/cluster-autoscaler with GPU-aware provisioning for burst inference
+
+### Inference Routing
+
+- Model-aware load balancing: route by model ID, version, and input size
+- Canary deployments: shift traffic gradually between model versions
+- Queue-based routing: buffer requests during scale-up (KEDA + message queue)
+- Locality-aware routing: prefer nodes where model weights are already cached
+
+### Model Caching
+
+- Host-path or DaemonSet pre-pull: large model files (10-100GB+) cached on node disk
+- Shared PVC (ReadOnlyMany): single copy of model weights across replicas
+- Object storage with FUSE mount: lazy-load layers on demand
+- KV cache offloading to host memory or NVMe for long-context inference

@@ -1,6 +1,6 @@
 ---
 name: typescript-expert
-description: TypeScript 5.9+: strict-first, type-safety, Node 24+/ESM
+description: TypeScript 5.9/7.0+: strict-first, type-safety, Node 24+/ESM
 ---
 
 # TypeScript Expert
@@ -72,7 +72,7 @@ Read `tsconfig.json`. If `strict` missing/false or `skipLibCheck` hides errors, 
 
 ## AI-Era Context (2026)
 
-TypeScript = #1 language on GitHub (overtook Python+JS). AI coding assistants produce BETTER TS than any other language due to training corpus. 80%+ new projects use TS. TypeScript compiler being rewritten in Go (10x faster). This is THE frontend+fullstack language. React, Next.js, tRPC, Svelte, Vue -- all TS-first.
+TypeScript = #1 language on GitHub (overtook Python+JS). AI coding assistants produce BETTER TS than any other language due to training corpus. 80%+ new projects use TS. TypeScript compiler being rewritten in Go (10x faster). TS 7.0 (tsc-go) is now in RC as of mid-2026 -- native-speed type checking and emit. This is THE frontend+fullstack language. React, Next.js, tRPC, Svelte, Vue -- all TS-first.
 
 ## Related Skills
 

@@ -93,7 +93,7 @@ Better tracebacks with more context:
 - Paste mode that handles indentation
 - Help and exit without parentheses
 
-## Python 3.14 Key Features (Preview)
+## Python 3.14 Key Features
 
 ### Deferred Evaluation of Annotations (PEP 649)
 

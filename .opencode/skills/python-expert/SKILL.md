@@ -1,6 +1,6 @@
 ---
 name: python-expert
-description: "Python 3.13+: AI/ML, async, type-safe, production-grade"
+description: "Python 3.14+: AI/ML, async, type-safe, production-grade"
 ---
 
 # Python Expert

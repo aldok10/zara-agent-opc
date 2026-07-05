@@ -45,6 +45,7 @@ If on a protected branch: STOP, create feature branch `git checkout -b <type>/<d
 4. `git reflog` is the safety net; almost nothing is truly lost.
 5. New branches: `git push -u origin <branch>`.
 6. `--force-with-lease` only on your own feature branches, never protected.
+7. Signed commits (GPG or SSH) for all releases and protected branches.
 
 ## DO NOT
 

@@ -215,3 +215,24 @@ npm ci                    # Node.js
 pip install --require-hashes -r requirements.txt  # Python
 go mod verify             # Go
 ```
+
+## Real-World Incidents
+
+### xz-utils (2024)
+
+Attacker ("Jia Tan") spent 2+ years gaining trust as co-maintainer of xz compression library. Injected a backdoor into the build system (not source) that targeted OpenSSH via systemd. Caught by a Postgres developer noticing 500ms SSH latency. Lesson: review maintainer changes over time, not just code diffs. Build artifacts must be reproducible and auditable.
+
+### SolarWinds (2020)
+
+Attackers compromised the CI/CD pipeline for SolarWinds Orion. Malicious code was injected during build, producing signed updates distributed to 18,000+ organizations including US government agencies. Lesson: build system integrity is as critical as source code. SLSA Level 3+ would have detected the tampering.
+
+### event-stream (2018)
+
+Maintainer of popular npm package (2M weekly downloads) handed ownership to a stranger who added a targeted dependency (`flatmap-stream`) that stole cryptocurrency wallet keys. Lesson: monitor ownership transfers, audit transitive dependencies, scope the blast radius of any single maintainer.
+
+### Key Takeaways
+
+- Social engineering of maintainers is a viable long-term attack vector
+- Signed builds only prove who built it, not that the build was clean
+- Pin dependencies, verify provenance, generate SBOMs for every release
+- Treat CI/CD pipelines with the same security posture as production

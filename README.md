@@ -102,7 +102,7 @@ Zara: Morning! Yesterday you were working on that auth refactor.
 - **Pluggable Vector Backend** — SQLite by default, or scale out to **ChromaDB** for large-corpus semantic search (details below)
 - **Self-Improving** — outcome-weighted reflection grounded in real test results, autonomous self-audit, micro-tool crystallization
 - **Knowledge-Grounded** — 300+ indexed articles covering architecture, patterns, antipatterns, laws, DDD, security, and testing
-- **Skill-Gated Methodology** — 13 on-demand skill families (with subskills) enforcing TDD, systematic debugging, and verification before completion
+- **Skill-Gated Methodology** — 16 core skills + 122 additional domain expert skills (with 358 subskills) enforcing TDD, systematic debugging, and verification before completion
 - **Empathetic Leadership DNA** — situational leadership (D1-D4), Radical Candor, reads your emotional signal and calibrates tone
 - **Privacy-Aware** — secrets and PII detection, destructive-op guards, protected-branch enforcement, a ratified safety constitution
 - **Zero Required Dependencies** — the MCP server runs on Node.js stdlib alone; embeddings and Chroma are optional add-ons
@@ -301,14 +301,86 @@ zara-agent-opc/
 ├── .opencode/
 │   ├── agent/                    # 14 agent prompt files (11 subagents + 2 primary + compaction)
 │   ├── plugin/zara/              # 13 plugin modules
-│   ├── skills/                   # 13 skill families with subskills
+│   ├── skills/                   # Core skills (always available, 16 skill families)
 │   └── instructions/             # System instructions (2 files)
+├── additional-skills/            # 122 domain expert skills (loaded on demand)
+│   ├── backend/                  # 19 skills (Go, Python, Java, Rust, APIs, DBs, caching...)
+│   ├── sre/                      # 18 skills (AWS, GCP, Azure, K8s, Terraform, CI/CD...)
+│   ├── frontend/                 # 14 skills (React, Vue, Angular, Svelte, TypeScript...)
+│   ├── qa-engineer/              # 13 skills (Playwright, k6, mutation, chaos...)
+│   ├── pm/                       # 13 skills (agile, OKR, roadmap, Linear, Jira...)
+│   ├── security/                 # 10 skills (AppSec, crypto, compliance, pentest...)
+│   ├── data-engineer/            # 10 skills (SQL, Spark, Kafka, dbt, pipelines...)
+│   ├── technical-writer/         # 9 skills (API docs, ADR, diagrams, style guide...)
+│   ├── business-analyst/         # 8 skills (requirements, DDD, fintech regulations...)
+│   ├── mobile/                   # 6 skills (Flutter, RN, iOS, Android, cross-platform)
+│   ├── engineering-manager/      # 1 skill (hiring, 1:1s, team topology, performance)
+│   └── mlops/                    # 1 skill (model serving, experiments, drift detection)
 ├── knowledge/                    # 307 indexed articles (architecture, patterns, DDD, security)
 ├── docs/                         # 12 documentation files
 ├── tests/                        # 56 test files (node:test)
 ├── scripts/                      # Installers, Chroma backfill, CI helpers
 └── package.json                  # v1.3.0, ESM, Node >=22.14
 ```
+
+## Additional Skills (Domain Experts)
+
+The `additional-skills/` directory contains 122 domain expert skills loaded on demand. Each skill follows the [OKF specification](https://agentskills.io/specification) with progressive disclosure:
+
+```
+{skill-name}/
+  SKILL.md          # Agent instructions (80-100 lines, frontmatter + structured sections)
+  subskills/        # Focused topic files (3-5 per skill, 60-100 lines each)
+  knowledge/        # Deep reference material (100-150 lines each)
+  examples/         # Working code, configs, templates
+  tools/            # LLM prompts, scripts, checklists for reducing agent workload
+```
+
+**Stats:** 122 SKILL.md files, 358 subskills, 290 knowledge files, 230 examples, 99 tool prompts.
+
+### Using Additional Skills in Other Projects
+
+Add to your project's `opencode.json`:
+
+```json
+{
+  "skills": {
+    "paths": [
+      "~/.config/opencode/zara/skills",
+      "/path/to/zara-agent-opc/additional-skills"
+    ]
+  }
+}
+```
+
+Skills are activated automatically when the agent's task matches a skill's `description` field. No manual invocation needed.
+
+### Domain Coverage
+
+| Domain | Skills | Key Topics |
+|--------|--------|------------|
+| **Backend** | 19 | Go, Python, Java, Rust, Elixir, .NET, PHP, Node.js, APIs (REST/GraphQL/gRPC), databases, caching, auth, message queues, microservices, design patterns, search engines, serverless |
+| **SRE** | 18 | AWS, GCP, Azure, Kubernetes, Docker, Terraform, CI/CD (GitHub Actions, Dagger), GitOps (ArgoCD/Flux), observability (OTel/Grafana), incident response, networking, Linux, platform engineering, cost optimization, configuration management, web servers |
+| **Frontend** | 14 | React 19, Next.js 16, Vue 3.5, Angular 22, Svelte 5, TypeScript 5.5, CSS (container queries, layers), accessibility (WCAG 2.2), performance (CWV), state management, build tools (Vite 6), design systems, testing |
+| **QA Engineer** | 13 | Playwright, Cypress, API testing (contract/schema), performance (k6), security testing (SAST/DAST), chaos engineering, mutation testing, visual regression, accessibility testing, mobile testing, code review |
+| **PM** | 13 | Agile (Scrum/Kanban), OKRs, roadmapping, estimation (Monte Carlo), release management, retrospectives, Linear, Jira, stakeholder communication, team health (DORA), product discovery, technical debt |
+| **Security** | 10 | AppSec (OWASP 2025), threat modeling (STRIDE), penetration testing, cryptography (PKI, KMS), compliance (SOC2, GDPR, PCI-DSS), cloud security (CSPM), identity/access (OAuth 2.1, passkeys), incident forensics, secure coding |
+| **Data Engineer** | 10 | SQL (PostgreSQL, window functions), Python data (Polars, DuckDB), pipelines (ELT, CDC), data modeling (dbt, data vault), streaming (Kafka, Flink), orchestration (Dagster, Airflow), warehouse (BigQuery, Snowflake), data quality, big data (Spark, Iceberg) |
+| **Technical Writer** | 9 | API docs (OpenAPI 3.1), architecture docs (C4, ADR), changelogs, developer portals, diagrams (Mermaid, D2), runbooks, style guides, user docs, AI-friendly documentation (OKF, llms.txt, AGENTS.md) |
+| **Business Analyst** | 8 | Requirements engineering, user stories (INVEST), acceptance criteria (BDD), domain modeling (DDD, event storming), process modeling (BPMN), stakeholder analysis, data analysis (ERD, DFD), fintech regulations (OJK, PBI, GDPR, PSD2) |
+| **Mobile** | 6 | Flutter 3.24 (Riverpod, Impeller), React Native (New Architecture, Expo 52), iOS Swift 6 (SwiftUI, TCA), Android Kotlin 2.0 (Compose, Hilt), cross-platform strategy (KMP) |
+| **Engineering Manager** | 1 | 1:1s, hiring, performance management, team topologies |
+| **MLOps** | 1 | Model serving, experiment tracking (MLflow), feature stores, drift detection |
+
+### Creating New Skills
+
+Use the built-in `skill-creator` skill:
+
+```
+Create a new skill for [topic]
+```
+
+The skill-creator handles scaffolding, benchmarks against skills.sh/agentskills.io, and applies loop engineering (Gather > Draft > Verify > Refine) with multi-agent delegation.
 
 ## Documentation
 

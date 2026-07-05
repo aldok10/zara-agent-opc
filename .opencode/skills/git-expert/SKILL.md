@@ -26,6 +26,10 @@ Load the matching subskill for specialized work; otherwise handle inline with th
 | Writing commit messages (Conventional Commits format) | `subskills/commits.md` |
 | Branch strategy, finishing work, merge/PR/discard integration | `subskills/branching.md` |
 | Learning patterns from a GitHub repo (GitReverse) | `subskills/learn-from-repo.md` |
+| Versioning, tagging, releases, semver, changelog | `subskills/versioning.md` |
+| bisect, filter-repo, submodules, hooks, LFS, stash | `subskills/advanced-operations.md` |
+| PR, code review, CODEOWNERS, branch protection, GitHub CLI | `subskills/github-workflows.md` |
+| GPG signing, secrets, Dependabot, credential management | `subskills/security.md` |
 
 ## Protected Branch Guard (mandatory)
 

@@ -77,6 +77,16 @@ Read the error message completely: every word, line number, stack frame. Do not 
 | Writing regression test | `tdd` |
 | Code review after fix | `code-review` |
 
+## AI-Era Context
+
+Most code in 2026 is AI-generated, changing debugging dynamics:
+- AI-generated bugs look syntactically correct but have subtle logic errors (off-by-one, wrong boundary conditions, missing edge cases)
+- AI-generated code passes superficial review - deeper inspection needed at behavior boundaries
+- Use AI as debugging partner: hypothesis generation, log analysis, stack trace interpretation
+- Debugging AI systems themselves: non-deterministic outputs, prompt sensitivity, model version drift, hallucination detection
+- Structured debugging is MORE critical now - AI makes "try random things" tempting but counterproductive
+- Reproduction is harder for AI-related bugs (non-deterministic, context-dependent, model-version-specific)
+
 ## Knowledge
 
 - knowledge/four-phase-process.md

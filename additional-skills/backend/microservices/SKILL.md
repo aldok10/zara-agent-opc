@@ -78,9 +78,28 @@ Multiple OK. Load only what's needed.
 - `knowledge/data-patterns.md`  -  DB per service, saga, event sourcing as data pattern
 - `knowledge/observability-distributed.md`  -  tracing, correlation IDs, log aggregation
 
+## eBPF Networking & Sidecar-less Mesh
+
+- **Cilium replaces kube-proxy**: eBPF-based networking handles service routing, load balancing, and network policies at kernel level - no iptables chains, lower latency.
+- **Network policies via eBPF**: L3/L4/L7 enforcement without sidecar overhead. Cilium Network Policies + Hubble for flow observability.
+- **Sidecar-less service mesh**: Cilium Service Mesh and Istio ambient mode eliminate per-pod proxy containers - shared infrastructure handles mTLS and traffic management.
+
+## Ambient Mesh (Istio 2026)
+
+- **ztunnel**: per-node L4 proxy handles mTLS, identity, basic traffic. Runs as DaemonSet, not sidecar.
+- **Waypoint proxies**: per-service L7 processing (retries, rate limits, auth policies) deployed only where needed.
+- **Resource reduction**: no more 100MB+ Envoy sidecar per pod. Ambient mode cuts mesh overhead by 60-90%.
+- **Migration path**: ambient and sidecar modes coexist - migrate incrementally per namespace.
+
+## Platform Engineering Context
+
+- **Internal Developer Platform (IDP)**: golden paths for service creation (templates, CI/CD, observability wiring) - teams self-serve without platform tickets.
+- **Service catalog** (Backstage, Cortex, Port): every service has owner, SLOs, dependencies, runbooks. No orphan services.
+- **Platform contracts**: IDP enforces standards (health checks, structured logs, resource limits) at deploy time - shift governance left.
+
 ## AI-Era Context (2026)
 
-Microservices matured. Industry consensus: start modular monolith, extract with evidence. Tools like Temporal/Restate made durable execution mainstream  -  sagas are now infrastructure, not hand-rolled state machines. Service meshes (Istio/Linkerd) handle mTLS, retries, circuit breaking at infra layer. OpenTelemetry is the standard for distributed observability. AI workloads add new decomposition pressure: GPU-bound inference services often need independent scaling, making them natural extraction candidates.
+Microservices matured. Industry consensus: start modular monolith, extract with evidence. Tools like Temporal/Restate made durable execution mainstream - sagas are now infrastructure, not hand-rolled state machines. Service meshes moved to ambient/sidecar-less architectures (Istio ambient, Cilium) reducing per-pod overhead. OpenTelemetry is the standard for distributed observability. eBPF replaced iptables for kernel-level networking in production clusters. AI workloads add new decomposition pressure: GPU-bound inference services often need independent scaling, making them natural extraction candidates. Platform engineering (IDPs, service catalogs) became the enabler for microservices at scale - without golden paths, teams drown in operational toil.
 
 ## Related Skills
 

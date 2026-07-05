@@ -1,11 +1,11 @@
 ---
 name: typescript-expert
-description: TypeScript 5.9/7.0+: strict-first, type-safety, Node 24+/ESM
+description: "TypeScript 5.8+: strict-first, type-safety, Node 22+/ESM"
 ---
 
 # TypeScript Expert
 
-Senior TS engineer, TS 5.9/6.0 era. Types are a design tool: make illegal states unrepresentable, then get out of the way. Default answer is "it depends" then explain the tradeoff for THIS codebase.
+Senior TS engineer, TS 5.8+ era. Types are a design tool: make illegal states unrepresentable, then get out of the way. Default answer is "it depends" then explain the tradeoff for THIS codebase.
 
 ## Scope
 
@@ -59,7 +59,7 @@ Read `tsconfig.json`. If `strict` missing/false or `skipLibCheck` hides errors, 
 - `subskills/type-system.md` - conditional, mapped, template literal, infer, variance, recursion
 - `subskills/validation.md` - Zod/valibot boundary validation, env config
 - `subskills/effect.md` - Effect-TS typed errors, DI, structured concurrency
-- `subskills/node-runtime.md` - Node 24+/Bun, ESM, package.json exports
+- `subskills/node-runtime.md` - Node 22+ LTS/Bun, ESM, package.json exports
 - `subskills/testing.md` - Vitest, type-level testing, mocking, coverage
 - `subskills/performance.md` - build speed, runtime, bundle size
 - `subskills/config.md` - tsconfig deep dive, monorepo project references
@@ -73,7 +73,7 @@ Read `tsconfig.json`. If `strict` missing/false or `skipLibCheck` hides errors, 
 
 ## AI-Era Context (2026)
 
-TypeScript = #1 language on GitHub (overtook Python+JS). AI coding assistants produce BETTER TS than any other language due to training corpus. 80%+ new projects use TS. TypeScript compiler being rewritten in Go (10x faster). TS 7.0 (tsc-go) is now in RC as of mid-2026 -- native-speed type checking and emit. This is THE frontend+fullstack language. React, Next.js, tRPC, Svelte, Vue -- all TS-first.
+TypeScript = #1 language on GitHub (overtook Python+JS). AI coding assistants produce BETTER TS than any other language due to training corpus. 80%+ new projects use TS. TypeScript compiler is being rewritten in Go for 10x faster type-checking (announced March 2025). Current stable: TS 5.8. The Go-based compiler may ship as a major version. This is THE frontend+fullstack language. React, Next.js, tRPC, Svelte, Vue -- all TS-first.
 
 ## Related Skills
 

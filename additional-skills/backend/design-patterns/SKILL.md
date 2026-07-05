@@ -29,6 +29,11 @@ Identify the problem being solved before choosing a pattern. Read the existing c
 12. Keep inheritance depth to max 2 levels
 13. Interface segregation -- small, focused interfaces
 14. Open/Closed via composition and strategy, not class hierarchies
+15. Railway/Result pattern for error handling without exceptions (map success/failure pipelines)
+16. Effect pattern (algebraic effects) for isolating side effects from pure logic
+17. Event modeling pipeline: Event Storming -> Event Sourcing -> CQRS as design discovery tool
+18. Actor pattern (Akka/Pekko, Elixir GenServer, Cloudflare Durable Objects) for stateful concurrency
+19. Flag AI anti-patterns: over-abstraction (too many interfaces), unnecessary DI layers, pattern-stuffing (applying patterns because AI suggests them, not because the problem demands it)
 
 ## DO NOT
 
@@ -71,6 +76,8 @@ Identify the problem being solved before choosing a pattern. Read the existing c
 ## AI-Era Context (2026)
 
 LLMs tend to over-apply patterns and create unnecessary abstraction layers. Push back when generated code introduces a pattern without clear justification. AI-generated domain models often produce anemic objects -- ensure behavior lives with data. When using AI for refactoring, validate that the pattern preserves existing behavior through tests before and after.
+
+AI generates pattern-heavy code by default. Push back on unnecessary abstraction. Ask: does this pattern solve a REAL problem here, or was it applied by habit?
 
 ## Related Skills
 

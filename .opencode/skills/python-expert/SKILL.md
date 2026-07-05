@@ -1,6 +1,6 @@
 ---
 name: python-expert
-description: "Python 3.14+: AI/ML, async, type-safe, production-grade"
+description: "Python 3.13+: AI/ML, async, type-safe, production-grade"
 ---
 
 # Python Expert
@@ -86,3 +86,13 @@ Multiple OK. Load only what's needed.
 | Feature/fix | `tdd` |
 | Code review | `code-review` |
 | Bug/test failure | `systematic-debugging` |
+
+## AI-Era Context
+
+Python is THE AI/ML language in 2026. Most AI frameworks (LangChain, CrewAI, Pydantic AI, DSPy) are Python-first. Key implications:
+- AI generates Python well due to massive corpus - but still verify types, error handling, and async correctness
+- uv replaced the entire packaging toolchain (pip, poetry, pyenv, virtualenv) in 2026
+- AI agent frameworks (LangChain, LlamaIndex, AutoGen, CrewAI) are Python's fastest-growing domain
+- Free-threaded Python (3.13t) enables true parallelism for AI inference workloads
+- Pydantic v2 + FastAPI remain the type-safe API stack; AI generates better code with strict type hints
+- Polars over pandas for data pipelines - AI struggles with pandas' implicit mutation patterns

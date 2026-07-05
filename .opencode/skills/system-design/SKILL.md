@@ -112,6 +112,12 @@ Multiple OK. Load only what's needed.
 
 - FinOps FOCUS spec (standardized billing data format across clouds)
 - Platform maturity model (Level 1: scripts, Level 2: templates, Level 3: self-service, Level 4: optimized)
+- LLM serving infrastructure: vLLM, TensorRT-LLM, GPU scheduling (fractional GPUs, MIG), model routing/load balancing
+- Vector databases as infrastructure primitive: Qdrant, Weaviate, Milvus, pgvector -- not just search, but core data layer for RAG
+- AI workload patterns: bursty inference (autoscale 0-to-N), batch training jobs, embedding pipelines, token-based cost modeling
+- AI-native cost modeling: token costs dominate, GPU-hours replace CPU-hours, inference caching ROI
+- RAG infrastructure: chunking pipelines, embedding services, retrieval layer, reranking -- new architectural tier
+- Model gateway pattern: single entry point for multiple LLM providers, fallback chains, rate limiting, cost tracking
 
 ## Related Skills
 

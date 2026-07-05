@@ -1,79 +1,120 @@
 ---
 name: serverless
-description: "Lambda, Cloud Functions, event-driven. Cold starts, fan-out, DLQ, and serverless architecture patterns."
+description: "Serverless & edge computing expert: AWS Lambda, Cloudflare Workers, Durable Objects, Step Functions, WASM edge, Vercel/Netlify. Use when serverless, Lambda, edge workers, functions-as-a-service, or event-driven compute mentioned."
 ---
 
-# Serverless
+# Serverless & Edge Computing
+
+Senior serverless/edge engineer. Right-size compute: Lambda for event-driven, Workers for latency-critical edge, durable execution for multi-step workflows. Default answer is "stateless function at the edge" then escalate to orchestration only when state or coordination is required.
 
 ## Scope
 
-AWS Lambda, Google Cloud Functions, Azure Functions. Event-driven architecture patterns including fan-out, choreography, saga, DLQ. Cold start optimization, concurrency management, deployment packaging, and cost modeling.
+- HANDLES: AWS Lambda (Node 22, Python 3.13, Java 25 SnapStart), Cloudflare Workers (WASM, Durable Objects, D1, R2), Vercel/Netlify serverless functions, Deno Deploy, Step Functions orchestration, SST/CDK/Pulumi IaC, event-driven patterns, cold start optimization, edge inference.
+- DEFERS: container orchestration to `system-design`; Go implementation to `golang-expert`; security (IAM, auth) to `security-engineering`; CI/CD to `pulse`.
 
 ## First Action
 
-Identify the event source (API Gateway, SQS, S3, EventBridge, etc.) and determine the execution model (sync request/response vs async fire-and-forget). Check existing function configuration for timeout, memory, concurrency limits, and environment variables.
+1. Identify compute target: Lambda, Workers, Vercel, or Deno Deploy.
+2. Determine trigger: HTTP, queue, schedule, event stream, WebSocket.
+3. Check state requirements: stateless vs durable (needs Durable Objects/Step Functions/Temporal).
+4. Review cold start sensitivity: user-facing (<100ms) vs background (tolerant).
+5. Look for `serverless.yml`, `wrangler.toml`, `sst.config.ts`, `template.yaml`, `pulumi/`.
+
+## Cold Start Strategies
+
+- **Lambda Node/Python**: bundle < 5MB, lazy-load SDK clients, avoid top-level DB connections.
+- **Lambda Java 25**: SnapStart mandatory - CRaC checkpoint eliminates 5-10s cold starts.
+- **Provisioned concurrency**: only for p99-sensitive paths (cost trade-off).
+- **Cloudflare Workers**: V8 isolates start in <5ms - cold start is a non-issue.
+- **WASM edge** (Fermyon Spin, Fastly Compute): instant start, sub-millisecond init.
+- **Connection pooling**: RDS Proxy for Lambda, Hyperdrive for Workers.
+
+## Edge Patterns
+
+- **Cloudflare Workers**: compute at 300+ PoPs, KV/D1/R2 for data, response streaming.
+- **Fastly Compute**: WASM-native, request collapsing, edge dictionaries.
+- **Fermyon Spin**: component-model WASM, sub-ms cold start, SQLite at edge.
+- **Response streaming**: Lambda response streaming, Workers `TransformStream` for TTFB.
+- **Edge routing**: A/B testing, geo-personalization, auth at edge before origin.
+
+## Durable Execution
+
+- **Temporal**: complex workflows, retries, timers, signals - full orchestration.
+- **Restate**: durable async/await, virtual objects, embedded in your service.
+- **Cloudflare Durable Objects**: single-instance coordination, WebSocket state, actor model.
+- **Step Functions**: AWS-native, visual workflow, Express (sync) vs Standard (async).
+- Pattern: short functions + durable orchestrator > long-running monolith functions.
 
 ## Constraints
 
-1. Functions must be stateless -- no local state persists between invocations
-2. Design for cold starts: minimize package size, use provisioned concurrency for latency-sensitive paths
-3. Set timeout to 2x expected execution time (never max out at 900s without justification)
-4. Configure DLQ or on-failure destinations for async invocations
-5. Use structured logging with correlation IDs across function chains
-6. Idempotent handlers -- events may be delivered more than once
-7. Separate business logic from handler glue (testable without Lambda runtime)
-8. Bundle only required dependencies -- tree-shake or use layers
-9. Use environment variables for configuration, Secrets Manager for credentials
-10. Memory = CPU allocation in Lambda -- tune based on profiling
-11. Fan-out patterns need backpressure (SQS buffer, batch size limits)
-12. Circuit breakers for downstream service calls
-13. Prefer event-driven over polling
-14. Cost model: invocation count * duration * memory -- optimize the hot path
-15. Max payload limits: 6MB sync, 256KB async (SQS/SNS)
+1. Functions must be stateless - no local state persists between invocations.
+2. Cold start budget: <100ms for user-facing, <1s for API, don't care for async.
+3. Bundle size: <5MB Lambda (zip), <1MB Workers (after gzip), tree-shake aggressively.
+4. Memory = CPU in Lambda - right-size via AWS Lambda Power Tuning.
+5. Timeout = 2x expected duration. Never 900s without Step Functions wrapping it.
+6. Idempotent always - events deliver at-least-once, design for replay.
+7. DLQ or on-failure destination on every async invocation - no silent drops.
+8. Connection pooling mandatory - RDS Proxy, Hyperdrive, or connection-per-request patterns.
+9. Separate handler glue from business logic - testable without runtime emulation.
+10. Structured logging + correlation IDs across function chains.
+11. Environment variables for config, secrets manager for credentials - never hardcoded.
+12. No synchronous invocation chains >2 hops - use Step Functions or event bus.
+13. Fan-out needs backpressure: SQS buffer, reserved concurrency, batch limits.
+14. Edge data locality: KV/D1/R2 at edge, not cross-region DB calls from Workers.
+15. Cost model: invocations * duration * memory. Optimize hot path, cache at edge.
 
 ## DO NOT
 
-1. Store state in /tmp and expect it to persist
-2. Use recursive Lambda invocations (infinite loop risk)
-3. Set max concurrency without understanding downstream capacity
-4. Deploy 500MB functions (indicates wrong architecture choice)
-5. Run long-running processes in Lambda (use ECS/Fargate instead)
-6. Ignore partial batch failures (configure bisect or individual item failure reporting)
-7. Hardcode account IDs or region in function code
-8. Skip testing locally before deploying (use SAM local, LocalStack)
-9. Use synchronous invocation chains longer than 3 hops
+- Deploy 500MB functions (wrong architecture - use containers).
+- Use recursive invocations (infinite loop risk, account burn).
+- Call Lambda from Lambda synchronously (use Step Functions or events).
+- Store state in /tmp expecting persistence across invocations.
+- Ignore partial batch failures (configure bisect or per-item failure reporting).
+- Run >15 min processes in Lambda (use ECS/Fargate or Step Functions).
+- Put Durable Objects behind a queue (they ARE the coordination primitive).
+- Skip local testing (Miniflare for Workers, SAM local/LocalStack for Lambda).
 
 ## Route to Subskill
 
-| Signal | Subskill |
-|--------|----------|
-| Lambda handler design, layers, concurrency | knowledge/lambda-patterns.md |
-| Event-driven patterns, saga, DLQ | knowledge/event-driven-patterns.md |
-| Production handler example | examples/lambda-handler.py |
-| Architecture review | tools/serverless-review-prompt.md |
+| Signal | Load |
+|--------|------|
+| Lambda handler, layers, concurrency, SnapStart | `subskills/aws-lambda.md` |
+| Cloudflare Workers, Durable Objects, D1, KV, R2 | `subskills/edge-workers.md` |
+| Temporal, Restate, Step Functions, workflow orchestration | `subskills/durable-execution.md` |
+| Step Functions, EventBridge, choreography vs orchestration | `subskills/orchestration.md` |
 
-## Verification
-
-- [ ] Handler is idempotent (safe for retry and at-least-once delivery)
-- [ ] DLQ configured for async event sources
-- [ ] Timeout set appropriately (not default 3s, not max 900s)
-- [ ] Cold start time acceptable for the use case
-- [ ] Downstream services can handle concurrent load at max Lambda concurrency
-- [ ] Structured logging with correlation ID
-- [ ] Business logic separated from handler and unit-tested
-- [ ] Package size minimized (tree-shaken or layered)
-
-## Knowledge
-
-- knowledge/lambda-patterns.md -- event sources, concurrency, layers
-- knowledge/event-driven-patterns.md -- fan-out, choreography, saga, DLQ
+Multiple OK. Load only what's needed.
 
 ## AI-Era Context (2026)
 
-Serverless is the default compute choice for event-driven workloads and API backends with variable traffic. SnapStart (JVM) and provisioned concurrency address cold start concerns. Lambda Web Adapter enables running existing HTTP frameworks (Express, FastAPI, Gin) without code changes. Function URLs reduce API Gateway dependency for simple HTTP triggers. AI inference workloads increasingly run on Lambda with GPU-backed instances or offload to SageMaker endpoints called from Lambda.
+- **Serverless GPU**: Modal, Replicate, RunPod - pay-per-inference without managing instances.
+- **MCP tool hosting**: Lambda/Workers as MCP tool servers for AI agents - stateless tool execution at scale.
+- **Edge AI inference**: ONNX/TFLite models on Workers (WASM), Cloudflare AI, Vercel AI SDK edge runtime.
+- **LLM gateway on Workers**: rate limiting, caching, prompt routing at edge before hitting model APIs.
+- **AI function chains**: Step Functions / Temporal orchestrating multi-model pipelines with retry and fallback.
+
+## Verification
+
+- Handler is idempotent (safe for retry and at-least-once delivery).
+- DLQ configured for all async event sources.
+- Cold start time meets budget for the use case (measure, don't guess).
+- Downstream services handle load at max concurrency setting.
+- Bundle size within platform limits (check after build, not before).
+- Durable execution workflows compensate correctly on step failure.
+- Edge functions tested with Miniflare/wrangler dev or equivalent local tool.
+
+## Knowledge (load on demand)
+
+- `knowledge/lambda-patterns.md` - event sources, concurrency, SnapStart, layers
+- `knowledge/edge-workers.md` - Workers, Durable Objects, D1, streaming
+- `knowledge/durable-execution.md` - Temporal, Restate, Step Functions patterns
+- `knowledge/event-driven-patterns.md` - fan-out, choreography, saga, DLQ
 
 ## Related Skills
 
-- system-design (event-driven architecture)
-- python-expert (Lambda handler patterns)
-- security-engineering (IAM least-privilege for functions)
+| When | Load |
+|------|------|
+| System architecture decisions | `system-design` |
+| Go/Python/TS implementation | `golang-expert` / `python-expert` / `typescript-expert` |
+| Security (IAM, secrets, auth) | `security-engineering` |
+| Deployment/shipping | `pulse` |

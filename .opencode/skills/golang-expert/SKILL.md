@@ -5,7 +5,7 @@ description: Go engineering: stdlib-first, context-driven, Uber style
 
 # Go Expert
 
-Senior Go engineer, Go 1.26. Stdlib-first, context-driven, simplicity as a feature. Default answer is "it depends" then explain tradeoffs for THIS context.
+Senior Go engineer, Go 1.24. Stdlib-first, context-driven, simplicity as a feature. Default answer is "it depends" then explain tradeoffs for THIS context.
 
 ## Scope
 
@@ -22,15 +22,15 @@ Senior Go engineer, Go 1.26. Stdlib-first, context-driven, simplicity as a featu
 1. Stdlib first: check `net/http`, `encoding/json`, `log/slog`, `slices`, `maps`, `context`, `sync`, `testing` before dependencies.
 2. Return concrete types, accept interfaces. Verify: `var _ Interface = (*Type)(nil)`. Define interfaces at consumer.
 3. Pre-allocate: `make([]T, 0, n)`, `make(map[K]V, n)` when size known.
-4. Errors: wrap with `%w` + operation context (not "failed to"), handle once. `errors.AsType[T]` (1.26+).
+4. Errors: wrap with `%w` + operation context (not "failed to"), handle once. `errors.As`/`errors.Is` for unwrap.
 5. HTTP: always `return` after `http.Error()`, set timeouts, route `"GET /items/{id}"`.
 6. Resources: `defer Close()` after err check.
-7. Goroutines: `wg.Go(fn)` (1.25+), every goroutine has stop signal + wait. No fire-and-forget.
+7. Goroutines: `errgroup.Go(fn)`, every goroutine has stop signal + wait. No fire-and-forget.
 8. Sync: mutex as private field, never embed. `atomic.Int64` over raw atomics.
 9. Strings: `strconv` over `fmt`, `strings.Builder` with `Grow()`.
 10. Style: guard clauses, no `init()`, exit only in `main()`, `omitzero` tags (1.24+).
 11. Copy slices/maps received/returned to prevent mutation.
-12. Tests: `t.Context()`/`b.Loop()` (1.24+), `-race` always, table-driven, `goleak`.
+12. Tests: `t.Context()` (1.24+), `-race` always, table-driven, `goleak`.
 13. Modern: `for i := range n`, `min/max/clear`, `slices.*`, `maps.*`, `cmp.Or` (1.22+).
 14. No mutable globals: inject via struct fields.
 15. Logging: structured `slog` (1.21+), context-aware.
@@ -41,7 +41,7 @@ Senior Go engineer, Go 1.26. Stdlib-first, context-driven, simplicity as a featu
 
 **Code standard**: Uber Go Style Guide (widely adopted: CockroachDB, M3DB, many companies). Also reference Google Go Style Guide (google.github.io/styleguide/go). Both complement Effective Go. Load `knowledge_read(path: "golang-expert/knowledge/uber-style.md")`.
 
-**Go 1.26 highlights**: Green Tea GC (default, lower latency), `errors.AsType[T]` (type-safe unwrap), `new(expression)`, self-referencing generics, goroutine leak detector, 30% less cgo overhead, stack-allocated slice backing stores.
+**Go 1.22-1.24 highlights**: range over integers, enhanced ServeMux routing (`GET /path/{id}`), loopvar fix (1.22). Range-over-func (`iter.Seq`), `unique` package, `slices.Sorted` (1.23). `go tool` (no install for tools), generic type aliases, Swiss Tables map, `omitzero` json tag, `t.Context()`, weak pointers, FIPS 140-3 crypto, `os.Root` for directory-scoped file access (1.24).
 
 ## DO NOT
 
@@ -63,7 +63,7 @@ Senior Go engineer, Go 1.26. Stdlib-first, context-driven, simplicity as a featu
 |--------|------|
 | latency, memory, GC, pprof, pool, benchmark | `subskills/performance.md` |
 | goroutine, channel, mutex, race, atomic, deadlock, leak | `subskills/concurrency.md` |
-| context, WithCancel, WithTimeout, errgroup, structured concurrency, wg.Go | `subskills/context-patterns.md` |
+| context, WithCancel, WithTimeout, errgroup, structured concurrency | `subskills/context-patterns.md` |
 | scheduler, GMP, stack, preemption, runtime, netpoller | `knowledge/runtime-internals.md` |
 | happens-before, memory model, data race, ordering | `knowledge/memory-model.md` |
 | test, fuzz, bench, mock, coverage | `subskills/testing.md` |

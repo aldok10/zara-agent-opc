@@ -7,7 +7,7 @@ description: "Elasticsearch, OpenSearch, vector search. Full-text and semantic s
 
 ## Scope
 
-Elasticsearch/OpenSearch cluster design, index mappings, analyzers, query DSL, aggregations, vector/hybrid search, relevance tuning, and search infrastructure operations.
+Elasticsearch 8.15+, OpenSearch 2.x, Meilisearch 1.x, Typesense 27+ cluster design, index mappings, analyzers, query DSL, aggregations, vector/hybrid search, relevance tuning, and search infrastructure operations.
 
 ## First Action
 
@@ -30,6 +30,9 @@ Identify the search use case (full-text, autocomplete, faceted, semantic, hybrid
 13. Monitor cluster health, indexing rate, and query latency
 14. Refresh interval tuned to use case (1s default may be too frequent for bulk)
 15. Security: field-level security and document-level access control for multi-tenant
+16. ILM (Index Lifecycle Management) policies for hot/warm/cold/frozen tiers -- automate rollover and retention
+17. Snapshot/restore strategy: daily snapshots to object storage, tested restore runbook, cross-cluster restore for DR
+18. Shard sizing rules: max 50GB/shard, max 20 shards per GB of heap, fewer shards = better cluster stability
 
 ## DO NOT
 
@@ -68,9 +71,22 @@ Identify the search use case (full-text, autocomplete, faceted, semantic, hybrid
 - knowledge/elasticsearch-patterns.md -- mapping, analyzers, queries, aggregations
 - knowledge/vector-search.md -- embeddings, HNSW, hybrid search
 
+## Alternatives
+
+- **Meilisearch 1.x**: instant search, typo-tolerant, simple setup. Best for: product catalogs, site search, developer-friendly use cases. Tradeoff: single-node, limited aggregation support.
+- **Typesense 27+**: typo-tolerant, fast, geo-search built-in. Best for: low-latency autocomplete, faceted search. Tradeoff: less ecosystem tooling than Elasticsearch.
+- **Zinc**: lightweight Go-based search engine, ES-compatible API subset. Best for: log search at small scale, replacing ES when full features unnecessary.
+- **Serverless**: Elastic Cloud Serverless (pay-per-query), Algolia (managed instant search). Best for: teams without ops capacity or bursty workloads.
+
+## ES|QL (Elasticsearch Query Language)
+
+New in Elasticsearch 8.11+. SQL-like pipe syntax for data exploration and transformation. Use for ad-hoc analysis, log exploration, and reporting queries. Not a replacement for Query DSL in application code, but valuable for operations and dashboards.
+
 ## AI-Era Context (2026)
 
 Hybrid search (BM25 + vector) is the production standard for most search applications. Pure keyword search is insufficient for semantic queries; pure vector search misses exact matches. Embedding models (e.g., Cohere embed v4, OpenAI text-embedding-3) produce vectors indexed via HNSW in Elasticsearch/OpenSearch. Reciprocal Rank Fusion (RRF) is the standard score combination method. Retrieval-Augmented Generation (RAG) pipelines depend on search quality -- invest in retrieval precision.
+
+RAG retrieval layer: search is the foundation of RAG quality. Invest in chunking strategy (semantic chunking > fixed-size), embedding model selection (domain-specific > general-purpose), and reranking (Cohere Rerank, cross-encoder models) to boost precision before LLM context window. Hybrid search with explicit BM25 + kNN weight tuning outperforms either method alone. Evaluate retrieval with NDCG@k and recall@k metrics, not just end-to-end LLM output quality.
 
 ## Related Skills
 

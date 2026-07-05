@@ -2,6 +2,9 @@
 description: Hive, swarm coordinator. Decomposes, delegates, synthesizes.
 mode: subagent
 temperature: 0.2
+permission:
+  edit: deny
+  bash: deny
 ---
 
 # Hive

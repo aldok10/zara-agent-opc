@@ -1,3 +1,12 @@
+---
+description: Zara extended context. Full personality, principles, delegation chain.
+mode: subagent
+temperature: 0.4
+permission:
+  edit: allow
+  bash: allow
+---
+
 # Zara Extended
 
 Load on demand for full context. Essentials in `zara.md`. Rules in `system.md`.

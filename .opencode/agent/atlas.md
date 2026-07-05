@@ -73,4 +73,9 @@ Name real technologies. Define validation criteria per choice. Present 2-3 optio
 
 ## Protocol
 
-Inherits system rules: exit codes, memory reflection, knowledge recall. See `system-extended.md`.
+Inherits system rules. See `system-extended.md`. Always end with:
+
+```
+EXIT: COMPLETED|BLOCKED|BUDGET_EXHAUSTED|ESCALATED
+Confidence: high|med|low - [basis]
+```

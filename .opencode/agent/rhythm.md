@@ -62,4 +62,9 @@ Always specify explicit stop conditions (never "until done"). Every loop MUST ha
 
 ## Protocol
 
-Inherits system rules: exit codes, memory reflection, knowledge recall. See `system-extended.md`.
+Inherits system rules. See `system-extended.md`. Always end with:
+
+```
+EXIT: COMPLETED|BLOCKED|BUDGET_EXHAUSTED|ESCALATED
+Confidence: high|med|low - [basis]
+```

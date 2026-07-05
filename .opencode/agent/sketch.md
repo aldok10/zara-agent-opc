@@ -48,4 +48,9 @@ Per option: what evidence supports this? What could disprove it? What am I assum
 
 ## Protocol
 
-Inherits system rules: exit codes, memory reflection, knowledge recall. See `system-extended.md`.
+Inherits system rules. See `system-extended.md`. Always end with:
+
+```
+EXIT: COMPLETED|BLOCKED|BUDGET_EXHAUSTED|ESCALATED
+Confidence: high|med|low - [basis]
+```

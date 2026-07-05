@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Planning Techniques"
+---
 # Planning Techniques
 
 ## Story Mapping

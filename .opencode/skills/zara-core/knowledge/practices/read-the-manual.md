@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "read the manual"
+---
+---
 type: workflow
 title: Read the Manual
 date: 2024-08-21

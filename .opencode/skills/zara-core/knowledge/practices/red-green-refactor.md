@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "red green refactor"
+---
+---
 type: workflow
 title: Red, Green, Refactor
 date: 2024-07-11

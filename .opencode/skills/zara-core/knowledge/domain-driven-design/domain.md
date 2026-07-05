@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "domain"
+---
+---
 type: architecture
 title: Domains in DDD
 date: 2024-04-02

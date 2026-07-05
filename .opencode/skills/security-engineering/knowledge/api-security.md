@@ -1,3 +1,7 @@
+---
+type: fact
+title: "API Security"
+---
 # API Security
 
 Technical reference for API authorization, rate limiting, input validation, authentication, CORS, and GraphQL security.

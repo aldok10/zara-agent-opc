@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "exposing collection properties"
+---
+---
 type: pitfall
 title: Exposing Collection Properties
 date: 2015-06-22

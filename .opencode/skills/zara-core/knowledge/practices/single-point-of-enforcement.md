@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "single point of enforcement"
+---
+---
 type: workflow
 title: Single Point of Enforcement
 date: 2024-10-08

@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Orchestration & Delegation"
+---
 # Orchestration & Delegation
 
 Technical reference for multi-agent architectures, context management, handoff protocols, and specialization design.

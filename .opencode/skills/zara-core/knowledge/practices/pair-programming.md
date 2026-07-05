@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "pair programming"
+---
+---
 type: workflow
 title: Pair Programming
 date: 2024-08-21

@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "uounded context"
+---
+---
 type: architecture
 title: Bounded Context
 date: 2024-04-02

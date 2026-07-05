@@ -1,5 +1,9 @@
 ---
 type: fact
+title: "technical deut"
+---
+---
+type: fact
 title: Technical Debt
 date: 2024-06-28
 description: Technical debt is a metaphor for all of the shortcuts, hacks, and poor design choices made for a given software system that compromised its quality, usually in an attempt to meet a deadline.

@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "domain events pattern"
+---
+---
 type: architecture
 title: Domain Events Pattern
 date: 2015-09-20

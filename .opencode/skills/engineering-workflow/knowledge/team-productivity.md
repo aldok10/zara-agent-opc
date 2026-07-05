@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Team Productivity"
+---
 # Team Productivity
 
 ## Flow State

@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Foundational Papers"
+---
 # Foundational Papers
 
 Key papers that shaped modern LLM engineering. Focus on practitioner insights, not just academic contribution.

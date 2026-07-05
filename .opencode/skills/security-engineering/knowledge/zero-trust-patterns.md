@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Zero Trust Patterns"
+---
 # Zero Trust Patterns
 
 ## Core Principles

@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "arrange act assert"
+---
+---
 type: workflow
 title: Arrange-Act-Assert
 date: 2023-12-18

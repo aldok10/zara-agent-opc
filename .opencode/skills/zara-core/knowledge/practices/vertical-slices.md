@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "vertical slices"
+---
+---
 type: workflow
 title: Vertical Slices
 date: 2024-06-28

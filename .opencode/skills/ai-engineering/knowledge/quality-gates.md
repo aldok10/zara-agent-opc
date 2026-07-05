@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Quality Gates"
+---
 # Quality Gates
 
 Technical reference for input/output validation, confidence scoring, human-in-the-loop patterns, and regression testing for AI systems.

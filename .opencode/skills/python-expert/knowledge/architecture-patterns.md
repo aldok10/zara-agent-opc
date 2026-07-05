@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Python Architecture Patterns"
+---
 # Python Architecture Patterns
 
 ## Repository Pattern

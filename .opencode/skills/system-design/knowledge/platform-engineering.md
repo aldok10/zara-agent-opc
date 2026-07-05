@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Platform Engineering"
+---
 # Platform Engineering
 
 Internal developer platforms, golden paths, and self-service infrastructure patterns.

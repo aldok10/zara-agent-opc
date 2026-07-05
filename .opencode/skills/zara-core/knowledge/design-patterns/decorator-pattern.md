@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "decorator pattern"
+---
+---
 type: architecture
 title: Decorator Design Pattern
 date: 2024-02-22

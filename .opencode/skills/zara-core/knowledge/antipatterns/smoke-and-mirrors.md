@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "smoke and mirrors"
+---
+---
 type: pitfall
 title: Smoke and Mirrors
 date: 2024-08-20

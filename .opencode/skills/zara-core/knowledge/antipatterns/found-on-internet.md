@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "found on internet"
+---
+---
 type: pitfall
 title: Found on Internet
 date: 2024-08-20

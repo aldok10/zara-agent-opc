@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "once and only once"
+---
+---
 type: policy
 title: Once and Only Once
 date: 2024-08-19

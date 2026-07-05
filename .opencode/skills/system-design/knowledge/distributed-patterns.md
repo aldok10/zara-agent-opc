@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Distributed Patterns"
+---
 # Distributed Patterns
 
 Core patterns for building correct, available, and partition-tolerant distributed systems.

@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "mediator pattern"
+---
+---
 type: architecture
 title: Mediator Pattern
 date: 2024-10-10

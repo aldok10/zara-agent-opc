@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "yagni"
+---
+---
 type: policy
 title: YAGNI
 date: 2024-08-19

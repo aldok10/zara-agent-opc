@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Modern Python (3.12-3.14)"
+---
 # Modern Python (3.12-3.14)
 
 ## Python 3.12 Key Features

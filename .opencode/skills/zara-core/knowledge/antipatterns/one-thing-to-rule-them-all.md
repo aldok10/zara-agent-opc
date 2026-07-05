@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "one thing to rule them all"
+---
+---
 type: pitfall
 title: One Thing To Rule Them All
 date: 2024-08-20

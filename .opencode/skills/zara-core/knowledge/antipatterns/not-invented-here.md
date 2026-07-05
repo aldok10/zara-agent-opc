@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "not invented here"
+---
+---
 type: pitfall
 title: Not Invented Here
 date: 2024-08-20

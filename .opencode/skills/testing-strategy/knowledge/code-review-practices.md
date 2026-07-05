@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Code Review Practices"
+---
 # Code Review Practices
 
 ## Core Principles (Google's Approach)

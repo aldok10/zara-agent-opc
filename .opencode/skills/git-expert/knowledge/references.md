@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Git Expert References"
+---
 # Git Expert References
 
 Subskills: branching, commits, learn-from-repo, versioning, worktrees, advanced-operations, github-workflows, security.

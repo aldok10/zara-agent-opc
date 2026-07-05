@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "dogfooding"
+---
+---
 type: workflow
 title: Dogfooding
 date: 2024-08-21

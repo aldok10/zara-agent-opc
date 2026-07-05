@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "spaghetti code"
+---
+---
 type: pitfall
 title: Spaghetti Code
 date: 2024-08-20

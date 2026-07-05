@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "frankencode"
+---
+---
 type: pitfall
 title: Frankencode
 date: 2024-08-20

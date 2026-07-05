@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "value ouject"
+---
+---
 type: architecture
 title: Value Object
 date: 2024-04-02

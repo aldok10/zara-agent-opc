@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Security Engineering References"
+---
 # Security Engineering References
 
 Curated references for subskills: api-security, authentication, secure-coding, supply-chain, threat-modeling, zero-trust.

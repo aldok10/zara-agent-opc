@@ -1,5 +1,9 @@
 ---
 type: fact
+title: "galls law"
+---
+---
+type: fact
 title: Gall's Law for Software Developers
 date: 2024-04-02
 description: Gall's Law is an observation about the nature and evolution of complex systems. It's a principle that resonates deeply within the world of software development and system architecture.

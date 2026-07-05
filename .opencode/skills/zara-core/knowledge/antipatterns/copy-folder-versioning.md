@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "copy folder versioning"
+---
+---
 type: pitfall
 title: Copy Folder Versioning
 date: 2015-01-26

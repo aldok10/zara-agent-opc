@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Four-Phase Debugging Process"
+---
 # Four-Phase Debugging Process
 
 ## Phase 1: Root Cause Investigation

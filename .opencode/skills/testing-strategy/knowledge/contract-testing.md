@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Contract Testing"
+---
 # Contract Testing
 
 ## Consumer-Driven Contract Testing

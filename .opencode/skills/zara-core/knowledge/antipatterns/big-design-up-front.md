@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "uig design up front"
+---
+---
 type: pitfall
 title: "Big Design Up Front (BDUF): A Software Development Antipattern"
 date: 2023-04-26

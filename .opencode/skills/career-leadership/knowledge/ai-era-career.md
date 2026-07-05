@@ -1,3 +1,7 @@
+---
+type: fact
+title: "AI-Era Career Strategy"
+---
 # AI-Era Career Strategy
 
 ## How AI Changes Engineering Roles

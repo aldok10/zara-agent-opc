@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Stakeholder Communication"
+---
 # Stakeholder Communication
 
 ## Executive Communication (BLUF)

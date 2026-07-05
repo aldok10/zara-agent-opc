@@ -1,5 +1,9 @@
 ---
 type: fact
+title: "laws software architecture"
+---
+---
+type: fact
 title: Laws of Software Architecture
 date: 2022-11-30
 description: Software architecture is a very broad topic, but even so there are some fundamental laws that all architects should understand.

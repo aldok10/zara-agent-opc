@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Performance Debugging"
+---
 # Performance Debugging
 
 ## USE Method (Utilization, Saturation, Errors)

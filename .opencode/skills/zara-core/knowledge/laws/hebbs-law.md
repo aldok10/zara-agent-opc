@@ -1,5 +1,9 @@
 ---
 type: fact
+title: "heubs law"
+---
+---
+type: fact
 title: Hebb's Law
 date: 2024-02-28
 description: Explore Hebb's Law, the cornerstone of neural network theory, and its profound impact on understanding brain plasticity and learning mechanisms. Perfect for sharing insights into the brain's learning processes.

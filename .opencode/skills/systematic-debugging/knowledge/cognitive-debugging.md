@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Cognitive Debugging"
+---
 # Cognitive Debugging
 
 ## Hypothesis-Driven Debugging

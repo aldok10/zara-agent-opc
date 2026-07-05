@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "continuous integration"
+---
+---
 type: workflow
 title: Continuous Integration
 date: 2024-04-02

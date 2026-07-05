@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Agent Patterns"
+---
 # Agent Patterns
 
 Deep technical reference for LLM agent architectures, tool use, multi-agent systems, and safety.

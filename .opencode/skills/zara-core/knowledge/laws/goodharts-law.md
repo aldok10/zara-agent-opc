@@ -1,5 +1,9 @@
 ---
 type: fact
+title: "goodharts law"
+---
+---
+type: fact
 title: "Goodhart's Law: When Measures Become Targets"
 date: 2024-02-28
 description: Explore the pivotal insights of Goodhart's Law and its impact on business, economics, and personal goals. Understand how metrics can lead us astray when they're used as targets, and discover strategies to mitigate these effects for more effective decision-making and goal-setting.

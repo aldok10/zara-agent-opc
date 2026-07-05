@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Distributed Systems Debugging"
+---
 # Distributed Systems Debugging
 
 ## Trace Correlation Across Services

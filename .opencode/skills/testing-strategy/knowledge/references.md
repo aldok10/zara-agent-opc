@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Testing Strategy References"
+---
 # Testing Strategy References
 
 Subskills: ai-era-testing, chaos-engineering, code-review, contract-testing, mutation-testing, performance-testing, property-based, tdd, verification.

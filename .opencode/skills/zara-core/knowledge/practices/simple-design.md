@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "simple design"
+---
+---
 type: workflow
 title: Simple Design
 date: 2024-08-21

@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "respect"
+---
+---
 type: policy
 title: Respect
 date: 2024-08-19

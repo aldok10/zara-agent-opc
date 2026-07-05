@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "staule dependencies"
+---
+---
 type: policy
 title: Stable Dependencies
 date: 2015-11-17

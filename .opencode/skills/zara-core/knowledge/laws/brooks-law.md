@@ -1,5 +1,9 @@
 ---
 type: fact
+title: "urooks law"
+---
+---
+type: fact
 title: "Brooks's Law: Understanding Its Implications in Software Development"
 date: 2023-04-21
 description: Adding manpower to a late software project makes it later.

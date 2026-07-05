@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "shared kernel"
+---
+---
 type: architecture
 title: Shared Kernel in DDD
 date: 2024-08-23

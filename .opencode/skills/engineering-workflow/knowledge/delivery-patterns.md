@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Delivery Patterns"
+---
 # Delivery Patterns
 
 ## CI/CD Pipeline Design

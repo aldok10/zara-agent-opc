@@ -1,3 +1,7 @@
+---
+type: fact
+title: "PHP Database Patterns"
+---
 # PHP Database Patterns
 
 ## Doctrine ORM

@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "hollywood principle"
+---
+---
 type: policy
 title: Hollywood Principle
 date: 2024-08-19

@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Staff Engineer Path"
+---
 # Staff Engineer Path
 
 ## What Staff Engineers Actually Do

@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "rules engine pattern"
+---
+---
 type: architecture
 title: Rules Engine Pattern
 date: 2023-11-17

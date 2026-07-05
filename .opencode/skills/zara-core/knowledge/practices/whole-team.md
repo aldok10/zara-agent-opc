@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "whole team"
+---
+---
 type: workflow
 title: Whole Team
 date: 2024-08-21

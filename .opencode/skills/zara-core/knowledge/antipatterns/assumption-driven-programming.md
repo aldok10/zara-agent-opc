@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "assumption driven programming"
+---
+---
 type: pitfall
 title: Assumption Driven Programming
 date: 2024-08-20

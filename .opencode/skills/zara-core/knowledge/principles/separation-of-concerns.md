@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "separation of concerns"
+---
+---
 type: policy
 title: Separation of Concerns
 date: 2024-08-23

@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "tolerance for imperfection"
+---
+---
 type: policy
 title: Tolerance for Imperfection in Software Architecture
 date: 2023-04-22

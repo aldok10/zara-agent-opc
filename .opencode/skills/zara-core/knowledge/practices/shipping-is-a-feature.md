@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "shipping is a feature"
+---
+---
 type: workflow
 title: Shipping Is A Feature
 date: 2024-08-21

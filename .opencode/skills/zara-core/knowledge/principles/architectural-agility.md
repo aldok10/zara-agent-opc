@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "architectural agility"
+---
+---
 type: policy
 title: Principle of Architectural Agility
 date: 2023-04-22

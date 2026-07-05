@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Fine-Tuning"
+---
 # Fine-Tuning
 
 Technical reference for parameter-efficient fine-tuning, alignment methods, data preparation, and decision frameworks.

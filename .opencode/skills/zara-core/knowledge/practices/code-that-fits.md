@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "code that fits"
+---
+---
 type: workflow
 title: Practices from Code That Fits in Your Head
 date: 2024-07-11

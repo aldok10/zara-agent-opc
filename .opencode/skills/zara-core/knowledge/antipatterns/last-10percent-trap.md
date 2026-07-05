@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "last 10percent trap"
+---
+---
 type: pitfall
 title: "The Last 10% Trap: A Software Architecture Antipattern"
 date: 2023-04-26

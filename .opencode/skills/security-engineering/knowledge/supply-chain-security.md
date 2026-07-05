@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Supply Chain Security"
+---
 # Supply Chain Security
 
 ## SLSA Framework (Supply-chain Levels for Software Artifacts)

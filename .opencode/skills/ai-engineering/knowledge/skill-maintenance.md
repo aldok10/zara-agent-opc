@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Skill Maintenance"
+---
 # Skill Maintenance
 
 Guidelines for keeping skills current, detecting drift, and managing knowledge freshness.

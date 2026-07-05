@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Leadership Patterns"
+---
 # Leadership Patterns
 
 ## Situational Leadership (Hersey-Blanchard)

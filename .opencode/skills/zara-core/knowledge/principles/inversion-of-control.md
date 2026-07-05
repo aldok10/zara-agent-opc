@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "inversion of control"
+---
+---
 type: policy
 title: Inversion of Control
 date: 2023-12-26

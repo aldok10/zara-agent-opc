@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "dependency inversion principle"
+---
+---
 type: policy
 title: Dependency Inversion Principle
 date: 2024-04-02

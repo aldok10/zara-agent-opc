@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Engineering Workflow References"
+---
 # Engineering Workflow References
 
 Curated references for subskills: brainstorming, execution, parallel-dispatch, planning, subagent-patterns.

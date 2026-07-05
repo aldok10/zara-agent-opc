@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "memento pattern"
+---
+---
 type: architecture
 title: Memento Pattern
 date: 2023-10-04

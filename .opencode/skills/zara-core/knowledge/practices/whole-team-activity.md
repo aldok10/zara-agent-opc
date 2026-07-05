@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "whole team activity"
+---
+---
 type: workflow
 title: Whole Team Activity
 date: 2024-08-21

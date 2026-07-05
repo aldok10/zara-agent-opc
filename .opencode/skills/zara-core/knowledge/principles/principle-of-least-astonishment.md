@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "principle of least astonishment"
+---
+---
 type: policy
 title: "Principle of Least Astonishment: A Software Design Guideline"
 date: 2023-04-26

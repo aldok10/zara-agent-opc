@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "domain model"
+---
+---
 type: architecture
 title: Domain Model in DDD
 date: 2024-04-02

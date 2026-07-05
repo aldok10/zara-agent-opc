@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "common architectural vision"
+---
+---
 type: workflow
 title: Common Architectural Vision
 date: 2024-04-02

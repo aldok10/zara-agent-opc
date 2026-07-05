@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "duct tape coder"
+---
+---
 type: pitfall
 title: Duct Tape Coder
 date: 2024-08-20

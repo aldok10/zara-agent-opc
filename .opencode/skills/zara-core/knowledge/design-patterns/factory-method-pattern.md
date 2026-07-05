@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "factory method pattern"
+---
+---
 type: architecture
 title: Factory Method Pattern
 date: 2024-04-02

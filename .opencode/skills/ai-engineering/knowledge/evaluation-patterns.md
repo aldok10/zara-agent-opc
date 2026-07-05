@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Evaluation Patterns"
+---
 # Evaluation Patterns
 
 Deep technical reference for evaluating LLM systems: offline evals, LLM-as-judge, RAGAS, custom metrics, and CI integration.

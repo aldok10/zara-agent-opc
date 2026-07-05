@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "specification pattern"
+---
+---
 type: architecture
 title: Specification Pattern
 date: 2017-02-14

@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Git Performance"
+---
 # Git Performance
 
 Techniques for working with large repositories: millions of files, deep history, monorepo scale.

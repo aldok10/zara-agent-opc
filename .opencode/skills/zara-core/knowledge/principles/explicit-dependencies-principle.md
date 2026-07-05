@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "explicit dependencies principle"
+---
+---
 type: policy
 title: Explicit Dependencies Principle
 date: 2024-05-02

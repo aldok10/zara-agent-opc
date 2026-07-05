@@ -1,3 +1,7 @@
+---
+type: fact
+title: "AI Engineering References"
+---
 # AI Engineering References
 
 Authoritative references covering RAG, agents, context engineering, MCP, evaluation, LLMOps, fine-tuning, AI security, and foundational research. Organized by category.

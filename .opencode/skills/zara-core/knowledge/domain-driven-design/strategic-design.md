@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "strategic design"
+---
+---
 type: architecture
 title: Strategic Design in DDD
 date: 2024-04-02

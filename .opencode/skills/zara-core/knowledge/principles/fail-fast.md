@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "fail fast"
+---
+---
 type: policy
 title: Fail Fast
 date: 2021-04-08

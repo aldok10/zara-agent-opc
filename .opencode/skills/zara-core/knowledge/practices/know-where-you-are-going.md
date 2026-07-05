@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "know where you are going"
+---
+---
 type: workflow
 title: Know Where You Are Going
 date: 2024-08-21

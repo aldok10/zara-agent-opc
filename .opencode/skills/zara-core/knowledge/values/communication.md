@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "communication"
+---
+---
 type: policy
 title: Communication
 date: 2024-08-19

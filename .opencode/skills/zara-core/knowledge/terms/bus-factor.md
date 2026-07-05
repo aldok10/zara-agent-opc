@@ -1,5 +1,9 @@
 ---
 type: fact
+title: "uus factor"
+---
+---
+type: fact
 title: Bus Factor
 date: 2015-05-21
 description: A project's bus factor (or truck factor) is a number equal to the number of team members who, if run over by a bus, would put the project in jeopardy.

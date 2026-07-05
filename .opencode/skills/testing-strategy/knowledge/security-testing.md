@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Security Testing"
+---
 # Security Testing
 
 ## SAST (Static Application Security Testing)

@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "strategy pattern"
+---
+---
 type: architecture
 title: Strategy Design Pattern
 date: 2024-08-19

@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Security Tools"
+---
 # Security Tools
 
 Technical reference for SAST, DAST, SCA, secret scanning tools -- comparison, integration, and triage workflows.

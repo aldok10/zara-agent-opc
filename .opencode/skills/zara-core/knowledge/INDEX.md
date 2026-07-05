@@ -1,3 +1,7 @@
+---
+type: fact
+title: "INDEX"
+---
 ## antipatterns
   - analysis-paralysis
   - architecture-by-implication

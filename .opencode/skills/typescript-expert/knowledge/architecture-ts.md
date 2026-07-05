@@ -1,3 +1,7 @@
+---
+type: fact
+title: "TypeScript Architecture Patterns"
+---
 # TypeScript Architecture Patterns
 
 ## Functional Programming

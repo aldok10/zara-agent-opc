@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Skill Creator References"
+---
 # Skill Creator References
 
 Curated references for building AI agent skills, AI-friendly documentation, skill design patterns, quality/evaluation, and public skill registries.

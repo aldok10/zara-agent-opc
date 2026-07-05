@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Context Engineering"
+---
 # Context Engineering
 
 Deep technical reference for assembling, optimizing, and managing LLM context windows.

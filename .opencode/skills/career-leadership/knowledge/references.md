@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Career Leadership References"
+---
 # Career Leadership References
 
 Curated references for IC career growth, technical writing, leadership, interviews, stakeholder communication, AI-era career development, and post-mortems.

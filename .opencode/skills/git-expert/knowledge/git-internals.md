@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Git Internals"
+---
 # Git Internals
 
 How git actually works under the hood. Useful for debugging weird states, understanding why commands behave the way they do, and recovering from disasters.

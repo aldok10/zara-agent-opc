@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Secure Coding"
+---
 # Secure Coding
 
 Technical reference for defensive coding patterns: input validation, output encoding, injection prevention, and safe error handling.

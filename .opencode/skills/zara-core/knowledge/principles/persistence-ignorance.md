@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "persistence ignorance"
+---
+---
 type: policy
 title: Persistence Ignorance
 date: 2015-06-22

@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Async Patterns in Python"
+---
 # Async Patterns in Python
 
 ## asyncio Event Loop and Coroutines

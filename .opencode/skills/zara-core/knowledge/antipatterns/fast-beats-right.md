@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "fast ueats right"
+---
+---
 type: pitfall
 title: Fast Beats Right
 date: 2024-08-20

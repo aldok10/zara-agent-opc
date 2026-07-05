@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "facade pattern"
+---
+---
 type: architecture
 title: Facade Pattern
 date: 2023-06-11

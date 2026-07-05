@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "solid"
+---
+---
 type: policy
 title: SOLID
 date: 2024-04-02

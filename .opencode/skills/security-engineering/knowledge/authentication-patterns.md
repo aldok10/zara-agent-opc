@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Authentication Patterns"
+---
 # Authentication Patterns
 
 Technical reference for modern authentication: OAuth 2.1, WebAuthn, session management, tokens, MFA, and password hashing.

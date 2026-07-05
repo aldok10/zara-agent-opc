@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "descriptive error messages"
+---
+---
 type: workflow
 title: Descriptive Error Messages
 date: 2015-11-07

@@ -1,3 +1,7 @@
+---
+type: fact
+title: "AI/ML Python Patterns"
+---
 # AI/ML Python Patterns
 
 ## LangChain Architecture

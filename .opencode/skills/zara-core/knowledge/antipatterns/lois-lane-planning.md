@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "lois lane planning"
+---
+---
 type: pitfall
 title: Lois Lane Planning
 date: 2022-10-07

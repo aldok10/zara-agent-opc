@@ -1,3 +1,7 @@
+---
+type: fact
+title: "AI-Assisted Debugging"
+---
 # AI-Assisted Debugging
 
 ## Using LLMs for Root Cause Analysis

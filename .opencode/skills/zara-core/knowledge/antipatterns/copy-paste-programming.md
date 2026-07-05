@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "copy paste programming"
+---
+---
 type: pitfall
 title: Copy Paste Programming
 date: 2024-08-20

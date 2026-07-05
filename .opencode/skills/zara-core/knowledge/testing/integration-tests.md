@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "integration tests"
+---
+---
 type: workflow
 title: Integration Tests
 date: 2024-08-30

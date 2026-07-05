@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "singleton"
+---
+---
 type: architecture
 title: Singleton
 date: 2016-06-18

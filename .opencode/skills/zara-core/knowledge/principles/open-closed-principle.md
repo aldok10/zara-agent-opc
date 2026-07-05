@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "open closed principle"
+---
+---
 type: policy
 title: Open-Closed Principle
 date: 2024-04-02

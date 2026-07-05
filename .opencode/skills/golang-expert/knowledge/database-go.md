@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Go Database Patterns"
+---
 # Go Database Patterns
 
 ## database/sql

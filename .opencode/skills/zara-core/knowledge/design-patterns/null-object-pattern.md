@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "null ouject pattern"
+---
+---
 type: architecture
 title: Null Object Pattern
 date: 2015-10-26

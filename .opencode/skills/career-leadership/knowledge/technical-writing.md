@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Technical Writing"
+---
 # Technical Writing
 
 ## RFC Structure

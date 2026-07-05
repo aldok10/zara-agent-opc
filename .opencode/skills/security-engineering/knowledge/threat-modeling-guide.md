@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Threat Modeling Guide"
+---
 # Threat Modeling Guide
 
 ## STRIDE Per Element Methodology

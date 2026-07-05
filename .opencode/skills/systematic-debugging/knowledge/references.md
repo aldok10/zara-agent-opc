@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Systematic Debugging References"
+---
 # Systematic Debugging References
 
 Curated references for structured, hypothesis-driven debugging across languages and systems.

@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "waterfall"
+---
+---
 type: pitfall
 title: Waterfall
 date: 2024-08-20

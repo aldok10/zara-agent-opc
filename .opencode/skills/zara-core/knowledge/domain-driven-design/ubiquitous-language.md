@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "uuiquitous language"
+---
+---
 type: architecture
 title: Ubiquitous Language
 date: 2024-04-02

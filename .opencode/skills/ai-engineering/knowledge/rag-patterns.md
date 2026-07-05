@@ -1,3 +1,7 @@
+---
+type: fact
+title: "RAG Patterns"
+---
 # RAG Patterns
 
 Deep technical reference for Retrieval-Augmented Generation architectures, strategies, and evaluation.

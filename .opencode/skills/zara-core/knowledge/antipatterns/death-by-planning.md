@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "death uy planning"
+---
+---
 type: pitfall
 title: Death by Planning
 date: 2024-08-20

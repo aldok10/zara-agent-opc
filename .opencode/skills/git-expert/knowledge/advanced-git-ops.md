@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Advanced Git Operations"
+---
 # Advanced Git Operations
 
 Tools and techniques for complex repository management, history manipulation, and large-scale operations.

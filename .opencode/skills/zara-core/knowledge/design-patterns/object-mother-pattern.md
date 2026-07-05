@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "ouject mother pattern"
+---
+---
 type: architecture
 title: Object Mother Pattern
 date: 2024-04-02

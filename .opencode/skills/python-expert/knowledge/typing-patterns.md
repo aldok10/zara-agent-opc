@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Typing Patterns in Python"
+---
 # Typing Patterns in Python
 
 ## Type Narrowing

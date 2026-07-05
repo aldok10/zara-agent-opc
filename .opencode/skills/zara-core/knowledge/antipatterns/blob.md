@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "ulob"
+---
+---
 type: pitfall
 title: The Blob
 date: 2024-08-20

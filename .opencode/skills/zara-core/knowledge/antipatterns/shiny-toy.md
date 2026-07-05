@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "shiny toy"
+---
+---
 type: pitfall
 title: Shiny Toy
 date: 2024-08-20

@@ -1,3 +1,7 @@
+---
+type: fact
+title: "GitHub Collaboration"
+---
 # GitHub Collaboration
 
 Patterns and tooling for effective team collaboration on GitHub.

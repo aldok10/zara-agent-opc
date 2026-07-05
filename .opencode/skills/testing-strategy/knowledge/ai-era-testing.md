@@ -1,3 +1,7 @@
+---
+type: fact
+title: "AI-Era Testing"
+---
 # AI-Era Testing
 
 ## The Problem with AI-Generated Tests

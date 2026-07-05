@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "uig uall of mud"
+---
+---
 type: pitfall
 title: Big Ball of Mud
 date: 2024-08-23

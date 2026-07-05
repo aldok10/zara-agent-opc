@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "death march"
+---
+---
 type: pitfall
 title: Death March
 date: 2024-08-20

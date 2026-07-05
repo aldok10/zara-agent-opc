@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "YOLO Architecture in Software Development"
+---
+---
 type: workflow
 title: YOLO Software Architecture
 date: 2024-08-23

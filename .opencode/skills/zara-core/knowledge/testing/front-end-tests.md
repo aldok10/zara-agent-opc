@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "front end tests"
+---
+---
 type: workflow
 title: Front-End Tests
 date: 2024-08-30

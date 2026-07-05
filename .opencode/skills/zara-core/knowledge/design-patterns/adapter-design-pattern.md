@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "adapter design pattern"
+---
+---
 type: architecture
 title: Adapter Design Pattern
 date: 2024-08-19

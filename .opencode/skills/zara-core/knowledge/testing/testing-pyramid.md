@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "testing pyramid"
+---
+---
 type: workflow
 title: The Testing Pyramid
 date: 2024-08-30

@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "automated tests"
+---
+---
 type: workflow
 title: Automated Tests
 date: 2024-08-30

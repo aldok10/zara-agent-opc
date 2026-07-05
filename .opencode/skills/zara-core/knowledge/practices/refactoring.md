@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "refactoring"
+---
+---
 type: workflow
 title: Refactoring
 date: 2024-06-28

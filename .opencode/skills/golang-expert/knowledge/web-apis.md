@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Go Web APIs"
+---
 # Go Web APIs
 
 ## net/http Patterns (Go 1.22+)

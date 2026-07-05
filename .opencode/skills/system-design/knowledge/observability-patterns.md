@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Observability Patterns"
+---
 # Observability Patterns
 
 Monitoring, tracing, logging, and alerting for distributed systems.

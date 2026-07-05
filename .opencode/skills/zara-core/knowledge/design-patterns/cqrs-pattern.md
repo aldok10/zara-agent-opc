@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "cqrs pattern"
+---
+---
 type: architecture
 title: CQRS - Command Query Responsibility Segregation
 date: 2023-08-11

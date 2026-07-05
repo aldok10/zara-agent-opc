@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "strangler fig pattern"
+---
+---
 type: architecture
 title: Strangler Fig Design Pattern
 date: 2023-06-06

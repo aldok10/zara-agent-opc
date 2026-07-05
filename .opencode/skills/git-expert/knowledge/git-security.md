@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Git Security"
+---
 # Git Security
 
 Signing, secret protection, and credential management for git workflows.

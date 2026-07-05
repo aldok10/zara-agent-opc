@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "update the plan"
+---
+---
 type: workflow
 title: Update the Plan
 date: 2015-11-07

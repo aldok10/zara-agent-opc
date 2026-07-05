@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Branching Strategies"
+---
 # Branching Strategies
 
 Choosing a branching model depends on team size, release cadence, deployment model, and risk tolerance. No single model fits all projects.

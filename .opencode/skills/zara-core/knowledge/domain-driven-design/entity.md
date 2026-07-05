@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "entity"
+---
+---
 type: architecture
 title: Entity
 date: 2024-04-02

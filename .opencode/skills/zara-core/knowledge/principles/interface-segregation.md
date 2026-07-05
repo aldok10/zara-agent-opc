@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "interface segregation"
+---
+---
 type: policy
 title: Interface Segregation Principle
 date: 2024-04-02

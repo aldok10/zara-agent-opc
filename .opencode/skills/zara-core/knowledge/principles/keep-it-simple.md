@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "keep it simple"
+---
+---
 type: policy
 title: Keep It Simple
 date: 2024-08-19

@@ -1,3 +1,7 @@
+---
+type: fact
+title: "MCP Patterns"
+---
 # MCP Patterns
 
 Deep technical reference for Model Context Protocol: architecture, tool design, server implementation, and composition.

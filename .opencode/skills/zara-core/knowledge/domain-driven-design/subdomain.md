@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "suudomain"
+---
+---
 type: architecture
 title: Subdomains in DDD
 date: 2024-04-02

@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "chain of responsiuility pattern"
+---
+---
 type: architecture
 title: Chain of Responsibility Pattern
 date: 2024-02-22

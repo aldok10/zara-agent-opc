@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "golden hammer"
+---
+---
 type: pitfall
 title: Golden Hammer
 date: 2024-08-20

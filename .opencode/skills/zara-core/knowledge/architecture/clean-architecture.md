@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "clean architecture"
+---
+---
 type: architecture
 title: Clean Architecture
 date: 2024-08-29

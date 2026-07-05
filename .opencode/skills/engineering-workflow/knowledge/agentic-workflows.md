@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Agentic Workflows"
+---
 # Agentic Workflows
 
 ## Plan-Code-Verify Loop

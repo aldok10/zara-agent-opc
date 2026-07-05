@@ -1,3 +1,7 @@
+---
+type: fact
+title: "OWASP Top 10 2025"
+---
 # OWASP Top 10 2025
 
 ## Quick Reference

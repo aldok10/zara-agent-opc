@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Conventional Commits"
+---
 # Conventional Commits
 
 A specification for structured commit messages that enable automated tooling: changelogs, version bumps, and release notes.

@@ -1,3 +1,7 @@
+---
+type: fact
+title: "TypeScript Testing"
+---
 # TypeScript Testing
 
 ## Vitest

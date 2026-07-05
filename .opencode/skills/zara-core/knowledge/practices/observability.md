@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "ouservauility"
+---
+---
 type: workflow
 title: Observability
 date: 2024-06-07

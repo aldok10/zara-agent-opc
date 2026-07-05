@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Go Expert References"
+---
 # Go Expert References
 
 ## Official & Core

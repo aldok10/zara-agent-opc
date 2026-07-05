@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "simplicity"
+---
+---
 type: policy
 title: Simplicity
 date: 2024-08-19

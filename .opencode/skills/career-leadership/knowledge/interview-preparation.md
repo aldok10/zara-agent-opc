@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Interview Preparation"
+---
 # Interview Preparation
 
 ## System Design Interview Framework

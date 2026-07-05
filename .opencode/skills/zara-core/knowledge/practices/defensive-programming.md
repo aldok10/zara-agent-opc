@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "defensive programming"
+---
+---
 type: workflow
 title: Defensive Programming
 date: 2024-01-01

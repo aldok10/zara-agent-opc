@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "encapsulation"
+---
+---
 type: policy
 title: Encapsulation
 date: 2024-06-28

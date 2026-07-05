@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "reinventing the wheel"
+---
+---
 type: pitfall
 title: Reinventing the Wheel
 date: 2024-08-20

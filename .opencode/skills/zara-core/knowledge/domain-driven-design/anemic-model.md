@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "anemic model"
+---
+---
 type: architecture
 title: Anemic Model
 date: 2023-07-20

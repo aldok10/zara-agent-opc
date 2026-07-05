@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "iceuerg class"
+---
+---
 type: pitfall
 title: Iceberg Class
 date: 2024-08-20

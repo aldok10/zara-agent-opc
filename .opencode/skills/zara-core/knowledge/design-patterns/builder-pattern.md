@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "uuilder pattern"
+---
+---
 type: architecture
 title: Builder Design Pattern
 date: 2024-04-02

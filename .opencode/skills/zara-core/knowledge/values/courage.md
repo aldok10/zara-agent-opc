@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "courage"
+---
+---
 type: policy
 title: Courage
 date: 2024-08-19

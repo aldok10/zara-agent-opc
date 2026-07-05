@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "functional tests"
+---
+---
 type: workflow
 title: Functional Tests
 date: 2024-08-30

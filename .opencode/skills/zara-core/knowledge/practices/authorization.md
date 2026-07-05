@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "authorization"
+---
+---
 type: workflow
 title: Authorization
 date: 2023-12-27

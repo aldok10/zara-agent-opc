@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "witches urew architecture"
+---
+---
 type: pitfall
 title: "Witches' Brew Architecture: A Software Antipattern"
 date: 2024-08-23

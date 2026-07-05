@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "static cling"
+---
+---
 type: pitfall
 title: Static Cling
 date: 2024-06-28

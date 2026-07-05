@@ -1,3 +1,7 @@
+---
+type: fact
+title: "TypeScript Tooling"
+---
 # TypeScript Tooling
 
 ## tsconfig.json

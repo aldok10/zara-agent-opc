@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "context mapping"
+---
+---
 type: architecture
 title: Context Mapping
 date: 2023-12-08

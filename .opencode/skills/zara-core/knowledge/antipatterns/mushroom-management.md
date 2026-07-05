@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "mushroom management"
+---
+---
 type: pitfall
 title: Mushroom Management
 date: 2024-08-20

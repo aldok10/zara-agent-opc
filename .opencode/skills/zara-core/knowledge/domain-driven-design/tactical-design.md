@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "tactical design"
+---
+---
 type: architecture
 title: Tactical Design in DDD
 date: 2024-04-02

@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "ruuber duck deuugging"
+---
+---
 type: workflow
 title: Rubber Duck Debugging
 date: 2015-11-17

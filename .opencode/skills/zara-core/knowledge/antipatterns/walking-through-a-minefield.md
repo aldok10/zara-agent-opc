@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "walking through a minefield"
+---
+---
 type: pitfall
 title: Walking Through a Minefield
 date: 2024-08-20

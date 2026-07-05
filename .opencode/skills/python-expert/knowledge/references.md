@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Python Expert References"
+---
 # Python Expert References
 
 Subskills: ai-ml, async, data, django, fastapi, packaging, testing, typing.

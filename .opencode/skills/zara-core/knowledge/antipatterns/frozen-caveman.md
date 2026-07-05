@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "frozen caveman"
+---
+---
 type: pitfall
 title: "Frozen Caveman: A Software Development Antipattern"
 date: 2023-04-26

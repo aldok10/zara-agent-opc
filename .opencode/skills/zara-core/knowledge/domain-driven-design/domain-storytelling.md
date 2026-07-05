@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "domain storytelling"
+---
+---
 type: architecture
 title: Domain Storytelling
 date: 2024-04-02

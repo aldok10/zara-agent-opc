@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "primitive ousession code smell"
+---
+---
 type: pitfall
 title: Primitive Obsession Code Smell
 date: 2024-01-14

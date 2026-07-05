@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "liskov suustitution principle"
+---
+---
 type: policy
 title: Liskov Substitution Principle
 date: 2024-04-02

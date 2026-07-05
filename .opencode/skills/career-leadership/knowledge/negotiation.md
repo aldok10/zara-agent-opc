@@ -1,3 +1,7 @@
+---
+type: fact
+title: "Negotiation"
+---
 # Negotiation
 
 ## BATNA: Best Alternative to Negotiated Agreement

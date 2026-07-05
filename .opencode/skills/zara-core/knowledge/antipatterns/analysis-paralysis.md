@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "analysis paralysis"
+---
+---
 type: pitfall
 title: Analysis Paralysis
 date: 2023-04-22

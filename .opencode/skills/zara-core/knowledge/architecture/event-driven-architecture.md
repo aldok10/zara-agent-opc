@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "event driven architecture"
+---
+---
 type: architecture
 title: Event-Driven Architecture
 date: 2024-08-29

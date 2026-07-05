@@ -1,3 +1,7 @@
+---
+type: fact
+title: "AI Security"
+---
 # AI Security
 
 Technical reference for LLM security threats, attack vectors, defenses, and red teaming methodology.

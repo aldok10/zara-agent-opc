@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "timeuoxing"
+---
+---
 type: workflow
 title: "Timeboxing: A Time Management Technique for Improved Productivity"
 date: 2023-04-25

@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "tell dont ask"
+---
+---
 type: policy
 title: Tell, Don't Ask
 date: 2015-03-03

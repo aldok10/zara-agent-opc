@@ -1,4 +1,8 @@
 ---
+type: fact
+title: "aggregate pattern"
+---
+---
 type: architecture
 title: Aggregate Pattern
 date: 2024-04-02

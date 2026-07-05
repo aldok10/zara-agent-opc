@@ -62,7 +62,8 @@ Senior Go engineer, Go 1.26. Stdlib-first, context-driven, simplicity as a featu
 | Signal | Load |
 |--------|------|
 | latency, memory, GC, pprof, pool, benchmark | `subskills/performance.md` |
-| goroutine, channel, mutex, race, atomic, context, deadlock, leak | `subskills/concurrency.md` |
+| goroutine, channel, mutex, race, atomic, deadlock, leak | `subskills/concurrency.md` |
+| context, WithCancel, WithTimeout, errgroup, structured concurrency, wg.Go | `subskills/context-patterns.md` |
 | scheduler, GMP, stack, preemption, runtime, netpoller | `knowledge/runtime-internals.md` |
 | happens-before, memory model, data race, ordering | `knowledge/memory-model.md` |
 | test, fuzz, bench, mock, coverage | `subskills/testing.md` |

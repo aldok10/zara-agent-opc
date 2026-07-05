@@ -74,7 +74,7 @@ Continuous discovery practices: identify opportunities, validate assumptions, de
 
 ## AI-Era Context (2026)
 
-AI synthesizes interview transcripts into opportunity statements, generates assumption maps from PRDs, and identifies patterns across user research sessions at scale. It dramatically reduces the time from raw research to structured insights. However, AI cannot replace user empathy -- it summarizes what was said but misses tone, hesitation, and unspoken needs. The risk: teams skip actual user contact because AI synthesis "feels" sufficient. Discovery still requires direct observation and conversation; AI accelerates analysis, not understanding.
+AI synthesizes interview transcripts into opportunity statements, generates assumption maps from PRDs, and identifies patterns across user research sessions at scale. It dramatically reduces the time from raw research to structured insights. However, AI cannot replace user empathy -- it summarizes what was said but misses tone, hesitation, and unspoken needs. The risk: teams skip actual user contact because AI synthesis "feels" sufficient. Discovery still requires direct observation and conversation; AI accelerates analysis, not understanding. AI generates hypothesis candidates from data signals, drafts PRDs from opportunity statements, and produces assumption maps - reducing discovery prep time. AI PRDs are starting points, not final artifacts.
 
 ## Knowledge
 

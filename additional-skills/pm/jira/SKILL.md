@@ -62,7 +62,7 @@ Jira project configuration, workflow design, JQL queries, automation rules, dash
 
 ## AI-Era Context (2026)
 
-Atlassian AI (Rovo) integrates across Jira: natural language to JQL, auto-triage based on historical patterns, smart assignment suggestions, and AI-generated issue summaries. JQL generation from plain English eliminates syntax barrier for non-technical stakeholders. Auto-triage labels and prioritizes incoming bugs based on component, severity signals, and past resolution patterns. However, workflow design, permission schemes, and cross-project governance remain manual -- structural decisions need human oversight.
+Atlassian AI (Rovo) integrates across Jira: natural language to JQL, auto-triage based on historical patterns, smart assignment suggestions, and AI-generated issue summaries. JQL generation from plain English eliminates syntax barrier for non-technical stakeholders. Auto-triage labels and prioritizes incoming bugs based on component, severity signals, and past resolution patterns. However, workflow design, permission schemes, and cross-project governance remain manual -- structural decisions need human oversight. Jira Goals connects work to strategic objectives. Plans includes AI-assisted capacity planning and scenario modeling.
 
 ## Knowledge
 

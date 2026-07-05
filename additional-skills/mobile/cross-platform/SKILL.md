@@ -88,13 +88,14 @@ Identify the project's requirements: team skills, performance needs, platform-sp
 
 ## AI-Era Context (2026)
 
-- KMP is stable (1.9+) and adopted by major companies for shared logic
+- KMP is stable (Kotlin 2.1+) and adopted by major companies for shared logic
 - Flutter Impeller closes the performance gap with native rendering
 - React Native New Architecture (bridgeless) eliminates historical perf issues
 - Compose Multiplatform (JetBrains) shares Compose UI across Android/iOS/Desktop
+- Compose Multiplatform 1.7+ shares UI across Android/iOS/Desktop
 - AI code assistants reduce boilerplate cost -- less reason to share UI just to reduce code
 - App Clips (iOS) and Instant Apps (Android) require native entry points regardless
-- Swift 6 + Kotlin 2.0 interop improving via shared protocols
+- Swift 6 + Kotlin 2.1 interop improving via shared protocols
 
 ## Related Skills
 

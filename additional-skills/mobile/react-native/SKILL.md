@@ -9,7 +9,7 @@ Production React Native with New Architecture, Expo, and modern tooling.
 
 ## Scope
 
-- React Native 0.76+ with New Architecture enabled (Fabric + TurboModules)
+- React Native 0.77+ with New Architecture enabled (Fabric + TurboModules)
 - Expo 52+ as the default framework layer
 - React Navigation 7 with static type-safe config
 - Reanimated 3 for 60fps animations on UI thread
@@ -23,7 +23,7 @@ Read `package.json`, `app.json`/`app.config.ts`, one screen component, and the n
 
 ## Constraints
 
-1. New Architecture enabled -- all new native modules use TurboModules + Codegen
+1. New Architecture is default and only supported path - bridgeless mode is the baseline
 2. Expo SDK 52+ -- use Expo modules over bare RN when available
 3. Fabric renderer for all custom native views
 4. React Navigation 7 with TypeScript-first static API

@@ -1,16 +1,16 @@
 ---
 name: flutter
-description: "Flutter 3.24+, Dart 3.5+, Riverpod 2, go_router, Impeller, freezed"
+description: "Flutter 3.27+, Dart 3.7+, Riverpod 2, go_router, Impeller, freezed"
 ---
 
 # Flutter
 
-Cross-platform mobile/desktop development with Flutter 3.24+ and Dart 3.5+.
+Cross-platform mobile/desktop development with Flutter 3.27+ and Dart 3.7+.
 
 ## Scope
 
-- Flutter 3.24+ with Impeller renderer as default
-- Dart 3.5+ with patterns, sealed classes, records, macros (experimental)
+- Flutter 3.27+ with Impeller renderer as default
+- Dart 3.7+ with patterns, sealed classes, records, macros (experimental)
 - Riverpod 2 with code generation (`@riverpod` annotation)
 - go_router for type-safe declarative routing
 - freezed for immutable data classes and unions
@@ -26,7 +26,7 @@ Read `pubspec.yaml`, `lib/main.dart`, one feature's provider file, and the route
 1. Impeller is the default renderer -- do not disable unless debugging specific rendering bugs
 2. Riverpod 2 with code gen: `@riverpod` annotation, no legacy `StateNotifierProvider`
 3. go_router type-safe routes: define route classes, no raw string paths
-4. FFI (`dart:ffi` or platform channels) for perf-critical native operations
+4. Native assets (`@Native` annotations) for FFI - replaces manual `dart:ffi` boilerplate
 5. Composition over inheritance -- prefer small widgets composed together
 6. freezed for all data classes and sealed unions
 7. `dart fix --apply` + `dart format` before every commit

@@ -5,12 +5,12 @@ description: "Android with Kotlin: Jetpack Compose, coroutines, Material 3, Hilt
 
 # Android Kotlin
 
-Modern Android development with Kotlin 2.0+, Jetpack Compose, and Material 3.
+Modern Android development with Kotlin 2.1+, Jetpack Compose 1.7+, Gradle 8.10+, and Material 3.
 
 ## Scope
 
 - Jetpack Compose UI (no legacy XML layouts for new screens)
-- Kotlin 2.0+ with K2 compiler, context receivers, explicit backing fields
+- Kotlin 2.1+ with K2 compiler, context parameters, explicit backing fields
 - Coroutines + Flow for async (structured concurrency)
 - Hilt for dependency injection
 - Material 3 dynamic color and adaptive layouts

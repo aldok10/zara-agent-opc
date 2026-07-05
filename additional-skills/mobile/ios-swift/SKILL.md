@@ -35,7 +35,8 @@ Read `Package.swift` or `.xcodeproj` dependencies, one existing Feature reducer 
 11. Previews: every view has `#Preview` with mock dependencies
 12. Strict `Sendable` conformance -- no `@unchecked Sendable` without comment
 13. Use `@Sendable` closures and `sending` parameter ownership to satisfy concurrency safety
-14. Minimum deployment target iOS 18 unless specified (iOS 17 is the floor for backward compat -- Observable, SwiftData, TipKit available there)
+14. Swift Testing framework (`@Test`, `@Suite`) for new test code - XCTest only for legacy or UI tests
+15. Minimum deployment target iOS 18 unless specified (iOS 17 is the floor for backward compat -- Observable, SwiftData, TipKit available there)
 
 ## DO NOT
 

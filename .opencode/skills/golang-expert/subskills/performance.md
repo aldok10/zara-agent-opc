@@ -401,78 +401,7 @@ git add cmd/myapp/default.pgo
 
 ## Arena Allocator (Experimental)
 
-> `arena` package: Go 1.20+ experimental (`GOEXPERIMENT=arenas`). Batch allocate, mass free without GC scanning.
-
-### Concept
-
-```
-Normal Go: each object individually tracked by GC. Free = mark as unreachable, wait for GC sweep.
-Arena: allocate many objects in contiguous region. Free = discard entire region instantly (O(1)).
-No individual object tracking. No GC mark work for arena objects.
-```
-
-### When to Use
-
-| Good Fit | Bad Fit |
-|----------|---------|
-| Request-scoped data (HTTP handler) | Long-lived objects |
-| Batch processing (parse → process → discard) | Objects shared across goroutines |
-| Compiler/parser temporary AST nodes | Objects with finalizers |
-| Serialization buffers | Objects that escape request lifetime |
-
-### Usage Pattern
-
-```go
-//go:build goexperiment.arenas
-
-import "arena"
-
-func handleRequest(w http.ResponseWriter, r *http.Request) {
-    a := arena.NewArena()
-    defer a.Free() // ALL allocations freed instantly, zero GC work
-
-    // Allocate in arena
-    node := arena.New[ASTNode](a)
-    node.Type = "expression"
-
-    // Allocate slice in arena
-    items := arena.MakeSlice[Item](a, 0, 1000)
-
-    // Process using arena-allocated data...
-    result := process(node, items)
-
-    // After Free(): all arena memory returned to OS
-    // NO GC scan needed for any of these objects
-}
-```
-
-### Tradeoffs
-
-| Pro | Con |
-|-----|-----|
-| Zero GC overhead for arena objects | Experimental, API may change |
-| O(1) bulk free | Objects can't outlive arena |
-| Reduces GC pause time for batch workloads | Panic if accessed after Free() |
-| Cache-friendly (contiguous allocation) | Needs `GOEXPERIMENT=arenas` build tag |
-| Good for request-scoped workloads | Can't mix arena/heap objects carelessly |
-
-### Relationship to Other Patterns
-
-```
-sync.Pool: recycle individual objects across GC cycles (hot path reuse)
-Arena: batch allocate, batch free (request-scoped, no GC involvement)
-Stack allocation: automatic, function-scoped (smallest lifetime)
-GOMEMLIMIT: control GC frequency (all heap objects)
-
-Complementary, not competing. Use stack for small/local,
-arena for batch/request, pool for hot reuse, heap for everything else.
-```
-
-### Current Status (2026)
-
-Experimental since Go 1.20. Not yet stable API. Production use at discretion.
-CockroachDB and similar projects use internal arena patterns (manual, pre-dating the package).
-If API stabilizes, expected to become standard for high-throughput servers.
+See `knowledge/runtime-internals.md` for arena details. Summary: `arena` package (Go 1.20+, `GOEXPERIMENT=arenas`) enables batch allocate/free without GC scanning. Good for request-scoped data. Not yet stable API.
 
 ## Anti-Patterns
 

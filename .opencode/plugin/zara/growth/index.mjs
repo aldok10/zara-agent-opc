@@ -155,6 +155,7 @@ function resolveDispatch(toolName, args) {
 export default function createGrowth({ client, directory } = {}) {
   // Session-scoped flags (reset on session.created).
   let _userGrowthInjected = false;
+  let _selfGrowthInjected = false;
   let _sessionTopics = new Set();
 
   function ensureSelfState() {
@@ -241,6 +242,7 @@ export default function createGrowth({ client, directory } = {}) {
       if (event?.type !== 'session.created') return;
       // Reset per-session gates.
       _userGrowthInjected = false;
+      _selfGrowthInjected = false;
       _sessionTopics = new Set();
 
       // Self-growth: increment session counter, review every Nth session.
@@ -255,19 +257,22 @@ export default function createGrowth({ client, directory } = {}) {
     inject(messages) {
       const parts = [];
 
-      // 1. Self-growth lessons (top N, token-efficient).
-      try {
-        const state = ensureSelfState();
-        const lessons = (state.lessons || []).slice(0, MAX_LESSONS);
-        if (lessons.length) {
-          const lines = lessons.map(l => `- ${l.pattern} → ${l.fix}`);
-          parts.push(`[Self-Growth] Learned from past mistakes:\n${lines.join('\n')}`);
-          // Mark applied (best-effort; cheap write).
-          let bumped = false;
-          for (const l of state.lessons.slice(0, MAX_LESSONS)) { l.appliedCount = (l.appliedCount || 0) + 1; bumped = true; }
-          if (bumped) saveJson(SELF_LESSONS_FILE, state);
-        }
-      } catch { /* non-fatal */ }
+      // 1. Self-growth lessons (top N, token-efficient, once per session).
+      if (!_selfGrowthInjected) {
+        try {
+          const state = ensureSelfState();
+          const lessons = (state.lessons || []).slice(0, MAX_LESSONS);
+          if (lessons.length) {
+            const lines = lessons.map(l => `- ${l.pattern} → ${l.fix}`);
+            parts.push(`[Self-Growth] Learned from past mistakes:\n${lines.join('\n')}`);
+            // Mark applied (best-effort; cheap write).
+            let bumped = false;
+            for (const l of state.lessons.slice(0, MAX_LESSONS)) { l.appliedCount = (l.appliedCount || 0) + 1; bumped = true; }
+            if (bumped) saveJson(SELF_LESSONS_FILE, state);
+          }
+          _selfGrowthInjected = true;
+        } catch { _selfGrowthInjected = true; }
+      }
 
       // 2. User-growth: one line, once per session.
       if (!_userGrowthInjected) {

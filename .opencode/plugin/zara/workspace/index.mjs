@@ -53,6 +53,7 @@ export default function createWorkspace({ directory } = {}) {
   // In-memory cache with file-mtime invalidation
   let cache = null;
   let cacheMtime = 0;
+  let _wsInjected = false;
 
   function getEntries() {
     try {
@@ -82,6 +83,9 @@ export default function createWorkspace({ directory } = {}) {
   return {
     onEvent(event) {
       const type = typeof event === 'string' ? event : event?.type;
+      if (type === 'session.created') {
+        _wsInjected = false;
+      }
       if (type === 'session.end') {
         try {
           const entries = loadEntries(wsFile);
@@ -96,6 +100,7 @@ export default function createWorkspace({ directory } = {}) {
 
     inject(messages) {
       if (!messages || !Array.isArray(messages)) return messages || [];
+      if (_wsInjected) return messages;
       const entries = getEntries();
       if (!entries.length) return messages;
       const fourHoursAgo = Date.now() - 4 * 3600_000;
@@ -105,6 +110,7 @@ export default function createWorkspace({ directory } = {}) {
       });
       if (!recent.length) return messages;
 
+      _wsInjected = true;
       const summary = typeSummary(recent);
       const nudge = `## Workspace Memory\n${recent.length} shared entries (${summary}). Use zara_workspace (action:query) to check context from other agents.`;
       const last = messages[messages.length - 1];

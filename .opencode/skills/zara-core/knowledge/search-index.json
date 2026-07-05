@@ -1,0 +1,4221 @@
+{
+  "version": 1,
+  "generated": "2026-06-19T07:18:08.371Z",
+  "count": 251,
+  "entries": [
+    {
+      "title": "Antipatterns",
+      "description": "Antipatterns are simply design patterns that in many cases introduce more problems than they solve.",
+      "section": "antipatterns",
+      "slug": "_index",
+      "path": "knowledge/antipatterns/_index.md",
+      "keywords": [
+        "antipatterns",
+        "simply",
+        "design",
+        "patterns",
+        "many",
+        "cases",
+        "introduce",
+        "problems",
+        "they",
+        "solve"
+      ]
+    },
+    {
+      "title": "analysis paralysis",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "analysis-paralysis",
+      "path": "knowledge/antipatterns/analysis-paralysis.md",
+      "keywords": [
+        "analysis",
+        "paralysis"
+      ]
+    },
+    {
+      "title": "Architecture by Implication: An Antipattern in Software Design",
+      "description": "The Architecture by Implication (ABI) antipattern is a common issue that arises in software design when developers make design decisions implicitly rather than explicitly, which can lead to a poorly defined and chaotic architecture.",
+      "section": "antipatterns",
+      "slug": "architecture-by-implication",
+      "path": "knowledge/antipatterns/architecture-by-implication.md",
+      "keywords": [
+        "architecture",
+        "implication",
+        "antipattern",
+        "software",
+        "design",
+        "abi",
+        "common",
+        "issue",
+        "arises",
+        "developers",
+        "make",
+        "decisions",
+        "implicitly",
+        "rather",
+        "explicitly",
+        "lead",
+        "poorly",
+        "defined",
+        "chaotic"
+      ]
+    },
+    {
+      "title": "assumption driven programming",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "assumption-driven-programming",
+      "path": "knowledge/antipatterns/assumption-driven-programming.md",
+      "keywords": [
+        "assumption",
+        "driven",
+        "programming"
+      ]
+    },
+    {
+      "title": "big ball of mud",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "big-ball-of-mud",
+      "path": "knowledge/antipatterns/big-ball-of-mud.md",
+      "keywords": [
+        "big",
+        "ball",
+        "mud"
+      ]
+    },
+    {
+      "title": "big design up front",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "big-design-up-front",
+      "path": "knowledge/antipatterns/big-design-up-front.md",
+      "keywords": [
+        "big",
+        "design",
+        "front"
+      ]
+    },
+    {
+      "title": "blob",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "blob",
+      "path": "knowledge/antipatterns/blob.md",
+      "keywords": [
+        "blob"
+      ]
+    },
+    {
+      "title": "broken windows",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "broken-windows",
+      "path": "knowledge/antipatterns/broken-windows.md",
+      "keywords": [
+        "broken",
+        "windows"
+      ]
+    },
+    {
+      "title": "calendar coder",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "calendar-coder",
+      "path": "knowledge/antipatterns/calendar-coder.md",
+      "keywords": [
+        "calendar",
+        "coder"
+      ]
+    },
+    {
+      "title": "copy folder versioning",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "copy-folder-versioning",
+      "path": "knowledge/antipatterns/copy-folder-versioning.md",
+      "keywords": [
+        "copy",
+        "folder",
+        "versioning"
+      ]
+    },
+    {
+      "title": "copy paste programming",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "copy-paste-programming",
+      "path": "knowledge/antipatterns/copy-paste-programming.md",
+      "keywords": [
+        "copy",
+        "paste",
+        "programming"
+      ]
+    },
+    {
+      "title": "death by planning",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "death-by-planning",
+      "path": "knowledge/antipatterns/death-by-planning.md",
+      "keywords": [
+        "death",
+        "planning"
+      ]
+    },
+    {
+      "title": "death march",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "death-march",
+      "path": "knowledge/antipatterns/death-march.md",
+      "keywords": [
+        "death",
+        "march"
+      ]
+    },
+    {
+      "title": "duct tape coder",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "duct-tape-coder",
+      "path": "knowledge/antipatterns/duct-tape-coder.md",
+      "keywords": [
+        "duct",
+        "tape",
+        "coder"
+      ]
+    },
+    {
+      "title": "exposing collection properties",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "exposing-collection-properties",
+      "path": "knowledge/antipatterns/exposing-collection-properties.md",
+      "keywords": [
+        "exposing",
+        "collection",
+        "properties"
+      ]
+    },
+    {
+      "title": "fast beats right",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "fast-beats-right",
+      "path": "knowledge/antipatterns/fast-beats-right.md",
+      "keywords": [
+        "fast",
+        "beats",
+        "right"
+      ]
+    },
+    {
+      "title": "feature creep",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "feature-creep",
+      "path": "knowledge/antipatterns/feature-creep.md",
+      "keywords": [
+        "feature",
+        "creep"
+      ]
+    },
+    {
+      "title": "Flags Over Objects",
+      "description": "The Flags Over Objects anti-pattern occurs when behavior is written outside of an object by inspecting flags (such as status codes), rather than within the object itself.",
+      "section": "antipatterns",
+      "slug": "flags-over-objects",
+      "path": "knowledge/antipatterns/flags-over-objects.md",
+      "keywords": [
+        "flags",
+        "objects",
+        "anti",
+        "pattern",
+        "occurs",
+        "behavior",
+        "written",
+        "outside",
+        "object",
+        "inspecting",
+        "status",
+        "codes",
+        "rather",
+        "within",
+        "itself"
+      ]
+    },
+    {
+      "title": "found on internet",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "found-on-internet",
+      "path": "knowledge/antipatterns/found-on-internet.md",
+      "keywords": [
+        "found",
+        "internet"
+      ]
+    },
+    {
+      "title": "frankencode",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "frankencode",
+      "path": "knowledge/antipatterns/frankencode.md",
+      "keywords": [
+        "frankencode"
+      ]
+    },
+    {
+      "title": "frozen caveman",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "frozen-caveman",
+      "path": "knowledge/antipatterns/frozen-caveman.md",
+      "keywords": [
+        "frozen",
+        "caveman"
+      ]
+    },
+    {
+      "title": "golden hammer",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "golden-hammer",
+      "path": "knowledge/antipatterns/golden-hammer.md",
+      "keywords": [
+        "golden",
+        "hammer"
+      ]
+    },
+    {
+      "title": "iceberg class",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "iceberg-class",
+      "path": "knowledge/antipatterns/iceberg-class.md",
+      "keywords": [
+        "iceberg",
+        "class"
+      ]
+    },
+    {
+      "title": "last 10percent trap",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "last-10percent-trap",
+      "path": "knowledge/antipatterns/last-10percent-trap.md",
+      "keywords": [
+        "last",
+        "10percent",
+        "trap"
+      ]
+    },
+    {
+      "title": "lois lane planning",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "lois-lane-planning",
+      "path": "knowledge/antipatterns/lois-lane-planning.md",
+      "keywords": [
+        "lois",
+        "lane",
+        "planning"
+      ]
+    },
+    {
+      "title": "Magic Strings",
+      "description": "Magic strings are string values that are specified directly within application code that have an impact on the application's behavior.",
+      "section": "antipatterns",
+      "slug": "magic-strings",
+      "path": "knowledge/antipatterns/magic-strings.md",
+      "keywords": [
+        "magic",
+        "strings",
+        "string",
+        "values",
+        "specified",
+        "directly",
+        "within",
+        "application",
+        "code",
+        "impact",
+        "behavior"
+      ]
+    },
+    {
+      "title": "mushroom management",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "mushroom-management",
+      "path": "knowledge/antipatterns/mushroom-management.md",
+      "keywords": [
+        "mushroom",
+        "management"
+      ]
+    },
+    {
+      "title": "not invented here",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "not-invented-here",
+      "path": "knowledge/antipatterns/not-invented-here.md",
+      "keywords": [
+        "invented",
+        "here"
+      ]
+    },
+    {
+      "title": "one thing to rule them all",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "one-thing-to-rule-them-all",
+      "path": "knowledge/antipatterns/one-thing-to-rule-them-all.md",
+      "keywords": [
+        "one",
+        "thing",
+        "rule",
+        "them"
+      ]
+    },
+    {
+      "title": "reinventing the wheel",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "reinventing-the-wheel",
+      "path": "knowledge/antipatterns/reinventing-the-wheel.md",
+      "keywords": [
+        "reinventing",
+        "wheel"
+      ]
+    },
+    {
+      "title": "Service Locator Antipattern in Software Development",
+      "description": "The Service Locator is a design pattern (some would argue antipattern) often used in software development to manage dependencies between objects. It acts as a central registry where objects can locate and access their dependencies. However, it is considered an antipattern in certain contexts due to its negative impact on maintainability, testability, and the clarity of the code.",
+      "section": "antipatterns",
+      "slug": "service-locator",
+      "path": "knowledge/antipatterns/service-locator.md",
+      "keywords": [
+        "service",
+        "locator",
+        "antipattern",
+        "software",
+        "development",
+        "design",
+        "pattern",
+        "argue",
+        "often",
+        "manage",
+        "dependencies",
+        "objects",
+        "acts",
+        "central",
+        "registry",
+        "locate",
+        "access",
+        "however",
+        "considered",
+        "certain",
+        "contexts",
+        "due",
+        "negative",
+        "impact",
+        "maintainability",
+        "testability",
+        "clarity",
+        "code"
+      ]
+    },
+    {
+      "title": "shiny toy",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "shiny-toy",
+      "path": "knowledge/antipatterns/shiny-toy.md",
+      "keywords": [
+        "shiny",
+        "toy"
+      ]
+    },
+    {
+      "title": "smoke and mirrors",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "smoke-and-mirrors",
+      "path": "knowledge/antipatterns/smoke-and-mirrors.md",
+      "keywords": [
+        "smoke",
+        "mirrors"
+      ]
+    },
+    {
+      "title": "spaghetti code",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "spaghetti-code",
+      "path": "knowledge/antipatterns/spaghetti-code.md",
+      "keywords": [
+        "spaghetti",
+        "code"
+      ]
+    },
+    {
+      "title": "static cling",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "static-cling",
+      "path": "knowledge/antipatterns/static-cling.md",
+      "keywords": [
+        "static",
+        "cling"
+      ]
+    },
+    {
+      "title": "walking through a minefield",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "walking-through-a-minefield",
+      "path": "knowledge/antipatterns/walking-through-a-minefield.md",
+      "keywords": [
+        "walking",
+        "minefield"
+      ]
+    },
+    {
+      "title": "waterfall",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "waterfall",
+      "path": "knowledge/antipatterns/waterfall.md",
+      "keywords": [
+        "waterfall"
+      ]
+    },
+    {
+      "title": "witches brew architecture",
+      "description": "",
+      "section": "antipatterns",
+      "slug": "witches-brew-architecture",
+      "path": "knowledge/antipatterns/witches-brew-architecture.md",
+      "keywords": [
+        "witches",
+        "brew",
+        "architecture"
+      ]
+    },
+    {
+      "title": "Architecture",
+      "description": "Code can be successful with the right supports, a solid architecture.",
+      "section": "architecture",
+      "slug": "_index",
+      "path": "knowledge/architecture/_index.md",
+      "keywords": [
+        "architecture",
+        "code",
+        "successful",
+        "right",
+        "supports",
+        "solid"
+      ]
+    },
+    {
+      "title": "clean architecture",
+      "description": "",
+      "section": "architecture",
+      "slug": "clean-architecture",
+      "path": "knowledge/architecture/clean-architecture.md",
+      "keywords": [
+        "clean",
+        "architecture"
+      ]
+    },
+    {
+      "title": "Competing Consumers Pattern",
+      "description": "Competing Consumers is an architecture pattern in which a queue is filled with work requests or commands, and one or more consumers pull messages from the queue and process them.",
+      "section": "architecture",
+      "slug": "competing-consumers",
+      "path": "knowledge/architecture/competing-consumers.md",
+      "keywords": [
+        "competing",
+        "consumers",
+        "pattern",
+        "architecture",
+        "queue",
+        "filled",
+        "work",
+        "requests",
+        "commands",
+        "one",
+        "pull",
+        "messages",
+        "process",
+        "them"
+      ]
+    },
+    {
+      "title": "event driven architecture",
+      "description": "",
+      "section": "architecture",
+      "slug": "event-driven-architecture",
+      "path": "knowledge/architecture/event-driven-architecture.md",
+      "keywords": [
+        "event",
+        "driven",
+        "architecture"
+      ]
+    },
+    {
+      "title": "Layered Architecture",
+      "description": "Layered Architecture organizes software into distinct layers, each with specific responsibilities, where each layer only communicates with adjacent layers.",
+      "section": "architecture",
+      "slug": "layered-architecture",
+      "path": "knowledge/architecture/layered-architecture.md",
+      "keywords": [
+        "layered",
+        "architecture",
+        "organizes",
+        "software",
+        "distinct",
+        "layers",
+        "specific",
+        "responsibilities",
+        "layer",
+        "communicates",
+        "adjacent"
+      ]
+    },
+    {
+      "title": "Modular Monolith",
+      "description": "A Modular Monolith is a software architecture that combines the simplicity of monolithic deployment with the organizational benefits of modularity, using well-defined boundaries between modules while maintaining a single deployable unit.",
+      "section": "architecture",
+      "slug": "modular-monolith",
+      "path": "knowledge/architecture/modular-monolith.md",
+      "keywords": [
+        "modular",
+        "monolith",
+        "software",
+        "architecture",
+        "combines",
+        "simplicity",
+        "monolithic",
+        "deployment",
+        "organizational",
+        "benefits",
+        "modularity",
+        "well",
+        "defined",
+        "boundaries",
+        "modules",
+        "while",
+        "maintaining",
+        "single",
+        "deployable",
+        "unit"
+      ]
+    },
+    {
+      "title": "N-Tier Architecture",
+      "description": "N-Tier Architecture organizes applications into multiple layers—commonly UI, Business Logic, and Data Access—each with distinct responsibilities, and can be deployed across separate physical tiers.",
+      "section": "architecture",
+      "slug": "n-tier-architecture",
+      "path": "knowledge/architecture/n-tier-architecture.md",
+      "keywords": [
+        "tier",
+        "architecture",
+        "organizes",
+        "applications",
+        "multiple",
+        "layers",
+        "commonly",
+        "business",
+        "logic",
+        "data",
+        "access",
+        "distinct",
+        "responsibilities",
+        "deployed",
+        "across",
+        "separate",
+        "physical",
+        "tiers"
+      ]
+    },
+    {
+      "title": "Vertical Slice Architecture",
+      "description": "In Vertical Slice Architecture, we organize the application by features rather than layers.",
+      "section": "architecture",
+      "slug": "vertical-slice-architecture",
+      "path": "knowledge/architecture/vertical-slice-architecture.md",
+      "keywords": [
+        "vertical",
+        "slice",
+        "architecture",
+        "organize",
+        "application",
+        "features",
+        "rather",
+        "layers"
+      ]
+    },
+    {
+      "title": "Web-Queue-Worker Architecture",
+      "description": "Web-Queue-Worker Architecture separates request handling from background processing by placing durable work items on a queue and processing them asynchronously with worker services.",
+      "section": "architecture",
+      "slug": "web-queue-worker-architecture",
+      "path": "knowledge/architecture/web-queue-worker-architecture.md",
+      "keywords": [
+        "web",
+        "queue",
+        "worker",
+        "architecture",
+        "separates",
+        "request",
+        "handling",
+        "background",
+        "processing",
+        "placing",
+        "durable",
+        "work",
+        "items",
+        "them",
+        "asynchronously",
+        "services"
+      ]
+    },
+    {
+      "title": "Code Smells",
+      "description": "Code smells, or bad smells in code, refer to symptoms of code that may indicate deeper problems.",
+      "section": "code-smells",
+      "slug": "_index",
+      "path": "knowledge/code-smells/_index.md",
+      "keywords": [
+        "code",
+        "smells",
+        "bad",
+        "refer",
+        "symptoms",
+        "may",
+        "indicate",
+        "deeper",
+        "problems"
+      ]
+    },
+    {
+      "title": "Alternative Class with Different Interfaces Code Smell",
+      "description": "The Alternative Class with Different Interfaces code smell occurs when two or more classes do the same thing but expose different method names or signatures, preventing them from being used interchangeably.",
+      "section": "code-smells",
+      "slug": "alternative-class-different-interfaces",
+      "path": "knowledge/code-smells/alternative-class-different-interfaces.md",
+      "keywords": [
+        "alternative",
+        "class",
+        "different",
+        "interfaces",
+        "code",
+        "smell",
+        "occurs",
+        "two",
+        "classes",
+        "thing",
+        "expose",
+        "method",
+        "names",
+        "signatures",
+        "preventing",
+        "them",
+        "interchangeably"
+      ]
+    },
+    {
+      "title": "Artificial Coupling Code Smell",
+      "description": "Artificial Coupling is a code smell where unrelated concepts are coupled together through shared state, a common base class, or co-location, when no real relationship exists between them.",
+      "section": "code-smells",
+      "slug": "artificial-coupling",
+      "path": "knowledge/code-smells/artificial-coupling.md",
+      "keywords": [
+        "artificial",
+        "coupling",
+        "code",
+        "smell",
+        "unrelated",
+        "concepts",
+        "coupled",
+        "together",
+        "shared",
+        "state",
+        "common",
+        "base",
+        "class",
+        "location",
+        "real",
+        "relationship",
+        "exists",
+        "them"
+      ]
+    },
+    {
+      "title": "Bump Road Code Smell",
+      "description": "The Bump Road code smell occurs when code is unnecessarily difficult to work with due to accumulated friction — inconsistent patterns, unexpected side effects, and structural choices that make every change harder than it should be.",
+      "section": "code-smells",
+      "slug": "bump-road",
+      "path": "knowledge/code-smells/bump-road.md",
+      "keywords": [
+        "bump",
+        "road",
+        "code",
+        "smell",
+        "occurs",
+        "unnecessarily",
+        "difficult",
+        "work",
+        "due",
+        "accumulated",
+        "friction",
+        "inconsistent",
+        "patterns",
+        "unexpected",
+        "side",
+        "effects",
+        "structural",
+        "choices",
+        "make",
+        "every",
+        "change",
+        "harder"
+      ]
+    },
+    {
+      "title": "Class Depends on Subclass Code Smell",
+      "description": "The Class Depends on Subclass code smell occurs when a base class contains references to, or knowledge of, one or more of its own subclasses — inverting the expected dependency direction in an inheritance hierarchy.",
+      "section": "code-smells",
+      "slug": "class-depends-on-subclass",
+      "path": "knowledge/code-smells/class-depends-on-subclass.md",
+      "keywords": [
+        "class",
+        "depends",
+        "subclass",
+        "code",
+        "smell",
+        "occurs",
+        "base",
+        "contains",
+        "references",
+        "knowledge",
+        "one",
+        "subclasses",
+        "inverting",
+        "expected",
+        "dependency",
+        "direction",
+        "inheritance",
+        "hierarchy"
+      ]
+    },
+    {
+      "title": "Class Doesn't Do Much Code Smell",
+      "description": "The Class Doesn't Do Much code smell, also called a Lazy Class, describes a class that exists in the codebase but contributes so little behavior or responsibility that it does not justify its own existence.",
+      "section": "code-smells",
+      "slug": "class-doesnt-do-much",
+      "path": "knowledge/code-smells/class-doesnt-do-much.md",
+      "keywords": [
+        "class",
+        "doesn",
+        "code",
+        "smell",
+        "called",
+        "lazy",
+        "describes",
+        "exists",
+        "codebase",
+        "contributes",
+        "little",
+        "behavior",
+        "responsibility",
+        "justify",
+        "existence"
+      ]
+    },
+    {
+      "title": "Combinatorial Explosion Code Smell",
+      "description": "The Combinatorial Explosion code smell occurs when a small number of variations in behavior leads to a disproportionately large number of methods, classes, or code paths — growing multiplicatively rather than additively.",
+      "section": "code-smells",
+      "slug": "combinatorial-explosion",
+      "path": "knowledge/code-smells/combinatorial-explosion.md",
+      "keywords": [
+        "combinatorial",
+        "explosion",
+        "code",
+        "smell",
+        "occurs",
+        "small",
+        "number",
+        "variations",
+        "behavior",
+        "leads",
+        "disproportionately",
+        "large",
+        "methods",
+        "classes",
+        "paths",
+        "growing",
+        "multiplicatively",
+        "rather",
+        "additively"
+      ]
+    },
+    {
+      "title": "Comments Code Smell",
+      "description": "The Comments code smell occurs when comments are used to explain unclear or poorly written code rather than improving the code itself to make it self-explanatory.",
+      "section": "code-smells",
+      "slug": "comments",
+      "path": "knowledge/code-smells/comments.md",
+      "keywords": [
+        "comments",
+        "code",
+        "smell",
+        "occurs",
+        "explain",
+        "unclear",
+        "poorly",
+        "written",
+        "rather",
+        "improving",
+        "itself",
+        "make",
+        "self",
+        "explanatory"
+      ]
+    },
+    {
+      "title": "Conditional Complexity Code Smell",
+      "description": "Conditional Complexity is a code smell where business logic is buried in a tangle of nested or duplicated if/else and switch statements that are difficult to read, test, and extend.",
+      "section": "code-smells",
+      "slug": "conditional-complexity",
+      "path": "knowledge/code-smells/conditional-complexity.md",
+      "keywords": [
+        "conditional",
+        "complexity",
+        "code",
+        "smell",
+        "business",
+        "logic",
+        "buried",
+        "tangle",
+        "nested",
+        "duplicated",
+        "else",
+        "switch",
+        "statements",
+        "difficult",
+        "read",
+        "test",
+        "extend"
+      ]
+    },
+    {
+      "title": "Data Class Code Smell",
+      "description": "The Data Class code smell describes a class that holds data but contains no meaningful behavior, acting only as a passive data container.",
+      "section": "code-smells",
+      "slug": "data-class",
+      "path": "knowledge/code-smells/data-class.md",
+      "keywords": [
+        "data",
+        "class",
+        "code",
+        "smell",
+        "describes",
+        "holds",
+        "contains",
+        "meaningful",
+        "behavior",
+        "acting",
+        "passive",
+        "container"
+      ]
+    },
+    {
+      "title": "Data Clumps Code Smell",
+      "description": "The Data Clumps code smell occurs when the same group of data items repeatedly appears together across multiple classes or method signatures, signaling that the group deserves its own type.",
+      "section": "code-smells",
+      "slug": "data-clumps",
+      "path": "knowledge/code-smells/data-clumps.md",
+      "keywords": [
+        "data",
+        "clumps",
+        "code",
+        "smell",
+        "occurs",
+        "group",
+        "items",
+        "repeatedly",
+        "appears",
+        "together",
+        "across",
+        "multiple",
+        "classes",
+        "method",
+        "signatures",
+        "signaling",
+        "deserves",
+        "type"
+      ]
+    },
+    {
+      "title": "Dead Code Code Smell",
+      "description": "The Dead Code code smell refers to code that is never executed, never reached, or no longer serves any purpose in the running application.",
+      "section": "code-smells",
+      "slug": "dead-code",
+      "path": "knowledge/code-smells/dead-code.md",
+      "keywords": [
+        "dead",
+        "code",
+        "smell",
+        "refers",
+        "never",
+        "executed",
+        "reached",
+        "longer",
+        "serves",
+        "any",
+        "purpose",
+        "running",
+        "application"
+      ]
+    },
+    {
+      "title": "Divergent Change Code Smell",
+      "description": "Divergent Change is a code smell where a single class is routinely modified for multiple unrelated reasons, indicating that the class has too many responsibilities.",
+      "section": "code-smells",
+      "slug": "divergent-change",
+      "path": "knowledge/code-smells/divergent-change.md",
+      "keywords": [
+        "divergent",
+        "change",
+        "code",
+        "smell",
+        "single",
+        "class",
+        "routinely",
+        "modified",
+        "multiple",
+        "unrelated",
+        "reasons",
+        "indicating",
+        "too",
+        "many",
+        "responsibilities"
+      ]
+    },
+    {
+      "title": "Duplicate Code Code Smell",
+      "description": "Duplicate Code is the presence of identical or near-identical code in more than one location, requiring changes to be made in multiple places when the logic needs to evolve.",
+      "section": "code-smells",
+      "slug": "duplicate-code",
+      "path": "knowledge/code-smells/duplicate-code.md",
+      "keywords": [
+        "duplicate",
+        "code",
+        "smell",
+        "presence",
+        "identical",
+        "near",
+        "one",
+        "location",
+        "requiring",
+        "changes",
+        "made",
+        "multiple",
+        "places",
+        "logic",
+        "needs",
+        "evolve"
+      ]
+    },
+    {
+      "title": "Feature Envy Code Smell",
+      "description": "Feature Envy is a code smell where a method in one class is more interested in the data or behavior of another class than in its own, suggesting the method belongs in the other class.",
+      "section": "code-smells",
+      "slug": "feature-envy",
+      "path": "knowledge/code-smells/feature-envy.md",
+      "keywords": [
+        "feature",
+        "envy",
+        "code",
+        "smell",
+        "method",
+        "one",
+        "class",
+        "interested",
+        "data",
+        "behavior",
+        "another",
+        "suggesting",
+        "belongs"
+      ]
+    },
+    {
+      "title": "Hidden Dependencies Code Smell",
+      "description": "Hidden Dependencies is a code smell where a class's required collaborators are not visible in its public interface, making the class's behavior unpredictable from the outside and difficult to test in isolation.",
+      "section": "code-smells",
+      "slug": "hidden-dependencies",
+      "path": "knowledge/code-smells/hidden-dependencies.md",
+      "keywords": [
+        "hidden",
+        "dependencies",
+        "code",
+        "smell",
+        "class",
+        "required",
+        "collaborators",
+        "visible",
+        "public",
+        "interface",
+        "making",
+        "behavior",
+        "unpredictable",
+        "outside",
+        "difficult",
+        "test",
+        "isolation"
+      ]
+    },
+    {
+      "title": "Hidden Temporal Coupling Code Smell",
+      "description": "Hidden Temporal Coupling is a code smell where methods must be called in a specific order, but nothing in the code makes that constraint visible or enforced, making incorrect usage easy and failures hard to diagnose.",
+      "section": "code-smells",
+      "slug": "hidden-temporal-coupling",
+      "path": "knowledge/code-smells/hidden-temporal-coupling.md",
+      "keywords": [
+        "hidden",
+        "temporal",
+        "coupling",
+        "code",
+        "smell",
+        "methods",
+        "must",
+        "called",
+        "specific",
+        "order",
+        "nothing",
+        "makes",
+        "constraint",
+        "visible",
+        "enforced",
+        "making",
+        "incorrect",
+        "usage",
+        "easy",
+        "failures",
+        "hard",
+        "diagnose"
+      ]
+    },
+    {
+      "title": "Inappropriate Intimacy Code Smell",
+      "description": "Inappropriate Intimacy is a code smell where two classes know too much about each other's internal implementation details, creating excessive coupling and mutual dependency.",
+      "section": "code-smells",
+      "slug": "inappropriate-intimacy",
+      "path": "knowledge/code-smells/inappropriate-intimacy.md",
+      "keywords": [
+        "inappropriate",
+        "intimacy",
+        "code",
+        "smell",
+        "two",
+        "classes",
+        "know",
+        "too",
+        "internal",
+        "implementation",
+        "details",
+        "creating",
+        "excessive",
+        "coupling",
+        "mutual",
+        "dependency"
+      ]
+    },
+    {
+      "title": "Inconsistency Code Smell",
+      "description": "The Inconsistency code smell occurs when similar problems are solved in different ways, or when naming, structure, and conventions vary across a codebase without reason.",
+      "section": "code-smells",
+      "slug": "inconsistency",
+      "path": "knowledge/code-smells/inconsistency.md",
+      "keywords": [
+        "inconsistency",
+        "code",
+        "smell",
+        "occurs",
+        "similar",
+        "problems",
+        "solved",
+        "different",
+        "ways",
+        "naming",
+        "structure",
+        "conventions",
+        "vary",
+        "across",
+        "codebase",
+        "without",
+        "reason"
+      ]
+    },
+    {
+      "title": "Inconsistent Abstraction Levels Code Smell",
+      "description": "Inconsistent Abstraction Levels is a code smell where a function or class mixes high-level policy with low-level implementation detail, making the code harder to read, test, and change.",
+      "section": "code-smells",
+      "slug": "inconsistent-abstraction-levels",
+      "path": "knowledge/code-smells/inconsistent-abstraction-levels.md",
+      "keywords": [
+        "inconsistent",
+        "abstraction",
+        "levels",
+        "code",
+        "smell",
+        "function",
+        "class",
+        "mixes",
+        "high",
+        "level",
+        "policy",
+        "low",
+        "implementation",
+        "detail",
+        "making",
+        "harder",
+        "read",
+        "test",
+        "change"
+      ]
+    },
+    {
+      "title": "Indecent Exposure Code Smell",
+      "description": "Indecent Exposure is a code smell where a class reveals internal implementation details that should be hidden, breaking encapsulation and increasing coupling to its internals.",
+      "section": "code-smells",
+      "slug": "indecent-exposure",
+      "path": "knowledge/code-smells/indecent-exposure.md",
+      "keywords": [
+        "indecent",
+        "exposure",
+        "code",
+        "smell",
+        "class",
+        "reveals",
+        "internal",
+        "implementation",
+        "details",
+        "hidden",
+        "breaking",
+        "encapsulation",
+        "increasing",
+        "coupling",
+        "internals"
+      ]
+    },
+    {
+      "title": "Law of Demeter Violations Code Smell",
+      "description": "Law of Demeter Violations occur when code navigates deeply through object graphs to access distant collaborators, creating tight coupling to intermediate structures that may change.",
+      "section": "code-smells",
+      "slug": "law-of-demeter-violations",
+      "path": "knowledge/code-smells/law-of-demeter-violations.md",
+      "keywords": [
+        "law",
+        "demeter",
+        "violations",
+        "code",
+        "smell",
+        "occur",
+        "navigates",
+        "deeply",
+        "object",
+        "graphs",
+        "access",
+        "distant",
+        "collaborators",
+        "creating",
+        "tight",
+        "coupling",
+        "intermediate",
+        "structures",
+        "may",
+        "change"
+      ]
+    },
+    {
+      "title": "Long Method Code Smell",
+      "description": "The Long Method code smell refers to methods or functions that have grown too large, taking on too many responsibilities and becoming difficult to read, test, and maintain.",
+      "section": "code-smells",
+      "slug": "long-method",
+      "path": "knowledge/code-smells/long-method.md",
+      "keywords": [
+        "long",
+        "method",
+        "code",
+        "smell",
+        "refers",
+        "methods",
+        "functions",
+        "grown",
+        "too",
+        "large",
+        "taking",
+        "many",
+        "responsibilities",
+        "becoming",
+        "difficult",
+        "read",
+        "test",
+        "maintain"
+      ]
+    },
+    {
+      "title": "Long Parameter List Code Smell",
+      "description": "The Long Parameter List code smell occurs when a method or function requires too many parameters, making it difficult to call correctly, understand at a glance, and maintain over time.",
+      "section": "code-smells",
+      "slug": "long-parameter-list",
+      "path": "knowledge/code-smells/long-parameter-list.md",
+      "keywords": [
+        "long",
+        "parameter",
+        "list",
+        "code",
+        "smell",
+        "occurs",
+        "method",
+        "function",
+        "requires",
+        "too",
+        "many",
+        "parameters",
+        "making",
+        "difficult",
+        "call",
+        "correctly",
+        "understand",
+        "glance",
+        "maintain",
+        "time"
+      ]
+    },
+    {
+      "title": "Message Chains Code Smell",
+      "description": "Message Chains is a code smell where code navigates a long sequence of object references to reach a distant collaborator, coupling the caller to every object in the chain.",
+      "section": "code-smells",
+      "slug": "message-chains",
+      "path": "knowledge/code-smells/message-chains.md",
+      "keywords": [
+        "message",
+        "chains",
+        "code",
+        "smell",
+        "navigates",
+        "long",
+        "sequence",
+        "object",
+        "references",
+        "reach",
+        "distant",
+        "collaborator",
+        "coupling",
+        "caller",
+        "every",
+        "chain"
+      ]
+    },
+    {
+      "title": "Middle Man Code Smell",
+      "description": "Middle Man is a code smell where a class does little work of its own and mostly delegates to another class, making it an unnecessary layer of indirection.",
+      "section": "code-smells",
+      "slug": "middle-man",
+      "path": "knowledge/code-smells/middle-man.md",
+      "keywords": [
+        "middle",
+        "man",
+        "code",
+        "smell",
+        "class",
+        "little",
+        "work",
+        "mostly",
+        "delegates",
+        "another",
+        "making",
+        "unnecessary",
+        "layer",
+        "indirection"
+      ]
+    },
+    {
+      "title": "Obscured Intent Code Smell",
+      "description": "The Obscured Intent code smell occurs when code is written in a way that hides what it is doing or why, requiring significant effort to decipher its purpose.",
+      "section": "code-smells",
+      "slug": "obscured-intent",
+      "path": "knowledge/code-smells/obscured-intent.md",
+      "keywords": [
+        "obscured",
+        "intent",
+        "code",
+        "smell",
+        "occurs",
+        "written",
+        "way",
+        "hides",
+        "doing",
+        "why",
+        "requiring",
+        "significant",
+        "effort",
+        "decipher",
+        "purpose"
+      ]
+    },
+    {
+      "title": "Oddball Solution Code Smell",
+      "description": "The Oddball Solution code smell occurs when a problem is solved in multiple different ways throughout a codebase, so that no single, consistent approach is used.",
+      "section": "code-smells",
+      "slug": "oddball-solution",
+      "path": "knowledge/code-smells/oddball-solution.md",
+      "keywords": [
+        "oddball",
+        "solution",
+        "code",
+        "smell",
+        "occurs",
+        "problem",
+        "solved",
+        "multiple",
+        "different",
+        "ways",
+        "throughout",
+        "codebase",
+        "single",
+        "consistent",
+        "approach"
+      ]
+    },
+    {
+      "title": "Parallel Inheritance Hierarchies Code Smell",
+      "description": "Parallel Inheritance Hierarchies is a code smell where every time you add a subclass to one class hierarchy, you are forced to add a corresponding subclass to a separate, mirrored hierarchy.",
+      "section": "code-smells",
+      "slug": "parallel-inheritance-hierarchies",
+      "path": "knowledge/code-smells/parallel-inheritance-hierarchies.md",
+      "keywords": [
+        "parallel",
+        "inheritance",
+        "hierarchies",
+        "code",
+        "smell",
+        "every",
+        "time",
+        "you",
+        "add",
+        "subclass",
+        "one",
+        "class",
+        "hierarchy",
+        "forced",
+        "corresponding",
+        "separate",
+        "mirrored"
+      ]
+    },
+    {
+      "title": "Poor Names Code Smell",
+      "description": "The Poor Names code smell occurs when identifiers — variables, methods, classes, and parameters — are named in ways that obscure their purpose, making code harder to read and understand.",
+      "section": "code-smells",
+      "slug": "poor-names",
+      "path": "knowledge/code-smells/poor-names.md",
+      "keywords": [
+        "poor",
+        "names",
+        "code",
+        "smell",
+        "occurs",
+        "identifiers",
+        "variables",
+        "methods",
+        "classes",
+        "parameters",
+        "named",
+        "ways",
+        "obscure",
+        "purpose",
+        "making",
+        "harder",
+        "read",
+        "understand"
+      ]
+    },
+    {
+      "title": "Poorly Written Tests Code Smell",
+      "description": "Poorly Written Tests is a code smell where the test suite fails to provide reliable feedback — tests are brittle, hard to understand, or actively misleading about the state of the software.",
+      "section": "code-smells",
+      "slug": "poorly-written-tests",
+      "path": "knowledge/code-smells/poorly-written-tests.md",
+      "keywords": [
+        "poorly",
+        "written",
+        "tests",
+        "code",
+        "smell",
+        "test",
+        "suite",
+        "fails",
+        "provide",
+        "reliable",
+        "feedback",
+        "brittle",
+        "hard",
+        "understand",
+        "actively",
+        "misleading",
+        "state",
+        "software"
+      ]
+    },
+    {
+      "title": "primitive obsession code smell",
+      "description": "",
+      "section": "code-smells",
+      "slug": "primitive-obsession-code-smell",
+      "path": "knowledge/code-smells/primitive-obsession-code-smell.md",
+      "keywords": [
+        "primitive",
+        "obsession",
+        "code",
+        "smell"
+      ]
+    },
+    {
+      "title": "Regions Code Smell",
+      "description": "The Regions code smell occurs when code is hidden behind collapsible region directives rather than being organized through proper structure, small classes, and well-named methods.",
+      "section": "code-smells",
+      "slug": "regions",
+      "path": "knowledge/code-smells/regions.md",
+      "keywords": [
+        "regions",
+        "code",
+        "smell",
+        "occurs",
+        "hidden",
+        "behind",
+        "collapsible",
+        "region",
+        "directives",
+        "rather",
+        "organized",
+        "proper",
+        "structure",
+        "small",
+        "classes",
+        "well",
+        "named",
+        "methods"
+      ]
+    },
+    {
+      "title": "Required Setup/Teardown Code Smell",
+      "description": "The Required Setup/Teardown code smell occurs when callers must remember to execute mandatory setup or cleanup code before and after using a class, rather than having that lifecycle managed automatically.",
+      "section": "code-smells",
+      "slug": "required-setup-teardown",
+      "path": "knowledge/code-smells/required-setup-teardown.md",
+      "keywords": [
+        "required",
+        "setup",
+        "teardown",
+        "code",
+        "smell",
+        "occurs",
+        "callers",
+        "must",
+        "remember",
+        "execute",
+        "mandatory",
+        "cleanup",
+        "class",
+        "rather",
+        "having",
+        "lifecycle",
+        "managed",
+        "automatically"
+      ]
+    },
+    {
+      "title": "Shotgun Surgery Code Smell",
+      "description": "Shotgun Surgery is a code smell where making a single logical change requires modifying many different classes or files simultaneously, spreading a single concern across the codebase in a fragile and error-prone way.",
+      "section": "code-smells",
+      "slug": "shotgun-surgery",
+      "path": "knowledge/code-smells/shotgun-surgery.md",
+      "keywords": [
+        "shotgun",
+        "surgery",
+        "code",
+        "smell",
+        "making",
+        "single",
+        "logical",
+        "change",
+        "requires",
+        "modifying",
+        "many",
+        "different",
+        "classes",
+        "files",
+        "simultaneously",
+        "spreading",
+        "concern",
+        "across",
+        "codebase",
+        "fragile",
+        "error",
+        "prone",
+        "way"
+      ]
+    },
+    {
+      "title": "Speculative Generality Code Smell",
+      "description": "Speculative Generality is the code smell of building abstractions, hooks, or flexibility into code for hypothetical future requirements that may never materialize.",
+      "section": "code-smells",
+      "slug": "speculative-generality",
+      "path": "knowledge/code-smells/speculative-generality.md",
+      "keywords": [
+        "speculative",
+        "generality",
+        "code",
+        "smell",
+        "building",
+        "abstractions",
+        "hooks",
+        "flexibility",
+        "hypothetical",
+        "future",
+        "requirements",
+        "may",
+        "never",
+        "materialize"
+      ]
+    },
+    {
+      "title": "Switch Statements Code Smell",
+      "description": "The Switch Statements code smell occurs when switch or if-else chains are used to vary behavior based on an object's type or state, rather than leveraging polymorphism.",
+      "section": "code-smells",
+      "slug": "switch-statements",
+      "path": "knowledge/code-smells/switch-statements.md",
+      "keywords": [
+        "switch",
+        "statements",
+        "code",
+        "smell",
+        "occurs",
+        "else",
+        "chains",
+        "vary",
+        "behavior",
+        "based",
+        "object",
+        "type",
+        "state",
+        "rather",
+        "leveraging",
+        "polymorphism"
+      ]
+    },
+    {
+      "title": "Temporary Field Code Smell",
+      "description": "The Temporary Field code smell occurs when an object has instance fields that are only set and used in certain circumstances, leaving them uninitialized or meaningless the rest of the time.",
+      "section": "code-smells",
+      "slug": "temporary-field",
+      "path": "knowledge/code-smells/temporary-field.md",
+      "keywords": [
+        "temporary",
+        "field",
+        "code",
+        "smell",
+        "occurs",
+        "object",
+        "instance",
+        "fields",
+        "set",
+        "certain",
+        "circumstances",
+        "leaving",
+        "them",
+        "uninitialized",
+        "meaningless",
+        "rest",
+        "time"
+      ]
+    },
+    {
+      "title": "Tramp Data Code Smell",
+      "description": "Tramp Data is a code smell where data is passed through a chain of methods solely to reach a distant consumer, indicating that the design does not reflect where the data actually belongs.",
+      "section": "code-smells",
+      "slug": "tramp-data",
+      "path": "knowledge/code-smells/tramp-data.md",
+      "keywords": [
+        "tramp",
+        "data",
+        "code",
+        "smell",
+        "passed",
+        "chain",
+        "methods",
+        "solely",
+        "reach",
+        "distant",
+        "consumer",
+        "indicating",
+        "design",
+        "reflect",
+        "actually",
+        "belongs"
+      ]
+    },
+    {
+      "title": "Vertical Separation Code Smell",
+      "description": "The Vertical Separation code smell occurs when related code elements are spread far apart vertically within a file, forcing readers to scroll extensively to understand how code fits together.",
+      "section": "code-smells",
+      "slug": "vertical-separation",
+      "path": "knowledge/code-smells/vertical-separation.md",
+      "keywords": [
+        "vertical",
+        "separation",
+        "code",
+        "smell",
+        "occurs",
+        "related",
+        "elements",
+        "spread",
+        "far",
+        "apart",
+        "vertically",
+        "within",
+        "file",
+        "forcing",
+        "readers",
+        "scroll",
+        "extensively",
+        "understand",
+        "fits",
+        "together"
+      ]
+    },
+    {
+      "title": "Design Patterns",
+      "description": "Design patterns are common approaches to solving similar problems.",
+      "section": "design-patterns",
+      "slug": "_index",
+      "path": "knowledge/design-patterns/_index.md",
+      "keywords": [
+        "design",
+        "patterns",
+        "common",
+        "approaches",
+        "solving",
+        "similar",
+        "problems"
+      ]
+    },
+    {
+      "title": "Abstract Factory Design Pattern",
+      "description": "The Abstract Factory Pattern is one of the creational design patterns that allows the creation of families of related or dependent objects without specifying their concrete classes. This pattern is particularly useful when the system needs to be independent of how its objects are created, composed, and represented.",
+      "section": "design-patterns",
+      "slug": "abstract-factory-pattern",
+      "path": "knowledge/design-patterns/abstract-factory-pattern.md",
+      "keywords": [
+        "abstract",
+        "factory",
+        "design",
+        "pattern",
+        "one",
+        "creational",
+        "patterns",
+        "allows",
+        "creation",
+        "families",
+        "related",
+        "dependent",
+        "objects",
+        "without",
+        "specifying",
+        "concrete",
+        "classes",
+        "particularly",
+        "useful",
+        "system",
+        "needs",
+        "independent",
+        "created",
+        "composed",
+        "represented"
+      ]
+    },
+    {
+      "title": "adapter design pattern",
+      "description": "",
+      "section": "design-patterns",
+      "slug": "adapter-design-pattern",
+      "path": "knowledge/design-patterns/adapter-design-pattern.md",
+      "keywords": [
+        "adapter",
+        "design",
+        "pattern"
+      ]
+    },
+    {
+      "title": "Bridge Design Pattern",
+      "description": "The Bridge Design Pattern decouples an abstraction from its implementation, allowing both to vary independently. Learn how to use the Bridge pattern in C# to improve flexibility and extensibility in your software design.",
+      "section": "design-patterns",
+      "slug": "bridge-pattern",
+      "path": "knowledge/design-patterns/bridge-pattern.md",
+      "keywords": [
+        "bridge",
+        "design",
+        "pattern",
+        "decouples",
+        "abstraction",
+        "implementation",
+        "allowing",
+        "both",
+        "vary",
+        "independently",
+        "learn",
+        "improve",
+        "flexibility",
+        "extensibility",
+        "your",
+        "software"
+      ]
+    },
+    {
+      "title": "builder pattern",
+      "description": "",
+      "section": "design-patterns",
+      "slug": "builder-pattern",
+      "path": "knowledge/design-patterns/builder-pattern.md",
+      "keywords": [
+        "builder",
+        "pattern"
+      ]
+    },
+    {
+      "title": "chain of responsibility pattern",
+      "description": "",
+      "section": "design-patterns",
+      "slug": "chain-of-responsibility-pattern",
+      "path": "knowledge/design-patterns/chain-of-responsibility-pattern.md",
+      "keywords": [
+        "chain",
+        "responsibility",
+        "pattern"
+      ]
+    },
+    {
+      "title": "Command Design Pattern",
+      "description": "The Command Design Pattern encapsulates a request as an object, allowing you to parameterize clients with different requests, queue or log requests, and support undoable operations. Learn how to implement the Command pattern in C#.",
+      "section": "design-patterns",
+      "slug": "command-pattern",
+      "path": "knowledge/design-patterns/command-pattern.md",
+      "keywords": [
+        "command",
+        "design",
+        "pattern",
+        "encapsulates",
+        "request",
+        "object",
+        "allowing",
+        "you",
+        "parameterize",
+        "clients",
+        "different",
+        "requests",
+        "queue",
+        "log",
+        "support",
+        "undoable",
+        "operations",
+        "learn",
+        "implement"
+      ]
+    },
+    {
+      "title": "Composite Design Pattern",
+      "description": "The Composite Design Pattern composes objects into tree structures to represent part-whole hierarchies, letting clients treat individual objects and compositions of objects uniformly. Learn how to implement the Composite pattern in C#.",
+      "section": "design-patterns",
+      "slug": "composite-pattern",
+      "path": "knowledge/design-patterns/composite-pattern.md",
+      "keywords": [
+        "composite",
+        "design",
+        "pattern",
+        "composes",
+        "objects",
+        "tree",
+        "structures",
+        "represent",
+        "part",
+        "whole",
+        "hierarchies",
+        "letting",
+        "clients",
+        "treat",
+        "individual",
+        "compositions",
+        "uniformly",
+        "learn",
+        "implement"
+      ]
+    },
+    {
+      "title": "cqrs pattern",
+      "description": "",
+      "section": "design-patterns",
+      "slug": "cqrs-pattern",
+      "path": "knowledge/design-patterns/cqrs-pattern.md",
+      "keywords": [
+        "cqrs",
+        "pattern"
+      ]
+    },
+    {
+      "title": "decorator pattern",
+      "description": "",
+      "section": "design-patterns",
+      "slug": "decorator-pattern",
+      "path": "knowledge/design-patterns/decorator-pattern.md",
+      "keywords": [
+        "decorator",
+        "pattern"
+      ]
+    },
+    {
+      "title": "domain events pattern",
+      "description": "",
+      "section": "design-patterns",
+      "slug": "domain-events-pattern",
+      "path": "knowledge/design-patterns/domain-events-pattern.md",
+      "keywords": [
+        "domain",
+        "events",
+        "pattern"
+      ]
+    },
+    {
+      "title": "Event Aggregator Pattern",
+      "description": "Learn how the Event Aggregator design pattern decouples event publishers from subscribers by routing events through a central hub. Discover its benefits, drawbacks, use cases, and C# implementation.",
+      "section": "design-patterns",
+      "slug": "event-aggregator-pattern",
+      "path": "knowledge/design-patterns/event-aggregator-pattern.md",
+      "keywords": [
+        "event",
+        "aggregator",
+        "pattern",
+        "learn",
+        "design",
+        "decouples",
+        "publishers",
+        "subscribers",
+        "routing",
+        "events",
+        "central",
+        "hub",
+        "discover",
+        "benefits",
+        "drawbacks",
+        "cases",
+        "implementation"
+      ]
+    },
+    {
+      "title": "facade pattern",
+      "description": "",
+      "section": "design-patterns",
+      "slug": "facade-pattern",
+      "path": "knowledge/design-patterns/facade-pattern.md",
+      "keywords": [
+        "facade",
+        "pattern"
+      ]
+    },
+    {
+      "title": "factory method pattern",
+      "description": "",
+      "section": "design-patterns",
+      "slug": "factory-method-pattern",
+      "path": "knowledge/design-patterns/factory-method-pattern.md",
+      "keywords": [
+        "factory",
+        "method",
+        "pattern"
+      ]
+    },
+    {
+      "title": "Flyweight Design Pattern",
+      "description": "The Flyweight Design Pattern uses sharing to efficiently support large numbers of fine-grained objects. Learn how to implement the Flyweight pattern in C# to reduce memory usage when working with many similar objects.",
+      "section": "design-patterns",
+      "slug": "flyweight-pattern",
+      "path": "knowledge/design-patterns/flyweight-pattern.md",
+      "keywords": [
+        "flyweight",
+        "design",
+        "pattern",
+        "uses",
+        "sharing",
+        "efficiently",
+        "support",
+        "large",
+        "numbers",
+        "fine",
+        "grained",
+        "objects",
+        "learn",
+        "implement",
+        "reduce",
+        "memory",
+        "usage",
+        "working",
+        "many",
+        "similar"
+      ]
+    },
+    {
+      "title": "Guard Clause",
+      "description": "Complexity in code makes it harder to understand what the code is doing. The smallest unit of our code tends to be the function or method.",
+      "section": "design-patterns",
+      "slug": "guard-clause",
+      "path": "knowledge/design-patterns/guard-clause.md",
+      "keywords": [
+        "guard",
+        "clause",
+        "complexity",
+        "code",
+        "makes",
+        "harder",
+        "understand",
+        "doing",
+        "smallest",
+        "unit",
+        "our",
+        "tends",
+        "function",
+        "method"
+      ]
+    },
+    {
+      "title": "Interpreter Design Pattern",
+      "description": "The Interpreter Design Pattern defines a grammar for a language and provides an interpreter to process sentences in that language. Learn how to implement the Interpreter pattern in C# using abstract syntax trees.",
+      "section": "design-patterns",
+      "slug": "interpreter-pattern",
+      "path": "knowledge/design-patterns/interpreter-pattern.md",
+      "keywords": [
+        "interpreter",
+        "design",
+        "pattern",
+        "defines",
+        "grammar",
+        "language",
+        "provides",
+        "process",
+        "sentences",
+        "learn",
+        "implement",
+        "abstract",
+        "syntax",
+        "trees"
+      ]
+    },
+    {
+      "title": "Iterator Design Pattern",
+      "description": "The Iterator Design Pattern provides a way to access elements of a collection sequentially without exposing its underlying representation. Learn how the Iterator pattern works in C# through IEnumerable, IEnumerator, and yield return.",
+      "section": "design-patterns",
+      "slug": "iterator-pattern",
+      "path": "knowledge/design-patterns/iterator-pattern.md",
+      "keywords": [
+        "iterator",
+        "design",
+        "pattern",
+        "provides",
+        "way",
+        "access",
+        "elements",
+        "collection",
+        "sequentially",
+        "without",
+        "exposing",
+        "underlying",
+        "representation",
+        "learn",
+        "works",
+        "ienumerable",
+        "ienumerator",
+        "yield",
+        "return"
+      ]
+    },
+    {
+      "title": "Lazy Load Pattern",
+      "description": "The Lazy Load Pattern defers the initialization of an object or resource until it is actually needed, avoiding unnecessary work and improving application startup performance.",
+      "section": "design-patterns",
+      "slug": "lazy-load-pattern",
+      "path": "knowledge/design-patterns/lazy-load-pattern.md",
+      "keywords": [
+        "lazy",
+        "load",
+        "pattern",
+        "defers",
+        "initialization",
+        "object",
+        "resource",
+        "until",
+        "actually",
+        "needed",
+        "avoiding",
+        "unnecessary",
+        "work",
+        "improving",
+        "application",
+        "startup",
+        "performance"
+      ]
+    },
+    {
+      "title": "mediator pattern",
+      "description": "",
+      "section": "design-patterns",
+      "slug": "mediator-pattern",
+      "path": "knowledge/design-patterns/mediator-pattern.md",
+      "keywords": [
+        "mediator",
+        "pattern"
+      ]
+    },
+    {
+      "title": "memento pattern",
+      "description": "",
+      "section": "design-patterns",
+      "slug": "memento-pattern",
+      "path": "knowledge/design-patterns/memento-pattern.md",
+      "keywords": [
+        "memento",
+        "pattern"
+      ]
+    },
+    {
+      "title": "Model-View-Controller (MVC) Design Pattern",
+      "description": "The Model-View-Controller (MVC) pattern separates an application into three components — Model, View, and Controller — to decouple business logic from presentation. Learn how MVC works, how it compares to MVP and MVVM, and why ViewModels often appear inside MVC applications.",
+      "section": "design-patterns",
+      "slug": "mvc-pattern",
+      "path": "knowledge/design-patterns/mvc-pattern.md",
+      "keywords": [
+        "model",
+        "view",
+        "controller",
+        "mvc",
+        "design",
+        "pattern",
+        "separates",
+        "application",
+        "three",
+        "components",
+        "decouple",
+        "business",
+        "logic",
+        "presentation",
+        "learn",
+        "works",
+        "compares",
+        "mvp",
+        "mvvm",
+        "why",
+        "viewmodels",
+        "often",
+        "appear",
+        "inside",
+        "applications"
+      ]
+    },
+    {
+      "title": "Model-View-Presenter (MVP) Design Pattern",
+      "description": "The Model-View-Presenter (MVP) pattern separates UI logic from the view by introducing a Presenter that communicates with the View through an interface, making presentation logic fully unit-testable. Learn how MVP works, its two variants, and how it compares to MVC and MVVM.",
+      "section": "design-patterns",
+      "slug": "mvp-pattern",
+      "path": "knowledge/design-patterns/mvp-pattern.md",
+      "keywords": [
+        "model",
+        "view",
+        "presenter",
+        "mvp",
+        "design",
+        "pattern",
+        "separates",
+        "logic",
+        "introducing",
+        "communicates",
+        "interface",
+        "making",
+        "presentation",
+        "fully",
+        "unit",
+        "testable",
+        "learn",
+        "works",
+        "two",
+        "variants",
+        "compares",
+        "mvc",
+        "mvvm"
+      ]
+    },
+    {
+      "title": "Model-View-ViewModel (MVVM) Design Pattern",
+      "description": "The Model-View-ViewModel (MVVM) pattern separates UI state and behavior into a ViewModel that the View data-binds to automatically, removing the need for imperative UI update code. Learn how MVVM works in C# with WPF/MAUI examples, and how it compares to MVC and MVP.",
+      "section": "design-patterns",
+      "slug": "mvvm-pattern",
+      "path": "knowledge/design-patterns/mvvm-pattern.md",
+      "keywords": [
+        "model",
+        "view",
+        "viewmodel",
+        "mvvm",
+        "design",
+        "pattern",
+        "separates",
+        "state",
+        "behavior",
+        "data",
+        "binds",
+        "automatically",
+        "removing",
+        "need",
+        "imperative",
+        "update",
+        "code",
+        "learn",
+        "works",
+        "wpf",
+        "maui",
+        "examples",
+        "compares",
+        "mvc",
+        "mvp"
+      ]
+    },
+    {
+      "title": "null object pattern",
+      "description": "",
+      "section": "design-patterns",
+      "slug": "null-object-pattern",
+      "path": "knowledge/design-patterns/null-object-pattern.md",
+      "keywords": [
+        "null",
+        "object",
+        "pattern"
+      ]
+    },
+    {
+      "title": "object mother pattern",
+      "description": "",
+      "section": "design-patterns",
+      "slug": "object-mother-pattern",
+      "path": "knowledge/design-patterns/object-mother-pattern.md",
+      "keywords": [
+        "object",
+        "mother",
+        "pattern"
+      ]
+    },
+    {
+      "title": "Observer Pattern",
+      "description": "Explore the Observer pattern, a key design pattern that enables loose coupling and dynamic communication between objects in software development. Learn about its benefits, drawbacks, use cases, and implementation.",
+      "section": "design-patterns",
+      "slug": "observer-pattern",
+      "path": "knowledge/design-patterns/observer-pattern.md",
+      "keywords": [
+        "observer",
+        "pattern",
+        "explore",
+        "key",
+        "design",
+        "enables",
+        "loose",
+        "coupling",
+        "dynamic",
+        "communication",
+        "objects",
+        "software",
+        "development",
+        "learn",
+        "benefits",
+        "drawbacks",
+        "cases",
+        "implementation"
+      ]
+    },
+    {
+      "title": "Prototype Design Pattern",
+      "description": "The Prototype Design Pattern creates new objects by copying an existing instance rather than constructing from scratch. Learn when to use it and how to implement deep and shallow cloning in C#.",
+      "section": "design-patterns",
+      "slug": "prototype-pattern",
+      "path": "knowledge/design-patterns/prototype-pattern.md",
+      "keywords": [
+        "prototype",
+        "design",
+        "pattern",
+        "creates",
+        "new",
+        "objects",
+        "copying",
+        "existing",
+        "instance",
+        "rather",
+        "constructing",
+        "scratch",
+        "learn",
+        "implement",
+        "deep",
+        "shallow",
+        "cloning"
+      ]
+    },
+    {
+      "title": "Proxy Pattern",
+      "description": "The Proxy Pattern can be useful for abstracting the access to data objects, providing additional functionality such as lazy loading, access control, or caching.",
+      "section": "design-patterns",
+      "slug": "proxy-pattern",
+      "path": "knowledge/design-patterns/proxy-pattern.md",
+      "keywords": [
+        "proxy",
+        "pattern",
+        "useful",
+        "abstracting",
+        "access",
+        "data",
+        "objects",
+        "providing",
+        "additional",
+        "functionality",
+        "lazy",
+        "loading",
+        "control",
+        "caching"
+      ]
+    },
+    {
+      "title": "Repository Pattern",
+      "description": "Understand the Repository design pattern and its role in software architecture. Learn how it abstracts data access, providing a clean separation between the data layer and business logic for more maintainable and testable applications.",
+      "section": "design-patterns",
+      "slug": "repository-pattern",
+      "path": "knowledge/design-patterns/repository-pattern.md",
+      "keywords": [
+        "repository",
+        "pattern",
+        "understand",
+        "design",
+        "role",
+        "software",
+        "architecture",
+        "learn",
+        "abstracts",
+        "data",
+        "access",
+        "providing",
+        "clean",
+        "separation",
+        "layer",
+        "business",
+        "logic",
+        "maintainable",
+        "testable",
+        "applications"
+      ]
+    },
+    {
+      "title": "REPR Design Pattern",
+      "description": "The REPR Design Pattern defines web API endpoints as having three components: a Request, an Endpoint, and a Response. It simplifies the frequently-used MVC pattern and is more focused on API development.",
+      "section": "design-patterns",
+      "slug": "repr-design-pattern",
+      "path": "knowledge/design-patterns/repr-design-pattern.md",
+      "keywords": [
+        "repr",
+        "design",
+        "pattern",
+        "defines",
+        "web",
+        "api",
+        "endpoints",
+        "having",
+        "three",
+        "components",
+        "request",
+        "endpoint",
+        "response",
+        "simplifies",
+        "frequently",
+        "mvc",
+        "focused",
+        "development"
+      ]
+    },
+    {
+      "title": "rules engine pattern",
+      "description": "",
+      "section": "design-patterns",
+      "slug": "rules-engine-pattern",
+      "path": "knowledge/design-patterns/rules-engine-pattern.md",
+      "keywords": [
+        "rules",
+        "engine",
+        "pattern"
+      ]
+    },
+    {
+      "title": "Service Locator Pattern",
+      "description": "The Service Locator pattern provides a central registry from which objects can retrieve their dependencies at runtime. While it solves some dependency management problems, it is widely considered an antipattern due to serious impacts on testability, maintainability, and code clarity.",
+      "section": "design-patterns",
+      "slug": "service-locator-pattern",
+      "path": "knowledge/design-patterns/service-locator-pattern.md",
+      "keywords": [
+        "service",
+        "locator",
+        "pattern",
+        "provides",
+        "central",
+        "registry",
+        "objects",
+        "retrieve",
+        "dependencies",
+        "runtime",
+        "while",
+        "solves",
+        "dependency",
+        "management",
+        "problems",
+        "widely",
+        "considered",
+        "antipattern",
+        "due",
+        "serious",
+        "impacts",
+        "testability",
+        "maintainability",
+        "code",
+        "clarity"
+      ]
+    },
+    {
+      "title": "singleton",
+      "description": "",
+      "section": "design-patterns",
+      "slug": "singleton",
+      "path": "knowledge/design-patterns/singleton.md",
+      "keywords": [
+        "singleton"
+      ]
+    },
+    {
+      "title": "specification pattern",
+      "description": "",
+      "section": "design-patterns",
+      "slug": "specification-pattern",
+      "path": "knowledge/design-patterns/specification-pattern.md",
+      "keywords": [
+        "specification",
+        "pattern"
+      ]
+    },
+    {
+      "title": "State Design Pattern",
+      "description": "The State Design Pattern is used to model changes in the status or state of an object by delegating rules for such changes to individual objects representing each possible state.",
+      "section": "design-patterns",
+      "slug": "state-design-pattern",
+      "path": "knowledge/design-patterns/state-design-pattern.md",
+      "keywords": [
+        "state",
+        "design",
+        "pattern",
+        "model",
+        "changes",
+        "status",
+        "object",
+        "delegating",
+        "rules",
+        "individual",
+        "objects",
+        "representing",
+        "possible"
+      ]
+    },
+    {
+      "title": "strangler fig pattern",
+      "description": "",
+      "section": "design-patterns",
+      "slug": "strangler-fig-pattern",
+      "path": "knowledge/design-patterns/strangler-fig-pattern.md",
+      "keywords": [
+        "strangler",
+        "fig",
+        "pattern"
+      ]
+    },
+    {
+      "title": "strategy pattern",
+      "description": "",
+      "section": "design-patterns",
+      "slug": "strategy-pattern",
+      "path": "knowledge/design-patterns/strategy-pattern.md",
+      "keywords": [
+        "strategy",
+        "pattern"
+      ]
+    },
+    {
+      "title": "Unit of Work Pattern",
+      "description": "The Unit of Work Pattern maintains a list of objects affected by a business transaction and coordinates the writing out of changes as a single atomic operation. Learn how to implement it in C# with Entity Framework Core.",
+      "section": "design-patterns",
+      "slug": "unit-of-work-pattern",
+      "path": "knowledge/design-patterns/unit-of-work-pattern.md",
+      "keywords": [
+        "unit",
+        "work",
+        "pattern",
+        "maintains",
+        "list",
+        "objects",
+        "affected",
+        "business",
+        "transaction",
+        "coordinates",
+        "writing",
+        "out",
+        "changes",
+        "single",
+        "atomic",
+        "operation",
+        "learn",
+        "implement",
+        "entity",
+        "framework",
+        "core"
+      ]
+    },
+    {
+      "title": "Visitor Design Pattern",
+      "description": "The Visitor Design Pattern lets you define a new operation on elements of an object structure without changing the classes of those elements. Learn how to implement the Visitor pattern in C# with practical examples.",
+      "section": "design-patterns",
+      "slug": "visitor-pattern",
+      "path": "knowledge/design-patterns/visitor-pattern.md",
+      "keywords": [
+        "visitor",
+        "design",
+        "pattern",
+        "lets",
+        "you",
+        "define",
+        "new",
+        "operation",
+        "elements",
+        "object",
+        "structure",
+        "without",
+        "changing",
+        "classes",
+        "those",
+        "learn",
+        "implement",
+        "practical",
+        "examples"
+      ]
+    },
+    {
+      "title": "Domain-Driven Design",
+      "description": "Domain Driven Design is a software design strategy intended to take complex domains and simplify them into extensible and maintainable software solutions.",
+      "section": "domain-driven-design",
+      "slug": "_index",
+      "path": "knowledge/domain-driven-design/_index.md",
+      "keywords": [
+        "domain",
+        "driven",
+        "design",
+        "software",
+        "strategy",
+        "intended",
+        "take",
+        "complex",
+        "domains",
+        "simplify",
+        "them",
+        "extensible",
+        "maintainable",
+        "solutions"
+      ]
+    },
+    {
+      "title": "aggregate pattern",
+      "description": "",
+      "section": "domain-driven-design",
+      "slug": "aggregate-pattern",
+      "path": "knowledge/domain-driven-design/aggregate-pattern.md",
+      "keywords": [
+        "aggregate",
+        "pattern"
+      ]
+    },
+    {
+      "title": "anemic model",
+      "description": "",
+      "section": "domain-driven-design",
+      "slug": "anemic-model",
+      "path": "knowledge/domain-driven-design/anemic-model.md",
+      "keywords": [
+        "anemic",
+        "model"
+      ]
+    },
+    {
+      "title": "anti corruption layer",
+      "description": "",
+      "section": "domain-driven-design",
+      "slug": "anti-corruption-layer",
+      "path": "knowledge/domain-driven-design/anti-corruption-layer.md",
+      "keywords": [
+        "anti",
+        "corruption",
+        "layer"
+      ]
+    },
+    {
+      "title": "bounded context",
+      "description": "",
+      "section": "domain-driven-design",
+      "slug": "bounded-context",
+      "path": "knowledge/domain-driven-design/bounded-context.md",
+      "keywords": [
+        "bounded",
+        "context"
+      ]
+    },
+    {
+      "title": "context mapping",
+      "description": "",
+      "section": "domain-driven-design",
+      "slug": "context-mapping",
+      "path": "knowledge/domain-driven-design/context-mapping.md",
+      "keywords": [
+        "context",
+        "mapping"
+      ]
+    },
+    {
+      "title": "domain model",
+      "description": "",
+      "section": "domain-driven-design",
+      "slug": "domain-model",
+      "path": "knowledge/domain-driven-design/domain-model.md",
+      "keywords": [
+        "domain",
+        "model"
+      ]
+    },
+    {
+      "title": "domain storytelling",
+      "description": "",
+      "section": "domain-driven-design",
+      "slug": "domain-storytelling",
+      "path": "knowledge/domain-driven-design/domain-storytelling.md",
+      "keywords": [
+        "domain",
+        "storytelling"
+      ]
+    },
+    {
+      "title": "domain",
+      "description": "",
+      "section": "domain-driven-design",
+      "slug": "domain",
+      "path": "knowledge/domain-driven-design/domain.md",
+      "keywords": [
+        "domain"
+      ]
+    },
+    {
+      "title": "entity",
+      "description": "",
+      "section": "domain-driven-design",
+      "slug": "entity",
+      "path": "knowledge/domain-driven-design/entity.md",
+      "keywords": [
+        "entity"
+      ]
+    },
+    {
+      "title": "eventstorming",
+      "description": "",
+      "section": "domain-driven-design",
+      "slug": "eventstorming",
+      "path": "knowledge/domain-driven-design/eventstorming.md",
+      "keywords": [
+        "eventstorming"
+      ]
+    },
+    {
+      "title": "shared kernel",
+      "description": "",
+      "section": "domain-driven-design",
+      "slug": "shared-kernel",
+      "path": "knowledge/domain-driven-design/shared-kernel.md",
+      "keywords": [
+        "shared",
+        "kernel"
+      ]
+    },
+    {
+      "title": "strategic design",
+      "description": "",
+      "section": "domain-driven-design",
+      "slug": "strategic-design",
+      "path": "knowledge/domain-driven-design/strategic-design.md",
+      "keywords": [
+        "strategic",
+        "design"
+      ]
+    },
+    {
+      "title": "subdomain",
+      "description": "",
+      "section": "domain-driven-design",
+      "slug": "subdomain",
+      "path": "knowledge/domain-driven-design/subdomain.md",
+      "keywords": [
+        "subdomain"
+      ]
+    },
+    {
+      "title": "tactical design",
+      "description": "",
+      "section": "domain-driven-design",
+      "slug": "tactical-design",
+      "path": "knowledge/domain-driven-design/tactical-design.md",
+      "keywords": [
+        "tactical",
+        "design"
+      ]
+    },
+    {
+      "title": "ubiquitous language",
+      "description": "",
+      "section": "domain-driven-design",
+      "slug": "ubiquitous-language",
+      "path": "knowledge/domain-driven-design/ubiquitous-language.md",
+      "keywords": [
+        "ubiquitous",
+        "language"
+      ]
+    },
+    {
+      "title": "value object",
+      "description": "",
+      "section": "domain-driven-design",
+      "slug": "value-object",
+      "path": "knowledge/domain-driven-design/value-object.md",
+      "keywords": [
+        "value",
+        "object"
+      ]
+    },
+    {
+      "title": "Laws",
+      "description": "A variety of laws of programming and software development.",
+      "section": "laws",
+      "slug": "_index",
+      "path": "knowledge/laws/_index.md",
+      "keywords": [
+        "laws",
+        "variety",
+        "programming",
+        "software",
+        "development"
+      ]
+    },
+    {
+      "title": "amaras law",
+      "description": "",
+      "section": "laws",
+      "slug": "amaras-law",
+      "path": "knowledge/laws/amaras-law.md",
+      "keywords": [
+        "amaras",
+        "law"
+      ]
+    },
+    {
+      "title": "amdahls law",
+      "description": "",
+      "section": "laws",
+      "slug": "amdahls-law",
+      "path": "knowledge/laws/amdahls-law.md",
+      "keywords": [
+        "amdahls",
+        "law"
+      ]
+    },
+    {
+      "title": "andersons law",
+      "description": "",
+      "section": "laws",
+      "slug": "andersons-law",
+      "path": "knowledge/laws/andersons-law.md",
+      "keywords": [
+        "andersons",
+        "law"
+      ]
+    },
+    {
+      "title": "brooks law",
+      "description": "",
+      "section": "laws",
+      "slug": "brooks-law",
+      "path": "knowledge/laws/brooks-law.md",
+      "keywords": [
+        "brooks",
+        "law"
+      ]
+    },
+    {
+      "title": "conways law",
+      "description": "",
+      "section": "laws",
+      "slug": "conways-law",
+      "path": "knowledge/laws/conways-law.md",
+      "keywords": [
+        "conways",
+        "law"
+      ]
+    },
+    {
+      "title": "cunninghams law",
+      "description": "",
+      "section": "laws",
+      "slug": "cunninghams-law",
+      "path": "knowledge/laws/cunninghams-law.md",
+      "keywords": [
+        "cunninghams",
+        "law"
+      ]
+    },
+    {
+      "title": "galls law",
+      "description": "",
+      "section": "laws",
+      "slug": "galls-law",
+      "path": "knowledge/laws/galls-law.md",
+      "keywords": [
+        "galls",
+        "law"
+      ]
+    },
+    {
+      "title": "goodharts law",
+      "description": "",
+      "section": "laws",
+      "slug": "goodharts-law",
+      "path": "knowledge/laws/goodharts-law.md",
+      "keywords": [
+        "goodharts",
+        "law"
+      ]
+    },
+    {
+      "title": "hebbs law",
+      "description": "",
+      "section": "laws",
+      "slug": "hebbs-law",
+      "path": "knowledge/laws/hebbs-law.md",
+      "keywords": [
+        "hebbs",
+        "law"
+      ]
+    },
+    {
+      "title": "hofstadters law",
+      "description": "",
+      "section": "laws",
+      "slug": "hofstadters-law",
+      "path": "knowledge/laws/hofstadters-law.md",
+      "keywords": [
+        "hofstadters",
+        "law"
+      ]
+    },
+    {
+      "title": "kerckhoffs principle",
+      "description": "",
+      "section": "laws",
+      "slug": "kerckhoffs-principle",
+      "path": "knowledge/laws/kerckhoffs-principle.md",
+      "keywords": [
+        "kerckhoffs",
+        "principle"
+      ]
+    },
+    {
+      "title": "The Law of Demeter",
+      "description": "The Law of Demeter (LoD) is a design guideline aimed at reducing coupling between classes in an object-oriented program. Although the Law of Demeter has a mathematical formulation, in simple terms it advises an object to only interact with its immediate friends and not with 'a friend of a friend.",
+      "section": "laws",
+      "slug": "law-of-demeter",
+      "path": "knowledge/laws/law-of-demeter.md",
+      "keywords": [
+        "law",
+        "demeter",
+        "lod",
+        "design",
+        "guideline",
+        "aimed",
+        "reducing",
+        "coupling",
+        "classes",
+        "object",
+        "oriented",
+        "program",
+        "although",
+        "mathematical",
+        "formulation",
+        "simple",
+        "terms",
+        "advises",
+        "interact",
+        "immediate",
+        "friends",
+        "friend"
+      ]
+    },
+    {
+      "title": "law of diminishing returns",
+      "description": "",
+      "section": "laws",
+      "slug": "law-of-diminishing-returns",
+      "path": "knowledge/laws/law-of-diminishing-returns.md",
+      "keywords": [
+        "law",
+        "diminishing",
+        "returns"
+      ]
+    },
+    {
+      "title": "laws software architecture",
+      "description": "",
+      "section": "laws",
+      "slug": "laws-software-architecture",
+      "path": "knowledge/laws/laws-software-architecture.md",
+      "keywords": [
+        "laws",
+        "software",
+        "architecture"
+      ]
+    },
+    {
+      "title": "linus law",
+      "description": "",
+      "section": "laws",
+      "slug": "linus-law",
+      "path": "knowledge/laws/linus-law.md",
+      "keywords": [
+        "linus",
+        "law"
+      ]
+    },
+    {
+      "title": "moores law",
+      "description": "",
+      "section": "laws",
+      "slug": "moores-law",
+      "path": "knowledge/laws/moores-law.md",
+      "keywords": [
+        "moores",
+        "law"
+      ]
+    },
+    {
+      "title": "murphys law",
+      "description": "",
+      "section": "laws",
+      "slug": "murphys-law",
+      "path": "knowledge/laws/murphys-law.md",
+      "keywords": [
+        "murphys",
+        "law"
+      ]
+    },
+    {
+      "title": "postels law",
+      "description": "",
+      "section": "laws",
+      "slug": "postels-law",
+      "path": "knowledge/laws/postels-law.md",
+      "keywords": [
+        "postels",
+        "law"
+      ]
+    },
+    {
+      "title": "Tesler's Law: The Law of Conservation of Complexity",
+      "description": "Every application has an inherent amount of irreducible complexity. The only question is who will have to deal with it — the user, the developer, or the system.",
+      "section": "laws",
+      "slug": "teslers-law",
+      "path": "knowledge/laws/teslers-law.md",
+      "keywords": [
+        "tesler",
+        "law",
+        "conservation",
+        "complexity",
+        "every",
+        "application",
+        "inherent",
+        "amount",
+        "irreducible",
+        "question",
+        "who",
+        "deal",
+        "user",
+        "developer",
+        "system"
+      ]
+    },
+    {
+      "title": "Wirth's Law and Its Impact on Software Development",
+      "description": "",
+      "section": "laws",
+      "slug": "wirths-law",
+      "path": "knowledge/laws/wirths-law.md",
+      "keywords": [
+        "wirth",
+        "law",
+        "impact",
+        "software",
+        "development"
+      ]
+    },
+    {
+      "title": "50 72 rule",
+      "description": "",
+      "section": "practices",
+      "slug": "50-72-rule",
+      "path": "knowledge/practices/50-72-rule.md",
+      "keywords": [
+        "rule"
+      ]
+    },
+    {
+      "title": "Practices",
+      "description": "Good coding practices are important to good code.",
+      "section": "practices",
+      "slug": "_index",
+      "path": "knowledge/practices/_index.md",
+      "keywords": [
+        "practices",
+        "good",
+        "coding",
+        "important",
+        "code"
+      ]
+    },
+    {
+      "title": "authentication",
+      "description": "",
+      "section": "practices",
+      "slug": "authentication",
+      "path": "knowledge/practices/authentication.md",
+      "keywords": [
+        "authentication"
+      ]
+    },
+    {
+      "title": "authorization",
+      "description": "",
+      "section": "practices",
+      "slug": "authorization",
+      "path": "knowledge/practices/authorization.md",
+      "keywords": [
+        "authorization"
+      ]
+    },
+    {
+      "title": "behavior driven development",
+      "description": "",
+      "section": "practices",
+      "slug": "behavior-driven-development",
+      "path": "knowledge/practices/behavior-driven-development.md",
+      "keywords": [
+        "behavior",
+        "driven",
+        "development"
+      ]
+    },
+    {
+      "title": "code readability",
+      "description": "",
+      "section": "practices",
+      "slug": "code-readability",
+      "path": "knowledge/practices/code-readability.md",
+      "keywords": [
+        "code",
+        "readability"
+      ]
+    },
+    {
+      "title": "code that fits",
+      "description": "",
+      "section": "practices",
+      "slug": "code-that-fits",
+      "path": "knowledge/practices/code-that-fits.md",
+      "keywords": [
+        "code",
+        "fits"
+      ]
+    },
+    {
+      "title": "collective code ownership",
+      "description": "",
+      "section": "practices",
+      "slug": "collective-code-ownership",
+      "path": "knowledge/practices/collective-code-ownership.md",
+      "keywords": [
+        "collective",
+        "code",
+        "ownership"
+      ]
+    },
+    {
+      "title": "common architectural vision",
+      "description": "",
+      "section": "practices",
+      "slug": "common-architectural-vision",
+      "path": "knowledge/practices/common-architectural-vision.md",
+      "keywords": [
+        "common",
+        "architectural",
+        "vision"
+      ]
+    },
+    {
+      "title": "continuous integration",
+      "description": "",
+      "section": "practices",
+      "slug": "continuous-integration",
+      "path": "knowledge/practices/continuous-integration.md",
+      "keywords": [
+        "continuous",
+        "integration"
+      ]
+    },
+    {
+      "title": "defensive programming",
+      "description": "",
+      "section": "practices",
+      "slug": "defensive-programming",
+      "path": "knowledge/practices/defensive-programming.md",
+      "keywords": [
+        "defensive",
+        "programming"
+      ]
+    },
+    {
+      "title": "Dependency Injection",
+      "description": "Understand the benefits of Dependency Injection in software development. Learn how it helps create flexible, testable, and maintainable code by managing dependencies effectively.",
+      "section": "practices",
+      "slug": "dependency-injection",
+      "path": "knowledge/practices/dependency-injection.md",
+      "keywords": [
+        "dependency",
+        "injection",
+        "understand",
+        "benefits",
+        "software",
+        "development",
+        "learn",
+        "helps",
+        "create",
+        "flexible",
+        "testable",
+        "maintainable",
+        "code",
+        "managing",
+        "dependencies",
+        "effectively"
+      ]
+    },
+    {
+      "title": "descriptive error messages",
+      "description": "",
+      "section": "practices",
+      "slug": "descriptive-error-messages",
+      "path": "knowledge/practices/descriptive-error-messages.md",
+      "keywords": [
+        "descriptive",
+        "error",
+        "messages"
+      ]
+    },
+    {
+      "title": "dogfooding",
+      "description": "",
+      "section": "practices",
+      "slug": "dogfooding",
+      "path": "knowledge/practices/dogfooding.md",
+      "keywords": [
+        "dogfooding"
+      ]
+    },
+    {
+      "title": "know where you are going",
+      "description": "",
+      "section": "practices",
+      "slug": "know-where-you-are-going",
+      "path": "knowledge/practices/know-where-you-are-going.md",
+      "keywords": [
+        "know",
+        "you",
+        "going"
+      ]
+    },
+    {
+      "title": "Naming Things",
+      "description": "Discover why 'Naming Things' is considered one of the hardest problems in software development. Learn strategies for choosing clear, descriptive names that improve code clarity and maintainability.",
+      "section": "practices",
+      "slug": "naming-things",
+      "path": "knowledge/practices/naming-things.md",
+      "keywords": [
+        "naming",
+        "things",
+        "discover",
+        "why",
+        "considered",
+        "one",
+        "hardest",
+        "problems",
+        "software",
+        "development",
+        "learn",
+        "strategies",
+        "choosing",
+        "clear",
+        "descriptive",
+        "names",
+        "improve",
+        "code",
+        "clarity",
+        "maintainability"
+      ]
+    },
+    {
+      "title": "observability",
+      "description": "",
+      "section": "practices",
+      "slug": "observability",
+      "path": "knowledge/practices/observability.md",
+      "keywords": [
+        "observability"
+      ]
+    },
+    {
+      "title": "pain driven development",
+      "description": "",
+      "section": "practices",
+      "slug": "pain-driven-development",
+      "path": "knowledge/practices/pain-driven-development.md",
+      "keywords": [
+        "pain",
+        "driven",
+        "development"
+      ]
+    },
+    {
+      "title": "pair programming",
+      "description": "",
+      "section": "practices",
+      "slug": "pair-programming",
+      "path": "knowledge/practices/pair-programming.md",
+      "keywords": [
+        "pair",
+        "programming"
+      ]
+    },
+    {
+      "title": "Parse, Don't Validate",
+      "description": "In many software applications, validation is used to determine whether or not a given data structure or object conforms to certain requirements. However, it doesn't (shouldn't) mutate or change the object in question, and thus any further change might invalidate the validation. By contrast, parsing a less-structured object and producing form it a more-structured one is a one-way operation that results in more useful data structures.",
+      "section": "practices",
+      "slug": "parse-dont-validate",
+      "path": "knowledge/practices/parse-dont-validate.md",
+      "keywords": [
+        "parse",
+        "don",
+        "validate",
+        "many",
+        "software",
+        "applications",
+        "validation",
+        "determine",
+        "whether",
+        "given",
+        "data",
+        "structure",
+        "object",
+        "conforms",
+        "certain",
+        "requirements",
+        "however",
+        "doesn",
+        "shouldn",
+        "mutate",
+        "change",
+        "question",
+        "thus",
+        "any",
+        "further",
+        "might",
+        "invalidate",
+        "contrast",
+        "parsing",
+        "less",
+        "structured",
+        "producing",
+        "form",
+        "one",
+        "way",
+        "operation",
+        "results",
+        "useful",
+        "structures"
+      ]
+    },
+    {
+      "title": "read the manual",
+      "description": "",
+      "section": "practices",
+      "slug": "read-the-manual",
+      "path": "knowledge/practices/read-the-manual.md",
+      "keywords": [
+        "read",
+        "manual"
+      ]
+    },
+    {
+      "title": "red green refactor",
+      "description": "",
+      "section": "practices",
+      "slug": "red-green-refactor",
+      "path": "knowledge/practices/red-green-refactor.md",
+      "keywords": [
+        "red",
+        "green",
+        "refactor"
+      ]
+    },
+    {
+      "title": "refactoring",
+      "description": "",
+      "section": "practices",
+      "slug": "refactoring",
+      "path": "knowledge/practices/refactoring.md",
+      "keywords": [
+        "refactoring"
+      ]
+    },
+    {
+      "title": "rubber duck debugging",
+      "description": "",
+      "section": "practices",
+      "slug": "rubber-duck-debugging",
+      "path": "knowledge/practices/rubber-duck-debugging.md",
+      "keywords": [
+        "rubber",
+        "duck",
+        "debugging"
+      ]
+    },
+    {
+      "title": "shipping is a feature",
+      "description": "",
+      "section": "practices",
+      "slug": "shipping-is-a-feature",
+      "path": "knowledge/practices/shipping-is-a-feature.md",
+      "keywords": [
+        "shipping",
+        "feature"
+      ]
+    },
+    {
+      "title": "simple design",
+      "description": "",
+      "section": "practices",
+      "slug": "simple-design",
+      "path": "knowledge/practices/simple-design.md",
+      "keywords": [
+        "simple",
+        "design"
+      ]
+    },
+    {
+      "title": "single point of enforcement",
+      "description": "",
+      "section": "practices",
+      "slug": "single-point-of-enforcement",
+      "path": "knowledge/practices/single-point-of-enforcement.md",
+      "keywords": [
+        "single",
+        "point",
+        "enforcement"
+      ]
+    },
+    {
+      "title": "Test Driven Development",
+      "description": "Test Driven Development, or TDD, also known as Test Driven Design, is a process for writing code using tests to define and then confirm the software's behavior.",
+      "section": "practices",
+      "slug": "test-driven-development",
+      "path": "knowledge/practices/test-driven-development.md",
+      "keywords": [
+        "test",
+        "driven",
+        "development",
+        "tdd",
+        "known",
+        "design",
+        "process",
+        "writing",
+        "code",
+        "tests",
+        "define",
+        "then",
+        "confirm",
+        "software",
+        "behavior"
+      ]
+    },
+    {
+      "title": "timeboxing",
+      "description": "",
+      "section": "practices",
+      "slug": "timeboxing",
+      "path": "knowledge/practices/timeboxing.md",
+      "keywords": [
+        "timeboxing"
+      ]
+    },
+    {
+      "title": "update the plan",
+      "description": "",
+      "section": "practices",
+      "slug": "update-the-plan",
+      "path": "knowledge/practices/update-the-plan.md",
+      "keywords": [
+        "update",
+        "plan"
+      ]
+    },
+    {
+      "title": "vertical slices",
+      "description": "",
+      "section": "practices",
+      "slug": "vertical-slices",
+      "path": "knowledge/practices/vertical-slices.md",
+      "keywords": [
+        "vertical",
+        "slices"
+      ]
+    },
+    {
+      "title": "whole team activity",
+      "description": "",
+      "section": "practices",
+      "slug": "whole-team-activity",
+      "path": "knowledge/practices/whole-team-activity.md",
+      "keywords": [
+        "whole",
+        "team",
+        "activity"
+      ]
+    },
+    {
+      "title": "whole team",
+      "description": "",
+      "section": "practices",
+      "slug": "whole-team",
+      "path": "knowledge/practices/whole-team.md",
+      "keywords": [
+        "whole",
+        "team"
+      ]
+    },
+    {
+      "title": "YOLO Architecture in Software Development",
+      "description": "",
+      "section": "practices",
+      "slug": "yolo-architecture",
+      "path": "knowledge/practices/yolo-architecture.md",
+      "keywords": [
+        "yolo",
+        "architecture",
+        "software",
+        "development"
+      ]
+    },
+    {
+      "title": "Principles",
+      "description": "Core software development principles including SOLID, DRY, YAGNI, and more.",
+      "section": "principles",
+      "slug": "_index",
+      "path": "knowledge/principles/_index.md",
+      "keywords": [
+        "principles",
+        "core",
+        "software",
+        "development",
+        "including",
+        "solid",
+        "dry",
+        "yagni"
+      ]
+    },
+    {
+      "title": "architectural agility",
+      "description": "",
+      "section": "principles",
+      "slug": "architectural-agility",
+      "path": "knowledge/principles/architectural-agility.md",
+      "keywords": [
+        "architectural",
+        "agility"
+      ]
+    },
+    {
+      "title": "Boy Scout Rule",
+      "description": "The Boy Scout Rule can be summarized as leave your code better than you found it.",
+      "section": "principles",
+      "slug": "boy-scout-rule",
+      "path": "knowledge/principles/boy-scout-rule.md",
+      "keywords": [
+        "boy",
+        "scout",
+        "rule",
+        "summarized",
+        "leave",
+        "your",
+        "code",
+        "better",
+        "you",
+        "found"
+      ]
+    },
+    {
+      "title": "dependency inversion principle",
+      "description": "",
+      "section": "principles",
+      "slug": "dependency-inversion-principle",
+      "path": "knowledge/principles/dependency-inversion-principle.md",
+      "keywords": [
+        "dependency",
+        "inversion",
+        "principle"
+      ]
+    },
+    {
+      "title": "Don't Repeat Yourself",
+      "description": "Master the Don't Repeat Yourself (DRY) principle in software design. Learn how eliminating redundancy in code and processes can boost maintainability, reduce errors, and enhance productivity.",
+      "section": "principles",
+      "slug": "dont-repeat-yourself",
+      "path": "knowledge/principles/dont-repeat-yourself.md",
+      "keywords": [
+        "don",
+        "repeat",
+        "yourself",
+        "master",
+        "dry",
+        "principle",
+        "software",
+        "design",
+        "learn",
+        "eliminating",
+        "redundancy",
+        "code",
+        "processes",
+        "boost",
+        "maintainability",
+        "reduce",
+        "errors",
+        "enhance",
+        "productivity"
+      ]
+    },
+    {
+      "title": "encapsulation",
+      "description": "",
+      "section": "principles",
+      "slug": "encapsulation",
+      "path": "knowledge/principles/encapsulation.md",
+      "keywords": [
+        "encapsulation"
+      ]
+    },
+    {
+      "title": "explicit dependencies principle",
+      "description": "",
+      "section": "principles",
+      "slug": "explicit-dependencies-principle",
+      "path": "knowledge/principles/explicit-dependencies-principle.md",
+      "keywords": [
+        "explicit",
+        "dependencies",
+        "principle"
+      ]
+    },
+    {
+      "title": "fail fast",
+      "description": "",
+      "section": "principles",
+      "slug": "fail-fast",
+      "path": "knowledge/principles/fail-fast.md",
+      "keywords": [
+        "fail",
+        "fast"
+      ]
+    },
+    {
+      "title": "hollywood principle",
+      "description": "",
+      "section": "principles",
+      "slug": "hollywood-principle",
+      "path": "knowledge/principles/hollywood-principle.md",
+      "keywords": [
+        "hollywood",
+        "principle"
+      ]
+    },
+    {
+      "title": "interface segregation",
+      "description": "",
+      "section": "principles",
+      "slug": "interface-segregation",
+      "path": "knowledge/principles/interface-segregation.md",
+      "keywords": [
+        "interface",
+        "segregation"
+      ]
+    },
+    {
+      "title": "inversion of control",
+      "description": "",
+      "section": "principles",
+      "slug": "inversion-of-control",
+      "path": "knowledge/principles/inversion-of-control.md",
+      "keywords": [
+        "inversion",
+        "control"
+      ]
+    },
+    {
+      "title": "keep it simple",
+      "description": "",
+      "section": "principles",
+      "slug": "keep-it-simple",
+      "path": "knowledge/principles/keep-it-simple.md",
+      "keywords": [
+        "keep",
+        "simple"
+      ]
+    },
+    {
+      "title": "liskov substitution principle",
+      "description": "",
+      "section": "principles",
+      "slug": "liskov-substitution-principle",
+      "path": "knowledge/principles/liskov-substitution-principle.md",
+      "keywords": [
+        "liskov",
+        "substitution",
+        "principle"
+      ]
+    },
+    {
+      "title": "Make Illegal States Unrepresentable",
+      "description": "Make Illegal States Unrepresentable is a design principle that uses the type system to ensure invalid combinations of data cannot be constructed, eliminating whole classes of runtime errors at compile time.",
+      "section": "principles",
+      "slug": "make-illegal-states-unrepresentable",
+      "path": "knowledge/principles/make-illegal-states-unrepresentable.md",
+      "keywords": [
+        "make",
+        "illegal",
+        "states",
+        "unrepresentable",
+        "design",
+        "principle",
+        "uses",
+        "type",
+        "system",
+        "ensure",
+        "invalid",
+        "combinations",
+        "data",
+        "cannot",
+        "constructed",
+        "eliminating",
+        "whole",
+        "classes",
+        "runtime",
+        "errors",
+        "compile",
+        "time"
+      ]
+    },
+    {
+      "title": "once and only once",
+      "description": "",
+      "section": "principles",
+      "slug": "once-and-only-once",
+      "path": "knowledge/principles/once-and-only-once.md",
+      "keywords": [
+        "once"
+      ]
+    },
+    {
+      "title": "open closed principle",
+      "description": "",
+      "section": "principles",
+      "slug": "open-closed-principle",
+      "path": "knowledge/principles/open-closed-principle.md",
+      "keywords": [
+        "open",
+        "closed",
+        "principle"
+      ]
+    },
+    {
+      "title": "Parse, Don't Validate",
+      "description": "Parse, Don't Validate is a design principle that encourages converting unstructured or unverified input into a structured type that makes illegal states unrepresentable, rather than repeatedly validating raw data at every point of use.",
+      "section": "principles",
+      "slug": "parse-dont-validate",
+      "path": "knowledge/principles/parse-dont-validate.md",
+      "keywords": [
+        "parse",
+        "don",
+        "validate",
+        "design",
+        "principle",
+        "encourages",
+        "converting",
+        "unstructured",
+        "unverified",
+        "input",
+        "structured",
+        "type",
+        "makes",
+        "illegal",
+        "states",
+        "unrepresentable",
+        "rather",
+        "repeatedly",
+        "validating",
+        "raw",
+        "data",
+        "every",
+        "point"
+      ]
+    },
+    {
+      "title": "persistence ignorance",
+      "description": "",
+      "section": "principles",
+      "slug": "persistence-ignorance",
+      "path": "knowledge/principles/persistence-ignorance.md",
+      "keywords": [
+        "persistence",
+        "ignorance"
+      ]
+    },
+    {
+      "title": "principle of least astonishment",
+      "description": "",
+      "section": "principles",
+      "slug": "principle-of-least-astonishment",
+      "path": "knowledge/principles/principle-of-least-astonishment.md",
+      "keywords": [
+        "principle",
+        "least",
+        "astonishment"
+      ]
+    },
+    {
+      "title": "Progressive Disclosure",
+      "description": "Progressive Disclosure is a design principle that involves revealing information or complexity gradually, rather than all at once. It applies to software architecture, UX design, AI systems, presentations, and more.",
+      "section": "principles",
+      "slug": "progressive-disclosure",
+      "path": "knowledge/principles/progressive-disclosure.md",
+      "keywords": [
+        "progressive",
+        "disclosure",
+        "design",
+        "principle",
+        "involves",
+        "revealing",
+        "information",
+        "complexity",
+        "gradually",
+        "rather",
+        "once",
+        "applies",
+        "software",
+        "architecture",
+        "systems",
+        "presentations"
+      ]
+    },
+    {
+      "title": "separation of concerns",
+      "description": "",
+      "section": "principles",
+      "slug": "separation-of-concerns",
+      "path": "knowledge/principles/separation-of-concerns.md",
+      "keywords": [
+        "separation",
+        "concerns"
+      ]
+    },
+    {
+      "title": "Single Responsibility Principle",
+      "description": "The Single Responsibility Principle (SRP) states that a class should have only one reason to change.",
+      "section": "principles",
+      "slug": "single-responsibility-principle",
+      "path": "knowledge/principles/single-responsibility-principle.md",
+      "keywords": [
+        "single",
+        "responsibility",
+        "principle",
+        "srp",
+        "states",
+        "class",
+        "one",
+        "reason",
+        "change"
+      ]
+    },
+    {
+      "title": "solid",
+      "description": "",
+      "section": "principles",
+      "slug": "solid",
+      "path": "knowledge/principles/solid.md",
+      "keywords": [
+        "solid"
+      ]
+    },
+    {
+      "title": "stable dependencies",
+      "description": "",
+      "section": "principles",
+      "slug": "stable-dependencies",
+      "path": "knowledge/principles/stable-dependencies.md",
+      "keywords": [
+        "stable",
+        "dependencies"
+      ]
+    },
+    {
+      "title": "tell dont ask",
+      "description": "",
+      "section": "principles",
+      "slug": "tell-dont-ask",
+      "path": "knowledge/principles/tell-dont-ask.md",
+      "keywords": [
+        "tell",
+        "dont",
+        "ask"
+      ]
+    },
+    {
+      "title": "tolerance for imperfection",
+      "description": "",
+      "section": "principles",
+      "slug": "tolerance-for-imperfection",
+      "path": "knowledge/principles/tolerance-for-imperfection.md",
+      "keywords": [
+        "tolerance",
+        "imperfection"
+      ]
+    },
+    {
+      "title": "yagni",
+      "description": "",
+      "section": "principles",
+      "slug": "yagni",
+      "path": "knowledge/principles/yagni.md",
+      "keywords": [
+        "yagni"
+      ]
+    },
+    {
+      "title": "Terms",
+      "description": "These are terms that are commonly used in software development or software architecture.",
+      "section": "terms",
+      "slug": "_index",
+      "path": "knowledge/terms/_index.md",
+      "keywords": [
+        "terms",
+        "commonly",
+        "software",
+        "development",
+        "architecture"
+      ]
+    },
+    {
+      "title": "Aggregate Complexity",
+      "description": "Aggregate complexity is a code metric introduced by Steve Smith (Ardalis) in 2018 that measures the total complexity of a software application by aggregating the complexity scores of all its methods, providing a system-wide view of complexity health.",
+      "section": "terms",
+      "slug": "aggregate-complexity",
+      "path": "knowledge/terms/aggregate-complexity.md",
+      "keywords": [
+        "aggregate",
+        "complexity",
+        "code",
+        "metric",
+        "introduced",
+        "steve",
+        "smith",
+        "ardalis",
+        "2018",
+        "measures",
+        "total",
+        "software",
+        "application",
+        "aggregating",
+        "scores",
+        "methods",
+        "providing",
+        "system",
+        "wide",
+        "view",
+        "health"
+      ]
+    },
+    {
+      "title": "bus factor",
+      "description": "",
+      "section": "terms",
+      "slug": "bus-factor",
+      "path": "knowledge/terms/bus-factor.md",
+      "keywords": [
+        "bus",
+        "factor"
+      ]
+    },
+    {
+      "title": "Cognitive Complexity",
+      "description": "Cognitive complexity is a code metric that measures how difficult a piece of code is to understand, penalizing structural patterns that increase mental effort rather than simply counting decision points.",
+      "section": "terms",
+      "slug": "cognitive-complexity",
+      "path": "knowledge/terms/cognitive-complexity.md",
+      "keywords": [
+        "cognitive",
+        "complexity",
+        "code",
+        "metric",
+        "measures",
+        "difficult",
+        "piece",
+        "understand",
+        "penalizing",
+        "structural",
+        "patterns",
+        "increase",
+        "mental",
+        "effort",
+        "rather",
+        "simply",
+        "counting",
+        "decision",
+        "points"
+      ]
+    },
+    {
+      "title": "Cohesion",
+      "description": "Cohesion refers to how closely related and focused the responsibilities of a single class, module, or function are. High cohesion is desirable and signals that a unit of code has a clear, singular purpose.",
+      "section": "terms",
+      "slug": "cohesion",
+      "path": "knowledge/terms/cohesion.md",
+      "keywords": [
+        "cohesion",
+        "refers",
+        "closely",
+        "related",
+        "focused",
+        "responsibilities",
+        "single",
+        "class",
+        "module",
+        "function",
+        "high",
+        "desirable",
+        "signals",
+        "unit",
+        "code",
+        "clear",
+        "singular",
+        "purpose"
+      ]
+    },
+    {
+      "title": "Cyclomatic Complexity",
+      "description": "Cyclomatic complexity is a quantitative measure of the number of linearly independent paths through a piece of code, used as an indicator of testability and maintainability.",
+      "section": "terms",
+      "slug": "cyclomatic-complexity",
+      "path": "knowledge/terms/cyclomatic-complexity.md",
+      "keywords": [
+        "cyclomatic",
+        "complexity",
+        "quantitative",
+        "measure",
+        "number",
+        "linearly",
+        "independent",
+        "paths",
+        "piece",
+        "code",
+        "indicator",
+        "testability",
+        "maintainability"
+      ]
+    },
+    {
+      "title": "Kinds of Models",
+      "description": "In a Model-View-Controller (MVC) application, the Model is responsible for the application's state and non-UI specific behavior.",
+      "section": "terms",
+      "slug": "kinds-of-models",
+      "path": "knowledge/terms/kinds-of-models.md",
+      "keywords": [
+        "kinds",
+        "models",
+        "model",
+        "view",
+        "controller",
+        "mvc",
+        "application",
+        "responsible",
+        "state",
+        "non",
+        "specific",
+        "behavior"
+      ]
+    },
+    {
+      "title": "technical debt",
+      "description": "",
+      "section": "terms",
+      "slug": "technical-debt",
+      "path": "knowledge/terms/technical-debt.md",
+      "keywords": [
+        "technical",
+        "debt"
+      ]
+    },
+    {
+      "title": "Testing",
+      "description": "These are things that are related to Test-Driven Development (TDD) and testing in general.",
+      "section": "testing",
+      "slug": "_index",
+      "path": "knowledge/testing/_index.md",
+      "keywords": [
+        "testing",
+        "things",
+        "related",
+        "test",
+        "driven",
+        "development",
+        "tdd",
+        "general"
+      ]
+    },
+    {
+      "title": "arrange act assert",
+      "description": "",
+      "section": "testing",
+      "slug": "arrange-act-assert",
+      "path": "knowledge/testing/arrange-act-assert.md",
+      "keywords": [
+        "arrange",
+        "act",
+        "assert"
+      ]
+    },
+    {
+      "title": "automated tests",
+      "description": "",
+      "section": "testing",
+      "slug": "automated-tests",
+      "path": "knowledge/testing/automated-tests.md",
+      "keywords": [
+        "automated",
+        "tests"
+      ]
+    },
+    {
+      "title": "front end tests",
+      "description": "",
+      "section": "testing",
+      "slug": "front-end-tests",
+      "path": "knowledge/testing/front-end-tests.md",
+      "keywords": [
+        "front",
+        "end",
+        "tests"
+      ]
+    },
+    {
+      "title": "functional tests",
+      "description": "",
+      "section": "testing",
+      "slug": "functional-tests",
+      "path": "knowledge/testing/functional-tests.md",
+      "keywords": [
+        "functional",
+        "tests"
+      ]
+    },
+    {
+      "title": "integration tests",
+      "description": "",
+      "section": "testing",
+      "slug": "integration-tests",
+      "path": "knowledge/testing/integration-tests.md",
+      "keywords": [
+        "integration",
+        "tests"
+      ]
+    },
+    {
+      "title": "testing pyramid",
+      "description": "",
+      "section": "testing",
+      "slug": "testing-pyramid",
+      "path": "knowledge/testing/testing-pyramid.md",
+      "keywords": [
+        "testing",
+        "pyramid"
+      ]
+    },
+    {
+      "title": "unit tests",
+      "description": "",
+      "section": "testing",
+      "slug": "unit-tests",
+      "path": "knowledge/testing/unit-tests.md",
+      "keywords": [
+        "unit",
+        "tests"
+      ]
+    },
+    {
+      "title": "Tools",
+      "description": "These are tools that are commonly used in software development or software architecture.",
+      "section": "tools",
+      "slug": "_index",
+      "path": "knowledge/tools/_index.md",
+      "keywords": [
+        "tools",
+        "commonly",
+        "software",
+        "development",
+        "architecture"
+      ]
+    },
+    {
+      "title": "build server",
+      "description": "",
+      "section": "tools",
+      "slug": "build-server",
+      "path": "knowledge/tools/build-server.md",
+      "keywords": [
+        "build",
+        "server"
+      ]
+    },
+    {
+      "title": "version control",
+      "description": "",
+      "section": "tools",
+      "slug": "version-control",
+      "path": "knowledge/tools/version-control.md",
+      "keywords": [
+        "version",
+        "control"
+      ]
+    },
+    {
+      "title": "Values",
+      "description": "Extreme Programming is based on five values: Communication, Courage, Feedback, Respect, and Simplicity.",
+      "section": "values",
+      "slug": "_index",
+      "path": "knowledge/values/_index.md",
+      "keywords": [
+        "values",
+        "extreme",
+        "programming",
+        "based",
+        "five",
+        "communication",
+        "courage",
+        "feedback",
+        "respect",
+        "simplicity"
+      ]
+    },
+    {
+      "title": "communication",
+      "description": "",
+      "section": "values",
+      "slug": "communication",
+      "path": "knowledge/values/communication.md",
+      "keywords": [
+        "communication"
+      ]
+    },
+    {
+      "title": "courage",
+      "description": "",
+      "section": "values",
+      "slug": "courage",
+      "path": "knowledge/values/courage.md",
+      "keywords": [
+        "courage"
+      ]
+    },
+    {
+      "title": "feedback",
+      "description": "",
+      "section": "values",
+      "slug": "feedback",
+      "path": "knowledge/values/feedback.md",
+      "keywords": [
+        "feedback"
+      ]
+    },
+    {
+      "title": "respect",
+      "description": "",
+      "section": "values",
+      "slug": "respect",
+      "path": "knowledge/values/respect.md",
+      "keywords": [
+        "respect"
+      ]
+    },
+    {
+      "title": "simplicity",
+      "description": "",
+      "section": "values",
+      "slug": "simplicity",
+      "path": "knowledge/values/simplicity.md",
+      "keywords": [
+        "simplicity"
+      ]
+    }
+  ]
+}

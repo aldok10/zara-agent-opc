@@ -63,6 +63,32 @@ After context compaction: re-read `.tasks/progress.md` + `git log --oneline -10`
 
 `brainstorming → writing-plans → /code (or subagent-driven-dev) → finishing-branch`. Per task: `tdd`. Bug found: `systematic-debugging`. Before done: `verification-before-completion`. Complex entry: architecture → `task(architect)`; security → `task(security-reviewer)`; parallel 3+ → `/swarm`.
 
+## Knowledge
+
+The `knowledge/` directory contains software engineering reference material. Use when giving guidance on design, architecture, testing, or engineering practices. Available areas:
+
+| Directory | Content |
+|-----------|---------|
+| `architecture/` | Architecture patterns and principles |
+| `design-patterns/` | GoF and modern patterns |
+| `domain-driven-design/` | DDD concepts and tactical patterns |
+| `practices/` | Engineering practices (CI/CD, code review, pairing, etc.) |
+| `principles/` | SOLID, KISS, DRY, YAGNI, and others |
+| `security/` | OWASP, security patterns, threat modeling |
+| `testing/` | Testing patterns and strategies |
+| `loop-engineering/` | Iterative development patterns |
+| `antipatterns/` | Common mistakes to avoid |
+| `code-smells/` | Detection and refactoring guidance |
+| `laws/` | Software engineering laws (Conway's, Brooks', etc.) |
+| `tools/` | Tool-specific knowledge |
+| `terms/` | Glossary and definitions |
+| `values/` | Engineering values and culture |
+| `natural-voice/` | Voice and communication patterns |
+
+Top-level files: `INDEX.md` (full index), `SUMMARY.md` (overview), `ANTIPATTERNS_QUICKREF.md` (quick ref), `leadership-comprehensive.md`, `leadership-frameworks.md`, `continuous-learning.md`, `owasp-aisvs-compliance.md`.
+
+Usage: read relevant knowledge files when the user asks about engineering concepts, needs pattern recommendations, or when reviewing code against established practices. Don't dump entire files — extract the relevant section.
+
 ## Verification
 
 - Matching skill loaded before responding.

@@ -222,10 +222,12 @@ export default function createFlow({ client, directory } = {}) {
   const handoff = new HandoffService();
   const resume = new ResumeService(directory || process.cwd());
   let gitContext = null;
+  let _handoffInjected = false;
 
   return {
     onEvent(event) {
       if (event.type === 'session.created') {
+        _handoffInjected = false;
         resume.onSessionCreated();
         // Git preload
         try {
@@ -246,12 +248,16 @@ export default function createFlow({ client, directory } = {}) {
         gitContext = null;
       }
 
-      const h = handoff.load();
-      if (h && h.task) {
-        const age = Math.round((Date.now() - new Date(h.savedAt).getTime()) / 3600000);
-        if (age < 48) {
-          parts.push(`## Pending Work (${age}h ago)\nTask: ${h.task}${h.next_steps?.length ? `\nNext: ${h.next_steps.join(' → ')}` : ''}${h.blockers?.length ? `\nBlockers: ${h.blockers.join(', ')}` : ''}`);
+      // Handoff context (once per session)
+      if (!_handoffInjected) {
+        const h = handoff.load();
+        if (h && h.task) {
+          const age = Math.round((Date.now() - new Date(h.savedAt).getTime()) / 3600000);
+          if (age < 48) {
+            parts.push(`## Pending Work (${age}h ago)\nTask: ${h.task}${h.next_steps?.length ? `\nNext: ${h.next_steps.join(' → ')}` : ''}${h.blockers?.length ? `\nBlockers: ${h.blockers.join(', ')}` : ''}`);
+          }
         }
+        _handoffInjected = true;
       }
 
       const g = goals.load();

@@ -112,75 +112,79 @@ export default function createEvolve({ client, directory } = {}) {
 
   // Mtime-based transform cache
   let _transformCache = { text: null, mtimes: {} };
+  let _evolveContentInjected = false;
 
   return {
     // ── Hooks ──────────────────────────────────────────────────────────────
 
     inject(messages) {
-      // 1. Evolve: micro-tools + rules + prompt adaptations
-      const hasAny = [MICRO_TOOLS_FILE, RULES_FILE, PROMPT_SCORES_FILE].some(f => {
-        try { fs.accessSync(f); return true; } catch { return false; }
-      });
+      // 1. Evolve: micro-tools + rules + prompt adaptations (once per session)
+      if (!_evolveContentInjected) {
+        const hasAny = [MICRO_TOOLS_FILE, RULES_FILE, PROMPT_SCORES_FILE].some(f => {
+          try { fs.accessSync(f); return true; } catch { return false; }
+        });
 
-      if (hasAny) {
-        try { ensureCrystallized(); } catch {}
+        if (hasAny) {
+          try { ensureCrystallized(); } catch {}
 
-        let stale = !_transformCache.text;
-        for (const f of [MICRO_TOOLS_FILE, RULES_FILE, PROMPT_SCORES_FILE]) {
-          try {
-            const mt = fs.statSync(f).mtimeMs;
-            if (_transformCache.mtimes[f] !== mt) { stale = true; _transformCache.mtimes[f] = mt; }
-          } catch {
-            if (_transformCache.mtimes[f]) { stale = true; delete _transformCache.mtimes[f]; }
-          }
-        }
-
-        if (!stale && _transformCache.text) {
-          const last = messages[messages.length - 1];
-          if (last && last.role === 'system') {
-            last.content += '\n\n' + _transformCache.text;
-          } else {
-            messages.push({ role: 'system', content: _transformCache.text });
-          }
-        } else if (stale) {
-          const microTools = loadJson(MICRO_TOOLS_FILE, []);
-          const rules = loadJson(RULES_FILE, []);
-          const promptScores = loadJson(PROMPT_SCORES_FILE, {});
-          const parts = [];
-
-          if (microTools.length > 0) {
-            const top = [...microTools]
-              .sort((a, b) => b.uses - a.uses)
-              .slice(0, 3)
-              .map(t => `${t.name}(${t.uses}x): ${t.trigger}`);
-            parts.push(`[Micro-tools] ${top.join(' | ')}`);
-          }
-
-          if (rules.length > 0) {
-            const highRules = rules.filter(r => r.priority === 'high');
-            if (highRules.length) {
-              parts.push(`[Rules] ${highRules.map(r => `"${r.when}" → ${r.then}`).join(' | ')}`);
+          let stale = !_transformCache.text;
+          for (const f of [MICRO_TOOLS_FILE, RULES_FILE, PROMPT_SCORES_FILE]) {
+            try {
+              const mt = fs.statSync(f).mtimeMs;
+              if (_transformCache.mtimes[f] !== mt) { stale = true; _transformCache.mtimes[f] = mt; }
+            } catch {
+              if (_transformCache.mtimes[f]) { stale = true; delete _transformCache.mtimes[f]; }
             }
           }
 
-          const adaptations = [];
-          for (const [instruction, scores] of Object.entries(promptScores)) {
-            const total = scores.helpful + scores.neutral + scores.harmful;
-            if (total < 3) continue;
-            const harmRate = scores.harmful / total;
-            if (harmRate > 0.5) adaptations.push(`SUPPRESS: "${instruction}"`);
-          }
-          if (adaptations.length) parts.push(`[Adapt] ${adaptations.join(' | ')}`);
-
-          _transformCache.text = parts.length ? parts.join('\n\n') : null;
-          if (_transformCache.text) {
+          if (!stale && _transformCache.text) {
             const last = messages[messages.length - 1];
             if (last && last.role === 'system') {
               last.content += '\n\n' + _transformCache.text;
             } else {
               messages.push({ role: 'system', content: _transformCache.text });
             }
+          } else if (stale) {
+            const microTools = loadJson(MICRO_TOOLS_FILE, []);
+            const rules = loadJson(RULES_FILE, []);
+            const promptScores = loadJson(PROMPT_SCORES_FILE, {});
+            const parts = [];
+
+            if (microTools.length > 0) {
+              const top = [...microTools]
+                .sort((a, b) => b.uses - a.uses)
+                .slice(0, 3)
+                .map(t => `${t.name}(${t.uses}x): ${t.trigger}`);
+              parts.push(`[Micro-tools] ${top.join(' | ')}`);
+            }
+
+            if (rules.length > 0) {
+              const highRules = rules.filter(r => r.priority === 'high');
+              if (highRules.length) {
+                parts.push(`[Rules] ${highRules.map(r => `"${r.when}" → ${r.then}`).join(' | ')}`);
+              }
+            }
+
+            const adaptations = [];
+            for (const [instruction, scores] of Object.entries(promptScores)) {
+              const total = scores.helpful + scores.neutral + scores.harmful;
+              if (total < 3) continue;
+              const harmRate = scores.harmful / total;
+              if (harmRate > 0.5) adaptations.push(`SUPPRESS: "${instruction}"`);
+            }
+            if (adaptations.length) parts.push(`[Adapt] ${adaptations.join(' | ')}`);
+
+            _transformCache.text = parts.length ? parts.join('\n\n') : null;
+            if (_transformCache.text) {
+              const last = messages[messages.length - 1];
+              if (last && last.role === 'system') {
+                last.content += '\n\n' + _transformCache.text;
+              } else {
+                messages.push({ role: 'system', content: _transformCache.text });
+              }
+            }
           }
+          _evolveContentInjected = true;
         }
       }
 
@@ -252,6 +256,14 @@ export default function createEvolve({ client, directory } = {}) {
         }
       }
       return messages;
+    },
+
+    onEvent(event) {
+      const type = typeof event === 'string' ? event : event?.type;
+      if (type === 'session.created') {
+        _evolveContentInjected = false;
+        _selfImproveNudged = false;
+      }
     },
 
     onCompact() {

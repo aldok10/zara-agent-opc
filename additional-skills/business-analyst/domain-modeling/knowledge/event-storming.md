@@ -1,121 +1,81 @@
-# Event Storming
+---
+type: fact
+title: "Event Storming Workshop"
+---
 
-## What Is Event Storming?
+# Event Storming Workshop
 
-A collaborative workshop technique for discovering business processes by exploring domain events. Participants map out what happens in a system using sticky notes on a wall (or digital equivalent).
+## Levels
 
-## Workshop Formats
+1. **Big Picture**: map entire business domain (2-4h, everyone)
+2. **Process Level**: detail a single workflow (smaller group)
+3. **Design Level**: translate to software design (developers + 1-2 domain experts)
 
-### Big Picture Event Storming
+## Sticky Note Colors
 
-- Duration: 2-4 hours
-- Participants: 6-15 (mix of domain experts, developers, product)
-- Goal: Discover the full business process, identify bounded contexts
-- Output: Event flow, hotspots, bounded context boundaries
+| Color | Represents | Format | Example |
+|-------|-----------|--------|---------|
+| Orange | Domain Event | Past tense | "Order Placed" |
+| Blue | Command | Imperative | "Place Order" |
+| Yellow (small) | Actor | Role | "Customer" |
+| Purple | Policy | When...then | "When payment received, ship" |
+| Green | Read Model | Screen/data | "Order Summary" |
+| Pink/Red | Hot Spot | Question | "What if payment fails?" |
+| Large Yellow | Aggregate | Noun | "Order" |
 
-### Process Level Event Storming
+## Big Picture Flow
 
-- Duration: 2-3 hours
-- Participants: 4-8 (focused team)
-- Goal: Detail a specific business process for implementation
-- Output: Commands, events, aggregates, policies for one bounded context
+1. **Chaotic exploration** (30 min): everyone writes orange events simultaneously, no ordering
+2. **Timeline ordering** (30 min): arrange left-to-right, identify parallel flows
+3. **Hot spots** (15 min): mark conflicts, questions, uncertainties with pink stickies
+4. **Bounded context boundaries** (20 min): draw lines around clusters, name them
 
-### Design Level Event Storming
+## Process Level
 
-- Duration: 1-2 hours
-- Participants: 3-5 (developers + one domain expert)
-- Goal: Software design decisions for implementation
-- Output: Aggregate boundaries, event flows, read models
+Zoom into one bounded context with full notation:
 
-## Notation (Sticky Note Colors)
+```
+[Actor] → [Command] → [Aggregate] → [Domain Event] → [Policy] → [next Command]
+```
 
-| Color | Element | Description |
-|-------|---------|-------------|
-| Orange | Domain Event | Something that happened (past tense) |
-| Blue | Command | Action that triggers an event |
-| Yellow | Actor | Person or system initiating a command |
-| Pink/Red | Hotspot | Problem, question, conflict |
-| Lilac | Policy | Automated reaction ("When X happens, then Y") |
-| Pale Yellow | Aggregate | Cluster that decides if command succeeds |
-| Green | Read Model | View/data needed to make a decision |
-| Large Pink | External System | System outside the boundary |
+Example:
+```
+Customer → "Place Order" → [Order] → "Order Placed"
+  → Policy: "reserve inventory" → [Inventory] → "Inventory Reserved"
+  → Policy: "charge payment" → [Payment] → "Payment Charged"
+  → Policy: "confirm order"
+```
 
-## Facilitation Steps
+## Design Level: Stickies to Code
 
-### Phase 1: Chaotic Exploration (30-45 min)
-
-1. Ask: "What happens in this domain?" (not "what should happen")
-2. Everyone writes events on orange stickies simultaneously
-3. No discussion, no ordering -- just capture everything
-4. Place events roughly left-to-right on timeline
-5. Duplicates are fine at this stage
-
-### Phase 2: Enforce Timeline (20-30 min)
-
-1. Group and order events chronologically
-2. Identify parallel streams (swimlanes)
-3. Remove true duplicates, keep variations (they represent different understandings)
-4. Mark gaps: "What happens between X and Y?"
-
-### Phase 3: Identify Pain Points (15-20 min)
-
-1. Place hotspots (pink/red) where:
-   - People disagree on what happens
-   - Process is unclear or manual
-   - Bottlenecks exist
-   - Errors frequently occur
-2. Don't solve -- just mark
-
-### Phase 4: Add Commands and Actors (20-30 min)
-
-1. For each event, ask: "What triggered this?"
-2. Add commands (blue) and actors (yellow)
-3. Some events are triggered by policies (automated rules)
-4. Some events come from external systems
-
-### Phase 5: Identify Aggregates (15-20 min)
-
-1. Group commands and events that relate to the same concept
-2. Name the aggregate (pale yellow)
-3. This reveals entity boundaries
-
-### Phase 6: Bounded Context Discovery (15-20 min)
-
-1. Draw boundaries around clusters of related aggregates
-2. Notice where the same word means different things -- that's a boundary
-3. Name each context
-4. Identify relationships between contexts
+```
+Aggregate: [Order]
+  handles: "Place Order" command
+  produces: "Order Placed" event
+  invariants: itemCount <= 50, allItemsInStock
+  
+→ class Order { placeOrder(items, payment) → OrderPlacedEvent }
+```
 
 ## Facilitation Tips
 
-- Start with "What events happen?" not "What entities exist?"
-- Prevent architects from jumping to solution mode
-- "We'll solve that later" is a valid response to hotspots
-- Rotate facilitator duties if workshop is long
-- Time-box phases strictly
-- Physical walls > digital boards for initial sessions
-- Photograph everything before cleaning up
+- Long wall (6-10m) with butcher paper, standing only
+- Domain experts write first, developers ask questions
+- Time-box strictly (energy drops after 3h)
+- No laptops — sticky notes only
+- Photographer captures board for later digitization
 
-## Common Patterns Found
+## Common Failures
 
-- **Pivotal events**: Events that change everything downstream (OrderPlaced, AccountClosed)
-- **Swimlanes**: Parallel processes that occasionally synchronize
-- **Loops**: Retry/approval cycles
-- **Branching**: Different paths based on conditions
+1. Developers jump to technical solutions too early
+2. No domain experts present → invented terminology
+3. Trying to model everything in one session
+4. Facilitator writes all stickies → not collaborative
 
 ## Output Artifacts
 
-After the workshop, produce:
-1. Photograph of the wall / digital board export
-2. List of bounded contexts with descriptions
-3. Glossary of terms (start of ubiquitous language)
-4. Hotspot list prioritized for follow-up
-5. Event catalog (name, trigger, aggregate, context)
-
-## Anti-Patterns
-
-- Designing the database instead of discovering the domain
-- Only developers in the room (no domain experts)
-- Trying to make it "correct" on first pass
-- One person dominating the conversation
-- Skipping hotspots to keep things clean
+- Event flow diagram (digitized in Miro/FigJam)
+- Bounded context map with upstream/downstream relationships
+- Domain glossary
+- Hot spot list prioritized for follow-up
+- Aggregate catalog (commands, events, invariants)

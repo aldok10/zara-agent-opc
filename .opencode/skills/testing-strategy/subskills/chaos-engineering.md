@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Chaos Engineering"
+---
+
 # Chaos Engineering
 
 Controlled experiments that deliberately break your system to find weaknesses before they cause outages. Principle: you don't actually know how your system fails until you break it on purpose.

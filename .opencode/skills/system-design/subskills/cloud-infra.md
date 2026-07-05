@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Cloud Infrastructure: Cloud Architecture & Infrastructure"
+---
+
 # Cloud Infrastructure: Cloud Architecture & Infrastructure
 
 Deep-dive reference for cloud building blocks and when to use each.

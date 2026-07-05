@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Boundary Validation (parse, don't validate)"
+---
+
 # Subskill: Boundary Validation (parse, don't validate)
 
 Types vanish at runtime. Any data you didn't construct is `unknown` until proven. This subskill is about the single most important discipline in production TS: **validate at the boundary, trust inside.**

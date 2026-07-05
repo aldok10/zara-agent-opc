@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Planning"
+---
+
 # Planning
 
 Write implementation plans assuming the engineer has zero codebase context. Document which files, exact code, tests, and how to verify.

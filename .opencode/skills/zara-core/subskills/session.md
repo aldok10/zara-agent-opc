@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Session Management"
+---
+
 # Session Management
 
 Start, resume, handoff, and compaction recovery. MCP memory is the single source of truth. Never write session state to disk.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Property-Based Testing"
+---
+
 # Property-Based Testing
 
 Instead of asserting specific input/output examples, define PROPERTIES that must always hold, then let the framework generate hundreds or thousands of random inputs to try to break them.

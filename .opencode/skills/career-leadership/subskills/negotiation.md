@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Compensation Negotiation"
+---
+
 # Compensation Negotiation
 
 Negotiating is expected, not rude. The offer is a starting point. Failing to counter leaves money on the table every year via compounding raises.

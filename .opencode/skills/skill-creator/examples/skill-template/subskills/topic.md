@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: PLACEHOLDER Topic Name"
+---
+
 # Subskill: PLACEHOLDER Topic Name
 
 PLACEHOLDER: 1-2 sentence overview of what this subskill covers.

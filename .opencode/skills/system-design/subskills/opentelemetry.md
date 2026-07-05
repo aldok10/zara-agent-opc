@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "OpenTelemetry Instrumentation"
+---
+
 # OpenTelemetry Instrumentation
 
 OpenTelemetry (OTel) is the vendor-neutral observability standard, unifying traces, metrics, and logs under one framework and wire protocol (OTLP).

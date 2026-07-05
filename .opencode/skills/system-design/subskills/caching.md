@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Caching: Patterns & Strategies"
+---
+
 # Caching: Patterns & Strategies
 
 Deep-dive reference for adding caching without shooting yourself in the foot.

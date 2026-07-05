@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: RFC (Request for Comments)"
+---
+
 # Subskill: RFC (Request for Comments)
 
 > Activate when: propose change, request feedback, review deadline, gather consensus, new system/API

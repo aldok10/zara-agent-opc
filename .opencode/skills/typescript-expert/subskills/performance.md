@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Performance (build + runtime + bundle)"
+---
+
 # Subskill: Performance (build + runtime + bundle)
 
 Three separate performance domains. Don't confuse them.

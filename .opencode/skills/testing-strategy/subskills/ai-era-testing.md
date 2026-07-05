@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "AI-Era Testing"
+---
+
 # AI-Era Testing
 
 Testing when AI generates both the code AND the tests. This is the defining testing challenge of 2026.

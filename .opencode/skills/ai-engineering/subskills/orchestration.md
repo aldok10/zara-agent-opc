@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Orchestration"
+---
+
 # Orchestration
 
 Multi-agent coordination patterns. You are the orchestrator; agents execute.

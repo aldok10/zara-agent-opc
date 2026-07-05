@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Data Layer: Database Design & Data Modeling"
+---
+
 # Data Layer: Database Design & Data Modeling
 
 Deep-dive reference for choosing and modeling your persistence layer.

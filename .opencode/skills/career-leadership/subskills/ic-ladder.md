@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "IC Career Ladder (2026)"
+---
+
 # IC Career Ladder (2026)
 
 The individual-contributor track rewards expanding scope and autonomy, not tenure. Each level changes WHAT problems you own and HOW MUCH ambiguity you absorb.

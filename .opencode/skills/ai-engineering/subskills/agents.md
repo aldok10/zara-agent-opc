@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "AI Agent Architecture"
+---
+
 # AI Agent Architecture
 
 ## Definition

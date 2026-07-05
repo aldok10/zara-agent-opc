@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Zero Trust"
+---
+
 # Subskill: Zero Trust
 
 > Activate when: zero trust, BeyondCorp, network location, microsegmentation, service mesh, mTLS, identity-aware proxy, IAP, device trust, continuous verification, least privilege.

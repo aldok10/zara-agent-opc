@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "LLMOps & Production Deployment"
+---
+
 # LLMOps & Production Deployment
 
 ## Model routing

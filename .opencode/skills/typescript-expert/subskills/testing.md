@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Testing TypeScript"
+---
+
 # Subskill: Testing TypeScript
 
 ## Framework choice

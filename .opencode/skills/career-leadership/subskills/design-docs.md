@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Design Documents"
+---
+
 # Subskill: Design Documents
 
 > Activate when: explain system, design proposal, goals/non-goals, architecture write-up, new service

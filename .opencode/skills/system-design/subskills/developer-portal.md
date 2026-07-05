@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Developer Portals & Service Catalogs"
+---
+
 # Developer Portals & Service Catalogs
 
 Single pane of glass for all services: documentation, ownership, health, and self-service actions. Replaces tribal knowledge and tickets.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Cloud Cost Management & FinOps"
+---
+
 # Cloud Cost Management & FinOps
 
 Engineering teams see and own their cloud costs. Finance provides guardrails, not approvals.

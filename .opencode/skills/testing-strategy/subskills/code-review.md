@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Code Review"
+---
+
 # Code Review
 
 Give and act on reviews with technical rigor. Verify before implementing. Technical correctness over social comfort.

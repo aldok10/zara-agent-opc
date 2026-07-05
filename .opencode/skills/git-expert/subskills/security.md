@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Git Security"
+---
+
 # Git Security
 
 Signing, secret prevention, dependency safety, and credential management.

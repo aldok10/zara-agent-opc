@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Authentication"
+---
+
 # Subskill: Authentication
 
 > Activate when: OAuth, OIDC, JWT, PKCE, session, MFA, passkey, WebAuthn, token, login, refresh token, SSO.

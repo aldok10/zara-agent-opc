@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Testing"
+---
+
 # Testing
 
 pytest always. Never `unittest.TestCase`  --  no fixtures, verbose asserts, class boilerplate.

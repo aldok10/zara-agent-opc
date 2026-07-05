@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Concurrency"
+---
+
 # Subskill: Concurrency
 
 > Activate when: goroutine, channel, mutex, lock, race, sync, atomic, worker pool, fan-out, pipeline, context, deadlock, backpressure

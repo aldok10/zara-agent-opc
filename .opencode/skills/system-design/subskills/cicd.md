@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "CI/CD Platform Design"
+---
+
 # CI/CD Platform Design
 
 CI/CD as a platform capability: developers get pipelines automatically from golden path templates. No pipeline YAML writing required.

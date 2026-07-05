@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "DORA Metrics & DevEx Measurement"
+---
+
 # DORA Metrics & DevEx Measurement
 
 Measure the platform's impact on delivery speed, stability, and developer experience. Measure teams, never individuals.

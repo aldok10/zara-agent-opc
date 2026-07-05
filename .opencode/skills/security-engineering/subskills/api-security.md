@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: API Security"
+---
+
 # Subskill: API Security
 
 > Activate when: rate limit, input validation, output encoding, CORS, CSP, API key, OAuth vs key, mTLS, request signing, idempotency, GraphQL, throttling, WAF.

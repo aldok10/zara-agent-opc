@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Golden Path Templates & Service Blueprints"
+---
+
 # Golden Path Templates & Service Blueprints
 
 Opinionated, pre-approved, production-ready service templates. "The fastest way to production with all best practices built in."

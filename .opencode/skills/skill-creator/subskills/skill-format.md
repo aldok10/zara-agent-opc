@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: SKILL.md Format"
+---
+
 # Subskill: SKILL.md Format
 
 How to write the main SKILL.md file -- the entry point that loads when the skill activates.

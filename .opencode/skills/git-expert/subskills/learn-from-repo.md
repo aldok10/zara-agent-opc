@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Learn From Repo (GitReverse)"
+---
+
 # Learn From Repo (GitReverse)
 
 Convert a GitHub codebase into a natural-language "project essence" via GitReverse, analyze it, extract patterns worth adopting for Zara.

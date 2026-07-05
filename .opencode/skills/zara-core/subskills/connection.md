@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Connection Template"
+---
+
 # Connection Template
 
 Template for building a skill that connects Zara to an external service (Slack, GitHub, Linear, Notion, any SaaS API). Establish context and auth first, then wire the actions.

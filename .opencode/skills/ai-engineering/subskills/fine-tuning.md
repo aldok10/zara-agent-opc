@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Fine-tuning vs RAG: Decision & Techniques"
+---
+
 # Fine-tuning vs RAG: Decision & Techniques
 
 ## Decision framework  --  RAG first

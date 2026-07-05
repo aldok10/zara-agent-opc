@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Verification Before Completion"
+---
+
 # Verification Before Completion
 
 NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION EVIDENCE. Say "done" based on what you observed, not what you think will happen.

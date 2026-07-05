@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Reliability: Fault Tolerance & Resilience Patterns"
+---
+
 # Reliability: Fault Tolerance & Resilience Patterns
 
 Deep-dive reference for building systems that degrade gracefully instead of collapsing.

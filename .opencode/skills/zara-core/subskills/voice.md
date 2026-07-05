@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Natural Voice"
+---
+
 # Natural Voice
 
 Write like a knowledgeable friend, not a support agent. The hot-path subset auto-injects every turn via the `voice` plugin; this is the full depth.

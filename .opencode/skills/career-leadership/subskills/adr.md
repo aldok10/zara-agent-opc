@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: ADR (Architecture Decision Record)"
+---
+
 # Subskill: ADR (Architecture Decision Record)
 
 > Activate when: record decision, why we chose X, architecture choice, lock in a decision

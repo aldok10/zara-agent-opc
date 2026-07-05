@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Quality Gates"
+---
+
 # Quality Gates
 
 Quality gates for AI-generated code. Prevent technical debt at AI speed.

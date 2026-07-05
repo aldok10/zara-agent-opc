@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Infrastructure as Code Patterns & Tools"
+---
+
 # Infrastructure as Code Patterns & Tools
 
 Declarative, versioned, reviewable infrastructure. Git PR is the change interface.

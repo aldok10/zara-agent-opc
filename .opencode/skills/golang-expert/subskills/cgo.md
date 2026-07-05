@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: CGO (C Interoperability)"
+---
+
 # Subskill: CGO (C Interoperability)
 
 > Activate when: cgo, C library, FFI, CGO_ENABLED, cross-compile, static link, C binding, shared library, unsafe.Pointer boundary

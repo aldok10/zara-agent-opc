@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Code Review"
+---
+
 # Subskill: Code Review
 
 > Activate when: review, smell, refactor, naming, readability, simplify, debt, cleanup, improve, quality

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "SLO/SLI Design & Error Budgets"
+---
+
 # SLO/SLI Design & Error Budgets
 
 SLOs turn reliability into a measurable, negotiable target. They align engineering effort with what users actually experience.

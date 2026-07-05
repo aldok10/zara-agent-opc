@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Conventional Commits"
+---
+
 # Conventional Commits
 
 Standardized, machine-readable commit messages: `<type>(<scope>): <description>`.

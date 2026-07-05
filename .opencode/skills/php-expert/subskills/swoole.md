@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Swoole Senior Developer Subskill"
+---
+
 # Swoole Senior Developer Subskill
 
 ## Activation Triggers

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Performance Testing"
+---
+
 # Performance Testing
 
 Verify the system meets latency, throughput, and stability requirements under load -- and detect regressions before users do.

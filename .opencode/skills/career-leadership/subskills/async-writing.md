@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Async Writing"
+---
+
 # Subskill: Async Writing
 
 > Activate when: remote, distributed, timezone, written-first, documentation tooling, reduce meetings

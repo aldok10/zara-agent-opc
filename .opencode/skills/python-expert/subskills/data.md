@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Data Processing & ETL"
+---
+
 # Data Processing & ETL
 
 2026 stack: Polars for transforms, DuckDB for SQL-on-files, Parquet for storage, Arrow for interchange. Pandas is legacy.

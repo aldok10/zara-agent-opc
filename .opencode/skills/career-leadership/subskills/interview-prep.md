@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Interview Preparation (2026)"
+---
+
 # Interview Preparation (2026)
 
 **New reality:** AI handles leetcode-style problems, so companies test differently. Rote algorithm grinding is no longer the differentiator. Interviews now probe judgment, decomposition, and how you work WITH AI.

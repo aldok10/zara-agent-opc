@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: tsconfig deep dive & monorepo"
+---
+
 # Subskill: tsconfig deep dive & monorepo
 
 See `../knowledge/tsconfig.md` for the annotated baseline config and the flags people get wrong. This subskill covers structure decisions.

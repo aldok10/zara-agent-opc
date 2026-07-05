@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Engineering Visibility & Personal Brand"
+---
+
 # Engineering Visibility & Personal Brand
 
 **"Your best work is worthless if nobody knows about it."** Visibility isn't self-promotion for its own sake, it's making your impact legible to the people who decide your scope, promotion, and next opportunity.

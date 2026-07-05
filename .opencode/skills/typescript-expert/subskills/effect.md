@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Effect-TS"
+---
+
 # Subskill: Effect-TS
 
 Reach for Effect when error flows, dependency injection, and concurrency get complex enough that `Result` + try/catch becomes spaghetti. NOT for every app. A CRUD API with 3 error types doesn't need Effect; a payment pipeline with retries, timeouts, typed errors, and resource cleanup does.

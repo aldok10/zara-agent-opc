@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Architecture"
+---
+
 # Subskill: Architecture
 
 > Activate when: project structure, interface design, pattern, DI, clean arch, module, package, SOLID, dependency, abstraction, composition

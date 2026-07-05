@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Worktrees"
+---
+
 # Worktrees
 
 Isolated feature workspaces via git worktrees. One repo, multiple working directories.

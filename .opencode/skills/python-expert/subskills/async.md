@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Async Python"
+---
+
 # Async Python
 
 asyncio event loop is single-threaded, cooperative. I/O-bound → async. CPU-bound → multiprocessing. Blocking anything stalls every coroutine.

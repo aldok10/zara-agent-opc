@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Secure Coding"
+---
+
 # Subskill: Secure Coding
 
 > Activate when: injection, SQL, XSS, command injection, SSTI, CSRF, deserialization, file upload, path traversal, SSRF, sanitize, escape.

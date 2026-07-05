@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Verification"
+---
+
 # Verification
 
 How to verify AI-generated code. "I approve this" = "I own this in production."

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "PHP Architecture Subskill"
+---
+
 # PHP Architecture Subskill
 
 ## Activation Triggers

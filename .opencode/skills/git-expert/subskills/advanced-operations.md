@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Advanced Git Operations"
+---
+
 # Advanced Git Operations
 
 Power tools for debugging, history rewriting, large files, and monorepo workflows.

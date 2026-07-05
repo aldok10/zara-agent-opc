@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Branching & Integration"
+---
+
 # Branching & Integration
 
 Branch strategy selection plus finishing completed work: merge, PR, keep, or discard.

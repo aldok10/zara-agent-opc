@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Context Engineering"
+---
+
 # Context Engineering
 
 ## Evolution

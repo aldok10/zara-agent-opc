@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Model Context Protocol (MCP)"
+---
+
 # Model Context Protocol (MCP)
 
 ## What it is

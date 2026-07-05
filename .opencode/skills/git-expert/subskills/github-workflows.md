@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "GitHub Workflows"
+---
+
 # GitHub Workflows
 
 PR conventions, code review, branch protection, Actions, releases, and the `gh` CLI.

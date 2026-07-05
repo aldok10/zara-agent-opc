@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Typing"
+---
+
 # Typing
 
 Type hints = documentation + bug prevention + IDE autocomplete. Not optional in 2026.

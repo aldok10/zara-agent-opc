@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Security"
+---
+
 # Subskill: Security
 
 > Activate when: auth, crypto, TLS, injection, secret, CORS, input validation, token, JWT, CSRF, XSS, sanitize, permission

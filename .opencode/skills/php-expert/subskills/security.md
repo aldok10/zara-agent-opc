@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "PHP Security Subskill"
+---
+
 # PHP Security Subskill
 
 ## Activation Triggers

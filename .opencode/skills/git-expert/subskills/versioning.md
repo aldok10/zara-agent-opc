@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Versioning & Tagging"
+---
+
 # Versioning & Tagging
 
 Semantic versioning, git tags, release workflows, and changelog generation.

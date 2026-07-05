@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "PHP Testing Subskill"
+---
+
 # PHP Testing Subskill
 
 ## Activation Triggers

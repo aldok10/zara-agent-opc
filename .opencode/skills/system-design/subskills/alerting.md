@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Alerting Strategy & Incident Response"
+---
+
 # Alerting Strategy & Incident Response
 
 Good alerting wakes people only when a human must act. Everything else is a dashboard or a ticket.

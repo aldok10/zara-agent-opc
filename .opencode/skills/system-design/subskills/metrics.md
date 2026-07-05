@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Metrics & Instrumentation"
+---
+
 # Metrics & Instrumentation
 
 Metrics are cheap, aggregatable time series. Use them for trends, SLIs, and alerting  --  not for per-request debugging (that's traces).

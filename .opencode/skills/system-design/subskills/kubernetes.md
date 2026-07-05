@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Kubernetes for Platform Teams"
+---
+
 # Kubernetes for Platform Teams
 
 Not a platform itself, but THE foundation most platforms build on. Provides scheduling, self-healing, declarative config, and extensibility via CRDs.

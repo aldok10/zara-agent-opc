@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Structured Logging"
+---
+
 # Structured Logging
 
 Logs are your highest-fidelity signal for individual events. Structure them so machines can parse and humans can read.

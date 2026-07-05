@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Python for AI/ML"
+---
+
 # Python for AI/ML
 
 Python owns prototyping, training, and research. For serving at scale, consider Go/Rust or a dedicated inference server  --  Python is the orchestration layer, not always the hot path.

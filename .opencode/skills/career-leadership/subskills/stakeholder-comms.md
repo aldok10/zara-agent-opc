@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Stakeholder Communication"
+---
+
 # Subskill: Stakeholder Communication
 
 > Activate when: executive update, PM, risk, audience, status update, bad news, alignment

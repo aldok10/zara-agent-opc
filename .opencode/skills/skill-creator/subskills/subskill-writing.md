@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Subskill File Writing"
+---
+
 # Subskill: Subskill File Writing
 
 How to write focused subskill files that teach the agent ONE specific topic.

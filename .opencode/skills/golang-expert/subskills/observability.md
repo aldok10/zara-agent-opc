@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Observability"
+---
+
 # Subskill: Observability
 
 > Activate when: log, trace, metric, pprof, slog, OpenTelemetry, alert, monitor, debug, goroutine leak

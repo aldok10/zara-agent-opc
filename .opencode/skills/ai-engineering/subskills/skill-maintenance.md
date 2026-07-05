@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Skill Maintenance"
+---
+
 # Skill Maintenance
 
 Maintaining your own skills in the AI era.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Advanced Type System"
+---
+
 # Subskill: Advanced Type System
 
 When you need types to do real work. Use sparingly, comment always, prefer the simplest thing that works.

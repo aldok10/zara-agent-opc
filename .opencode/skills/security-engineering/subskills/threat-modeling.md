@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Threat Modeling"
+---
+
 # Subskill: Threat Modeling
 
 > Activate when: STRIDE, DREAD, attack tree, data flow diagram, trust boundary, new service, new data flow, new external integration.

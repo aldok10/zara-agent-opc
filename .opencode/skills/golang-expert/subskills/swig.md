@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: SWIG (C++ to Go Interface Generator)"
+---
+
 # Subskill: SWIG (C++ to Go Interface Generator)
 
 > Activate when: swig, swigcxx, C++ binding, C++ class from Go, director, virtual method override, template instantiation, C++ inheritance Go

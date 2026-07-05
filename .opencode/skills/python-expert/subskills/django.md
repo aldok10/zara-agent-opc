@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Django"
+---
+
 # Django
 
 Batteries-included: ORM, admin, auth, migrations, forms. Best for full-stack web apps.

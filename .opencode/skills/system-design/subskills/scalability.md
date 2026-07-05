@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Scalability: Scaling Patterns & Capacity Planning"
+---
+
 # Scalability: Scaling Patterns & Capacity Planning
 
 Deep-dive reference for scaling systems and doing the napkin math.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Performance"
+---
+
 # Subskill: Performance
 
 > Activate when: latency, memory, allocation, GC, pprof, benchmark, hot path, escape analysis, pool, cache line, struct alignment, PGO, zero-alloc

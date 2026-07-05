@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "AI Security Review"
+---
+
 # AI Security Review
 
 Security review of AI-generated code. Treat every AI PR like code from a confident, fast, untrusted junior.

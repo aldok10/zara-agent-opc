@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Observability-First Debugging"
+---
+
 # Observability-First Debugging
 
 ## When to Load

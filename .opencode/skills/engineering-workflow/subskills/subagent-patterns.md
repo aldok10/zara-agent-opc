@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subagent Patterns"
+---
+
 # Subagent Patterns
 
 Fresh subagent per task + task review + final broad review. Execute all tasks sequentially, continuously. Only stop when BLOCKED with no path.

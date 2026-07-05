@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Skill Routing"
+---
+
 # Skill Routing
 
 Match the task signal to a skill and load it BEFORE any response, context gathering, or exploration. Never respond without the relevant skill loaded.

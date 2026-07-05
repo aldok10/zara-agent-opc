@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "AI Security & Guardrails"
+---
+
 # AI Security & Guardrails
 
 ## Prompt injection

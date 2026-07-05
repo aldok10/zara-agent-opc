@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Mutation Testing"
+---
+
 # Mutation Testing
 
 Coverage tells you what code ran. Mutation testing tells you whether your tests actually VERIFY behavior. It tests your tests.

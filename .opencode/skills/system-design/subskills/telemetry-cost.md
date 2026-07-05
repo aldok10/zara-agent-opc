@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Telemetry Cost Management"
+---
+
 # Telemetry Cost Management
 
 ## The cost trap

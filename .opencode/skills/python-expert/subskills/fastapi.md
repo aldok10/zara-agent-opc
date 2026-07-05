@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "FastAPI"
+---
+
 # FastAPI
 
 Async-first, Pydantic v2, automatic OpenAPI, dependency injection. Production-grade Python APIs.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "GitOps Workflows & Environment Management"
+---
+
 # GitOps Workflows & Environment Management
 
 Git as single source of truth for declarative infrastructure and application config. Pull-based reconciliation: agents in the cluster continuously sync desired state from git.

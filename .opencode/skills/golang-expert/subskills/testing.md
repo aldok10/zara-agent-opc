@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Testing"
+---
+
 # Subskill: Testing
 
 > Activate when: test, bench, fuzz, mock, table-driven, coverage, TDD, assertion, fixture, helper

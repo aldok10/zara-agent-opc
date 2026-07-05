@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "PHP Code Review Subskill"
+---
+
 # PHP Code Review Subskill
 
 ## Activation Triggers

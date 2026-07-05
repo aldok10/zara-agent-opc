@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Privacy & Human-in-the-Loop"
+---
+
 # Privacy & Human-in-the-Loop
 
 Two jobs: mask every outbound call through the privacy gateway, and gate risky operations behind human approval. `Agent → MCP → DB/HTTP/AI → auto-mask → Agent`.

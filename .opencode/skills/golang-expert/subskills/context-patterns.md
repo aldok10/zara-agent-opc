@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Context & Structured Concurrency"
+---
+
 # Subskill: Context & Structured Concurrency
 
 > Activate when: context, WithCancel, WithTimeout, WithValue, errgroup, structured concurrency, wg.Go, scope

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Parallel Dispatch"
+---
+
 # Parallel Dispatch
 
 Delegate independent problems to concurrent subagents. Each gets isolated context, focused scope, clear deliverables. Pays off at 3+ tasks.

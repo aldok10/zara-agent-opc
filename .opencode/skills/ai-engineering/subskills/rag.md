@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "RAG Pipeline Engineering"
+---
+
 # RAG Pipeline Engineering
 
 ## Architecture (two pipelines)

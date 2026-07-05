@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Supply Chain Security"
+---
+
 # Subskill: Supply Chain Security
 
 > Activate when: SBOM, dependency, lockfile, pin, Sigstore, cosign, typosquat, transitive dep, Dependabot, Renovate, Trivy, container image, base image, provenance.

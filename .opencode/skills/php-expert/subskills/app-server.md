@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "PHP Application Servers Subskill"
+---
+
 # PHP Application Servers Subskill
 
 ## Activation Triggers

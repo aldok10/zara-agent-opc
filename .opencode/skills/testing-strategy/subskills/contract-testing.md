@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Contract Testing"
+---
+
 # Contract Testing
 
 Consumer-driven contract testing verifies service boundaries WITHOUT deploying the full system. It replaces slow, flaky end-to-end integration for API compatibility.

@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "PHP Concurrency Subskill"
+---
+
 # PHP Concurrency Subskill
 
 ## Activation Triggers

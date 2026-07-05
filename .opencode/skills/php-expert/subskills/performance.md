@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "PHP Performance Subskill"
+---
+
 # PHP Performance Subskill
 
 ## Activation Triggers

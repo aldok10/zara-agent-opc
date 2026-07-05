@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Delegation"
+---
+
 # Delegation
 
 How to delegate effectively to AI. The prompt IS the spec.

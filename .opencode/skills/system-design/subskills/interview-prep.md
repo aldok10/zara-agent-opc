@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Interview Prep: System Design Interview Framework"
+---
+
 # Interview Prep: System Design Interview Framework
 
 Deep-dive reference for structuring a 45–60 min system design interview.

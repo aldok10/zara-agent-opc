@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Brainstorming"
+---
+
 # Brainstorming
 
 Explore intent, requirements, and design before any code. Design first, always.

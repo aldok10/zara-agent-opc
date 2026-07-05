@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Distributed Tracing"
+---
+
 # Distributed Tracing
 
 Traces capture the end-to-end journey of a request across services. Each hop is a **span**; spans form a tree (parent-child). A trace is only as good as its weakest propagation link.

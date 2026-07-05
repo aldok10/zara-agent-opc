@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Benchmarking Skills Against Public Registries"
+---
+
 # Benchmarking Skills Against Public Registries
 
 Before finalizing a skill, compare it against established public skill sources. This ensures completeness, identifies blind spots, and incorporates proven patterns.

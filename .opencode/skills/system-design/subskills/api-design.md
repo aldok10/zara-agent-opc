@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "API Design: Architecture & Design"
+---
+
 # API Design: Architecture & Design
 
 Deep-dive reference for designing APIs that scale and stay maintainable.

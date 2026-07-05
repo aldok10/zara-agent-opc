@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Node 24+ / Bun / ESM Runtime"
+---
+
 # Subskill: Node 24+ / Bun / ESM Runtime
 
 ## ESM is the default now. Get it right.

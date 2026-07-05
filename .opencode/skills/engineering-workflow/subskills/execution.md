@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Execution"
+---
+
 # Execution
 
 Execute a plan directly in the current session, task by task. Use when subagents unavailable or user prefers inline. If subagents available, prefer `subagent-patterns.md` (higher quality via isolated contexts).

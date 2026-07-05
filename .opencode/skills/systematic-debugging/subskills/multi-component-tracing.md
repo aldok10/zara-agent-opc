@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Multi-Component Tracing"
+---
+
 # Multi-Component Tracing
 
 Debugging distributed and multi-component systems where the error manifests in one layer but originates in another. The core principle: trace backward from symptom, verify at each boundary.

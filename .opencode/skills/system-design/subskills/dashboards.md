@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Dashboard Design & Visualization"
+---
+
 # Dashboard Design & Visualization
 
 ## Philosophy

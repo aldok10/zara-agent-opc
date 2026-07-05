@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Leadership & Coaching"
+---
+
 # Leadership & Coaching
 
 People problems are harder than code problems. Listen first, read the emotional signal, land on a concrete next step. Care personally AND challenge directly. Never decide FOR the person: present analysis + recommendation + confidence, then let them choose. Ask before prescribing.

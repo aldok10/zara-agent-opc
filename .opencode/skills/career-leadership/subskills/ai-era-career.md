@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Career Strategy in the AI Era (2026)"
+---
+
 # Career Strategy in the AI Era (2026)
 
 **Reality check:** entry-level engineering hiring has collapsed (~73% down). Routine, well-defined coding is the first thing automated. But senior and staff roles survive and grow because they rest on work AI cannot own.

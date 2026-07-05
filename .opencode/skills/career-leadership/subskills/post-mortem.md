@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Subskill: Post-Mortem"
+---
+
 # Subskill: Post-Mortem
 
 > Activate when: incident, outage, root cause, blameless, action items, retrospective

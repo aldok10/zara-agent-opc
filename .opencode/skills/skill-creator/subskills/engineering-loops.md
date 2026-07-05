@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Engineering Loops for Skill Creation"
+---
+
 # Engineering Loops for Skill Creation
 
 Skill creation is NOT a one-shot task. Apply loop engineering, context engineering, and harness engineering to produce verified, high-quality skills.

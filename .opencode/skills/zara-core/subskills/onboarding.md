@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Codebase Onboarding"
+---
+
 # Codebase Onboarding
 
 Read code, report what exists. Facts only. Read-only. Build a mental model of an unfamiliar repo at three depth levels.

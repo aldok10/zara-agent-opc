@@ -1,3 +1,8 @@
+---
+type: subskill
+title: "Messaging: Message Queues & Event-Driven Patterns"
+---
+
 # Messaging: Message Queues & Event-Driven Patterns
 
 Deep-dive reference for async communication between services.

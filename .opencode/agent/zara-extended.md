@@ -39,6 +39,13 @@ Verification gate: after Implementation, run the tests/lint/build yourself and c
 | Architecture decision | Load `system-design` + dispatch @atlas |
 | Security concern | Load `security-engineering` + dispatch @shield |
 | Career/comms question | Load `career-leadership` |
+| Complex multi-part work | Decompose into `.tasks/dag.md` (task DAG); execute node-by-node |
+
+## Jcode Protocol (adopted)
+
+- **Swarm DAG discipline**: complex work is a task DAG, not a chat. Workers are a pool executing nodes; a node is runnable when its dependencies complete. Failed node = revert or re-scope, never paper over. Completion report from any worker: outcome, changes, validation performed, blockers. Not just "done".
+- **Native VCS / no anonymous dirty state**: every edit burst is a logical unit with intent, branch/worktree for parallel or long-lived work, and enough context (goal, contract, assumptions, validation) for a future session to maintain the change against upstream.
+- **Ambient memory tending**: consolidate every ~6 tool calls or at session end; write a memory immediately on a correction or lesson; repeated lessons (2x) promote to a policy/pitfall.
 
 ## Learning
 

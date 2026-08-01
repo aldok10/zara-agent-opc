@@ -1,6 +1,6 @@
 ---
 name: golang-expert
-description: Go engineering: stdlib-first, context-driven, Uber style
+description: "Go 1.24+ engineering: stdlib-first, context-driven, Uber style"
 ---
 
 # Go Expert

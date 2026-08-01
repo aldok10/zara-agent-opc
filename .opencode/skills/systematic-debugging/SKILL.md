@@ -18,7 +18,7 @@ NO FIXES WITHOUT ROOT CAUSE INVESTIGATION FIRST. Guessing is not debugging.
 ## Scope
 
 - HANDLES: root cause investigation, pattern analysis, hypothesis testing, fix implementation.
-- DEFERS: regression test to `tdd`; post-fix review to `code-review`.
+- DEFERS: regression test to `tdd`; post-fix review to `task(subagent_type: "lens", ...)`.
 
 ## First Action
 
@@ -75,7 +75,7 @@ Read the error message completely: every word, line number, stack frame. Do not 
 | When | Load |
 |------|------|
 | Writing regression test | `tdd` |
-| Code review after fix | `code-review` |
+| Code review after fix | `task(subagent_type: "lens", ...)` |
 
 ## AI-Era Context
 

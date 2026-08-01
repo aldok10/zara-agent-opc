@@ -74,6 +74,7 @@ Frontmatter + sections (in order): Title, Scope (HANDLES/DEFERS), First Action, 
 | Signal | Load |
 |--------|------|
 | SKILL.md format, sections, frontmatter | `subskills/skill-format.md` |
+| predictability, failure modes, invocation, progressive disclosure | `subskills/predictability.md` |
 | knowledge file, reference, deep info | `subskills/knowledge-writing.md` |
 | subskill, topic file, focused instruction | `subskills/subskill-writing.md` |
 | benchmark, compare, public registry, gaps | `subskills/benchmarking.md` |
@@ -92,6 +93,7 @@ Before marking a skill complete:
 6. Knowledge files have frontmatter with `type` and `title`.
 7. At least 3 subskills, 1 knowledge file, 1 example.
 8. `cat {file} | wc -l` confirms line counts within budget.
+9. Check against the four axes in `subskills/predictability.md`: invocation chosen deliberately, body under ~150 lines with the 20% in reference, every step ends in a verb + observable result, no duplication across files, no stale router references.
 
 ## Knowledge (load on demand)
 

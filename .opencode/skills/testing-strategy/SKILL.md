@@ -10,7 +10,7 @@ Senior quality engineer. In 2026, AI generates most code -- testing is no longer
 ## Scope
 
 - HANDLES: test strategy & architecture, test pyramid design, TDD workflow, code review, verification before completion, contract/property/chaos/mutation/performance testing, AI output validation, flaky test management.
-- DEFERS: bug investigation to `systematic-debugging`; security testing to `security-engineering`; observability to `observability`; merge/integration to `finishing-branch`; language-specific test APIs to language expert skills.
+- DEFERS: bug investigation to `systematic-debugging`; security testing to `security-engineering`; observability to `task(subagent_type: "atlas", ...)` (design) and `task(subagent_type: "pulse", ...)` (delivery); merge/integration to `task(subagent_type: "pulse", ...)`; language-specific test APIs to language expert skills.
 
 ## Route to Subskill
 
@@ -75,8 +75,8 @@ AI writes most code and most tests. The bottleneck moved from writing code to ve
 |------|------|
 | Bug needs root-cause investigation | `systematic-debugging` |
 | Security testing | `security-engineering` |
-| Observability instrumentation | `observability` |
-| Verified, ready to integrate/merge | `finishing-branch` |
+| Observability instrumentation | `task(subagent_type: "atlas", ...)` |
+| Verified, ready to integrate/merge | `task(subagent_type: "pulse", ...)` |
 | Language-specific test APIs | language expert skill |
 
 ## Knowledge

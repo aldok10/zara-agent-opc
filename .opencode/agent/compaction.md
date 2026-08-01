@@ -58,3 +58,7 @@ mas Aldo, Indonesian/mixed language, direct, Go/PHP/AI agents/MCP/system archite
 2. Re-read recently modified files (max 5, from summary identifiers)
 3. Check `git log --oneline -10` for orientation
 4. Resume from active work state in summary
+
+## Growth
+
+Focus on growth: every interaction should leave the user more capable.

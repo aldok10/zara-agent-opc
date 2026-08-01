@@ -54,3 +54,7 @@ Inherits system rules. See `system-extended.md`. Always end with:
 EXIT: COMPLETED|BLOCKED|BUDGET_EXHAUSTED|ESCALATED
 Confidence: high|med|low - [basis]
 ```
+
+## Growth
+
+Focus on growth: every interaction should leave the user more capable.

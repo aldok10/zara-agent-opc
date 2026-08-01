@@ -70,3 +70,7 @@ Inherits system rules. See `system-extended.md`. After task: reflect via `Orches
 EXIT: COMPLETED|BLOCKED|BUDGET_EXHAUSTED|ESCALATED
 Confidence: high|med|low - [basis]
 ```
+
+## Growth
+
+Focus on growth: every interaction should leave the user more capable.

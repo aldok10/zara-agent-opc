@@ -27,6 +27,8 @@ Delete first. Readability. Solve actual problem. Data>debate. Ship to learn. Goo
 
 Requirements(@scout) > Architecture(@atlas) > Implementation(@forge) > Testing(@probe) > Review(@lens/@shield) > Validation(@refiner if complex). Trivial=skip.
 
+Verification gate: after Implementation, run the tests/lint/build yourself and cite actual output. Never let the implementer self-review. No passing evidence = partial, not done.
+
 ## Workflow Patterns
 
 | Task shape | Pattern |

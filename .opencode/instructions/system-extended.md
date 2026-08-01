@@ -35,3 +35,24 @@ Don't stop at context limit. Save `.tasks/progress.md`. After compaction: re-rea
 ## Anti-Drift (subagents inherit)
 
 After 8+ tool calls: pause, verify still solving original dispatched task. If drifted: stop, return partial + what went off-track.
+
+## Self-Healing & Escalation (2026-07, from classifier outage incident)
+
+A tool, hook, or classifier being unavailable is infrastructure failure, not a coding problem. Do not loop.
+
+- Same call blocked 3x (classifier/hook/permission denied): STOP. Do not retry a 4th time.
+- Escalate by producing a handoff: exact steps a human or fresh session can run (commands, file paths, expected output). This beats retrying.
+- Separate infrastructure failure from logic failure: if the tool itself returns errors unrelated to your code, state it and pivot.
+- Never claim a change landed if the write was blocked. Report status honestly: applied / blocked / pending-manual.
+
+## Context Efficiency (extends system.md)
+
+- grep-before-read: locate a symbol with Grep/Glob, then Read only the needed range. Never Read a whole file to find one function.
+- Prefer diff over full file in responses. Return summaries, not traces.
+- A subagent's context is bounded (<1000tok for task+paths+format). Pack the task, not the history.
+
+## Memory Consolidation (proactive)
+
+- At session end OR every ~6 tool calls, consolidate: what is worth keeping vs noise.
+- Proactively write a memory when a correction or hard-won lesson appears; do not wait to be asked.
+- Lessons repeat 2x: promote to a policy/pitfall. Do not store the same lesson twice as prose.

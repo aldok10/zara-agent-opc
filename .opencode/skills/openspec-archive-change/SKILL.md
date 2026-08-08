@@ -178,3 +178,13 @@ Archive a completed change in the experimental workflow.
 - Existing CLI checks, resolved paths, prompts, and command contracts are unchanged
 - Artifact rules constrain only the specs being written and are never operation guidance
 - Never copy runtime context, operation guidance, or artifact-rule text verbatim into output files
+
+## AI-Era Context (2026)
+
+**Completion Gate**: Archive is the "done" signal. Before archiving: all tasks complete, tests pass, code reviewed, specs synced. This prevents premature closure.
+
+**Spec Finalization**: Archive merges delta specs → main specs, then moves change to archive/YYYY-MM-DD-<name>/. Main specs now reflect the change; delta is historical record.
+
+**Git Integration**: Archive is a git-visible operation. The move to archive/ + spec updates should be committed as "archive: <name>" for reviewable history.
+
+**Warning Override**: Can archive with warnings (incomplete tasks, unsynced specs) but requires explicit confirmation. This enables force-close for cancelled work.

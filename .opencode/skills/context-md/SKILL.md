@@ -39,3 +39,15 @@ Rules:
 - Every term was user-supplied or user-confirmed.
 - Nothing in the file is derivable from the codebase alone.
 - The file is under ~50 lines and scannable.
+
+## AI-Era Context (2026)
+
+**Shared Language as Context Engineering**: AI agents need shared vocabulary to maintain consistency across sessions. CONTEXT.md is the project-specific glossary that prevents "re-learning" domain terms every session.
+
+**Human-in-the-Loop Validation**: Never invent jargon. Every term comes from user or is confirmed by user. This prevents AI hallucinating project terminology.
+
+**Complement to ADRs**: ADRs explain "why we chose X". CONTEXT.md explains "what we call X". They solve different problems. CONTEXT.md is reference, ADRs are decisions.
+
+**Token Economics**: Keep under ~50 lines. Read once per session (first contact with project). Prune as it grows. This is high-value, low-cost context.
+
+**Matt Pocock Practice**: Originated from @mattpocockuk's CONTEXT.md pattern for AI pair programming. Now standard practice for AI-assisted projects in 2026.

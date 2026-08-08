@@ -221,3 +221,13 @@ Main specs are now updated. The change remains active - archive when implementat
 - Fetch specs instructions once for direct sync, or reuse the archive-supplied snapshot inline
 - Stop before every main-spec write on a non-zero or invalid JSON specs-instruction response
 - Artifact rules constrain only the specs being written and are never copied into output files
+
+## AI-Era Context (2026)
+
+**Delta → Main Merge**: Changes live in delta specs (ADDED/MODIFIED/REMOVED). Sync merges them into main specs, making changes permanent. This is the "commit" step for specifications.
+
+**Idempotent Operation**: Running sync multiple times produces the same result. Safe to re-run after main spec edits or conflicts.
+
+**Incremental Sync**: Can sync subset of capabilities, not all-or-nothing. Useful when change spans multiple capabilities and some are ready while others aren't.
+
+**Separation of Concerns**: Sync updates specs only, never code. Archive does both (sync + code merge + cleanup). This enables spec updates without implementation completion.

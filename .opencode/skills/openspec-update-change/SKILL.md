@@ -88,3 +88,13 @@ After each invocation, show:
 - Confirm every edit with the user before writing.
 - If the request changes the change's *intent* rather than refining it, recommend starting fresh with `/opsx-new` (the "Update vs. Start Fresh" heuristic).
 - `/opsx-continue` and `/opsx-new` may not be installed (core profile). When suggesting one that is unavailable, point to the CLI instead: `openspec status --change "<name>" --json` shows the next artifact and `openspec instructions <artifact-id> --change "<name>" --json` explains how to create it.
+
+## AI-Era Context (2026)
+
+**Plan-Code Coherence**: In 2026, AI velocity creates drift: code evolves faster than specs. `/opsx-update` is the synchronization point — when implementation reveals better approach, update the plan to match reality.
+
+**Revision Not Regeneration**: Traditional AI workflows regenerate artifacts from scratch, losing user edits. Update preserves existing content, applies targeted edits only where needed.
+
+**Fluid Workflow**: Not phase-locked. Update can happen anytime: during exploration, mid-implementation, after code review. The artifacts evolve with understanding.
+
+**User Confirmation Required**: AI proposes revisions, user approves before writing. This prevents AI from drifting the plan without human oversight.

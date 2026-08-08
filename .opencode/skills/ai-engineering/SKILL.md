@@ -1,6 +1,6 @@
 ---
 name: ai-engineering
-description: "AI engineering: build AI systems (RAG, agents, evals) AND work with AI (delegation, verification)"
+description: "AI engineering: build AI systems (RAG, agents, evals) AND work with AI (delegation, verification). Use when building or debugging LLM features, RAG pipelines, agents, prompts, MCP servers, evals, or token/context budgets."
 ---
 
 # AI Engineering
@@ -98,14 +98,33 @@ Multiple OK. Load only what's needed.
 | Go / Python implementation | `golang-expert` / `python-expert` |
 | System architecture | dispatch @atlas |
 | Security review | dispatch @shield |
-| Code review depth | `code-review` |
+| Code review depth | `@lens` |
 | Testing strategy | `tdd` |
 
 ## Knowledge (load on demand via `knowledge_read`)
 
 - `ai-engineering/knowledge/common-mistakes.md` - LLM/RAG/agent production pitfalls
 
-## AI-Era Context
+## AI-Era Context (2026)
 
-- Frontier model context windows (200K+ tokens) change RAG strategy: stuff more, chunk less
-- Structured output (JSON mode, tool_use) is default for all agent-to-agent communication
+**Model Capabilities**:
+- Frontier models: 200K+ context windows (Claude 3.5 Sonnet, GPT-4 Turbo, Gemini 1.5 Pro). RAG strategy shifts: stuff more context, chunk less aggressively, use late-chunking for better semantic coherence.
+- Prompt caching (Claude, OpenAI): 90% cost reduction for repeated context. Cache system prompts, knowledge bases, codebases. TTL: 5min-1hr depending on provider.
+- Structured output native (JSON mode, JSON schema constraints): replaces regex/parser post-processing. Tool calling is standard (function_calling API).
+- Extended thinking mode (o1/o3, Claude 3.5): use for complex reasoning, planning, math. Costs 3-5x more but reduces iteration loops.
+
+**Agentic Patterns**:
+- ReAct (Reason + Act) remains dominant for tool-using agents. Reflection loops (self-critique) improve quality but double cost.
+- Multi-agent systems: CrewAI, AutoGen, LangGraph for orchestration. Task delegation >> single mega-prompt.
+- A2A protocol emergence: standardized agent discovery, capability advertisement, task handoff across heterogeneous systems.
+- Human-in-the-loop gates for high-stakes decisions: never full autonomy for auth, payments, data deletion, production deploys.
+
+**Cost & Performance**:
+- Smaller models for routing/classification (GPT-4o-mini, Claude Haiku): 10-20x cheaper, <500ms latency. Reserve expensive models for generation.
+- Semantic caching layers: exact match (Redis), embedding similarity (vector DB), LLM-judge equivalence. 60-80% cache hit rate in production.
+- Streaming for UX: start rendering before completion. Measure TTFT (time to first token) not just total latency.
+
+**Evaluation**:
+- LLM-as-judge is standard (GPT-4, Claude 3.5 Opus as evaluator). Rubric-based scoring with chain-of-thought justification.
+- Pairwise comparison > absolute scoring for subjective quality. Elo rating for model/prompt ranking.
+- RAGAS, TruLens, LangSmith for RAG evaluation (context relevance, answer faithfulness, hallucination detection).

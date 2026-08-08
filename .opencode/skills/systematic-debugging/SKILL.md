@@ -1,6 +1,6 @@
 ---
 name: systematic-debugging
-description: Structured debugging before proposing fixes
+description: "Structured debugging before proposing fixes. Use when facing a bug, crash, stack trace, failing test, or unexplained behavior, and before proposing any fix for a defect whose cause is not yet known."
 triggers:
   - bug
   - test failure
@@ -77,15 +77,29 @@ Read the error message completely: every word, line number, stack frame. Do not 
 | Writing regression test | `tdd` |
 | Code review after fix | `task(subagent_type: "lens", ...)` |
 
-## AI-Era Context
+## AI-Era Context (2026)
 
-Most code in 2026 is AI-generated, changing debugging dynamics:
-- AI-generated bugs look syntactically correct but have subtle logic errors (off-by-one, wrong boundary conditions, missing edge cases)
-- AI-generated code passes superficial review - deeper inspection needed at behavior boundaries
-- Use AI as debugging partner: hypothesis generation, log analysis, stack trace interpretation
-- Debugging AI systems themselves: non-deterministic outputs, prompt sensitivity, model version drift, hallucination detection
-- Structured debugging is MORE critical now - AI makes "try random things" tempting but counterproductive
-- Reproduction is harder for AI-related bugs (non-deterministic, context-dependent, model-version-specific)
+**AI-Generated Code Debugging**:
+- AI bugs look syntactically correct but have subtle logic errors: off-by-one, wrong boundary conditions, missing edge cases, incorrect assumptions about API behavior.
+- AI hallucinates APIs, copies vulnerable patterns from training data, omits error handling. These pass syntax checks but fail at runtime.
+- Reproduction harder: context-dependent, model-version-specific. Always capture: model version, exact prompt, temperature, full stack trace.
+
+**AI as Debugging Partner**:
+- Use LLMs for hypothesis generation, log analysis, stack trace interpretation. Feed full error context, ask "what could cause this?"
+- Vector search over past issues/commits for similar bugs. RAG over codebase + issue tracker.
+- LLM-powered root cause analysis tools: Sentry AI, Datadog Watchdog, structured log analysis. Still verify output — LLMs hallucinate root causes too.
+
+**Debugging AI Systems**:
+- Non-deterministic outputs: fix temperature=0 for reproduction, log full prompt+completion+tokens.
+- Prompt sensitivity: tiny input changes → wildly different outputs. Regression suite with diverse inputs.
+- Model version drift: provider model updates break behavior. Pin model versions in prod, test before upgrading.
+- Hallucination detection: citation checking (RAG), fact verification, confidence scores. Ground truth comparison where available.
+
+**Modern Debugging Tools**:
+- OpenTelemetry distributed tracing: trace_id/span_id correlation across services, logs, metrics. Visualize in Jaeger/Tempo.
+- Time-travel debugging (rr, Undo): record execution once, replay infinite times. Gold for Heisenbugs.
+- Observability-driven debugging: start from metrics/traces/logs, not code. Symptoms → spans → code.
+- Structured logging mandatory: correlation IDs, structured fields (JSON), trace context propagation. grep is obsolete for prod debugging.
 
 ## Knowledge
 

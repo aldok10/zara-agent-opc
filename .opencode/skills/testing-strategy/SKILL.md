@@ -1,6 +1,6 @@
 ---
 name: testing-strategy
-description: "Quality engineering: test strategy, TDD, code review, verification, AI output validation"
+description: "Quality engineering: test strategy, TDD, code review, verification, AI output validation. Use when deciding what to test, reviewing a PR, judging coverage or mocks, or validating AI-generated output."
 ---
 
 # Testing Strategy
@@ -59,10 +59,43 @@ Multiple OK. Load only what's needed.
 
 ## AI-Era Context (2026)
 
-AI writes most code and most tests. The bottleneck moved from writing code to verifying it. AI tests test implementation, miss edge cases, and are often tautological. The engineer's job is now designing the verification harness that makes AI output trustworthy: contract tests catch schema drift, property tests catch missed edge cases, mutation tests catch weak assertions, code review catches plausible-but-wrong logic. Testing is the primary quality signal, not an afterthought.
+**The Quality Shift**:
+AI writes most code and most tests. The bottleneck moved from writing code to verifying it. AI tests test implementation, miss edge cases, and are often tautological. The engineer's job is now designing the verification harness that makes AI output trustworthy.
 
-- AI test generation tools: Qodo (formerly Codium), Diffblue Cover for Java, GitHub Copilot test generation
-- Vitest 3.x as default for frontend/Node.js, Playwright 1.50+ for E2E
+**Verification Harness Components**:
+- **Contract tests**: catch schema drift, API breaking changes (Pact, Spring Cloud Contract, Prism).
+- **Property tests**: catch missed edge cases with generated inputs (fast-check, hypothesis, gopter).
+- **Mutation tests**: catch weak assertions that pass but don't detect regressions (Stryker, mutmut, go-mutesting).
+- **Code review**: catch plausible-but-wrong logic, security holes, performance issues.
+
+**Modern Testing Stack**:
+- **Unit/Integration**: Vitest 3.x (TS/JS), pytest (Python), go test (Go), PHPUnit (PHP). Fast parallel execution standard.
+- **E2E**: Playwright 1.50+ (cross-browser), Cypress (dev-friendly). Trace viewer for debugging flaky tests.
+- **Visual regression**: Percy, Chromatic, Playwright screenshots. Catch UI regressions humans miss.
+- **Load testing**: k6, Grafana Tempo integration. Test in prod with shadow traffic.
+- **Chaos engineering**: Chaos Mesh, Litmus, Gremlin. Inject failures continuously, not just GameDays.
+
+**AI Test Generation Tools**:
+- Qodo (formerly Codium): AI test generation, Vitest/Jest/pytest. Review output carefully — often tautological.
+- GitHub Copilot test generation: draft tests from implementation. Good for boilerplate, misses edge cases.
+- Diffblue Cover (Java): auto-generates regression tests. High coverage, low insight.
+- **All AI tests need human review**: verify assertions test behavior, not implementation.
+
+**Flaky Test Management**:
+- Quarantine immediately (test.skip with ticket). Fix < 48 hours or delete.
+- Playwright trace viewer, Cypress test replay for debugging non-deterministic failures.
+- Detect flaky tests in CI: retry logic, historical pass rate tracking.
+
+## OpenSpec Coverage Contract
+
+When work is tied to an OpenSpec change, scenarios are the coverage unit. Line and branch percentage are secondary.
+
+1. Coverage against `#### Scenario:` blocks outranks line and branch percentage. A scenario with no test is a real gap at 100% line coverage.
+2. Report a scenario -> test matrix (scenario, test, covered or missing). Any `missing` row blocks completion.
+3. Review returns two independent verdicts: spec compliance and code quality. Both must pass, reported separately.
+4. The implementer does not validate its own tests. Keep generator and evaluator separate.
+5. `openspec validate --all --json` is part of the definition of done when an openspec root exists. Cite its real output; never assert it passed.
+6. A test asserting behavior no requirement covers means scope creep or a missing requirement. Resolve which one before merge.
 
 ## Verification
 

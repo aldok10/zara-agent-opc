@@ -1,6 +1,6 @@
 ---
 name: security-engineering
-description: "Security engineering: zero trust, OWASP 2025, supply chain, AppSec, threat modeling"
+description: "Security engineering: zero trust, OWASP 2025, supply chain, AppSec, threat modeling. Use when handling auth, authz, OAuth, encryption, secrets, dependency CVEs, or reviewing code for vulnerabilities."
 ---
 
 # Security Engineering
@@ -24,7 +24,7 @@ Senior security engineer. Security is a property of the system, not a feature yo
 8. Supply chain: pin dependencies, verify checksums, audit transitive deps, SBOM generation.
 9. Encryption: TLS 1.3 everywhere, AES-256-GCM at rest, key rotation, no custom crypto.
 10. Logging security events: auth failures, privilege escalation, data access; never log secrets/PII.
-11. OWASP Top 10 (2025): A01 Broken Access Control, A02 Cryptographic Failures, A03 Supply Chain, A04 Injection (including AI prompt injection), A05-A10.
+11. OWASP Top 10 (2025): A01 Broken Access Control, A02 Security Misconfiguration, A03 Software Supply Chain Failures, A04 Cryptographic Failures, A05 Injection (including AI prompt injection), A06-A10 in the map below.
 12. Shift left: SAST in CI, dependency scanning on every PR, security unit tests, pre-commit hooks.
 
 ## DO NOT
@@ -58,15 +58,19 @@ Multiple OK. Load only what's needed.
 | ID | Category | Primary Subskill |
 |----|----------|------------------|
 | A01 | Broken Access Control | `zero-trust`, `authentication` |
-| A02 | Cryptographic Failures | `secure-coding`, this SKILL |
-| A03 | Supply Chain Failures | `supply-chain` |
-| A04 | Injection (+ AI prompt injection) | `secure-coding`, `api-security` |
-| A05 | Security Misconfiguration | `api-security`, `zero-trust` |
-| A06 | Vulnerable & Outdated Components | `supply-chain` |
-| A07 | Auth & Identification Failures | `authentication` |
-| A08 | Software & Data Integrity Failures | `supply-chain` |
-| A09 | Logging & Monitoring Failures | this SKILL (constraint 10) |
-| A10 | SSRF / Mishandled External Requests | `secure-coding`, `api-security` |
+| A02 | Security Misconfiguration | `api-security`, `zero-trust` |
+| A03 | Software Supply Chain Failures | `supply-chain` |
+| A04 | Cryptographic Failures | `secure-coding`, this SKILL |
+| A05 | Injection (+ AI prompt injection) | `secure-coding`, `api-security` |
+| A06 | Insecure Design | `threat-modeling`, `zero-trust` |
+| A07 | Authentication Failures | `authentication` |
+| A08 | Software or Data Integrity Failures | `supply-chain` |
+| A09 | Security Logging and Alerting Failures | this SKILL (constraint 10) |
+| A10 | Mishandling of Exceptional Conditions | `secure-coding` |
+
+Verified against owasp.org/Top10/2025. Two traps when carrying 2021 habits over:
+`Vulnerable & Outdated Components` is gone as its own entry (folded into A03), and
+SSRF is no longer A10 (A10 is now exception handling).
 
 ## Verification
 
@@ -83,7 +87,7 @@ Multiple OK. Load only what's needed.
 | Incident response playbook | `@shield` |
 | Go/Python/TS/PHP implementation | language expert skill |
 | System design tradeoffs | `system-design` |
-| CI/CD pipeline security | `platform-engineering` |
+| CI/CD pipeline security | `system-design` (knowledge/platform-engineering.md) |
 
 ## Knowledge (load on demand via `knowledge_read`)
 
@@ -91,4 +95,24 @@ Multiple OK. Load only what's needed.
 
 ## AI-Era Context (2026)
 
-Prompt injection (A04) is now a first-class threat: treat LLM output as untrusted user input, never execute it directly, sandbox tool calls, and validate at the boundary. AI-generated code inherits the same review requirements as human code. Supply chain attacks target ML model registries and package ecosystems; verify provenance of models and dependencies alike.
+**AI-Specific Threats**:
+- **Prompt injection** (OWASP LLM01): treat all LLM inputs as untrusted (user prompts, retrieved docs, tool outputs). Use input validation, output filtering, privilege separation between system/user context.
+- **Insecure output handling** (OWASP LLM02): never execute LLM output directly. Sandbox tool calls, validate JSON schemas, escape before rendering.
+- **Model poisoning** (OWASP LLM03): verify model provenance (Sigstore for models), audit training data sources, check model cards.
+- **Model DoS** (OWASP LLM04): rate limiting, token budgets, circuit breakers for LLM APIs. Cost ceiling per request.
+- **Supply chain for AI**: HuggingFace/PyPI compromises target ML dependencies. Verify checksums, pin versions, scan model files (pickle exploits).
+
+**AI-Generated Code Security**:
+- AI code inherits SAME review requirements as human code. Higher risk: AI hallucinates APIs, copies vulnerable patterns from training data.
+- SAST on ALL AI-generated code before merge. Common AI mistakes: SQL injection (concatenated queries), XSS (unescaped output), hardcoded secrets, missing auth checks.
+- AI often omits error handling and edge cases — these are attack surfaces.
+
+**Zero Trust Evolution**:
+- Service mesh standard (Istio, Linkerd): mTLS between all services, policy enforcement at sidecar.
+- Workload identity > API keys: SPIFFE/SPIRE, AWS IAM Roles Anywhere, GCP Workload Identity Federation.
+- Continuous authentication: risk-based step-up (device trust, behavior anomaly detection).
+
+**Secrets Management 2026**:
+- Dynamic secrets (Vault, AWS Secrets Manager): short-lived credentials, auto-rotation, no static keys.
+- Secrets detection in CI: gitleaks, trufflehog, GitHub Secret Scanning. Block commit if secrets found.
+- SOPS/age for encrypted config files in git. Never plain text env vars in repos.

@@ -294,3 +294,11 @@ But this summary is optional. Sometimes the thinking IS the value.
 - **Do visualize** - A good diagram is worth many paragraphs
 - **Do explore the codebase** - Ground discussions in reality
 - **Do question assumptions** - Including the user's and your own
+
+## AI-Era Context (2026)
+
+**Thinking Partner Mode**: Explore is pre-proposal thinking space. AI helps clarify vague ideas before committing to specs. This prevents premature specification of poorly-understood problems.
+
+**Socratic Method**: Ask questions to surface assumptions, edge cases, constraints. User talks through the problem, AI reflects back inconsistencies.
+
+**No Artifacts**: Exploration is ephemeral conversation. Once clarity emerges, transition to `/opsx-propose` to create artifacts.

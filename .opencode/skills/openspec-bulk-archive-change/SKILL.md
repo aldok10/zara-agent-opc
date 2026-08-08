@@ -335,3 +335,7 @@ No active changes found. Create a new change to get started.
 - Keep runtime inputs, conflict analysis, CLI-derived values, and artifact rules separate
 - Artifact rules constrain only written specs
 - Never copy runtime input or artifact-rule text verbatim into output files
+
+## AI-Era Context (2026)
+
+**Batch Finalization**: Archive multiple completed changes at once. For teams with parallel workstreams. Each change validated independently before bulk archive.

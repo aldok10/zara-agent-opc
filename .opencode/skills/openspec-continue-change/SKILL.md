@@ -116,3 +116,9 @@ If the `instruction` field directs you to use a specific skill or command to cre
 - **IMPORTANT**: `context` and `rules` are constraints for YOU, not content for the file
   - Do NOT copy `<context>`, `<rules>`, `<project_context>` blocks into the artifact
   - These guide what you write, but should never appear in the output
+
+## AI-Era Context (2026)
+
+**Progressive Artifact Creation**: Not all artifacts created upfront. Continue unblocks apply by creating next missing artifact. This enables fluid workflow where you create specs, implement a bit, realize you need design, create design, continue.
+
+**Dependency Resolution**: CLI tracks artifact dependencies. Continue creates the next unblocked artifact automatically.

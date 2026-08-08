@@ -50,3 +50,11 @@ Then and only then start. If any branch stays open, keep asking. Do not silently
 - You can state goal, boundaries, seams, and verification before starting.
 - You restated the closed branches and the user confirmed.
 - No open decision was made silently.
+
+## AI-Era Context (2026)
+
+**Decision Forcing**: AI default is "just do it" — implement with assumptions. Grill-me inverts this: interview user exhaustively before writing code. Closes every decision branch.
+
+**Spec Precision**: Vague spec → vague code. Grill-me forces precision. Every "it depends" becomes explicit choice documented upfront.
+
+**Trade-off**: Throughput for precision. Use when alignment matters more than speed (ambiguous features, high-stakes changes, cross-team dependencies).

@@ -553,3 +553,7 @@ Exit gracefully.
 - **Handle exits gracefully**—never pressure the user to continue
 - **Use real codebase tasks**—don't simulate or use fake examples
 - **Adjust scope gently**—guide toward smaller tasks but respect user choice
+
+## AI-Era Context (2026)
+
+**Interactive Tutorial**: Walks through complete OpenSpec workflow with real codebase. Learning by doing. Creates example change, implements it, archives it. User sees full cycle before working on real features.

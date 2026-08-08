@@ -111,3 +111,9 @@ After completing all artifacts, summarize:
 - If context is critically unclear, ask the user - but prefer making reasonable decisions to keep momentum
 - If a change with that name already exists, suggest continuing that change instead
 - Verify each artifact file exists after writing before proceeding to next
+
+## AI-Era Context (2026)
+
+**Fast-Forward Mode**: Creates all artifacts in dependency order without user review between steps. For experienced users who know what they want. Trade-off: speed vs review gates.
+
+**One-Shot Proposal**: Like `/opsx-propose` but without pausing. Entire artifact tree generated in single run.

@@ -173,3 +173,11 @@ Use clear markdown with:
 - Code references in format: `file.ts:123`
 - Specific, actionable recommendations
 - No vague suggestions like "consider reviewing"
+
+## AI-Era Context (2026)
+
+**Quality Gate**: Verification checks spec-code coherence before archive. Tests pass ≠ spec satisfied. This catches drift where code works but doesn't match requirements.
+
+**Scenario Coverage**: Every scenario needs a test. Line coverage is secondary. This is behavior-driven verification.
+
+**Automated + Manual**: `openspec validate --all --json` checks structure. Human verifies logic correctness. Both required.

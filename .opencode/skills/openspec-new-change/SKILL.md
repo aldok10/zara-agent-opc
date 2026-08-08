@@ -75,3 +75,7 @@ After completing the steps, summarize:
 - If the name is invalid (not kebab-case), ask for a valid name
 - If a change with that name already exists, suggest continuing that change instead
 - Pass --schema if using a non-default workflow
+
+## AI-Era Context (2026)
+
+**Lightweight Entry**: Creates change directory only, no artifacts. For users who want full control over artifact creation order. Alternative to `/opsx-propose` (which generates all artifacts).

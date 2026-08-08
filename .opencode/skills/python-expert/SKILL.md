@@ -1,6 +1,6 @@
 ---
 name: python-expert
-description: "Python 3.13+: AI/ML, async, type-safe, production-grade"
+description: "Python 3.13+: AI/ML, async, type-safe, production-grade. Use when writing or reviewing Python code, working with asyncio, type hints, pyproject.toml, or uv/pip, or when a task mentions Python or a .py file."
 ---
 
 # Python Expert
@@ -10,7 +10,7 @@ Senior Python engineer, Python 3.13+. Python is the language of AI/ML, scripting
 ## Scope
 
 - HANDLES: Python code, AI/ML pipelines, async programming, type safety, FastAPI/Django, data processing, scripting, package management, testing.
-- DEFERS: AI architecture decisions to `ai-engineering`; feature/fix to `tdd`; review to `code-review`; bugs to `systematic-debugging`.
+- DEFERS: AI architecture decisions to `ai-engineering`; feature/fix to `tdd`; review to `@lens`; bugs to `systematic-debugging`.
 
 ## First Action
 
@@ -19,15 +19,15 @@ Senior Python engineer, Python 3.13+. Python is the language of AI/ML, scripting
 
 ## Constraints
 
-1. Type hints everywhere: use `typing` module, generics (3.12+), `TypedDict`, `Protocol`. `mypy --strict` or `pyright` in CI.
-2. Async-first for I/O: `asyncio`, `httpx` over `requests`, `asyncpg` over `psycopg2`. Sync only for CPU-bound.
-3. Dependency management: `uv` (fastest, 2026 standard), lockfile always committed, pin exact versions.
-4. Project structure: `src/` layout, `pyproject.toml` as single config, `__init__.py` for explicit packages.
+1. Type hints everywhere: use `typing` module, PEP 695 type parameter syntax (3.12+, `def func[T](x: T) -> T`), `TypedDict`, `Protocol`. `mypy --strict` or `pyright` in CI. Use `type` statements (3.12+) for type aliases: `type Point = tuple[float, float]`.
+2. Async-first for I/O: `asyncio`, `httpx` over `requests`, `asyncpg` over `psycopg2`. Sync only for CPU-bound. Use `asyncio.TaskGroup` (3.11+) for structured concurrency, never raw `create_task` without awaiting.
+3. Dependency management: `uv` (fastest, 2026 standard), lockfile (`uv.lock`) always committed, pin exact versions. Command: `uv sync` for install, `uv add <pkg>` for adding deps, `uv run` for execution.
+4. Project structure: `src/` layout, `pyproject.toml` as single config, `__init__.py` for explicit packages. Pattern matching (`match`/`case`, 3.10+) for complex conditionals, guards for validation.
 5. Error handling: typed exceptions, never bare `except:`, `ExceptionGroup` (3.11+) for concurrent errors.
 6. Data classes: `@dataclass(slots=True, frozen=True)` for value objects, Pydantic v2 for validation/serialization.
 7. Testing: `pytest` always, `pytest-asyncio` for async, `hypothesis` for property-based, `coverage` > 80%.
 8. Formatting: `ruff` (replaces black+isort+flake8+pylint), single tool, fast.
-9. Concurrency: `asyncio.TaskGroup` (3.11+), `anyio` for portability, `multiprocessing` for CPU-bound, avoid threads. Python 3.14: free-threaded mode (no GIL, experimental) -- use for CPU-parallel workloads where `multiprocessing` overhead is unacceptable.
+9. Concurrency: `asyncio.TaskGroup` (3.11+), `anyio` for portability, `multiprocessing` for CPU-bound, avoid threads. Free-threaded builds (no GIL): experimental in 3.13, officially supported in 3.14. Use for CPU-parallel work where `multiprocessing` overhead is unacceptable, and check `sysconfig.get_config_var("Py_GIL_DISABLED") == 1` before assuming it.
 10. Logging: `structlog` for structured JSON, `logging.config.dictConfig`, never `print()` in production.
 11. FastAPI: Pydantic models for request/response, dependency injection, lifespan events, OpenAPI auto-docs.
 12. Environment: `.env` via `pydantic-settings`, never hardcode secrets, `pathlib.Path` over string paths.
@@ -84,7 +84,7 @@ Multiple OK. Load only what's needed.
 |------|------|
 | AI architecture | `ai-engineering` |
 | Feature/fix | `tdd` |
-| Code review | `code-review` |
+| Code review | `@lens` |
 | Bug/test failure | `systematic-debugging` |
 
 ## AI-Era Context
@@ -93,6 +93,6 @@ Python is THE AI/ML language in 2026. Most AI frameworks (LangChain, CrewAI, Pyd
 - AI generates Python well due to massive corpus - but still verify types, error handling, and async correctness
 - uv replaced the entire packaging toolchain (pip, poetry, pyenv, virtualenv) in 2026
 - AI agent frameworks (LangChain, LlamaIndex, AutoGen, CrewAI) are Python's fastest-growing domain
-- Free-threaded Python (3.13t) enables true parallelism for AI inference workloads
+- Free-threaded Python (`3.13t` experimental, 3.14 supported) enables true parallelism for AI inference workloads. Some C extensions re-enable the GIL, so verify before relying on it
 - Pydantic v2 + FastAPI remain the type-safe API stack; AI generates better code with strict type hints
 - Polars over pandas for data pipelines - AI struggles with pandas' implicit mutation patterns

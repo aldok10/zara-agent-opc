@@ -1,6 +1,6 @@
 ---
 name: golang-expert
-description: "Go 1.24+ engineering: stdlib-first, context-driven, Uber style"
+description: "Go 1.24+ engineering: stdlib-first, context-driven, Uber style. Use when writing or reviewing Go code, working with goroutines, channels, or go.mod, or when a task mentions Go, golang, or a .go file."
 ---
 
 # Go Expert
@@ -10,7 +10,7 @@ Senior Go engineer, Go 1.24. Stdlib-first, context-driven, simplicity as a featu
 ## Scope
 
 - HANDLES: Go code, stdlib usage, concurrency, errors, performance, security, observability, architecture.
-- DEFERS: feature/fix to `tdd`; review to `code-review`; bugs to `systematic-debugging`. Domain topics to subskills below.
+- DEFERS: feature/fix to `tdd`; review to `@lens`; bugs to `systematic-debugging`. Domain topics to subskills below.
 
 ## First Action
 
@@ -21,17 +21,17 @@ Senior Go engineer, Go 1.24. Stdlib-first, context-driven, simplicity as a featu
 
 1. Stdlib first: check `net/http`, `encoding/json`, `log/slog`, `slices`, `maps`, `context`, `sync`, `testing` before dependencies.
 2. Return concrete types, accept interfaces. Verify: `var _ Interface = (*Type)(nil)`. Define interfaces at consumer.
-3. Pre-allocate: `make([]T, 0, n)`, `make(map[K]V, n)` when size known.
-4. Errors: wrap with `%w` + operation context (not "failed to"), handle once. `errors.As`/`errors.Is` for unwrap.
+3. Pre-allocate when size is known: `make([]T, 0, len(rows))`, `make(map[K]V, len(rows))`, for every collection the function builds, not just the first. Never `append` onto a nil slice when the input length is in hand. Confirm the win by benchmark, never assume it.
+4. Errors: always `%w`, never `%v` (`%v` severs the chain). Message names the operation, no "failed to": `fmt.Errorf("load config %s: %w", path, err)`. Handle once: return it OR log it, never both. Callers inspect with `errors.Is` (sentinels) and `errors.As` (typed), never by matching `err.Error()`.
 5. HTTP: always `return` after `http.Error()`, set timeouts, route `"GET /items/{id}"`.
 6. Resources: `defer Close()` after err check.
 7. Goroutines: `errgroup.Go(fn)`, every goroutine has stop signal + wait. No fire-and-forget.
-8. Sync: mutex as private field, never embed. `atomic.Int64` over raw atomics.
+8. Sync: mutex as private field, never embed (embedding promotes `Lock`/`Unlock` into the public API so any caller can unlock it; documenting it is not a fix). `atomic.Int64` over raw atomics. Name ONE close owner per channel in the doc comment, and say whether cancel drains in-flight work or drops it.
 9. Strings: `strconv` over `fmt`, `strings.Builder` with `Grow()`.
-10. Style: guard clauses, no `init()`, exit only in `main()`, `omitzero` tags (1.24+).
+10. Style: guard clauses, no `init()`, exit only in `main()`. Use `omitzero` (1.24+) exactly where `omitempty` fails (zero `time.Time`, empty structs), not on plain string/int fields where `omitempty` already applies.
 11. Copy slices/maps received/returned to prevent mutation.
-12. Tests: `t.Context()` (1.24+), `-race` always, table-driven, `goleak`.
-13. Modern: `for i := range n`, `min/max/clear`, `slices.*`, `maps.*`, `cmp.Or` (1.22+).
+12. Tests: table-driven with named cases run via `t.Run`, never a stack of near-identical `TestX` funcs. Cover error input, assert with `errors.Is`/`errors.As` not `err.Error()`. `want` is an independent literal, never re-derived by calling the function under test. `t.Context()` (1.24+), `-race` always, `goleak` for goroutine tests. Use `testing.B.ReportAllocs()` for benchmark memory tracking. Fuzz tests with `testing.F` for input validation.
+13. Modern: `min/max/clear`, `slices.Contains`, `maps.Clone` (1.21); `for i := range n`, `cmp.Or` (1.22); iterator forms `maps.Keys`, `slices.Sorted` (1.23). When a goroutine closure captures a loop variable, say the code relies on 1.22 per-iteration loopvar semantics; on older Go it is a bug.
 14. No mutable globals: inject via struct fields.
 15. Logging: structured `slog` (1.21+), context-aware.
 16. Security: `crypto/subtle` secrets, `crypto/tls`, `crypto/x509`, `crypto/rand`.
@@ -49,12 +49,15 @@ Senior Go engineer, Go 1.24. Stdlib-first, context-driven, simplicity as a featu
 - NEVER use `init()` or global mutable state.
 - NEVER use `interface{}`/`any` without clear reason.
 - NEVER start goroutines without stop signal + WaitGroup.
-- NEVER use `time.Sleep` for synchronization.
+- NEVER use `time.Sleep` for synchronization, tests included. Wait on a channel/WaitGroup/errgroup signal instead of sleeping long enough.
 - NEVER ignore errors (handle once or `_ = err`).
 - NEVER use `reflect` without benchmarking.
 - NEVER embed mutex.
-- NEVER `fmt.Errorf` without `%w`.
+- NEVER `fmt.Errorf` without `%w`: `%v` severs the chain, so `errors.Is`/`errors.As` stop working.
+- NEVER handle an error twice: return it OR log it, never both.
 - NEVER `select{}` in main (use signal + context).
+- NEVER add a dependency for what stdlib covers: `net/http.ServeMux` routing, `log/slog` logging, `crypto/rand` tokens.
+- NEVER share an `append` or map write across goroutines: index into a pre-sized slice, or guard with a mutex.
 - NEVER claim "done" without `go test -race ./...`.
 
 ## Route to Subskill
@@ -99,9 +102,9 @@ Go is THE language for AI infrastructure: Kubernetes, Docker, Terraform, Prometh
 | When | Load |
 |------|------|
 | Feature/fix | `tdd` |
-| Code review | `code-review` |
+| Code review | `@lens` |
 | Bug/test failure | `systematic-debugging` |
 | AI/LLM infra (MCP server, gateway) | `ai-engineering` |
 | System design | `system-design` |
-| Observability instrumentation | `observability` |
-| AI-augmented workflow | `ai-augmented-workflow` |
+| Observability instrumentation | `subskills/observability.md` |
+| AI-augmented workflow | `ai-engineering` |

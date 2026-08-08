@@ -1,6 +1,6 @@
 ---
 name: system-design
-description: "System design: distributed patterns, platform engineering, observability, infrastructure"
+description: "System design: distributed patterns, platform engineering, observability, infrastructure. Use when designing services or data flow, or when a task involves scaling, Kubernetes, Docker, Redis, Kafka, queues, caching, databases, or deployment topology."
 ---
 
 # System Design
@@ -108,16 +108,26 @@ Multiple OK. Load only what's needed.
 
 - `system-design/knowledge/common-mistakes.md` - architecture & infrastructure pitfalls
 
-## AI-Era Context
+## AI-Era Context (2026)
 
-- FinOps FOCUS spec (standardized billing data format across clouds)
-- Platform maturity model (Level 1: scripts, Level 2: templates, Level 3: self-service, Level 4: optimized)
-- LLM serving infrastructure: vLLM, TensorRT-LLM, GPU scheduling (fractional GPUs, MIG), model routing/load balancing
-- Vector databases as infrastructure primitive: Qdrant, Weaviate, Milvus, pgvector -- not just search, but core data layer for RAG
-- AI workload patterns: bursty inference (autoscale 0-to-N), batch training jobs, embedding pipelines, token-based cost modeling
-- AI-native cost modeling: token costs dominate, GPU-hours replace CPU-hours, inference caching ROI
-- RAG infrastructure: chunking pipelines, embedding services, retrieval layer, reranking -- new architectural tier
-- Model gateway pattern: single entry point for multiple LLM providers, fallback chains, rate limiting, cost tracking
+**Infrastructure Primitives**:
+- FinOps FOCUS spec (standardized billing data format across clouds). Token cost tracking as first-class metric.
+- Platform maturity model (Level 1: scripts, Level 2: templates, Level 3: self-service, Level 4: optimized).
+- LLM serving: vLLM/TensorRT-LLM, continuous batching, speculative decoding, KV cache management, GPU scheduling (fractional GPUs, MIG), PagedAttention.
+- Vector databases: Qdrant, Weaviate, Milvus, pgvector -- core data layer for RAG, not auxiliary. HNSW indexing, quantization (scalar/product), hybrid search.
+- OpenTelemetry dominance: unified instrumentation SDK, 90%+ adoption for new services. Vendor lock-in era is over.
+
+**AI Workload Patterns**:
+- Bursty inference (scale 0→N in <30s), batch training jobs, embedding pipelines, reranking services.
+- Token-based cost modeling: input/output tokens tracked separately, prompt caching ROI (50-90% cost reduction), KV cache hit rates.
+- RAG pipeline as architectural tier: chunking → embedding → retrieval → rerank → generation. Each stage scales independently.
+- Model gateway/router: single entry point, multi-provider fallback (OpenAI → Anthropic → local), cost tracking, A/B testing, semantic caching.
+- Agent orchestration: multi-step workflows, tool calling, parallel execution, state management, human-in-the-loop gates.
+
+**Cost Optimization**:
+- GPU utilization tracking (batch size, sequence length packing), inference cost per request, prompt caching hit rate.
+- Semantic caching layers: exact match (Redis), embedding similarity (vector DB), LLM-as-judge equivalence.
+- Smaller models for narrow tasks (routing, classification, extraction) before expensive frontier models.
 
 ## Related Skills
 

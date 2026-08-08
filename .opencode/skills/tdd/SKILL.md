@@ -24,13 +24,38 @@ One slice at a time: one seam, one test, one minimal implementation. Repeat unti
 - Tests assert through public seams only. No implementation-coupled, tautological, or fake-passing tests.
 - Run the suite after every step. No "done" without a green run.
 
+## OpenSpec Scenarios as Tests
+
+The red step has a source. On OpenSpec work the failing test comes from a `#### Scenario:` in the change's delta spec, so you are not inventing cases from scratch.
+
+Translate directly, one scenario -> one behavioral test:
+
+| Scenario line | Test part |
+|---------------|-----------|
+| `GIVEN` | arrange |
+| `WHEN` | act |
+| `THEN` | assert |
+
+Per task in `tasks.md`: write the failing test, watch it fail, minimal code, watch it pass, then flip `- [ ]` -> `- [x]`. One commit per task. Never flip the checkbox before the test is green.
+
+A scenario too vague to turn into an assertion is a spec defect, not a puzzle. Report it and recommend `/opsx-update`. Do not guess an interpretation to make it pass.
+
+Requirements worded `SHALL` or `MUST` need the failure path tested too, not only the happy path.
+
 ## Seams
 
 Before writing tests, agree the seams with the user: what public interface will we observe, and where is behavior observable without reaching into internals? No test on an un-agreed seam.
 
 ## Language Seams
 
-Go: `_test.go` next to source. TypeScript: `*.test.ts` beside source or under `__tests__`. PHP: `tests/` mirroring src. Python: `tests/` or `_test.py` peers. Match the repo's existing convention first.
+Go: `_test.go` next to source, table-driven with `t.Run`, `-race` always. TypeScript: `*.test.ts` beside source or under `__tests__`, Vitest/node:test. PHP: `tests/` mirroring src, PHPUnit. Python: `tests/` or `_test.py` peers, pytest. Match the repo's existing convention first.
+
+## Modern Testing Tools (2026)
+
+- **Property-based testing**: Go `testing/quick`, Python `hypothesis`, TS `fast-check`. Use for complex domain logic where manual cases miss edge cases.
+- **Mutation testing**: `stryker` (TS), `mutmut` (Python), `go-mutesting` (Go). Verifies tests actually detect regressions, not just pass.
+- **Snapshot testing**: Use sparingly for complex output (JSON APIs, rendered UI). Update snapshots deliberately, never blindly.
+- **AI-generated tests**: Treat as draft only. AI often generates tautological or implementation-coupled tests. Review against the rules above.
 
 ## Anti-Patterns
 
@@ -57,6 +82,6 @@ Before claiming done:
 
 | When | Load |
 |------|------|
-| Reviewing the finished diff | `code-review` |
+| Reviewing the finished diff | `@lens` |
 | Debugging a failing test's root cause | `systematic-debugging` |
 | Choosing test strategy at scale | `testing-strategy` |

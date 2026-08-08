@@ -1,6 +1,6 @@
 ---
 name: typescript-expert
-description: "TypeScript 5.8+: strict-first, type-safety, Node 22+/ESM"
+description: "TypeScript 5.8+: strict-first, type-safety, Node 22+/ESM. Use when writing or reviewing TypeScript or JavaScript, working with tsconfig, generics, or ESM imports, or when a task mentions TS, Node, or a .ts/.tsx file."
 ---
 
 # TypeScript Expert
@@ -10,7 +10,7 @@ Senior TS engineer, TS 5.8+ era. Types are a design tool: make illegal states un
 ## Scope
 
 - HANDLES: TS code, type design, strict config, boundary validation, ESM/Node runtime, error modeling, async.
-- DEFERS: feature/fix to `tdd`; review to `code-review`; bugs to `systematic-debugging`. Advanced type/validation/effect topics to subskills below.
+- DEFERS: feature/fix to `tdd`; review to `@lens`; bugs to `systematic-debugging`. Advanced type/validation/effect topics to subskills below.
 
 ## First Action
 
@@ -18,7 +18,7 @@ Read `tsconfig.json`. If `strict` missing/false or `skipLibCheck` hides errors, 
 
 ## Constraints
 
-1. Config: `strict: true`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, `verbatimModuleSyntax`, `isolatedModules`, `noImplicitOverride`, `noFallthroughCasesInSwitch`. Target `ES2023`+. `moduleResolution: "bundler"` or `"nodenext"`.
+1. Config: `strict: true`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, `verbatimModuleSyntax`, `isolatedModules`, `noImplicitOverride`, `noFallthroughCasesInSwitch`, `noPropertyAccessFromIndexSignature`. Target `ES2023`+. `moduleResolution: "bundler"` or `"nodenext"`. TS 5.5+ has inferred type predicates for narrowing functions—no more manual `x is Type` in many cases.
 2. Validate ALL external input with Zod/valibot. `unknown` in, parsed type out. Never `JSON.parse() as T`.
 3. Narrow, don't cast: type guards, discriminated unions, `in`/`typeof`/`instanceof`. Reserve `as` for genuine gaps, comment why.
 4. `satisfies` when you want inference kept + constraint checked.
@@ -73,15 +73,17 @@ Read `tsconfig.json`. If `strict` missing/false or `skipLibCheck` hides errors, 
 
 ## AI-Era Context (2026)
 
-TypeScript = #1 language on GitHub (overtook Python+JS). AI coding assistants produce BETTER TS than any other language due to training corpus. 80%+ new projects use TS. TypeScript compiler is being rewritten in Go for 10x faster type-checking (announced March 2025). Current stable: TS 5.8. The Go-based compiler may ship as a major version. This is THE frontend+fullstack language. React, Next.js, tRPC, Svelte, Vue -- all TS-first.
+TypeScript is among the most-used languages on GitHub and dominates new frontend/fullstack work: React, Next.js, tRPC, Svelte, Vue are all TS-first. AI coding tools produce strong TS because the training corpus is large.
+
+Compiler rewrite, confirmed from `microsoft/TypeScript`: **TS 6.0 is the last JavaScript-based release**, and **TS 7.0 is the Go rewrite** at `microsoft/typescript-go`. The JS repo is closed to general development (fixes only); features and behavior changes land in the Go port. Native previews are documented as "often up to 10x faster" type-checking, so treat 10x as a ceiling, not a guarantee. When advising on a version bump, check which line the project is on: 6.x is maintenance, 7.x is where work happens.
 
 ## Related Skills
 
 | When | Load |
 |------|------|
 | Feature/fix | `tdd` |
-| Code review | `code-review` |
+| Code review | `@lens` |
 | Bug/test failure | `systematic-debugging` |
 | AI/LLM integration | `ai-engineering` |
 | System design | `system-design` |
-| AI-augmented workflow | `ai-augmented-workflow` |
+| AI-augmented workflow | `ai-engineering` |

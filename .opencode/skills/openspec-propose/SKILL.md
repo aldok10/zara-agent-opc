@@ -121,3 +121,15 @@ After completing all artifacts, summarize:
 - If context is critically unclear, ask the user - but prefer making reasonable decisions to keep momentum
 - If a change with that name already exists, ask if user wants to continue it or create a new one
 - Verify each artifact file exists after writing before proceeding to next
+
+## AI-Era Context (2026)
+
+**One-Shot Proposal Generation**: Traditional workflows require multiple iterations (write spec → revise → finalize → write design → revise). OpenSpec propose generates all artifacts in one pass with dependency resolution, reducing 3-5 back-and-forth rounds to a single command.
+
+**Artifact Dependency Graph**: The CLI tracks dependencies (specs → design → tasks) and unblocks creation automatically. This prevents partial proposals where tasks exist but specs don't. The agent walks the graph, creates artifacts in topological order.
+
+**Schema-Driven Flexibility**: Different projects use different artifact sets. `openspec status --json` + `instructions <artifact-id> --json` make this skill schema-agnostic — it adapts to any profile (spec-driven, lean, custom) without hardcoding artifact names.
+
+**Quality Gates**: Generated artifacts are templates, not final. User reviews proposal before /opsx-apply. This "plan review gate" is where architectural mistakes get caught before implementation starts.
+
+**Store Support**: Multi-repo projects can centralize specs in a dedicated store. The `--store <id>` flag routes commands to the right repository, enabling spec reuse across services.

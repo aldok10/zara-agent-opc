@@ -54,3 +54,15 @@ Fission-AI/OpenSpec is an AI-native workflow where **every change has a spec**. 
 ## Checks
 
 After any OpenSpec work, verify: `openspec validate --all --json` passes, `openspec status --change <name> --json` shows expected artifact state, and tasks checkboxes reflect reality.
+
+## AI-Era Context (2026)
+
+**Spec-Driven Development as Standard**: In 2026, AI agents can implement code at high velocity but struggle with ambiguous requirements. Spec-driven workflows (OpenSpec, ADRs, RFCs) are the bridge: human writes precise spec, AI implements, both verify against spec.
+
+**Contract Over Code**: The spec is the contract. When implementation diverges, update the spec — never let them drift. This prevents "vibe coding" where code works but nobody knows why.
+
+**Artifact-Driven vs Chat-Driven**: Traditional AI coding is ephemeral chat → code. OpenSpec is artifact-first: proposal, specs, design, tasks are reviewable, versionable, and survive context compaction. This enables long-running work across multiple sessions.
+
+**Verification Gates**: `openspec validate --all --json` checks spec-code coherence automatically. Combined with test suites, this is the quality gate for AI-generated code. Never merge without both passing.
+
+**Multi-Agent Orchestration**: OpenSpec artifacts coordinate multiple agents: architect writes specs, implementer writes code, reviewer validates against scenarios. Each agent reads from/writes to the same artifact tree.

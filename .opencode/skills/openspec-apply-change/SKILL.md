@@ -183,3 +183,17 @@ This skill supports the "actions on a change" model:
 
 - **Can be invoked anytime**: Before all artifacts are done (if tasks exist), after partial implementation, interleaved with other actions
 - **Allows artifact updates**: If implementation reveals design issues, suggest updating artifacts - not phase-locked, work fluidly
+
+## AI-Era Context (2026)
+
+**Task-Driven Implementation**: Traditional AI coding is free-form prompting. OpenSpec apply is task-driven: each task is a checkpoint with clear acceptance criteria. This prevents drift where code works but doesn't match the plan.
+
+**TDD Integration**: Each task should have a test-first cycle (red → green → refactor). The spec's scenarios map to test cases. This is enforced by the workflow, not optional.
+
+**Progress Tracking**: Checkboxes (`- [ ]` → `- [x]`) are both human-readable and machine-parsable. `openspec instructions apply --json` tracks completion automatically. This survives context compaction — the ledger is the source of truth.
+
+**Fluid Not Phase-Locked**: Unlike waterfall, you can update artifacts during implementation. If code reveals design issues, pause, run `/opsx-update`, then continue. The workflow adapts, not blocks.
+
+**Multi-Agent Coordination**: Apply can be parallelized: agent A implements tasks 1-3, agent B implements tasks 4-6 (if independent). The task file is the coordination mechanism. Each agent reads fresh, writes atomically.
+
+**Verification Gates**: After each task, run tests. After all tasks, run `openspec validate --all --json` to verify spec-code coherence. Never mark done without both passing.

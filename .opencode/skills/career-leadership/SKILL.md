@@ -1,6 +1,6 @@
 ---
 name: career-leadership
-description: "Career & leadership: IC growth, coaching, communication, stakeholder alignment"
+description: "Career & leadership: IC growth, coaching, communication, stakeholder alignment. Use when writing an RFC or ADR, preparing for an interview or promotion, coaching, or aligning stakeholders."
 ---
 
 # Career & Leadership
@@ -72,9 +72,28 @@ Multiple OK. Load only what's needed.
 
 ## AI-Era Context (2026)
 
-AI generates code faster than any human, so the multiplier moved upstream to deciding WHAT to build, WHY, and aligning humans around it. Ambiguity is the enemy: an AI can implement a precise spec but cannot resolve a vague one. The three domains here compound -- career growth comes from owning ambiguous, high-stakes problems (leadership); those outcomes only count if they're visible and durable (communication); and the people you influence multiply your impact (coaching). Invest in judgment and clear written records over typing.
+**The Shift**: AI generates code faster than any human, so the multiplier moved upstream to deciding WHAT to build, WHY, and aligning humans around it. Ambiguity is the enemy: an AI can implement a precise spec but cannot resolve a vague one.
 
-- Context engineering (building the right information architecture for AI agents) is the highest-impact meta-skill for senior engineers in 2026
+**Appreciating vs Depreciating Skills**:
+- **Appreciating**: Judgment (architecture, trade-offs), specification writing, verification design, stakeholder alignment, context engineering, system thinking, coaching/orchestration.
+- **Depreciating**: Raw coding speed, syntax knowledge, boilerplate generation, routine debugging, simple CRUD implementation.
+- **T-shaped → Broken comb**: One deep technical expertise + breadth in systems, communication, strategy, AI orchestration.
+
+**New Senior IC Responsibilities**:
+- **Context architecture**: Building information architecture for AI agents (what they need, in what format, at what time).
+- **Verification design**: Designing test suites, validation gates, review processes that catch AI mistakes.
+- **Agent orchestration**: Coordinating multiple AI agents (architect/implementer/reviewer), managing handoffs, quality gates.
+- **Specification precision**: Writing unambiguous requirements that AI can execute without drift. Garbage spec = garbage code.
+
+**Career Ladder Evolution**:
+- **Senior**: Own features end-to-end, coordinate 1-2 AI agents, write specs that ship without rework.
+- **Staff**: Define architecture, set standards for 3-5 teams, orchestrate multi-agent workflows, mentor seniors on AI delegation.
+- **Principal**: Company-wide technical strategy, cross-org alignment, represent eng to exec/board, evangelize best practices externally.
+
+**Communication in AI Era**:
+- Written artifacts (RFCs, ADRs, specs) are MORE important — they're both human alignment AND AI input.
+- Async-first default: different timezones, AI agents work 24/7, meetings are synchronous bottleneck.
+- Structured templates (RFC template, ADR template) ensure consistency and AI parsability.
 
 ## Verification
 

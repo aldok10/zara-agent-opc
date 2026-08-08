@@ -1,6 +1,6 @@
 ---
 name: git-expert
-description: "Git mastery: operations, branching, worktrees, commits, repo analysis"
+description: "Git mastery: operations, branching, worktrees, commits, repo analysis. Use when branching, merging, rebasing, committing, opening a PR, using worktrees, or recovering from a bad git state."
 ---
 
 # Git Expert
@@ -10,7 +10,7 @@ Single entry point for all git work: operations, branching strategy, worktrees, 
 ## Scope
 
 - HANDLES: branching, rebasing, conflict resolution, history recovery, CI/CD bot identity, and routing to specialized subskills below.
-- DEFERS: PRs to `github`; code review to `code-review`; security analysis to `shield`.
+- DEFERS: PRs to `subskills/github-workflows.md`; code review to `@lens`; security analysis to `@shield`.
 
 ## First Action
 
@@ -85,21 +85,46 @@ If on a protected branch: STOP, create feature branch `git checkout -b <type>/<d
 - GitHub: built-in `GITHUB_TOKEN` = `github-actions[bot]`. Custom bot: GitHub App. Encrypt secrets with `pynacl` SealedBox.
 - Mirroring: loop prevention via actor/commit-message checks.
 
+## OpenSpec Changes
+
+- Reference the change id in the commit subject scope so history maps to the plan: `feat(add-auth): ...` for change `add-auth`. One commit per task in `tasks.md`.
+- Never commit a flipped `- [ ]` -> `- [x]` checkbox without the code that satisfies it in the same commit. A checked task with no diff is a false completion signal.
+- Planning artifacts under `openspec/changes/<name>/` are committed, not gitignored. The plan is reviewable history.
+- Archiving is a git-visible move: `/opsx-archive` relocates the change to `openspec/changes/archive/YYYY-MM-DD-<name>/` and updates main specs. Commit that as its own change, separate from feature code.
+- Before merging, all tasks complete and `openspec validate --all --json` green. An unarchived change with every task done is unfinished delivery.
+- Files written by `openspec update` are generated: `.opencode/skills/openspec-*/` and `.opencode/commands/opsx-*.md`. Do not hand-edit them in a commit, they get overwritten.
+
 ## Verification
 
 - `git branch --show-current` confirms not on protected branch before commit.
 - `git status` clean or intended state before/after operations.
+- `openspec validate --all --json` green before merging a change.
 
-## AI-Era Context
+## AI-Era Context (2026)
 
-- Git 2.46+: reftable backend (faster ref operations), pack-refs improvements
-- Jujutsu (jj): emerging Git-compatible VCS alternative gaining traction in 2026
-- GitHub Copilot Workspace: AI-driven planning from issue to PR (integrate with git workflows)
+**Git Performance & New Features**:
+- **reftable backend**: 10-100x faster ref operations, fixes case-insensitive FS and macOS unicode issues. Still OPT-IN (`git init --ref-format=reftable` or `git config --local core.refStorage reftable` in existing repos); `files` remains the default.
+- **Partial clone**: `git clone --filter=blob:none` fetches commit history but delays blob downloads. Ideal for large repos (monorepos, ML model repos).
+- **Sparse checkout**: `git sparse-checkout set <path>` limits working tree to specific paths. Pair with partial clone for massive repos.
+- **Git 2.43+**: improved diff algorithms, better merge conflict markers, faster `git status` on large repos.
+
+**Alternative VCS**:
+- **Jujutsu (jj)**: emerging Git-compatible VCS with better UX (automatic local branching, simpler rebase, better conflict resolution). Gaining traction in 2026, especially for complex workflows.
+- Interop: `jj git export` syncs to Git, so teams can adopt incrementally.
+
+**AI-Augmented Git**:
+- **GitHub Copilot Workspace**: AI-driven planning from issue → plan → code → PR. Integrates with git workflows, auto-generates commits.
+- **AI commit messages**: gpt-commit, aicommits tools generate conventional commits from diffs. Review before accepting — AI often misses context.
+- **PR review assistants**: GitHub Copilot, CodeRabbit, Bito AI review PRs. Still need human review for logic/security.
+
+**Monorepo & Large Repo**:
+- Scalar (Microsoft): optimizes Git for monorepos (background fetching, commit-graph maintenance, sparse checkout defaults).
+- Git LFS 3.5+: improved batch transfers, better caching. Use for models, datasets, binary assets >5MB.
 
 ## Related Skills
 
 | When | Load |
 |------|------|
-| Creating PR | `github` |
-| Code review before merge | `code-review` |
-| Security analysis | `shield` |
+| Creating PR | `subskills/github-workflows.md` |
+| Code review before merge | `@lens` |
+| Security analysis | `@shield` |

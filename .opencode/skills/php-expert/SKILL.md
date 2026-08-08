@@ -1,6 +1,6 @@
 ---
 name: php-expert
-description: "PHP 8.4/8.5 engineering: PSR, Swoole, FrankenPHP, DDD"
+description: "PHP 8.4/8.5 engineering: PSR, Swoole, FrankenPHP, DDD. Use when writing or reviewing PHP, working with composer.json, PSR standards, Laravel/Symfony, or Swoole/FrankenPHP runtimes, or when a task mentions PHP or a .php file."
 ---
 
 # PHP Expert
@@ -12,7 +12,7 @@ Senior PHP engineer. PHP 8.4/8.5, PSR standards, type-safe, immutable-first. Def
 ## Scope
 
 - HANDLES: PHP code, PSR compliance, DDD, long-running servers (Swoole/RoadRunner/FrankenPHP), performance, security, testing.
-- DEFERS: PHP extension dev (C/Zend) to `php-extension-dev`; feature/fix to `tdd`; review to `code-review`; bugs to `systematic-debugging`.
+- DEFERS: PHP extension dev (C/Zend) to `knowledge/zend-engine-internals.md`; feature/fix to `tdd`; review to `@lens`; bugs to `systematic-debugging`.
 
 ## First Action
 
@@ -39,7 +39,7 @@ Read `composer.json` PHP version constraint. If EOL or missing CVE patches, WARN
 - NEVER use `switch`, `array_push()`, `create_function`, `eval()`, `extract()`, `var` property, `@` suppression, `mysql_*`.
 - NEVER `unserialize()` user input (use `json_decode()`).
 - NEVER skip `htmlspecialchars()` on output.
-- NEVER mix named and positional arguments in one call.
+- NEVER put a positional argument AFTER a named one (fatal). Named after positional is legal and idiomatic: `htmlspecialchars($s, double_encode: false)`.
 - NEVER string constants for statuses/types (use Enums).
 - NEVER claim "done" without running `vendor/bin/phpunit` or `vendor/bin/pest`.
 
@@ -88,16 +88,33 @@ Multiple OK. Load only what's needed.
 
 ## AI-Era Context (2026)
 
-PHP powers 72% of websites (WordPress, Laravel ecosystem). "Tale of two markets": massive legacy maintenance + modern Laravel/Filament SaaS development. PHP hiring pool shrinking but rates rising. Focus on: Laravel 11+, Filament, API-first, headless architecture. Legacy modernization (monolith to services) is huge ongoing work. AI coding tools generate PHP well because of massive training corpus.
+**Market Landscape**:
+PHP holds significant server-side web share (W3Techs ~70% of sites with KNOWN server-side language). "Tale of two markets": massive legacy maintenance (WordPress, Drupal, old Symfony) + modern greenfield (Laravel 11+, Filament, API-first SaaS).
+
+**Modern PHP Stack**:
+- **Laravel 11+**: dominant framework for new projects. Filament for admin panels, Livewire for reactive UIs, Octane for performance.
+- **API-first**: PHP as backend API (Laravel/Symfony), React/Vue/Next.js frontend. Headless architecture standard.
+- **FrankenPHP 1.0+**: production-ready Go+PHP server with early hints, HTTP/3, worker mode. Simpler than Swoole for many cases.
+- **Pest 3.x**: expressive testing framework overtaking PHPUnit in Laravel ecosystem.
+
+**Legacy Modernization**:
+- Huge ongoing work: monolith → microservices, PHP 5.x → 8.4+, procedural → OOP/DDD.
+- Rector for automated refactoring, PHPStan/Psalm for gradual type safety adoption.
+
+**AI Generation**:
+AI generates PHP well (massive training corpus). Common AI mistakes: SQL injection (concatenation), missing `declare(strict_types=1)`, mutable where immutable better, `switch` instead of `match`.
+
+**Hiring & Rates**:
+PHP hiring pool shrinking for new grads (learn Node/Python instead), but rates rising for experienced engineers. Senior PHP + Laravel = competitive compensation 2026.
 
 ## Related Skills
 
 | When | Load |
 |------|------|
 | Feature/fix | `tdd` |
-| Code review | `code-review` |
+| Code review | `@lens` |
 | Bug/test failure | `systematic-debugging` |
-| PHP extension (C/Zend, PECL) | `php-extension-dev` |
+| PHP extension (C/Zend, PECL) | `knowledge/zend-engine-internals.md` |
 | System architecture | `system-design` |
-| AI-augmented workflow | `ai-augmented-workflow` |
-| Observability | `observability` |
+| AI-augmented workflow | `ai-engineering` |
+| Observability | `system-design` (subskills: opentelemetry, metrics, tracing) |

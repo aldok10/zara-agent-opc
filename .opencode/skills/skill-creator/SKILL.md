@@ -99,9 +99,25 @@ Before marking a skill complete:
 
 `knowledge/folder-standards.md` · `knowledge/okf-spec.md`
 
-## AI-Era Context
+## AI-Era Context (2026)
 
-Skills are how LLM agents gain domain expertise without fine-tuning. Well-structured skills with progressive disclosure let agents handle specialist tasks while staying within context limits. This is context engineering applied to agent capabilities.
+**Skills as Context Engineering**: Skills are how LLM agents gain domain expertise without fine-tuning. Well-structured skills with progressive disclosure let agents handle specialist tasks while staying within context limits. This is context engineering applied to agent capabilities.
+
+**Skill Quality Standards**:
+- **skills.sh leaderboard**: community-vetted skill rankings. Check before creating to avoid reinventing.
+- **agentskills.io catalog**: searchable skill library. Reference for structure patterns.
+- **obra/superpowers** (246K+ stars): quality benchmark for depth and organization.
+
+**Modern Skill Patterns (2026)**:
+- **Multi-modal skills**: skills that handle code + diagrams + documentation together.
+- **Tool integration**: skills that invoke external tools (APIs, CLIs) via MCP or function calling.
+- **Agentic workflows**: skills that coordinate multiple subagents, not just provide information.
+- **Self-improving skills**: skills with built-in feedback loops and benchmarking (see `subskills/benchmarking.md`).
+
+**Token Economics**:
+- Context window is RAM. SKILL.md should answer 80% of queries alone (target 80-100 lines).
+- Subskills handle the remaining 20% (60-100 lines each).
+- Knowledge files are expensive lookups (100-150 lines) — only load when needed.
 
 ## Related Skills
 

@@ -60,7 +60,7 @@
     "postinstall": "node bin/postinstall.mjs"
   },
   "devDependencies": {
-    "@opencode-ai/plugin": "^1.18.3"
+    "@opencode-ai/plugin": "^1.18.14"
   },
   "optionalDependencies": {
     "chromadb": "^3.5.0"

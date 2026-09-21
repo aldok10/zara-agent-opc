@@ -51,7 +51,7 @@
     "node": ">=22.14.0"
   },
   "dependencies": {
-    "@huggingface/transformers": "4.2.0"
+    "@huggingface/transformers": "4.3.0"
   },
   "scripts": {
     "test": "ZARA_VECTOR=sqlite node --experimental-sqlite --test --test-concurrency=1 tests/*.test.mjs",

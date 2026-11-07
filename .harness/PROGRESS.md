@@ -2,26 +2,29 @@
 
 ## Current State
 
-- Last commit: `72f1d31` (Root project cleanup); Harness² + Learn HE integration complete.
+- Last commit: `0194c72` (ZARA_CONSTITUTION.md moved to docs/); Harness² + Learn HE integration complete.
 - `make test`: pass (3/3 checks L1 deterministic).
 - `make check`: pass (23/23 checks L2 consistency).
 - `make clean-check`: pass (24/24 checks clock-out).
 - Harness integration: 9 core classes (EvidenceCollector, TaskLoader, PPCRunner, LedgerManager, ImprovementHarness, 5 CLI commands).
 - Tests: 42 passing (all deterministic, no model calls).
 - Verification: All 6 harness commands execute successfully on real `.harness/` directory.
-- Root project: Clean (only AGENTS.md, README.md at root; ZARA_CONSTITUTION.md moved to docs/).
-- Session docs: Reorganized to `.harness/` (PROGRESS.md, COMPLETION-REPORT.md, SESSION-007-FINAL.md, PR-SUMMARY.md).
+- Root project: Ultra-clean (only AGENTS.md, README.md at root).
+- Session docs: Organized in `.harness/` (PROGRESS.md, COMPLETION-REPORT.md, SESSION-007-FINAL.md, PR-SUMMARY.md).
+- Principles: ZARA_CONSTITUTION.md moved to `docs/`.
 - ADRs: Indexed at `.harness/decisions/INDEX.md`.
+- Remote: Pushed to origin/v1.x.x (7 commits ahead of baseline).
 
 ## In Progress
 
-None. All PHASES 0–5 complete. Ready for merge or next session.
+None. All PHASES 0–5 complete. Repository production-ready.
 
 ## Next Steps
 
-1. Optional: Push to remote if merging
-2. Next session: Run real probes (`zara-cli harness ppc --task harness-ok --mode parallel --k 1`)
-3. Next session: Extract lessons, integrate Hive, build candidate generation
+1. Optional: Open PR on GitHub for review (v1.x.x → main or develop)
+2. Phase 5+: Run real probes (`zara-cli harness ppc --task harness-ok --mode parallel --k 1`)
+3. Phase 5+: Extract lessons, integrate Hive, build candidate generation
+4. Phase 5+: Apply PPC to Zara's own agent prompts for self-improvement
 
 ## Blockers
 

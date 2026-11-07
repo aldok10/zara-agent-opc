@@ -7,11 +7,12 @@ Adoption rule: **no contrast, no adoption.** A candidate is adopted only when
 it passes every check the baseline fails. Everything else is rejected, and the
 contrast stays in the ledger.
 
-Probes: 1. Adopted: 0.
+Probes: 2. Adopted: 0.
 
 | ts | task | candidate | model | baseline_pass | candidate_pass | adopted | duration_s |
 |---|---|---|---|---|---|---|---|
 | 2026-11-07T14:03:05+00:00 | harness-ok | - | cli-default | (none) | - | no | 3.62 |
+| 2026-11-07T14:04:43+00:00 | harness-ok | .harness/candidates/0003-explicit-output-format.md | cli-default | (none) | (none) | no | 2.2 |
 
 ## Adopted
 

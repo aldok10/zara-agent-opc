@@ -1,1 +1,2 @@
 {"ts":"2026-11-07T14:03:05+00:00","task":"harness-ok","candidate":null,"model":"cli-default","baseline_pass":[],"candidate_pass":null,"adopted":false,"duration_s":3.62}
+{"ts":"2026-11-07T14:04:43+00:00","task":"harness-ok","candidate":".harness/candidates/0003-explicit-output-format.md","model":"cli-default","baseline_pass":[],"candidate_pass":[],"adopted":false,"duration_s":2.2}

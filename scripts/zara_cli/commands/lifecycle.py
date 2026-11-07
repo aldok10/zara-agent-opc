@@ -155,7 +155,7 @@ def harness(ctx: Context, args: argparse.Namespace) -> int:
     try:
         proc = run(
             sys.executable,
-            ["...harness/run_improvement.py", *forward],
+            [".harness/run_improvement.py", *forward],
             cwd=ctx.root,
             timeout=1800,
         )

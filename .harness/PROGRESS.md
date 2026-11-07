@@ -9,7 +9,7 @@
 - Harness integration: 9 core classes (EvidenceCollector, TaskLoader, PPCRunner, LedgerManager, ImprovementHarness, 5 CLI commands).
 - Tests: 42 passing (all deterministic, no model calls).
 - Verification: All 6 harness commands execute successfully on real `.harness/` directory.
-- Root project: Clean (only AGENTS.md, README.md, ZARA_CONSTITUTION.md at root).
+- Root project: Clean (only AGENTS.md, README.md at root; ZARA_CONSTITUTION.md moved to docs/).
 - Session docs: Reorganized to `.harness/` (PROGRESS.md, COMPLETION-REPORT.md, SESSION-007-FINAL.md, PR-SUMMARY.md).
 - ADRs: Indexed at `.harness/decisions/INDEX.md`.
 

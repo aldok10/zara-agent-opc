@@ -152,6 +152,8 @@ def audit(ctx: Context, args: argparse.Namespace) -> int:
 
 def harness(ctx: Context, args: argparse.Namespace) -> int:
     forward = list(getattr(args, "forward", []) or []) or ["--list"]
+    # Filter out the -- separator if present
+    forward = [arg for arg in forward if arg != "--"]
     try:
         proc = run(
             sys.executable,

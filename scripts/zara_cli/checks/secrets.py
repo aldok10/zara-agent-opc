@@ -28,6 +28,10 @@ PATTERNS = [
 ALLOW = {
     ("scripts/zara_cli/checks/secrets.py", "aws access key"):
         "AWS documentation example key AKIAIOSFODNN7EXAMPLE, used in the pattern regex test.",
+    ("additional-skills/qa-engineer/security-testing/subskills/secrets-detection.md", "aws access key"):
+        "AWS documentation example key AKIAIOSFODNN7EXAMPLE, used to teach detection.",
+    ("additional-skills/security/penetration-testing/examples/nuclei-template.md", "bearer literal"):
+        "Unsigned demo JWT inside a nuclei template example.",
 }
 
 

@@ -2,26 +2,26 @@
 
 ## Current State
 
-- Last commit: `ff3abd8` (SESSION 007 FINAL); Harness² + Learn HE integration PHASES 0–5 complete.
-- `zara-cli test`: pass (42 harness tests + existing tests).
-- `zara-cli check`: pass (all arch rules, MCP health, secrets).
-- `zara-cli e2e`: pass (`ZARA-OK`).
+- Last commit: `72f1d31` (Root project cleanup); Harness² + Learn HE integration complete.
+- `make test`: pass (3/3 checks L1 deterministic).
+- `make check`: pass (23/23 checks L2 consistency).
+- `make clean-check`: pass (24/24 checks clock-out).
 - Harness integration: 9 core classes (EvidenceCollector, TaskLoader, PPCRunner, LedgerManager, ImprovementHarness, 5 CLI commands).
 - Tests: 42 passing (all deterministic, no model calls).
 - Verification: All 6 harness commands execute successfully on real `.harness/` directory.
-- Reflection.md: Generated successfully (0 probes, 0% adoption rate — baseline).
+- Root project: Clean (only AGENTS.md, README.md, ZARA_CONSTITUTION.md at root).
+- Session docs: Reorganized to `.harness/` (PROGRESS.md, COMPLETION-REPORT.md, SESSION-007-FINAL.md, PR-SUMMARY.md).
+- ADRs: Indexed at `.harness/decisions/INDEX.md`.
 
 ## In Progress
 
-- PHASE 5: Root project cleanup — move session docs to `.harness/`.
+None. All PHASES 0–5 complete. Ready for merge or next session.
 
 ## Next Steps
 
-1. Move PROGRESS.md, COMPLETION-REPORT.md, SESSION-007-FINAL.md, PR-SUMMARY.md to `.harness/`
-2. Convert DECISIONS.md to `.harness/decisions/INDEX.md`
-3. Update all cross-file references
-4. Verify `make check` and `make clean-check`
-5. Commit cleanup as single logical change
+1. Optional: Push to remote if merging
+2. Next session: Run real probes (`zara-cli harness ppc --task harness-ok --mode parallel --k 1`)
+3. Next session: Extract lessons, integrate Hive, build candidate generation
 
 ## Blockers
 

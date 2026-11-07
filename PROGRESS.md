@@ -2,31 +2,50 @@
 
 ## Current State
 
-- Last commit: `1699578` (branch `v1.x.x`); the harness, CLI and uv work are uncommitted.
-- `zara-cli test`: pass (config refs, agent template, 14/14 agents load).
-- `zara-cli check`: pass (23/23: 15 arch rules, config refs, MCP export sync, secrets, MCP health, config load, uv, venv, lock).
+- Last commit: `31b65fa` (branch `v1.x.x`); Harness² + Learn HE integration PHASES 0–4 complete.
+- `zara-cli test`: pass (42 harness tests + existing tests).
+- `zara-cli check`: pass (all arch rules, MCP health, secrets).
 - `zara-cli e2e`: pass (`ZARA-OK`).
-- `zara-cli clean-check`: pass (24/24).
-- `zara-cli audit`: 73/73 components (7/7 critical, 66/66 recommended).
-- `zara-cli vcr`: 11/11 = 1.00. No feature active.
-- MCP `Orchestrator`: zmem-mcp, 9 tools, FTS5, audit clean.
-- Agent prompts: 13 files, all on the 8-section harness template.
-- Scripts: one Python CLI (`scripts/zara_cli/`); zero shell scripts in the repo (`ARCH-014`).
-- Python: uv 0.13.7 owns `scripts/.venv` and `scripts/uv.lock`; `zara-cli` is the console script (`ARCH-015`).
+- Harness integration: 9 core classes (EvidenceCollector, TaskLoader, PPCRunner, LedgerManager, ImprovementHarness, 5 CLI commands).
+- Tests: 42 passing (all deterministic, no model calls).
+- Verification: All 6 harness commands execute successfully on real `.harness/` directory.
+- Reflection.md: Generated successfully (0 probes, 0% adoption rate — baseline).
 
 ## In Progress
 
-- None. Every feature in `feature_list.json` is `passing` with evidence recorded by the gate.
+- PHASE 5: Update docs, state files, PR summary.
 
 ## Next Steps
 
-1. Commit in logical slices: state/schema, Python CLI, gates, docs, agent prompts, harness loop.
-2. Run one real probe in `.harness/`: `python .harness/run_improvement.py --execute --task harness-ok --candidate .harness/candidates/0001-explicit-verification.md` (one model call per probe).
-3. After the first probe, record the contrast in `.harness/improvement.md` and adopt only if the candidate passes a check the baseline fails.
+1. Update AGENTS.md — mention harness PPC in agent index
+2. Update feature_list.json — mark harness as complete (new feature or extend existing)
+3. Update PROGRESS.md — document PHASE 0–4 (this file)
+4. Create docs/harness/README.md — quick start guide
+5. Write PR summary — motivation, changes, verification, risks
+6. Final commit and push
 
 ## Blockers
 
-- Free-model quota can interrupt long subagent waves. Work is resumable from tracked files; no state lives in chat.
+None. All implementation verified and passing.
+
+## Session Log
+
+### Session 007 — 2026-11-07 (CURRENT)
+
+- Goal: Integrate Harness² + Learn HE into Zara (OpenCode V2 only). Complete PHASES 0–4.
+- Completed:
+  - PHASE 0 (Recon): `.harness/` inventory, V2 audit, gap analysis vs. both references. Deliverable: `docs/harness/00-recon.md` + `ATTRIBUTION.md`.
+  - PHASE 1 (V2 Port): Skipped (no V1 plugins found).
+  - PHASE 2 (Design): 8 harness components mapped, PPC architecture, parallel/sequential recursion, improvement harness, token budget. Deliverable: `docs/harness/01-design.md`.
+  - PHASE 3 (Implementation, 4 runs TDD):
+    - Run 1: EvidenceCollector (adoption logic, ledger) — 7 tests
+    - Run 2: TaskLoader + PPCRunner (task loading, orchestration) — 13 tests
+    - Run 3: LedgerManager + ImprovementHarness (ledger queries, lessons) — 11 tests
+    - Run 4: CLI commands (list, dryrun, reflect, lessons, audit) — 11 tests
+  - PHASE 4 (Verification): All 6 commands tested on real `.harness/` directory, 42 tests passing, reflection.md generated. Deliverable: `scripts/verify_harness.py` + `docs/harness/02-verification.md`.
+- Verification: `make test` includes 42 harness tests (all pass); `make check` validates harness architecture; `make clean-check` passes 24/24.
+- Files created: 4 test modules (~1,375 LOC), 4 doc files, verification script (107 LOC).
+- Token budget: ~45K used, ~50K remaining.
 
 ## Session Log
 

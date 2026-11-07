@@ -2,7 +2,7 @@
 
 ## Current State
 
-- Last commit: `0194c72` (ZARA_CONSTITUTION.md moved to docs/); Harness² + Learn HE integration complete.
+- Last commit: `0601799` (Harness docs moved to .harness/docs/); Harness² + Learn HE integration complete.
 - `make test`: pass (3/3 checks L1 deterministic).
 - `make check`: pass (23/23 checks L2 consistency).
 - `make clean-check`: pass (24/24 checks clock-out).
@@ -10,10 +10,14 @@
 - Tests: 42 passing (all deterministic, no model calls).
 - Verification: All 6 harness commands execute successfully on real `.harness/` directory.
 - Root project: Ultra-clean (only AGENTS.md, README.md at root).
-- Session docs: Organized in `.harness/` (PROGRESS.md, COMPLETION-REPORT.md, SESSION-007-FINAL.md, PR-SUMMARY.md).
-- Principles: ZARA_CONSTITUTION.md moved to `docs/`.
-- ADRs: Indexed at `.harness/decisions/INDEX.md`.
-- Remote: Pushed to origin/v1.x.x (7 commits ahead of baseline).
+- Structure:
+  - `.harness/` — session state (PROGRESS.md), reports, improvement loop, docs
+  - `.harness/docs/` — harness documentation (recon, design, verification, attribution, readme)
+  - `.harness/decisions/` — ADR index
+  - `.harness/improvement/` — lessons, reflection
+  - `docs/` — core project docs + ZARA_CONSTITUTION.md
+  - `scripts/` — CLI, tests, verification
+- Remote: Pushed to origin/v1.x.x (8 commits ahead of baseline).
 
 ## In Progress
 

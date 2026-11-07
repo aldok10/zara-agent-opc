@@ -1,54 +1,36 @@
 # OS
 .DS_Store
 Thumbs.db
+desktop.ini
 
 # Environment
 .env
 .env.local
 .env.*.local
 
-# Runtime data
-zara_home/
-sessions/
-memory/journal.jsonl
-memory/skills-index.json
-
-# Dependencies
-node_modules/
-.pnp
-.pnp.js
-
-# IDE
+# IDE and editors
 .idea/
 *.swp
 *.swo
 *~
 .vscode/
+*.code-workspace
 
-# Logs
+# Logs and crash dumps
 *.log
+debug-*.log
 npm-debug.log*
-
-# Testing
-coverage/
-.nyc_output/
-
-# Build
-dist/
-build/
-*.tsbuildinfo
+core
+core.*
 
 # Secrets
 **/secrets/
 **/credentials/
 *.pem
 *.key
-
-# Claude Code personal data
-.claude/history*
-.claude/sessions/
-.claude/cache/
-.claude/projects/
+*.pfx
+*.p12
+.netrc
 
 # OpenCode local overrides
 opencode.local.md
@@ -57,15 +39,88 @@ opencode.local.md
 .opencode/workspace/
 
 # Task tracking (session-scoped)
-.tasks/
+.tasks/*
+!.tasks/.gitignore
 
 # MCP local config (duplicate of opencode.json)
 .opencode/mcp/
 
 # Generated files
-knowledge/search-index.json
 .context/
-
 *.mp3
 *.dll
 *.pdf
+
+# Python (uv-managed; the project lives in scripts/)
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+*.whl
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.ipynb_checkpoints/
+.venv/
+.venv.*/
+venv/
+python/.venv/
+# scripts/uv.lock and scripts/.python-version are committed on purpose
+
+# Local databases and notebooks
+*.db
+*.sqlite
+*.sqlite3
+
+# Harness runtime artifacts
+.harness/traces/*.jsonl
+
+# Build output
+target/
+dist/
+build/
+out/
+*.o
+*.obj
+*.exe
+*.pdb
+*.ilk
+*.exp
+*.lib
+*.a
+*.so
+*.dylib
+*.wasm
+
+# Package managers
+node_modules/
+.pnpm-store/
+.yarn/cache/
+bun.lockb
+
+# Archives and temp
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+*.tmp
+*.temp
+*.orig
+*.rej
+*.bak
+*.part
+*.crdownload
+
+# Coverage and reports
+coverage/
+coverage.*
+htmlcov/
+.coverage
+*.lcov
+
+# Rust (in-repo crates; the submodule keeps its own ignore file)
+Cargo.lock.bak

@@ -1,0 +1,164 @@
+{
+  "rules": [
+    {
+      "id": "ARCH-001",
+      "description": "No legacy reflect call",
+      "type": "forbidden_pattern",
+      "pattern": "Orchestrator_memory\\(action:\"episode\"",
+      "include": [
+        ".opencode/**/*.md",
+        "AGENTS.md"
+      ],
+      "exclude": [],
+      "what": "A prompt still calls the removed memory episode action.",
+      "why": "zmem-mcp exposes Orchestrator_reflect instead; the old action does not exist.",
+      "fix": "Replace it with Orchestrator_reflect(action:\"record\", task, worked, failed, pattern, outcome, agent)."
+    },
+    {
+      "id": "ARCH-002",
+      "description": "No knowledge layer on memory recall",
+      "type": "forbidden_pattern",
+      "pattern": "layer:\"knowledge\"",
+      "include": [
+        ".opencode/**/*.md",
+        "AGENTS.md"
+      ],
+      "exclude": [],
+      "what": "A prompt asks memory recall for the removed knowledge layer.",
+      "why": "Knowledge is a separate tool in zmem-mcp.",
+      "fix": "Use Orchestrator_knowledge(action:\"search\", query:\"...\")."
+    },
+    {
+      "id": "ARCH-003",
+      "description": "No OpenCode v1 plugin registration",
+      "type": "forbidden_pattern",
+      "pattern": "\"plugin\"",
+      "include": [
+        "opencode.json"
+      ],
+      "exclude": [],
+      "what": "The repo config registers a plugin entry.",
+      "why": "OpenCode V2 rejects the v1 plugin API and fails config load.",
+      "fix": "Delete the plugin key; move behavior into instructions, skills, or the MCP server."
+    },
+    {
+      "id": "ARCH-004",
+      "description": "No absolute drive path in the repo config",
+      "type": "forbidden_pattern",
+      "pattern": "\"[A-Za-z]:[\\/]",
+      "include": [
+        "opencode.json"
+      ],
+      "exclude": [],
+      "what": "The repo config hardcodes an absolute drive path.",
+      "why": "The repo is shared across machines; paths are owned by the global merge script.",
+      "fix": "Use a repo-relative path (for example ./mcp/zarust-memory/target/release/zmem-mcp.exe)."
+    },
+    {
+      "id": "ARCH-005",
+      "description": "Config references resolve",
+      "type": "command",
+      "cmd": "python scripts/zara-cli.py config validate",
+      "expect_exit": 0,
+      "what": "An agent prompt, command template, instruction, or MCP binary is missing.",
+      "why": "OpenCode silently drops agents and commands with broken references.",
+      "fix": "Run python scripts/zara-cli.py config validate and restore the reported file."
+    },
+    {
+      "id": "ARCH-006",
+      "description": "Core harness files exist",
+      "type": "required_file",
+      "path": "AGENTS.md",
+      "what": "The instructions router is missing.",
+      "why": "A session without AGENTS.md has no startup path or verification contract.",
+      "fix": "Restore AGENTS.md from git history."
+    },
+    {
+      "id": "ARCH-007",
+      "description": "Progress log exists",
+      "type": "required_file",
+      "path": "PROGRESS.md",
+      "what": "The progress log is missing.",
+      "why": "Cross-session continuity depends on tracked state, not chat history.",
+      "fix": "Restore PROGRESS.md with Current State, Next Steps, and Blockers."
+    },
+    {
+      "id": "ARCH-008",
+      "description": "Feature list exists",
+      "type": "required_file",
+      "path": "feature_list.json",
+      "what": "The feature list is missing.",
+      "why": "Scope and evidence live there; without it WIP=1 cannot be enforced.",
+      "fix": "Restore feature_list.json from git history."
+    },
+    {
+      "id": "ARCH-009",
+      "description": "Shared instructions exist",
+      "type": "required_file",
+      "path": ".opencode/instructions/system.md",
+      "what": "The shared instruction file is missing.",
+      "why": "Every agent inherits it; without it behavior diverges.",
+      "fix": "Restore .opencode/instructions/system.md from git history."
+    },
+    {
+      "id": "ARCH-010",
+      "description": "MCP submodule is pinned",
+      "type": "command",
+      "cmd": "git submodule status -- mcp/zarust-memory | grep -v '^-' >/dev/null",
+      "expect_exit": 0,
+      "what": "The MCP submodule is not initialized or not pinned.",
+      "why": "The memory server is the dependency; an unpinned tree is not reproducible.",
+      "fix": "Run git submodule update --init --recursive."
+    },
+    {
+      "id": "ARCH-011",
+      "description": "Agent prompts follow the harness template",
+      "type": "command",
+      "cmd": "python scripts/zara-cli.py agents template",
+      "expect_exit": 0,
+      "what": "An agent prompt is missing a template section, has them out of order, or duplicates the shared contract.",
+      "why": "Divergent prompts are how one agent quietly stops verifying its claims.",
+      "fix": "Restore the 8 sections in order: Role, Inputs, Procedure, Verification Duty, Output Contract, Failure Modes, Budget, Boundaries."
+    },
+    {
+      "id": "ARCH-012",
+      "description": ".mcp.json is in sync with opencode.json",
+      "type": "command",
+      "cmd": "python scripts/zara-cli.py config export-mcp --check",
+      "expect_exit": 0,
+      "what": "The portable MCP declaration drifted from the runtime config.",
+      "why": "Two sources of truth for MCP servers means one of them is wrong.",
+      "fix": "Run python scripts/zara-cli.py config export-mcp and commit the regenerated .mcp.json."
+    },
+    {
+      "id": "ARCH-013",
+      "description": "Feature list uses the standard schema",
+      "type": "command",
+      "cmd": "python -c \"import json;d=json.load(open('feature_list.json',encoding='utf-8'));f=d['features'];assert f and all(k in x for x in f for k in ('id','behavior','verification','state'));assert all(x['state'] in ('planned','active','passing','blocked') for x in f)\"",
+      "expect_exit": 0,
+      "what": "A feature entry is missing id, behavior, verification, or state, or uses an unknown state.",
+      "why": "The gate, VCR, and the course audit all read these keys; a rename silently breaks them.",
+      "fix": "Use state values planned|active|passing|blocked and the keys id, behavior, verification, state."
+    },
+    {
+      "id": "ARCH-014",
+      "description": "No shell script carries repo logic (zara-cli only)",
+      "type": "command",
+      "cmd": "python -c \"import pathlib,sys;skip=('mcp/','.git/','.opencode/skills/','additional-skills/');bad=[p.as_posix() for p in pathlib.Path('.').rglob('*.sh') if not p.as_posix().startswith(skip)];print(bad) if bad else None;sys.exit(1 if bad else 0)\"",
+      "expect_exit": 0,
+      "what": "A .sh file outside the skill assets exists in the repo.",
+      "why": "Two implementations of one gate drift; the harness entry point must stay one Python CLI.",
+      "fix": "Port the logic into scripts/zara_cli/ and expose it as a zara-cli subcommand."
+    },
+    {
+      "id": "ARCH-015",
+      "description": "The Python environment is locked by uv",
+      "type": "command",
+      "cmd": "uv lock --check --project scripts",
+      "expect_exit": 0,
+      "what": "pyproject.toml and uv.lock disagree, or uv is not installed.",
+      "why": "An unlocked environment means two machines run different code paths from the same commit.",
+      "fix": "Run `uv lock --project scripts`, commit scripts/uv.lock, and make sure uv is on PATH."
+    }
+  ]
+}

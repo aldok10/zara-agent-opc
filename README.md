@@ -1,432 +1,106 @@
-<!--
-SPDX-License-Identifier: MIT
-Author: Aldo Karendra (https://linkedin.com/in/aldok10, https://github.com/aldok10)
-Project: Zara Agent OPC - Empathetic AI Engineering Partner
+# Zara — OpenCode agent config + memory MCP
 
-Keywords: AI agent, multi-agent orchestration, cognitive memory, semantic embeddings,
-MCP server, Model Context Protocol, OpenCode, self-improving AI, AI pair programming,
-agent memory system, retrieval augmented generation, RAG, ChromaDB, vector database,
-hybrid retrieval, reciprocal rank fusion, prompt engineering, developer tools,
-persistent AI companion, empathetic AI, leadership DNA, skill routing, TDD workflow,
-Aldo Karendra, aldok10, backend developer, system architect, Jakarta Indonesia,
-PHP Swoole, Golang, C++, FIX API, MT4 MT5, AI engineering, LLM tools, agentic AI,
-autonomous coding agent, code review agent, security review agent, testing agent.
--->
+Config repo for Zara on OpenCode V2. It ships agents, commands, skills, instructions
+and a Rust MCP server (`zmem-mcp`) that provides persistent memory and a searchable
+engineering knowledge base.
 
-# Zara — The AI Engineering Partner That Remembers, Learns, and Grows With You
+No Node runtime, no OpenCode v1 plugin. Memory is a single SQLite database at
+`~/.zara/memory.db` (shared by every session).
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![CI](https://github.com/aldok10/zara-agent-opc/actions/workflows/ci.yml/badge.svg)](https://github.com/aldok10/zara-agent-opc/actions/workflows/ci.yml)
-[![GitHub stars](https://img.shields.io/github/stars/aldok10/zara-agent-opc?style=social)](https://github.com/aldok10/zara-agent-opc)
-[![MCP Compatible](https://img.shields.io/badge/MCP-compatible-blue)](https://modelcontextprotocol.io)
-[![Node.js 22+](https://img.shields.io/badge/node-22%2B-green)](https://nodejs.org)
-[![ChromaDB](https://img.shields.io/badge/vector-ChromaDB-orange)](https://www.trychroma.com)
-
-> **Not an assistant. A persistent engineering partner.** Zara has cognitive memory across sessions, orchestrates 11 specialist sub-agents (including a dedicated answer quality evaluator), grounds decisions in 300+ curated engineering articles, and gets sharper every time you use her. A single unified MCP tool handles all memory operations — minimizing token overhead while preserving full functionality. Built on the [Model Context Protocol](https://modelcontextprotocol.io) for [OpenCode](https://opencode.ai).
-
-Created and maintained by **[Aldo Karendra](https://github.com/aldok10)** — Lead Backend Engineer & AI Systems Architect ([LinkedIn](https://www.linkedin.com/in/aldok10/) · [GitHub](https://github.com/aldok10))
-
----
-
-## The Problem With Every Other AI Coding Tool
-
-They forget. Every session starts from zero. You re-explain your stack, your preferences, your architecture, every single time. They give generic answers, never push back, and never learn from the mistake they made yesterday.
-
-Zara is a different category of tool.
-
-| Most AI Tools | Zara |
-|---------------|------|
-| Forget everything between sessions | 3-layer cognitive memory with hybrid retrieval and temporal decay |
-| One-size-fits-all answers | Learns your stack, preferences, and patterns over time |
-| Single agent doing everything | 11 coordinated specialists (architecture, security, testing, review, quality validation) |
-| No methodology | Skill-gated workflow: discuss → plan → execute → verify → ship |
-| Neutral, agreeable, forgettable | Opinionated. Pushes back. Cares about your growth. |
-| Repeat the same mistakes | Outcome-weighted reflection — same mistake twice triggers a systemic fix |
-
-## Why This Matters
-
-The more you use Zara, the sharper she gets. Not through fine-tuning, but through **persistent memory + outcome-weighted learning**:
-
-- **Session 1** — Zara learns your name, stack, and coding style.
-- **Session 2** — Memory recall activates. She remembers your open threads.
-- **Session 5+** — Skill routing adapts to your patterns. Her recommendations improve as reflection scores accumulate.
-
-She remembers that auth refactor you left half-finished. She knows you prefer Go stdlib over frameworks. She'll tell you to take a break at 3am — once — then respects the adult.
-
-## Quick Start
-
-```bash
-git clone https://github.com/aldok10/zara-agent-opc.git
-cd zara-agent-opc
-./scripts/install.sh
-```
-
-**For AI-driven installs:**
-```bash
-AI_MODE=1 ./scripts/install.sh
-```
-
-**Requirements:**
-- **Node.js 22.14+** with FTS5 support (`node:sqlite`) — the installer verifies this
-- **OpenCode** — install from [opencode.ai](https://opencode.ai)
-- macOS, Linux, or Windows (PowerShell installer: `scripts/install.ps1`)
-
-After installing, copy `.env.example` to `.env` and set your `ANTHROPIC_API_KEY`. Then run `opencode` in any project directory.
-
-## See It In Action
-
-```
-You: review this handler for me
-
-Zara: [recalls your preference for parameterized queries]
-      [dispatches @lens for code review]
-      [dispatches @shield for security check]
-
-      Three issues. The SQL concatenation on line 12 is injectable.
-      Here's the fix...
-
-[next day]
-
-You: hey
-
-Zara: Morning! Yesterday you were working on that auth refactor.
-      The SQL injection fix — did you ship it? Want to pick up
-      where we left off?
-```
-
-## Key Features
-
-- **Multi-Agent Orchestration** — Zara plus 10 domain specialists (including a dedicated answer quality evaluator), each with a clean context window and final say in their domain
-- **Cognitive Memory** — 3-layer persistent memory (episodic, semantic, procedural) backed by SQLite FTS5 and MiniLM-L6-v2 embeddings
-- **Hybrid Retrieval with RRF** — full-text search fused with vector similarity via Reciprocal Rank Fusion, so recall works on both exact terms and meaning
-- **Pluggable Vector Backend** — SQLite by default, or scale out to **ChromaDB** for large-corpus semantic search (details below)
-- **Self-Improving** — outcome-weighted reflection grounded in real test results, autonomous self-audit, micro-tool crystallization
-- **Knowledge-Grounded** — 300+ indexed articles covering architecture, patterns, antipatterns, laws, DDD, security, and testing
-- **Skill-Gated Methodology** — 16 core skills + 122 additional domain expert skills (with 358 subskills) enforcing TDD, systematic debugging, and verification before completion
-- **Empathetic Leadership DNA** — situational leadership (D1-D4), Radical Candor, reads your emotional signal and calibrates tone
-- **Privacy-Aware** — secrets and PII detection, destructive-op guards, protected-branch enforcement, a ratified safety constitution
-- **Zero Required Dependencies** — the MCP server runs on Node.js stdlib alone; embeddings and Chroma are optional add-ons
-
-## Agents
-
-Zara orchestrates 11 specialized sub-agents, each an expert in their domain:
-
-| Agent | Alias | Role | Can Write? |
-|-------|-------|------|-----------|
-| **Zara** | — | Main orchestrator. Warm, sharp, opinionated engineering partner. | Yes |
-| **Sketch** | plan | Planning mode — analysis and design without making changes | No |
-| **Scout** | requirements-clarifier | Turns vague requests into clear specs | No |
-| **Atlas** | architect | System design, architecture tradeoffs, patterns | No |
-| **Lens** | code-reviewer | Code review, quality smells, refactoring | No |
-| **Shield** | security-reviewer | Threat modeling, secure design, auth patterns | No |
-| **Probe** | testing-lead | Test strategy, coverage analysis, test design | No |
-| **Pulse** | delivery-lead | Shipping velocity, tech debt, blockers | No |
-| **Rhythm** | loop-engineer | Iterative workflows, verification, failure modes | No |
-| **Hive** | swarm | Parallel task decomposition and coordination | No |
-| **Forge** | implementation | Plan → code → verify → ship, TDD execution | Yes |
-| **Refiner** | refiner | Answer quality evaluation, gap identification, refinement judgment | No |
-
-**Dispatch rules:** Zara handles simple tasks directly. For depth, she dispatches to the right specialist. Trivial fixes skip the queue entirely. Each sub-agent works in isolation — clean context, no session noise.
-
-## Memory System
-
-Three persistent layers stored in SQLite with FTS5:
-
-| Layer | What It Stores | Example |
-|-------|---------------|---------|
-| Episodic | Events and outcomes | "Deployed v2, latency dropped 40%" |
-| Semantic | Typed facts about the world | "User prefers Go stdlib over frameworks" |
-| Procedural | Reusable workflows | "Deploy: test → build → stage → prod" |
-
-7 memory types ranked by priority (policy > architecture > preference > decision > pitfall > workflow > fact), scope-based retrieval, temporal decay for stale entries, contradiction detection, and automatic consolidation on session end.
-
-### Hybrid Retrieval (RRF)
-
-Recall isn't just keyword matching. Zara runs **full-text search (FTS5) and vector similarity in parallel**, then merges the two ranked lists using **Reciprocal Rank Fusion** (RRF, K=60 — the standard from the original paper). Items that rank high in *both* lists float to the top. You get exact-term precision and semantic recall at the same time.
-
-## ChromaDB Integration — Scaling Memory to Production
-
-Zara ships with a **pluggable vector backend**. By default everything runs in embedded SQLite — zero setup, zero external services. When your memory corpus grows large or you want a dedicated, horizontally scalable vector store, flip one environment variable and Zara routes all vector search through **[ChromaDB](https://www.trychroma.com)**.
-
-```bash
-# Default — everything in SQLite, no external services
-ZARA_VECTOR=sqlite
-
-# Scale out — vectors and metadata in ChromaDB
-ZARA_VECTOR=chroma
-ZARA_CHROMA_URL=http://localhost:8000
-ZARA_CHROMA_AUTH_TOKEN=your-token   # optional
-```
-
-**How it works:**
-- `chromadb` is an **optional peer dependency**, dynamically imported. It costs nothing — not a byte of memory, not a millisecond of startup — unless you turn it on.
-- When active, Chroma stores everything: vectors, keys, and metadata, across four cosine-space HNSW collections:
-  - `zara_semantic` — facts, decisions, preferences
-  - `zara_episodic` — events and outcomes
-  - `zara_procedural` — workflows and steps
-  - `zara_knowledge` — knowledge passage chunks for RAG
-- Migrate existing SQLite memory into Chroma with a single command: `node scripts/backfill-chroma.mjs`
-- The same MiniLM-L6-v2 embeddings power both backends, so switching is seamless — no re-training, no data loss.
-
-This is the difference between a demo and a system you can actually grow into: **start local, scale to a real vector database when you need it, without rewriting a line of your workflow.**
-
-## Plugin System
-
-13 plugin modules running inside OpenCode's runtime:
-
-```
-observe  memory  flow  dev  social  evolve  empathy
-relationship  voice  workspace  debate  harness  proactive
-```
-
-Each module hooks into the session lifecycle (start, end, tool call) and contributes tools, event handlers, and proactive behaviors — from flow-state detection to multi-agent debate.
-
-## MCP Server
-
-A standalone Node.js server (`tools/mcp/index.mjs`) providing a single unified `memory` tool over JSON-RPC 2.0 stdio transport. All memory operations are routed via the `action` parameter:
-
-| Action | Sub-operations (op) | Purpose |
-|--------|---------------------|---------|
-| `recall` | — | Search memory (semantic, episodic, procedural, knowledge passages via RRF) |
-| `learn` | project | Store facts, preferences, architecture decisions; extract project knowledge |
-| `episode` | reflect, blindspot, suggest, patterns | Record events, reflections, blindspot tracking |
-| `procedure` | — | Save or recall reusable workflows |
-| `manage` | consolidate, delete, contradictions, seed, index | Memory maintenance, knowledge seeding |
-| `session` | start, end, check, profile, discover, model, goal_* | Session lifecycle, user identity, goals |
-| `system` | audit, improve, evolve, patterns, suggest, integrity, dashboard | Self-audit, self-improvement, diagnostics |
-
-**Design rationale:** 26 tools across 10 domain files were consolidated into 1 tool with action-based routing, reducing system-prompt token overhead by ~4.8K tokens per message (~85% reduction in MCP tool description cost).
-
-## Commands
-
-22 built-in slash commands accessible in OpenCode:
-
-```
-/audit  /auto  /decide  /distill  /focus  /goal  /handoff
-/install  /loop  /music  /resume  /review  /shutdown  /standup
-/swarm  /think  /code  /zara  /version  /update  /debate  /learn
-```
-
-## Development Methodology
-
-Workflow enforced automatically through OpenCode's skill system:
-
-```
-skill-gate → brainstorming → writing-plans → subagent-driven-dev → finishing-branch
-                                                   │
-                                              tdd + verification-before-completion
-```
-
-**Iron laws:** No code without a failing test. No fixes without root cause. No completion claims without verification. No implementation without design.
-
-## Architecture
-
-Zara is a layered system. Each layer has one job and a clean boundary to the next.
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│  User (developer in OpenCode)                                 │
-├─────────────────────────────────────────────────────────────┤
-│  Zara — Primary Agent                                         │
-│  Empathetic orchestration · reads signal · dispatches depth   │
-├─────────────────────────────────────────────────────────────┤
-│  Plugin Layer (13 modules, composed by zara.mjs)              │
-│  observe memory flow dev social evolve empathy relationship   │
-│  voice workspace debate harness proactive                     │
-├─────────────────────────────────────────────────────────────┤
-│  Sub-Agent Layer (isolated context each)                      │
-│  scout atlas lens shield probe pulse rhythm hive forge refiner│
-├─────────────────────────────────────────────────────────────┤
-│  MCP Server (1 unified tool · action-based routing · JSON-RPC 2.0 over stdio) │
-│  memory: recall|learn|episode|procedure|manage|session|system                 │
-├─────────────────────────────────────────────────────────────┤
-│  Memory Layer                                                 │
-│   SQLite + FTS5  (default)  │  ChromaDB  (ZARA_VECTOR=chroma) │
-│   MiniLM-L6-v2 embeddings   │  Reciprocal Rank Fusion         │
-└─────────────────────────────────────────────────────────────┘
-```
-
-### How the layers talk
-
-**Zara lives inside OpenCode as a primary agent.** She never does specialist work herself when depth matters — she reads your intent, then dispatches to the right sub-agent. Simple things she handles directly.
-
-**The plugin layer hooks into OpenCode's lifecycle.** All 13 modules are composed by a single root (`zara.mjs`) and dispatched in a consistent order on every event. They hook into:
-- `system.transform` — inject relevant memory into the prompt each turn
-- `chat.message` / `chat.response` — auto-capture facts and episodes as you talk
-- `tool.execute.before` / `after` — tracing, guard validation, and result caching
-- `session.compacting` — preserve critical state when the context window fills
-
-Modules that inject cost ~300-500 tokens per turn. The rest are tools-only — **zero cost until invoked.**
-
-**Sub-agents run in isolation.** Each gets a clean context window with only its task brief — no session history, no noise. This is deliberate: isolation is as valuable as expertise. A reviewer that hasn't seen you write the code reviews it more honestly.
-
-**The MCP server is a sidecar process.** It speaks JSON-RPC 2.0 over stdio, exposes a single unified `memory` tool with action-based routing, rate-limits to 120 calls/minute, and owns all persistence. It runs on Node.js stdlib alone — no framework, no required dependencies. The unified design cuts ~4.8K tokens from every system prompt compared to the old 26-tool layout.
-
-**The memory layer is pluggable.** This is the piece that makes Zara grow with you instead of outgrowing you. By default, everything lives in embedded SQLite with FTS5 — one file, zero services, works offline. Flip `ZARA_VECTOR=chroma` and the exact same memory API routes vector search through **ChromaDB** instead, across four cosine-space HNSW collections (semantic, episodic, procedural, knowledge). The `chromadb` client is a dynamically-imported optional dependency, so it costs nothing until you switch it on. Either way, the same MiniLM-L6-v2 embeddings feed a **Reciprocal Rank Fusion** step (RRF, K=60) that merges full-text and vector rankings into one result list. You start local for free, and scale to a dedicated vector database when your corpus demands it — without touching a line of your workflow. See [ChromaDB Integration](#chromadb-integration--scaling-memory-to-production) for the full setup.
-
-### Memory injection pipeline (every turn)
-
-The `memory` plugin reads SQLite directly and assembles a token-budgeted context:
-
-1. **Layer A — Baseline:** top policies, architecture, and preferences (max 8)
-2. **Layer B — Contextual:** facts reinforced 2+ times, scoped to your current file (max 6)
-3. **Layer C — Procedures:** top 3 workflows ranked by usage
-4. **Budget cap:** 800 tokens max, so memory never crowds out the actual task
-
-### Maintenance (autonomous)
-
-- **Temporal decay** — relevance scores fade on a 90-day half-life, so stale facts sink
-- **Dreamer consolidation** — dedupes, archives the stale, and promotes recurring patterns into higher-priority memory
-- **Contradiction detection** — flags conflicting facts ("prefers X" vs "prefers Y") for review instead of silently overwriting
-- **Corruption recovery** — auto-resets a damaged store rather than crashing the session
-
-The result: a memory that stays sharp on its own, without you curating it.
-
-## Project Structure
+## Layout
 
 ```
 zara-agent-opc/
-├── opencode.json                 # Main config: agents, MCP, plugins, permissions
-├── AGENTS.md                     # Agent dispatch rules
-├── ZARA_CONSTITUTION.md          # Safety rules (highest authority)
-├── tools/
-│   ├── mcp/                      # MCP server (1 unified tool, stdio transport)
-│   │   ├── index.mjs             # Entry point + tool registration
-│   │   ├── server.mjs            # JSON-RPC 2.0 over stdio
-│   │   └── domain/memory.mjs     # Unified memory tool (action-based routing)
-│   ├── memory-db.mjs             # SQLite + FTS5 memory backend (hybrid recall + RRF)
-│   ├── vector-store.mjs          # ChromaDB backend (optional, pluggable)
-│   ├── embedder.mjs              # Semantic embeddings (MiniLM-L6-v2)
-│   └── memory/                   # Per-layer stores (semantic/episodic/procedural/knowledge)
+├── opencode.json                  # project config (agents, commands, mcp, permissions)
+├── AGENTS.md                      # auto-loaded project instructions
 ├── .opencode/
-│   ├── agent/                    # 14 agent prompt files (11 subagents + 2 primary + compaction)
-│   ├── plugin/zara/              # 13 plugin modules
-│   ├── skills/                   # Core skills (always available, 16 skill families)
-│   └── instructions/             # System instructions (2 files)
-├── additional-skills/            # 122 domain expert skills (loaded on demand)
-│   ├── backend/                  # 19 skills (Go, Python, Java, Rust, APIs, DBs, caching...)
-│   ├── sre/                      # 18 skills (AWS, GCP, Azure, K8s, Terraform, CI/CD...)
-│   ├── frontend/                 # 14 skills (React, Vue, Angular, Svelte, TypeScript...)
-│   ├── qa-engineer/              # 13 skills (Playwright, k6, mutation, chaos...)
-│   ├── pm/                       # 13 skills (agile, OKR, roadmap, Linear, Jira...)
-│   ├── security/                 # 10 skills (AppSec, crypto, compliance, pentest...)
-│   ├── data-engineer/            # 10 skills (SQL, Spark, Kafka, dbt, pipelines...)
-│   ├── technical-writer/         # 9 skills (API docs, ADR, diagrams, style guide...)
-│   ├── business-analyst/         # 8 skills (requirements, DDD, fintech regulations...)
-│   ├── mobile/                   # 6 skills (Flutter, RN, iOS, Android, cross-platform)
-│   ├── engineering-manager/      # 1 skill (hiring, 1:1s, team topology, performance)
-│   └── mlops/                    # 1 skill (model serving, experiments, drift detection)
-├── knowledge/                    # 307 indexed articles (architecture, patterns, DDD, security)
-├── docs/                         # 12 documentation files
-├── tests/                        # 56 test files (node:test)
-├── scripts/                      # Installers, Chroma backfill, CI helpers
-└── package.json                  # v1.3.0, ESM, Node >=22.14
+│   ├── agent/                     # 13 agent prompts
+│   ├── commands/                  # slash commands
+│   ├── instructions/              # system.md, system-extended.md
+│   └── skills/                    # core skills (zara-core holds the knowledge tree)
+├── additional-skills/             # 12 domain-expert skills
+├── scripts/                       # everything Python lives here
+│   ├── pyproject.toml             # zara-cli project (uv, hatchling)
+│   ├── uv.lock                    # resolver lock, committed
+│   ├── .python-version            # interpreter pin (3.12)
+│   ├── .venv/                     # created by uv sync, gitignored
+│   └── zara_cli/                  # the harness CLI (Python only)
+├── harness/                       # Harness2 improvement loop
+├── feature_list.json              # feature state, written only by the gate
+├── PROGRESS.md                    # session state
+├── .harness/arch-rules.json       # 14 machine-checked rules
+└── mcp/zarust-memory/             # git submodule: zmem-mcp (Rust)
 ```
 
-## Additional Skills (Domain Experts)
+## Apply the global config
 
-The `additional-skills/` directory contains 122 domain expert skills loaded on demand. Each skill follows the [OKF specification](https://agentskills.io/specification) with progressive disclosure:
+The global CLI lives in `C:\Users\Mpie\.config\opencode`. After editing this repo:
 
-```
-{skill-name}/
-  SKILL.md          # Agent instructions (80-100 lines, frontmatter + structured sections)
-  subskills/        # Focused topic files (3-5 per skill, 60-100 lines each)
-  knowledge/        # Deep reference material (100-150 lines each)
-  examples/         # Working code, configs, templates
-  tools/            # LLM prompts, scripts, checklists for reducing agent workload
+```bash
+python C:\Users\Mpie\.config\opencode\zara-merge.py
 ```
 
-**Stats:** 122 SKILL.md files, 358 subskills, 290 knowledge files, 230 examples, 99 tool prompts.
+That script rewrites the global `opencode.json` (agents, commands, instructions,
+skills paths, `Orchestrator` MCP) and keeps the project config V2-safe. Restart
+OpenCode afterwards if MCP or agent changes do not show up.
 
-### Using Additional Skills in Other Projects
+## Harness CLI
 
-Add to your project's `opencode.json`:
+Every gate is one command. All logic is Python in `scripts/zara_cli/`; there is
+no shell script in the repo, and `ARCH-014` keeps it that way; `ARCH-015` keeps `scripts/uv.lock` honest.
 
-```json
-{
-  "skills": {
-    "paths": [
-      "~/.config/opencode/zara/skills",
-      "/path/to/zara-agent-opc/additional-skills"
-    ]
-  }
-}
+```bash
+uv sync --project scripts                      # create scripts/.venv (once)
+uv run --project scripts zara-cli init         # clock in: setup, tests, next feature
+uv run --project scripts zara-cli test         # L1 deterministic
+uv run --project scripts zara-cli check        # L2 consistency (23 checks)
+uv run --project scripts zara-cli e2e          # L3, one real model call
+uv run --project scripts zara-cli verify H01   # layered feature gate, writes evidence
+uv run --project scripts zara-cli clean-check  # clock out
+uv run --project scripts zara-cli audit        # course harness audit
 ```
 
-Skills are activated automatically when the agent's task matches a skill's `description` field. No manual invocation needed.
+`make <target>` forwards to the same commands. Never set a feature state by hand:
+`zara-cli feature pass` refuses on purpose.
 
-### Domain Coverage
+## Memory MCP
 
-| Domain | Skills | Key Topics |
-|--------|--------|------------|
-| **Backend** | 19 | Go, Python, Java, Rust, Elixir, .NET, PHP, Node.js, APIs (REST/GraphQL/gRPC), databases, caching, auth, message queues, microservices, design patterns, search engines, serverless |
-| **SRE** | 18 | AWS, GCP, Azure, Kubernetes, Docker, Terraform, CI/CD (GitHub Actions, Dagger), GitOps (ArgoCD/Flux), observability (OTel/Grafana), incident response, networking, Linux, platform engineering, cost optimization, configuration management, web servers |
-| **Frontend** | 14 | React 19, Next.js 16, Vue 3.5, Angular 22, Svelte 5, TypeScript 5.5, CSS (container queries, layers), accessibility (WCAG 2.2), performance (CWV), state management, build tools (Vite 6), design systems, testing |
-| **QA Engineer** | 13 | Playwright, Cypress, API testing (contract/schema), performance (k6), security testing (SAST/DAST), chaos engineering, mutation testing, visual regression, accessibility testing, mobile testing, code review |
-| **PM** | 13 | Agile (Scrum/Kanban), OKRs, roadmapping, estimation (Monte Carlo), release management, retrospectives, Linear, Jira, stakeholder communication, team health (DORA), product discovery, technical debt |
-| **Security** | 10 | AppSec (OWASP 2025), threat modeling (STRIDE), penetration testing, cryptography (PKI, KMS), compliance (SOC2, GDPR, PCI-DSS), cloud security (CSPM), identity/access (OAuth 2.1, passkeys), incident forensics, secure coding |
-| **Data Engineer** | 10 | SQL (PostgreSQL, window functions), Python data (Polars, DuckDB), pipelines (ELT, CDC), data modeling (dbt, data vault), streaming (Kafka, Flink), orchestration (Dagster, Airflow), warehouse (BigQuery, Snowflake), data quality, big data (Spark, Iceberg) |
-| **Technical Writer** | 9 | API docs (OpenAPI 3.1), architecture docs (C4, ADR), changelogs, developer portals, diagrams (Mermaid, D2), runbooks, style guides, user docs, AI-friendly documentation (OKF, llms.txt, AGENTS.md) |
-| **Business Analyst** | 8 | Requirements engineering, user stories (INVEST), acceptance criteria (BDD), domain modeling (DDD, event storming), process modeling (BPMN), stakeholder analysis, data analysis (ERD, DFD), fintech regulations (OJK, PBI, GDPR, PSD2) |
-| **Mobile** | 6 | Flutter 3.24 (Riverpod, Impeller), React Native (New Architecture, Expo 52), iOS Swift 6 (SwiftUI, TCA), Android Kotlin 2.0 (Compose, Hilt), cross-platform strategy (KMP) |
-| **Engineering Manager** | 1 | 1:1s, hiring, performance management, team topologies |
-| **MLOps** | 1 | Model serving, experiment tracking (MLflow), feature stores, drift detection |
+Host key stays `Orchestrator`; the server is `zmem-mcp` from
+`mcp/zarust-memory` (https://github.com/aldok10/zarust-memory).
 
-### Creating New Skills
-
-Use the built-in `skill-creator` skill:
-
-```
-Create a new skill for [topic]
+```bash
+cd mcp/zarust-memory
+cargo +stable-x86_64-pc-windows-gnu build --release -p zmem-mcp
 ```
 
-The skill-creator handles scaffolding, benchmarks against skills.sh/agentskills.io, and applies loop engineering (Gather > Draft > Verify > Refine) with multi-agent delegation.
+Nine tools: `memory` (recall/learn/procedure/delete/consolidate/contradictions),
+`episode`, `reflect`, `session`, `knowledge`, `ctx`, `dashboard`, `code_index`,
+`code_search`.
 
-## Documentation
+Knowledge is seeded into the database, not read from disk at query time:
 
-See `docs/` for: [installation](docs/installation.md), [architecture](docs/architecture.md), [configuration](docs/configuration.md), [skills reference](docs/skills.md), [plugins](docs/plugins.md), [tools reference](docs/tools-reference.md), [memory system](docs/memory.md), [workflows](docs/workflows.md), and [FAQ](docs/faq.md).
-
-## Contributing
-
-Contributions welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-- Report bugs via [GitHub Issues](https://github.com/aldok10/zara-agent-opc/issues)
-- Suggest features via [Discussions](https://github.com/aldok10/zara-agent-opc/discussions)
-- Submit skills, knowledge articles, or agent improvements via PR
-
-## Support
-
-If Zara saves you time, consider supporting the project:
-
-[![Donate](https://img.shields.io/badge/Donate-SociaBuzz-orange)](https://sociabuzz.com/aldok10)
-
-## Citation
-
-If you use Zara in your research or project, please cite:
-
-```bibtex
-@software{karendra2026zara,
-  author  = {Karendra, Aldo},
-  title   = {Zara: Empathetic AI Engineering Partner with Cognitive Memory},
-  year    = {2026},
-  url     = {https://github.com/aldok10/zara-agent-opc},
-  license = {MIT}
-}
+```
+Orchestrator_knowledge(action:"index", path:"E:/Apps/personal/zara-agent-opc/.opencode/skills/zara-core")
 ```
 
-## Author
+## Agents
 
-**[Aldo Karendra](https://www.linkedin.com/in/aldok10/)** — Lead Backend Engineer & AI Systems Architect, based in Jakarta, Indonesia.
+Primary: `zara`. Subagents: `atlas` (architecture), `forge` (implementation),
+`lens` (review), `probe` (testing), `shield` (security), `pulse` (delivery),
+`rhythm` (loops), `hive` (parallel), `scout` (requirements), `refiner` (quality),
+`plan`, `compaction`.
 
-- GitHub: [@aldok10](https://github.com/aldok10)
-- LinkedIn: [linkedin.com/in/aldok10](https://www.linkedin.com/in/aldok10/)
+## Skills
 
-6+ years building high-performance backend systems in PHP (Laravel, Swoole, Hyperf), Go, C++, and Node.js. Currently leading backend engineering for fintech trading systems, designing low-latency infrastructure with MT4/MT5 and FIX API integration at scale. Zara is his exploration of AI agent architecture, cognitive memory systems, and empathetic AI design — an open-source proving ground for the patterns he uses in production.
+Loaded from `.opencode/skills` and `additional-skills` (paths registered in the
+global config by `zara-merge.py`): backend, frontend, mobile, sre, security,
+data-engineer, mlops, pm, business-analyst, engineering-manager, qa-engineer,
+technical-writer, plus the core engineering skills.
 
-**Specialties:** system architecture · multi-language integration (CGO, FFI, SWIG) · low-latency performance engineering · AI agent orchestration · Model Context Protocol · engineering leadership.
+## Notes
 
-Open to tech discussions, collaborations, and consulting on backend architecture, AI agent systems, and high-performance trading infrastructure.
-
-## License
-
-MIT — see [LICENSE](LICENSE). Free to use, modify, and build on.
+- OpenCode V2 ignores agent `temperature`; values in `opencode.json` are inert.
+- `.opencode/skills/zara-core/knowledge` holds the markdown source for the
+  knowledge base. Images were removed; markdown links to them are dead.
+- History for the removed v1 Node stack (plugin, `tools/`, `tests/`, npm
+  packaging, CI) is still in git.

@@ -1,5 +1,5 @@
 ---
 description: Architecture decision
-agent: architect
+agent: atlas
 ---
-$ARGUMENTS. Pre: `Orchestrator_memory(action:"recall", layer:"knowledge")` + memory_recall. Analyze: options > tradeoffs > recommendation > failure modes. Post: memory_learn(decision).
+$ARGUMENTS. Pre: `Orchestrator_knowledge(action:"search", query:"$ARGUMENTS")` + `Orchestrator_memory(action:"recall", query:"$ARGUMENTS")`. Analyze: options > tradeoffs > recommendation > failure modes. Post: `Orchestrator_memory(action:"learn", key:"decision.<slug>", value:"<choice + why>", type:"decision", source:"user_explicit")`.

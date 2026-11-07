@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "Orchestrator": {
+      "command": "./mcp/zarust-memory/target/release/zmem-mcp.exe"
+    },
+    "context7": {
+      "headers": {
+        "x-api-key": "{env:CONTEXT7_API_KEY}"
+      },
+      "url": "https://mcp.context7.com/mcp"
+    }
+  }
+}

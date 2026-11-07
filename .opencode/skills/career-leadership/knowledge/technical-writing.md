@@ -59,7 +59,7 @@ What new constraints does this create?
 **Rules:**
 - One decision per ADR. Never bundle.
 - Immutable once accepted. Supersede, don't edit.
-- Store in `docs/adr/` or `docs/decisions/` in the repo.
+- Store in `.harness/decisions/` in the repo.
 - Number sequentially. Never reuse numbers.
 
 ## Design Doc Template

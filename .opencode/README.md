@@ -1,39 +1,39 @@
 # Zara Agent - OpenCode Directory
 
-This directory contains Zara Agent's OpenCode extensions.
+Extensions loaded by OpenCode V2 from this directory.
 
-## Structure (per OpenCode docs)
+## Structure
 
 ```
 .opencode/
 ├── agent/               # Agent markdown definitions (auto-loaded)
-│   ├── zara.md          # Primary build agent
-│   ├── sketch.md        # Primary plan agent (Sketch, read-only)
-│   ├── atlas.md         # Subagent: Atlas (architecture)
-│   ├── lens.md          # Subagent: Lens (code review)
-│   ├── probe.md         # Subagent: Probe (testing strategy)
-│   ├── shield.md        # Subagent: Shield (security)
-│   ├── pulse.md         # Subagent: Pulse (delivery)
-│   ├── rhythm.md        # Subagent: Rhythm (loop engineering)
-│   ├── hive.md          # Subagent: Hive (parallel coordination)
-│   └── forge.md         # Subagent: Forge (implementation)
-├── plugin/              # Plugin scripts (auto-loaded)
-│   ├── zara.mjs         # Composition root (loads all modules)
-│   └── zara/            # Plugin modules (dev, memory, evolve, flow,
-│                        #   observe, empathy, social, relationship, voice, infra)
+│   ├── zara.md          # Primary agent
+│   ├── atlas.md         # Subagent: architecture
+│   ├── forge.md         # Subagent: implementation
+│   ├── lens.md          # Subagent: code review
+│   ├── probe.md         # Subagent: testing
+│   ├── shield.md        # Subagent: security
+│   ├── pulse.md         # Subagent: delivery
+│   ├── rhythm.md        # Subagent: loop engineering
+│   ├── hive.md          # Subagent: parallel coordination
+│   ├── scout.md         # Subagent: requirements
+│   ├── refiner.md       # Subagent: answer quality
+│   ├── plan.md          # Read-only planning agent
+│   └── compaction.md    # Context compaction prompt
 ├── instructions/        # Canonical system instructions
-├── commands/            # Custom command docs
-└── skills/              # Custom skills
+├── commands/            # Slash command templates
+└── skills/              # Core skills (zara-core carries the knowledge tree)
 ```
 
-## How It Works
+## How it loads
 
-1. `opencode.json` (project root) - main config with agent definitions
-2. `AGENTS.md` (project root) - auto-loaded instructions (like CLAUDE.md)
+1. `opencode.json` (project root) - agent, command, mcp, permission entries
+2. `AGENTS.md` (project root) - auto-loaded project instructions
 3. `.opencode/agent/*.md` - agent prompts with YAML frontmatter
-4. `.opencode/plugin/zara.mjs` - composition root that loads modules from `.opencode/plugin/zara/`
+4. `.opencode/skills/*` and `additional-skills/*` - registered as skill paths in the
+   global config by `zara-merge.py`
 
-## Usage
+## Not here anymore
 
-- Tab to switch between `build` (default) and `plan` agents
-- `@architect` (Atlas), `@code-reviewer` (Lens), `@testing-lead` (Probe), `@security-reviewer` (Shield), `@delivery-lead` (Pulse), `@loop-engineer` (Rhythm), `@swarm` (Hive), `@implementation` (Forge) to invoke subagents
+The v1 Node plugin (`.opencode/plugin/`) and the Node MCP server (`tools/`) were
+removed. Memory and knowledge are served by `zmem-mcp` in `mcp/zarust-memory`.

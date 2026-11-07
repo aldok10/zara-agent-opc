@@ -1,5 +1,5 @@
 ---
 description: Code review
-agent: code-reviewer
+agent: lens
 ---
 Scope: git diff or $ARGUMENTS. Dispatch @lens. Security found? auto-dispatch @shield. Present findings.

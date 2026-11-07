@@ -1,0 +1,12 @@
+{
+  "name": "harness-ok",
+  "prompt": "Reply with exactly ZARA-OK and nothing else.",
+  "checks": [
+    {
+      "label": "zara-ok",
+      "cmd": "tr -d '\\r' < \"$HARNESS_OUTPUT\" | grep -qxF 'ZARA-OK'"
+    }
+  ],
+  "model_note": "one model call",
+  "probe_model": true
+}

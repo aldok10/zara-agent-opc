@@ -84,7 +84,7 @@ AI generates code faster than any human, so the multiplier moved upstream to dec
 
 ## Knowledge (load on demand)
 
-`Orchestrator_memory(action:"recall", layer:"knowledge")`:
+`Orchestrator_knowledge(action:"search", query:"<topic>")`:
 - `query: "leadership coaching delegation decisions"` - full framework reference
 - `query: "leadership frameworks"` - Servant, Transformational, Radical Candor, Multipliers, GROW, etc.
 - `query: "agentic orchestration patterns"` - topologies, quality gates, escalation tiers

@@ -1,0 +1,334 @@
+{
+  "project": "zara-agent-opc",
+  "last_updated": "2026-11-07",
+  "rules": {
+    "single_active_feature": true,
+    "passing_requires_evidence": true,
+    "do_not_skip_verification": true
+  },
+  "state_legend": {
+    "planned": "Work has not begun.",
+    "active": "The feature is the current task. At most one.",
+    "blocked": "Cannot continue until a documented blocker is resolved.",
+    "passing": "Required layers passed and evidence is recorded."
+  },
+  "features": [
+    {
+      "id": "H01",
+      "priority": 1,
+      "area": "instructions",
+      "title": "AGENTS.md is a router, not an encyclopedia",
+      "behavior": "A fresh session reads one file and knows what the repo is, how to verify it, and where the detail lives.",
+      "state": "passing",
+      "verification": [
+        "Read AGENTS.md start to finish.",
+        "Confirm it names the verification command and links the topic docs."
+      ],
+      "layers": [
+        {
+          "label": "length",
+          "cmd": "test $(wc -l < AGENTS.md) -ge 50 && test $(wc -l < AGENTS.md) -le 200",
+          "repair": "Keep AGENTS.md between 50 and 200 lines; move detail into docs/ and link it."
+        },
+        {
+          "label": "links",
+          "cmd": "grep -q 'docs/harness-design.md' AGENTS.md && grep -q 'make check' AGENTS.md",
+          "repair": "Link docs/harness-design.md and state the verification command in AGENTS.md."
+        }
+      ],
+      "evidence": [
+        "verified 2026-11-07T12:05:26Z at 1699578 via length, links",
+        "verified 2026-11-07T12:26:37Z at 1699578 via length, links",
+        "verified 2026-11-07T12:27:52Z at 1699578 via length, links"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "H02",
+      "priority": 2,
+      "area": "state",
+      "title": "Persistent state files exist and are current",
+      "behavior": "The next session can recover verified state and decisions from tracked files only.",
+      "state": "passing",
+      "verification": [
+        "Open PROGRESS.md and confirm Current State, Next Steps, Blockers.",
+        "Open DECISIONS.md and confirm entries carry a reason."
+      ],
+      "layers": [
+        {
+          "label": "files",
+          "cmd": "test -f PROGRESS.md && test -f DECISIONS.md && test -f feature_list.json",
+          "repair": "Create PROGRESS.md, DECISIONS.md, and feature_list.json at the repo root."
+        },
+        {
+          "label": "current-state",
+          "cmd": "grep -q '## Current State' PROGRESS.md && grep -q 'Last commit' PROGRESS.md",
+          "repair": "Add a Current State section to PROGRESS.md with the last commit and verification status."
+        }
+      ],
+      "evidence": [
+        "verified 2026-11-07T12:05:26Z at 1699578 via files, current-state",
+        "verified 2026-11-07T12:26:38Z at 1699578 via files, current-state",
+        "verified 2026-11-07T12:27:52Z at 1699578 via files, current-state"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "H03",
+      "priority": 3,
+      "area": "verification",
+      "title": "Deterministic and consistency gates pass",
+      "behavior": "make test and make check both exit 0 on a clean checkout.",
+      "state": "passing",
+      "verification": [
+        "Run make test.",
+        "Run make check."
+      ],
+      "layers": [
+        {
+          "label": "deterministic",
+          "cmd": "make test",
+          "repair": "Run make test and fix the failing reference or agent load before continuing."
+        },
+        {
+          "label": "consistency",
+          "cmd": "make check",
+          "repair": "Run make check; fix the failing gate (arch, config, or MCP health)."
+        }
+      ],
+      "evidence": [
+        "verified 2026-11-07T09:54:25Z at 1699578 via deterministic, consistency",
+        "verified 2026-11-07T12:05:30Z at 1699578 via deterministic, consistency",
+        "verified 2026-11-07T12:28:02Z at 1699578 via deterministic, consistency"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "H04",
+      "priority": 4,
+      "area": "scope",
+      "title": "Feature state is written only by the gate",
+      "behavior": "A feature flips to passing only when its layers run and pass, with evidence attached.",
+      "state": "passing",
+      "verification": [
+        "Run zara-cli verify H04 and confirm state and evidence change together."
+      ],
+      "layers": [
+        {
+          "label": "repair-output",
+          "cmd": "grep -q 'How to fix' scripts/zara_cli/commands/verify.py && grep -q 'evidence' scripts/zara_cli/features.py",
+          "repair": "Keep the gate printing a How to fix line and features.py recording evidence when layers pass."
+        },
+        {
+          "label": "wip-rule",
+          "cmd": "uv run --project scripts --no-sync --quiet zara-cli vcr",
+          "repair": "Keep at most one feature active; finish it before activating another."
+        }
+      ],
+      "evidence": [
+        "verified 2026-11-07T09:54:56Z at 1699578 via repair-output, wip-rule",
+        "verified 2026-11-07T12:05:30Z at 1699578 via repair-output, wip-rule",
+        "verified 2026-11-07T12:28:02Z at 1699578 via repair-output, wip-rule"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "H05",
+      "priority": 5,
+      "area": "guardrails",
+      "title": "Architecture rules are enforced by a command",
+      "behavior": "Forbidden patterns and missing references fail the build with WHAT, WHY, FIX text.",
+      "state": "passing",
+      "verification": [
+        "Run make check-arch.",
+        "Introduce a forbidden pattern in a scratch file and confirm the gate fails."
+      ],
+      "layers": [
+        {
+          "label": "rules",
+          "cmd": "test -f .harness/arch-rules.json && python -c \"import json;d=json.load(open('.harness/arch-rules.json'));assert d['rules']\"",
+          "repair": "Create .harness/arch-rules.json with at least one rule carrying what, why, and fix."
+        },
+        {
+          "label": "runner",
+          "cmd": "uv run --project scripts --no-sync --quiet zara-cli arch",
+          "repair": "Fix the violation the arch gate reports, or the rule itself."
+        }
+      ],
+      "evidence": [
+        "verified 2026-11-07T09:54:27Z at 1699578 via rules, runner",
+        "verified 2026-11-07T12:05:32Z at 1699578 via rules, runner",
+        "verified 2026-11-07T12:28:04Z at 1699578 via rules, runner"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "H06",
+      "priority": 6,
+      "area": "lifecycle",
+      "title": "Startup and clock-out paths are executable",
+      "behavior": "zara-cli init brings a fresh session to a verified baseline and zara-cli clean-check gates the exit.",
+      "state": "passing",
+      "verification": [
+        "Run zara-cli init.",
+        "Run zara-cli clean-check."
+      ],
+      "layers": [
+        {
+          "label": "startup",
+          "cmd": "uv run --project scripts --no-sync --quiet zara-cli setup",
+          "repair": "Fix the failing environment check printed by zara-cli setup."
+        },
+        {
+          "label": "clock-out",
+          "cmd": "uv run --project scripts --no-sync --quiet zara-cli session start && uv run --project scripts --no-sync --quiet zara-cli clean-check",
+          "repair": "Fix the clean-state check or the trace writer."
+        }
+      ],
+      "evidence": [
+        "verified 2026-11-07T12:05:36Z at 1699578 via startup, clock-out",
+        "verified 2026-11-07T12:05:57Z at 1699578 via startup, clock-out",
+        "verified 2026-11-07T12:28:09Z at 1699578 via startup, clock-out"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "H07",
+      "priority": 7,
+      "area": "recursion",
+      "title": "Harness2 improvement loop is dry-runnable",
+      "behavior": "Propose-Probe-Compose runs without model calls in dry-run and records evidence in a ledger.",
+      "state": "passing",
+      "verification": [
+        "Run the dry-run for both tasks.",
+        "Confirm the ledger path and adoption rule are documented."
+      ],
+      "layers": [
+        {
+          "label": "dry-run",
+          "cmd": "python .harness/run_improvement.py --dry-run --task harness-ok",
+          "repair": "Fix .harness/run_improvement.py so dry-run prints the plan and exits 0."
+        },
+        {
+          "label": "ledger",
+          "cmd": "test -f .harness/README.md && test -d .harness/candidates",
+          "repair": "Restore .harness/README.md and the candidates directory."
+        }
+      ],
+      "evidence": [
+        "verified 2026-11-07T12:05:36Z at 1699578 via dry-run, ledger",
+        "verified 2026-11-07T12:28:10Z at 1699578 via dry-run, ledger",
+        "verified 2026-11-07T12:52:38Z at 1699578 via dry-run, ledger"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "H08",
+      "priority": 8,
+      "area": "memory",
+      "title": "Memory MCP is healthy and documented",
+      "behavior": "The Orchestrator server reports nine tools, FTS5, and a clean audit.",
+      "state": "passing",
+      "verification": [
+        "Run the binary with --check.",
+        "Call Orchestrator_dashboard with section audit."
+      ],
+      "layers": [
+        {
+          "label": "health",
+          "cmd": "mcp/zarust-memory/target/release/zmem-mcp.exe --check",
+          "repair": "Rebuild zmem-mcp from the submodule and point opencode.json at the binary."
+        },
+        {
+          "label": "contract",
+          "cmd": "test -f docs/memory-contract.md && grep -q 'Orchestrator_reflect' docs/memory-contract.md",
+          "repair": "Write docs/memory-contract.md covering the nine tools and the database path."
+        }
+      ],
+      "evidence": [
+        "verified 2026-11-07T09:54:32Z at 1699578 via health, contract",
+        "verified 2026-11-07T12:05:36Z at 1699578 via health, contract",
+        "verified 2026-11-07T12:28:10Z at 1699578 via health, contract"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "H09",
+      "priority": 9,
+      "area": "guardrails",
+      "title": "Repo config stays portable and plugin-free",
+      "behavior": "The repo config loads on another machine without user-specific paths or a v1 plugin entry.",
+      "state": "passing",
+      "verification": [
+        "Run make check.",
+        "Run opencode debug config inside the repo."
+      ],
+      "layers": [
+        {
+          "label": "portable",
+          "cmd": "uv run --project scripts --no-sync --quiet zara-cli config validate",
+          "repair": "Remove user-specific paths and fix broken references reported by the validator."
+        },
+        {
+          "label": "no-plugin",
+          "cmd": "python -c \"import json;d=json.load(open('opencode.json'));assert 'plugin' not in d\"",
+          "repair": "Delete the plugin entry; V2 rejects the v1 plugin API."
+        }
+      ],
+      "evidence": [
+        "verified 2026-11-07T09:54:32Z at 1699578 via portable, no-plugin",
+        "verified 2026-11-07T12:05:37Z at 1699578 via portable, no-plugin",
+        "verified 2026-11-07T12:28:10Z at 1699578 via portable, no-plugin"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "H10",
+      "priority": 10,
+      "area": "skills",
+      "title": "Harness skill is discoverable",
+      "behavior": "An agent can load a harness-engineering skill that names the repo gates.",
+      "state": "passing",
+      "verification": [
+        "Open the skill and follow its checklist once."
+      ],
+      "layers": [
+        {
+          "label": "skill",
+          "cmd": "test -f .opencode/skills/harness-engineering/SKILL.md && grep -q 'make verify-feature' .opencode/skills/harness-engineering/SKILL.md",
+          "repair": "Create the skill with valid frontmatter and the repo verification commands."
+        }
+      ],
+      "evidence": [
+        "verified 2026-11-07T09:54:32Z at 1699578 via skill",
+        "verified 2026-11-07T12:05:37Z at 1699578 via skill",
+        "verified 2026-11-07T12:28:10Z at 1699578 via skill"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "H11",
+      "priority": 11,
+      "area": "observability",
+      "title": "Session traces and quality snapshot exist",
+      "behavior": "A session leaves a trace event and a quality snapshot the next session can read.",
+      "state": "passing",
+      "verification": [
+        "Run make session-start and make session-end, then read the trace line."
+      ],
+      "layers": [
+        {
+          "label": "traces",
+          "cmd": "test -d .harness/traces && test -f docs/quality-document.md",
+          "repair": "Create .harness/traces with a .gitkeep and docs/quality-document.md."
+        }
+      ],
+      "evidence": [
+        "verified 2026-11-07T09:54:32Z at 1699578 via traces",
+        "verified 2026-11-07T12:05:37Z at 1699578 via traces",
+        "verified 2026-11-07T12:28:10Z at 1699578 via traces"
+      ],
+      "notes": ""
+    }
+  ]
+}

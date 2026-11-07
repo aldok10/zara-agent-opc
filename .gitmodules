@@ -1,0 +1,3 @@
+[submodule "mcp/zarust-memory"]
+	path = mcp/zarust-memory
+	url = https://github.com/aldok10/zarust-memory.git

@@ -35,3 +35,13 @@ Don't stop at context limit. Save `.tasks/progress.md`. After compaction: re-rea
 ## Anti-Drift (subagents inherit)
 
 After 8+ tool calls: pause, verify still solving original dispatched task. If drifted: stop, return partial + what went off-track.
+
+## Harness Contract
+
+- State lives in `feature_list.json` (`planned`, `active`, `blocked`, `passing`) and `PROGRESS.md`. At most one feature is `active`.
+- Evidence is a passing command, not a claim. `make verify-feature F=<id>` runs the layers and writes state + evidence; never edit `state` by hand.
+- Verification order: `make test` -> `make check` -> `make e2e` (only when the change crosses a boundary). Never skip a layer.
+- Failures print WHAT / WHY / FIX. Apply the FIX, retry once, then stop and record the blocker.
+- Clock in: read `PROGRESS.md`, pick the highest-priority `planned` feature. Clock out: update `PROGRESS.md`, run `make clean-check`, one logical commit.
+- Subagent context stays under 1000 tokens: task, paths, acceptance, return format. Return summaries, not traces.
+- Docs change in the same commit as the behavior they describe.

@@ -58,4 +58,4 @@ Classify complexity, then explore existing context (files, docs, recent commits)
 - Spec exists at `docs/specs/` path with testable acceptance criteria.
 - No placeholder text, no internal contradictions.
 - User approved before transition to planning.
-- Save decisions via `Orchestrator_memory(action:"episode")` and `action:"learn", type:"decision"` after approval.
+- Save decisions via `Orchestrator_reflect(action:"record", ...)` and `Orchestrator_memory(action:"learn", type:"decision", ...)` after approval.

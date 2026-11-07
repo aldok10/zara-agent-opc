@@ -1,0 +1,16 @@
+{
+  "name": "repair-broken-ref",
+  "prompt": "Repair the broken references so the config and feature-state checks pass.",
+  "checks": [
+    {
+      "label": "validate-config",
+      "cmd": "python scripts/zara-cli.py config validate"
+    },
+    {
+      "label": "feature-state-check",
+      "cmd": "python scripts/zara-cli.py feature check"
+    }
+  ],
+  "model_note": "no model call",
+  "probe_model": false
+}

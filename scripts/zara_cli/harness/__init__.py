@@ -8,6 +8,15 @@ from .test_improvement import (
     Lesson,
     ImprovementHarness,
 )
+from .test_commands import (
+    HarnessCommandContext,
+    HarnessCommand,
+    ListCommand,
+    DryRunCommand,
+    ReflectCommand,
+    LessonsCommand,
+    AuditCommand,
+)
 
 __all__ = [
     "EvidenceCollector",
@@ -19,6 +28,14 @@ __all__ = [
     "LedgerManager",
     "Lesson",
     "ImprovementHarness",
+    "HarnessCommandContext",
+    "HarnessCommand",
+    "ListCommand",
+    "DryRunCommand",
+    "ReflectCommand",
+    "LessonsCommand",
+    "AuditCommand",
 ]
+
 
 

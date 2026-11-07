@@ -42,12 +42,26 @@ Tool/subagent fails: don't block. 80% answer + stated gaps > total failure. Log 
 
 ## MCP Tool Reference
 
+Server key is `Orchestrator`, backed by `zmem-mcp` (Rust). Nine tools, action enums.
+
 ```
-recall:  Orchestrator_memory(action:"recall", query:"<topic>", layer:"knowledge", section:"<opt>")
-learn:   Orchestrator_memory(action:"learn", key:"<id>", value:"<v>", type:"<t>", source:"<src>")
-reflect: Orchestrator_memory(action:"episode", op:"reflect", agent:"<n>", outcome:"<o>", worked:"<w>", failed:"<f>")
-event:   Orchestrator_memory(action:"episode", event:"<description>")
+recall:    Orchestrator_memory(action:"recall", query:"<topic>", k:<n>)
+learn:     Orchestrator_memory(action:"learn", key:"<id>", value:"<v>", type:"<t>", source:"<src>")
+reflect:   Orchestrator_reflect(action:"record", task:"<t>", worked:"<w>", failed:"<f>", pattern:"<p>", outcome:"success|partial|failure", agent:"<n>")
+event:     Orchestrator_episode(action:"record", event:"<description>", outcome:"success|partial|failure", tags:["<tag>"])
+knowledge: Orchestrator_knowledge(action:"search", query:"<topic>", section:"<opt>", k:<n>)
+session:   Orchestrator_session(action:"log", mode:"start|end|check", ...)
+audit:     Orchestrator_dashboard(section:"audit")
 ```
+
+There is no `knowledge` layer on `memory(recall)`; use `Orchestrator_knowledge`.
+Shorthand used below maps as: memory_recall=memory(recall), memory_learn=memory(learn),
+reflect=Orchestrator_reflect, session_log=Orchestrator_session(log).
+
+Execute bridge: shorthand NEVER runs bare inside `execute`. Exact JS paths, one object arg:
+`tools.Orchestrator.{memory|episode|reflect|session|knowledge|ctx|dashboard|code_index|code_search}({...})`.
+Example: `await tools.Orchestrator.memory({action:"recall", query:"...", k:3})`.
+If a path errors, `search({query:"<tool name>"})` once, then retry; never guess a name.
 
 ## Subagents & Session
 

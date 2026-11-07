@@ -143,7 +143,7 @@ Adoption Rule:
 ```
 .harness/tasks/*.json ──┐
                         ├─→ TaskLoader ──→ PPCRunner ──→ baseline probe
-.harness/candidates/*.md┤                                      │
+.harness/candidates/*.md┤                                     │
                         └──→ EvidenceCollector ←── candidate probe(s)
                                     │
                                     ↓

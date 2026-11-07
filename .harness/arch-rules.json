@@ -77,10 +77,10 @@
       "id": "ARCH-007",
       "description": "Progress log exists",
       "type": "required_file",
-      "path": "PROGRESS.md",
+      "path": ".harness/PROGRESS.md",
       "what": "The progress log is missing.",
       "why": "Cross-session continuity depends on tracked state, not chat history.",
-      "fix": "Restore PROGRESS.md with Current State, Next Steps, and Blockers."
+      "fix": "Restore .harness/PROGRESS.md with Current State, Next Steps, and Blockers."
     },
     {
       "id": "ARCH-008",

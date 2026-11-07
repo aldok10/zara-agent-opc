@@ -14,14 +14,15 @@ Start here:
 - [Quality document](docs/quality-document.md) — module health scores and known gaps
 - [Environment](docs/environment.md) — Windows toolchain, WSL bash trap, MCP rebuild
 - [Dependencies](docs/dependencies.md) — what the lock is and how to restore it
-- [Decisions](.harness/decisions/) — numbered ADRs, indexed by `DECISIONS.md`
+- [Decisions](.harness/decisions/INDEX.md) — numbered ADRs, indexed by this file
+- [Progress](.harness/PROGRESS.md) — session state, verification status, next steps
 
 ## Clock In
 
 Before changing anything:
 
 1. `pwd` and confirm the repo root.
-2. Read `PROGRESS.md` for the current verified state and next step.
+2. Read `.harness/PROGRESS.md` for the current verified state and next step.
 3. Read `feature_list.json` and pick the highest-priority `planned` feature.
 4. Review recent commits with `git log --oneline -5`.
 5. `uv sync --project scripts` if `scripts/.venv` is missing, then `uv run --project scripts zara-cli init` (submodule, binary, config, deterministic tests).
@@ -56,8 +57,8 @@ component or domain boundaries: agent prompts, MCP surface, shared skills.
 
 ## State Files
 
-- `PROGRESS.md` — verified state, in progress, next steps, blockers.
-- `DECISIONS.md` — index of the numbered ADRs in `.harness/decisions/`.
+- `.harness/PROGRESS.md` — verified state, in progress, next steps, blockers.
+- `.harness/decisions/INDEX.md` — index of the numbered ADRs in `.harness/decisions/`.
 - `feature_list.json` — machine-readable scope and evidence; source of truth.
 - `.harness/traces/traces.jsonl` — runtime trace, gitignored.
 - `.harness/ledger.jsonl` — Harness2 improvement ledger, tracked.
@@ -69,7 +70,7 @@ A feature is done only when all of these are true:
 
 1. The user-visible behavior is implemented.
 2. The layered verification actually ran and passed.
-3. Evidence is recorded in `feature_list.json` (gate output) and `PROGRESS.md`.
+3. Evidence is recorded in `feature_list.json` (gate output) and `.harness/PROGRESS.md`.
 4. `make clean-check` passes and a fresh session can start from `uv run --project scripts zara-cli init`.
 
 Code written is not evidence. Confidence is not evidence. A passing command is.
@@ -120,13 +121,13 @@ becomes a rule in `...harness/arch-rules.json` with WHAT / WHY / FIX text.
 - Periodic, weekly or before a release: full sweep for structural drift. Stale
   docs, orphaned agent or command files, skills nobody loads, arch rules that no
   longer match the tree, `...harness/ledger.jsonl` lines that were never composed.
-  Record what you removed and why in `PROGRESS.md`.
+  Record what you removed and why in `.harness/PROGRESS.md`.
 
 Immediate cleanup keeps the tree usable; the periodic sweep keeps it honest.
 
 ## Clock Out
 
-1. Update `PROGRESS.md` (current state, next step, blockers).
+1. Update `.harness/PROGRESS.md` (current state, next step, blockers).
 2. Update `feature_list.json` through the gate, never by hand.
 3. Remove debug artifacts and temp files.
 4. Run `make clean-check` and `make check`.
@@ -136,5 +137,5 @@ Immediate cleanup keeps the tree usable; the periodic sweep keeps it honest.
 ## Context Budget
 
 Subagent context stays under 1000 tokens: task, paths, acceptance, return format.
-Return summaries and diffs, not traces. After compaction, re-read `PROGRESS.md`
+Return summaries and diffs, not traces. After compaction, re-read `.harness/PROGRESS.md`
 and `git log`, never memory.

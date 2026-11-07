@@ -37,9 +37,9 @@
         }
       ],
       "evidence": [
-        "verified 2026-11-07T12:05:26Z at 1699578 via length, links",
         "verified 2026-11-07T12:26:37Z at 1699578 via length, links",
-        "verified 2026-11-07T12:27:52Z at 1699578 via length, links"
+        "verified 2026-11-07T12:27:52Z at 1699578 via length, links",
+        "verified 2026-11-07T13:14:42Z at bf3d373 via length, links"
       ],
       "notes": ""
     },
@@ -67,9 +67,9 @@
         }
       ],
       "evidence": [
-        "verified 2026-11-07T12:05:26Z at 1699578 via files, current-state",
         "verified 2026-11-07T12:26:38Z at 1699578 via files, current-state",
-        "verified 2026-11-07T12:27:52Z at 1699578 via files, current-state"
+        "verified 2026-11-07T12:27:52Z at 1699578 via files, current-state",
+        "verified 2026-11-07T13:14:43Z at bf3d373 via files, current-state"
       ],
       "notes": ""
     },
@@ -97,9 +97,9 @@
         }
       ],
       "evidence": [
-        "verified 2026-11-07T09:54:25Z at 1699578 via deterministic, consistency",
         "verified 2026-11-07T12:05:30Z at 1699578 via deterministic, consistency",
-        "verified 2026-11-07T12:28:02Z at 1699578 via deterministic, consistency"
+        "verified 2026-11-07T12:28:02Z at 1699578 via deterministic, consistency",
+        "verified 2026-11-07T13:14:48Z at bf3d373 via deterministic, consistency"
       ],
       "notes": ""
     },
@@ -126,9 +126,9 @@
         }
       ],
       "evidence": [
-        "verified 2026-11-07T09:54:56Z at 1699578 via repair-output, wip-rule",
         "verified 2026-11-07T12:05:30Z at 1699578 via repair-output, wip-rule",
-        "verified 2026-11-07T12:28:02Z at 1699578 via repair-output, wip-rule"
+        "verified 2026-11-07T12:28:02Z at 1699578 via repair-output, wip-rule",
+        "verified 2026-11-07T13:14:49Z at bf3d373 via repair-output, wip-rule"
       ],
       "notes": ""
     },
@@ -156,9 +156,9 @@
         }
       ],
       "evidence": [
-        "verified 2026-11-07T09:54:27Z at 1699578 via rules, runner",
         "verified 2026-11-07T12:05:32Z at 1699578 via rules, runner",
-        "verified 2026-11-07T12:28:04Z at 1699578 via rules, runner"
+        "verified 2026-11-07T12:28:04Z at 1699578 via rules, runner",
+        "verified 2026-11-07T13:14:52Z at bf3d373 via rules, runner"
       ],
       "notes": ""
     },
@@ -186,9 +186,9 @@
         }
       ],
       "evidence": [
-        "verified 2026-11-07T12:05:36Z at 1699578 via startup, clock-out",
         "verified 2026-11-07T12:05:57Z at 1699578 via startup, clock-out",
-        "verified 2026-11-07T12:28:09Z at 1699578 via startup, clock-out"
+        "verified 2026-11-07T12:28:09Z at 1699578 via startup, clock-out",
+        "verified 2026-11-07T13:14:59Z at bf3d373 via startup, clock-out"
       ],
       "notes": ""
     },
@@ -216,9 +216,9 @@
         }
       ],
       "evidence": [
-        "verified 2026-11-07T12:05:36Z at 1699578 via dry-run, ledger",
         "verified 2026-11-07T12:28:10Z at 1699578 via dry-run, ledger",
-        "verified 2026-11-07T12:52:38Z at 1699578 via dry-run, ledger"
+        "verified 2026-11-07T12:52:38Z at 1699578 via dry-run, ledger",
+        "verified 2026-11-07T13:14:59Z at bf3d373 via dry-run, ledger"
       ],
       "notes": ""
     },
@@ -246,9 +246,9 @@
         }
       ],
       "evidence": [
-        "verified 2026-11-07T09:54:32Z at 1699578 via health, contract",
         "verified 2026-11-07T12:05:36Z at 1699578 via health, contract",
-        "verified 2026-11-07T12:28:10Z at 1699578 via health, contract"
+        "verified 2026-11-07T12:28:10Z at 1699578 via health, contract",
+        "verified 2026-11-07T13:15:00Z at bf3d373 via health, contract"
       ],
       "notes": ""
     },
@@ -276,9 +276,9 @@
         }
       ],
       "evidence": [
-        "verified 2026-11-07T09:54:32Z at 1699578 via portable, no-plugin",
         "verified 2026-11-07T12:05:37Z at 1699578 via portable, no-plugin",
-        "verified 2026-11-07T12:28:10Z at 1699578 via portable, no-plugin"
+        "verified 2026-11-07T12:28:10Z at 1699578 via portable, no-plugin",
+        "verified 2026-11-07T13:15:00Z at bf3d373 via portable, no-plugin"
       ],
       "notes": ""
     },
@@ -300,9 +300,9 @@
         }
       ],
       "evidence": [
-        "verified 2026-11-07T09:54:32Z at 1699578 via skill",
         "verified 2026-11-07T12:05:37Z at 1699578 via skill",
-        "verified 2026-11-07T12:28:10Z at 1699578 via skill"
+        "verified 2026-11-07T12:28:10Z at 1699578 via skill",
+        "verified 2026-11-07T13:15:00Z at bf3d373 via skill"
       ],
       "notes": ""
     },
@@ -324,9 +324,9 @@
         }
       ],
       "evidence": [
-        "verified 2026-11-07T09:54:32Z at 1699578 via traces",
         "verified 2026-11-07T12:05:37Z at 1699578 via traces",
-        "verified 2026-11-07T12:28:10Z at 1699578 via traces"
+        "verified 2026-11-07T12:28:10Z at 1699578 via traces",
+        "verified 2026-11-07T13:15:00Z at bf3d373 via traces"
       ],
       "notes": ""
     }

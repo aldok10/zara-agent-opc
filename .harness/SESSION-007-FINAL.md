@@ -58,11 +58,11 @@ Total: 42/42 PASSING (100% pass rate)
 
 ### Documentation (5 files, 440 LOC)
 ```
-✅ docs/harness/README.md           (120 LOC) — Quick start guide
-✅ docs/harness/00-recon.md        (120 LOC) — Reconnaissance
-✅ docs/harness/01-design.md       (150 LOC) — Design specification
-✅ docs/harness/02-verification.md (110 LOC) — Verification results
-✅ docs/harness/ATTRIBUTION.md     (60 LOC)  — Attribution
+✅ .harness/docs/README.md           (120 LOC) — Quick start guide
+✅ .harness/docs/00-recon.md        (120 LOC) — Reconnaissance
+✅ .harness/docs/01-design.md       (150 LOC) — Design specification
+✅ .harness/docs/02-verification.md (110 LOC) — Verification results
+✅ .harness/docs/ATTRIBUTION.md     (60 LOC)  — Attribution
 ```
 
 ### Verification Files

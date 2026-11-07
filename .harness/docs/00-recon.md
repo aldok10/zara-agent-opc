@@ -203,7 +203,7 @@
 4. **Implement PPC:** Use Hive + Refiner for orchestration; Probe agent for execution
 5. **Build improvement harness:** MCP tool or plugin to persist evidence across runs
 6. **Add resumable runs:** Checkpoint probes in `.harness/runs/` (gitignored)
-7. **Document:** docs/harness/ folder with attribution and design decisions
+7. **Document:** .harness/docs/ folder with attribution and design decisions
 
 ---
 

@@ -286,7 +286,7 @@ E2E verification:   6/6 commands successful
 ### Files
 ```
 scripts/zara_cli/harness/     5 files (~1,375 LOC)
-docs/harness/                 5 files (~440 LOC)
+.harness/docs/                5 files (~440 LOC)
 scripts/verify_harness.py     1 file (107 LOC)
 PR-SUMMARY.md                 1 file
 PROGRESS.md                   1 updated

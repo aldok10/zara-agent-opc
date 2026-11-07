@@ -101,7 +101,7 @@ None. System is fully functional and ready for PHASE 5.
 1. **Update AGENTS.md** — Mention harness PPC in agent index
 2. **Update feature_list.json** — Mark harness features as passing with PHASE 4 evidence
 3. **Update PROGRESS.md** — Record completion of PHASE 0–4
-4. **Update docs/harness/** — Add implementation notes, command reference
+4. **Update .harness/docs/** — Add implementation notes, command reference
 5. **Create PR summary** — Motivation, changes, verification, risks, rollback
 6. **Commit and push** — One logical commit per phase
 

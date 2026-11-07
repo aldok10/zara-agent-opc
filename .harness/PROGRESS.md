@@ -36,15 +36,15 @@ None. All implementation verified and passing.
 
 - Goal: Integrate Harness² + Learn HE into Zara (OpenCode V2 only). Complete PHASES 0–5.
 - Completed:
-  - PHASE 0 (Recon): `.harness/` inventory, V2 audit, gap analysis vs. both references. Deliverable: `docs/harness/00-recon.md` + `ATTRIBUTION.md`.
+  - PHASE 0 (Recon): `.harness/` inventory, V2 audit, gap analysis vs. both references. Deliverable: `.harness/docs/00-recon.md` + `ATTRIBUTION.md`.
   - PHASE 1 (V2 Port): Skipped (no V1 plugins found).
-  - PHASE 2 (Design): 8 harness components mapped, PPC architecture, parallel/sequential recursion, improvement harness, token budget. Deliverable: `docs/harness/01-design.md`.
+  - PHASE 2 (Design): 8 harness components mapped, PPC architecture, parallel/sequential recursion, improvement harness, token budget. Deliverable: `.harness/docs/01-design.md`.
   - PHASE 3 (Implementation, 4 runs TDD):
     - Run 1: EvidenceCollector (adoption logic, ledger) — 7 tests
     - Run 2: TaskLoader + PPCRunner (task loading, orchestration) — 13 tests
     - Run 3: LedgerManager + ImprovementHarness (ledger queries, lessons) — 11 tests
     - Run 4: CLI commands (list, dryrun, reflect, lessons, audit) — 11 tests
-  - PHASE 4 (Verification): All 6 commands tested on real `.harness/` directory, 42 tests passing, reflection.md generated. Deliverable: `scripts/verify_harness.py` + `docs/harness/02-verification.md`.
+  - PHASE 4 (Verification): All 6 commands tested on real `.harness/` directory, 42 tests passing, reflection.md generated. Deliverable: `scripts/verify_harness.py` + `.harness/docs/02-verification.md`.
   - PHASE 5 (Cleanup): Move session docs to `.harness/`, restructure root project for clarity.
 - Verification: `make test` includes 42 harness tests (all pass); `make check` validates harness architecture; `make clean-check` passes 24/24.
 - Files created: 4 test modules (~1,375 LOC), 4 doc files, verification script (107 LOC).

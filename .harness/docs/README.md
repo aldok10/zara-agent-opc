@@ -140,7 +140,7 @@ cd scripts && python verify_harness.py
 
 - **Harness² paper:** https://arxiv.org/pdf/2610.14224
 - **Learn Harness Engineering:** https://github.com/walkinglabs/learn-harness-engineering
-- **Attribution:** `docs/harness/ATTRIBUTION.md`
+- **Attribution:** `.harness/docs/ATTRIBUTION.md`
 
 ## Next: Running Real Probes
 
@@ -157,4 +157,4 @@ This will:
 4. Compose adoption decision
 5. Update improvement.md
 
-See `docs/harness/` for detailed design and verification results.
+See `.harness/docs/` for detailed design and verification results.

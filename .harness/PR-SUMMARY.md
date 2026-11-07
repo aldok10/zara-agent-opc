@@ -37,11 +37,11 @@ The integration enables:
 
 ### Documentation (4 files, ~440 LOC)
 
-- `docs/harness/00-recon.md` — Reconnaissance: `.harness/` inventory, V2 audit, gap analysis
-- `docs/harness/01-design.md` — Design: 8 components, PPC architecture, parallel/sequential modes, token budget, test plan
-- `docs/harness/02-verification.md` — Verification: all 6 commands tested, 42 tests passing, structure audit passing
-- `docs/harness/ATTRIBUTION.md` — Attribution to both references (Apache 2.0 + MIT licenses, no code copied)
-- `docs/harness/README.md` — Quick start guide, architecture overview, command examples
+- `.harness/docs/00-recon.md` — Reconnaissance: `.harness/` inventory, V2 audit, gap analysis
+- `.harness/docs/01-design.md` — Design: 8 components, PPC architecture, parallel/sequential modes, token budget, test plan
+- `.harness/docs/02-verification.md` — Verification: all 6 commands tested, 42 tests passing, structure audit passing
+- `.harness/docs/ATTRIBUTION.md` — Attribution to both references (Apache 2.0 + MIT licenses, no code copied)
+- `.harness/docs/README.md` — Quick start guide, architecture overview, command examples
 
 ### State Files
 
@@ -153,9 +153,9 @@ If issues arise after merge:
 **Total:** 18 files added/modified, ~2,100 LOC
 
 - `scripts/zara_cli/harness/` — 5 files (~1,375 LOC)
-- `docs/harness/` — 5 files (~440 LOC)
+- `.harness/docs/` — 5 files (~440 LOC)
 - `scripts/verify_harness.py` — 1 file (107 LOC)
-- `PROGRESS.md` — 1 file (updated)
+- `.harness/PROGRESS.md` — 1 file (updated)
 - `.harness/improvement/reflection.md` — 1 file (generated)
 
 ---
